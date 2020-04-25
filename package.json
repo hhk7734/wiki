@@ -1,18 +1,20 @@
 {
-  "name": "wiki-loliot",
-  "version": "0.0.0",
+  "name": "wiki.loliot.net",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "docusaurus start",
-    "build": "docusaurus build",
+    "build": "docusaurus build && sudo systemctl restart nginx",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy"
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.50",
+    "@docusaurus/plugin-sitemap": "^2.0.0-alpha.37",
     "@docusaurus/preset-classic": "^2.0.0-alpha.50",
     "classnames": "^2.2.6",
     "react": "^16.8.4",
+    "react-adsense-ad": "^3.4.0",
     "react-dom": "^16.8.4"
   },
   "browserslist": {

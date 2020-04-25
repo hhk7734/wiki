@@ -1,6 +1,11 @@
 module.exports = {
-  someSidebar: {
-    Docusaurus: ['doc1', 'doc2', 'doc3'],
-    Features: ['mdx'],
+  cpp: {
+    Libraries: [
+      "lang/cpp/libraries/cpp-stl",
+      "lang/cpp/libraries/cpp-exception-handling",
+    ],
+  },
+  python: {
+    Libraries: ["lang/python/libraries/python-logging"],
   },
 };

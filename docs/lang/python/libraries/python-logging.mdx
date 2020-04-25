@@ -1,0 +1,201 @@
+---
+id: python-logging
+title: Python logging
+description: Python logging
+keywords:
+  - Python
+  - logging
+---
+
+Ref: [https://docs.python.org/3/library/logging.html](https://docs.python.org/3/library/logging.html)
+
+프로그래밍을 하거나 프로그램을 실행했을 때, 원하는 수준으로 진행상황을 텍스트로 출력하여 log파일에 기록하거나 터미널에 출력할 수 있습니다.
+
+쓰레드 안전합니다.
+
+# 로깅 수준
+
+수준 : NOTSET -> DEBUG -> INFO -> WARNING -> ERROR -> CRITICAL
+
+| 수준     | 값  | 사용                                  |
+| -------- | --- | ------------------------------------- |
+| NOTSET   | 0   |                                       |
+| DEBUG    | 10  | 상세한 정보, 문제 진단                |
+| INFO     | 20  | 프로그램 진행 순서                    |
+| WARNING  | 30  | 경고, 프로그램은 실행 됨              |
+| ERROR    | 40  | 에러, 프로그램 기능 중 일부 실행 안됨 |
+| CRITICAL | 50  | 프로그램 오류                         |
+
+# 포맷
+
+Ref: [https://docs.python.org/3/library/stdtypes.html#old-string-formatting](https://docs.python.org/3/library/stdtypes.html#old-string-formatting)
+
+| 포맷                | 설명                                                                   |
+| ------------------- | ---------------------------------------------------------------------- |
+| %(created)f         | time.time()                                                            |
+| %(msecs)d           | LogRecord가 생성된 시간의 밀리초                                       |
+| %(relativeCreated)d | logging 모듈이 로드된 시간을 기준으로 LogRecord가 생성된 시간의 밀리초 |
+| %(pathname)s        | 파일 경로                                                              |
+| %(filename)s        | 파일 경로의 파일명 부분                                                |
+| %(module)s          | 파일명의 확장자를 제외한 부분                                          |
+| %(asctime)s         | 'yyyy-mm-dd hh:mm:ss,sss'                                              |
+| %(name)s            | 로거 이름                                                              |
+| %(levelname)s       | 로깅 수준                                                              |
+| %(levelno)s         | 로깅 수준 값                                                           |
+| %(lineno)d          | 로깅 호출 행 번호                                                      |
+| %(funcName)s        | 함수 명                                                                |
+| %(message)s         | 메시지                                                                 |
+| %(process)d         | 프로세스 ID                                                            |
+| %(processName)s     | 프로세스 이름                                                          |
+| %(thread)d          | 쓰레드 ID                                                              |
+| %(threadName)s      | 쓰레드 이름                                                            |
+
+# 함수
+
+```python
+log = logging.getLogger(name=None)
+```
+
+- @brief logging.Logger 객체 반환
+- @param name 특별한 경우가 아니면 `__name__` 설정
+- @return logging.Logger
+
+```python
+logging.basicConfig(**kwargs)
+```
+
+- @brief 루트 로거 설정, 로깅이 시작되기전 호출해야 유효함
+- @param filename 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
+- @param format 포맷
+  ex) `fmt='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s'`
+- @param datefmt time.strftime() 설정 방법 Ref
+- @param level 수준
+- @param handlers 핸들러 설정, filename이나 stream을 설정하면 안됨, 포매터 설정 안하면 format이 설정됨
+
+자식 로거는 자신에게 설정된 수준에 맞춰 부모 로거에게 메시지를 전달합니다.
+
+## logging.Logger
+
+```python
+logging.Logger.setLevel(level)
+```
+
+- @brief 수준 설정
+
+```python
+logging.Logger.addHandler(hdlr)
+```
+
+- @brief 메시지를 처리할 핸들러를 등록
+
+자식 로거에 핸들러를 추가하는 경우 핸들러와 부모 로거 모두에게 메시지를 보냅니다.
+상황에 따라 `logging.Logger.propagate`의 값을 설정해야 합니다.
+
+```python
+logging.Logger.debug(msg, *args, **kwargs)
+logging.Logger.info(msg, *args, **kwargs)
+logging.Logger.warning(msg, *args, **kwargs)
+logging.Logger.error(msg, *args, **kwargs)
+logging.Logger.critical(msg, *args, **kwargs)
+```
+
+## logging.Handler
+
+```python
+stream_handler = logging.StreamHandler()
+file_handler = logging.FileHandler()
+
+import logging.handlers
+http_handler = logging.handlers.HTTPHandler()
+queue_handler = logging.handlers.QueueHandler()
+```
+
+```python
+logging.Handler.setLevel(level)
+```
+
+- @brief 핸들러가 처리할 수 있는 메시지 수준 설정
+
+```python
+logging.Handler.setFormatter(fmt)
+```
+
+- @brief 출력되는 메시지 포맷 설정
+- @param fmt 포맷터
+
+## logging.Formatter
+
+```python
+formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
+```
+
+- @brief 출력 형식을 설정
+- @param fmt 포맷
+- @param datefmt time.strftime() 설정 방법 Ref
+
+# Examples
+
+## child.py
+
+```python
+import logging
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.ERROR)
+
+def child_function():
+    log.debug("debug")
+    log.info("info")
+    log.warning("warning")
+    log.error("error")
+    log.critical("critical")
+```
+
+## main.py
+
+```python
+import child
+import logging
+'''
+루트 로거 설정, format만 설정했으므로 StreamHandler 생성
+'''
+logging.basicConfig(
+    format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
+    level=logging.CRITICAL)
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.INFO)
+
+
+def main_function():
+    log.debug("debug")
+    log.info("info")
+    log.warning("warning")
+    log.error("error")
+    log.critical("critical")
+
+
+if __name__ == '__main__':
+
+    # __main__ 로거
+    main_function()
+
+    # child 로거
+    child.child_function()
+
+    # 루트 로거
+    logging.debug("debug")
+    logging.critical("critical")
+```
+
+## 결과
+
+```bash
+[INFO    ] main.py      16 행 : info
+[WARNING ] main.py      17 행 : warning
+[ERROR   ] main.py      18 행 : error
+[CRITICAL] main.py      19 행 : critical
+[ERROR   ] child.py     12 행 : error
+[CRITICAL] child.py     13 행 : critical
+[CRITICAL] main.py      29 행 : critical
+```

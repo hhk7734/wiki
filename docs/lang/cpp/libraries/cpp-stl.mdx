@@ -1,0 +1,157 @@
+---
+id: cpp-stl
+title: C++ STL
+description: C++ STL Containers
+keywords:
+  - C++
+  - STL
+  - Container
+---
+
+# Container
+
+Ref: [https://docs.microsoft.com/cpp/standard-library/stl-containers](https://docs.microsoft.com/cpp/standard-library/stl-containers)
+
+## Sequence container
+
+### std::vector
+
+```cpp
+#include <vector>
+
+template <class Type, class Allocator = allocator<Type>>
+class vector;
+```
+
+If you are using the C style API, use `std::vector::data()` to get a pointer to the first element.
+
+### std::array
+
+```cpp
+#include <array>
+
+template <class Ty, std::size_t N>
+class array;
+```
+
+If you are using the C style API, use `std::array::data()` to get a pointer to the first element.
+
+### std::deque
+
+```cpp
+#include <deque>
+
+template <class Type, class Allocator = allocator<Type>>
+class deque;
+```
+
+### std::list
+
+```cpp
+#include <list>
+
+template <class Type, class Allocator = allocator<Type>>
+class list;
+```
+
+```cpp
+#include <forward_list>
+
+template <class Type, class Allocator = allocator<Type>>
+class forward_list;
+```
+
+## Associative Container
+
+### std::map
+
+```cpp
+#include <map>
+
+template<class Key,
+         class Type,
+         class Traits    = less<Key>,
+         class Allocator = allocator<pair<const Key, Type>>>
+class map;
+
+template<class Key,
+         class Type,
+         class Traits    = less<Key>,
+         class Allocator = allocator<pair<const Key, Type>>>
+class multimap;
+```
+
+### std::unordered_map
+
+```cpp
+#include <unordered_map>
+
+template<class Key,
+         class Ty,
+         class Hash  = std::hash<Key>,
+         class Pred  = std::equal_to<Key>,
+         class Alloc = std::allocator<std::pair<const Key, Ty>>>
+class unordered_map;
+
+template<class Key,
+         class Ty,
+         class Hash  = std::hash<Key>,
+         class Pred  = std::equal_to<Key>,
+         class Alloc = std::allocator<Key>>
+class unordered_multimap;
+```
+
+### std::set
+
+```cpp
+#include <set>
+
+template<class Key, class Traits = less<Key>, class Allocator = allocator<Key>>
+class set;
+
+template<class Key, class Compare = less<Key>, class Allocator = allocator<Key>>
+class multiset;
+```
+
+### std::unordered_set
+
+```cpp
+#include <unordered_set>
+
+template<class Key,
+         class Hash  = std::hash<Key>,
+         class Pred  = std::equal_to<Key>,
+         class Alloc = std::allocator<Key>>
+class unordered_set;
+
+template<class Key,
+         class Hash  = std::hash<Key>,
+         class Pred  = std::equal_to<Key>,
+         class Alloc = std::allocator<Key>>
+class unordered_multiset;
+```
+
+# Container adapter
+
+## std::queue
+
+```cpp
+#include <queue>
+
+template<class Type, class Container = deque<Type>>
+class queue;
+
+template<class Type,
+         class Container = vector<Type>,
+         class Compare   = less<typename Container ::value_type>>
+class priority_queue;
+```
+
+## std::stack
+
+```cpp
+#include <stack>
+
+template <class Type, class Container = deque <Type>>
+class stack;
+```

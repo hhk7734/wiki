@@ -1,94 +1,70 @@
 module.exports = {
-  title: 'loliot',
-  tagline: 'The tagline of my site',
-  url: 'https://wiki.loliot.net',
-  baseUrl: '/',
-  favicon: 'img/favicon.ico',
-  organizationName: 'facebook', // Usually your GitHub org/user name.
-  projectName: 'docusaurus', // Usually your repo name.
+  title: "loliot",
+  tagline: "loliot",
+  url: "https://wiki.loliot.net",
+  baseUrl: "/",
+  favicon: "img/favicon.ico",
+  organizationName: "HandS",
+  projectName: "wiki.loliot.net",
+  plugins: [
+    "@docusaurus/plugin-google-analytics",
+    "@docusaurus/plugin-sitemap",
+    {
+      cacheTime: 600 * 1000, // 600 sec - cache purge period
+      changefreq: "weekly",
+      priority: 0.5,
+    },
+  ],
   themeConfig: {
+    googleAnalytics: {
+      trackingID: "UA-82937088-4",
+      anonymizeIP: true,
+    },
     navbar: {
-      title: 'My Site',
+      title: "loliot",
       logo: {
-        alt: 'My Site Logo',
-        src: 'img/logo.svg',
+        alt: "loliot Logo",
+        src: "img/logo.svg",
       },
       links: [
         {
-          to: 'docs/doc1',
-          activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
+          to: "/docs/lang/cpp/libraries/cpp-stl",
+          label: "Programming",
+          position: "left",
+          items: [
+            {
+              label: "C/C++",
+              to: "/docs/lang/cpp/libraries/cpp-stl",
+            },
+            {
+              label: "Python",
+              to: "/docs/lang/python/libraries/python-logging",
+            },
+          ],
         },
-        {to: 'blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
-          label: 'GitHub',
-          position: 'right',
+          href: "https://github.com/hhk7734",
+          label: "GitHub",
+          position: "right",
         },
       ],
     },
     footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Style Guide',
-              to: 'docs/doc1',
-            },
-            {
-              label: 'Second Doc',
-              to: 'docs/doc2',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-            {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-          ],
-        },
-        {
-          title: 'Social',
-          items: [
-            {
-              label: 'Blog',
-              to: 'blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
-            },
-            {
-              label: 'Twitter',
-              href: 'https://twitter.com/docusaurus',
-            },
-          ],
-        },
-      ],
-      copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+      style: "dark",
+      copyright: `Copyright © ${new Date().getFullYear()} HandS. Built with Docusaurus.`,
     },
   },
   presets: [
     [
-      '@docusaurus/preset-classic',
+      "@docusaurus/preset-classic",
       {
+        defaultDarkMode: true,
         docs: {
-          sidebarPath: require.resolve('./sidebars.js'),
-          editUrl:
-            'https://github.com/facebook/docusaurus/edit/master/website/',
+          sidebarPath: require.resolve("./sidebars.js"),
+          showLastUpdateTime: true,
         },
         theme: {
-          customCss: require.resolve('./src/css/custom.css'),
+          customCss: require.resolve("./src/css/custom.css"),
         },
       },
     ],
