@@ -28,4 +28,11 @@ module.exports = {
       items: ["lang/python/libraries/python-logging"],
     },
   ],
+  flutter: [
+    {
+      type: "category",
+      label: "Engine",
+      items: ["lang/flutter/engine/flutter-engine-for-linux-arm64"],
+    },
+  ],
 };

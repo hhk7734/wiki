@@ -1,0 +1,360 @@
+---
+id: flutter-engine-for-linux-arm64
+title: Build Flutter engine for Linux ARM64
+sidebar_label: Build
+description: Build Flutter engine for Linux ARM64
+keywords:
+  - Flutter
+  - engine
+  - build
+  - arm64
+  - linux
+---
+
+**HW**: Hardkernel ODROID-N2, ODROID-VU7A+ ([https://www.hardkernel.com/product/](https://www.hardkernel.com/product/))
+
+**OS**: Ubuntu disco minimal 20191228 ([http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/](http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/))
+
+<center>
+  <iframe
+    src="//www.youtube.com/embed/ZSQqIY7HJMw?autoplay=1"
+    width="560"
+    height="314"
+    allowfullscreen="allowfullscreen"
+  ></iframe>
+</center>
+
+**Make sure the command ran successfully before running the next command!!**
+
+# Host(Linux x86_64)
+
+```shell
+sudo apt-get update \
+&& sudo apt install -y git gcc build-essential make \
+    subversion texinfo bison flex cmake ninja-build python3
+&& sudo apt autoremove -y
+```
+
+```shell
+mkdir -p $HOME/flutter-engine/sdk/toolchain \
+&& mkdir -p $HOME/flutter-engine/sdk/sysroot \
+&& mkdir -p $HOME/flutter-engine/engine
+```
+
+## sysroot
+
+It may vary depending on various conditions. **If symbolic links are broken, various errors will occur when you follow the steps below.**
+
+<p class="callout warning">
+  Most of the errors that occurred to me were for this reason.
+</p>
+
+### Target(Linux ARM64)
+
+Connect the SD card or eMMC with OS to your SBC.
+
+```shell
+sudo apt update \
+&& sudo apt install -y build-essential libgtk-3-dev libgles2-mesa-dev \
+    pkg-config symlinks \
+&& sudo apt autoremove -y
+```
+
+```shell
+sudo symlinks -crs /*
+```
+
+### Host(Linux x86_64)
+
+Connect the SD card or eMMC to your computer. Change directory to mounted directory.
+
+```shell
+cd /media/*/rootfs
+```
+
+```shell
+sudo rsync -rlpv lib usr $HOME/flutter-engine/sdk/sysroot \
+&& sync
+```
+
+When I built all successfully, the directory structure is shown below. Since `/` (root) is copied to `$HOME/flutter-engine/sdk/sysroot`, setting a symbolic link path to an absolute path can break symbolic links.
+
+```shell
+$HOME/flutter-engine/sdk/sysroot
+├── lib -> usr/lib
+└── usr
+    ├── include
+    │   └── ...
+    └── lib
+        ├── aarch64-linux-gnu
+        │   ├── crt1.o
+        │   ├── crti.o
+        │   ├── crtn.o
+        │   ├── ld-2.29.so
+        │   ├── ld-linux-aarch64.so.1 -> ld-2.29.so
+        │   ├── libc-2.29.so
+        │   ├── libc_nonshared.a
+        │   ├── libc.so
+        │   ├── libc.so.6 -> libc-2.29.so
+        │   ├── libdl-2.29.so
+        │   ├── libdl.so -> ../../../lib/aarch64-linux-gnu/libdl.so.2
+        │   ├── libdl.so.2 -> libdl-2.29.so
+        │   ├── libgcc_s.so.1
+        │   ├── libm-2.29.so
+        │   ├── libm.so -> libm.so.6
+        │   ├── libm.so.6 -> libm-2.29.so
+        │   ├── libpthread-2.29.so
+        │   ├── libpthread.so -> ../../../lib/aarch64-linux-gnu/libpthread.so.0
+        │   ├── libpthread.so.0 -> libpthread-2.29.so
+        │   ├── librt-2.29.so
+        │   ├── librt.so -> ../../../lib/aarch64-linux-gnu/librt.so.1
+        │   ├── librt.so.1 -> librt-2.29.so
+        │   ├── libstdc++.so.6 -> libstdc++.so.6.0.26
+        │   └── libstdc++.so.6.0.26
+        └── gcc
+            └── aarch64-linux-gnu
+                └── 8
+                    ├── crtbegin.o
+                    ├── crtbeginS.o
+                    ├── crtend.o
+                    ├── crtendS.o
+                    ├── libgcc.a
+                    ├── libgcc_s.so -> ../../../aarch64-linux-gnu/libgcc_s.so.1
+                    └── libstdc++.so -> ../../../aarch64-linux-gnu/libstdc++.so.6
+```
+
+## Clang installation
+
+### clang and LLVM
+
+```shell
+git clone --branch=llvmorg-10.0.0 --depth=1 https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
+```
+
+```shell
+cd $HOME/flutter-engine/llvm-project \
+&& [ -d build_llvm ] && sudo rm -r build_llvm ;\
+mkdir build_llvm && cd build_llvm \
+&& cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DLLVM_ENABLE_PROJECTS=clang \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_CROSSCOMPILING=True \
+    -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-linux-gnu \
+    -DLLVM_TARGET_ARCH=AArch64 \
+    -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    ../llvm \
+&& ninja \
+&& sudo ninja install
+```
+
+### binutils-gdb
+
+```shell
+git clone --depth=1 git://sourceware.org/git/binutils-gdb.git $HOME/flutter-engine/binutils-gdb
+```
+
+```shell
+cd $HOME/flutter-engine/binutils-gdb \
+&& ./configure --prefix="$HOME/flutter-engine/sdk/toolchain" \
+    --enable-gold \
+    --enable-ld \
+    --target=aarch64-linux-gnu \
+&& make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
+&& sudo make install
+```
+
+```shell
+sudo cp -ap $HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-* \
+    $HOME/flutter-engine/sdk/sysroot/usr/bin/
+```
+
+### libcxxabi and libcxx
+
+```shell
+cd $HOME/flutter-engine/llvm-project \
+&& [ -d build_libcxxabi ] && sudo rm -r build_libcxxabi ;\
+mkdir build_libcxxabi && cd build_libcxxabi \
+&& cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CROSSCOMPILING=True \
+    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
+    -DLIBCXX_ENABLE_SHARED=False \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_SYSTEM_NAME=Linux \
+    -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
+    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
+    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    -DLIBCXX_ENABLE_EXCEPTIONS=False \
+    ../libcxxabi \
+&& ninja \
+&& sudo ninja install
+```
+
+```shell
+cd $HOME/flutter-engine/llvm-project \
+&& [ -d build_libcxx ] && sudo rm -r build_libcxx ;\
+mkdir build_libcxx && cd build_libcxx \
+&& cmake -G Ninja \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CROSSCOMPILING=True \
+    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
+    -DLIBCXX_ENABLE_SHARED=False \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_SYSTEM_NAME=Linux \
+    -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
+    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
+    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    -DLIBCXX_ENABLE_EXCEPTIONS=False \
+    -DLIBCXX_ENABLE_RTTI=False \
+    -DLIBCXX_CXX_ABI=libcxxabi \
+    -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$HOME/flutter-engine/llvm-project/libcxxabi/include \
+    -DLIBCXX_CXX_ABI_LIBRARY_PATH=$HOME/flutter-engine/sdk/toolchain/lib \
+    -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=True \
+    ../libcxx \
+&& ninja \
+&& sudo ninja install
+```
+
+## depot_tools
+
+```shell
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $HOME/flutter-engine/depot_tools
+```
+
+```shell
+export PATH=$PATH:$HOME/flutter-engine/depot_tools
+```
+
+## flutter-engine
+
+Ref: [https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)
+
+<p class="callout warning">
+  After reading the Ref above, follow flutter-engine part.
+</p>
+
+```shell
+echo 'solutions = [
+  {
+    "managed": False,
+    "name": "src/flutter",
+    "url": "git@github.com:hhk7734/engine.git",
+    "custom_deps": {},
+    "deps_file": "DEPS",
+    "safesync_url": "",
+  },
+]' >> $HOME/flutter-engine/engine/.gclient \
+&& cd $HOME/flutter-engine/engine \
+&& gclient sync
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/flutter \
+&& git remote add upstream git@github.com:flutter/engine.git
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src \
+&& sudo ./build/install-build-deps-android.sh
+```
+
+```shell
+sudo ./build/install-build-deps.sh
+```
+
+```shell
+sudo ./flutter/build/install-build-deps-linux-desktop.sh
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/flutter \
+&& git pull upstream master && gclient sync
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src \
+&& [ -d out/linux_debug_arm64 ] && sudo rm -r out/linux_debug_arm64 ;\
+./flutter/tools/gn \
+    --clang \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple aarch64-linux-gnu \
+    --linux-cpu arm64 \
+    --runtime-mode debug \
+    --embedder-for-target \
+    --no-lto \
+    --target-os linux \
+    --arm-float-abi hard
+```
+
+```shell
+ninja -C out/linux_debug_arm64
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
+```
+
+Copy `flutter_embedder.h`, `libflutter_engine.so`, `libflutter_linux_gtk.so`, `icudtl.dat` to Target.
+
+```shell
+scp flutter_embedder.h libflutter_engine.so libflutter_linux_gtk.so icudtl.dat \
+    <user>@<ip>:~
+```
+
+# Target(Linux ARM64)
+
+```shell
+cd \
+&& sudo mv libflutter_engine.so libflutter_linux_gtk.so icudtl.dat /usr/lib \
+&& sudo mv flutter_embedder.h /usr/include
+```
+
+```shell
+sudo apt install -y git clang pkg-config \
+    libglvnd-dev libgl1-mesa-dev libgles2-mesa-dev libegl-mesa0 \
+    libdrm-dev libgbm-dev \
+    gpiod libgpiod-dev
+```
+
+```shell
+sudo apt install ttf-mscorefonts-installer fontconfig \
+&& sudo fc-cache
+```
+
+## flutter-arm
+
+```shell
+git clone https://github.com/hhk7734/flutter-arm.git \
+&& cd flutter-arm \
+&& make
+```
+
+```shell
+sudo make install
+```
+
+# Example
+
+## Host
+
+```shell
+cd $HOME/development/flutter/examples/flutter_gallery
+```
+
+```shell
+flutter build bundle
+```
+
+```shell
+scp -r build/flutter_assets <user>@<ip>:~
+```
+
+## Target
+
+```shell
+sudo flutter-arm -i"/dev/input/event*" flutter_assets
+```

@@ -25,7 +25,12 @@ module.exports = {
         const links = [];
 
         const sidebarConfig = require("./sidebars");
-        const labelDic = { lang: "Programming", cpp: "C++", python: "Python" };
+        const labelDic = {
+          lang: "Programming",
+          cpp: "C++",
+          python: "Python",
+          flutter: "Flutter",
+        };
 
         _fs
           .readdirSync(path.join(path.dirname(__filename), "docs"))
