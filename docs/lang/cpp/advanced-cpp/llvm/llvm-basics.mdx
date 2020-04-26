@@ -1,0 +1,53 @@
+---
+id: llvm-basics
+title: LLVM Basics
+description: LLVM Basics
+keywords:
+  - C++
+  - LLVM
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref: [http://llvm.org/](http://llvm.org/)
+
+<center>
+  <img src={useBaseUrl("lang/cpp/advanced-cpp/llvm/llvm-llvm.png")} />
+</center>
+
+# Terms
+
+## LLVM Core
+
+> The LLVM Core libraries provide a modern source- and target-independent optimizer, along with code generation support for many popular CPUs (as well as some less common ones!) These libraries are built around a well specified code representation known as the LLVM intermediate representation ("LLVM IR"). The LLVM Core libraries are well documented, and it is particularly easy to invent your own language (or port an existing compiler) to use LLVM as an optimizer and code generator.
+
+- **Build platform**: The platform on which the compilation tools are executed
+- **Host platform**: The platform on which the code will run
+- **Target platform**: Only when building a compiler, this is the platform that the compiler will generate code for
+- **Native compilation**: Host == Target
+- **Cross compilation**: Host != Target
+
+## Clang
+
+> Clang is an "LLVM native" C/C++/Objective-C compiler, which aims to deliver amazingly fast compiles, extremely useful error and warning messages and to provide a platform for building great source level tools. The Clang Static Analyzer and clang-tidy are tools that automatically find bugs in your code, and are great examples of the sort of tools that can be built using the Clang frontend as a library to parse C/C++ code.
+
+## LLDB
+
+> he LLDB project builds on libraries provided by LLVM and Clang to provide a great native debugger. It uses the Clang ASTs and expression parser, LLVM JIT, LLVM disassembler, etc so that it provides an experience that "just works". It is also blazing fast and much more memory efficient than GDB at loading symbols.
+
+## LLD
+
+> The LLD project is a new linker. That is a drop-in replacement for system linkers and runs much faster.
+
+## libc++
+
+> libc++ is an implementation of the C++ standard library, targeting C++11, C++14 and above.
+
+## libc++abi
+
+> libc++abi is a new implementation of low level support for a standard C++ library.
+
+# Clang + LLVM
+
+- [https://github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)
+- [https://llvm.org/docs/GettingStarted.html](https://llvm.org/docs/GettingStarted.html)
