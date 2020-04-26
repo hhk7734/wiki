@@ -9,15 +9,7 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
-  plugins: [
-    "@docusaurus/plugin-google-analytics",
-    "@docusaurus/plugin-sitemap",
-    {
-      cacheTime: 600 * 1000, // 600 sec - cache purge period
-      changefreq: "weekly",
-      priority: 0.5,
-    },
-  ],
+  plugins: ["@docusaurus/plugin-google-analytics"],
   themeConfig: {
     googleAnalytics: {
       trackingID: "UA-82937088-4",
@@ -84,6 +76,11 @@ module.exports = {
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
+        },
+        sitemap: {
+          cacheTime: 600 * 1000, // 600 sec - cache purge period
+          changefreq: "weekly",
+          priority: 0.5,
         },
       },
     ],
