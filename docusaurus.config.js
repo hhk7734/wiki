@@ -33,12 +33,13 @@ module.exports = {
         const links = [];
 
         const sidebarConfig = require("./sidebars");
+        const labelDic = { lang: "Programming", cpp: "C++", python: "Python" };
 
         _fs
           .readdirSync(path.join(path.dirname(__filename), "docs"))
           .map((rootDir) => {
             const link = {
-              label: rootDir,
+              label: labelDic[rootDir],
               position: "left",
               items: [],
             };
@@ -47,7 +48,7 @@ module.exports = {
               .readdirSync(path.join(path.dirname(__filename), "docs", rootDir))
               .map((subDir, subIndex) => {
                 link.items.push({
-                  label: subDir,
+                  label: labelDic[subDir],
                   to: "",
                 });
                 if (subIndex === 0)
