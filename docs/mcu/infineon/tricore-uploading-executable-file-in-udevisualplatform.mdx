@@ -1,0 +1,57 @@
+---
+id: tricore-uploading-executable-file-in-udevisualplatform
+title: TriCore Uploading executable file in UDEVisualPlatform
+sidebar_label: TriCore Uploading executable file
+description: TriCore Uploading executable file in UDEVisualPlatform
+keywords:
+  - Infineon
+  - TriCore
+  - upload
+  - UDEVisualPlatform
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# UDEVisualPlatform
+
+- File -> New Workspace
+
+.wsx 파일을 저장 후, New 버튼을 누르고 사용 중인 보드를 찾아 선택합니다.
+
+- New
+- Use a default target configuration -> TriCore -> Hitex -> ShieldBuddy -> Hitex ShieldBuddy with TC275T D-Step (Multicore Configuration)
+- Finish
+
+.cfg 파일을 저장 후, OK 버튼을 눌러 설정을 끝냅니다.
+
+<center>
+  <img src={useBaseUrl("mcu/infineon/UDEVisualPlatform.png")} />
+</center>
+
+장치가 컴퓨터에 연결되어 있었다면 자동으로 연결됩니다. 그렇지 않은 경우 File -> Connect Target System을 선택하여 연결을 시도합니다.
+
+# Load
+
+- File -> Load Program
+- `<workspace>\<project>\2_Out\Tricore_Gnuc\<project>.elf`
+
+이미 불러온 경우 아래와 같은 창이 뜹니다. 노란줄 친 부분의 첫번째 버튼이 새로운 파일을 불러오는 버튼이고, 두번째 버튼이 체크된 파일을 등록에서 삭제하는 버튼입니다.
+
+<center>
+  <img src={useBaseUrl("mcu/infineon/UDEVisualPlatform-load-program.png")} />
+</center>
+
+# Upload
+
+새로운 파일을 불러오면 프로그램을 업로드할 수 있는 창이 자동으로 열립니다. Program All을 눌러 보드로 업로드 하면 됩니다. 업로드 후에 코드를 변경하고 다시 빌드하면 UDEVisualPlatform이 바이너리의 변화를 감지하고 업로드할 것인지 묻는 창을 자동으로 열어줍니다.
+
+자동으로 열리지 않으면 Tools -> FLASH Programming을 눌러 업로드창을 연 후 Program All을 눌러 업로드하시면 됩니다.
+
+<center>
+  <img src={useBaseUrl("mcu/infineon/UDEVisualPlatform-program-all.png")} />
+</center>
+
+# Start
+
+- Debug -> Start Program Execution(F5)
+- Debug -> Reset target(Ctrl + F7)

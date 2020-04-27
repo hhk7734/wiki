@@ -21,6 +21,27 @@ module.exports = {
       ],
     },
   ],
+  flutter: [
+    {
+      type: "category",
+      label: "Engine",
+      items: ["lang/flutter/engine/flutter-engine-for-linux-arm64"],
+    },
+  ],
+  infineon: [
+    "mcu/infineon/tricore-development-environment",
+    "mcu/infineon/tricore-uploading-executable-file-in-udevisualplatform",
+  ],
+  "linux-tools": [
+    {
+      type: "category",
+      label: "Vim",
+      items: [
+        "linux/linux-tools/vim/vim-basics",
+        "linux/linux-tools/vim/regex-for-vim",
+      ],
+    },
+  ],
   python: [
     {
       type: "category",
@@ -40,13 +61,6 @@ module.exports = {
           ],
         },
       ],
-    },
-  ],
-  flutter: [
-    {
-      type: "category",
-      label: "Engine",
-      items: ["lang/flutter/engine/flutter-engine-for-linux-arm64"],
     },
   ],
 };

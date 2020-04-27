@@ -1,0 +1,79 @@
+---
+id: vim-basics
+title: Vim Basics
+sidebar_label: Basics
+description: Vim Basics
+keywords:
+  - Vim
+---
+
+# Installation
+
+```shell
+sudo apt-get update -y \
+&& sudo apt-get install -y vim
+```
+
+## With Vundle
+
+[https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc](https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc)
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc -O ~/.vimrc
+```
+
+```shell
+sudo apt-get install -y git cmake python3-dev g++ \
+&& git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
+&& vim +PluginInstall +qall \
+&& echo -e "\ncolor dracula" >> ~/.vimrc \
+&& cd ~/.vim/bundle/YouCompleteMe \
+&& python3 ./install.py --clang-completer
+```
+
+[https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py](https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py)
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py -O ~/.vim/.ycm_extra_conf.py \
+&& printf "\nlet g:ycm_global_ycm_extra_conf = '%s/.vim/.ycm_extra_conf.py'" $HOME >> ~/.vimrc
+```
+
+## Without Vundle
+
+[https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc](https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc)
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc -O ~/.vimrc
+```
+
+# Normal mode
+
+- `:h key-notation`: key notation
+
+---
+
+- `u`: undo
+- `<C-R>`: redo
+
+---
+
+- `=`: align ex) gg=G, =3
+- `<C-K>`: clang-format (설정한 경우)
+
+---
+
+- `:! <command>`: shell에서 \<command\>를 실행합니다.
+- `:r[ead]! <command>`: stdout -> vim
+- `:w[rite]! <command>`: vim -> stdin
+- `:sh`: 쉘로 가기
+- `<C-D>`: 쉘에서 돌아오기
+
+---
+
+- `<C-A>`: 숫자 증가
+- `<C-X>`: 숫자 감소
+
+# Visual mode
+
+- `u`: 소문자로 변환
+- `U`: 대문자로 변환

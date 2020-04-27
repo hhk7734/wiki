@@ -1,0 +1,108 @@
+---
+id: tricore-development-environment
+title: TriCore Development environment
+description: TriCore Development environment
+keywords:
+  - Infineon
+  - TriCore
+  - development
+  - environment
+---
+
+# Installation
+
+아래 목차에 있는 내용을 설치하셔야 합니다.
+
+각 프로그램의 설치 경로를 직접 확인하시길 바랍니다. 설치하는 시점에 따라 변경될 수 있습니다.
+
+- Java SE Development Kit (32bit)
+- HighTec Free TriCore Entry Tool Chain
+  - [https://free-entry-toolchain.hightec-rt.com/index.php](https://free-entry-toolchain.hightec-rt.com/index.php)
+  - Restricted version of the TriCore Development Platform, supporting a restricted selection of AURIX derivatives. Following a single year duration its license automatically expires.
+  - HighTech IDE - eclipse 기반 IDE
+  - Toolchain(C:\HighTec\toolchains\tricore\v4.9.3.0-infineon-1.0)
+  - UDEVisualPlatform.exe(C:\Program Files (x86)\pls\UDE Starterkit 5.0)
+- BIFACES(Build and Integration Framework for Automotive Controller Embedded Software)
+  - StartBifaces.bat(C:\Tools\BifacesTools)
+- iLLD Drivers
+- BaseFramework
+- VisualC++ libraries
+
+# Project
+
+## Import
+
+**StartBifaces.bat**를 통해 HighTech IDE를 실행합니다.
+
+File -> Import -> General -> Existing Projects into Workspace 를 선택합니다.
+
+Browse를 눌러 원하는 BaseFramework나 프로젝트 디렉토리를 선택합니다.
+
+선택한 디렉토리 내에 있는 프로젝트들이 표시됩니다. 원하는 프로젝트를 선택한 후 **Copy projects into workspace**를 체크한 후 Finish를 누릅니다.
+
+## Config_Gnuc.mk
+
+Project Explorer를 보면 위의 BaseFramework for TC27D와 같은 디렉토리 구조가 표시 됩니다.
+
+1_ToolEnv -> 0_Build -> 1_Config -> Config_Tricore_Gnuc -> Config_Gnuc.mk
+
+```make
+...
+B_GNUC_TRICORE_PATH:= C:\HighTec\toolchains\tricore\v4.9.3.0-infineon-1.0
+...
+```
+
+toolchain 경로를 확인하여 `B_GNUC_TRICORE_PATH`에 설정해줍니다.
+
+# BaseFramework_TC27D
+
+```shell
+BaseFramework_TC27D
+├ 0_Src
+│   ├ AppSw
+│   │   ├ CpuGeneric
+│   │   │   └ Config
+│   │   └ Tricore
+│   │       └ Main
+│   └ BaseSw
+│       ├ Infra
+│       │   ├ Platform
+│       │   │   └ Tricore
+│       │   │       └ Compilers
+│       │   └ Sfr
+│       │       └ TC27D
+│       │           └ _Reg
+│       ├ Service
+│       │   └ CpuGeneric
+│       │       └ _Utilities
+│       └ iLLD
+│           └ TC27D
+│               └ Tricore
+│                   ├ Cpu
+│                   │   ├ CStart
+│                   │   ├ Irq
+│                   │   ├ Std
+│                   │   └ Trap
+│                   ├ Dma
+│                   │   ├ Dma
+│                   │   └ Std
+│                   ├ Port
+│                   │   ├ Io
+│                   │   └ Std
+│                   ├ Scu
+│                   │   └ Std
+│                   ├ Src
+│                   │   └ Std
+│                   ├ Stm
+│                   │   └ Std
+│                   ├ _Impl
+│                   ├ _Lib
+│                   │   └ InternalMux
+│                   └ _PinMap
+└ 1_ToolEnv
+    └ 0_Build
+        └ 1_Config
+            ├ Config_Tricore_Dcc
+            ├ Config_Tricore_Gnuc
+            └ Config_Tricore_Tasking
+```

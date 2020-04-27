@@ -26,15 +26,20 @@ module.exports = {
 
         const sidebarConfig = require("./sidebars");
         const labelDic = {
-          lang: "Programming",
           cpp: "C++",
-          python: "Python",
           flutter: "Flutter",
+          infineon: "Infineon",
+          lang: "Programming",
+          linux: "Linux",
+          "linux-tools": "Linux tools",
+          mcu: "MCU",
+          python: "Python",
         };
 
         _fs
           .readdirSync(path.join(path.dirname(__filename), "docs"))
           .map((rootDir) => {
+            // rootDir => /docs/lang, /docs/mcu, ...
             const link = {
               label: labelDic[rootDir],
               position: "left",
@@ -44,15 +49,25 @@ module.exports = {
             _fs
               .readdirSync(path.join(path.dirname(__filename), "docs", rootDir))
               .map((subDir, subIndex) => {
+                // subDir => /docs/lang/cpp, /docs/mcu/infineon, ...
                 link.items.push({
                   label: labelDic[subDir],
                   to: "",
                 });
-                if (subIndex === 0)
-                  link["to"] = `/docs/${sidebarConfig[subDir][0]["items"][0]}`;
-                link.items[subIndex][
-                  "to"
-                ] = `/docs/${sidebarConfig[subDir][0]["items"][0]}`;
+
+                // sub link
+                let linkPath;
+
+                if (typeof sidebarConfig[subDir][0] === "string") {
+                  linkPath = `/docs/${sidebarConfig[subDir][0]}`;
+                } else {
+                  linkPath = `/docs/${sidebarConfig[subDir][0]["items"][0]}`;
+                }
+
+                link.items[subIndex]["to"] = linkPath;
+
+                // root link == first sub link
+                if (subIndex === 0) link["to"] = linkPath;
               });
             links.push(link);
           });
