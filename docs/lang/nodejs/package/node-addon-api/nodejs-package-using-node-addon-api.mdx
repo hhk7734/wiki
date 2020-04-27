@@ -1,0 +1,233 @@
+---
+id: nodejs-package-using-node-addon-api
+title: Node.js package using node-addon-api
+sidebar_label: Basics
+description: Node.js package using node-addon-api
+keywords:
+  - Node.js
+  - package
+  - node-addon-api
+---
+
+Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
+
+# Installation
+
+```shell
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - \
+&& sudo apt-get install -y nodejs
+```
+
+```shell
+mkdir test \
+&& cd test \
+&& npm init
+```
+
+```shell
+sudo npm install -g node-gyp
+```
+
+```shell
+npm install node-addon-api
+```
+
+```shell
+<package>
+├── binding.gyp
+├── index.js
+├── node_modules
+│   └── node-addon-api
+│       └── ...
+├── package.json
+├── package-lock.json
+├── test
+│   └── ...
+├── .clang-format
+└── c_src
+    ├── funcs.cpp
+    ├── funcs.h
+    ├── funcs_wrapper.cpp
+    ├── funcs_wrapper.h
+    └── <target>.cpp
+```
+
+# package.json
+
+Ref: [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/package.json)
+
+```json
+{
+    "name": "<package>",
+...
+    "gypfile": true,
+...
+    "scripts": {
+        "install": "node-gyp rebuild",
+        "build": "node-gyp rebuild --verbose",
+        "clean": "node-gyp clean",
+        "cf": "clang-format -style=file -i -verbose c_src/*"
+    },
+...
+    "dependencies": {
+        "node-addon-api": "*",
+    },
+...
+}
+```
+
+# binding.gyp
+
+Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
+
+```python
+{
+    "targets": [
+        {
+            "target_name": "<target>",
+            "include_dirs": ["<!@(node -p \"require('node-addon-api').include\")"],
+            "dependencies": ["<!(node -p \"require('node-addon-api').gyp\")"],
+            "cflags!": ["-fno-exceptions"],
+            "cflags_cc!": ["-fno-exceptions"],
+            "cflags": [],
+            "cflags_cc": [],
+            "defines": [],
+            "sources": [
+                "c_src/funcs.cpp",
+                "c_src/funcs.h",
+                "c_src/funcs_wrapper.cpp",
+                "c_src/funcs_wrapper.h",
+                "c_src/<target>.cpp",
+            ],
+            "libraries": [
+                # "/usr/lib/libxxx.so"
+            ]
+        }
+    ]
+}
+```
+
+:::caution
+`target_name`에 '-' 등은 들어갈 수 없습니다.
+:::
+
+# index.js
+
+```javascript
+module.exports = require("./build/Release/<target>");
+```
+
+# Wrapper
+
+Ref: [https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f](https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f)
+
+## c_src/funcs.h
+
+```cpp
+#pragma once
+
+#include <string>
+
+std::string hello(void);
+int         add(int a, int b);
+```
+
+## c_src/funcs.cpp
+
+```cpp
+#include "funcs.h"
+
+std::string hello(void) { return "Hello World!"; }
+
+int add(int a, int b) { return a + b; }
+```
+
+## c_src/funcs_wrapper.h
+
+```cpp
+#pragma once
+
+#include <napi.h>
+
+Napi::Object init_funcs(Napi::Env env, Napi::Object exports);
+
+Napi::String hello_wrapper(const Napi::CallbackInfo &info);
+Napi::Number add_wrapper(const Napi::CallbackInfo &info);
+```
+
+## c_src/funcs_wrapper.cpp
+
+```cpp
+#include "funcs.h"
+#include "funcs_wrapper.h"
+
+Napi::Object init_funcs(Napi::Env env, Napi::Object exports) {
+    exports.Set("hello", Napi::Function::New(env, hello_wrapper));
+    exports.Set("add", Napi::Function::New(env, add_wrapper));
+
+    return exports;
+}
+
+Napi::String hello_wrapper(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    return Napi::String::New(env, hello());
+}
+
+Napi::Number add_wrapper(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+
+    if(info.Length() < 2 || ! info[0].IsNumber() || ! info[1].IsNumber()) {
+        Napi::TypeError::New(env,
+                             "Arguments must be (int a, int b) such as (1, 2).")
+            .ThrowAsJavaScriptException();
+    }
+
+    // Implicit type conversion
+    int a = info[0].As<Napi::Number>();
+    int b = info[1].As<Napi::Number>();
+
+    return Napi::Number::New(env, add(a, b));
+}
+```
+
+## c_src/<target\>.cpp
+
+```cpp
+#include "funcs_wrapper.h"
+
+#include <napi.h>
+
+Napi::Object init_all(Napi::Env env, Napi::Object exports) {
+    return init_funcs(env, exports);
+}
+
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
+```
+
+# Build
+
+```shell
+npm run build
+```
+
+# test/test.js
+
+```javascript
+const addon = require("../build/Release/<target>");
+
+console.log("wrapper info", addon);
+
+console.log(addon.hello());
+console.log(addon.add(1, 2));
+```
+
+```shell
+node test/test.js
+```
+
+```shell
+wrapper info { hello: [Function], add: [Function] }
+Hello World!
+3
+```

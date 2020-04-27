@@ -33,6 +33,7 @@ module.exports = {
           linux: "Linux",
           "linux-tools": "Linux tools",
           mcu: "MCU",
+          nodejs: "Node.js",
           python: "Python",
         };
 
@@ -57,12 +58,12 @@ module.exports = {
 
                 // sub link
                 let linkPath;
-
-                if (typeof sidebarConfig[subDir][0] === "string") {
-                  linkPath = `/docs/${sidebarConfig[subDir][0]}`;
-                } else {
-                  linkPath = `/docs/${sidebarConfig[subDir][0]["items"][0]}`;
+                let item = sidebarConfig[subDir][0];
+                while (typeof item === "object") {
+                  item = item["items"][0];
                 }
+
+                linkPath = `/docs/${item}`;
 
                 link.items[subIndex]["to"] = linkPath;
 

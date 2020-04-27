@@ -1,0 +1,223 @@
+---
+id: nodejs-package-class-using-node-addon-api
+title: Node.js node-addon-api Class
+sidebar_label: C++ Class
+description: Node.js package using node-addon-api
+keywords:
+  - Node.js
+  - package
+  - node-addon-api
+  - Class
+---
+
+Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
+
+```shell
+<package>
+├── binding.gyp
+├── index.js
+├── node_modules
+│   └── node-addon-api
+│       └── ...
+├── package.json
+├── package-lock.json
+├── test
+│   └── ...
+├── .clang-format
+└── c_src
+    ├── class.cpp
+    ├── class.h
+    ├── class_wrap.cpp
+    ├── class_wrap.h
+    └── <target>.cpp
+```
+
+# binding.gyp
+
+Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
+
+```python
+{
+    "targets": [
+        {
+            ...
+            "sources": [
+                "c_src/Class.cpp",
+                "c_src/Class.h",
+                "c_src/ClassWrapper.cpp",
+                "c_src/ClassWrapper.h",
+                "c_src/<target>.cpp",
+            ],
+            ...
+        }
+    ]
+}
+```
+
+# Wrapper
+
+## c_src/Class.h
+
+```cpp
+#pragma once
+
+class Class {
+public:
+    Class(double value);
+    double get_value(void);
+    double add(double value);
+
+private:
+    double m_value;
+};
+```
+
+## c_src/Class.cpp
+
+```cpp
+#include "Class.h"
+
+Class::Class(double value)
+    : m_value(value) {}
+
+double Class::get_value(void) { return m_value; }
+
+double Class::add(double value) {
+    m_value += value;
+    return m_value;
+}
+```
+
+## c_src/ClassWrapper.h
+
+`InstanceMethod`로 등록 가능한 함수는 아래와 같습니다.
+
+- `typedef void (T::*InstanceVoidMethodCallback)(const CallbackInfo& info);`
+- `typedef Napi::Value (T::*InstanceMethodCallback)(const CallbackInfo& info);`
+
+```cpp
+#pragma once
+
+#include "Class.h"
+
+#include <napi.h>
+
+class ClassWrapper: public Napi::ObjectWrap<ClassWrapper> {
+public:
+    static Napi::Object init(Napi::Env env, Napi::Object exports);
+
+    ClassWrapper(const Napi::CallbackInfo &info);
+
+private:
+    static Napi::FunctionReference m_constructor;
+    Class *                        m_Class;
+
+    Napi::Value get_value(const Napi::CallbackInfo &info);
+    Napi::Value add(const Napi::CallbackInfo &info);
+};
+```
+
+## c_src/ClassWrapper.cpp
+
+```cpp
+#include "ClassWrapper.h"
+
+Napi::FunctionReference ClassWrapper::m_constructor;
+
+Napi::Object ClassWrapper::init(Napi::Env env, Napi::Object exports) {
+    Napi::HandleScope scope(env);
+
+    Napi::Function funcs
+        = DefineClass(env,
+                      "Class",
+                      {
+                          InstanceMethod("get_value", &ClassWrapper::get_value),
+                          InstanceMethod("add", &ClassWrapper::add),
+                      });
+
+    m_constructor = Napi::Persistent(funcs);
+    m_constructor.SuppressDestruct();
+
+    exports.Set("Class", funcs);
+    return exports;
+}
+
+ClassWrapper::ClassWrapper(const Napi::CallbackInfo &info)
+    : Napi::ObjectWrap<ClassWrapper>(info) {
+    Napi::Env         env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if(info.Length() < 1 || ! info[0].IsNumber()) {
+        Napi::TypeError::New(env, "Arguments must be (value).")
+            .ThrowAsJavaScriptException();
+    }
+
+    double value = info[0].As<Napi::Number>();
+
+    m_Class = new Class(value);
+}
+
+Napi::Value ClassWrapper::get_value(const Napi::CallbackInfo &info) {
+    Napi::Env         env = info.Env();
+    Napi::HandleScope scope(env);
+
+    return Napi::Number::New(env, m_Class->get_value());
+}
+
+Napi::Value ClassWrapper::add(const Napi::CallbackInfo &info) {
+    Napi::Env         env = info.Env();
+    Napi::HandleScope scope(env);
+
+    if(info.Length() < 1 || ! info[0].IsNumber()) {
+        Napi::TypeError::New(env, "Arguments must be (value).")
+            .ThrowAsJavaScriptException();
+    }
+
+    double value = info[0].As<Napi::Number>();
+
+    return Napi::Number::New(env, m_Class->add(value));
+}
+```
+
+## c_src/<target\>.cpp
+
+```cpp
+#include "ClassWrapper.h"
+
+#include <napi.h>
+
+Napi::Object init_all(Napi::Env env, Napi::Object exports) {
+    return ClassWrapper::init(env, exports);
+}
+
+NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
+```
+
+# Build
+
+```shell
+npm run build
+```
+
+# test/test.js
+
+```javascript
+const addon = require("../build/Release/<target>");
+
+console.log("wrapper info", addon);
+
+const testClass = new addon.Class(10);
+
+console.log(testClass.get_value());
+console.log(testClass.add(2));
+```
+
+```shell
+node test/test.js
+```
+
+```shell
+wrapper info { Class: [Function: Class] }
+10
+12
+```

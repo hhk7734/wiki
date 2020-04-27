@@ -42,11 +42,35 @@ module.exports = {
       ],
     },
   ],
+  nodejs: [
+    {
+      type: "category",
+      label: "Package",
+      items: [
+        {
+          type: "category",
+          label: "Node-addon-API",
+          items: [
+            "lang/nodejs/package/node-addon-api/nodejs-package-using-node-addon-api",
+            "lang/nodejs/package/node-addon-api/nodejs-package-class-using-node-addon-api",
+          ],
+        },
+      ],
+    },
+  ],
   python: [
     {
       type: "category",
       label: "Libraries",
-      items: ["lang/python/libraries/python-logging"],
+      items: [
+        "lang/python/libraries/python-logging",
+        {
+          type: "link",
+          label: "Python ctypes",
+          href:
+            "https://github.com/hhk7734/python3-gpiod/blob/master/py_src/gpiod/libgpiod/__init__.py",
+        },
+      ],
     },
     {
       type: "category",
