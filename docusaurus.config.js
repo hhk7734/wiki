@@ -15,6 +15,7 @@ module.exports = {
       trackingID: "UA-82937088-4",
       anonymizeIP: true,
     },
+    defaultDarkMode: true,
     navbar: {
       title: "loliot",
       logo: {
@@ -90,7 +91,6 @@ module.exports = {
     [
       "@docusaurus/preset-classic",
       {
-        defaultDarkMode: true,
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
