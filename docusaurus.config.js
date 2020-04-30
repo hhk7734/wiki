@@ -16,6 +16,10 @@ module.exports = {
       anonymizeIP: true,
     },
     defaultDarkMode: true,
+    algolia: {
+      apiKey: "882821d106ded887254b7b5ec5690c5b",
+      indexName: "liliot_wiki",
+    },
     navbar: {
       title: "loliot",
       logo: {
