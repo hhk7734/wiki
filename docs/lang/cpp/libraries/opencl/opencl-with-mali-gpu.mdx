@@ -1,0 +1,49 @@
+---
+id: opencl-with-mali-gpu
+title: OpenCL with Mali GPU
+description: OpenCL with Mali GPU
+keywords:
+  - C++
+  - OpenCL
+  - Mali
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref: [https://developer.arm.com/solutions/graphics-and-gaming/resources/presentations/opencl-tutorials](https://developer.arm.com/solutions/graphics-and-gaming/resources/presentations/opencl-tutorials)
+
+:::caution
+Due to the difference in hardware structure, Desktop GPU and Mali GPU are different. Therefore, when using the Mali GPU, there are restrictions on the use of some functions.
+
+Read the ARM® Mali™ GPU OpenCL Developer Guide, which can have a huge impact on performance.
+:::
+
+# Mali memory model
+
+Mali GPU uses global memory with cache, instead of using local or private memory. If local or private memory is allocated, it is difficult to expect performance improvement, because it is allocated to global memory. In addition, unnecessary data movement may occur, which can degrade performance.
+
+## CL_MEM_ALLOC_HOST_PTR
+
+It is recommended to use `clCreateBuffer(CL_MEM_ALLOC_HOST_PTR)` whenever possible.
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-mali-alloc.png")} />
+</center>
+
+## CL_MEM_USE_HOST_PTR
+
+It is better not to create a buffer using `clCreateBuffer(CL_MEM_USE_HOST_PTR)` whenever possible.
+
+Creating a buffer with HOST_PTR creates a buffer accessed by the host program and a buffer accessed by the GPU in global memory. The result is 'unnecessary copying'.
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-mali-host.png")} />
+</center>
+
+## malloc
+
+There is a global memory area that the host program can access, not the Mali GPU.
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-mali-malloc.png")} />
+</center>

@@ -40,6 +40,7 @@ module.exports = {
           cpp: "C++",
           flutter: "Flutter",
           infineon: "Infineon",
+          labview: "LabVIEW",
           lang: "Programming",
           linux: "Linux",
           "linux-tools": "Linux tools",

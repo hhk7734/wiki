@@ -1,0 +1,108 @@
+---
+id: opencl-basics
+title: OpenCL Basics
+sidebar_label: Basics
+description: OpenCL Basics
+keywords:
+  - C++
+  - OpenCL
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref:
+
+- [https://www.khronos.org/developers/reference-cards/](https://www.khronos.org/developers/reference-cards/)
+- [http://developer.amd.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide2.pdf](http://developer.amd.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide2.pdf)
+
+# Platform model
+
+<center>
+  <img
+    src={useBaseUrl("lang/cpp/libraries/opencl/opencl-platform-model.png")}
+  />
+</center>
+
+# Execution model
+
+- `kernel`: A kernel is a small unit of execution that performs a clearly defined function and that can be executed in parallel.
+- `work-item`: A instance in which one kernel run.
+- `work-group`: A group of work-items. Work-items grouped into a work-group are executed simultaneously.
+- `NDRagne`: An index space.
+- `OpenCL application`: Host program running on host + Kernels running on Compute device.
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-ndrange.png")} />
+</center>
+
+In the global NDRange index space, work-item has a unique coordinate(global ID), and work-group has a work-group ID. In a local work-group index space, work-item has a unique coordinate(local ID).
+
+Therefore, one work-item can be accessed by global ID or work-group ID + local ID.
+
+## With plaform model
+
+<center>
+  <img
+    src={useBaseUrl("lang/cpp/libraries/opencl/opencl-execution-model.png")}
+  />
+</center>
+
+## Context
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-context.png")} />
+</center>
+
+## Command-Queues
+
+Interaction between a host and an OpenCL device is caused by commands. The host uses command-queue to transmit commands to the device.
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-queue.jpg")} />
+</center>
+
+# Memory model
+
+## Hardware
+
+<center>
+  <img src={useBaseUrl("lang/cpp/libraries/opencl/opencl-memory-model.png")} />
+</center>
+
+## Software
+
+<center>
+  <img
+    src={useBaseUrl(
+      "lang/cpp/libraries/opencl/opencl-software-memory-model.png"
+    )}
+  />
+</center>
+
+# Programming models
+
+# OpenCL information
+
+## clinfo installation
+
+```shell
+sudo apt install -y clinfo ocl-icd-libopencl1
+```
+
+```shell
+sudo mkdir -p /etc/OpenCL/vendors
+```
+
+```shell
+sudo vim /etc/OpenCL/vendors/[vendor].icd
+```
+
+```shell
+...
+[path]/libOpenCL.so
+...
+```
+
+```shell
+clinfo
+```

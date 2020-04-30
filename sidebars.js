@@ -6,6 +6,15 @@ module.exports = {
       items: [
         "lang/cpp/libraries/cpp-stl",
         "lang/cpp/libraries/cpp-exception-handling",
+        {
+          type: "category",
+          label: "OpenCL",
+          items: [
+            "lang/cpp/libraries/opencl/opencl-basics",
+            "lang/cpp/libraries/opencl/opencl-with-mali-gpu",
+            "lang/cpp/libraries/opencl/opencl-example"
+          ],
+        },
       ],
     },
     {
@@ -41,6 +50,10 @@ module.exports = {
         "linux/linux-tools/vim/regex-for-vim",
       ],
     },
+  ],
+  labview: [
+    "lang/labview/labview-creating-project-and-vi",
+    "lang/labview/labview-basic-terms",
   ],
   nodejs: [
     {
