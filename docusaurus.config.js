@@ -9,11 +9,17 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
-  plugins: ["@docusaurus/plugin-google-analytics"],
+  plugins: [
+    "@docusaurus/plugin-google-analytics",
+    "docusaurus-plugin-google-adsense",
+  ],
   themeConfig: {
     googleAnalytics: {
       trackingID: "UA-82937088-4",
       anonymizeIP: true,
+    },
+    googleAdsense: {
+      dataAdClient: "ca-pub-5199357432848758",
     },
     defaultDarkMode: true,
     algolia: {
