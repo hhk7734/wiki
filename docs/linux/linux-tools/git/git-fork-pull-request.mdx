@@ -1,0 +1,105 @@
+---
+id: git-fork-pull-request
+title: Git Fork and Pull Request
+sidebar_label: Fork and Pull Request
+description: Git Fork and Pull Request
+keywords:
+  - Git
+  - fork
+  - pull request
+---
+
+# 원하는 저장소 fork
+
+- 원하는 저장소에가서 fork
+  `https://github.com/<owner>/<repository>`
+- fork된 저장소
+  `https://github.com/<contributor>/<repository>`
+
+# fork된 저장소 clone
+
+```shell
+git clone https://github.com/<contributor>/<repository>
+```
+
+# branch 관리
+
+## branch 확인
+
+```shell
+git branch -a
+```
+
+```shell
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/master
+```
+
+## branch 생성
+
+```shell
+git checkout -b <new_branch> [<branch_to_copy>]
+```
+
+## branch 변경
+
+```shell
+git checkout <branch>
+```
+
+# code 수정
+
+```shell
+git add <file>
+```
+
+```shell
+git commit -m "<message>"
+```
+
+```shell
+git push origin <branch>
+```
+
+# 원 저장소에 업데이트된 내용 local에 병합
+
+```shell
+git remote add upstream https://github.com/<owner>/<repository>
+```
+
+```shell
+git pull upstream/<branch>
+```
+
+## conflict 파일이 있는 경우
+
+```shell
+vim <conflict_file>
+```
+
+```shell
+git add <conflict_file>
+```
+
+```shell
+git commit
+```
+
+```shell
+git push origin <new_branch>
+```
+
+# Pull Request
+
+# After PR complete
+
+fork된 저장소를 유지할 예정이라면 작업 중인 브랜치를 업데이트 합니다.
+
+```shell
+git checkout <branch>
+```
+
+```shell
+git pull upstream/<branch>
+```

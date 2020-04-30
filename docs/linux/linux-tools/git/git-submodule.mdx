@@ -1,0 +1,113 @@
+---
+id: git-submodule
+title: Git submodule
+sidebar_label: Submodule
+description: Git submodule
+keywords:
+  - Git
+  - submodule
+---
+
+# A에 B 추가
+
+```shell
+cd <path/A>
+```
+
+```shell
+git submodule add <URL/B> <path/A/path/B>
+```
+
+```shell
+git commit -m "Add submodule B"
+```
+
+```shell
+A
+├── .git
+├── .gitmodules
+└── B
+    └── .git
+```
+
+# Submodule B 수정
+
+B 안의 파일을 수정하고 아래와 같이 진행하면 수정한 내용이 B 저장소에만 적용됩니다.
+
+```shell
+cd <path/A/path/B>
+```
+
+```shell
+git add <file>
+```
+
+```shell
+git commit -m <commit message>
+```
+
+A 저장소에도 변경 사항을 반영합니다.
+
+```shell
+cd <path/A>
+```
+
+```shell
+git commit -am "Update submodule B"
+```
+
+# B 수정 후 A에 적용
+
+B 저장소의 업데이트 내용을 먼저 pull 합니다.
+
+```shell
+cd <path/A/path/B>
+```
+
+```shell
+git checkout <branch>
+```
+
+```shell
+git pull
+```
+
+A 저장소에 변경 사항을 반영합니다.
+
+```shell
+cd <path/A>
+```
+
+```shell
+git commit -am "Update submodule B"
+```
+
+# Submodule이 있는 저장소 clone
+
+```shell
+git clone --recursive <URL/A>
+```
+
+**B는 detached 상태입니다.** 수정이 필요한 경우 checkout을 통해 원하는 브랜치로 변경한 후 작업하시기 바랍니다.
+
+아래 명령어 결과는 `git clone --recursive <URL/A>`와 동일합니다.
+
+```shell
+git clone <URL/A> \
+&& git submodule init \
+&& git submodule update
+```
+
+# Submodule이 변경된 A pull
+
+```shell
+cd <path/A>
+```
+
+```shell
+git pull
+```
+
+```shell
+git submodule update
+```

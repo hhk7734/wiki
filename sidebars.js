@@ -50,6 +50,16 @@ module.exports = {
         "linux/linux-tools/vim/regex-for-vim",
       ],
     },
+    {
+      type: "category",
+      label: "Git",
+      items: [
+        "linux/linux-tools/git/git-basics",
+        "linux/linux-tools/git/git-commit-message",
+        "linux/linux-tools/git/git-fork-pull-request",
+        "linux/linux-tools/git/git-submodule",
+      ],
+    },
   ],
   labview: [
     "lang/labview/labview-creating-project-and-vi",

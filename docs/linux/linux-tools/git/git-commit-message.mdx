@@ -1,0 +1,98 @@
+---
+id: git-commit-message
+title: Git commit message
+sidebar_label: Commit Message
+description: Git commit message
+keywords:
+  - Git
+  - message
+---
+
+# Message
+
+- Subject
+  - Limit the line to **50 characters**.
+  - Use the **imperative mood**.
+  - Separate subject from body with a blank line.
+  - Do not end the line with a period.
+  - When dealing with issues, Use **[Action] #issue - subject** form.
+- Body
+  - Wrap the body at **72 characters**.
+  - Explain **what** and **why** vs. how.
+
+# Body example
+
+Ref: [https://blog.ull.im/engineering/2019/03/10/logs-on-git.html](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)
+
+- 필요한 경우 아니면 관사 사용 안함.
+- 명령문
+- Don't 부정문
+- Add A for B
+  - Add printk for debug
+- Add A to B
+  - Add is_open to tty0uart_uart_serial
+- Allow A to B
+- Avoid A
+- Avoid A if B
+- Avoid A when B
+- Correct A(문법 오류, 타입 변경, 이름 변경)
+  - Correct variable name and type
+- Ensure A
+- Fix typo
+- Fix A
+  - Fix typo
+  - Fix incorrect run command
+- Fix A in B
+  - Fix error condition in Uart::begin
+- Fix A which B
+- Fix A that B
+  - Fix crash that occurs when removing and reinserting
+- Fix A to B
+- Fix A so that B
+- Fix A where B
+  - Fix issue where log does not match log level
+- Fix A when B
+- Implement A(Add 보다 좀더 큰 단위 코드 추가)
+  - Implement basic frame for uart_ops
+- Implement A to B
+- Improve A
+- Make A B
+- Move A (in)to B
+  - Move \*\_linux.cpp into linux directory
+- Pass A to B
+- Prevent A
+  - Prevent reopen when already open
+- Prevent A from B
+  - Prevent write() from printing KERN_ERR
+- Prevent A if B
+  - Prevent installation if libgpiodcxx v1.0 or lower
+- Refactor A (뒤엎은 경우)
+  - Refactor tty0uart_tty functions
+- Remove A
+- Remove A from B
+- Rename A to B
+- Revise A
+  - Revise log level
+- Set A to B
+- Simplify A
+- Use A for B
+- Use A to B
+  - Use throw to handle errors instead of exit()
+- Use A in B
+- Use A instead of B
+- Update A to B
+- Verify A
+
+# Close issue(Github)
+
+제목이나 내용에 `close #1004`라는 문구가 있으면 1004번 이슈에 해당 커밋에 의해 종료되었다는 글이 추가되고 이슈는 닫힙니다.
+
+- close
+- closes
+- closed
+- fix
+- fixes
+- fixed
+- resolve
+- resolves
+- resolved

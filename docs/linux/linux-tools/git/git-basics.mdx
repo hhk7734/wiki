@@ -1,0 +1,165 @@
+---
+id: git-basics
+title: Git Basics
+sidebar_label: Basics
+description: Git Basics
+keywords:
+  - Git
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Installation
+
+```shell
+sudo apt-get update \
+&& sudo apt-get install -y git
+```
+
+```shell
+git config --global user.name "Hyeonki Hong"
+```
+
+```shell
+git config --global user.email "hhk7734@gmail.com"
+```
+
+```shell
+git config --global core.eol lf \
+&& git config --global core.editor vim \
+&& git config --global credential.helper 'cache --timeout=86400'
+```
+
+macOS를 사용하는 경우 아래 명령어를 통해 아이디 암호를 기억하도록 설정할 수 있습니다.
+
+```shell
+git config --global credential.helper osxkeychain
+```
+
+# clone
+
+```shell
+git clone <repository>
+```
+
+```shell
+git clone <repository> -b <tag or branch> --single-branch
+```
+
+```shell
+git clone <repository> -b <tag or branch> --depth <# of commit>
+```
+
+# add, rm, mv, commit
+
+<center>
+  <img src={useBaseUrl("linux/linux-tools/git/git-basics-diagram.png")} />
+</center>
+
+## add
+
+`git add` 명령어는 Untracked file, Modified file 을 Staging area에 반영합니다.
+
+```shell
+git add [file]
+```
+
+```shell
+git add .
+```
+
+## rm
+
+`git rm` 명령어는 Tracked file을 Untracked file로 변경하고 Staging area에 삭제된 상태라는 것을 반영합니다.
+
+```shell
+git rm [file]
+```
+
+파일이 변경되어 Staging area에 있는 경우 -f 옵션을 사용해 강제 삭제 해야합니다.
+
+```shell
+git rm -f [file]
+```
+
+## mv
+
+`git mv` 명령어는 파일의 위치를 변경하거나 이름을 변경을 한 후 Staging area에 반영합니다.
+
+```shell
+git mv <file> <new name or directory>
+```
+
+## commit
+
+`git commit` 명령어는 Staging area에서 파일을 제외시키고, Unmodified file로 변경한 후 commit된 하나의 작업으로 등록합니다.
+
+```shell
+git commit
+```
+
+```shell
+git commit -m "<message>"
+```
+
+# log
+
+## log with commit message
+
+```shell
+git log [-<# of commit>] [directory or file]
+```
+
+## log with commit message + diff
+
+```shell
+git log -p [-<# of commit>] [directory or file]
+```
+
+## log with commit message + statistic
+
+```shell
+git log --stat [-# of commit] [directory or file]
+```
+
+## log with oneline commit message
+
+```shell
+git log --oneline [--graph] [-# of commit] [directory or file]
+```
+
+```shell
+git log --pretty=format:"[format]" [--graph] [-# of commit] [directory or file]
+```
+
+# reflog
+
+`git reflog` 명령어로 git 변경 이력을 확인할 수 있습니다.
+
+```shell
+git reflog
+```
+
+# commit hash && HEAD
+
+`commit hash`는 특정 커밋을 가리키는 `7f0e7030d57d469d150c17eb4746872e415fb379`와 같은 해시값입니다.
+
+커밋을 가리킬때 해시값의 앞에서부터 7자리 정도만 사용해도 구별이 되기 때문에 값 전체를 사용할 필요는 없습니다.
+
+`HEAD`라는 키워드 조합으로 현재 커밋 기준으로 상대적 위치의 커밋을 가리킬 수도 있는데 규칙은 아래와 같습니다.
+
+<center>
+  <img src={useBaseUrl("linux/linux-tools/git/git-basics-head.png")} />
+</center>
+
+reflog에 따른 상대적인 커밋 위치는 `HEAD@{#}`으로 가리킬 수 있습니다. # 대신 숫자를 적으시면 됩니다.
+
+# reset
+
+```shell
+git reset --[soft|mixed|hard] <commit hash>
+```
+
+- soft: index는 유지하고, HEAD만 해당 커밋으로 되돌립니다.
+- mixed: index, HEAD를 해당 커밋으로 되돌립니다. 파일 수정 내용은 남아있습니다.
+- hard: 해당 커밋 시점으로 완전히 되돌립니다.
