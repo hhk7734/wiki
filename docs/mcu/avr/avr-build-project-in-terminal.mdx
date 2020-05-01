@@ -1,0 +1,69 @@
+---
+id: avr-build-project-in-terminal
+title: AVR build project in Terminal
+sidebar_label: Build project in Terminal
+description: AVR build project in terminal
+keywords:
+  - AVR
+  - terminal
+  - build
+---
+
+# Installtion
+
+컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.
+
+- `binutils-avr` : assembler, linker 등 바이너리 파일을 다루는 데 필요한 도구 모움
+- `avr-gcc` : C/C++ 파일을 AVR에서 실행할 수 있는 코드로 바꿔주는 크로스 컴파일러
+- `avr-libc` : AVR 라이브러리 소스
+
+## macOS
+
+```shell
+brew tap osx-cross/avr \
+&& brew install avr-gcc
+```
+
+## Linux(debian)
+
+```shell
+sudo apt-get install -y binutils-avr gcc-avr avr-libc
+```
+
+## Windows
+
+다운로드 : [https://www.microchip.com/mplab/avr-support](https://www.microchip.com/mplab/avr-support)
+
+AVR 8-bit Toolchain for Windows를 다운 받습니다.
+
+**C:\Program Files (x86)** 또는 원하는 위치에 압축을 풀어줍니다.
+
+환경 변수의 Path에 **설치된 디렉토리/bin**을 추가합니다.
+
+- `bin` : binutils, gcc, gdb 등
+- `avr/lib` : avr-libc, startup files, linker scripts 등
+- `avr/include` : avr-libc 헤더, avr/io.h 등
+- `doc` : 문서
+
+Atmel studio을 설치했다면 Atmel studio가 사용하는 toolchain을 Path에 등록하면 됩니다.
+
+예를 들어 **C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin**을 추가하면 됩니다.
+
+# Compile
+
+**소스 파일**(.c)을 **목적 파일**(.o)로 컴파일하는 명령어는 아래와 같습니다.
+
+```shell
+avr-gcc -c -Os -Wall -mmcu=<MCU> -DF_CPU=<frequency> -o <object file> <source files>
+```
+
+- `-mmcu=<MCU>`: 사용할 MCU 설정.
+  - [https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html](https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html)
+
+# Link
+
+컴파일을 통해 만든 **목적 파일**(.o)과 사용된 라이브러리를 링크해서 **실행 파일**(.elf)을 만들고, 링크 정보를 가지고 있는 **맵 파일**(.map)을 만드는 명령어는 아래와 같습니다.
+
+```shell
+avr-gcc -mmcu=<MCU> -Wl,-Map,<map file> -o <executalble file> <object files>
+```

@@ -1,0 +1,88 @@
+---
+id: avr-i2c
+title: AVR I2C
+sidebar_label: I2C
+description: AVR I2C
+keywords:
+  - AVR
+  - I2C
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 clock에 맞춰 데이터를 보내기 위한 **SDA**으로 구성되어 있습니다. 통신을 주도하는 master가 있고, master의 명령에 따라 데이터를 송수신하는 slave가 있습니다.
+
+master가 시작 신호와 함께 slave의 주소를 보내면 주소에 맞는 slave만 작동하기 때문에 여러 장치가 연결될 수 있지만 주소가 동일한 경우 문제가 발생합니다.
+
+:::caution
+SDA, SCL 선은 아래 그림처럼 Pull-up저항을 연결해야 합니다.
+:::
+
+<center>
+  <img src={useBaseUrl("mcu/avr/avr-i2c-bus-interconnection.png")} />
+</center>
+
+주소 데이터는 slave 주소 7 비트와 read/write 1 비트로 구성되어 있습니다.(10 비트 주소를 갖는 경우도 있습니다.) R/W 비트가 1 이면 slave -> master, 0 이면 master -> slave 방향으로 데이터가 전송됩니다.
+
+# Abbreviation
+
+- **S**: Start condition
+- **Rs**: Repeated start condition
+- **R**: Read bit (High level at SDA)
+- **W**: Wriet bit (Low level at SDA)
+- **ACK**: ACKnowledge bit (Low level at SDA)
+- **NACK**: Not ACKnowledge bit (High levle at SDA)
+- **Data**: 8-bit data byte
+- **P**: stoP condition
+- **SLA**: SLave Adress
+
+# Master 모드
+
+## master -> slave
+
+통신 순서는 **S -> SLA + W -> Data -> ... -> P** 입니다. ...은 여러 개의 데이터를 의미합니다.
+
+:::info
+slave에 있는 레지스터에 값을 쓰고 싶은 경우, 레지스터 주소를 SLRA라고 한다면
+통신 순서는 **S -> SLA + W -> SLRA -> Data -> P** 입니다.
+slave의 레지스터 주소를 보낼 때는 주소를 하나의 Data라고 생각하고 아래에서 Data를 보내는 방법과 동일하게 보내면 됩니다.
+:::
+
+신호는 전송 중일 때 `TWCR` 레지스터의 `TWINT` 비트가 0 이 되고, 전송이 완료되면 1 이 됩니다. 그래서 신호를 전송할 때 마다 `TWINT` 비트가 1 이 되는 것을 확인해야 합니다.
+
+- S
+  - `TWCR` 레지스터의 `TWINT`, `TWSTA`, `TWEN` 비트를 1 로 설정합니다.
+- SLA + W
+  - `TWDR` 레지스터에 slave의 주소 7 비트와 ,R/W 0(write) 을 씁니다. 예를 들어 1101001 이라는 주소를 갖는 slave가 있다면 `TWDR` 레지스터에는 11010010을 쓰면 됩니다.
+  - `TWCR` 레지스터에 `TWINT`, `TWEN` 비트를 1 로 설정합니다.
+- Data(transmit)
+  - `TWDR` 레지스터에 8bit 데이터를 씁니다.
+  - `TWCR` 레지스터에 `TWINT`, `TWEN` 비트를 1 로 설정합니다.
+- P
+  - `TWCR` 레지스터에 `TWINT`, `TWSTO`, `TWEN` 비트를 1 로 설정합니다.
+  - STOP 신호는 `TWINT` 비트가 1인지 확인하지 않습니다.
+
+## slave -> master
+
+통신 순서는 **S -> SLA + R -> Data -> ... -> P** 입니다.
+
+센서를 slave로 사용하는 경우 센서에서 출력될 수 있는 여러개의 값 중 원하는 값을 읽어야 하는 경우가 많습니다. 따라서 센서마다 통신 순서가 달라질 수 있습니다.
+
+:::info
+slave에서 읽고싶은 값의 레지스터 주소를 SLRA라고 한다면 데이터를 읽기 전에 먼저 알려줘야 합니다.
+따라서 **S -> SLA + W -> SLRA -> Rs -> SLA + R -> Data -> ... -> P** 인 통신 순서를 갖게 됩니다.
+:::
+
+- SLA + R
+  - `TWDR` 레지스터에 slave의 주소 7 비트와 ,R/W 1(read) 을 씁니다. 예를 들어 1101001 이라는 주소를 갖는 slave가 있다면 `TWDR` 레지스터에는 11010011을 쓰면 됩니다.
+  - `TWCR` 레지스터에 `TWINT`, `TWEN` 비트를 1 로 설정합니다.
+- Data(recieve)
+  - `TWCR` 레지스터에 `TWINT`, `TWEA`, `TWEN` 비트를 1 로 설정합니다.
+  - 마지막 데이터를 읽는 경우는 `TWINT`, `TWEN` 비트만 1 로 설정합니다.
+  - `TWDR` 레지스터의 값을 읽습니다.
+
+# 통신 오류
+
+통신을 할 때, `TWCR` 레지스터의 `TWINT` 비트가 1 이 되지 않는 경우 통신이 실패했다는 것을 의미합니다.
+
+실패의 이유는 `TWSR` 레지스터를 읽으면 알 수 있습니다. (값에 따른 실패 사유는 datasheet를 참고하면 됩니다.) 실패한 경우, 이를 처리하는 함수를 따로 만들면 됩니다. 단순히 무시해도 되는 경우 `TWCR`레지스터에 0 을 쓰면 됩니다.

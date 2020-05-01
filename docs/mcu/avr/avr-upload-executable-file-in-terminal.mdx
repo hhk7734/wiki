@@ -1,0 +1,153 @@
+---
+id: avr-upload-executable-file-in-terminal
+title: AVR upload executable file in Terminal
+sidebar_label: Upload executable file in Terminal
+description: AVR upload executable file in Terminal
+keywords:
+  - AVR
+  - terminal
+  - upload
+---
+
+# Installation
+
+## macOS
+
+```shell
+brew install avrdude
+```
+
+## Linux(debian)
+
+```shell
+sudo apt-get install -y avrdude
+```
+
+## Windows
+
+Download: [http://download.savannah.gnu.org/releases/avrdude/](http://download.savannah.gnu.org/releases/avrdude/)
+
+**.zip**파일을 받으시고 원하는 위치에 압축을 푼 뒤, 환경 변수의 Path에 해당 디렉토리를 등록하면 됩니다.
+
+# Programmer
+
+Atmel-ICE, USBtoUART, stk500 등을 사용할 수 있습니다.
+
+## USB to UART
+
+### CH340G 드라이버
+
+#### macOS
+
+Download: [http://www.wch.cn/download/CH341SER_MAC_ZIP.html](http://www.wch.cn/download/CH341SER_MAC_ZIP.html)
+
+#### Linux(debian)
+
+**USB to UART 를 사용하는 경우** ttyUSBx의 소유권이 root에게 있고 그룹이 dialout이기 때문에 **권한 문제가 발생할 수 있습니다.** 아래 명령어를 사용하여 사용자를 dialout 그룹에 추가시켜 주면 됩니다.
+
+```shell
+sudo gpasswd --add $USER dialout
+```
+
+Download: [http://wch.cn/downloads/CH341SER_LINUX_ZIP.html](http://wch.cn/downloads/CH341SER_LINUX_ZIP.html)
+
+```shell
+sudo apt-get install -y libelf-dev &&\
+unzip CH341SER_LINUX.ZIP &&\
+cd CH341SER_LINUX/ &&\
+sudo make &&\
+sudo make load
+```
+
+`make` 할 때, error가 출력되면 ch34x.c 에 `#include <linux/sched/signal.h>`를 추가하고 `wait_queue_t를`wait_queue_entry_t`로 수정한 뒤, 다시 make를 시도해보시기 바랍니다.
+
+#### Windows
+
+Download: [http://wch.cn/downloads/CH341SER_ZIP.html](http://wch.cn/downloads/CH341SER_ZIP.html)
+
+### FTDI 드라이버 설치
+
+#### Linux(debian)
+
+Ubuntu 11.10 이후 버전에서는 FTDI 드라이버가 커널에 통합되어 있습니다.
+
+#### macOS, Windows
+
+Download: [https://www.ftdichip.com/Drivers/VCP.htm](https://www.ftdichip.com/Drivers/VCP.htm)
+
+### CP2102 드라이버 설치
+
+#### Linux(debian)
+
+Linux 3.x.x와 Linux 4.x.x 버전에서는 CP2102 드라이버가 커널에 통합되어 있습니다. Ubuntu 기준 11.10 ~ 18.04 LTS로 확인 됩니다.
+
+#### macOS, Windows
+
+Download: [https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
+
+# Upload
+
+업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.
+
+avr-objcopy는 binutils-avr에 포함되어 있는 오브젝트 파일을 복사하고 다른 파일로 변환해주는 명령입니다. 업로드할 때, `<executable file>`을 입력파일로 받아들이지 못하는 경우, 아래 명령을 통해 .elf 파일에서 필요한 부분을 .hex 파일에 저장합니다.(**avrdude 버전이 낮은 경우** elf를 입력파일로 사용하지 못합니다.)
+
+```shell
+avr-objcopy -j .text -j .data -O ihex <elf file> <hex file>
+```
+
+## avrdude
+
+Ref: [https://nongnu.org/avrdude/user-manual/avrdude_4.html#Option-Descriptions](https://nongnu.org/avrdude/user-manual/avrdude_4.html#Option-Descriptions)
+
+avrdude는 프로그래머를 사용하여 AVR MCU에 실행 파일을 업로드하거나 퓨즈 비트, 락 비트 등을 설정할 때 사용하는 도구입니다. 아래 옵션을 확인하고 사용하는 프로그래머와 AVR MCU에 따라 옵션을 선택하시면 됩니다.
+
+- `-p<partno>`: 실행 파일을 업로드할 MCU 설정.
+- `-c<programmer-id>`: 사용할 프로그래머(업로드 장치) 설정.
+- `-P<port>`: 프로그래머가 연결된 포트를 설정합니다.
+- `-b<baudrate>`: UART 통신을 통해 업로드하는 경우 보오 레이트를 설정.
+- `-B<bitclock>`: JTAG 인터페이스 또는 ISP 클럭에 대한 비트 클럭 주기. 값은 ms 단위로 부동소수점을 사용.
+  - 1/<bitclock\> MHz
+  - 사용된 AVR MCU 클럭의 1/4 이하로 설정하는 것이 적당함.
+- `-v`: 업로드 시 상세 정보 표시.
+- `-U<memtype:op:filename[:format]>` : 사용할 저장 공간, 실행 방법, 입력 파일, 파일 형식 설정.
+  - `memtype`: eeprom, flash, fuse, boot 등.
+  - `op`: r, w, v.
+  - `format`: i(intel hex), e(ELF), a(auto detect) 등. e, a 등은 업로드할 때만 사용 가능.
+  - .elf 파일 업로드: `-Uflash:w:[filename].elf:e`
+  - .hex 파일 업로드: `-Uflash:w:[filename].hex:i`
+
+### stk500
+
+(@todo stk500 사용시 ISP 클럭 설정 테스트 안됨.)
+
+```shell
+avrdude -p<partno> -cstk500 -P<port> -v -Uflash:w:<executable file>:e
+```
+
+### avrispmkII
+
+```shell
+avrdude -p<partno> -cavrispmkII -B0.5 -v -Uflash:w:<executable file>:e
+```
+
+### arduino
+
+nano의 경우 Old Bootloader를 사용하면 `-b57600`을 사용해야 합니다.
+
+```shell
+avrdude -p<partno> -carduino -P<port> -b115200 -v -Uflash:w:<executable file>:e
+```
+
+### atmelice_isp
+
+(@todo atmelice_isp 사용시 ISP 클럭 설정 테스트 안됨.)
+
+```shell
+avrdude -p<partno> -catmelice_isp -v -Uflash:w:<executable file>:e
+```
+
+### USBasp
+
+```shell
+avrdude -p<partno> -cusbasp -B3 -Pusb -v -Uflash:w:<executable>:e`
+```

@@ -37,6 +37,7 @@ module.exports = {
 
         const sidebarConfig = require("./sidebars");
         const labelDic = {
+          avr: "AVR",
           cpp: "C++",
           flutter: "Flutter",
           infineon: "Infineon",

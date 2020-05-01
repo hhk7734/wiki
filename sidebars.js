@@ -1,4 +1,11 @@
 module.exports = {
+  avr: [
+    "mcu/avr/avr-build-project-in-terminal",
+    "mcu/avr/avr-upload-executable-file-in-terminal",
+    "mcu/avr/avr-upload-executable-file-in-atmel-studio-7",
+    "mcu/avr/avr-lock-and-fuse-bits",
+    "mcu/avr/avr-i2c"
+  ],
   cpp: [
     {
       type: "category",
