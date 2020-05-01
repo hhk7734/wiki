@@ -1,0 +1,296 @@
+---
+id: opencv-color-spaces
+title: OpenCV Color spaces
+sidebar_label: Color spaces
+description: OpenCV Color spaces
+keywords:
+  - C++
+  - OpenCV
+  - color spaces
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
+
+BGR, RGB, YUV, HSV 등은 8 bits 3 채널로 픽셀마다 24 bits 값을 갖고, Grayscale은 8 bits 1 채널로 픽셀마다 8 bits 값을 갖습니다.
+
+알파채널이 추가된 RGBA 등은 8 bits 4 채널로 픽셀마다 32 bits 값을 갖습니다.
+
+이미지 배열은 (가로, 세로, 채널) 3 차원 배열로 이루어져있고, 1 채널 이미지의 경우 (가로, 세로) 2 차원 배열로 표현할 수 있습니다.
+
+**BGR 3 채널이 기본**으로 사용됩니다.
+
+예를 들어 400x400 빨간색 빈 이미지를 생성하고 싶을 때, 아래와 같은 코드를 이용할 수 있습니다.
+
+```python
+import cv2 as cv
+import numpy as np
+
+image = np.zeros((400,400,3), dtype=np.uint8)
+image[:,:,2] = 255
+cv.imshow('red', image)
+cv.waitKey()
+```
+
+# BGR
+
+```python
+import cv2 as cv
+import numpy as np
+
+bgr_image = np.array([[[255,  0,  0],[  0,255,  0],[  0,  0,255]],
+                      [[255,255,  0],[255,  0,255],[  0,255,255]]],
+                     dtype=np.uint8)
+cv.imshow('bgr', bgr_image)
+cv.waitKey()
+```
+
+<center>
+  <img src={useBaseUrl("lang/python/libraries/opencv/opencv-color-bgr.png")} />
+</center>
+
+# Grayscale
+
+```python
+import cv2 as cv
+import numpy as np
+
+gray_image = np.array([[  0,127,255],
+                       [255,127,  0]],
+                      dtype=np.uint8)
+cv.imshow('gray', gray_image)
+cv.waitKey()
+```
+
+<center>
+  <img src={useBaseUrl("lang/python/libraries/opencv/opencv-color-gray.png")} />
+</center>
+
+# RGB, HSV, HSL 색 공간
+
+- Hue(색상) : 8 bits로 볼때 R=0(0$^{\circ}$), G=60(120$^{\circ}$), B=120(240$^{\circ}$)
+- Saturation(채도)
+- Value(명도)
+- Lightness(밝기)
+
+<center>
+  <img src={useBaseUrl("lang/python/libraries/opencv/opencv-color.png")} />
+</center>
+
+# 색 공간(color space) 변환
+
+```python
+dst = cv.cvtColor(src, code, dst=None, dstCn=0)
+```
+
+- @brief src 색 공간을 code에 따라 변환한 후, dst로 반환
+- @param **src**: np.ndarray
+- @param **dstCn**: 0 으로 설정할 경우 src와 code에 따라 자동 설정
+- @param **code**
+  - `cv.COLOR_BGR2BGRA` = 0
+  - `cv.COLOR_RGB2RGBA` = COLOR_BGR2BGRA
+  - `cv.COLOR_BGRA2BGR` = 1
+  - `cv.COLOR_RGBA2RGB` = COLOR_BGRA2BGR
+  - `cv.COLOR_BGR2RGBA` = 2
+  - `cv.COLOR_RGB2BGRA` = COLOR_BGR2RGBA
+  - `cv.COLOR_RGBA2BGR` = 3
+  - `cv.COLOR_BGRA2RGB` = COLOR_RGBA2BGR
+  - `cv.COLOR_BGR2RGB` = 4
+  - `cv.COLOR_RGB2BGR` = COLOR_BGR2RGB
+  - `cv.COLOR_BGRA2RGBA` = 5
+  - `cv.COLOR_RGBA2BGRA` = COLOR_BGRA2RGBA
+  - `cv.COLOR_BGR2GRAY` = 6
+  - `cv.COLOR_RGB2GRAY` = 7
+  - `cv.COLOR_GRAY2BGR` = 8
+  - `cv.COLOR_GRAY2RGB` = COLOR_GRAY2BGR
+  - `cv.COLOR_GRAY2BGRA` = 9
+  - `cv.COLOR_GRAY2RGBA` = COLOR_GRAY2BGRA
+  - `cv.COLOR_BGRA2GRAY` = 10
+  - `cv.COLOR_RGBA2GRAY` = 11
+  - `cv.COLOR_BGR2BGR565` = 12
+  - `cv.COLOR_RGB2BGR565` = 13
+  - `cv.COLOR_BGR5652BGR` = 14
+  - `cv.COLOR_BGR5652RGB` = 15
+  - `cv.COLOR_BGRA2BGR565` = 16
+  - `cv.COLOR_RGBA2BGR565` = 17
+  - `cv.COLOR_BGR5652BGRA` = 18
+  - `cv.COLOR_BGR5652RGBA` = 19
+  - `cv.COLOR_GRAY2BGR565` = 20
+  - `cv.COLOR_BGR5652GRAY` = 21
+  - `cv.COLOR_BGR2BGR555` = 22
+  - `cv.COLOR_RGB2BGR555` = 23
+  - `cv.COLOR_BGR5552BGR` = 24
+  - `cv.COLOR_BGR5552RGB` = 25
+  - `cv.COLOR_BGRA2BGR555` = 26
+  - `cv.COLOR_RGBA2BGR555` = 27
+  - `cv.COLOR_BGR5552BGRA` = 28
+  - `cv.COLOR_BGR5552RGBA` = 29
+  - `cv.COLOR_GRAY2BGR555` = 30
+  - `cv.COLOR_BGR5552GRAY` = 31
+  - `cv.COLOR_BGR2XYZ` = 32
+  - `cv.COLOR_RGB2XYZ` = 33
+  - `cv.COLOR_XYZ2BGR` = 34
+  - `cv.COLOR_XYZ2RGB` = 35
+  - `cv.COLOR_BGR2YCrCb` = 36
+  - `cv.COLOR_RGB2YCrCb` = 37
+  - `cv.COLOR_YCrCb2BGR` = 38
+  - `cv.COLOR_YCrCb2RGB` = 39
+  - `cv.COLOR_BGR2HSV` = 40
+  - `cv.COLOR_RGB2HSV` = 41
+  - `cv.COLOR_BGR2Lab` = 44
+  - `cv.COLOR_RGB2Lab` = 45
+  - `cv.COLOR_BGR2Luv` = 50
+  - `cv.COLOR_RGB2Luv` = 51
+  - `cv.COLOR_BGR2HLS` = 52
+  - `cv.COLOR_RGB2HLS` = 53
+  - `cv.COLOR_HSV2BGR` = 54
+  - `cv.COLOR_HSV2RGB` = 55
+  - `cv.COLOR_Lab2BGR` = 56
+  - `cv.COLOR_Lab2RGB` = 57
+  - `cv.COLOR_Luv2BGR` = 58
+  - `cv.COLOR_Luv2RGB` = 59
+  - `cv.COLOR_HLS2BGR` = 60
+  - `cv.COLOR_HLS2RGB` = 61
+  - `cv.COLOR_BGR2HSV_FULL` = 66
+  - `cv.COLOR_RGB2HSV_FULL` = 67
+  - `cv.COLOR_BGR2HLS_FULL` = 68
+  - `cv.COLOR_RGB2HLS_FULL` = 69
+  - `cv.COLOR_HSV2BGR_FULL` = 70
+  - `cv.COLOR_HSV2RGB_FULL` = 71
+  - `cv.COLOR_HLS2BGR_FULL` = 72
+  - `cv.COLOR_HLS2RGB_FULL` = 73
+  - `cv.COLOR_LBGR2Lab` = 74
+  - `cv.COLOR_LRGB2Lab` = 75
+  - `cv.COLOR_LBGR2Luv` = 76
+  - `cv.COLOR_LRGB2Luv` = 77
+  - `cv.COLOR_Lab2LBGR` = 78
+  - `cv.COLOR_Lab2LRGB` = 79
+  - `cv.COLOR_Luv2LBGR` = 80
+  - `cv.COLOR_Luv2LRGB` = 81
+  - `cv.COLOR_BGR2YUV` = 82
+  - `cv.COLOR_RGB2YUV` = 83
+  - `cv.COLOR_YUV2BGR` = 84
+  - `cv.COLOR_YUV2RGB` = 85
+  - `cv.COLOR_YUV2RGB_NV12` = 90
+  - `cv.COLOR_YUV2BGR_NV12` = 91
+  - `cv.COLOR_YUV2RGB_NV21` = 92
+  - `cv.COLOR_YUV2BGR_NV21` = 93
+  - `cv.COLOR_YUV420sp2RGB` = COLOR_YUV2RGB_NV21
+  - `cv.COLOR_YUV420sp2BGR` = COLOR_YUV2BGR_NV21
+  - `cv.COLOR_YUV2RGBA_NV12` = 94
+  - `cv.COLOR_YUV2BGRA_NV12` = 95
+  - `cv.COLOR_YUV2RGBA_NV21` = 96
+  - `cv.COLOR_YUV2BGRA_NV21` = 97
+  - `cv.COLOR_YUV420sp2RGBA` = COLOR_YUV2RGBA_NV21
+  - `cv.COLOR_YUV420sp2BGRA` = COLOR_YUV2BGRA_NV21
+  - `cv.COLOR_YUV2RGB_YV12` = 98
+  - `cv.COLOR_YUV2BGR_YV12` = 99
+  - `cv.COLOR_YUV2RGB_IYUV` = 100
+  - `cv.COLOR_YUV2BGR_IYUV` = 101
+  - `cv.COLOR_YUV2RGB_I420` = COLOR_YUV2RGB_IYUV
+  - `cv.COLOR_YUV2BGR_I420` = COLOR_YUV2BGR_IYUV
+  - `cv.COLOR_YUV420p2RGB` = COLOR_YUV2RGB_YV12
+  - `cv.COLOR_YUV420p2BGR` = COLOR_YUV2BGR_YV12
+  - `cv.COLOR_YUV2RGBA_YV12` = 102
+  - `cv.COLOR_YUV2BGRA_YV12` = 103
+  - `cv.COLOR_YUV2RGBA_IYUV` = 104
+  - `cv.COLOR_YUV2BGRA_IYUV` = 105
+  - `cv.COLOR_YUV2RGBA_I420` = COLOR_YUV2RGBA_IYUV
+  - `cv.COLOR_YUV2BGRA_I420` = COLOR_YUV2BGRA_IYUV
+  - `cv.COLOR_YUV420p2RGBA` = COLOR_YUV2RGBA_YV12
+  - `cv.COLOR_YUV420p2BGRA` = COLOR_YUV2BGRA_YV12
+  - `cv.COLOR_YUV2GRAY_420` = 106
+  - `cv.COLOR_YUV2GRAY_NV21` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV2GRAY_NV12` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV2GRAY_YV12` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV2GRAY_IYUV` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV2GRAY_I420` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV420sp2GRAY` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV420p2GRAY` = COLOR_YUV2GRAY_420
+  - `cv.COLOR_YUV2RGB_UYVY` = 107
+  - `cv.COLOR_YUV2BGR_UYVY` = 108
+  - `cv.COLOR_YUV2RGB_Y422` = COLOR_YUV2RGB_UYVY
+  - `cv.COLOR_YUV2BGR_Y422` = COLOR_YUV2BGR_UYVY
+  - `cv.COLOR_YUV2RGB_UYNV` = COLOR_YUV2RGB_UYVY
+  - `cv.COLOR_YUV2BGR_UYNV` = COLOR_YUV2BGR_UYVY
+  - `cv.COLOR_YUV2RGBA_UYVY` = 111
+  - `cv.COLOR_YUV2BGRA_UYVY` = 112
+  - `cv.COLOR_YUV2RGBA_Y422` = COLOR_YUV2RGBA_UYVY
+  - `cv.COLOR_YUV2BGRA_Y422` = COLOR_YUV2BGRA_UYVY
+  - `cv.COLOR_YUV2RGBA_UYNV` = COLOR_YUV2RGBA_UYVY
+  - `cv.COLOR_YUV2BGRA_UYNV` = COLOR_YUV2BGRA_UYVY
+  - `cv.COLOR_YUV2RGB_YUY2` = 115
+  - `cv.COLOR_YUV2BGR_YUY2` = 116
+  - `cv.COLOR_YUV2RGB_YVYU` = 117
+  - `cv.COLOR_YUV2BGR_YVYU` = 118
+  - `cv.COLOR_YUV2RGB_YUYV` = COLOR_YUV2RGB_YUY2
+  - `cv.COLOR_YUV2BGR_YUYV` = COLOR_YUV2BGR_YUY2
+  - `cv.COLOR_YUV2RGB_YUNV` = COLOR_YUV2RGB_YUY2
+  - `cv.COLOR_YUV2BGR_YUNV` = COLOR_YUV2BGR_YUY2
+  - `cv.COLOR_YUV2RGBA_YUY2` = 119
+  - `cv.COLOR_YUV2BGRA_YUY2` = 120
+  - `cv.COLOR_YUV2RGBA_YVYU` = 121
+  - `cv.COLOR_YUV2BGRA_YVYU` = 122
+  - `cv.COLOR_YUV2RGBA_YUYV` = COLOR_YUV2RGBA_YUY2
+  - `cv.COLOR_YUV2BGRA_YUYV` = COLOR_YUV2BGRA_YUY2
+  - `cv.COLOR_YUV2RGBA_YUNV` = COLOR_YUV2RGBA_YUY2
+  - `cv.COLOR_YUV2BGRA_YUNV` = COLOR_YUV2BGRA_YUY2
+  - `cv.COLOR_YUV2GRAY_UYVY` = 123
+  - `cv.COLOR_YUV2GRAY_YUY2` = 124
+  - `cv.COLOR_YUV2GRAY_Y422` = COLOR_YUV2GRAY_UYVY
+  - `cv.COLOR_YUV2GRAY_UYNV` = COLOR_YUV2GRAY_UYVY
+  - `cv.COLOR_YUV2GRAY_YVYU` = COLOR_YUV2GRAY_YUY2
+  - `cv.COLOR_YUV2GRAY_YUYV` = COLOR_YUV2GRAY_YUY2
+  - `cv.COLOR_YUV2GRAY_YUNV` = COLOR_YUV2GRAY_YUY2
+  - `cv.COLOR_RGBA2mRGBA` = 125
+  - `cv.COLOR_mRGBA2RGBA` = 126
+  - `cv.COLOR_RGB2YUV_I420` = 127
+  - `cv.COLOR_BGR2YUV_I420` = 128
+  - `cv.COLOR_RGB2YUV_IYUV` = COLOR_RGB2YUV_I420
+  - `cv.COLOR_BGR2YUV_IYUV` = COLOR_BGR2YUV_I420
+  - `cv.COLOR_RGBA2YUV_I420` = 129
+  - `cv.COLOR_BGRA2YUV_I420` = 130
+  - `cv.COLOR_RGBA2YUV_IYUV` = COLOR_RGBA2YUV_I420
+  - `cv.COLOR_BGRA2YUV_IYUV` = COLOR_BGRA2YUV_I420
+  - `cv.COLOR_RGB2YUV_YV12` = 131
+  - `cv.COLOR_BGR2YUV_YV12` = 132
+  - `cv.COLOR_RGBA2YUV_YV12` = 133
+  - `cv.COLOR_BGRA2YUV_YV12` = 134
+  - `cv.COLOR_BayerBG2BGR` = 46
+  - `cv.COLOR_BayerGB2BGR` = 47
+  - `cv.COLOR_BayerRG2BGR` = 48
+  - `cv.COLOR_BayerGR2BGR` = 49
+  - `cv.COLOR_BayerBG2RGB` = COLOR_BayerRG2BGR
+  - `cv.COLOR_BayerGB2RGB` = COLOR_BayerGR2BGR
+  - `cv.COLOR_BayerRG2RGB` = COLOR_BayerBG2BGR
+  - `cv.COLOR_BayerGR2RGB` = COLOR_BayerGB2BGR
+  - `cv.COLOR_BayerBG2GRAY` = 86
+  - `cv.COLOR_BayerGB2GRAY` = 87
+  - `cv.COLOR_BayerRG2GRAY` = 88
+  - `cv.COLOR_BayerGR2GRAY` = 89
+  - `cv.COLOR_BayerBG2BGR_VNG` = 62
+  - `cv.COLOR_BayerGB2BGR_VNG` = 63
+  - `cv.COLOR_BayerRG2BGR_VNG` = 64
+  - `cv.COLOR_BayerGR2BGR_VNG` = 65
+  - `cv.COLOR_BayerBG2RGB_VNG` = COLOR_BayerRG2BGR_VNG
+  - `cv.COLOR_BayerGB2RGB_VNG` = COLOR_BayerGR2BGR_VNG
+  - `cv.COLOR_BayerRG2RGB_VNG` = COLOR_BayerBG2BGR_VNG
+  - `cv.COLOR_BayerGR2RGB_VNG` = COLOR_BayerGB2BGR_VNG
+  - `cv.COLOR_BayerBG2BGR_EA` = 135
+  - `cv.COLOR_BayerGB2BGR_EA` = 136
+  - `cv.COLOR_BayerRG2BGR_EA` = 137
+  - `cv.COLOR_BayerGR2BGR_EA` = 138
+  - `cv.COLOR_BayerBG2RGB_EA` = COLOR_BayerRG2BGR_EA
+  - `cv.COLOR_BayerGB2RGB_EA` = COLOR_BayerGR2BGR_EA
+  - `cv.COLOR_BayerRG2RGB_EA` = COLOR_BayerBG2BGR_EA
+  - `cv.COLOR_BayerGR2RGB_EA` = COLOR_BayerGB2BGR_EA
+  - `cv.COLOR_BayerBG2BGRA` = 139
+  - `cv.COLOR_BayerGB2BGRA` = 140
+  - `cv.COLOR_BayerRG2BGRA` = 141
+  - `cv.COLOR_BayerGR2BGRA` = 142
+  - `cv.COLOR_BayerBG2RGBA` = COLOR_BayerRG2BGRA
+  - `cv.COLOR_BayerGB2RGBA` = COLOR_BayerGR2BGRA
+  - `cv.COLOR_BayerRG2RGBA` = COLOR_BayerBG2BGRA
+  - `cv.COLOR_BayerGR2RGBA` = COLOR_BayerGB2BGRA
+  - `cv.COLOR_COLORCVT_MAX` = 143

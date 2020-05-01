@@ -1,0 +1,424 @@
+---
+id: opencv-read-image-video
+title: OpenCV Read image or video
+sidebar_label: Read image or video
+description: OpenCV Read image or video
+keywords:
+  - C++
+  - OpenCV
+  - image
+  - video
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
+
+# Read image
+
+```python
+image = cv.imread(fileName, flag=cv.IMREAD_COLOR)
+```
+
+- @brief 이미지 읽기
+- @param **fileName**: string 파일 경로
+- @param **flag**
+  - `cv.IMREAD_COLOR` : **BGR**
+  - `cv.IMREAD_GRAYSCALE`
+  - `cv.IMREAD_UNCHANGED`
+- @return numpy.ndarray (y축, x축, pixel 원소 수) 3 차원 배열
+
+```python
+cv.imshow(title, image)
+key_value = cv.waitKey(delay=0) & 0xFF
+cv.destroyWindows(title)
+cv.destroyAllWindows()
+```
+
+- @brief 이미지 창에 표시, **title을 동일하게 설정한 후, image만 변경하면 동영상처럼 보임**
+- @param **title**: string
+- @param **image**: numpy.ndarray 이미지 3 차원 배열
+
+```python
+cv.imwrite(fileName, image)
+```
+
+- @brief 이미지 저장
+- @param **fileName**: string 파일 경로
+- @param **image**: numpy.ndarray 이미지 3 차원 배열
+
+# Read video, cam
+
+## cv.VideoCapture
+
+```python
+class cv.VideoCapture(index|filename, apiPreference=cv.CAP_ANY)
+```
+
+- @brief VideoCapture 인스턴스 생성
+- @param **index|filename**: 캠의 인덱스 또는 동영상 파일 경로
+- @param **apiPreference**: 영상을 처리할 api 선택
+  - `cv.CAP_ANY`
+  - `cv.CAP_V4L2`
+  - [https://docs.opencv.org/master/d4/d15/group\_\_videoio\_\_flags\_\_base.html](https://docs.opencv.org/master/d4/d15/group__videoio__flags__base.html)
+- @return cv.VideoCapture
+
+:::info
+Linux(debian)에서 비디오의 인덱스는 **/dev/video** 뒤의 숫자입니다. 아래 명령어를 통해 캠 정보를 확인할 수 있습니다.(/dev/video[인덱스]) `v4l2-ctl --all --list-formats-ext -d /dev/video0`
+:::
+
+```python
+is_success = cv.VideoCapture.isOpened()
+```
+
+- @brief 캠 또는 파일이 정상적으로 열렸는지 확인
+
+```python
+value = cv.VideoCapture.get(propid)
+```
+
+- @brief 설정된 속성 값 확인
+- @param **propid**
+  - `cv.CAP_PROP_FRAME_WIDTH`
+  - `cv.CAP_PROP_FRAME_HEIGHT`
+  - `cv.CAP_PROP_FOURCC`
+  - [https://docs.opencv.org/master/d4/d15/group\_\_videoio\_\_flags\_\_base.html](https://docs.opencv.org/master/d4/d15/group__videoio__flags__base.html)
+
+```python
+is_success = cv.VideoCapture.set(propid, value)
+```
+
+- @brief 속성 설정
+- @param **propid**
+  - `cv.CAP_PROP_FRAME_WIDTH`
+  - `cv.CAP_PROP_FRAME_HEIGHT`
+  - `cv.CAP_PROP_FOURCC`
+  - [https://docs.opencv.org/master/d4/d15/group\_\_videoio\_\_flags\_\_base.html](https://docs.opencv.org/master/d4/d15/group__videoio__flags__base.html)
+
+```python
+is_success, image = cv.VideoCapture.read()
+```
+
+- @brief 다음 프레임을 읽어 이미지로 반환
+- @return image (**BGR**)
+
+```python
+cv.VideoCapture.release()
+```
+
+- @brief 파일 또는 캠 닫기
+
+## cv.VideoWriter
+
+```python
+class cv.VideoWriter(filename, apiPreference=cv.CAP_ANY, fourcc, fps, frameSize, isColor=True)
+```
+
+- @brief VideoWriter 인스턴스 생성
+- @param **apiPreference**: 영상을 처리할 api 선택
+- @param **fourcc**: 4-character code of codec, cv.VideoWriter_fourcc()를 사용해 설정
+- @param **fps**
+- @param **frameSize**: tuple (가로, 세로)
+- @param **isColor**
+- @return cv.VideoWriter
+
+```python
+fourcc_code = cv.VideoWriter_fourcc(c1, c2, c3, c4)
+```
+
+- @brief 4 개의 문자로 fourcc_code 생성
+- @param **c1~c4**
+  - `*'MJPG'`
+  - `*'YUYV'`
+  - `*'FMP4'`
+  - [https://www.fourcc.org/codecs.php](https://www.fourcc.org/codecs.php)
+
+```python
+is_success = cv.VideoWriter.isOpened()
+value = cv.VideoWriter.get(propid)
+is_success = cv.VideoWriter.set(propid, value)
+cv.VideoWriter.release()
+```
+
+- @brief cv.VideoCapture와 동일
+
+```python
+cv.VideoWriter.write(image)
+```
+
+- @brief 다음 프레임 추가
+
+# Examples
+
+C++ compilation
+
+```shell
+g++ [input.cpp] -o [output] $(pkg-config opencv4 --libs --cflags)
+```
+
+## Read image
+
+<Tabs
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'Cpp', value: 'cpp',},
+    ]}
+>
+
+<TabItem value="python">
+
+```python
+import cv2 as cv
+
+# image.jpg 파일을 읽고, img에 할당.
+img = cv.imread("image.jpg")
+
+# image 창에 img 표시.
+cv.imshow("image", img)
+
+# 키 입력이 있을 때까지 기다림.
+cv.waitKey()
+cv.destroyAllWindows()
+```
+
+</TabItem>
+
+<TabItem value="cpp">
+
+```cpp
+#include <opencv2/opencv.hpp>
+
+int main(void) {
+    cv::Mat img;
+
+    // image.jpg 파일을 읽고, img에 할당.
+    img = cv::imread("image.jpg");
+
+    // image 창에 img 표시.
+    cv::imshow("image", img);
+
+    // 키 입력이 있을 때까지 기다림.
+    cv::waitKey();
+    cv::destroyAllWindows();
+
+    return 0;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Read video
+
+<Tabs
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'Cpp', value: 'cpp',},
+    ]}
+>
+<TabItem value="python">
+
+```python
+import cv2 as cv
+
+# video.mp4 파일 열기.
+cap = cv.VideoCapture("video.mp4")
+
+# frame per second 값 얻기.
+fps = cap.get(cv.CAP_PROP_FPS)
+
+if cap.isOpened():
+    while True:
+        # 프레임 읽고, frame 변수에 할당.
+        is_sucess, frame = cap.read()
+        if not is_sucess:
+            break
+
+        # video 창에 frame 표시.
+        cv.imshow("video", frame)
+
+        if cv.waitKey(int(1000 / fps)) & 0xFF != 255:
+            """
+            1000/fps ms 동안 키 입력 기다림.
+            키 입력이 있으면 루프 종료.
+            """
+            break
+
+cap.release()
+cv.destroyAllWindows()
+```
+
+</TabItem>
+
+<TabItem value="cpp">
+
+```cpp
+#include <opencv2/opencv.hpp>
+
+int main(void) {
+    cv::Mat frame;
+
+    // video.mp4 파일 열기.
+    cv::VideoCapture cap;
+    cap.open("video.mp4");
+
+    // frame per second 값 얻기.
+    int fps = cap.get(cv::CAP_PROP_FPS);
+
+    if(cap.isOpened()) {
+        for(;;) {
+            // 프레임 읽고, frame 변수에 할당.
+            cap >> frame;
+            if(frame.empty()) { break; }
+
+            // video 창에 frame 표시.
+            imshow("video", frame);
+
+            // 1000/fps ms 동안 키 입력 기다림.
+            // 키 입력이 있으면 루프 종료.
+            if((cv::waitKey(1000 / fps) & 0xFF) != 0xFF) { break; }
+        }
+    }
+
+    cap.release();
+    cv::destroyAllWindows();
+
+    return 0;
+}
+```
+
+</TabItem>
+</Tabs>
+
+## Read cam
+
+<Tabs
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'Cpp', value: 'cpp',},
+    ]}
+>
+
+<TabItem value="python">
+
+```python
+import cv2 as cv
+
+OUTPUT_VIDEO_WIDTH = 640
+OUTPUT_VIDEO_HEIGHT = 480
+
+# 0 번 캠 (/dev/video0) 열기.
+cap = cv.VideoCapture(0, cv.CAP_V4L2)
+
+# 픽셀 단위로 가로, 세로 설정.
+cap.set(cv.CAP_PROP_FRAME_WIDTH, OUTPUT_VIDEO_WIDTH)
+cap.set(cv.CAP_PROP_FRAME_HEIGHT, OUTPUT_VIDEO_HEIGHT)
+
+# 픽셀 포맷 설정.
+cap.set(cv.CAP_PROP_FOURCC, cv.VideoWriter_fourcc(*"MJPG"))
+
+"""
+녹화 설정.
+record.avi로 저장, FFmpeg 사용.
+"""
+fourcc = cv.VideoWriter_fourcc(*"FMP4")
+out = cv.VideoWriter(
+    "record.avi", fourcc, 25.0, (OUTPUT_VIDEO_WIDTH, OUTPUT_VIDEO_HEIGHT)
+)
+
+if cap.isOpened() and out.isOpened():
+    while True:
+        try:
+            # 프레임 읽고, frame 변수에 할당.
+            is_sucess, frame = cap.read()
+        except cv.error as e:
+            continue
+
+        if not is_sucess:
+            break
+
+        # record.avi에 frame 쓰기.
+        out.write(frame)
+
+        # video 창에 frame 표시.
+        cv.imshow("video", frame)
+
+        if cv.waitKey(1) & 0xFF != 255:
+            """
+            1 ms 동안 키 입력 기다림.
+            키 입력이 있으면 루프 종료.
+            """
+            break
+
+cap.release()
+out.release()
+cv.destroyAllWindows()
+```
+
+</TabItem>
+
+<TabItem value="cpp">
+
+```cpp
+#include <opencv2/opencv.hpp>
+
+const int OUTPUT_VIDEO_WIDTH  = 640;
+const int OUTPUT_VIDEO_HEIGHT = 480;
+
+int main(void) {
+    cv::Mat frame;
+
+    // 0 번 캠 (/dev/video0) 열기.
+    cv::VideoCapture cap;
+    cap.open(0, cv::CAP_V4L2);
+
+    // 픽셀 단위로 가로, 세로 설정.
+    cap.set(cv::CAP_PROP_FRAME_WIDTH, OUTPUT_VIDEO_WIDTH);
+    cap.set(cv::CAP_PROP_FRAME_HEIGHT, OUTPUT_VIDEO_HEIGHT);
+
+    // 픽셀 포맷 설정.
+    cap.set(cv::CAP_PROP_FOURCC, cv::VideoWriter::fourcc('M', 'J', 'P', 'G'));
+
+    // 녹화 설정.
+    cv::VideoWriter out;
+    // record.avi로 저장, FFmpeg 사용.
+    out.open("record.avi",
+             cv::VideoWriter::fourcc('F', 'M', 'P', '4'),
+             25.0,
+             cv::Size(OUTPUT_VIDEO_WIDTH, OUTPUT_VIDEO_HEIGHT));
+
+    if(cap.isOpened() && out.isOpened()) {
+        for(;;) {
+            try {
+                // 프레임 읽고, frame 변수에 할당.
+                cap.read(frame);
+            } catch(cv::Exception &e) { continue; }
+
+            if(frame.empty()) { break; }
+
+            // record.avi에 frame 쓰기.
+            out.write(frame);
+
+            // video 창에 frame 표시.
+            cv::imshow("video", frame);
+
+            // 1 ms 동안 키 입력 기다림.
+            // 키 입력이 있으면 루프 종료.
+            if((cv::waitKey(1) & 0xFF) != 0xFF) { break; }
+        }
+    }
+
+    cap.release();
+    out.release();
+    cv::destroyAllWindows();
+
+    return 0;
+}
+```
+
+</TabItem>
+</Tabs>

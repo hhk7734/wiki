@@ -1,0 +1,166 @@
+---
+id: opencv-histogram
+title: OpenCV Histogram
+sidebar_label: Histogram
+description: OpenCV Histogram
+keywords:
+  - C++
+  - OpenCV
+  - histogram
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
+
+# 영상 히스토그램
+
+영상 히스토그램은 X 축 - 픽셀 값, Y 축 - 픽셀 수로 만든 그래프입니다.
+
+히스토그램을 보면 동일한 픽셀 값을 갖는 픽셀이 몇개나 존재하는지 확인할 수 있고, 픽셀 값이 골고루 분포되어있는지 또는 집중되어있는지 확인할 수 있습니다.
+
+```python
+hist = cv.calcHist(images, channels, mask, histSize, ranges, hist=None, accumulate=False)
+```
+
+- @param **images**: list [img1,] 각 이미지의 (가로, 세로) 크기가 동일해야함
+- @param **channels**: list [ch1,] 누적 채널 번호, 0 부터 시작됨
+- @param **mask**: np.ndarray
+  - None인 경우 이미지 전체 분석
+  - mask = np.zeros(img.shape[:2], dtype=np.uint8)
+  - mask[x:x+w, y:y+h] = 255
+- @param **histSize**: list [x축,] 픽셀 값 단계
+  - np.uint8 을 사용하는 이미지의 `256//8` 로 설정하면 0~7, 8~15, ... 이렇게 묶어서 `256//8` 단계로 계산됨
+- @param **ranges**: list [min1, max1,] 분석 범위, np.uint8 을 사용하는 이미지의 경우 최대 분석 범위 [0,256]
+- @param **accumulate**: bool True로 설정하고 여러 이미지를 분석하면 하나의 히스토그램에 데이터가 누적됨
+
+:::caution
+이미지를 여러개 분석하는 경우 입력한 모든 이미지가 하나의 배열이 됩니다. 예를 들어 3 채널 이미지 2 개를 설정하면 크기가 (가로, 세로, 6)로 인식한다고 생각하시면 됩니다.
+
+이미지 1 의 1 번 채널과 이미지 2 의 1 번 채널을 선택하려면 [0, 3+0]을 channels로 설정하면 됩니다.
+
+`hist = cv.calcHist([img], [0, 1], None, [256, 256], [0, 256, 0, 256])` 의 결과는 각 채널 별 히스토그램이 아닙니다. 결과는 (256, 256)인 배열입니다. x축 1 번 채널, y축 2 번 채널, z축 픽셀 수로 구성된 3차원 히스토그램을 그릴 수 있습니다.
+:::
+
+```python
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+bgr = cv.imread('image.png')
+hist1 = cv.calcHist([bgr], [0], None, [256], [0, 256])
+hist2 = cv.calcHist([bgr], [1], None, [256], [0, 256])
+hist3 = cv.calcHist([bgr], [2], None, [256], [0, 256])
+
+rgb = cv.cvtColor(bgr, cv.COLOR_BGR2RGB)
+plt.subplot(1, 2, 1)
+plt.imshow(rgb)
+plt.subplot(1, 2, 2)
+plt.plot(hist1, 'b')
+plt.plot(hist2, 'g')
+plt.plot(hist3, 'r')
+plt.show()
+```
+
+<center>
+  <img src={useBaseUrl("lang/python/libraries/opencv/opencv-histogram.png")} />
+</center>
+
+# 이치화
+
+## cv.threshold
+
+```python
+retval, dst = cv.threshold(src, thresh, maxval, type, dst=None)
+```
+
+- @param **src**: np.ndarray 1 채널 이미지, 주로 grayscale
+- @param **thresh**: float 역치
+- @param **maxval**: float 역치를 넘으면 적용할 값
+- @param **type**
+  - `cv.THRESH_BINARY`, thresh를 넘으면 백(maxval), 아니면 흑(0)
+  - `cv.THRESH_BINARY_INV`
+  - `cv.THRESH_TRUNC`, thresh를 넘으면 백(thresh), 나머지 그대로
+  - `cv.THRESH_TOZERO`, thresh를 못 넘으면 흑(0), 나머지 그대로
+  - `cv.THRESH_TOZERO_INV`
+  - `cv.THRESH_OTSU`, Otsu 알고리즘으로 thresh 결정
+  - `cv.THRESH_TRIANGLE`, Triangle 알고리즘으로 thresh 결정
+- @return retval cv.THRESH_OTSU 또는 cv.THRESH_TRIANGLE을 사용했을 때, 적용된 역치 값
+
+```python bgr_histogram.py
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+gray = cv.imread('image.png', cv.IMREAD_GRAYSCALE)
+retval, thresh = cv.threshold(gray, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+
+plt.subplot(1, 2, 1)
+plt.imshow(gray, 'gray')
+plt.subplot(1, 2, 2)
+plt.imshow(thresh, 'gray')
+plt.show()
+```
+
+<center>
+  <img
+    src={useBaseUrl("lang/python/libraries/opencv/opencv-histogram-otsu.png")}
+  />
+</center>
+
+<center>
+  <img
+    src={useBaseUrl("lang/python/libraries/opencv/opencv-histogram-otsu2.png")}
+  />
+</center>
+
+## cv.adaptiveThreshold
+
+```python
+dst = cv.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None)
+```
+
+- @param **src**: np.ndarray grayscale
+- @param **maxValue**: float 역치를 넘으면 적용할 값
+- @param **adaptiveMethod**
+  - `cv.ADAPTIVE_THRESH_MEAN_C`
+  - `cv.ADAPTIVE_THRESH_GAUSSIAN_C`
+- @param **thresholdType**
+  - `cv.THRESH_BINARY`, thresh를 넘으면 백(maxValue), 아니면 흑(0)
+  - `cv.THRESH_BINARY_INV`
+- @param **blockSize**: int 역치를 구할 때 사용할 **kernel**의 가로 또는 세로 길이, 3 이상 홀수
+- @param **C**: int 연산에 필요한 상수, 일반적으로 양수
+
+```python threshold.py
+import cv2 as cv
+from matplotlib import pyplot as plt
+
+gray = cv.imread('image.jpg', cv.IMREAD_GRAYSCALE)
+thresh = cv.adaptiveThreshold(gray, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 45, 2)
+
+plt.subplot(2, 1, 1)
+plt.imshow(gray, 'gray')
+plt.subplot(2, 1, 2)
+plt.imshow(thresh, 'gray')
+plt.show()
+```
+
+<center>
+  <img
+    src={useBaseUrl(
+      "lang/python/libraries/opencv/opencv-histogram-adaptive.png"
+    )}
+  />
+</center>
+
+# 평활화
+
+```python
+dst = cv.equalizeHist(src, dst=None)
+```
+
+```python
+class cv.createCLAHE(clipLimit=40.0, tileGridSize=(8, 8))
+```
+
+```python
+dst = cv.CLAHE.apply(src, dst=None)
+```

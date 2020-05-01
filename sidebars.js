@@ -22,6 +22,13 @@ module.exports = {
             "lang/cpp/libraries/opencl/opencl-example"
           ],
         },
+        {
+          type: "category",
+          label: "OpenCV",
+          items: [
+            "lang/cpp/libraries/opencv/opencv-installation"
+          ],
+        },
       ],
     },
     {
@@ -99,6 +106,17 @@ module.exports = {
           label: "Python ctypes",
           href:
             "https://github.com/hhk7734/python3-gpiod/blob/master/py_src/gpiod/libgpiod/__init__.py",
+        },
+        {
+          type: "category",
+          label: "OpenCV",
+          items: [
+            "lang/cpp/libraries/opencv/opencv-installation",
+            "lang/python/libraries/opencv/opencv-read-image-video",
+            "lang/python/libraries/opencv/opencv-draw-figure",
+            "lang/python/libraries/opencv/opencv-color-spaces",
+            "lang/python/libraries/opencv/opencv-histogram"
+          ],
         },
       ],
     },

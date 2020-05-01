@@ -1,0 +1,115 @@
+---
+id: opencv-draw-figure
+title: OpenCV Draw figure
+sidebar_label: Draw figure
+description: OpenCV Draw figure
+keywords:
+  - C++
+  - OpenCV
+  - figure
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
+
+# Common options
+
+- @param **img**: np.ndarray
+- @param **color**: tuple (B, G, R)
+- @param **thickness**: int -1 인 경우 도형 내부를 채움
+- @param **lineType**
+  - `cv.FILLED`
+  - `cv.LINE_4`
+  - `cv.LINE_8`
+  - `cv.LINE_AA`
+- @param **shift**: int 모든 좌표를 (x, y) -> (x·2^(-shift), y·2^(-shift))로 변환
+
+# Line
+
+```python
+img = cv.arrowedLine(img, pt1, pt2, color, thickness=1, line_type=cv.LINE_8, shift=0, tipLength=0.1)
+img = cv.line(img, pt1, pt2, color, thickness=1, lineType=cv.LINE_8, shift=0)
+```
+
+- @param **pt1, pt2**: tuple (x, y) start, end
+
+# Rectangle
+
+```python
+img = cv.rectangle(img, pt1, pt2, color, thickness=1, lineType=cv.LINE_8, shift=0)
+```
+
+- @param **pt1, pt2**: tuple (x, y) top-left, bottom-right
+
+# Polygone
+
+```python
+img = cv.polylines(img, pts, isClosed, color, thickness=1, lineType=cv.LINE_8, shift=0)
+img = cv.fillPoly(img, pts, color, lineType=cv.LINE_8, shift=0, offset=(0,0))
+```
+
+- @param **pts**: list `[np.ndarray([[],], dtype=np.int32),]` 꼭지점으로 이루어진 2차원 배열들의 리스트, 배열 수만큼 도형 생성
+- @param **isClosed**: bool True : 시작점과 끝점 연결, False : 시작점과 끝점 연결 안함
+- @param **offset**: tuple (x, y)
+
+# Ellipse
+
+```python
+img = cv.circle(img, center, radius, color, thickness=1, lineType=cv.LINE_8, shift=0)
+img = cv.ellipse(img, center, axes, angle, startAngle, endAngle, color, thickness=1, lineType=cv.LINE_8, shift=0)
+img = cv.ellipse(img, box, color, thickness=1, lineType=cv.LINE_8)
+pts = cv.ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta)
+```
+
+- @param **center**
+- @param **radius**
+- @param **axes**
+- @param **angle**
+- @param **startAngle**
+- @param **endAngle**
+- @param **box**
+- @param **delta**
+
+<center>
+  <img
+    src={useBaseUrl("lang/python/libraries/opencv/opencv-draw-ellipse.png")}
+  />
+</center>
+
+# Marker
+
+```python
+img = cv.drawMarker(img, position, color, markerType=cv.MARKER_CROSS, markerSize=20, thickness=1, line_type=cv.LINE_8)
+```
+
+- @param **position**: tuple (x, y)
+- @param **markerType**
+  - `cv.MARKER_CROSS`
+  - `cv.MARKER_TILTED_CROSS`
+  - `cv.MARKER_STAR`
+  - `cv.MARKER_DIAMOND`
+  - `cv.MARKER_SQUARE`
+  - `cv.MARKER_TRIANGLE_UP`
+  - `cv.MARKER_TRIANGLE_DOWN`
+
+# Text
+
+```python
+img = cv.putText(img, text, org, fontFace, fontScale, color, thickness=1, lineType=cv.LINE_8, bottomLeftOrigin=False)
+```
+
+- @param **text**: string
+- @param **org**: tuple 텍스트 위치
+- @param **fontFace**
+  - `cv.FONT_HERSHEY_SIMPLEX`
+  - `cv.FONT_HERSHEY_PLAIN`
+  - `cv.FONT_HERSHEY_DUPLEX`
+  - `cv.FONT_HERSHEY_COMPLEX`
+  - `cv.FONT_HERSHEY_TRIPLEX`
+  - `cv.FONT_HERSHEY_COMPLEX_SMALL`
+  - `cv.FONT_HERSHEY_SCRIPT_SIMPLEX`
+  - `cv.FONT_HERSHEY_SCRIPT_COMPLEX`
+  - `cv.FONT_ITALIC`
+- @param **fontScale**: float 기본 크기에 곱할 배율
+- @param **bottomLeftOrigin**: bool True : bottom-left, False : top-left

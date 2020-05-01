@@ -1,0 +1,290 @@
+---
+id: opencv-installation
+title: OpenCV installation
+sidebar_label: Installation
+description: OpenCV installation
+keywords:
+  - C++
+  - OpenCV
+  - installation
+---
+
+Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
+
+License: 3-clause BSD License
+
+# Dependencies
+
+build-essential, cmake, git, libgtk2.0-dev, pkg-config, libavcodec-dev, libavformat-dev, libswscale-dev를 제외한 나머지는 옵션입니다.
+
+아래 설명에 나오는 패키지를 한 번에 설치하려면 아래 명령어를 실행하시면 됩니다.
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/opencv/package_install.sh package_install.sh ;\
+sleep 1 \
+&& sudo chmod +x package_install.sh \
+&& ./package_install.sh
+```
+
+## Update
+
+```shell
+sudo apt update && sudo apt upgrade -y && sudo apt autoremove -y
+```
+
+## Python
+
+```shell
+sudo apt install -y python-dev python3-dev python3-pip \
+&& python3 -m pip install -U pip \
+&& python3 -m pip install --user numpy
+```
+
+## GCC, CMake, git
+
+```shell
+sudo apt install -y build-essential cmake git
+```
+
+## GUI, GL
+
+```shell
+sudo apt install -y libgtk2.0-dev libgtk-3-dev libqt4-dev \
+&& sudo apt install -y mesa-utils libgl1-mesa-dri libqt4-opengl-dev
+```
+
+## pkg-config
+
+```shell
+sudo apt install -y pkg-config
+```
+
+## FFmpeg
+
+```shell
+sudo apt install -y libavcodec-dev libavformat-dev libswscale-dev
+```
+
+## parallelism
+
+```shell
+sudo apt install -y libtbb2 libtbb-dev
+```
+
+## Image codec
+
+```shell
+sudo apt install -y libjasper-dev ;\
+sudo apt install -y libjpeg-dev libtiff5-dev \
+&& sudo apt install -y libpng12-dev || sudo apt install -y libpng-dev
+```
+
+libjasper-dev 설치를 실패한 경우, [https://github.com/mdadams/jasper](https://github.com/mdadams/jasper)
+
+**설치하지 않고 넘어가면, OpenCV가 빌드될 때 빌드됩니다.**
+
+## Video codec
+
+```shell
+sudo apt install -y libxvidcore-dev \
+&& sudo apt install -y libx264-dev \
+&& sudo apt install -y libxine2-dev \
+&& sudo apt install -y libv4l-dev v4l-utils
+```
+
+## Streaming
+
+```shell
+sudo apt install -y libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+```
+
+## IEEE 1394 digital camera
+
+```shell
+sudo apt install -y libdc1394-22-dev
+```
+
+## Mathmatic
+
+```shell
+sudo apt install -y gfortran libatlas-base-dev libeigen3-dev libhdf5-serial-dev
+```
+
+# Building OpenCV from Source Using CMake
+
+## Donwload source
+
+```shell
+cd && git clone https://github.com/opencv/opencv.git
+```
+
+```shell
+cd && git clone https://github.com/opencv/opencv_contrib.git
+```
+
+opencv_contrib는 옵션입니다. 2019-04-08 기준으로 2.4.13.6, 3.4.6, 4.1.0이 최신 버전입니다. 위 명령을 통해 다운받는 경우 가장 최신 릴리즈를 받게 됩니다.
+
+다른 버전을 받고 싶은 경우 위와같이 clone 후에 branch와 tag를 확인합니다.
+
+```shell
+git branch -a
+```
+
+```shell
+git tag -l --sort=-v:refname
+```
+
+확인된 버전 중에 원하는 버전으로 checkout 합니다.
+
+```shell
+cd ~/opencv \
+&& git checkout tags/4.1.0
+```
+
+```shell
+cd ~/opencv_contrib \
+&& git checkout tags/4.1.0
+```
+
+## CMake
+
+CMake를 통해 Makefile을 만들 때, 사용하는 옵션에 따라 추가적으로 설치할 라이브러리가 있을 수 있습니다.
+
+매크로 설정을 통해 설정을 변경할 수 있습니다.
+
+- `-DOPENCV_PYTHON_SKIP_DETECTION=ON`: Python 패키지 설치 안함
+- `-DOPENCV_EXTRA_MODULES_PATH=<path>/opencv_contrib/modules`: OpenCV extra module 설치
+
+```shell
+cd ~/opencv \
+&& mkdir build \
+&& cd build \
+&& cmake ..\
+    -DCMAKE_BUILD_TYPE=Release \
+    -DOPENCV_GENERATE_PKGCONFIG=ON \
+    -DBUILD_PERF_TESTS=OFF
+```
+
+## Checking memory size and swapon
+
+컴파일하기 전에 메모리 크기가 최소 3 GB가 되는지 확인해야합니다.
+
+```shell
+free -ht
+```
+
+```shell
+              total        used        free      shared  buff/cache   available
+Mem:           1.8G        635M        219M         29M        1.0G        1.2G
+Swap:            0B          0B          0B
+Total:         1.8G        635M        219M
+```
+
+메모리가 부족한 경우 swap 메모리를 추가해야합니다. 컴파일 속도를 올리기 위해 `make`에서 `-j[N-jobs]` 옵션을 사용하는 경우 N-jobs 값에 따라 필요한 메모리 크기가 달라집니다.
+
+필요한 크기만큼 swapfile 크기를 정한 다음 swap 메모리로 등록합니다.
+
+```shell
+sudo fallocate -l 1.2G /swapfile
+```
+
+```shell
+sudo chmod 600 /swapfile \
+&& sudo mkswap /swapfile \
+&& sudo swapon /swapfile
+```
+
+## build
+
+```shell
+make
+```
+
+:::info
+메모리와 디스크 크기가 충분한 경우 빠른 컴파일을 위해 `make` 대신 **`make -j$(expr $(expr $(nproc) \* 6) \/ 5)`** 명령어를 실행하는 것이 좋습니다.
+:::
+
+| Core               | Disk  | RAM    | Swap   | Command  |
+| ------------------ | ----- | ------ | ------ | -------- |
+| 4 core(Odroid C1+) | 16 GB | 0.8 GB | 2.4 GB | make -j4 |
+| 4 core(Rpi 3B+)    | 16 GB | 0.8 GB | 2.4 GB | make -j4 |
+| 4 core(Odroid C2)  | 16 GB | 1.7 GB | 1.6 GB | make -j4 |
+| 6 core(Odroid N2)  | 16 GB | 1.8 GB | 1.0 GB | make     |
+| 6 core(Odroid N2)  | 16 GB | 1.8 GB | 1.5 GB | make -j7 |
+| 6 core(Odroid N2)  | 16 GB | 3.6 GB | 0 GB   | make -j7 |
+| 8 core(Odroid XU4) | 16 GB | 1.9 GB | 1.4 GB | make -j9 |
+
+컴파일이 끝나면 할당했던 Swap을 해제하고 생성한 swapfile을 삭제해 줍니다.
+
+```shell
+sudo swapoff /swapfile \
+&& sudo rm /swapfile
+```
+
+생성된 라이브러리를 설치합니다.
+
+```shell
+sudo make install \
+&& sudo ldconfig
+```
+
+# C++
+
+```shell
+sudo find / -name opencv* | grep .pc
+```
+
+```shell
+/usr/local/lib/pkgconfig/opencv4.pc
+```
+
+opencv 4.x 가 설치된 경우 opencv4.pc가 생성됩니다. 해당 파일에 라이브러리 정보, 경로가 설정되어 있으므로 아래와 같이 컴파일 할 수 있습니다.
+
+```shell
+g++ -o [output] [input] $(pkg-config opencv4 --libs --cflags)
+```
+
+# Python
+
+## virtual environment
+
+가상환경을 생성합니다.
+
+```shell
+python3 -m venv [venv_path]
+```
+
+유저 라이브러리로 설치된 cv2 패키지 경로를 확인합니다.
+
+```shell
+sudo find / -name cv2 -type d
+```
+
+```shell
+/usr/local/lib/python3.6/dist-packages/cv2
+```
+
+위에서 확인한 cv2 패키지를
+
+```shell
+sudo cp -r /usr/local/lib/python3.6/dist-packages/cv2 [venv_path]/lib/python3.6/site-packages/
+```
+
+가상 환경을 활성화합니다.
+
+```shell
+source [venv_path]/bin/activate
+```
+
+OpenCV를 사용할 때, numpy와 matplotlib를 같이 사용하게 됩니다. (numpy는 필수고, matplotlib은 선택사항입니다.)
+
+```shell
+python3 -m pip install -U pip \
+&& python3 -m pip install --user -U numpy matplotlib
+```
+
+python에 OpenCV 모듈이 정상적으로 로딩되는지 확인하기 위해 아래 명령어를 사용하면 됩니다.
+
+```shell
+python3 -c "import cv2 as cv"
+```
