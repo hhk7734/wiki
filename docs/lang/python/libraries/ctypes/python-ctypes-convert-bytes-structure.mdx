@@ -1,0 +1,73 @@
+---
+id: python-ctypes-convert-bytes-structure
+title: Python Convert bytes to ctypes.Structure
+sidebar_label: Convert bytes to ctypes.Structure
+description: Python Convert bytes to ctypes.Structure
+keywords:
+  - Python
+  - ctypes
+  - Structure
+  - bytes
+  - convert
+---
+
+# bytes -> ctyeps.Structure
+
+```python
+from ctypes import c_int16, c_int32, memmove, pointer, sizeof, Structure
+
+
+class Data(Structure):
+    # |  a  |  b  |     c     |
+    #  XX XX XX XX XX XX XX XX
+
+    _fields_ = [
+        ("a", c_int16),
+        ("b", c_int16),
+        ("c", c_int32),
+    ]
+
+
+# Little-endian
+# 0x0001 => 0x01 0x00
+# 0x0002 => 0x02 0x00
+# 0x00000003 => 0x03 0x00 0x00 0x00
+dataBytes = bytes([1, 0, 2, 0, 3, 0, 0, 0])
+dataSturct = Data()
+
+memmove(pointer(dataSturct), dataBytes, sizeof(dataSturct))
+
+assert dataSturct.a == 1
+assert dataSturct.b == 2
+assert dataSturct.c == 3
+```
+
+# ctypes.Structure -> bytes
+
+```python
+from ctypes import c_int16, c_int32, memmove, pointer, sizeof, Structure
+
+
+class Data(Structure):
+    # |  a  |  b  |     c     |
+    #  XX XX XX XX XX XX XX XX
+
+    _fields_ = [
+        ("a", c_int16),
+        ("b", c_int16),
+        ("c", c_int32),
+    ]
+
+
+# Little-endian
+# 0x0001 => 0x01 0x00
+# 0x0002 => 0x02 0x00
+# 0x00000003 => 0x03 0x00 0x00 0x00
+dataSturct = Data(a=1, b=2, c=3)
+
+dataBytes = bytes(dataSturct)
+
+assert dataBytes[0] == 1
+assert dataBytes[2] == 2
+assert dataBytes[4] == 3
+```

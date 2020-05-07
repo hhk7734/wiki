@@ -102,10 +102,11 @@ module.exports = {
       items: [
         "lang/python/libraries/python-logging",
         {
-          type: "link",
-          label: "Python ctypes",
-          href:
-            "https://github.com/hhk7734/python3-gpiod/blob/master/py_src/gpiod/libgpiod/__init__.py",
+          type: "category",
+          label: "ctypes",
+          items: [
+            "lang/python/libraries/ctypes/python-ctypes-convert-bytes-structure"
+          ],
         },
         {
           type: "category",
