@@ -1,0 +1,47 @@
+---
+id: git-tag
+title: Git tag
+sidebar_label: Tag
+description: Git tag
+keywords:
+  - Git
+  - tag
+---
+
+# Add tag
+
+```shell
+git tag -a <tag> -m "<message>" [commit hash]
+```
+
+이전 커밋에 tag를 달아야하는 경우 commit hash를 지정해주면 됩니다.
+
+:::info
+tag는 주로 버전 관리에 사용됩니다. 메시지 제목으로 버전 릴리즈를 적고, 내용으로 이전 버전과의 차이점이나 주요 커밋 제목을 나열하면 됩니다.
+:::
+
+```shell
+git push origin [tag name|--tags]
+```
+
+tag 이름 대신 `--tags` 옵션을 사용하면 모든 tag가 push 됩니다.
+
+# Delete tag
+
+```shell
+git tag -d [tag]
+```
+
+```shell
+git push origin :tags/[tag name]
+```
+
+# Check tag
+
+```shell
+git tag -l
+```
+
+```shell
+git show [tag name]
+```

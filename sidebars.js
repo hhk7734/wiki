@@ -72,6 +72,9 @@ module.exports = {
         "linux/linux-tools/git/git-commit-message",
         "linux/linux-tools/git/git-fork-pull-request",
         "linux/linux-tools/git/git-submodule",
+        "linux/linux-tools/git/git-tag",
+        "linux/linux-tools/git/git-create-apply-patch",
+        "linux/linux-tools/git/git-github-issue",
       ],
     },
   ],
@@ -106,6 +109,13 @@ module.exports = {
           label: "ctypes",
           items: [
             "lang/python/libraries/ctypes/python-ctypes-convert-bytes-structure"
+          ],
+        },
+        {
+          type: "category",
+          label: "gpiod",
+          items: [
+            "lang/python/libraries/gpiod/python-gpiod-about"
           ],
         },
         {

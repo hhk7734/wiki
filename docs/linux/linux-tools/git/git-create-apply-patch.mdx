@@ -1,0 +1,40 @@
+---
+id: git-create-apply-patch
+title: Git Create and Apply patch file
+sidebar_label: Create and Apply patch file
+description: Git Create and Apply patch file
+keywords:
+  - Git
+  - format-patch
+  - am
+  - patch
+  - mbox
+---
+
+# Create patch files
+
+```shell
+git format-patch [-<num of commit>] [commit]
+```
+
+# Apply patch file
+
+```shell
+git am <patch>
+```
+
+## Fix patch errors
+
+```shell
+git apply <patch> --reject
+```
+
+Look at the created **<.ref\>** file and fix the errors.
+
+```shell
+git add <modified files>
+```
+
+```shell
+git am --continue
+```
