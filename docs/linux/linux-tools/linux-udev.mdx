@@ -1,0 +1,58 @@
+---
+id: linux-udev
+title: Linux udev
+description: Linux udev
+keywords:
+  - udev
+---
+
+# udev
+
+`udev` (userspace /dev) is a device manager for the Linux kernel.
+
+`udevd` listens to kernel uevents and passes the incoming events to udev.
+
+Users can register custom rules in `/etc/udev/rules.d/`.
+
+# device info
+
+If you want to know the information of `/dev/i2c-1`, run the below command.
+
+```shell
+udevadm info -ap $(udevadm info -q path -n /dev/i2c-1)
+```
+
+The information displayed is useful for writing rules for the device.
+
+# xx-descriptive-name.rules
+
+> Files should be named xx-descriptive-name.rules, the xx should be chosen first according to the following sequence points:
+>
+> **\< 60** most user rules; if you want to prevent an assignment being
+> overriden by default rules, use the := operator. These cannot access persistent information such as that from vol_id
+>
+> **\< 70** rules that run helpers such as vol_id to populate the udev db
+>
+> **\< 90** rules that run other programs (often using information in the
+> udev db)
+>
+> **>=90** rules that should run last
+
+# Example
+
+`/etc/udev/rules.d/50-gpio.rules`
+
+```shell
+SUBSYSTEM=="i2c-dev", GROUP="i2c", MODE="0660"
+SUBSYSTEM=="spidev", GROUP="spi", MODE="0660"
+SUBSYSTEM=="input", GROUP="input", MODE="0660"
+KERNEL=="ttyS*", GROUP="dialout", MODE="0660"
+KERNEL=="ttyAML*", GROUP="dialout", MODE="0660"
+KERNEL=="ttySAC*", GROUP="dialout", MODE="0660"
+
+SUBSYSTEM=="gpio", GROUP="gpio", MODE="0660"
+# /sys/class/gpio
+SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'find -L /sys/class/gpio/ -maxdepth 2 -exec chgrp -HR gpio {} \; -exec chmod -R 770 {} \; || true'"
+```
+
+The first line means that if **i2c-dev** is detected, the group is set to **i2c** and the mode is set to **0660**.

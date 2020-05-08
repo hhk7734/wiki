@@ -90,6 +90,7 @@ module.exports = {
       ],
     },
     "linux/linux-tools/linux-ssh-scp",
+    "linux/linux-tools/linux-udev",
   ],
   labview: [
     "lang/labview/labview-creating-project-and-vi",
