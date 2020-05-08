@@ -44,6 +44,18 @@ module.exports = {
       ],
     },
   ],
+  project: [
+    {
+      type: "category",
+      label: "AHRS",
+      items: [
+        "etc/project/ahrs/ahrs-quaternions-rotations",
+        "etc/project/ahrs/ahrs-euler-angles",
+        "etc/project/ahrs/ahrs-extended-kalman-filter",
+        "etc/project/ahrs/ahrs-sensor-calibration"
+      ]
+    }
+  ],
   flutter: [
     {
       type: "category",

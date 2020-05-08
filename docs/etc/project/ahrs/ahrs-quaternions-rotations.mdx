@@ -1,0 +1,270 @@
+---
+id: ahrs-quaternions-rotations
+title: AHRS Quaternions and Rotations
+sidebar_label: Quaternions and Rotations
+description: AHRS(Attitude and heading reference system) Quaternions and Rotations
+keywords:
+  - AHRS
+  - Quaternions
+  - Rotations
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+# Quaternions
+
+Quaternion은 사원수 또는 쿼터니언이라고 부르며, 복소수를 확장해 만든 수 체계입니다.
+
+$$
+\mathbf{i}^2 = \mathbf{j}^2 = \mathbf{k}^2 = \mathbf{i}\mathbf{j}\mathbf{k} = -1
+\\
+q = x\,\mathbf{i} + y\,\mathbf{j} + z\,\mathbf{k} + w
+\\
+\underline{q} = \begin{bmatrix}x & y & z & w\end{bmatrix}^T
+$$
+
+## Norm
+
+$$
+\begin{Vmatrix}q\end{Vmatrix} = \sqrt{x^2 + y^2 + z^2 + w^2}
+$$
+
+## Conjugate quaternion
+
+$$
+\bar{q} = -x\,\mathbf{i} - y\,\mathbf{j} - z\,\mathbf{k} + w
+$$
+
+$$
+\overline{pq} = \bar{q}\bar{p}
+$$
+
+## Pure quaternion
+
+$$
+\underline{q} = \begin{bmatrix}x & y & z & 0\end{bmatrix}^T
+$$
+
+## Identity quaternion
+
+$$
+\underline{I} = \begin{bmatrix}0 & 0 & 0 & 1\end{bmatrix}^T
+$$
+
+## Inverse quaternion
+
+$$
+q^{-1} = \cfrac{\bar{q}}{||q||^2} \quad
+  \begin{pmatrix}
+  q^{-1} = \bar{q} & \text{if ||q|| = 1}
+  \end{pmatrix}
+$$
+
+## Hamilton product
+
+$$
+\begin{aligned}
+pq & = L(p)\underline{q} & =
+  \begin{bmatrix}
+  p_w  & -p_z &  p_y & p_x \\
+  p_z  &  p_w & -p_x & p_y \\
+  -p_y &  p_x &  p_w & p_z \\
+  -p_x & -p_y & -p_z & p_w
+  \end{bmatrix}
+  \begin{bmatrix}
+  q_x \\ q_y \\ q_z \\ q_w
+  \end{bmatrix}
+\\
+& = R(q)\underline{p} & =
+  \begin{bmatrix}
+  q_w &  q_z & -q_y & q_x \\
+  -q_z &  q_w &  q_x & q_y \\
+  q_y & -q_x &  q_w & q_z \\
+  -q_x & -q_y & -q_z & q_w
+  \end{bmatrix}
+  \begin{bmatrix}
+  p_x \\ p_y \\ p_z \\ p_w
+  \end{bmatrix}
+\end{aligned}
+$$
+
+# Rotations
+
+## Rotate Vector
+
+<center>
+  <img
+    src={useBaseUrl("img/etc/project/ahrs/ahrs-quaternions-rotate-vector.png")}
+  />
+</center>
+
+$\vec{a}\left(||\vec{a}|| = 1\right)$를 기준으로 벡터를 $\theta$만큼 회전시키는 데 필요한 쿼터니언은 아래와 같습니다.
+
+$$
+\underline{q}\left(\vec{a},\theta\right) =
+  \begin{bmatrix}
+  \vec{a}\sin{\left(\cfrac{\theta}{2}\right)} & \cos{\left(\cfrac{\theta}{2}\right)}
+  \end{bmatrix}^T
+$$
+
+벡터와 쿼터니언 연산 시 벡터는 pure quaternioin으로 나타낼 수 있습니다.
+
+$$
+v = v_x\,\mathbf{i} + v_y\,\mathbf{j} +v_z\,\mathbf{k}
+$$
+
+$$
+\underline{v}= \begin{bmatrix} v_x & v_y & v_z & 0 \end{bmatrix}
+$$
+
+$\vec{a}\left(||\vec{a}|| = 1\right)$를 기준으로 $\vec{v}$를 $\theta$만큼 회전시킨 $\vec{v}'$를 구하는 식은 아래와 같습니다.
+
+$$
+\begin{aligned}
+v' & = qv \bar{q}
+\\
+\underline{v}' & = R(\bar{q}) L(q) \underline{v}
+\\
+& =
+  \begin{bmatrix}
+  1-2({q_y}^2+{q_z}^2)  &  2(q_x q_y - q_z q_w)  &  2(q_x q_z + q_y q_w)  &  0  \\
+  2(q_x q_y + q_z q_w)  &  1-2({q_x}^2+{q_z}^2)  &  2(q_y q_z - q_x q_w)  &  0  \\
+  2(q_x q_z - q_y q_w)  &  2(q_y q_z + q_x q_w)  &  1-2({q_x}^2+{q_y}^2)  &  0  \\
+  0  &  0  &  0  &  1
+  \end{bmatrix}
+  \begin{bmatrix}
+  v_x \\ v_y \\ v_z \\ 0
+  \end{bmatrix}
+\end{aligned}
+$$
+
+연속적인 회전은 아래와 같이 구할 수 있습니다.
+
+$$
+\begin{aligned}
+v_{1} & = & q_{0}^{1} v_{0} \bar{q}_{0}^{1} & &
+\\
+v_{2} & = & q_{1}^{2} v_{1} \bar{q}_{1}^{2} & = &
+  q_{1}^{2} q_{0}^{1} v_{0} \bar{q}_{0}^{1} \bar{q}_{1}^{2}
+\\
+v_{3} & = & q_{2}^{3} v_{2} \bar{q}_{2}^{3} & = &
+  q_{2}^{3} q_{1}^{2} q_{0}^{1} v_{0} \bar{q}_{0}^{1} \bar{q}_{1}^{2} \bar{q}_{2}^{3}
+\\
+\vdots & & \vdots & & \vdots
+\end{aligned}
+$$
+
+$$
+v_{k} = q_{k-1}^{k} q_{k-2}^{k-1} \cdots
+  q_{0}^{1} v_{0} \bar{q}_{0}^{1} \cdots
+  \bar{q}_{k-2}^{k-1} \bar{q}_{k-1}^{k}
+$$
+
+$$
+q_{0}^{k} = q_{k-1}^{k} q_{k-2}^{k-1} \cdots q_{0}^{1}
+$$
+
+## Rotate Frame
+
+<center>
+  <img
+    src={useBaseUrl("img/etc/project/ahrs/ahrs-quaternions-rotate-frame.png")}
+  />
+</center>
+
+처음에 A와 B 좌표계는 동일했다가 B 좌표계가 $\vec{a}\left(||\vec{a}|| = 1\right)$를 기준으로 $\theta$만큼 회전했다고 가정하겠습니다.
+
+${}^{A}\vec{v}$는 A에서 관찰한 $\vec{v}$입니다. ${}^{A}\vec{v}$는 회전하기 전 B 좌표계에서 관찰한 $\vec{v}$라고 생각할 수도 있습니다.
+
+${}^{B}\vec{v}$는 회전 후 B에서 관찰한 $\vec{v}$입니다.
+
+**B 좌표계 위에 있는 관찰자 입장**에서 보면 ${}^{A}\vec{v}$가 $\vec{a}$를 기준으로 $-\theta$만큼 회전하여 ${}^{B}\vec{v}$가 되었다고 생각할 수 있습니다.
+
+반대로 ${}^{B}\vec{v}$가 $\vec{a}$를 기준으로 $\theta$만큼 회전하면 ${}^{A}\vec{v}$라고 생각할 수 있습니다.
+
+Vector 회전식을 이용하여 ${}^{A}\vec{v}$와 ${}^{B}\vec{v}$의 관계를 식으로 나타내면 아래와 같습니다.
+을
+
+$$
+\begin{aligned}
+{}^{A}v & = q({}^{B}v)\bar{q} = q_{B}^{A}({}^{B}v)\bar{q}_{B}^{A}
+\\
+& =\begin{bmatrix}
+  1-2({q_y}^2+{q_z}^2)  &  2(q_x q_y - q_z q_w)  &  2(q_x q_z + q_y q_w)  &  0  \\
+  2(q_x q_y + q_z q_w)  &  1-2({q_x}^2+{q_z}^2)  &  2(q_y q_z - q_x q_w)  &  0  \\
+  2(q_x q_z - q_y q_w)  &  2(q_y q_z + q_x q_w)  &  1-2({q_x}^2+{q_y}^2)  &  0  \\
+  0  &  0  &  0  &  1
+  \end{bmatrix}
+  \begin{bmatrix}
+  {}^{B}v_x \\ {}^{B}v_y \\ {}^{B}v_z \\ 0
+  \end{bmatrix}
+\end{aligned}
+$$
+
+연속적인 회전은 아래와 같이 구할 수 있습니다.
+
+$$
+\begin{aligned}
+{}^{k-1}v & = & q_{k}^{k-1} {}^{k}v \bar{q}_{k}^{k-1} & &
+\\
+{}^{k-2}v & = & q_{k-1}^{k-2} {}^{k-1}v \bar{q}_{k-1}^{k-2} & = &
+  q_{k-1}^{k-2} q_{k}^{k-1} {}^{k}v \bar{q}_{k}^{k-1} \bar{q}_{k-1}^{k-2}
+\\
+{}^{k-3}v & = & q_{k-2}^{k-3} {}^{k-2}v \bar{q}_{k-2}^{k-3} & = &
+  q_{k-2}^{k-3} q_{k-1}^{k-2} q_{k}^{k-1} {}^{k}v \bar{q}_{k}^{k-1} \bar{q}_{k-1}^{k-2} \bar{q}_{k-2}^{k-3}
+\\
+\vdots & & \vdots & & \vdots
+\end{aligned}
+$$
+
+$$
+{}^{0}v = q_{1}^{0} q_{2}^{1} \cdots
+  q_{k}^{k-1} {}^{k}v \bar{q}_{k}^{k-1} \cdots
+  \bar{q}_{2}^{1} \bar{q}_{1}^{0}
+$$
+
+$$
+q_{k}^{0} = q_{1}^{0} q_{2}^{1} \cdots q_{k}^{k-1}
+$$
+
+## Small angle approximation
+
+Taylor Series에 의해 sin함수와 cos함수는 아래와 같은 다항식으로 나타낼 수 있습니다.
+
+$$
+\begin{aligned}
+\sin{\cfrac{\theta}{2}} & = \cfrac{\theta}{2} - \cfrac{1}{3!}\left(\cfrac{\theta}{2}\right)^3
+  + \cfrac{1}{5!}\left(\cfrac{\theta}{2}\right)^5 - \cdots
+\\
+\cos{\cfrac{\theta}{2}} & = 1 - \cfrac{1}{2!}\left(\cfrac{\theta}{2}\right)^2
+  + \cfrac{1}{4!}\left(\cfrac{\theta}{2}\right)^4 - \cdots
+\end{aligned}
+$$
+
+$\theta\to0$ 라고 가정하면 sin함수와 cos함수는 아래와 같이 나타낼 수 있습니다.
+
+$$
+\begin{aligned}
+\sin{\cfrac{\theta}{2}} & \approx \cfrac{\theta}{2}
+\\
+\cos{\cfrac{\theta}{2}} & \approx 1
+\end{aligned}
+$$
+
+따라서 회전각이 충분히 작을 때, 회전 쿼터니언은 아래와 같이 나타낼 수 있습니다.
+
+$$
+\begin{aligned}
+\underline{q}\left(\vec{a},\theta\right) & =
+  \begin{bmatrix}
+  \vec{a}\sin{\left(\cfrac{\theta}{2}\right)} & \cos{\left(\cfrac{\theta}{2}\right)}
+  \end{bmatrix}^T &
+\\
+ & \approx
+  \begin{bmatrix}
+  \cfrac{\theta}{2}\vec{a} & 1
+  \end{bmatrix}^T & (\theta\to0)
+\end{aligned}
+$$

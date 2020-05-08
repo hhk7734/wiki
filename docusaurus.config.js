@@ -41,6 +41,7 @@ module.exports = {
         const labelDic = {
           avr: "AVR",
           cpp: "C++",
+          etc: "Etc",
           flutter: "Flutter",
           infineon: "Infineon",
           labview: "LabVIEW",
@@ -49,6 +50,7 @@ module.exports = {
           "linux-tools": "Linux tools",
           mcu: "MCU",
           nodejs: "Node.js",
+          project: "Project",
           python: "Python",
         };
 
@@ -109,7 +111,7 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
           remarkPlugins: [remarkMath],
-          rehypePlugins: [rehypeKatex],
+          rehypePlugins: [[rehypeKatex, {strict: false}]],
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

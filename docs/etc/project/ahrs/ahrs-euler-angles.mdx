@@ -1,0 +1,218 @@
+---
+id: ahrs-euler-angles
+title: AHRS Euler angles
+sidebar_label: Euler angles
+description: AHRS(Attitude and heading reference system) Euler angles
+keywords:
+  - AHRS
+  - Quaternions
+  - Rotations
+  - Euler angles
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+<center>
+  <img
+    src={useBaseUrl("img/etc/project/ahrs/ahrs-euler-angles-rotation.png")}
+  />
+</center>
+
+# Rotate Frame
+
+각도 계산을 위한 몇가지 가정을 하겠습니다.
+
+- global(0) frame의 관찰자가 볼 때 ${}^{0}\vec{a}$는 크기와 방향이 바뀌지 않는다.
+- 0 frame에서 회전을 시작하여 n 번째 관측된 좌표계를 n frame이라하고, 충분히 짧은 시간 간격으로 관측한다.
+- k frame에서 k+1 frame으로 회전할 때 x, y, z 축 기준으로 회전각을 측정할 수 있다.
+- 충분히 짧은 시간 관측하므로, 측정된 회전각은 **small angle approximation**을 적용해도 될만큼 충분히 작다.
+
+k frame에서 k+1 frame으로 회전할 때, **x축으로 $d\phi$**, **y축으로 $d\theta$**, **z축으로 $d\psi$**만큼 회전했다면 각 축을 기준으로 회전 쿼터니언은 아래와 같습니다.
+
+$$
+\begin{aligned}
+\underline{q}(\hat{x},d\phi)
+& = \begin{bmatrix}\sin{\cfrac{d\phi}{2}} & 0 & 0 & \cos{\cfrac{d\phi}{2}}\end{bmatrix}^T
+& \approx \begin{bmatrix}\cfrac{d\phi}{2} & 0 & 0 & 1\end{bmatrix}^T
+& (d\phi \to 0)
+\\
+\underline{q}(\hat{y},d\theta)
+& = \begin{bmatrix}0 & \sin{\cfrac{d\theta}{2}} & 0 & \cos{\cfrac{d\theta}{2}}\end{bmatrix}^T
+& \approx \begin{bmatrix}0 & \cfrac{d\theta}{2} & 0 & 1\end{bmatrix}^T
+& (d\theta \to 0)
+\\
+\underline{q}(\hat{z},d\psi)
+& = \begin{bmatrix}0 & 0 &\sin{\cfrac{d\psi}{2}} & \cos{\cfrac{d\psi}{2}}\end{bmatrix}^T
+& \approx \begin{bmatrix}0 & 0 & \cfrac{d\psi}{2} & 1\end{bmatrix}^T
+& (d\psi \to 0)
+\end{aligned}
+$$
+
+회전각이 큰 경우 회전 순서에 따라 결과가 달라지지만 충분히 작은 경우 회전 순서에 따른 결과가 크게 다르지 않습니다.
+
+$$
+q(\vec{a}_{1},\theta_{1}) q(\vec{a}_{2},\theta_{2}) \neq q(\vec{a}_{2},\theta_{2}) q(\vec{a}_{1},\theta_{1})
+$$
+
+$$
+q(\vec{a}_{1},d\theta_{1}) q(\vec{a}_{2},d\theta_{2}) \approx q(\vec{a}_{2},d\theta_{2}) q(\vec{a}_{1},d\theta_{1}) \quad d\theta \to 0
+$$
+
+k frame에서 k+1 frame으로 회전할 때, 충분히 작은 각도 변화라고 가정했으므로 임의로 Z-Y-X 순으로 회전했다고 가정하여 $\underline{q}_{k+1}^{k}$를 구하면 아래와 같습니다.
+
+$$
+\begin{matrix}
+q_{k+1}^{k} & \approx & q(\hat{z},d\psi) q(\hat{y},d\theta) q(\hat{x},d\phi) \\
+\underline{q}_{k+1}^{k} & \approx &
+  \begin{bmatrix}
+  \cfrac{d\phi}{2} & \cfrac{d\theta}{2} & \cfrac{d\psi}{2} & 1
+  \end{bmatrix}^T
+\end{matrix}
+$$
+
+각 구간별 회전각 측정을 통해 0 frame에서 n frame이 되는 회전 쿼터니언을 구할 수 있습니다.
+
+$$
+q_{n}^{0} = q_{1}^{0} q_{2}^{1} \cdots q_{n}^{n-1}
+$$
+
+$$
+\underline{q}_{n}^{0} = \begin{bmatrix} q_x & q_y & q_z & q_w \end{bmatrix}^T
+$$
+
+:::caution
+small angle approximation에 의해 시간이 흐름에 따라 **누적 오차**가 증가합니다.
+:::
+
+$$
+\begin{aligned}
+{}^{0}a & = q_{n}^{0} {}^{n}a \bar{q}_{n}^{0}
+\\
+{}^{0}\underline{a} & = R(\bar{q}_{n}^{0}) L(q_{n}^{0}) {}^{n}\underline{a}
+\\
+& = \begin{bmatrix}
+1-2({q_y}^2+{q_z}^2)  &  2(q_x q_y - q_z q_w)  &  2(q_x q_z + q_y q_w)  &  0  \\
+2(q_x q_y + q_z q_w)  &  1-2({q_x}^2+{q_z}^2)  &  2(q_y q_z - q_x q_w)  &  0  \\
+2(q_x q_z - q_y q_w)  &  2(q_y q_z + q_x q_w)  &  1-2({q_x}^2+{q_y}^2)  &  0  \\
+0  &  0  &  0  &  1
+\end{bmatrix} {}^{n}\underline{a}
+\end{aligned}
+$$
+
+# Euler angles
+
+x축, y축, z축 각 축을 기준으로하는 회전 행렬은 아래와 같습니다.
+
+$$
+\begin{aligned}
+rot(X,\phi) & = &
+\begin{bmatrix}
+1 & 0 & 0 & 0
+\\
+0 & \cos{\phi} & -\sin{\phi} & 0
+\\
+0 & \sin{\phi} & \cos{\phi} & 0
+\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\\
+rot(Y,\theta) & = &
+\begin{bmatrix}
+\cos{\theta} & 0 & \sin{\theta} & 0
+\\
+0 & 1 & 0 & 0
+\\
+-\sin{\theta} & 0 & \cos{\theta} & 0
+\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\\
+rot(Z,\psi) & = &
+\begin{bmatrix}
+\cos{\psi} & -\sin{\psi} & 0 & 0
+\\
+\sin{\psi} & \cos{\psi} & 0 & 0
+\\
+0 & 0 & 1 & 0
+\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\end{aligned}
+$$
+
+Euler angles에는 proper Euler angles과 Tait-Bryan angles 두 그룹이 있습니다. 각 그룹은 6개의 회전 순서를 갖습니다.
+
+AHRS 구성을 위해 **Z-Y-X 순서를 사용하는 Tait-Bryan angle**을 사용하겠습니다.
+
+일반적으로 Z축을 **Yaw**, Y축을 **Pitch**, X축을 **Roll**이라고 부릅니다. 방향은 아래 그림과 같이 설정하겠습니다.
+
+<center>
+  <img src={useBaseUrl("img/etc/project/ahrs/ahrs-euler-angles-axis.png")} />
+</center>
+
+Z-Y-X Euler angle에 의한 회전행렬은 아래와 같습니다.
+
+$$
+\begin{aligned}
+{}^{0}\underline{a}
+& = rot(Z,\psi) rot(Y,\theta) rot(X,\phi) {}^{n}\underline{a} = R_{n}^{0}
+\\
+
+& = \begin{bmatrix}
+\cos{\theta}\cos{\psi}  &  R_{12}  &  R_{13}  &  0  \\
+\cos{\theta}\sin{\psi}  &  R_{22}  &  R_{23}  &  0  \\
+-\sin{\theta}  &  \sin{\phi}\cos{\theta}  &  \cos{\phi}\cos{\theta}  &  0  \\
+0  &  0  &  0  &  1
+\end{bmatrix} {}^{n}\underline{a}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+R_{12} & = \sin{\phi} \sin{\theta} \cos{\psi} - \cos{\phi} \sin{\psi}
+\\
+R_{13} & = \cos{\phi} \sin{\theta} \cos{\psi} + \sin{\phi} \sin{\psi}
+\\
+R_{22} & = \sin{\phi} \sin{\theta} \sin{\psi} + \cos{\phi} \cos{\psi}
+\\
+R_{23} & = \cos{\phi} \sin{\theta} \sin{\psi} - \sin{\phi} \cos{\psi}
+\end{aligned}
+$$
+
+# Quaternions and Euler angles
+
+회전각의 측정을 통해 쿼터니언 회전 행렬의 경우 값을 알 수 있는 행렬입니다. 쿼터니언 회전 행렬과 Euler angle(Z-Y-X) 회전 행렬을 비교하면 AHRS 를 통해 구하고자 하는 Attitude와 Heading을 구할 수 있습니다.
+
+$$
+\begin{aligned}
+\begin{bmatrix}
+1-2({q_y}^2+{q_z}^2)  &  2(q_x q_y - q_z q_w)  &  2(q_x q_z + q_y q_w)  &  0  \\
+2(q_x q_y + q_z q_w)  &  1-2({q_x}^2+{q_z}^2)  &  2(q_y q_z - q_x q_w)  &  0  \\
+2(q_x q_z - q_y q_w)  &  2(q_y q_z + q_x q_w)  &  1-2({q_x}^2+{q_y}^2)  &  0  \\
+0  &  0  &  0  &  1
+\end{bmatrix} \\
+=
+\begin{bmatrix}
+\cos{\theta}\cos{\psi}  &  R_{12}  &  R_{13}  &  0  \\
+\cos{\theta}\sin{\psi}  &  R_{22}  &  R_{23}  &  0  \\
+-\sin{\theta}  &  \sin{\phi}\cos{\theta}  &  \cos{\phi}\cos{\theta}  &  0  \\
+0  &  0  &  0  &  1
+\end{bmatrix}
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\begin{bmatrix} \phi \\ \theta \\ \psi \end{bmatrix}
+=
+\begin{bmatrix}
+atan2\left( 2\left( q_y q_z + q_x q_w \right) , 1-2\left( q_x^2 + q_y^2 \right) \right)
+\\
+asin\left( 2\left( q_y q_w - q_x q_z \right) \right)
+\\
+atan2\left( 2\left( q_x q_y + q_z q_w \right) , 1-2\left( q_y^2 + q_z^2 \right) \right)
+\end{bmatrix}
+\end{aligned}
+$$
