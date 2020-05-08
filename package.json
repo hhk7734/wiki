@@ -6,7 +6,9 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "docker-build": "docker build --tag hhk7734/wiki-loliot-net:1.0 . && docker push hhk7734/wiki-loliot-net:1.0",
+    "docker-update": "docker stack deploy -c docker-compose.yml wiki"
   },
   "dependencies": {
     "@docusaurus/core": "^2.0.0-alpha.50",
