@@ -1,5 +1,7 @@
 const path = require("path");
 const _fs = require("fs");
+const remarkMath = require("remark-math");
+const rehypeKatex = require("rehype-katex");
 
 module.exports = {
   title: "loliot",
@@ -106,6 +108,8 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
+          remarkPlugins: [remarkMath],
+          rehypePlugins: [rehypeKatex],
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
