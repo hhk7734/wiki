@@ -8,6 +8,9 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && echo "d
 RUN apt update && apt install yarn -y
 RUN yarn install
 COPY . .
+
+RUN wc -c node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js | grep 1776 -q && mv search.js node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js
+
 RUN yarn build
 
 FROM nginx:latest

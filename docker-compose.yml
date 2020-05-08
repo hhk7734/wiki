@@ -3,9 +3,17 @@ services:
   wiki:
     build: .
     image: hhk7734/wiki-loliot-net:1.0
+    hostname: "{{.Task.Name}}"
+    deploy: mode replicated
+    replicas: 1
     ports:
       - 80:80
       - 443:443
     volumes:
       - /etc/letsencrypt:/etc/letsencrypt
       - /etc/nginx/sites-available/default:/etc/nginx/conf.d/default.conf
+    healthcheck:
+      test: ["CMD", "curl", "-f", "{{.Task.Name}}"]
+      interval: 3s
+      timeout: 2s
+      retries: 10
