@@ -89,6 +89,7 @@ module.exports = {
         "linux/linux-tools/git/git-github-issue",
       ],
     },
+    "linux/linux-tools/linux-ssh-scp",
   ],
   labview: [
     "lang/labview/labview-creating-project-and-vi",

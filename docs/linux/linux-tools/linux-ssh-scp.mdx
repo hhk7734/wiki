@@ -1,0 +1,49 @@
+---
+id: linux-ssh-scp
+title: SSH and SCP
+description: SSH and SCP
+keywords:
+  - SSH
+  - SCP
+---
+
+# 키 생성
+
+```shell
+ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
+```
+
+# ssh agent 실행
+
+```shell
+eval "$(ssh-agent -s)"
+```
+
+# 키 등록
+
+```shell
+ssh-add ~/.ssh/id_rsa
+```
+
+# 퍼블릭 키 접속할 곳에 등록
+
+```shell
+ssh-copy-id -i ~/.ssh/id_rsa.pub <remote>
+```
+
+# SCP
+
+source를 target으로 보낼 수 있는 명령어입니다.
+
+원격지의 경우 **\<user\>@\<ip\>:\<path\>** 로 구성됩니다.
+
+```shell
+scp [options] <source> <target>
+```
+
+# 파일 권한
+
+```shell
+sudo chmod 700 ~/.ssh
+sudo chmod 600 ~/.ssh/*
+```
