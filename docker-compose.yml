@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  wiki:
+    build: .
+    image: hhk7734/wiki-loliot-net:1.0
+    ports:
+      - 80:80
+      - 433:433
+    volumes:
+      -/etc/letsencrypt:/etc/letsencrypt
+      -/etc/nginx/sites-available/default:/etc/nginx/conf.d/default.conf
