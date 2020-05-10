@@ -67,14 +67,14 @@ CFLAGS  = $(C_FLAGS)
 CFLAGS += -fpack-struct
 
 CXXFLAGS  = $(C_FLAGS)
-CXXFLAGS += -std=c++11
+CXXFLAGS += -std=c++17
 
 LDFLAGS  = -mmcu=$(MCU_TARGET) -Wl,-Map,$(BUILD_DIR)/$(TARGET).map
 LDFLAGS += -Wl,--gc-sections
 
 CSRCS =
 
-CXXSRCS = main.cpp
+CXXSRCS =
 
 INC_DIRS =
 INC_DIRS += $(addprefix -I,$(sort $(dir $(CSRCS))))
@@ -103,7 +103,7 @@ vpath %.cpp $(sort $(dir $(CXXSRCS)))
 $(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
     $(CXX) $(CXXFLAGS) $(INC_DIRS) -Wa,-a,-ad,-alms=$(@:.o=.lst) -c -o $@ $<
 
-OBJS  = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SRC:.c=.o)))
+OBJS  = $(addprefix $(BUILD_DIR)/,$(notdir $(CSRCS:.c=.o)))
 OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(CXXSRCS:.cpp=.o)))
 OBJS += $(call rwildcard,obj,*.o)
 
