@@ -1,0 +1,125 @@
+---
+id: makefile-avr-example
+title: Makefile AVR example
+sidebar_label: AVR example
+description: Makefile AVR example
+keywords:
+  - Makefile
+  - AVR
+---
+
+:::caution
+명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.
+:::
+
+```makefile
+# C/C++ AVR Makefile
+# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin
+PREFIX = avr-
+
+TARGET =
+MCU_TARGET=
+MCU_F_CPU =
+
+DEBUG = 1
+
+PROGRAMMER =
+PORT =
+BAUDRATE =
+BITCLOCK = 0.5 # ms
+
+BUILD_DIR = build
+
+UPLOAD = avrdude -p$(MCU_TARGET) -c$@ -v -Uflash:w:$(BUILD_DIR)/$(TARGET).elf:e
+# Disable flash auto erase
+# UPLOAD += -D
+
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+
+ifdef GCC_PATH
+CC = $(GCC_PATH)/$(PREFIX)gcc
+CXX = $(GCC_PATH)/$(PREFIX)g++
+CP = $(GCC_PATH)/$(PREFIX)objcopy
+OD = $(GCC_PATH)/$(PREFIX)objdump
+SZ = $(GCC_PATH)/$(PREFIX)size
+else
+CC = $(PREFIX)gcc
+CXX = $(PREFIX)g++
+CP = $(PREFIX)objcopy
+OD = $(PREFIX)objdump
+SZ = $(PREFIX)size
+endif
+
+# C, CXX COMMON
+C_FLAGS  = -Wall -mmcu=$(MCU_TARGET) -DF_CPU=$(MCU_F_CPU)
+C_FLAGS += -O1
+C_FLAGS += -ffunction-sections -fdata-sections
+C_FLAGS += -fshort-enums
+
+# Dependency
+C_FLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
+
+ifeq ($(DEBUG), 1)
+C_FLAGS += -g
+endif
+
+CFLAGS  = $(C_FLAGS)
+CFLAGS += -fpack-struct
+
+CXXFLAGS  = $(C_FLAGS)
+CXXFLAGS += -std=c++11
+
+LDFLAGS  = -mmcu=$(MCU_TARGET) -Wl,-Map,$(BUILD_DIR)/$(TARGET).map
+LDFLAGS += -Wl,--gc-sections
+
+CSRCS =
+
+CXXSRCS = main.cpp
+
+INC_DIRS =
+INC_DIRS += $(addprefix -I,$(sort $(dir $(CSRCS))))
+INC_DIRS += $(addprefix -I,$(sort $(dir $(CXXSRCS))))
+
+all : $(BUILD_DIR)/$(TARGET).elf $(BUILD_DIR)/$(TARGET).hex
+
+.PHONY: clean
+clean: ;rm -rf $(BUILD_DIR)
+
+.PHONY: upload
+upload: $(PROGRAMMER)
+
+.PHONY:clang-format
+clang-format: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h)
+    clang-format -style=file -i -verbose $^
+
+$(BUILD_DIR):
+    mkdir $@
+
+vpath %.c $(sort $(dir $(CSRCS)))
+$(BUILD_DIR)/%.o: %.c | $(BUILD_DIR)
+    $(CC) $(CFLAGS) $(INC_DIRS) -Wa,-a,-ad,-alms=$(@:.o=.lst) -c -o $@ $<
+
+vpath %.cpp $(sort $(dir $(CXXSRCS)))
+$(BUILD_DIR)/%.o: %.cpp | $(BUILD_DIR)
+    $(CXX) $(CXXFLAGS) $(INC_DIRS) -Wa,-a,-ad,-alms=$(@:.o=.lst) -c -o $@ $<
+
+OBJS  = $(addprefix $(BUILD_DIR)/,$(notdir $(C_SRC:.c=.o)))
+OBJS += $(addprefix $(BUILD_DIR)/,$(notdir $(CXXSRCS:.cpp=.o)))
+OBJS += $(call rwildcard,obj,*.o)
+
+$(BUILD_DIR)/$(TARGET).elf: $(OBJS)
+    $(CXX) $(LDFLAGS) -o $@ $^
+    $(OD) -h -S "$@" > "$(@:%.elf=%.lss)"
+    $(SZ) -C --mcu=$(MCU_TARGET) $@
+
+$(BUILD_DIR)/$(TARGET).hex: $(BUILD_DIR)/$(TARGET).elf
+    $(CP) -j .text -j .data -O ihex $< $@
+
+-include $(wildcard $(BUILD_DIR)/*.d)
+
+stk500: ;$(UPLOAD) -P$(PORT)
+avrispmkII: ;$(UPLOAD) -B$(BITCLOCK)
+arduino: ;$(UPLOAD) -P$(PORT) -b$(BAUDRATE)
+wiring: ;$(UPLOAD) -P$(PORT) -b$(BAUDRATE)
+atmelice_isp: ;$(UPLOAD)
+```

@@ -1,0 +1,352 @@
+---
+id: makefile-basics
+title: Makefile Basics
+sidebar_label: Basics
+description: Makefile Basics
+keywords:
+  - Makefile
+---
+
+Ref
+
+- [https://wiki.kldp.org/KoreanDoc/html/GNU-Make/GNU-Make.html](https://wiki.kldp.org/KoreanDoc/html/GNU-Make/GNU-Make.html)
+- [https://www.gnu.org/software/make/manual/make.html](https://www.gnu.org/software/make/manual/make.html)
+
+컴파일을 할 때, 상황에 따라 옵션을 변경하고, 명령어를 타이핑 하는 일이 쉽지는 않습니다. 시스템이 복잡해지면 복잡해질 수록 의존성을 고려해서 컴파일 순서를 정하는 것에는 한계를 느끼게 됩니다.
+
+매번하는 작업을 최대한 효율적으로 관리하고 실행하기 위해서 **Makefile**이라는 형식을 사용하고 **make**라는 명령을 사용합니다.
+
+# Installation
+
+## macOS
+
+xcode command line tools에 포함되어 있습니다.
+
+## Linux(debian)
+
+```shell
+sudo apt install -y make
+```
+
+## Windows
+
+Download: [http://gnuwin32.sourceforge.net/packages/make.htm](http://gnuwin32.sourceforge.net/packages/make.htm)
+
+**<path\>/bin**을 환경 변수의 Path에 등록합니다. 별도 수정 없이 설치했다면 **C:\Program Files (x86)\GnuWin32\bin**입니다.
+
+# Makefile
+
+## Format
+
+기본적인 Makefile의 형식은 아래와 같습니다.
+
+```makefile
+# comment
+VAR = VALUE
+
+target1: dependency1
+    command1
+
+dependency1: dependency2 dependency3
+    command2
+    command3
+    command4
+```
+
+- **Macro**: 매크로, 반복적으로 사용되는 내용
+- **Target**: 타겟, 하위 명령이 수행되어 나온 결과물
+- **Dependency**: 의존성, Target이 만들어지기 위해 필요한 입력
+- **Command**: 명령어, Target을 만들기 위해 수행되는 명령어
+
+처음에 **Macro**를 선언합니다. 매크로 선언 중 가장 기본은 **A = B**입니다.
+
+길어서 줄을 나누고 싶으면 **마지막에 \ 를 붙여야합니다.** **A = B**가 선언되어 있다면 **\$(A)**는 make가 실행될때 B로 치환되어 실행됩니다.
+
+**Dependency**는 없어도 되고, 하나 또는 여러개를 가지고 있어도 됩니다. **위의 예처럼 dependency1이 타겟으로 선언된 경우, target1의 결과를 얻기 전에 먼저 dependency1(타겟)이 실행됩니다.**
+
+이를 이용하면 순차적인 일을 진행할 수 있습니다. 예를 들어 소스 파일(.c)을 실행 파일(.out)로 만들 때, 중간에 오브젝트 파일(.o)이 만들어진다고 하면 test.c -> test.o -> test.out 순서로 생성되어야 합니다. 이는 아래와 같이 작성될 수 있습니다.
+
+```makefile
+test.out: test.o
+    gcc -o test.out test.o
+
+test.o: test.c
+    gcc -Os -c -o test.o test.c
+```
+
+:::caution
+명령어는 **Tab으로 시작**되어야 합니다. editor를 사용하다보면 자동으로 공백문자로 변환해주는 기능을 사용하는 경우가 있습니다. 그런 경우 탭이 공백문자로 바뀌어서 make 실행시 오류가 발생합니다.
+:::
+
+작성된 Makefile을 실행시켜보면 아래와 같은 결과를 얻을 수 있습니다.
+
+```shell
+make
+```
+
+```shell
+gcc -c -Os -o test.o test.c
+gcc -o test.out test.o
+```
+
+## Command
+
+```shell
+make [target] [VAR=VALUE]
+```
+
+**target**이 없으면 Makefile의 가장 첫번째 target을 실행합니다. 일반적으로 가장 첫번째 target으로 all을 사용합니다.
+
+**VAR=VALUE**를 추가적으로 정의해서 Makefile을 실행할 수도 있습니다.
+
+# Automatic Variables(자동 변수)
+
+- `$@`: 타겟
+- `$<`: 첫 번째 의존성
+- `$?`: 수정된 의존성
+- `$^`: 모든 의존성
+- `$*`: 접미어를 제거한 타겟 명(인식된 접미어가 아닌경우 공백 문자로 처리됨)
+
+자동 변수를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+```makefile
+test.out: test.o
+    gcc -o test.out test.o
+```
+
+```makefile
+test.out: test.o
+    gcc -o $@ $^
+```
+
+`$`의 사용방법을 정확히 알지 못한다면 사용을 피하는 것이 좋습니다.
+
+# Pre-defined Macro
+
+아래 명령어를 통해 Pre-defined Macro를 확인할 수 있습니다.
+
+```shell
+make -p | vim -
+```
+
+- **CC**: 컴파일러, 기본적으로 CC=cc, 상황에 따라 오버라이딩하여 사용
+- **CFLAGS**: 컴파일 옵션, 기본적으로 정의는 안되어 있지만 내부적으로 사용
+- **LDFLAGS**: 링커 옵션, 기본적으로 정의는 안되어 있지만 내부적으로 사용
+
+`COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c`는 내부적으로 정의되어 있습니다. **CC**를 제외한 나머지 매크로는 내부적으로 정의되어 있지 않아서 실제 매크로가 적용될 때는 `COMPILE.c = $(CC) -c`로 적용됩니다.
+
+사용자가 **CFLAGS**를 정의하면 `COMPILE.c = $(CC) $(CFLAGS) -c`가 적용 됩니다.
+
+매크로와 내부 매크로를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+```makefile
+test.out: test.o
+    gcc -o $@ $^
+test.o: test.c
+    gcc -c -Os -o $@ $^
+```
+
+```makefile
+CC = gcc
+CFLAGS  = -Os
+LDFLAGS =
+
+test.out: test.o
+    $(CC) $(LDFLAGS) -o $@ $^
+
+test.o: test.c
+```
+
+마지막 `test.o: test.c`는 내부적으로 **.c.o**가 아래와 같이 정의되어 있기 때문에 command가 없어도 됩니다.
+
+```makefile
+COMPILE.c = $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+OUTPUT_OPTION = -o $@
+.c.o:
+    $(COMPILE.c) $(OUTPUT_OPTION) $<
+```
+
+# clean
+
+컴파일 과정에서 생기는 파일의 경우 지워야 하는 경우도 있습니다. 주로 **clean**이라는 타겟을 만들어 아래와 같이 사용하게 됩니다.
+
+```makefile
+.PHONY: clean
+clean: ; rm -f test.o test.out
+```
+
+.PHONY 타겟의 의존성으로 clean을 설정하면, 실제 파일의 유무나 변경과 관계없이 clean 타겟의 커맨드를 항상 실행시킬 수 있습니다.
+
+# Pattern Rules(패턴)
+
+`%`를 사용하면 Makefile과 같은 폴더에 있는 파일 중 패턴이 있는 내용을 쉽게 작성할 수 있습니다.
+
+패턴을 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+```makefile
+main.o: main.c
+foo.o: foo.c
+bar.o: bar.c
+```
+
+```makefile
+%.o: %.c
+    $(CC) $(CFLAGS) -c -o $@ $<
+```
+
+## vpath
+
+- `vpath pattern directories`: %.c, %.h 등의 pattern을 찾기 위한 directories를 설정
+- `vpath pattern`: pattern을 찾기 위한 directories 목록을 비움
+- `vpath`: 모든 directories 목록을 비움
+
+여러 폴더에 있는 파일 중 패턴이 있는 내용을 쉽게 작성할 수 있습니다.
+
+vpath를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+```makefile
+main.o: src/main.c
+foo.o: lib/foo/foo.c
+```
+
+```makefile
+vpath %.c src lib/foo
+
+%.o: %.c
+    $(CC) $(CFLAGS) -c -o $@ $<
+```
+
+# Function
+
+x...은 띄어쓰기로 구분하여 나열된 여러 개의 x를 의미합니다. 함수의 결과가 여러 개인 경우에도 띄어쓰기로 구분되어 나열됩니다.
+
+예를 들어 x...은 x1 x2 x3가 될 수 있습니다.
+
+## wildcard
+
+`$(wildcard pattern...)`는 Makefile과 같은 폴더에 있는 파일 중 **pattern**들에 해당하는 파일 명을 나열합니다.
+
+wildcard를 사용할 때, 패턴으로 %.c가 아니라 \*.c를 사용합니다.
+
+함수를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+(폴더에 main.o, foo.o, bar.o 가 있는 경우입니다.)
+
+```makefile
+OBJS  = main.o foo.o bar.o
+```
+
+```makefile
+OBJS  = $(wildcard *.o)
+```
+
+## (pat)subst
+
+- `$(subst from,to,text)`: text에서 from을 찾아 to로 바꿉니다.
+- `$(patsubst pattern,replacement,text)`: text에서 pattern을 찾아 replacement로 바꿉니다.
+- `$(Macro:pattern=replacement)` == `$(patsubst pattern,replacement,$(Macro))`
+
+함수를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+(폴더에 main.c, foo.c, bar.c 가 있는 경우입니다.)
+
+```makefile
+OBJS  = main.o foo.o bar.o
+```
+
+```makefile
+SRCS  = $(wildcard *.c)
+OBJS  = $(patsubst %.c,%.o,$(SRCS))
+```
+
+## add suffix,prefix
+
+- `$(addsuffix suffix,names…)`
+- `$(addprefix prefix,names…)`
+
+함수를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+(폴더에 main.c, foo.c, bar.c 가 있는 경우입니다.)
+
+```makefile
+OBJS  = obj/main.o obj/foo.o obj/bar.o
+```
+
+```makefile
+SRCS  = $(wildcard *.c)
+OBJS  = $(addprefix obj/,$(patsubst %.c,%.o,$(SRCS)))
+```
+
+## foreach
+
+`$(foreach var,list,text)`는 **list**의 원소를 순차적으로 변수 **var**에 할당하여 **text**를 반복하는 함수입니다.
+
+함수를 사용하여 Makefile을 수정하면 아래와 같이 수정할 수 있습니다.
+
+(폴더에 main.c, foo.c, bar.c 가 있는 경우입니다.)
+
+```makefile
+OBJS  = obj/main.o obj/foo.o obj/bar.o
+```
+
+```makefile
+SRCS  = $(wildcard *.c)
+OBJS  = $(foreach src,$(SRCS),obj/$(patsubst %.c,%.o,$(src)))
+```
+
+## call macro
+
+- `macro = $(1) $(2) ...`: call 함수를 통해 부를 수 있는 macro 입니다. \$(1)이 param1입니다.
+- `define macro = $(1) ... endif`: 여러 줄에 걸쳐 macro를 정의할 수 있습니다.
+- `$(call macro,param1,param2,...)`
+- `$(eval macro)`: macro를 미리 확인하고 Makefile의 구문으로 정의하여 해당 결과가 makefile의 코드로 분석되게 만듭니다.
+
+**call**함수는 매크로에 매개변수를 추가하여 부분만 바꿔서 쓸 수 있게 해줍니다.
+
+macro와 call을 사용하여 디렉토리의 하위 항목을 모두 찾을 수 있는 recursive 함수를 아래와 같이 만들 수 있습니다.
+
+```makefile
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+test:
+    #현재 디렉토리와 하위 디렉토리의 모든 디렉토리와 파일
+    @echo $(call rwildcard,,*);\
+    #src 디렉토리와 src 하위 디렉토리의 모든 .c 파일
+    @echo $(call rwildcard,src,*.c)
+```
+
+**call**은 단순히 macro를 호출하고 변수의 값을 확장시켜주는 함수입니다. 따라서 tab이 있어도 makefile이 인식을 하지 못합니다. 예를 들어 아래의 경우 같은 Makefile이기 때문에 의도하지 않은 오류를 발생시킵니다.
+
+```makefile
+define asdf =
+asdf:
+    @echo asdf
+endef
+
+$(call asdf)
+```
+
+```makefile
+asdf: @echo asdf
+```
+
+**eval**함수는 **macro**를 미리 확인하고 makefile의 구문으로 정의해 줍니다.
+
+위의 예를 **eval**함수로 다시 표현하면 의도한 결과를 얻을 수 있습니다.
+
+```makefile
+define asdf =
+asdf:
+    @echo asdf
+endef
+
+$(eval $(call asdf))
+```
+
+```makefile
+asdf:
+    @echo asdf
+```
+
+:::caution
+**eval**함수를 사용하면 내부에 자동 변수를 사용할 때 `$`를 한번 더 사용해야 합니다. (`$$@`, `$$<` 등) eval함수를 사용하면 **내부 내용이 eval함수와 Makefile에 의해 2번 확장됩니다.** 따라서 **`$@`->공백->공백**, **`$$@`->`$@`->target**이 됩니다.
+:::

@@ -89,6 +89,14 @@ module.exports = {
         "linux/linux-tools/git/git-github-issue",
       ],
     },
+    {
+      type: "category",
+      label: "Makefile",
+      items: [
+        "linux/linux-tools/makefile/makefile-basics",
+        "linux/linux-tools/makefile/makefile-avr-example",
+      ],
+    },
     "linux/linux-tools/linux-ssh-scp",
     "linux/linux-tools/linux-udev",
   ],
@@ -143,6 +151,7 @@ module.exports = {
             "lang/python/libraries/opencv/opencv-histogram"
           ],
         },
+        "lang/python/libraries/python-tkinter",
       ],
     },
     {

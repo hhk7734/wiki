@@ -1,0 +1,200 @@
+---
+id: python-tkinter
+title: Python tkinter
+description: Python tkinter
+keywords:
+  - Python
+  - tkinter
+---
+
+Ref: [https://docs.python.org/3/library/tkinter.html](https://docs.python.org/3/library/tkinter.html)
+
+# Widgets
+
+- `tkinter.Button`
+- `tkinter.CheckButton`
+- `tkinter.RadioButton`
+- `tkinter.MenuButton`
+- `tkinter.Menu`
+- `tkinter.Scale`
+- `tkinter.Listbox`
+- `tkinter.SpinBox`
+- `tkinter.Test`: 텍스트 여러 줄 입/출력
+- `tkinter.Entry`: 텍스트 한 줄 입/출력, ex) 아이디, 암호
+- `tkinter.Label`: 이미지, 텍스트 출력
+- `tkinter.Scrollbar`
+- `tkinter.Frame`
+- `tkinter.PannedWindow`
+- `tkinter.TopLevel`: 새 창
+
+# Layout
+
+- `tkinter.widget.place`: 절대 위치, grid나 pack과 함께 사용 가능
+- `tkinter.widget.pack`: 상대 위치
+- `tkinter.widget.grid`: 격자
+
+# bind
+
+- `tkinter.widget.command`: 버튼 등 일부 위젯에만 있음
+- `tkinter.widget.bind`: 위젯에서 일어나는 특정 **event**에 맞춰 정해진 함수 실행
+
+# messagebox
+
+```python
+import tkinter.messagebox
+```
+
+- `tkinter.messagebox.showinfo`
+- `tkinter.messagebox.showwarning`
+- `tkinter.messagebox.showerror`
+- `tkinter.messagebox.askquestion`
+- `tkinter.messagebox.askokcancel`
+- `tkinter.messagebox.askretrycancel`
+- `tkinter.messagebox.askyesno`
+- `tkinter.messagebox.askyesnocancel`
+
+# Examples
+
+## Basic
+
+```python
+import tkinter as tk
+import logging
+
+logging.basicConfig(
+    format="[%(levelname)-8s] %(lineno) 4d line : %(message)s",
+    level=logging.CRITICAL,
+)
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+
+
+class UiMainWindow(tk.Frame):
+    def __init__(self, master=None):
+        super().__init__(master=master)
+        self.pack()
+
+    def setup_ui(self):
+        self.master.title("Basic")
+        self.master.resizable(False, False)
+
+        """
+        UI 설정
+        """
+
+
+class MainWindow(UiMainWindow):
+    def __init__(self, master=None):
+        super().__init__(master=master)
+        self.setup_ui()
+
+        """
+        기능
+        bind, command
+        """
+
+
+if __name__ == "__main__":
+    app = tk.Tk()
+    main_window = MainWindow(app)
+    app.mainloop()
+```
+
+## Test
+
+```python
+import tkinter
+import tkinter.messagebox
+import threading
+import queue
+
+
+class UiMainWindow(tkinter.Frame):
+    def __init__(self, master=None):
+        super().__init__(master=master)
+        self.pack()
+
+    def setup_ui(self):
+        # master는 UiMainWindow Frame을 관리하는 상위 객체
+        self.master.title("Main Window")
+        # 사이즈 조정 가능 여부 너비, 높이
+        self.master.resizable(True, True)
+        # 화면 크기
+        width = self.winfo_screenwidth()
+        height = self.winfo_screenheight()
+        # 창 크기
+        win_width = 220
+        win_height = 100
+        # "너비x높이+x좌표+y좌표"
+        self.master.geometry(
+            "{}x{}+{}+{}".format(
+                win_width,
+                win_height,
+                (width - win_width) // 2,
+                (height - win_height) // 2,
+            )
+        )
+
+        # 텍스트 입력창 추가
+        self.text_1 = tkinter.Text(self, width=30, height=5)
+        # 버튼 추가
+        self.button_1 = tkinter.Button(self, text="모두 삭제", width=13)
+        self.button_2 = tkinter.Button(self, text="삭제 확인", width=13)
+
+        # widget 위치 설정
+        self.text_1.grid(row=0, column=0, columnspan=2)
+        self.button_1.grid(row=1, column=0)
+        self.button_2.grid(row=1, column=1)
+
+
+class MainWindow(UiMainWindow):
+    def __init__(self, master=None):
+        super().__init__(master=master)
+        self.background_loop = BackgroundThread()
+        self.background_loop.start()
+
+        # UI 설정
+        self.setup_ui()
+
+        # 기능 연결
+        self.button_1.bind("<Button-1>", self.push_button_1)
+        self.button_2.bind("<Button-1>", self.push_button_2)
+
+    def push_button_1(self, event):
+        # 첫번째 줄 0번 위치부터 끝까지 삭제
+        self.text_1.delete(1.0, tkinter.END)
+
+    def push_button_2(self, event):
+        self.background_loop.add(func=self.delete_message)
+
+    def delete_message(self):
+        text = self.text_1.get(1.0, tkinter.END)
+        # yes or no 메시지 박스
+        answer = tkinter.messagebox.askyesno(
+            "메시지 삭제", '"{}" 를 지울까요?'.format(text[:-1])
+        )
+        if answer == True:
+            self.text_1.delete(1.0, tkinter.END)
+
+
+class BackgroundThread(threading.Thread):
+    def __init__(self):
+        super().__init__()
+        self.daemon = True
+        self._queue = queue.Queue()
+
+    def run(self):
+        while True:
+            func, args = self._queue.get()
+            func(*args)
+
+    def add(self, func=None, args=()):
+        if func is not None:
+            self._queue.put((func, args))
+
+
+if __name__ == "__main__":
+    app = tkinter.Tk()
+    main_window = MainWindow(app)
+    app.mainloop()
+```
