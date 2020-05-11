@@ -1,0 +1,273 @@
+---
+id: shell-script-basics
+title: Shell script Basics
+sidebar_label: Basics
+description: Shell script Basics
+keywords:
+  - shell script
+---
+
+# Basic script
+
+```shell
+#!/bin/sh
+
+# comment
+
+# command
+echo "shell script"
+```
+
+# Exit
+
+```shell
+# 스크립트 종료
+exit
+```
+
+```shell
+# 스크립트 종료, 종료 상태 반환
+# exit state
+exit 1
+```
+
+# Shellcheck
+
+```shell
+sudo apt install -y shellcheck
+```
+
+# Variables
+
+```shell
+# str1 = hello 안됨
+str1=hello
+# str2=hello world 안됨
+str2="hello world"
+# 숫자도 문자열로 저장됨
+str3=100
+# 상수
+readonly STR4="CONST"
+# 환경 변수
+export STR5="ENV"
+
+echo $str1
+# echo $str2!! 안됨
+echo ${str2}!!
+```
+
+:::caution
+shell script는 공백 사용에 주의해야 합니다.
+:::
+
+## Reserved Variable
+
+- `$HOME`: 사용자 홈 디렉토리
+- `$PATH`: 실행 파일 경로
+- `$EUID`: Effective User ID
+
+# Commands
+
+터미널에서 사용하던 커맨드를 모두 사용할 수 있습니다.
+
+```shell
+# commands
+ls /dev/i2c*
+echo "hi"
+
+stdout=$(command)
+```
+
+# Functions
+
+```shell
+sample_func() {
+    # parameter 1, 2 ,3 번
+    echo $1 $2 $3 ...
+    global_var=1
+    local local_var=1
+
+    return 1
+}
+
+sample_func arg1 arg2 arg3 ...
+
+# return -> $?
+echo $?
+```
+
+## Special parameters
+
+- `$0`: 스크립트 이름
+- `$n`: n번째 인자
+- `$*`: 모든 인자
+- `$@`: 모든 인자
+- `$#`: 인자 개수
+- `$?`: 스크립트에서 최근 실행된 명령어, 함수, 자식 스크립트 종료 상태
+
+# if 문
+
+```shell
+if [ conditional expression ]; then
+    # 하나 이상 실행이 없으면 오류 -> : 사용
+    :
+fi
+
+if test conditional expression; then
+    :
+fi
+
+if $(return 0); then
+    # 아무 함수나 사용해도 됨 return 0 -> 성공
+    :
+fi
+
+if [ expression ]; then
+    echo "true"
+else
+    echo "false"
+fi
+
+if [ expression1 ]; then
+    echo "ex1 true"
+elif [ expression2 ]; then
+    echo "ex2 true"
+fi
+```
+
+```shell
+# [ expression1 -a expression2 ]
+if [ expression1 ] && [ expression2 ]
+then
+    :
+fi
+
+# [ expression1 -o expression2 ]
+if [ expression1 ] || [ expression2 ]
+then
+    :
+fi
+```
+
+# Conditional expressions
+
+## Relation
+
+- `$num1 -eq $num2`: `num1 == num2`
+- `$num1 -ne $num2`: `num1 != num2`
+- `$num1 -gt $num2`: `num1 > num2`
+- `$num1 -ge $num2`: `num1 >= num2`
+- `$num1 -lt $num2`: `num1 < num2`
+- `$num1 -le $num2`: `num1 < = num2`
+
+## String
+
+- `"$str1" = "$str2"`: 문자열이 같으면 true
+- `"$str1" != "$str2"`: 문자열이 다른면 true
+- `-z "$str"`: 빈 문자열이면 true
+- `-n "$str"`: 빈 문자열이 아니면 true
+
+## File test
+
+- `-e file`: 파일이 존재하면 true
+- `-d directory`: 디렉토리가 존재하면 true
+- `-r file`: 파일이 읽기 가능하면 true
+- `-w file`
+- `-x file`
+
+## Boolean
+
+- `! expression`: 조건이 거짓이면 true
+
+## Return 0
+
+```shell
+#!/bin/sh
+
+a() {
+    return 0
+}
+
+if a; then
+    echo "return 0 -> true"
+fi
+```
+
+# while 문
+
+```shell
+while [ conditional expression ]; do
+    :
+done
+```
+
+# for 문
+
+```shell
+for i in one two three; do
+    echo "$i"
+done
+```
+
+```shell
+# seq first last
+# $(seq 1 last) -> $(seq last)
+for i in $(seq 3 10); do
+    echo "$i"
+done
+```
+
+```shell
+# seq first increment last
+for i in $(seq 1 2 10); do
+    echo "$i"
+done
+```
+
+# case 문
+
+```shell
+case ${var} in
+    a)
+        echo "a 입니다."
+        ;;
+    b|c)
+        echo "b 또는 c 입니다."
+        ;;
+    d*)
+        echo "d로 시작하는 문자열입니다."
+        ;;
+    *)
+        echo "위 조건에 해당되지 않는 모든 문자열 입니다."
+        ;;
+esac
+```
+
+# Importing other scripts
+
+```shell
+#!/bin/sh
+
+sub_func() {
+    echo "sub"
+}
+```
+
+```shell
+#!/bin/sh
+
+# . /abs_path/sub.sh
+. ./sub.sh
+
+sub_func
+```
+
+# Arithmetic operations
+
+```shell
+$((expression))
+
+a=1
+b=2
+c=$(( a + b )) # 3
+```

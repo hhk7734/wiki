@@ -1,0 +1,261 @@
+---
+id: linux-kernel-ftrace
+title: ftrace
+description: ftrace
+keywords:
+  - kernel
+  - ftrace
+---
+
+# Linux kernel configuration
+
+Ref: [https://www.kernel.org/doc/Documentation/trace/ftrace.txt](https://www.kernel.org/doc/Documentation/trace/ftrace.txt)
+
+## <board\>\_defconfig
+
+- `kernel/trace/Kconfig`: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기 바랍니다.
+- `arch/<architecture>/configs/<board>_defconfig`
+
+### Options
+
+- **`CONFIG_FTRACE=y`**: Enables the kernel tracing infrastructure.
+  - **`CONFIG_FUNCTION_TRACER=y`**: Enables the kernel to trace every kernel function.
+    - **`CONFIG_FUNCTION_GRAPH_TRACER=y`**: Enables the kernel to trace a function at both its return and its entry.
+    - `CONFIG_FUNCTION_PROFILER=y`: Enables the kernel function profiler. A file is created in debugfs called function_profile_enabled which defaults to zero. When a 1 is echoed into this file profiling begins, and when a zero is entered, profiling stops. A "functions" file is created in the trace_stats directory; this file shows the list of functions that have been hit and their counters.
+  - `CONFIG_IRQSOFF_TRACER=y`: Measures the time spent in irqs-off critical sections, with microsecond accuracy.
+  - `CONFIG_SCHED_TRACER=y`: Tracks the latency of the highest priority task to be scheduled in, starting from the point it has woken up.
+  - `CONFIG_TRACER_SNAPSHOT=y`: Allows tracing users to take snapshot of the current buffer using the ftrace interface.
+  - **`CONFIG_STACK_TRACER=y`**: Records the maximum stack footprint of the kernel and displays it in /sys/kernel/debug/tracing/stack_trace.
+  - **`CONFIG_DYNAMIC_FTRACE=y`**: This option will modify all the calls to function tracing dynamically (will patch them out of the binary image and replace them with a No-Op instruction) on boot up. During compile time, a table is made of all the locations that ftrace can function trace, and this table is linked into the kernel image. When this is enabled, functions can be individually enabled, and the functions not enabled will not affect performance of the system.
+
+## trace_printk
+
+`<linux/kernel.h>`에 정의되어 있는 함수입니다.
+
+> Ftrace introduces a new form of printk() called trace_printk(). It can be used just like printk(), and can also be used in any context (interrupt code, NMI code, and scheduler code). What is nice about trace_printk() is that it does not output to the console. Instead it writes to the Ftrace ring buffer and can be read via the trace file.
+
+# ftrace setup
+
+설정을 시작하기 전에 ftrace를 비활성화한 후 설정하시기 바랍니다.
+
+## ftrace on(restart)/off
+
+```shell
+echo 1 > /sys/kernel/debug/tracing/tracing_on && sleep 1
+```
+
+```shell
+echo 0 > /sys/kernel/debug/tracing/tracing_on && sleep 1
+```
+
+```shell
+cat /sys/kernel/debug/tracing/tracing_on
+```
+
+## ftrace event on/off
+
+```shell
+echo 1 > /sys/kernel/debug/tracing/events/enable && sleep 1
+```
+
+```shell
+echo 0 > /sys/kernel/debug/tracing/events/enable && sleep 1
+```
+
+```shell
+cat /sys/kernel/debug/tracing/events/enable
+```
+
+## set_ftrace_filter
+
+`/sys/kernel/debug/tracing/available_filter_functions`에 등록된 함수만 추척 가능합니다.
+
+```shell
+cat /sys/kernel/debug/tracing/available_filter_functions
+```
+
+format에 따라 함수, 모듈 등을 선택적으로 등록할 수 있습니다.
+
+:::caution
+`set_ftrace_filter`에 함수를 등록하지 않고 ftrace가 실행되면 모든 함수를 추적하기 때문에 시스템에 **과부하**가 걸려 오동작할 수 있습니다.
+:::
+
+```shell
+echo <format_1> <format_2> ... > /sys/kernel/debug/tracing/set_ftrace_filter
+```
+
+format: `<function>:<command>:<parameter>`
+
+- function
+- command
+  - mod: 함수를 모듈로 필터링할 수 있습니다.
+    - ex) `:mod:spi_gpio`를 설정하면 spi_gpio 관련 모듈 내에서 사용하는 모든 함수를 추적합니다.
+    - module의 경우 modprobe나 insmod에 의해 추가되기 전에 등록할 수 없습니다.
+  - traceon/traceoff
+  - snapshot
+  - enable_event/disable_event
+  - dump
+  - cpudump
+- parameter
+
+```shell
+cat /sys/kernel/debug/tracing/set_ftrace_filter
+```
+
+## ftrace tracer setup
+
+`/sys/kernel/debug/tracing/available_tracers`에 등록된 tracer만 설정 가능합니다.
+
+```shell
+cat /sys/kernel/debug/tracing/available_tracers
+```
+
+```shell
+echo <tracer> > /sys/kernel/debug/tracing/current_tracer && sleep 1
+```
+
+- **nop**: ftrace event만 출력
+- **function**: set_ftrace_filter에 등록된 함수를 어디에서 호출했는지 출력
+- **function_graph**: 함수 실행 시간, 세부 호출 정보 출력
+
+```shell
+echo nop > /sys/kernel/debug/tracing/current_tracer && sleep 1
+```
+
+```shell
+echo function > /sys/kernel/debug/tracing/current_tracer && sleep 1
+```
+
+```shell
+echo function_graph > /sys/kernel/debug/tracing/current_tracer && sleep 1
+```
+
+```shell
+cat /sys/kernel/debug/tracing/current_tracer
+```
+
+# Trace
+
+```shell
+cat /sys/kernel/debug/tracing/trace
+```
+
+```shell
+cat /sys/kernel/debug/tracing/trace | head -n <number>
+```
+
+```shell
+cat /sys/kernel/debug/tracing/trace | grep -n -C <number> <function>
+```
+
+tracer가 변경되면 초기화 됩니다.
+
+# Example
+
+spidev의 bus 번호가 어떻게 설정되는지 확인하는 테스트 예제입니다. 테스트는 Hardkernel Odroid-C2에서 진행했습니다.
+
+## Linux kernel configuration
+
+### <board\>\_defconfig
+
+```Makefile title="arch/<architecture>/configs/<board>_defconfig"
+CONFIG_FTRACE=y
+CONFIG_FUNCTION_TRACER=y
+CONFIG_FUNCTION_GRAPH_TRACER=y
+CONFIG_STACK_TRACER=y
+CONFIG_DYNAMIC_FTRACE=y
+```
+
+### Linux kernel driver
+
+```c title="driver/spi/spi.c"
+int spi_register_master(struct spi_master *master) {
+    ...
+
+    trace_printk("bus_num: %d\n", master->bus_num);
+    trace_printk("dev.of_node: %d\n", master->dev.of_node);
+
+    if ((master->bus_num < 0) && master->dev.of_node)
+        master->bus_num = of_alias_get_id(master->dev.of_node, "spi");
+
+    trace_printk("bus_num: %d\n", master->bus_num);
+
+    /* convention:  dynamically assigned bus IDs count down from the max */
+    if (master->bus_num < 0) {
+        /* FIXME switch to an IDR based scheme, something like
+         * I2C now uses, so we can't run out of "dynamic" IDs
+         */
+        master->bus_num = atomic_dec_return(&dyn_bus_id);
+        dynamic = 1;
+    }
+
+    trace_printk("bus_num: %d\n", master->bus_num);
+
+    ...
+}
+EXPORT_SYMBOL_GPL(spi_register_master);
+```
+
+### Build Linux kernel
+
+## ftrace setup
+
+```shell
+echo 0 > /sys/kernel/debug/tracing/tracing_on && sleep 1 &&\
+echo 0 > /sys/kernel/debug/tracing/events/enable && sleep 1 &&\
+echo '*spi_*' > /sys/kernel/debug/tracing/set_ftrace_filter && sleep 1 &&\
+echo nop > /sys/kernel/debug/tracing/current_tracer && sleep 1 &&\
+echo function_graph > /sys/kernel/debug/tracing/current_tracer && sleep 1 &&\
+echo 1 > /sys/kernel/debug/tracing/tracing_on && sleep 1
+```
+
+## Trace
+
+```shell
+cat /sys/kernel/debug/tracing/trace
+# tracer: function_graph
+#
+# CPU  DURATION                  FUNCTION CALLS
+# |     |   |                     |   |   |   |
+ 0) + 47.000 us   |  spi_register_driver();
+ ------------------------------------------
+ 0)  modprob-1885  =>  modprob-1891
+ ------------------------------------------
+
+ 0)   4.000 us    |  spi_alloc_master();
+ 0)               |  spi_register_master() {
+ 0)               |  /* bus_num: -1 */
+ 0)               |  /* dev.of_node: 1948176240 */
+ 0)               |  /* bus_num: -19 */
+ 0)               |  /* bus_num: 32764 */
+ 0)   1.000 us    |    spi_start_queue();
+ 0)   4.000 us    |    spi_alloc_device();
+ ------------------------------------------
+ 0)  modprob-1891  =>  spi3276-1893
+ ------------------------------------------
+
+ 0)   1.000 us    |  spi_pump_messages();
+ ------------------------------------------
+ 0)  spi3276-1893  =>  modprob-1891
+ ------------------------------------------
+
+ 0)               |    spi_add_device() {
+ 0) + 35.000 us   |      spi_setup();
+ 0)   1.000 us    |      spi_uevent();
+ 0)   5.000 us    |      spi_match_device();
+ 0) ! 131.000 us  |      spi_drv_probe();
+ 0) ! 318.000 us  |    }
+ 0) ! 3811.000 us |  } /* spi_register_master */
+ 1)   2.000 us    |  spi_uevent();
+ 1)   2.000 us    |  spi_uevent();
+```
+
+## Consequence
+
+수정된 spi.c 코드와 trace 내용을 비교해보면 bus 번호가 처음부터 할당되지 않아 음수였고, `of_alias_get_id()`함수 호출 후에도 할당되지 않아 음수인 것을 확인할 수 있습니다.
+
+`/* convention: dynamically assigned bus IDs count down from the max */` 라는 주석이 있습니다. 따라서 동적 할당된 bus는 32766, 32765 등의 번호를 할당 받습니다.
+
+정적으로 할당해주기 위해서 `of_alias_get_id()`에 의해 번호를 할당 받을 수 있게 하면 됩니다.
+
+예를 들어 bus 번호를 0으로 설정하고 싶은 경우 dts의 spi 노드에 `spi_0:` 같은 라벨을 붙여주고, aliases에 `spi0 = &spi_0`를 추가하면 됩니다.

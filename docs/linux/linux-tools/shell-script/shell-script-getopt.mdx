@@ -1,0 +1,138 @@
+---
+id: shell-script-getopt
+title: Shell script getopt
+sidebar_label: getopt
+description: Shell script getopt
+keywords:
+  - shell script
+  - getopt
+---
+
+Ref: [https://mug896.github.io/bash-shell/getopts.html](https://mug896.github.io/bash-shell/getopts.html)
+
+```shell
+$ script.sh a  b  c  d
+     $0     $1 $2 $3 $4
+     -------------------
+             $@
+```
+
+# getopts
+
+> **The getopts command is a POSIX Shell built-in command that retrieves options and option-arguments from a list of parameters.** An option begins with a - (minus sign) followed by a character. An option that does not begin with a - ends parsing. Each time the getopts command is invoked, it places the value of the next option in Name and the index of the next argument to be processed in the shell variable OPTIND. Whenever the shell is invoked, OPTIND is initialized to 1.
+
+```shell
+getopts <optString> option [parameters="$@"]
+```
+
+```shell
+echo $option
+echo $OPTARG
+echo $OPTIND # index of next argument
+```
+
+# getopt
+
+The disadvantage of `getopts` is that it
+
+- only parses short option
+- can't parse options after non-option arguments
+
+`getopt` is a command line utility that parses short and long options and rearranges options and non-option arguments.
+
+```shell
+getopt -o <shortOptString> -l <longOptString> -- <parameters>
+```
+
+## shortOptString
+
+```shell
+<option1>[:][<option2>[:]...]
+```
+
+When parsing `-a -b`, shortOptString is `ab`. If `-a` option requires an argument, use `:` as in `a:b`. `getopt` parses `-a a_arg` and `-aa_arg` in the same way.
+
+### Example
+
+```shell
+set -- -aa_arg -b asdf \
+&& getopt -o a:b -- "$@"
+```
+
+```shell
+ -a 'a_arg' -b -- 'asdf'
+```
+
+## longOptString
+
+```shell
+<option1>[:][,<option2>[:],...]
+```
+
+When parsing `--foo --bar`, longOptString is `foo,bar`. If `--foo` option requires an argument, use `:` as in `foo:,bar`. `getopt` parses `--foo=arg` and `--foo arg` in the same way.
+
+### Example
+
+```shell
+set -- --foo arg --bar \
+&& getopt -o "" -l foo:,bar -- "$@"
+```
+
+# Example script
+
+```shell
+#!/bin/sh
+
+RED=$(tput setaf 1)
+BOLD=$(tput bold)
+DEFAULT=$(tput sgr0)
+
+helpMsg() {
+    cat <<END
+Usage:
+    $(basename "$0") [options] [arguments]
+
+Options:
+    -a, --aaa
+    -b, --bbb <argument>
+    -c, --ccc
+
+Examples:
+END
+}
+
+if [ $# -eq 0 ] || ! options=$(getopt -o ab:c -l aaa,bbb:,ccc,help \
+    -n $(basename "$0") -- "$@"); then
+    printf "%sTry '%s --help'\n%s" "${RED}${BOLD}" "$0" "${DEFAULT}" >&2
+    exit 1
+fi
+
+eval set -- "$options"
+
+while true; do
+    case "$1" in
+    -a | --aaa)
+        echo "$1"
+        shift
+        ;;
+    -b | --bbb)
+        echo "$1" "$2"
+        shift 2
+        ;;
+    -c | --ccc)
+        echo "$1"
+        shift
+        ;;
+    --help)
+        helpMsg
+        exit 0
+        ;;
+    --)
+        shift
+        break
+        ;;
+    esac
+done
+
+echo "$@"
+```

@@ -1,0 +1,66 @@
+---
+id: build-linux-kernel
+title: Build kernel
+description: Build kernel
+keywords:
+  - kernel
+---
+
+# Toolchain
+
+Download: [https://www.linaro.org/downloads/](https://www.linaro.org/downloads/)
+
+```shell
+export PATH=/<path to toolchain>/bin:$PATH
+```
+
+```shell
+export CROSS_COMPILE=<prefix>-
+```
+
+```shell
+export ARCH=<architecture>
+```
+
+# Building Linux kernel
+
+If a customized repository exists for the board, clone or download it.
+
+Download:
+
+- [https://www.kernel.org/](https://www.kernel.org/)
+- [https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/)
+
+```shell
+git clone https://github.com/torvalds/linux.git -b <tag or branch> --single-branch
+```
+
+```shell
+cd linux
+```
+
+```shell
+make distclean
+```
+
+```shell
+make <board>_defconfig
+```
+
+If the above command fails, check `arch/<arch>/configs`. If not in `arch/<arch>/configs`, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+
+```shell
+make -j$(expr $(expr $(nproc) \* 6) \/ 5)
+```
+
+# /lib/modules
+
+```shell
+sudo make modules_install ARCH=<architecture> INSTALL_MOD_PATH=/<path to>/rootfs && sync
+```
+
+# BOOT
+
+```shell
+sudo cp arch/<architecture>/boot/<image> arch/<architecture>/boot/dts/<board>.dtb /<path to>/BOOT && sync
+```

@@ -47,6 +47,7 @@ module.exports = {
           labview: "LabVIEW",
           lang: "Programming",
           linux: "Linux",
+          "linux-kernel": "Linux kernel",
           "linux-tools": "Linux tools",
           mcu: "MCU",
           nodejs: "Node.js",

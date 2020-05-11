@@ -67,6 +67,10 @@ module.exports = {
     "mcu/infineon/tricore-development-environment",
     "mcu/infineon/tricore-uploading-executable-file-in-udevisualplatform",
   ],
+  "linux-kernel": [
+    "linux/linux-kernel/build-linux-kernel",
+    "linux/linux-kernel/linux-kernel-ftrace",
+  ],
   "linux-tools": [
     {
       type: "category",
@@ -95,6 +99,15 @@ module.exports = {
       items: [
         "linux/linux-tools/makefile/makefile-basics",
         "linux/linux-tools/makefile/makefile-avr-example",
+      ],
+    },
+    {
+      type: "category",
+      label: "Shell script",
+      items: [
+        "linux/linux-tools/shell-script/shell-script-basics",
+        "linux/linux-tools/shell-script/shell-script-text-color",
+        "linux/linux-tools/shell-script/shell-script-getopt",
       ],
     },
     "linux/linux-tools/linux-ssh-scp",

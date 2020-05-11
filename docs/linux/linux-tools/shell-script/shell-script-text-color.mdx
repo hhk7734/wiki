@@ -1,0 +1,91 @@
+---
+id: shell-script-text-color
+title: Shell script Text color
+sidebar_label: Text color
+description: Shell script Text color
+keywords:
+  - shell script
+  - Text color
+---
+
+Ref: [https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux](https://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux)
+
+# ANSI escape code
+
+Ref: [https://en.wikipedia.org/wiki/ANSI_escape_code](https://en.wikipedia.org/wiki/ANSI_escape_code)
+
+```shell
+BLACK="\033[0;30m"
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+ORANGE="\033[0;33m"
+BLUE="\033[0;34m"
+PURPLE="\033[0;35m"
+CYAN="\033[0;36m"
+LGRAY="\033[0;37m"
+
+DGRAY="\033[1;30m"
+LRED="\033[1;31m"
+LGREEN="\033[1;32m"
+YELLOW="\033[1;33m"
+LBLUE="\033[1;34m"
+LPURPLE="\033[1;35m"
+LCYAN="\033[1;36m"
+WHITE="\033[1;37m"
+
+DEFAULT="\033[0m"
+
+printf "${RED}red, ${YELLOW}yellow\n"
+echo "${BLUE}blue, ${LCYAN}light cyan"
+```
+
+# tput
+
+```shell
+tput setab [1-7] # Set the background colour using ANSI escape
+tput setaf [1-7] # Set the foreground colour using ANSI escape
+```
+
+| Num | Colour  | define        | R,G,B |
+| --- | ------- | ------------- | ----- |
+| 0   | black   | COLOR_BLACK   | 0,0,0 |
+| 1   | red     | COLOR_RED     | 1,0,0 |
+| 2   | green   | COLOR_GREEN   | 0,1,0 |
+| 3   | yellow  | COLOR_YELLOW  | 1,1,0 |
+| 4   | blue    | COLOR_BLUE    | 0,0,1 |
+| 5   | magenta | COLOR_MAGENTA | 1,0,1 |
+| 6   | cyan    | COLOR_CYAN    | 0,1,1 |
+| 7   | white   | COLOR_WHITE   | 1,1,1 |
+
+```shell
+tput bold    # Select bold mode
+tput dim     # Select dim (half-bright) mode
+tput smul    # Enable underline mode
+tput rmul    # Disable underline mode
+```
+
+```shell
+tput sgr0    # Reset text format to the terminal's default
+tput bel     # Play a bell
+tput clear   # Clear screen and move the cursor to 0,0
+```
+
+# Example
+
+```shell
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+ORANGE=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+PURPLE=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+LGRAY=$(tput setaf 7)
+
+BOLD=$(tput bold)
+
+DEFAULT=$(tput sgr0)
+
+printf "${RED}${BOLD}red, ${YELLOW}yellow\n"
+echo "${BLUE}blue, ${CYAN}light cyan"
+```
