@@ -1,0 +1,82 @@
+---
+id: avr-eeprom
+title: AVR Internal EEPROM
+sidebar_label: Internal EEPROM
+description: AVR Internal EEPROM
+keywords:
+  - AVR
+  - EEPROM
+---
+
+EEPROM은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다. ATmega328p의 경우 1 KB 사이즈의 EEPROM을 내장하고 있습니다. **비휘발성** 메모리이므로 전원이 인가되지 않아도 데이터를 기억하고 있습니다. 설정을 위해 기억하고 있어야 하는 데이터를 저장할 때 주로 쓰입니다.
+
+> It is organized as a separate data space, in which single bytes can be read and written. The EEPROM has an endurance of at least 100,000 write/erase cycles
+
+쓰기의 경우 100,000 번으로 횟수가 제한됩니다. 데이터를 저장할 때, 지우고 저장하는 것(write) 보다 **저장된 값을 확인하고 확인된 값과 비교하여 다른 경우에만 지우고 저장하는 것(update)을 권장합니다.**
+
+# <avr/eeprom.h\>
+
+## read/update
+
+```c
+eeprom_update_word((uint16_t *)0, (uint16_t)0x1234);
+uint16_t var = eeprom_read_word((uint16_t *)0);
+```
+
+```c
+eeprom_update_word((uint16_t *)0, (uint16_t)-1234);
+int16_t var = eeprom_read_word((uint16_t *)0);
+```
+
+:::info
+AVR은 Little Endian을 기본으로 합니다. `eeprom_update_word((uint16_t *)0, (uint16_t)0x1234)`를 사용하여 0 번 주소에 데이터를 저장하는 경우, 0x34 가 0 번 주소에, 0x12 가 1 번 주소에 저장됩니다.
+:::
+
+```c
+union {
+    uint64_t value;
+    uint8_t  bytes[8];
+} block;
+
+block.value = 0x0102030405060708ULL;
+eeprom_update_block((void *)block.bytes, (void *)0, 8);
+
+uint64_t var;
+eeprom_read_block((void *)&var, (void *)0, 8);
+```
+
+## EEMEM
+
+주소를 직접 설정해가며 EEPROM을 사용하면 모든 것을 사용자가 제어한다는 장점이 있습니다. 하지만 기억하기 어렵고, 가독성이 떨어집니다. 가독성을 위해 EEMEM을 사용하면 좋습니다.
+
+:::caution
+해당 변수는 전역변수나 지역변수처럼 저장되는 것이 아니기 때문에, 전역변수나 지역변수처럼 사용하면 안됩니다.
+:::
+
+```c
+#include <avr/eeprom.h>
+#include <avr/io.h>
+
+EEMEM uint8_t  set_state;
+EEMEM int16_t  set_a;
+EEMEM uint16_t set_b;
+
+int main(void) {
+    int16_t  var_a = 0;
+    uint16_t var_b = 0;
+
+    if(eeprom_read_byte(&set_state) != 1) {
+        eeprom_update_word(&set_a, (uint16_t)-123);
+        eeprom_update_word(&set_b, (uint16_t)0x1234);
+
+        eeprom_update_byte(&set_state, (uint8_t)1);
+    } else {
+        var_a = eeprom_read_word(&set_a);
+        var_b = eeprom_read_word(&set_b);
+    }
+
+    while(1) {
+
+    }
+}
+```

@@ -4,7 +4,9 @@ module.exports = {
     "mcu/avr/avr-upload-executable-file-in-terminal",
     "mcu/avr/avr-upload-executable-file-in-atmel-studio-7",
     "mcu/avr/avr-lock-and-fuse-bits",
-    "mcu/avr/avr-i2c"
+    "mcu/avr/avr-printf",
+    "mcu/avr/avr-eeprom",
+    "mcu/avr/avr-i2c",
   ],
   cpp: [
     {
@@ -116,6 +118,11 @@ module.exports = {
   labview: [
     "lang/labview/labview-creating-project-and-vi",
     "lang/labview/labview-basic-terms",
+    "lang/labview/labview-shortcut",
+    "lang/labview/labview-basic-arithmetic",
+    "lang/labview/labview-for-loop",
+    "lang/labview/labview-while-loop",
+    "lang/labview/labview-case-structure",
   ],
   nodejs: [
     {
