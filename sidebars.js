@@ -1,4 +1,9 @@
 module.exports = {
+  arduino: [
+    "mcu/arduino/arduino-platform-specification",
+    "mcu/arduino/arduino-library-specification",
+    "mcu/arduino/arduino-how-to-use-library",
+  ],
   avr: [
     "mcu/avr/avr-build-project-in-terminal",
     "mcu/avr/avr-upload-executable-file-in-terminal",
@@ -7,6 +12,19 @@ module.exports = {
     "mcu/avr/avr-printf",
     "mcu/avr/avr-eeprom",
     "mcu/avr/avr-i2c",
+  ],
+  circuit: [
+    {
+      type: "category",
+      label: "KiCad",
+      items: [
+        "etc/circuit/kicad/kicad-basics",
+      ],
+    },
+  ],
+  memo: [
+    "etc/memo/semantic-versioning-2-0-0",
+    "etc/memo/ssl-lets-encrypt",
   ],
   cpp: [
     {
@@ -67,7 +85,14 @@ module.exports = {
   ],
   infineon: [
     "mcu/infineon/tricore-development-environment",
-    "mcu/infineon/tricore-uploading-executable-file-in-udevisualplatform",
+    "mcu/infineon/tricore-upload-executable-file-in-udevisualplatform",
+    "mcu/infineon/tricore-shieldbuddy-tc275",
+    "mcu/infineon/tricore-tc27d-ports",
+    "mcu/infineon/tricore-tc27d-stm",
+    "mcu/infineon/tricore-tc27d-bsp",
+    "mcu/infineon/tricore-tc27d-asc",
+    "mcu/infineon/tricore-tc27d-terminal",
+    "mcu/infineon/tricore-tc27d-vadc",
   ],
   "linux-kernel": [
     "linux/linux-kernel/build-linux-kernel",

@@ -1,0 +1,75 @@
+---
+id: tricore-tc27d-bsp
+title: TriCore TC27D BSP(Time, GPIO)
+sidebar_label: TC27D BSP(Time, GPIO)
+description: TriCore TC27D BSP(Time, GPIO)
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - BSP
+---
+
+HW: ShieldBuddy TC275
+
+:::info
+BaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLLD를 다운로드 받아 BaseSw를 교체해주시거나 필요한 라이브러리만 추가해주시기 바랍니다.
+:::
+
+# Related header
+
+- `Bsp.h`: Board support package.
+
+# Examples
+
+```c
+#include "Bsp.h"
+#include "IfxCpu.h"
+#include "IfxPort_Io.h"
+#include "IfxPort_PinMap.h"
+#include "IfxScuWdt.h"
+#include "Ifx_Types.h"
+
+IfxCpu_syncEvent cpuSyncEvent = 0;
+
+// P10.2 핀을 OUTPUT으로 설정.
+const IfxPort_Io_ConfigPin configPin[] = {
+    {&IfxPort_P10_2,
+     IfxPort_Mode_outputPushPullGeneral,
+     IfxPort_PadDriver_cmosAutomotiveSpeed1},
+};
+
+const IfxPort_Io_Config conf
+    = {sizeof(configPin) / sizeof(IfxPort_Io_ConfigPin),
+       (IfxPort_Io_ConfigPin *)configPin};
+
+int core0_main(void) {
+    IfxCpu_enableInterrupts();
+    /*
+     * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the
+     * watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+
+    /* Cpu sync event wait*/
+    IfxCpu_emitEvent(&cpuSyncEvent);
+    IfxCpu_waitEvent(&cpuSyncEvent, 1);
+
+    initTime();
+
+    // 핀 설정 적용.
+    IfxPort_Io_initModule(&conf);
+
+    while(1) {
+        // P10.2 핀을 토글.
+        IfxPort_setPinState(&MODULE_P10, 2, IfxPort_State_toggled);
+
+        // wait( TimeConst_100ms * 5 );
+        Ifx_TickTime time = now();
+        while(now() - time < TimeConst_100ms * 5) {}
+    }
+    return 1;
+}
+```

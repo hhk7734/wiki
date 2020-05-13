@@ -1,0 +1,141 @@
+---
+id: tricore-tc27d-asc
+title: TriCore TC27D ASC(UART)
+sidebar_label: TC27D ASC(UART)
+description: TriCore TC27D ASC(UART)
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - ASC
+---
+
+HW: ShieldBuddy TC275
+
+:::info
+BaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLLD를 다운로드 받아 BaseSw를 교체해주시거나 필요한 라이브러리만 추가해주시기 바랍니다.
+:::
+
+# Related header
+
+- `IfxAsclin_cfg.h`: ASCLIN on-chip implementation data.
+- `IfxAsclin_PinMap.h`: ASCLIN I/O map.
+- `IfxAsclin_Asc.h`: ASCLIN ASC details.
+- `IfxAsclin.h`: ASCLIN basic functionality.
+
+# IfxAsclin_Asc.h
+
+> - The ASC interface driver provides a default ASCLIN configuration for asynchronous serial communication in 8bit mode, and a set of data transfer routines.
+> - Data transfers are buffered by the hardware based FIFOs, and in addition by software based FIFOs with a configurable size. Incoming and outgoing data is transfered in background from/to the ASCLIN peripheral by interrupt service handlers, which are part of this driver as well. This allows a nonblocking communication without stalling the thread(s) from where data is sent and received.
+
+# Examples
+
+:::info
+폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.
+:::
+
+`0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h`를 만들고 아래와 같이 작성합니다.
+
+```c
+#pragma once
+
+#define IFX_INTPRIO_ASCLIN3_TX 1
+#define IFX_INTPRIO_ASCLIN3_RX 2
+#define IFX_INTPRIO_ASCLIN3_ER 3
+```
+
+## Read/Write
+
+```c
+#include "IfxAsclin_Asc.h"
+#include "IfxAsclin_PinMap.h"
+#include "IfxCpu.h"
+#include "IfxCpu_Irq.h"
+#include "IfxScuWdt.h"
+#include "Ifx_IntPrioDef.h"
+#include "Ifx_Types.h"
+
+IfxCpu_syncEvent cpuSyncEvent = 0;
+
+IfxAsclin_Asc asc;
+#define ASC_TX_BUFFER_SIZE 64
+static uint8 ascTxBuffer[ASC_TX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+#define ASC_RX_BUFFER_SIZE 64
+static uint8 ascRxBuffer[ASC_RX_BUFFER_SIZE + sizeof(Ifx_Fifo) + 8];
+
+IFX_INTERRUPT(asclin3TxISR, 0, IFX_INTPRIO_ASCLIN3_TX) {
+    IfxAsclin_Asc_isrTransmit(&asc);
+}
+IFX_INTERRUPT(asclin3RxISR, 0, IFX_INTPRIO_ASCLIN3_RX) {
+    IfxAsclin_Asc_isrReceive(&asc);
+}
+IFX_INTERRUPT(asclin3ErISR, 0, IFX_INTPRIO_ASCLIN3_ER) {
+    IfxAsclin_Asc_isrError(&asc);
+}
+
+void ASC3_init(uint32 baudrate) {
+    // create module config
+    IfxAsclin_Asc_Config ascConfig;
+
+    IfxAsclin_Asc_initModuleConfig(&ascConfig, &MODULE_ASCLIN3);
+
+    // set the desired baudrate
+    ascConfig.baudrate.prescaler = 1;
+    ascConfig.baudrate.baudrate
+        = baudrate;    // FDR values will be calculated in initModule
+    // ISR priorities and interrupt target
+    ascConfig.interrupt.txPriority = IFX_INTPRIO_ASCLIN3_TX;
+    ascConfig.interrupt.rxPriority = IFX_INTPRIO_ASCLIN3_RX;
+    ascConfig.interrupt.erPriority = IFX_INTPRIO_ASCLIN3_ER;
+    ascConfig.interrupt.typeOfService
+        = IfxCpu_Irq_getTos(IfxCpu_getCoreIndex());
+    // FIFO configuration
+    ascConfig.txBuffer     = &ascTxBuffer;
+    ascConfig.txBufferSize = ASC_TX_BUFFER_SIZE;
+    ascConfig.rxBuffer     = &ascRxBuffer;
+    ascConfig.rxBufferSize = ASC_RX_BUFFER_SIZE;
+    // pin configuration
+    const IfxAsclin_Asc_Pins pins
+        = {NULL,
+           IfxPort_InputMode_pullUp,    // CTS pin not used
+           &IfxAsclin3_RXD_P32_2_IN,
+           IfxPort_InputMode_pullUp,    // Rx pin
+           NULL,
+           IfxPort_OutputMode_pushPull,    // RTS pin not used
+           &IfxAsclin3_TX_P15_7_OUT,
+           IfxPort_OutputMode_pushPull,    // Tx pin
+           IfxPort_PadDriver_cmosAutomotiveSpeed1};
+    ascConfig.pins = &pins;
+    IfxAsclin_Asc_initModule(&asc, &ascConfig);
+}
+
+int core0_main(void) {
+    IfxCpu_enableInterrupts();
+    /*
+     * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the
+     * watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+
+    /* Cpu sync event wait*/
+    IfxCpu_emitEvent(&cpuSyncEvent);
+    IfxCpu_waitEvent(&cpuSyncEvent, 1);
+
+    ASC3_init(115200);
+
+    char *    hello = "Hello\r\n";
+    Ifx_SizeT count = 7;
+
+    IfxAsclin_Asc_write(&asc, hello, &count, TIME_INFINITE);
+
+    while(1) {
+        if(IfxAsclin_Asc_getReadCount(&asc)) {
+            IfxAsclin_Asc_blockingWrite(&asc, IfxAsclin_Asc_blockingRead(&asc));
+        }
+    }
+
+    return 1;
+}
+```

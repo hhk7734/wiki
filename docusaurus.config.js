@@ -39,8 +39,10 @@ module.exports = {
 
         const sidebarConfig = require("./sidebars");
         const labelDic = {
+          arduino: "Arduino",
           avr: "AVR",
           cpp: "C++",
+          circuit: "Circuit",
           etc: "Etc",
           flutter: "Flutter",
           infineon: "Infineon",
@@ -50,6 +52,7 @@ module.exports = {
           "linux-kernel": "Linux kernel",
           "linux-tools": "Linux tools",
           mcu: "MCU",
+          memo: "Memo",
           nodejs: "Node.js",
           project: "Project",
           python: "Python",

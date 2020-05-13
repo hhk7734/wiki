@@ -1,0 +1,78 @@
+---
+id: tricore-tc27d-ports
+title: TriCore TC27D Ports(DIO)
+sidebar_label: TC27D Ports(DIO)
+description: TriCore TC27D Ports(DIO)
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - Ports
+---
+
+HW: ShieldBuddy TC275
+
+# Related header
+
+- `IfxPort_cfg.h`: PORT on-chip implementation data.
+- `IfxPort_PinMap.h`: PORT I/O map.
+- `IfxPort_Io.h`: PORT IO details.
+- `IfxPort.h`: PORT basic functionality.
+
+# IfxPort_Io.h
+
+> - The PORT I/O driver provides several functions to easily configure and read pins.
+> - The configuration includes input/output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.
+
+# Examples
+
+## Toggling a pin
+
+```c
+#include "IfxCpu.h"
+#include "IfxPort_Io.h"
+#include "IfxPort_PinMap.h"
+#include "IfxScuWdt.h"
+#include "Ifx_Types.h"
+
+IfxCpu_syncEvent cpuSyncEvent = 0;
+
+// P10.2 핀을 OUTPUT으로 설정.
+const IfxPort_Io_ConfigPin configPin[] = {
+    {&IfxPort_P10_2,
+     IfxPort_Mode_outputPushPullGeneral,
+     IfxPort_PadDriver_cmosAutomotiveSpeed1},
+};
+
+const IfxPort_Io_Config conf
+    = {sizeof(configPin) / sizeof(IfxPort_Io_ConfigPin),
+       (IfxPort_Io_ConfigPin *)configPin};
+
+int core0_main(void) {
+    IfxCpu_enableInterrupts();
+    /*
+     * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the
+     * watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+
+    /* Cpu sync event wait*/
+    IfxCpu_emitEvent(&cpuSyncEvent);
+    IfxCpu_waitEvent(&cpuSyncEvent, 1);
+
+    // 핀 설정 적용.
+    IfxPort_Io_initModule(&conf);
+
+    while(1) {
+        // P10.2 핀을 토글.
+        IfxPort_setPinState(&MODULE_P10, 2, IfxPort_State_toggled);
+
+        // Hard loop delay.
+        for(int i = 0; i < 50000000; i++) {}
+    }
+
+    return 1;
+}
+```

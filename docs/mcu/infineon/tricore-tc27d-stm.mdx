@@ -1,0 +1,108 @@
+---
+id: tricore-tc27d-stm
+title: TriCore TC27D STM(System Timer)
+sidebar_label: TC27D STM(System Timer)
+description: TriCore TC27D STM(System Timer)
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - STM
+---
+
+HW: ShieldBuddy TC275
+
+> There are as many STM modules as there are CPUs in the system. Thus each CPU can use one STM for its time base
+
+# Related header
+
+- `IfxStm_cfg.h`: STM on-chip implementation data.
+- `IfxStm.h`: STM basic functionality.
+- `IfxStm_Timer.h`: STM TIMER details.
+
+# Examples
+
+:::info
+폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.
+:::
+
+`0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h`를 만들고 아래와 같이 작성합니다.
+
+```c
+#pragma once
+
+#define IFX_INTPRIO_STM0_SR0 10
+```
+
+## 주기적인 함수 호출
+
+```c
+#include "IfxCpu.h"
+#include "IfxPort_Io.h"
+#include "IfxPort_PinMap.h"
+#include "IfxScuWdt.h"
+#include "IfxStm.h"
+#include "Ifx_IntPrioDef.h"
+#include "Ifx_Types.h"
+
+IfxCpu_syncEvent cpuSyncEvent = 0;
+
+Ifx_STM *            stmSfr;
+IfxStm_CompareConfig stmConfig;
+
+// P10.2 핀을 OUTPUT으로 설정.
+const IfxPort_Io_ConfigPin configPin[] = {
+    {&IfxPort_P10_2,
+     IfxPort_Mode_outputPushPullGeneral,
+     IfxPort_PadDriver_cmosAutomotiveSpeed1},
+};
+
+const IfxPort_Io_Config conf
+    = {sizeof(configPin) / sizeof(IfxPort_Io_ConfigPin),
+       (IfxPort_Io_ConfigPin *)configPin};
+
+IFX_INTERRUPT(stm0Sr0ISR, 0, IFX_INTPRIO_STM0_SR0) {
+    IfxStm_clearCompareFlag(stmSfr, stmConfig.comparator);
+    IfxStm_increaseCompare(stmSfr, stmConfig.comparator, stmConfig.ticks);
+
+    // 함수 호출
+    IfxPort_setPinState(&MODULE_P10, 2, IfxPort_State_toggled);
+}
+
+void STM0_init(void) {
+    stmSfr = &MODULE_STM0;
+    IfxStm_initCompareConfig(&stmConfig);
+    // configure to generate interrupt every 100 us
+    sint32 ticks              = IfxStm_getTicksFromMicroseconds(stmSfr, 100);
+    stmConfig.ticks           = ticks;
+    stmConfig.triggerPriority = IFX_INTPRIO_STM0_SR0;
+    stmConfig.typeOfService   = IfxSrc_Tos_cpu0;
+    IfxStm_initCompare(stmSfr, &stmConfig);
+}
+
+int core0_main(void) {
+    IfxCpu_enableInterrupts();
+    /*
+     * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the
+     * watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+
+    /* Cpu sync event wait*/
+    IfxCpu_emitEvent(&cpuSyncEvent);
+    IfxCpu_waitEvent(&cpuSyncEvent, 1);
+
+    // 핀 설정 적용.
+    IfxPort_Io_initModule(&conf);
+
+    STM0_init();
+
+    while(1) {
+
+    }
+
+    return 1;
+}
+```

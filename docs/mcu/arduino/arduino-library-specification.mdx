@@ -1,0 +1,76 @@
+---
+id: arduino-library-specification
+title: Arduino Library specification
+sidebar_label: Library specification
+description: Arduino Library specification
+keywords:
+  - Arduino
+  - library
+  - specification
+---
+
+Ref: [https://arduino.github.io/arduino-cli/library-specification/](https://arduino.github.io/arduino-cli/library-specification/)
+
+# Layout of folders and files
+
+```shell
+Arduino
+└── libraries
+    └── my_lib/
+        ├── examples/
+        ├── keywords.txt
+        ├── library.properties
+        └── src/
+            ├── my_lib.cpp
+            └── my_lib.h
+```
+
+# Library metadata
+
+## library.properties
+
+```makefile title="library.properties"
+name=
+version=
+author=
+maintainer=
+sentence=
+paragraph=
+category=[Display|Communication|Signal Input/Output|Sensors|Device Control|Timing|Data Storage|Data Processing|Other]
+url=
+architectures=*
+# optional
+dot_a_linkage=
+includes=
+precompiled=
+ldflags=
+```
+
+# Keywords(Syntax highlight)
+
+keywords.txt is formatted in four fields which are separated by **a single true tab** (not spaces)
+
+## keywords.txt
+
+```makefile title="keywords.txt"
+######################################
+# Syntax Coloring Map For Wire
+######################################
+
+######################################
+# Datatypes (KEYWORD1)
+######################################
+
+######################################
+# Methods and Functions (KEYWORD2)
+######################################
+
+######################################
+# Instances (KEYWORD2)
+######################################
+
+######################################
+# Constants (LITERAL1)
+######################################
+
+```

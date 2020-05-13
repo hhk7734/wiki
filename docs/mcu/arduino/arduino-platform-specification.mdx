@@ -1,0 +1,204 @@
+---
+id: arduino-platform-specification
+title: Arduino Platform specification
+sidebar_label: Platform specification
+description: Arduino Platform specification
+keywords:
+  - Arduino
+  - hardware
+  - platform
+---
+
+Ref: [https://arduino.github.io/arduino-cli/platform-specification/](https://arduino.github.io/arduino-cli/platform-specification/)
+
+# Hardware directory structure
+
+```shell
+Arduino
+└── hardware
+    └── vendor/
+        └── architecture/
+            ├── boards.txt
+            ├── cores/
+            │   ├── core_1/
+            │   │   ├── abi.cpp
+            │   │   ├── Arduino.h
+            │   │   ├── binary.h
+            │   │   ├── HardwareSerial.cpp
+            │   │   ├── HardwareSerial.h
+            │   │   ├── main.cpp
+            │   │   └── ...
+            │   ├── core_2/
+            │   └── ...
+            ├── libraries/
+            │   ├── SPI/
+            │   │   ├── examples/
+            │   │   ├── keywords.txt
+            │   │   ├── library.properties
+            │   │   └── src/
+            │   │       ├── SPI.cpp
+            │   │       └── SPI.h
+            │   ├── Wire/
+            │   └── ...
+            ├── platform.txt
+            ├── programmers.txt
+            └── variants/
+                ├── board_1/
+                │   └── pins_arduino.h
+                ├── board_2/
+                └── ...
+```
+
+# boards.txt
+
+```makefile title="boards.txt"
+######
+# MENU
+######
+
+# 메뉴 이름
+menu.menu_1=
+
+#########
+# board_1
+#########
+
+# IDE -> Tools -> Board 에 표시되는 보드 이름
+board_1.name=
+# hardware/vendor/architecture/cores 에서 선택할 core 이름
+board_1.build.core=
+# hardware/vendor/architecture/variants 에서 선택할 variant 이름
+board_1.build.variant=
+# 컴파일 시 정의될 매크로 -DARDUINO_{build.board} (platform.txt)
+board_1.build.board=
+# 업로드에 사용할 툴 (platform.txt)
+board_1.upload.tool=
+# platform.txt에서 사용할 변수
+# board_1.xxxx= (boards.txt) -> {xxxx} (platform.txt)
+board_1.build.extra_flags=
+board_1.compiler.cross_compile=
+
+# 메뉴 선택지
+board_1.menu.menu_1.option_1=
+# 메뉴 선택지에 해당하는 설정
+# board_1.menu.menu_1.option_1.variable_1= (boards.txt) -> {variable_1} (platform.txt)
+board_1.menu.menu_1.option_1.variable_1=
+
+#########
+# board_2
+#########
+...
+```
+
+# platform.txt
+
+```makefile title="platform.txt"
+# IDE -> Tools -> Board 에 표시되는 카테고리
+name=
+
+###################
+# compile variables
+###################
+
+compiler.path=
+
+compiler.S.cmd=
+compiler.S.flags=
+
+compiler.c.cmd=
+compiler.c.flags=
+
+compiler.cpp.cmd=
+compiler.cpp.flags=
+
+compiler.ar.cmd=
+compiler.ar.flags=
+
+compiler.combine.cmd=
+compiler.combine.flags=
+
+compiler.xxx.cmd=
+compiler.xxx.flags=
+
+# override
+# platform.local.txt, boards.txt 등에 의해 바뀌는 변수
+build.extra_flags=
+compiler.cross_compile=
+compiler.S.extra_flags=
+compiler.c.extra_flags=
+compiler.cpp.extra_flags=
+compiler.ar.extra_flags=
+compiler.combine.extra_flags=
+compiler.xxx.extra_flags=
+
+##################
+# compile patterns
+##################
+
+# 라이브러리 감지, 함수 프로토 타입 생성
+recipe.preproc.macros="{compiler.path}{compiler.cross_compile}{compiler.cpp.cmd}" {compiler.cpp.flags} {preproc.macros.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{preprocessed_file_path}"
+preproc.macros.flags= -w -x c++ -E -CC
+
+# NUMBER는 1 ~ 9 또는 01 ~ 99 순서대로 실행 됨
+# recipe.hooks.sketch.prebuild.NUMBER.pattern=
+# recipe.hooks.sketch.postbuild.NUMBER.pattern=
+# recipe.hooks.libraries.prebuild.NUMBER.pattern=
+# recipe.hooks.libraries.postbuild.NUMBER.pattern=
+# recipe.hooks.core.prebuild.NUMBER.pattern=
+# recipe.hooks.core.postbuild.NUMBER.pattern=
+# recipe.hooks.linking.prelink.NUMBER.pattern=
+# recipe.hooks.linking.postlink.NUMBER.pattern=
+# recipe.hooks.objcopy.preobjcopy.NUMBER.pattern=
+# recipe.hooks.objcopy.postobjcopy.NUMBER.pattern=
+# recipe.hooks.savehex.presavehex.NUMBER.pattern=
+# recipe.hooks.savehex.postsavehex.NUMBER.pattern=
+
+# Compile S files
+recipe.S.o.pattern="{compiler.path}{compiler.cross_compile}{compiler.S.cmd}" {compiler.S.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.S.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+# Compile c files
+recipe.c.o.pattern="{compiler.path}{compiler.cross_compile}{compiler.c.cmd}" {compiler.c.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.c.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+# Compile c++ files
+recipe.cpp.o.pattern="{compiler.path}{compiler.cross_compile}{compiler.cpp.cmd}" {compiler.cpp.flags} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {compiler.cpp.extra_flags} {build.extra_flags} {includes} "{source_file}" -o "{object_file}"
+
+# Archives
+recipe.ar.pattern="{compiler.path}{compiler.cross_compile}{compiler.ar.cmd}" {compiler.ar.flags} {compiler.ar.extra_flags} "{archive_file_path}" "{object_file}"
+
+# Combine gc-sections, archives, and objects
+recipe.c.combine.pattern="{compiler.path}{compiler.cross_compile}{compiler.combine.cmd}" {compiler.combine.flags} {compiler.combine.extra_flags} -o "{build.path}/{build.project_name}.out" {object_files} {archive_file_path} "-L{build.path}"
+
+# IDE-> Sketch -> Export compiled Binary
+recipe.output.tmp_file={build.project_name}.out
+recipe.output.save_file={build.project_name}.{build.variant}.out
+
+#######
+# tools
+#######
+tools.tool_1.path=
+tools.tool_1.cmd=
+
+# 툴 pattern에서 변수 사용 시 tools.tool_1., params. 는 빼고 사용
+# ex) {upload.verbose}
+tools.tool_1.program.params.verbose=
+tools.tool_1.program.params.quiet=
+tools.tool_1.program.pattern=
+
+tools.tool_1.upload.pattern=
+tools.tool_1.erase.pattern=
+tools.tool_1.bootloader.pattern=
+```
+
+# programmers.txt
+
+```makefile title="programmers.txt"
+##############
+# programmer_1
+##############
+
+# IDE -> Tools -> Programmer 에 표시되는 프로그래머 이름
+programmer_1.name=Programmer 1
+# 업로드에 사용할 툴 (platform.txt)
+programmer_1.program.tool=
+programmer_1.program.extra_params=
+```

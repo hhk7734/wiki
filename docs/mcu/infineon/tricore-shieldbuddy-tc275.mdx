@@ -1,0 +1,87 @@
+---
+id: tricore-shieldbuddy-tc275
+title: TriCore ShieldBuddy TC275
+sidebar_label: ShieldBuddy TC275
+description: TriCore ShieldBuddy TC275
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - shieldbuddy
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Pin-map
+
+|               TC275 |  board | board        | TC275               |
+| ------------------: | -----: | :----------- | :------------------ |
+|                     |        | SCL1         | P13.1               |
+|                     |        | SDA1         | P13.2               |
+|                   x |      x | AREF         | AREF0               |
+|                 VDD |  IOREF | GND          | GND                 |
+|               PORST |    RST | D13 PWM/SPCK | P10.2               |
+|                3.3V |   3.3V | D12 PWM/MISO | P10.1               |
+|                 VDD |     5V | D11 PWM/MOSI | P10.3               |
+|                 GND |    GND | D10 PWM/SS0  | P10.5               |
+|                 GND |    GND | D9 PWM       | P02.7               |
+|          VIN(7~12V) |    VIN | D8 PWM       | P02.6               |
+|                   - |      - | -            | -                   |
+|        P32.3/SAR4.7 |     A0 | D7 PWM       | P02.5               |
+|        P32.4/SAR4.6 |     A1 | D6 PWM       | P02.4               |
+|        P32.1/SAR4.5 |     A2 | D5 PWM       | P02.3               |
+|        P23.2/SAR4.4 |     A3 | D4 PWM/SS1   | P10.4               |
+|        P10.7/SAR3.0 |     A4 | D3 PWM       | P02.1               |
+|        P10.0/SAR3.1 |     A5 | D2 PWM       | P02.0               |
+|        P23.3/SAR2.5 |     A6 | D1 TX        | P15.2/ASC0TX        |
+|        P20.6/SAR2.4 |     A7 | D0 RX        | P15.3/ASC0RX        |
+|                   - |      - | -            | -                   |
+|        P33.6/SAR0.3 |     A8 | D14 TX0      | P15.0/ASC1TX/CANTX2 |
+|        P22.2/SAR0.2 |     A9 | D15 RX0      | P15.1/ASC1RX/CANRX2 |
+|        P23.5/SAR0.1 |    A10 | D16 TX1      | P33.9/ASC2TX        |
+|        P23.4/SAR0.0 |    A11 | D17 RX1      | P33.8/ASC2RX        |
+| P20.9/P33.10/SAR5.4 |   DAC0 | D18 TX2      | P20.0/ASC3TX        |
+|       P33.11/SAR5.5 |   DAC1 | D19 RX2      | P20.3/ASC3RX        |
+|        P20.7/SAR5.6 | CANRX0 | D20 SDA0-3   | P15.5               |
+|        P20.8/SAR5.7 | CANTX0 | D21 SCL0-3   | P15.4               |
+
+|                      TC275 | board | board       | TC275         |
+| -------------------------: | ----: | :---------- | :------------ |
+|                        VDD |    5V | 5V          | VDD           |
+|               P14.0/CANTX1 |   D22 | D23         | P14.1/CANRX1  |
+|                      P15.6 |   D24 | D25         | P00.0         |
+|                      P00.8 |   D26 | D27         | P00.1         |
+|                      P00.9 |   D28 | D29         | P00.2         |
+|                     P00.10 |   D30 | D31         | P00.3         |
+|                     P00.11 |   D32 | D33         | P00.4         |
+|                     P00.12 |   D34 | D35         | P00.5         |
+|                      P33.2 |   D36 | D37         | P00.6         |
+|                      P33.1 |   D38 | D39         | P00.7         |
+|                      P33.0 |   D40 | D41         | P11.9         |
+|                     P11.10 |   D42 | D43         | P11.11        |
+|                      P33.3 |   D44 | D45         | P11.2         |
+|                      P11.3 |   D46 | D47         | P11.6         |
+| P21.1(R403) or P21.3(R404) |   D48 | D49         | P21.0         |
+|                P21.2/P33.4 |   D50 | D51         | P02.8/P13.3   |
+|  P15.8/P33.5/ASC2RX/ASC3TX |   D52 | D53/CANTXIO | P11.12/P20.10 |
+|                        GND |   GND | GND         | GND           |
+
+| TC275 | board | board | TC275 |
+| ----: | ----: | :---- | :---- |
+| P22.1 | MISO3 | 5V    | VDD   |
+| P22.3 | SPCK3 | MOSI3 | P22.0 |
+| PORST |   RST | GND   | GND   |
+
+|        TC275 | board | board | TC275        |
+| -----------: | ----: | :---- | :----------- |
+| P15.7/ASC3TX |   USB | USB   | P32.2/ASC3RX |
+
+# Board
+
+<center>
+  <img src={useBaseUrl("img/mcu/infineon/shieldbuddy-tc275-top.png")} />
+</center>
+
+<center>
+  <img src={useBaseUrl("img/mcu/infineon/shieldbuddy-tc275-bottom.png")} />
+</center>

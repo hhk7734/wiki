@@ -1,0 +1,114 @@
+---
+id: tricore-tc27d-vadc
+title: TriCore TC27D VADC(Versatile ADC)
+sidebar_label: TC27D VADC(Versatile ADC)
+description: TriCore TC27D VADC(Versatile ADC)
+keywords:
+  - Infineon
+  - TriCore
+  - TC275
+  - ADC
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+HW: ShieldBuddy TC275
+
+- **Queue**: Highest priority
+- **Scan**:
+- **Background**: Lowest priority
+
+<center>
+  <img src={useBaseUrl("img/mcu/infineon/vadc-priority.png")} />
+</center>
+
+# Related header
+
+- `IfxVadc_cfg.h`: VADC on-chip implementation data.
+- `IfxVadc_PinMap.h`: VADC I/O map.
+- `IfxVadc_Adc.h`: VADC ADC details.
+- `IfxVadc.h`: VADC basic functionality.
+
+# IfxVadc_Adc.h
+
+> VADC comprises of independent analog channels with Analog/Digital converters to convert analog input to discrete digital output.
+
+# Examples
+
+## Background
+
+```c
+#include "IfxCpu.h"
+#include "IfxScuWdt.h"
+#include "IfxVadc_Adc.h"
+#include "Ifx_Types.h"
+
+IfxCpu_syncEvent cpuSyncEvent = 0;
+
+// VADC handle
+IfxVadc_Adc       vadc;
+IfxVadc_Adc_Group adcGroup;
+
+int core0_main(void) {
+    IfxCpu_enableInterrupts();
+    /*
+     * !!WATCHDOG0 AND SAFETY WATCHDOG ARE DISABLED HERE!!
+     * Enable the watchdog in the demo if it is required and also service the
+     * watchdog periodically
+     * */
+    IfxScuWdt_disableCpuWatchdog(IfxScuWdt_getCpuWatchdogPassword());
+    IfxScuWdt_disableSafetyWatchdog(IfxScuWdt_getSafetyWatchdogPassword());
+
+    /* Cpu sync event wait*/
+    IfxCpu_emitEvent(&cpuSyncEvent);
+    IfxCpu_waitEvent(&cpuSyncEvent, 1);
+
+    IfxVadc_Adc_Config adcConfig;
+    IfxVadc_Adc_initModuleConfig(&adcConfig, &MODULE_VADC);
+    IfxVadc_Adc_initModule(&vadc, &adcConfig);
+    IfxVadc_Adc_GroupConfig adcGroupConfig;
+    IfxVadc_Adc_initGroupConfig(&adcGroupConfig, &vadc);
+    // group 0
+    adcGroupConfig.groupId = IfxVadc_GroupId_0;
+    adcGroupConfig.master  = adcGroupConfig.groupId;
+    adcGroupConfig.arbiter.requestSlotBackgroundScanEnabled        = TRUE;
+    adcGroupConfig.backgroundScanRequest.autoBackgroundScanEnabled = TRUE;
+    adcGroupConfig.backgroundScanRequest.triggerConfig.gatingMode
+        = IfxVadc_GatingMode_always;
+    IfxVadc_Adc_initGroup(&adcGroup, &adcGroupConfig);
+
+    IfxVadc_Adc_ChannelConfig adcChannelConfig;
+    IfxVadc_Adc_Channel       adcChannel;
+    IfxVadc_Adc_initChannelConfig(&adcChannelConfig, &adcGroup);
+
+    // channel 0
+    adcChannelConfig.channelId         = (IfxVadc_ChannelId)(0);
+    adcChannelConfig.resultRegister    = (IfxVadc_ChannelResult)(0);
+    adcChannelConfig.backgroundChannel = TRUE;
+    IfxVadc_Adc_initChannel(&adcChannel, &adcChannelConfig);
+
+    // add to background scan
+    unsigned channels = (1 << adcChannelConfig.channelId);
+    unsigned mask     = channels;
+    IfxVadc_Adc_setBackgroundScan(&vadc, &adcGroup, channels, mask);
+
+    IfxVadc_Adc_startBackgroundScan(&vadc);
+
+    while(1) {
+        // wait for valid result
+        Ifx_VADC_RES conversionResult;
+        do {
+            conversionResult = IfxVadc_Adc_getResult(&adcChannel);
+        } while(! conversionResult.B.VF);
+
+        uint32 actual = conversionResult.B.RESULT;
+        // print
+    }
+
+    return 1;
+}
+```
+
+<center>
+  <img src={useBaseUrl("img/mcu/infineon/vadc-read-and-plot.png")} />
+</center>

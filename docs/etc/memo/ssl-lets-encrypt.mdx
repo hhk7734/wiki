@@ -1,0 +1,96 @@
+---
+id: ssl-lets-encrypt
+title: Let's encrypt
+description: Let's encrypt
+keywords:
+  - Let's encrypt
+  - SSL
+---
+
+# Installation
+
+```shell
+sudo add-apt-repository -y ppa:certbot/certbot \
+&& sudo apt-get update
+```
+
+```shell
+sudo apt-get install python-certbot-apache
+```
+
+```shell
+sudo apt-get install python-certbot-nginx
+```
+
+# Wildcard
+
+```shell
+certbot certonly --manual \
+    -d *.loliot.net \
+    -d loliot.net
+```
+
+```shell
+dig -t TXT _acme-challenge.loliot.net
+```
+
+## Apache
+
+```shell
+sudo vim /etc/apache2/sites-available/xxx.conf
+```
+
+```xml
+<VirtualHost *:80>
+    ServerName xxx
+    Redirect permanent / https://xxx
+</VirtualHost>
+
+<VirtualHost *:443>
+...
+    SSLEngine on
+    SSLCertificateFile /<path>/cert.pem
+    SSLCertificateKeyFile /<path>/privkey.pem
+    SSLCertificateChainFile /<path>/chain.pem
+...
+```
+
+```shell
+sudo systemctl restart apache2
+```
+
+## Nginx
+
+```shell
+sudo vim /etc/nginx/sites-available/xxx
+```
+
+```c
+server {
+    listen 80;
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+
+    ssl_certificate     /<path>/fullchain.pem;
+    ssl_certificate_key /<path>/privkey.pem;
+    ssl_session_timeout 5m;
+    ssl_protocols       SSLv2 SSLv3 TLSv1;
+    ssl_ciphers         HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+...
+
+```
+
+```shell
+sudo systemctl restart nginx
+```
+
+# Renew
+
+```shell
+certbot renew
+```

@@ -1,0 +1,67 @@
+---
+id: arduino-how-to-use-library
+title: Arduino How to use library
+sidebar_label: How to use library
+description: Arduino How to use library
+keywords:
+  - Arduino
+  - library
+---
+
+The Arduino ecosystem is so large that there are many libraries for sensors. The Arduino library makes it easy to test your sensor on Arduino board. I will explain how to use the library on Arduino.
+
+# Download library
+
+Find and download a required library below.
+
+- [https://www.google.com](https://www.google.com)
+- [https://www.arduinolibraries.info/](https://www.arduinolibraries.info/)
+- [https://github.com/adafruit?utf8=%E2%9C%93&q=arduino](https://github.com/adafruit?utf8=%E2%9C%93&q=arduino)
+
+By default, the Arduino IDE searches for libraries in `~/Arduino/libraries` at startup. So, move or copy the downloaded library to `~/Arduino/libraries` and restart the IDE.
+
+In general, the directory tree looks like this:
+
+```shell
+Arduino
+└── libraries
+    ├── A/
+    │   ├── examples/
+    │   ├── keywords.txt
+    │   ├── library.properties
+    │   └── src/
+    │       ├── A.cpp
+    │       └── A.h
+    ├── B/
+    │   ├── B.cpp
+    │   ├── B.h
+    │   └── ...
+    └── ...
+```
+
+# Include library
+
+If you know the library header, include header using `#include`. If not, find the library in **Sketch -\> Include Library** menu.
+
+```cpp
+#include <A.h>
+
+void setup() {
+    // ...
+}
+void loop() {
+    // ...
+}
+```
+
+# Find docs or See example
+
+If you are new to the library, read the docs about it. Another good way to understand the usage is to look at examples. In general, Arduino libraries have own examples. Find the example in **File -\> Examples** menu.
+
+# Wire sensor and board
+
+Different sensors use differently, so you should search for this or read the datasheet. Believe God **Google**...
+
+# Example
+
+[https://medium.com/@hhk7734/how-to-use-i2c-lcd-on-odroid-eaf20d20966c](https://medium.com/@hhk7734/how-to-use-i2c-lcd-on-odroid-eaf20d20966c)
