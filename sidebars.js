@@ -22,6 +22,12 @@ module.exports = {
       ],
     },
   ],
+  "debian-package": [
+    "linux/debian-package/debian-package-basics",
+    "linux/debian-package/debian-package-makefile",
+    "linux/debian-package/debian-package-advanced",
+    "linux/debian-package/debian-launchpad-ppa",
+  ],
   memo: [
     "etc/memo/semantic-versioning-2-0-0",
     "etc/memo/ssl-lets-encrypt",
@@ -97,6 +103,15 @@ module.exports = {
   "linux-kernel": [
     "linux/linux-kernel/build-linux-kernel",
     "linux/linux-kernel/linux-kernel-ftrace",
+    "linux/linux-kernel/build-external-linux-module",
+    "linux/linux-kernel/linux-kernel-tty0uart",
+    {
+      type: "category",
+      label: "Device tree",
+      items: [
+        "linux/linux-kernel/device-tree/device-tree",
+      ],
+    },
   ],
   "linux-tools": [
     {
@@ -139,6 +154,7 @@ module.exports = {
     },
     "linux/linux-tools/linux-ssh-scp",
     "linux/linux-tools/linux-udev",
+    "linux/linux-tools/linux-tools-etc",
   ],
   labview: [
     "lang/labview/labview-creating-project-and-vi",

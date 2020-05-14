@@ -1,0 +1,113 @@
+---
+id: debian-launchpad-ppa
+title: Debian Launchpad ppa
+sidebar_label: Launchpad ppa
+description: Debian Launchpad ppa
+keywords:
+  - Debian
+  - package
+  - launchpad
+  - ppa
+---
+
+# OpenPGP keys
+
+Ref: [https://help.ubuntu.com/community/GnuPrivacyGuardHowto](https://help.ubuntu.com/community/GnuPrivacyGuardHowto)
+
+## Generating key
+
+```shell
+gpg --gen-key
+```
+
+사용자 정보를 입력하면 키가 생성됩니다.
+
+```shell
+...
+Real name: Hyeonki Hong
+Email address: hhk7734@gmail.com
+...
+
+pub   rsa3072 2019-09-08 [SC] [expires: 2021-09-07]
+      XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX YYYY YYYY
+uid                      Hyeonki Hong <hhk7734@gmail.com>
+sub   rsa3072 2019-09-08 [E] [expires: 2021-09-07]
+```
+
+마지막 8자리를 키서버로 보냅니다.
+
+```shell
+gpg --send-keys --keyserver keyserver.ubuntu.com YYYYYYYY
+```
+
+## Importing key
+
+```shell
+gpg --fingerprint
+```
+
+```shell
+pub   rsa3072 2019-09-08 [SC] [expires: 2021-09-07]
+      XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX YYYY YYYY
+uid                      Hyeonki Hong <hhk7734@gmail.com>
+sub   rsa3072 2019-09-08 [E] [expires: 2021-09-07]
+```
+
+[https://launchpad.net/](https://launchpad.net/) -> your page -> OpenPGP keys
+
+위의 public key를 복사한 후, OpenPGP keys 페이지의 **Fingerprint**에 붙여넣고 **Import Key** 버튼을 누릅니다.
+
+```text
+Fingerprint: XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX YYYY YYYY
+```
+
+# PPA
+
+[https://launchpad.net/](https://launchpad.net/) -> your page
+
+**Create a new PPA** 버튼을 누르거나, 기존 PPA를 선택합니다.
+
+## Setting processors
+
+**Change details**에 들어가서 PPA에 맞는 프로세서를 선택 후 저장합니다.
+
+## Import
+
+[https://code.launchpad.net/](https://code.launchpad.net/) -> Code -> Import your project
+
+## Recipes
+
+Ref: [https://help.launchpad.net/Packaging/SourceBuilds/Recipes](https://help.launchpad.net/Packaging/SourceBuilds/Recipes)
+
+[https://launchpad.net/](https://launchpad.net/) -> your page -> Code [-> View Git repositories]
+
+수정할 레포지토리를 선택합니다.
+
+**Create packaging recipe** 버튼을 누르거나 기존 recipe를 선택합니다.
+
+### Edit recipe -> Recipe text
+
+```text
+# git-build-recipe format 0.4 deb-version {debversion}~{revtime}
+xxx [branch 명]
+```
+
+### Requesting build
+
+**Requesting build** 버튼을 누르면 Recipe text와 레포지토리의 debian 디렉토리를 참고하여 빌드 요청을 하게 됩니다. 작업 순서에 따라 몇시간 후에 진행될 수 있습니다.
+
+빌드가 끝나면 검토 후 자동으로 ppa에 등록됩니다.
+
+## PPA registration
+
+아래 명령어를 통해 PPA를 등록할 수 있습니다.
+
+```shell
+sudo add-apt-repository ppa:<id or team>/<ppa name>
+```
+
+등록 후 업데이트를 하면, PPA에 있는 패키지를 다운받을 수 있습니다.
+
+```shell
+sudo apt-get update
+```

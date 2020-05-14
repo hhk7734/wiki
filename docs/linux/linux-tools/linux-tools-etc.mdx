@@ -1,0 +1,186 @@
+---
+id: linux-tools-etc
+title: Etc
+description: Etc
+keywords:
+  - Linux
+---
+
+# clang-format
+
+## Installation
+
+```shell
+sudo apt install -y clang-format-9 \
+&& sudo update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-9) 1
+```
+
+## Option
+
+[https://clang.llvm.org/docs/ClangFormatStyleOptions.html](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format
+```
+
+## Usage
+
+```shell
+clang-format -style=file -i -verbose [file]
+```
+
+# User and Group
+
+## User
+
+```shell
+sudo useradd -m -s $SHELL <user>
+```
+
+```shell
+sudo passwd <user>
+```
+
+```shell
+sudo usermod -aG <group> <user>
+```
+
+```shell
+sudo groups <user>
+```
+
+```shell
+sudo visudo
+```
+
+```shell
+# user host=(target_user:target_group)[option:] command
+# %group host=(target_user:target_group)[option:] command
+
+# ex
+# hhk7734는 접속위치에 관계없이, 어떤 유저나 그룹의 소유에 관계없이
+# 환경 변수를 유지하고, 암호 입력 없이 모든 명령어를 sudo로 실행 가능
+# 추가 위치를 모르면 맨 아랫줄에 추가하시기 바랍니다.
+# hhk7734 ALL=(ALL:ALL) NOPASSWD:SETENV: ALL
+```
+
+## Group
+
+```shell
+sudo groupadd <group>
+```
+
+# systemd service
+
+시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.
+
+```shell
+sudo vim /etc/systemd/system/<service_name>.service
+```
+
+```shell
+sudo chmod +x /etc/systemd/system/<service_name>.service
+```
+
+## <service_name\>.service
+
+```makefile
+[Unit]
+Description=
+# 의존
+Requires=
+# 약한 의존
+Wants=
+# 작성 중인 서비스 A before B
+# B 이전에 A 실행
+Before=
+# 작성 중인 서비스 A after C
+# C 이후에 A 실행
+After=
+# C -> A -> B 순으로 실행 됨
+
+[Service]
+User=
+Group=
+# 실행 위치
+WorkingDirectory=
+# 환경 변수
+# 파이썬 가상환경 사용 시 "PATH=가상환경/bin" 추가
+Environment=
+# 실행 명령어1; 실행 명령어2;
+# 또는 해당 설정을 여러번 하면 됨
+ExecStart=
+ExecStop=
+Restart=[no|on-success|on-failure|on-watchdog|on-abort|always]
+
+[Install]
+# 유닛을 등록할때 등록에 필요한 유닛
+WantedBy=default.target
+RequiredBy=
+```
+
+## systemctl
+
+```shell
+sudo systemctl status <service_name>
+```
+
+```shell
+sudo systemctl enable <service_name>
+```
+
+```shell
+sudo systemctl disable <service_name>
+```
+
+```shell
+sudo systemctl start <service_name>
+```
+
+```shell
+sudo systemctl stop <service_name>
+```
+
+```shell
+sudo systemctl restart <service_name>
+```
+
+# Zsh
+
+```shell
+sudo apt install -y git zsh curl \
+&& chsh -s $(which zsh) \
+&& sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+```
+
+```shell
+git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugins/zsh-completions \
+&& sudo apt install -y autojump \
+&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
+&& git clone git://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions
+```
+
+```shell
+echo '# Path to your oh-my-zsh installation.
+export ZSH="'$HOME'/.oh-my-zsh"
+
+# theme
+ZSH_THEME="refined"
+
+# plugins
+plugins=(
+    git
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+    zsh-completions
+    autojump
+)
+
+source $ZSH/oh-my-zsh.sh
+autoload -U compinit && compinit
+
+# alias
+alias ls="ls -F --color=auto"
+alias cf="clang-format -style=file -i -verbose"
+' > ~/.zshrc
+```

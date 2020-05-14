@@ -1,0 +1,113 @@
+---
+id: device-tree
+title: Device tree
+description: Device tree
+keywords:
+  - kernel
+  - device tree
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Typically, **<.dtsi\>** file contain definitions of SoC-level information.
+
+The **<.dts\>** file contains board-level information.
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/linux/linux-kernel/device-tree/device-tree-inclusion-example.jpg"
+    )}
+  />
+</center>
+
+<center>
+  <img
+    src={useBaseUrl("img/linux/linux-kernel/device-tree/device-tree-terms.jpg")}
+  />
+</center>
+
+# Using device tree compiler
+
+```shell
+sudo apt install -y device-tree-compiler
+```
+
+## Check nodes and properties
+
+`/proc/device-tree/` and `/` node of a device tree source(DTS) are the same.
+
+If a DTS is
+
+```dts
+/ {
+    model = "A";
+}
+```
+
+The structure of `/proc/device-tree/` is as follows.
+
+```shell
+/proc/device-tree
+└── model
+```
+
+```shell
+cat /proc/device-tree
+A
+```
+
+So, you can check DTS with one of the following commands.
+
+```shell
+tree /proc/device-tree
+```
+
+```shell
+fdtdump <.dtb file name> | vim -
+```
+
+## DTS modification
+
+### fdtget/fdtput
+
+```shell
+fdtget <.dtb> <node> <property>
+```
+
+```shell
+fdtput -t <type> <.dtb> <node> <property> <value>
+```
+
+- type
+  - s=string, i=int, u=unsigned, x=hex
+  - Optional modifier prefix: hh or b=byte, h=2 byte, l=4 byte (default)
+
+### Decompiled file modification
+
+```shell
+dtc -I dtb -O dts <.dtb> -o <.dts>
+```
+
+After decompiling with the above command, edit `<.dts>`. Then, compile the edited file with the below command.
+
+```shell
+dtc -I dts -O dtb <.dts> -o <.dtb>
+```
+
+# Using Linux kernel source
+
+```shell
+git clone --depth=1 --branch=<branch> <repository>
+```
+
+DTS files are usually located in `linux/arch/<arch>/boot/dts`.
+
+After editing DTS, execute the below commands.
+
+```shell
+make xxx_defconfig \
+&& make dtbs
+```
+
+Then, DTB will be created in `linux/arch/<arch>/boot/`. If the above command fails, check `arch/<arch>/configs`.

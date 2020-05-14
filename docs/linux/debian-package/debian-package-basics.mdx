@@ -1,0 +1,373 @@
+---
+id: debian-package-basics
+title: Debian package basics
+sidebar_label: Basics
+description: Debian package basics
+keywords:
+  - Debian
+  - package
+---
+
+Ref: [https://www.debian.org/doc/manuals/debmake-doc/](https://www.debian.org/doc/manuals/debmake-doc/)
+
+# Pre-installation
+
+```shell
+sudo apt-get install -y debmake
+```
+
+터미널에서 bash를 사용하면 `~/.bashrc`, zsh을 사용하면 `~/.zshrc`의 마지막 줄에 아래와 같은 코드를 삽입합니다.
+
+```shell
+export DEBEMAIL="hhk7734@gmail.com"
+export DEBFULLNAME="Hyeonki Hong"
+```
+
+# Creating template files
+
+아래 명령어를 통해 `<package>`와 동일한 디렉토리에 `<package>-<version>`, `<package>-<version>.tar.gz`, `<package>_<version>.orig.tar.gz`이 생성됩니다.
+
+생성된 template files은 `<package>-<version>` 디렉토리에서 확인 가능합니다.
+
+`<package>`디렉토리로 이동 후 아래 명령어를 실행합니다.
+
+```shell
+debmake -t -p <package> -u <version> [-r <revision>] -x[0-4]
+```
+
+## Examples
+
+```shell
+debmake -t -p <package> -u <version> [-r <revision>] -x0
+```
+
+```shell
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── control
+│   ├── copyright
+│   └── rules
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+```shell
+debmake -t -p <package> -u <version> [-r <revision>] [-x1]
+```
+
+```shell
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── compat
+│   ├── control
+│   ├── copyright
+│   ├── patches
+│   │   └── series
+│   ├── README.Debian
+│   ├── rules
+│   ├── source
+│   │   ├── format
+│   │   └── local-options
+│   └── watch
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+```shell
+debmake -t -p <package> -u <version> [-r <revision>] -x2
+```
+
+```shell
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── clean
+│   ├── compat
+│   ├── control
+│   ├── copyright
+│   ├── install
+│   ├── links
+│   ├── menu
+│   ├── patches
+│   │   └── series
+│   ├── postinst
+│   ├── postrm
+│   ├── preinst
+│   ├── prerm
+│   ├── README.Debian
+│   ├── rules
+│   ├── source
+│   │   ├── format
+│   │   └── local-options
+│   └── watch
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+# Required files
+
+Ref: [https://www.debian.org/doc/manuals/maint-guide/dreq.en.html](https://www.debian.org/doc/manuals/maint-guide/dreq.en.html)
+
+## control
+
+Ref: [https://www.debian.org/doc/debian-policy/ch-controlfields.html](https://www.debian.org/doc/debian-policy/ch-controlfields.html)
+
+```ini
+Source: pack
+Section: libs
+Priority: optional
+Maintainer: Hyeonki Hong <hhk7734@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://docs.loliot.net
+
+Package: pack
+Architecture: arm64 armhf
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description:
+
+Package: pack-config
+Architecture: arm64 armhf
+Section: utils
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description:
+
+Package: pack-dev
+Architecture: arm64 armhf
+Section: devel
+Depends: ${misc:Depends}, ${shlibs:Depends}, pack (= ${binary:Version})
+Suggests: pack-config
+Description:
+
+```
+
+위와 같이 control을 작성하면 아래와 같은 명령어로 설치가 가능합니다.
+
+```shell
+sudo apt-get install pack pack-config pack-dev
+```
+
+- Source: 소스 패키지 명 (mandatory)
+- Maintainer: 이름 <이메일> (mandatory)
+- Uploaders: 이름 <이메일>
+- Section: (recommended)
+  - admin, cli-mono, comm, database, debug, devel, doc, editors, education, electronics, embedded, fonts, games, gnome, gnu-r, gnustep, graphics, hamradio, haskell, httpd, interpreters, introspection, java, javascript, kde, kernel, libdevel, libs, lisp, localization, mail, math, metapackages, misc, net, news, ocaml, oldlibs, otherosfs, perl, php, python, ruby, rust, science, shells, sound, tasks, tex, text, utils, vcs, video, web, x11, xfce, zope
+- Priority: 대부분 optional (recommended)
+- Build-Depends: debhelper (>=10)
+- Standards-Version: 3.9.8 (mandatory)
+- Homepage: URL
+- Version Control System (VCS) fields
+
+- Package: 패키지 명 (mandatory)
+- Architecture (mandatory)
+- Section (recommended)
+- Priority (recommended)
+- Essential
+- Depends: 설치에 필요한 패키지
+  - `${misc:Depends}` for all binary packages
+  - `${misc:Pre-Depends}` for all multiarch packages
+  - `${shlibs:Depends}` for all binary executable and library packages
+  - `${python:Depends}` for all Python packages
+  - `${python3:Depends}` for all Python3 packages
+  - `${perl:Depends}` for all Perl packages
+  - `${ruby:Depends}` for all Ruby packages
+- Recommends, Suggests et al
+- Description: 설명 (mandatory)
+- Homepage: URL
+
+## copyright
+
+Ref: [https://www.debian.org/doc/debian-policy/ch-docs.html#s-copyrightfile](https://www.debian.org/doc/debian-policy/ch-docs.html#s-copyrightfile)
+
+```ini
+Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: lot
+Source: source URL
+
+File: 경로
+Copyright: 2019 Hyeonki Hong
+License: MIT
+
+File: 경로
+Copyright: xxx
+License: LGPL-2.1
+```
+
+## changelog
+
+Ref: [https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog](https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog)
+
+changelog가 없으면 아래 명령어로 생성할 수 있습니다.
+
+```shell
+dch --create [--package <package>]
+```
+
+changelog가 있으면 아래 명령어로 로그를 추가할 수 있습니다. distribution 상태가 **UNRELEASED** 상태면 change detail이 추가되고, 다른 상태면 다음 version이 추가됩니다.
+
+```shell
+dch -i
+```
+
+changelog는 형식이 존재합니다. 형식에 맞지 않는 changelog를 사용하면 패키지 빌드 시 오류가 발생할 수 있습니다.
+
+```ini
+[package] (version) distribution; urgency=urgency
+  [optional blank line(s), stripped]
+  * change details
+  more change details
+  [blank line(s), included in output of dpkg-parsechangelog]
+  * even more change details
+  [optional blank line(s), stripped]
+ -- Name <email>  date
+```
+
+- package: 패키지 명
+- version
+- distribution: unstable, experimental, stable, release
+- urgency: low, medium, high, emergency, critical
+- date: day-of-week, dd month yyyy hh:mm:ss +zzzz
+  - day-of-week: Mon, Tue, Wed, Thu, Fri, Sat, Sun
+  - month: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+  - +zzzz or -zzzz is the time zone offset from Coordinated (UTC)
+
+## rules
+
+debhelper에 의해 패키지가 빌드 될 때, 각 단계에 실행되는 명령을 수정할 수 있는 파일입니다.
+
+```makefile
+#!/usr/bin/make -f
+
+%:
+ dh $@
+```
+
+# Miscellaneous files
+
+Ref: [https://www.debian.org/doc/manuals/maint-guide/dother.en.html](https://www.debian.org/doc/manuals/maint-guide/dother.en.html)
+
+## <package\>.cron.\*
+
+- package.cron.hourly - Installed as /etc/cron.hourly/package; run once an hour.
+- package.cron.daily - Installed as /etc/cron.daily/package; run once a day.
+- package.cron.weekly - Installed as /etc/cron.weekly/package; run once a week.
+- package.cron.monthly - Installed as /etc/cron.monthly/package: run once a month.
+- package.cron.d - Installed as /etc/cron.d/package: for any other time.
+
+## install (<package\>.install)
+
+표준 `make install`이 하지 않는 파일 설치 목록 입니다. 파일 명과 설치되어야할 위치를 한 줄에 하나씩 적으면 됩니다. 패키지 안에서 파일의 상대 경로와 설치될 경로가 동일한 경우 파일 명만 작성해도 됩니다.
+
+```ini
+usr/local/bin/A
+lib/B /usr/local/lib
+```
+
+위처럼 작성한 경우 `/usr/local/bin/A`, `/usr/local/lib/B`가 설치됩니다.
+
+## Debian maintainer scripts
+
+Ref: [https://www.debian.org/doc/debian-policy/ap-flowcharts.html](https://www.debian.org/doc/debian-policy/ap-flowcharts.html)
+
+### preinst (<package\>.preinst)
+
+```shell
+#!/bin/sh
+set -e
+
+case "$1" in
+    install|upgrade)
+    ;;
+
+    abort-upgrade)
+    ;;
+
+    *)
+        echo "preinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0
+```
+
+### postinst (<package\>.postinst)
+
+```shell
+#!/bin/sh
+set -e
+
+case "$1" in
+    configure)
+    ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0
+```
+
+### prerm (<package\>.prerm)
+
+```shell
+#!/bin/sh
+set -e
+
+case "$1" in
+    remove|upgrade|deconfigure)
+    ;;
+
+    failed-upgrade)
+    ;;
+
+    *)
+        echo "prerm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0
+```
+
+### postrm (<package\>.postrm)
+
+```shell
+#!/bin/sh
+set -e
+
+case "$1" in
+    purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
+    ;;
+
+    *)
+        echo "postrm called with unknown argument \`$1'" >&2
+        exit 1
+    ;;
+esac
+
+
+#DEBHELPER#
+
+exit 0
+```
