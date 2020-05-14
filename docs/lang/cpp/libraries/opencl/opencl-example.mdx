@@ -165,15 +165,15 @@ using namespace std;
 const int LENGTH = 1000000;
 
 const char *source
-= "**kernel void saxpy( const **global float *X, \_\_global float _Y, const "
-"float a ) \n"
-"{ \n"
-" uint gid = get_global_id( 0 ); \n"
-" Y[gid] = a _ X[gid] + Y[gid]; \n"
-"} \n";
+    = "__kernel void saxpy(const __global float *X, \n"
+      "                    __global float *Y,       \n"
+      "                    const float a) {         \n"
+      "    uint gid = get_global_id(0);             \n"
+      "    Y[gid]   = a * X[gid] + Y[gid];          \n"
+      "}                                            \n";
 
 int main(void) {
-cout << fixed;
+    cout << fixed;
 
     cl_int status;
     time_t t, t2 = 0;
@@ -317,10 +317,9 @@ cout << fixed;
     clReleaseContext(context);
     free(devices);
     free(platforms);
+
     return 0;
-
 }
-
 ```
 
 ```shell
@@ -343,15 +342,15 @@ using namespace std;
 const int LENGTH = 1000000;
 
 const char *source
-= "**kernel void saxpy( const **global float *X, \_\_global float _Y, const "
-"float a ) \n"
-"{ \n"
-" uint gid = get_global_id( 0 ); \n"
-" Y[gid] = a _ X[gid] + Y[gid]; \n"
-"} \n";
+    = "__kernel void saxpy(const __global float *X, \n"
+      "                    __global float *Y,       \n"
+      "                    const float a) {         \n"
+      "    uint gid = get_global_id(0);             \n"
+      "    Y[gid]   = a * X[gid] + Y[gid];          \n"
+      "}                                            \n";
 
 int main(void) {
-cout << fixed;
+    cout << fixed;
 
     cl_int status;
     time_t t, t2 = 0;
@@ -370,7 +369,7 @@ cout << fixed;
     cl_context context
         = clCreateContext(NULL, 1, &devices[0], NULL, NULL, NULL);
 
-    cl_command_queue queue = clCreateCommandQueue(context, devices[0], 0, NULL);
+    cl_command_queue queue = clCreateCommandQueueWithProperties(context, devices[0], 0, NULL);
 
     cl_program program = clCreateProgramWithSource(
         context, 1, (const char **)&source, NULL, NULL);
@@ -535,10 +534,9 @@ cout << fixed;
     clReleaseContext(context);
     free(devices);
     free(platforms);
+
     return 0;
-
 }
-
 ```
 
 ```shell
