@@ -80,6 +80,13 @@ module.exports = {
         "etc/project/ahrs/ahrs-extended-kalman-filter",
         "etc/project/ahrs/ahrs-sensor-calibration"
       ]
+    },
+    {
+      type: "category",
+      label: "Neural Network",
+      items: [
+        "etc/project/neural-network/neural-network-basics",
+      ]
     }
   ],
   flutter: [
