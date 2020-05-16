@@ -1,0 +1,69 @@
+---
+id: stm32-create-project-stm32cubeide
+title: STM32 Create project in STM32CubeIDE
+sidebar_label: Create project
+description: STM32 Create project in STM32CubeIDE
+keywords:
+  - STM32
+  - STM32CubeMX
+  - STM32CubeIDE
+---
+
+# Installation
+
+Install JRE or JDK first.
+
+Download: [https://www.st.com/en/development-tools/stm32cubeide.html](https://www.st.com/en/development-tools/stm32cubeide.html)
+
+# Create project
+
+1. File -\> New -\> STM32 Project
+1. Part Number Search
+1. Select chip
+1. Click Next
+1. Set project
+1. Click Finish
+
+## Chip configuration
+
+1. Project Explorer -\> <project\>.ioc
+1. Pinout & Configuration
+1. Clock Configuration
+1. Project Manager
+1. File -\> Save
+
+### Pinout & Configuration Example
+
+HW: STM32F103C8T6(blue-pill)
+
+- System Core
+  - RCC -\> HSE -\> Crystal/Ceramic Resonator
+  - RCC -\> LSE -\> Crystal/Ceramic Resonator
+  - SYS -\> Debug -\> Serial Wire
+- Connectivity
+  - USART1 -\> Mode -\> Asynchronous
+    - Parameter Settings -\> Basic Parameters -\> Baud Rate
+    - NVIC Settings -\> USART1 global Interrupt -\> Enabled
+  - USB -\> Device (FS)
+- Pinout view
+  - PC13 -\> GPIO_Output
+
+### Clock Configuration Example
+
+HW: STM32F103C8T6(blue-pill)
+
+Set HCLK (MHz) to 72. Other clocks are set automatically.
+
+# Code
+
+```c title="main.c"
+...
+/* USER CODE BEGIN XXX */
+
+/* USER CODE END XXX */
+...
+```
+
+:::caution
+When you code, write code only between `USER CODE BEGIN XXX` and `USER CODE END XXX`. If you write code elsewhere, the code generator can change it when changing the chip settings.
+:::

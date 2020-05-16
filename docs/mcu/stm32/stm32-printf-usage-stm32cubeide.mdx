@@ -1,0 +1,100 @@
+---
+id: stm32-printf-usage-stm32cubeide
+title: STM32 printf() usage in STM32CubeIDE
+sidebar_label: printf() usage in STM32CubeIDE
+description: STM32 printf() usage in STM32CubeIDE
+keywords:
+  - STM32
+  - STM32CubeMX
+  - STM32CubeIDE
+  - printf
+---
+
+STM32CubeIDE에서 printf()을 사용하는 방법이 여러가지가 있습니다.
+
+- UART: 상대적으로 불편함, 속도 빠름
+- SWV: 중간
+- Dynamic Printf: 상대적으로 편함, 속도 느림
+
+# UART printf()
+
+컴파일될 소스 중에 아무 위치에나 아래 코드를 추가하면 됩니다.
+
+```c
+int _write(int32_t file, uint8_t *ptr, int32_t len) {
+    /* Implement your write code here, this is used by puts and printf for
+     * example */
+
+    for(int32_t i = 0; i < len; ++i) {
+        if(*ptr == '\n') {
+            uint8_t c = '\r';
+            HAL_UART_Transmit(&huart1, &c, 1, 100);
+        }
+        HAL_UART_Transmit(&huart1, ptr++, 1, 100);
+    }
+    return len;
+}
+```
+
+기본적으로 tiny_printf.c를 사용하기 때문에 `char(%c)`, `char*(%s)`, `int(%d, %i)`, `uint(%u)`, `uint2hex(%x, %X)`를 사용할 수 있습니다.
+
+`float(%f)`를 사용하고싶은 경우 두 가지 방법이 있습니다.
+
+- Project -\> Properties -\> C/C++ Build -\> Settings
+  - Tool Settings -\> MCU Settings -\> Runtime library: Standard C
+- Project -\> Properties -\> C/C++ Build -\> Settings
+  - Tool Settings -\> MCU Settings -\> Runtime library: Reduced C
+  - Check Use float with printf from newlib-nano
+
+:::tip
+Reduced C에서 float을 활성화 하는 두번째 방법을 추천합니다.
+:::
+
+# SWV printf()
+
+**SWV(Serial Wire Viewer)**, Atollic사는 아래와 같이 설명하고 있습니다.
+
+> Serial Wire Viewer is a real-time trace technology that uses the Serial Wire Debugger(SWD) port and the Serial Wire Output (SWO) pin. Serial Wire Viewer provides advanced system analysis and real-time tracing without the need to halt the processor to extract the debug information.
+
+SWV를 사용하기 위해 ITM(Instrumentation Trace Macrocell)을 사용해서 출력하고 싶은 내용을 SWO를 통해 출력합니다.
+
+- Run -\> Debug Configurations -\> STM32 Cortex-M C/C++ Application -\> <proejct\> Debug
+- Debugger
+  - GDB Server Command Line Options: SWD
+  - Serial Wire Viewer (SWV): Enable
+  - Core Clock: SYSCLK
+  - SWO Colck
+
+:::caution
+**Wait for sync packet**을 해제하는 것이 좋습니다. SWO를 통해 출력하는 속도가 컨트롤러의 실행 속도에 비해 느리기 때문에 sync를 하면 컨트롤러의 속도가 느려집니다.
+:::
+
+syscalls.c를 추가하고 수정하거나 컴파일될 소스 중에 아무 위치에나 아래 코드를 추가하면 됩니다. RTOS를 사용하는 경우 syscalls.c를 추가하면서 heap 설정을 하시기 바랍니다.
+
+```c
+int _write(int32_t file, uint8_t *ptr, int32_t len) {
+    /* Implement your write code here, this is used by puts and printf for
+     * example */
+
+    for(int32_t i = 0; i < len; ++i) {
+        ITM_SendChar(*ptr++);
+    }
+    return len;
+}
+```
+
+Debug -\> Window -\> Show View -\> SWV -\> SWV ITM Data Console
+
+기본적인 ITM 포트는 0 번입니다. port 0 을 추가하고 설정에서 ITM Stimulus Ports에 0 번을 체크합니다.
+
+SWV ITM Data Console 창에서 Start Trace버튼을 누르고 디버깅을 하면 console에 printf()을 통해 출력한 내용이 표시됩니다.
+
+# Dynamic printf()
+
+Dynamic printf은 debugging할 때, 매우 편리합니다. 특별히 코드를 작성하거나 설정을 바꿀 필요 없이 사용할 수 있고, 파일 자체에 코드가 추가되지는 않습니다.
+
+단, 코드의 실행 속도가 느려집니다.
+
+출력을 원하는 위치의 줄 번호를 오른쪽 클릭합니다. 그 다음 Add Dynamic-Printf을 선택합니다. 그리고 printf() 항목에 원하는 내용을 작성합니다.
+
+디버깅을 시작하면 **Debugger Console**에 해당 내용이 출력됩니다.

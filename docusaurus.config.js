@@ -57,6 +57,7 @@ module.exports = {
           nodejs: "Node.js",
           project: "Project",
           python: "Python",
+          stm32: "STM32",
         };
 
         _fs
