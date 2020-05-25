@@ -33,6 +33,8 @@ $$
 
 # Cost function
 
+## Quadratic cost function
+
 $$
 C \equiv \frac{1}{2} \lVert \mathbf{y} - \mathbf{a}^L \rVert^2 = \frac{1}{2} \sum_i{\left(y_i - a^L_i\right)^2}
 $$
@@ -77,11 +79,17 @@ $$
 
 Those random training inputs $X_1, X_2, ..., X_m$ are called **mini-batch**.
 
-## Feed-forward
-
-Process of inference using mini-batch and $\mathbf{w}$ is called **Feed-forward**. $a^l_j$ and $z^l_j$ ​​can be obtained through this process.
-
 ## Back-propagation
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/etc/project/neural-network/neural-network-back-propagation.jpg"
+    )}
+  />
+</center>
+
+<br />
 
 Back-propagation is used to find $\nabla C$, because it is difficult for a computer to obtain $\nabla C$ by differentiating Cost function.
 
@@ -91,7 +99,7 @@ $$
 \delta^l_j \equiv \frac{\partial C}{\partial z^l_j}
 $$
 
-Since $z^l_j$ was obtained from Feed-forward, If we know $\mathbf{\delta}^{l+1}$, we can get $\delta^l_j$ as below.
+Since $z^l_j$ was obtained from inference, If we know $\mathbf{\delta}^{l+1}$, we can get $\delta^l_j$ as below.
 
 $$
 \begin{aligned}
@@ -103,7 +111,7 @@ $$
 \end{aligned}
 $$
 
-Since $a^L_j$ was obtained from Feed_forward and $\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)$, we can get the errors like this:
+Since $a^L_j$ was obtained from inference and $\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)$, we can get the errors like this:
 
 $$
 \delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)
@@ -126,7 +134,7 @@ $$
 
 ## Training
 
-Set initail weights and biases to random and repeat process **Feed-forward -> Back-propagation -> weights and biases update**. When it is judged that $C$ cannot be made smaller, the final weight and bias are determined.
+Set initail weights and biases to random and repeat process **Inference -> Back-propagation -> weights and biases update**. When it is judged that $C$ cannot be made smaller, the final weights and biases are determined.
 
 # Reference
 

@@ -23,7 +23,7 @@ module.exports = {
     googleAdsense: {
       dataAdClient: "ca-pub-5199357432848758",
     },
-    defaultDarkMode: true,
+    defaultDarkMode: false,
     algolia: {
       apiKey: "882821d106ded887254b7b5ec5690c5b",
       indexName: "liliot_wiki",
@@ -52,6 +52,7 @@ module.exports = {
           linux: "Linux",
           "linux-kernel": "Linux kernel",
           "linux-tools": "Linux tools",
+          "linux-uboot": "u-boot",
           mcu: "MCU",
           memo: "Memo",
           nodejs: "Node.js",

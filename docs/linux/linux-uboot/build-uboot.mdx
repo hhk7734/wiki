@@ -1,0 +1,52 @@
+---
+id: build-uboot
+title: Build u-boot
+sidebar_label: Build
+description: Build u-boot
+keywords:
+  - u-boot
+  - build
+---
+
+# Toolchain
+
+Download:
+
+- [https://www.linaro.org/downloads/](https://www.linaro.org/downloads/)
+- [https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads)
+
+```shell
+export PATH=/<path to toolchain>/bin:$PATH
+```
+
+```shell
+export CROSS_COMPILE=<prefix>-
+```
+
+```shell
+export ARCH=<architecture>
+```
+
+# u-boot
+
+사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다.
+
+```shell
+git clone https://github.com/u-boot/u-boot.git -b <tag or branch> --single-branch
+```
+
+```shell
+cd u-boot
+```
+
+```shell
+make distclean
+```
+
+```shell
+make <board>_defconfig
+```
+
+```shell
+make -j$(expr $(expr $(nproc) \* 6) \/ 5)
+```

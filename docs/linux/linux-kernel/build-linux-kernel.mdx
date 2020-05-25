@@ -47,7 +47,9 @@ make distclean
 make <board>_defconfig
 ```
 
-If the above command fails, check `arch/<arch>/configs`. If not in `arch/<arch>/configs`, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+:::tip
+If the above command fails, check **arch/<arch\>/configs**. If not in arch/<arch\>/configs, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+:::
 
 ```shell
 make -j$(expr $(expr $(nproc) \* 6) \/ 5)

@@ -28,10 +28,6 @@ module.exports = {
     "linux/debian-package/debian-package-advanced",
     "linux/debian-package/debian-launchpad-ppa",
   ],
-  memo: [
-    "etc/memo/semantic-versioning-2-0-0",
-    "etc/memo/ssl-lets-encrypt",
-  ],
   cpp: [
     {
       type: "category",
@@ -70,25 +66,6 @@ module.exports = {
       ],
     },
   ],
-  project: [
-    {
-      type: "category",
-      label: "AHRS",
-      items: [
-        "etc/project/ahrs/ahrs-quaternions-rotations",
-        "etc/project/ahrs/ahrs-euler-angles",
-        "etc/project/ahrs/ahrs-extended-kalman-filter",
-        "etc/project/ahrs/ahrs-sensor-calibration"
-      ]
-    },
-    {
-      type: "category",
-      label: "Neural Network",
-      items: [
-        "etc/project/neural-network/neural-network-basics",
-      ]
-    }
-  ],
   flutter: [
     {
       type: "category",
@@ -107,6 +84,15 @@ module.exports = {
     "mcu/infineon/tricore-tc27d-terminal",
     "mcu/infineon/tricore-tc27d-vadc",
   ],
+  labview: [
+    "lang/labview/labview-creating-project-and-vi",
+    "lang/labview/labview-basic-terms",
+    "lang/labview/labview-shortcut",
+    "lang/labview/labview-basic-arithmetic",
+    "lang/labview/labview-for-loop",
+    "lang/labview/labview-while-loop",
+    "lang/labview/labview-case-structure",
+  ],
   "linux-kernel": [
     "linux/linux-kernel/build-linux-kernel",
     "linux/linux-kernel/linux-kernel-ftrace",
@@ -116,7 +102,8 @@ module.exports = {
       type: "category",
       label: "Device tree",
       items: [
-        "linux/linux-kernel/device-tree/device-tree",
+        "linux/linux-kernel/device-tree/device-tree-basics",
+        "linux/linux-kernel/device-tree/device-tree-overlay",
       ],
     },
   ],
@@ -163,14 +150,15 @@ module.exports = {
     "linux/linux-tools/linux-udev",
     "linux/linux-tools/linux-tools-etc",
   ],
-  labview: [
-    "lang/labview/labview-creating-project-and-vi",
-    "lang/labview/labview-basic-terms",
-    "lang/labview/labview-shortcut",
-    "lang/labview/labview-basic-arithmetic",
-    "lang/labview/labview-for-loop",
-    "lang/labview/labview-while-loop",
-    "lang/labview/labview-case-structure",
+  "linux-uboot": [
+    "linux/linux-uboot/embedded-linux-boot-process",
+    "linux/linux-uboot/build-uboot",
+    "linux/linux-uboot/uboot-custom-command",
+    "linux/linux-uboot/uboot-configuration",
+  ],
+  memo: [
+    "etc/memo/semantic-versioning-2-0-0",
+    "etc/memo/ssl-lets-encrypt",
   ],
   nodejs: [
     {
@@ -187,6 +175,27 @@ module.exports = {
         },
       ],
     },
+  ],
+  project: [
+    {
+      type: "category",
+      label: "AHRS",
+      items: [
+        "etc/project/ahrs/ahrs-quaternions-rotations",
+        "etc/project/ahrs/ahrs-euler-angles",
+        "etc/project/ahrs/ahrs-extended-kalman-filter",
+        "etc/project/ahrs/ahrs-sensor-calibration"
+      ]
+    },
+    {
+      type: "category",
+      label: "Neural Network",
+      items: [
+        "etc/project/neural-network/neural-network-basics",
+        "etc/project/neural-network/neural-network-cpu-gpu-npu",
+        "etc/project/neural-network/neural-network-cnn",
+      ]
+    }
   ],
   python: [
     {
@@ -220,6 +229,7 @@ module.exports = {
           ],
         },
         "lang/python/libraries/python-tkinter",
+        "lang/python/libraries/python-pybluez"
       ],
     },
     {

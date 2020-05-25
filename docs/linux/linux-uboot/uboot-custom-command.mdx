@@ -1,0 +1,72 @@
+---
+id: uboot-custom-command
+title: u-boot custom command
+sidebar_label: Custom command
+description: u-boot custom command
+keywords:
+  - u-boot
+  - custom command
+---
+
+# Example
+
+```c title="u-boot/cmd/hello.c"
+// SPDX-License-Identifier: GPL-2.0+
+/*
+ * Copyright (c) 2019 Hyeonki Hong <hhk7734@gmail.com>
+ */
+
+#include <common.h>
+#include <command.h>
+
+static int do_print_hello(cmd_tbl_t * cmdtp, int flag, int argc,
+                          char * const argv[]) {
+        printf("Hello world!\n");
+        return 0;
+}
+
+/* -------------------------------------------------------------------- */
+
+U_BOOT_CMD(
+        hello,  1,      0,      do_print_hello,
+        "print \"Hello world!\"",
+        "\n    - print \"Hello world!\""
+)
+
+/* vim: set ts=8 sw=8 tw=80: */
+```
+
+```Kconfig title="u-boot/cmd/Kconfig"
+...
+
+menu "Misc commands"
+
+config CMD_HELLO
+        bool "Enable 'hello' command for test"
+        depends on CMDLINE
+        default n
+        help
+          print "Hello world!"
+
+...
+```
+
+```makefile title="u-boot/cmd/Makefile"
+...
+
+obj-$(CONFIG_CMD_HELLO) += hello.o
+
+...
+```
+
+```config title="u-boot/configs/<board>-defconfig"
+...
+
+CONFIG_CMD_HELLO=y
+
+...
+```
+
+# Reference
+
+- [https://gitlab.denx.de/u-boot/u-boot/-/blob/master/doc/README.commands](https://gitlab.denx.de/u-boot/u-boot/-/blob/master/doc/README.commands)

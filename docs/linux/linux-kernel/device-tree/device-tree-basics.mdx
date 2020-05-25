@@ -1,7 +1,8 @@
 ---
-id: device-tree
-title: Device tree
-description: Device tree
+id: device-tree-basics
+title: Device tree basics
+sidebar_label: Basics
+description: Device tree basics
 keywords:
   - kernel
   - device tree
@@ -101,13 +102,21 @@ dtc -I dts -O dtb <.dts> -o <.dtb>
 git clone --depth=1 --branch=<branch> <repository>
 ```
 
-DTS files are usually located in `linux/arch/<arch>/boot/dts`.
+After editing DTS, check Makefile.
 
-After editing DTS, execute the below commands.
+```makefile title="linux/arch/<arch>/boot/dts/<vendor>/Makefile"
+dtb-$(CONFIG_ARCH_<BOARD>) += <board>.dtb
+```
+
+Then, execute the below commands.
 
 ```shell
 make xxx_defconfig \
 && make dtbs
 ```
 
-Then, DTB will be created in `linux/arch/<arch>/boot/`. If the above command fails, check `arch/<arch>/configs`.
+Then, DTB will be created in `linux/arch/<arch>/boot/`.
+
+:::tip
+If the above command fails, check **arch/<arch\>/configs**. If not in arch/<arch\>/configs, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+:::
