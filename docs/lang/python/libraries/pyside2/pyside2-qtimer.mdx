@@ -1,0 +1,127 @@
+---
+id: pyside2-qtimer
+title: PySide2 QTimer
+sidebar_label: QTimer
+description: PySide2 QTimer
+keywords:
+  - Python
+  - PySide2
+  - QTimer
+---
+
+# QTimer
+
+PySide2.QtCore.QTimer 클래스를 사용하면 반복적인 작업이나 일정 시간 후 실행되는 작업을 처리할 수 있습니다.
+
+# Single shot timer
+
+singleShot()은 일정 시간이 지난 후, 작업이 시작되도록 할 수 있게 해주는 함수입니다. static 함수이기 때문에 인스턴스를 만들지 않고 사용할 수 있습니다.
+
+아래 코드는 푸시 버튼과 텍스트 브라우저 위젯이 있을 때, 버튼을 누르면 1 초 후에 텍스트를 띄우는 코드입니다.
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import QTimer, SLOT
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.push_button_clicked)
+
+    def push_button_clicked(self):
+        """
+        1 초 타임아웃과 push_button_clicked_single_shot 연결
+        QTimer.singleShot(1000, self, SLOT("push_button_clicked_single_shot()"))
+        QTimer.singleShot(
+            1000, Qt.PreciseTimer, self, SLOT("push_button_clicked_single_shot()")
+        )
+        """
+        QTimer.singleShot(1000, self.push_button_clicked_single_shot)
+
+    def push_button_clicked_single_shot(self):
+        self.textBrowser.append("a second later")
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+
+    sys.exit(app.exec_())
+```
+
+:::info
+Linux와 Windows에서 타이머는 차이가 있습니다. <br/>
+Qt.TimerType: [https://doc.qt.io/qtforpython/PySide2/QtCore/Qt.html](https://doc.qt.io/qtforpython/PySide2/QtCore/Qt.html)
+:::
+
+# Repetitive timer
+
+반복 실행은 인스턴스 함수를 사용하기 때문에 QTimer의 인스턴스를 생성해야합니다.
+
+아래 코드는 푸시 버튼과 텍스트 브라우저 위젯이 있을 때, 버튼을 누르면 1 초 간격으로 3 회 텍스트를 띄우는 코드입니다.
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import QTimer
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.push_button_clicked)
+
+        self.is_push_button_clicked = False
+
+        self.push_button_timer = QTimer(self)
+        self.push_button_timer.setInterval(1000)
+        self.push_button_timer.timeout.connect(
+            self.push_button_clicked_repetitive
+        )
+
+        self.count = 0
+
+    def push_button_clicked(self):
+        if not self.is_push_button_clicked:
+            self.is_push_button_clicked = True
+            self.pushButton.setDown(True)
+
+            """
+            반복 시작
+            """
+            self.push_button_timer.start()
+
+    def push_button_clicked_repetitive(self):
+        self.count += 1
+        self.textBrowser.append(str(self.count) + " seconds later")
+
+        if self.count == 3:
+            """
+            반복 종료
+            """
+            self.push_button_timer.stop()
+            self.is_push_button_clicked = False
+            self.pushButton.setDown(False)
+            self.count = 0
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+
+    sys.exit(app.exec_())
+```
+
+# Reference
+
+- [https://doc.qt.io/qtforpython/PySide2/QtCore/QTimer.html](https://doc.qt.io/qtforpython/PySide2/QtCore/QTimer.html)

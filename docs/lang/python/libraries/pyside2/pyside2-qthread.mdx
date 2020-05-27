@@ -1,0 +1,222 @@
+---
+id: pyside2-qthread
+title: PySide2 QThread
+sidebar_label: QThread
+description: PySide2 QThread
+keywords:
+  - Python
+  - PySide2
+  - QThread
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Evenv loop
+
+> Being an event-driven toolkit, events and event delivery play a central role in Qt architecture.
+
+이벤트 루프의 컨셉은 아래와 같습니다.
+
+```python
+while is_active:
+    while not event_queue_is_empty:
+        """
+        event_queue 확인
+        event 처리
+        """
+        dispatch_next_event()
+
+    # event가 발생할 때까지 대기
+    wait_for_more_events()
+```
+
+프로그램을 실행시키면 스택이 아래 방향으로 증가할 때, 아래와 같은 방식으로 스택이 쌓입니다.
+
+1. `main(int, char *)`
+1. `QApplication::exec()`
+1. \[…\]
+1. `QWidget::event(QEvent *)`
+1. `Button::mousePressEvent(QMouseEvent *)`
+1. `Button::clicked()`
+1. \[…\]
+1. `Worker::doWork()`
+
+`QApplication::exec()`에 의해 메인 이벤트 루프가 실행됩니다. 이벤트 루프가 실행되는 동안 마우스로 버튼을 클릭하면 적당한 절차에 따라 `QWidget::event(QEvent *)`를 호출하게 됩니다. 마우스 클릭이라는 것을 판별하여 `Button::mousePressEvent(QMouseEvent *)`를 호출하고, `Button::clicked()` 시그널을 발생시킵니다. 최종적으로 `Worker::doWork()` 슬롯을 호출하여 정해진 일을 처리합니다.
+
+여기서 `doWork()`가 정해진 일을 처리하는데 오랜 시간이 걸린다면 메인 이벤트 루프가 블록킹 당하게 되면서 화면 갱신, 타이머, 네트워크 통신 등에 문제를 발생시킵니다. 이 상태가 길어지면 대부분 윈도우 매니저들은 응용프로그램이 응답하지 않음을 사용자에게 알려주게 됩니다.
+
+따라서 처리할 시간이 많이 필요하더라도 메인 이벤트 루프로 빨리 돌아갈 수 있도록 코드를 작성해야합니다.
+
+# Forcing event dispatching
+
+## QCoreApplication::processEvents()
+
+시간이 오래 걸릴 것으로 예상되는 작업이 있다면, `QCoreApplication::processEvents()`를 작업 중간에 호출하여 작업을 중단하고 다른 이벤트가 있는 지 확인 후 끝내고 돌아와서 중단 지점 부터 작업을 처리하는 방식으로 일을 처리할 수 있습니다.
+
+:::info
+`processEvent()`를 통해 이벤트 루프에 진입했을 때, `processEvent()`를 포함한 이벤트를 호출하면 문제가 발생할 수 있습니다. `QEventLoop::ExcludeUserInputEvents` 등을 사용하여 발생할 수 있는 문제를 피해야 합니다.
+:::
+
+## QEventLoop::exec()
+
+논블록킹 API의 경우 순차적으로 일을 처리해야할 때, 작업은 없지만 기타 이유로 시간 지연이 필요한 경우가 있습니다. A 일이 끝난 후 B 일을 해야할 때, A 일이 끝나는 시그널을 `QEventLoop::quit()` 슬롯에 연결한 후 `QEventLoop::exec()`를 통해 강제로 이벤트 루프로 재진입하는 방법이 있습니다.
+
+이 방법을 사용하면 A 가 끝나는 것을 기다리는 동안 들어오는 이벤트를 처리하고 끝나면 바로 B를 처리할 수 있도록 만들 수 있습니다.
+
+# QThread
+
+**Forcing event dispatching** 방법을 적용하기 어려운 경우 쓰레드를 추가하여 처리 시간이 길 것으로 예상되는 이벤트 처리는 추가된 쓰레드에 맡기고, 이벤트 루프로 돌아가서 다른 이벤트들을 처리하는 방법이 있습니다.
+
+:::info
+Python의 GIL로 인해 메인 쓰레드 외에 QThread에서 `QThread.msleep` 없이 연속적인 연산이 이어지는 경우 메인 쓰레드가 블록킹 당할 수 있습니다.
+:::
+
+## QThread와 QObject
+
+> Reentrant(재진입) : A class is reentrant if it's safe to use its instances from more than one thread, provided that at most one thread is accessing the same instance at the same time. A function is reentrant if it's safe to invoke it from more than one thread at the same, provided that each invocation references unique data. In other words, this means that users of that class/function must serialize all accesses to instances/shared data by means of some external locking mechanism.
+
+> Thread-safe(쓰레드 안전) : A class is thread-safe if it's safe to use its instances from more than one thread at the same time. A function is thread-safe if it's safe to invoke it from more than one thread at the same time even if the invocations reference shared data.
+
+한 쓰레드의 이벤트 루프는 이벤트를 해당 쓰레드에 살아가는 모든 QObject에 전달합니다. `QObject`의 쓰레드 친화도(thread affinity)는 해당 객체가 살아가는 쓰레드를 말합니다. 쓰레드 친화도는 `QObject::thread()`를 통해 알 수 있습니다. `QCoreApplication` 객체보다 앞서 생성된 객체는 쓰레드 친화도가 없습니다.
+
+`QObject`와 `QObject`의 파생 클래스는 쓰레드 안전하지 않습니다. 객체 내부의 데이터 접근을 `QMutex` 등을 사용하여 직렬화하지 않는 다면 여러 쓰레드에서 하나의 `QObject`에 접근하면 안됩니다.
+
+`QObject`가 살아가는 쓰레드를 제외한 다른 쓰레드에서 할당해제를 하면 안됩니다.(쓰레드 안전) 다른 쓰레드에서 할당해제를 하려면 `QObject::deleteLater()`를 사용하여 쓰레드 친화도에 맞는 이벤트 큐에 할당해제 이벤트를 등록하고 해당 이벤트 루프에서 처리하면 됩니다.
+
+`QWidget`, `QWidget`의 파생 클래스 등 GUI 관련 클래스는 재진입이 되지 않습니다. 따라서 메인 쓰레드에서만 사용되어야 합니다.
+
+`QObject::moveToThread()`를 사용하여 살아가는 쓰레드안에서 다른 쓰레드로 쓰레드 친화도를 바꿀 수 있습니다. 다른 쓰레드에서 쓰레드 친화도를 바꿀 수는 없습니다. 부모를 가진 객체에 대해 사용할 수 없습니다.
+
+:::info
+아래 **쓰레드간의 시그널과 슬롯**을 읽으면 알겠지만 쓰레드의 슬롯은 쓰레드 객체를 생성하는 event loop에 있게 됩니다. direct connection이 발생할 수 있는데, 이를 피하기 위해 `moveToThread(this)`를 쓰게되면 쓰레드 객체를 다른 쓰레드에서 제어하기 어려워지기 때문에 피해야합니다.
+:::
+
+`QThread` 자신을 부모로 하는 객체를 `QThread` 내에 만들 수 없습니다. `QThread` 객체는 다른 쓰레드에 살아가고 있기 때문입니다.
+
+`QThread` 객체를 할당해제하기 전에 내부에 살아가는 모든 객체가 먼저 사라져야 합니다. 이는 `QThread::run()` 의 스택에서 해당 쓰레드에 살아가는 모든 객체를 생성하면 쉽게 구현할 수 있습니다.
+
+## 쓰레드간의 시그널과 슬롯
+
+- `direct connection` : 시그널이 발생된 쓰레드에서 직접 슬롯을 호출
+- `queued connection` : 수신측 쓰레드의 이벤트 큐에 이벤트가 추가되고, 나중에 이벤트 루프에서 빠질 때 슬롯 호출
+- `blocking queued connection` : queued connection + 시그널 발생 쓰레드가 슬롯의 호출 종료 시까지 블록킹 됨
+- `automatic connection` : 시그널 발생 쓰레드와 슬롯 실행 쓰레드를 비교하여 direct or queued connection
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/pyside2/pyside2-qthread-loop-diagram.png"
+    )}
+  />
+</center>
+
+`QThread` 파생 클래스 A를 만들 때, 내부에 시그널과 슬롯을 만들 수 있습니다. 그런 경우 시그널과 슬롯은 위 그림에서 빨간색 원에 위치하게 됩니다.
+
+Main에도 시그널과 슬롯을 만들 수 있습니다. 이 경우에는 시그널과 슬롯은 파란 원에 위치하게 됩니다.
+
+Main의 시그널을 A의 슬롯에 연결하면 direct connection이 됩니다. A의 슬롯은 Main event loop에서 실행됩니다. A 쓰래드 객체의 변수는 Main event loop에서 실행되는 A의 슬롯에서 접근이 가능하고, A event loop에서도 동시에 접근이 가능하기 때문에 문제가 발생할 수 있습니다.
+
+:::info
+`QThread`의 파생 클래스에 슬롯을 생성하면 direct connection에 의한 문제가 발생할 확률이 높기 때문에 조심해야합니다.
+:::
+
+A의 시그널이나 슬롯은 Main 또는 A event loop 어디에서나 실행될 수 있습니다. 연결 종류를 결정하는 것은 시그널과 슬롯의 위치가 아니라 실행되는 loop가 같은지 다른지에 따라 결정됩니다.
+
+Main의 슬롯과 A의 시그널을 연결했을 때, A의 시그널이 파란 원에서 발생하면 direct, 주황 원에서 발생하면 queued가 됩니다.
+
+## 기타
+
+`QThread::terminate` 사용은 피하는 것이 좋습니다. 코드가 실행되는 중에 중단되기 때문에 문제가 발생할 수 있습니다. 꼭 필요한 경우에만 사용할 것을 권장합니다.
+
+쓰레드가 구동 중일 때, 프로그램을 종료하면 안됩니다. `QThread::wait`을 사용해 종료를 대기해야 합니다.
+
+쓰레드가 구동 중일 때, 쓰레드 객체를 파괴하면 안됩니다. **`QThread::finished()` 시그널을 `QObject::deleteLater()` 슬롯과 연결**하여 쓰레드가 끝났을 때, 자동으로 파괴도도록 설계해야합니다.
+
+# Examples
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import QThread, Slot, Signal
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Background_thread(QThread):
+    """
+    QThread 파생 클래스
+    """
+
+    signal_in_a = Signal(str)
+
+    def __init__(self):
+        super().__init__()
+
+    def run(self):
+        while True:
+            self.msleep(1000)
+            """
+            signal : A event loop -> main event loop
+            queued connection
+            """
+            self.signal_in_a.emit("A event loop")
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    _background_thread = Background_thread()
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.push_button_clicked)
+        self.pushButton_2.clicked.connect(self.push_button_2_clicked)
+
+        self._background_thread.signal_in_a.connect(self.update_text_browser)
+
+        if not self._background_thread.isRunning():
+            self._background_thread.start()
+
+    def push_button_clicked(self):
+        """
+        쓰레드가 실행 중이지 않다면 실행
+        """
+        if not self._background_thread.isRunning():
+            self._background_thread.start()
+
+    def push_button_2_clicked(self):
+        """
+        signal : main event loop -> main event loop
+        direct connection
+        """
+        self._background_thread.signal_in_a.emit("main event loop")
+        """
+        문제 terminate 사용으로 인한 문제가 발생할 수 있음.
+        """
+        self._background_thread.terminate()
+
+    @Slot(str)
+    def update_text_browser(self, text):
+        """
+        main event loop에서 실행되는 슬롯
+        """
+        self.textBrowser.append("signal from " + text)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+
+    app_return = app.exec_()
+
+    """
+    종료 전 쓰레드 강제 종료
+    """
+    main_window._background_thread.terminate()
+    sys.exit(app_return)
+```
+
+# Reference
+
+- [https://wiki.qt.io/Threads_Events_QObjects](https://wiki.qt.io/Threads_Events_QObjects)
+- [https://doc.qt.io/qtforpython/PySide2/QtCore/QThread.html](https://doc.qt.io/qtforpython/PySide2/QtCore/QThread.html)

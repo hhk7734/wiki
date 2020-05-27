@@ -228,6 +228,18 @@ module.exports = {
             "lang/python/libraries/opencv/opencv-histogram"
           ],
         },
+        {
+          type: "category",
+          label: "PySide2",
+          items: [
+            "lang/python/libraries/pyside2/pyside2-installation",
+            "lang/python/libraries/pyside2/pyside2-convert-ui-to-python",
+            "lang/python/libraries/pyside2/pyside2-signal-and-slot",
+            "lang/python/libraries/pyside2/pyside2-qtimer",
+            "lang/python/libraries/pyside2/pyside2-qthread",
+            "lang/python/libraries/pyside2/pyside2-qrunnable-and-qthreadpool"
+          ],
+        },
         "lang/python/libraries/python-tkinter",
         "lang/python/libraries/python-pybluez"
       ],

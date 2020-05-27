@@ -1,0 +1,165 @@
+---
+id: pyside2-convert-ui-to-python
+title: PySide2 Convert UI to Python
+sidebar_label: Convert UI to Python
+description: PySide2 Convert UI to Python
+keywords:
+  - Python
+  - PySide2
+  - convert
+  - UI
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Qt Designer
+
+## 위젯 배치
+
+- 기본적인 화면을 꾸미기 위해 Main Window 폼을 생성합니다.
+- 위젯 상자에서 사용하고싶은 위젯을 선택하여 적당한 위치에 배치합니다.
+- 창을 선택하거나 객체 탐색기에서 MainWindow를 선택하면 전체 레이아웃 선택이 활성화됩니다. 원하는 레이아웃을 선택합니 다.
+
+<center>
+  <img
+    src={useBaseUrl("img/lang/python/libraries/pyside2/pyside2-layout.png")}
+  />
+</center>
+
+- 레이아웃에 맞춰 위젯을 재배치합니다.
+- 추가적으로 필요한 위젯이나 레이아웃을 추가합니다.
+
+<center>
+  <img
+    src={useBaseUrl("img/lang/python/libraries/pyside2/pyside2-setup.gif")}
+  />
+</center>
+
+## 위젯 속성 변경
+
+- 수정할 위젯을 폼 에디터에서 선택하거나, 객체 탐색기에서 선택합니다.
+- 속성 편집기에서 수정하고 싶은 내용을 수정합니다. objectName을 수정하면 파이썬에서 해당 이름으로 위젯에 접근할 수 있 습니다.
+
+<center>
+  <img
+    src={useBaseUrl("img/lang/python/libraries/pyside2/pyside2-object.png")}
+  />
+</center>
+
+# 파이썬에서 UI 접근하기
+
+## UI 파일을 파이썬 클래스로 변환
+
+파일을 **mainwindow.ui**로 저장한 경우 아래 명령어로 **ui_mainwindow.py**로 변경할 수 있습니다.
+
+```shell
+python3 -m PySide2.scripts.uic -x mainwindow.ui -o ui_mainwindow.py
+```
+
+변환된 파일은 아래와 같습니다.
+
+```python title="ui_mainwindow.py"
+from PySide2 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(228, 218)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName("gridLayout")
+        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton.setObjectName("pushButton")
+        self.gridLayout.addWidget(self.pushButton, 3, 1, 1, 1)
+        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_2.setObjectName("pushButton_2")
+        self.gridLayout.addWidget(self.pushButton_2, 3, 2, 1, 1)
+        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.textBrowser.setObjectName("textBrowser")
+        self.gridLayout.addWidget(self.textBrowser, 2, 1, 1, 2)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 228, 18))
+        self.menubar.setObjectName("menubar")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        MainWindow.setWindowTitle(
+            QtWidgets.QApplication.translate(
+                "MainWindow", "MainWindow", None, -1
+            )
+        )
+        self.pushButton.setText(
+            QtWidgets.QApplication.translate("MainWindow", "버튼 1", None, -1)
+        )
+        self.pushButton_2.setText(
+            QtWidgets.QApplication.translate("MainWindow", "버튼 2", None, -1)
+        )
+
+
+if __name__ == "__main__":
+    import sys
+
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())
+```
+
+## Ui 클래스 상속
+
+GUI와 기능을 분리하기 위해 Ui 클래스를 상속받은 클래스를 다른 소스에 생성합니다.
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    """
+    Ui 클래스 상속
+    """
+
+    def __init__(self):
+        super().__init__()
+        """
+        Ui 설정
+        """
+        self.setupUi(self)
+        """
+        버튼 클릭 시그널과 기능을 위한 슬롯 연결
+        """
+        self.pushButton.clicked.connect(self.push_button_clickd)
+        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
+
+    def push_button_clickd(self):
+        """
+        self.pushButton 클릭에 대한 기능 구현
+        """
+        pass
+
+    def push_button_2_clickd(self):
+        """
+        self.pushButton_2 클릭에 대한 기능 구현
+        """
+        pass
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+    sys.exit(app.exec_())
+```

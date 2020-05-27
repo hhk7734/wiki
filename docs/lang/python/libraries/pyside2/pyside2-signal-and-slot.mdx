@@ -1,0 +1,157 @@
+---
+id: pyside2-signal-and-slot
+title: PySide2 Signal and Slot
+sidebar_label: Signal and Slot
+description: PySide2 Signal and Slot
+keywords:
+  - Python
+  - PySide2
+  - Signal
+  - Slot
+---
+
+시그널과 슬롯을 사용하면 객체간 통신을 할 수 있습니다.
+
+- 하나의 시그널을 여러 슬롯에 연결할 수 있습니다.
+- 시그널은 다른 시그널에 연결할 수 있습니다.
+- 시그널은 QObject의 파생 클래스에 클래스 변수에 할당해야 합니다.
+- 하나의 슬롯을 여러 시그널에 연결할 수 있습니다.
+- @Slot 데코레이터를 사용하지 않아도 슬롯으로 쓸 수 있습니다.
+- 쓰레드 사이의 통신을 위해 시그널과 슬롯을 사용할 수 있습니다.
+
+:::info
+A 시그널에 a 슬롯을 여러번 연결하면, 시그널이 발생했을 때 연결된 횟수 만큼 슬롯을 호출합니다.
+:::
+
+# Examples
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import Signal, Slot
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    """
+    사용자 정의 시그널 생성
+    """
+
+    # clicked_signal = Signal((int,), (str,))
+    push_button_clicked_signal = Signal(int)
+    push_button_2_clicked_signal = Signal(str)
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        """
+        clicked 시그널에 슬롯 추가
+        """
+        self.pushButton.clicked.connect(self.push_button_clickd)
+        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
+
+        """
+        사용자 정의 시그널에 슬롯 추가
+        """
+        # self.clicked_signal[int].connect(self.print_str)
+        # self.clicked_signal[str].connect(self.print_str)
+        self.push_button_clicked_signal.connect(self.print_str)
+        self.push_button_2_clicked_signal.connect(self.print_str)
+
+        self.count = 0
+
+    def push_button_clickd(self):
+        """
+        Slot 데코레이터가 없으면 매개변수가 없는 슬롯으로 볼 수 있음
+        """
+        self.count += 1
+        """
+        push_button_clicked_signal 출력
+        Signal.emit(정의된 변수)
+        """
+        # self.clicked_signal[int].emit(self.count)
+        self.push_button_clicked_signal.emit(self.count)
+
+    def push_button_2_clickd(self):
+        self.count = 0
+        # self.clicked_signal[str].emit("init count")
+        self.push_button_2_clicked_signal.emit("init count")
+
+    @Slot(int)
+    @Slot(str)
+    def print_str(self, var):
+        """
+        int 또는 str 변수를 매개변수로 받을 수 있는 슬롯 생성
+        """
+        if isinstance(var, int):
+            self.textBrowser.append("count : " + str(var))
+        else:
+            self.textBrowser.append(var)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+
+    sys.exit(app.exec_())
+```
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import Signal, Slot
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    """
+    매개변수 여러개 설정
+    """
+
+    clicked_signal = Signal((int, int), (str, int))
+
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        self.pushButton.clicked.connect(self.push_button_clickd)
+        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
+
+        self.clicked_signal[int, int].connect(self.print_str)
+        self.clicked_signal[str, int].connect(self.print_str)
+
+        self.count1 = 0
+        self.count2 = 0
+
+    def push_button_clickd(self):
+        self.count1 += 1
+        self.count2 += 1
+        self.clicked_signal[int, int].emit(self.count1, self.count2)
+
+    def push_button_2_clickd(self):
+        self.count1 = 0
+        self.clicked_signal[str, int].emit("init count1", self.count1)
+
+    @Slot(int, int)
+    @Slot(str, int)
+    def print_str(self, var1, var2):
+        if isinstance(var1, int):
+            self.textBrowser.append("count : {}, {}".format(var1, var2))
+        else:
+            self.textBrowser.append("{} : {}".format(var1, var2))
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+
+    sys.exit(app.exec_())
+```
+
+# Reference
+
+- [https://wiki.qt.io/Qt_for_Python_Signals_and_Slots](https://wiki.qt.io/Qt_for_Python_Signals_and_Slots)
+- [http://pyqt.sourceforge.net/Docs/PyQt5/signals_slots.html](http://pyqt.sourceforge.net/Docs/PyQt5/signals_slots.html)

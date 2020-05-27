@@ -1,0 +1,101 @@
+---
+id: pyside2-qrunnable-and-qthreadpool
+title: PySide2 QRunnable and QThreadPool
+sidebar_label: QRunnable and QThreadPool
+description: PySide2 QRunnable and QThreadPool
+keywords:
+  - Python
+  - PySide2
+  - QRunnable
+  - QThreadPool
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Examples
+
+```python
+import sys
+from PySide2.QtWidgets import QMainWindow, QApplication
+from PySide2.QtCore import (
+    QObject,
+    QThread,
+    QRunnable,
+    QThreadPool,
+    Slot,
+    Signal,
+)
+
+from ui_mainwindow import Ui_MainWindow
+
+
+class Task_signal(QObject):
+    """
+    QRunnable에서 사용할 시그널
+    """
+
+    finished = Signal(bool)
+
+
+class Task(QRunnable):
+    _sig = Task_signal()
+    finished = _sig.finished
+
+    var = False
+
+    def run(self):
+        """
+        잠시 중단하는 경우 QThread.msleep() 사용
+        """
+        QThread.msleep(5000)
+
+        self.finished.emit(self.var)
+
+
+class Main_window(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+        self.pushButton.clicked.connect(self.task_start)
+        self.task = Task()
+        self.task.setAutoDelete(False)
+        self.task.finished.connect(self.task_finished)
+
+    def task_start(self):
+        if self.task.var:
+            self.task.var = False
+        else:
+            self.task.var = True
+
+        """
+        task 실행
+        """
+        QThreadPool.globalInstance().start(self.task)
+
+        """
+        버튼 비활성화
+        """
+        self.pushButton.setEnabled(False)
+
+    @Slot(bool)
+    def task_finished(self, is_success):
+        if is_success:
+            self.textBrowser.append("success")
+        else:
+            self.textBrowser.append("fail")
+
+        self.pushButton.setEnabled(True)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = Main_window()
+    main_window.show()
+    sys.exit(app.exec_())
+```
+
+# Reference
+
+- [https://doc.qt.io/qtforpython/PySide2/QtCore/QThreadPool.html](https://doc.qt.io/qtforpython/PySide2/QtCore/QThreadPool.html)
+- [https://doc.qt.io/qtforpython/PySide2/QtCore/QRunnable.html](https://doc.qt.io/qtforpython/PySide2/QtCore/QRunnable.html)
