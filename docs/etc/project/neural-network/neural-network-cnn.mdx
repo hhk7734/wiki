@@ -118,8 +118,8 @@ len(x_test) == 10000
 """
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 # image, image_row, image_col => (32,32)
-x_train = np.pad(x_train, ((0, 0), (2, 2), (2, 2)))
-x_test = np.pad(x_test, ((0, 0), (2, 2), (2, 2)))
+x_train = np.pad(x_train, ((0, 0), (2, 2), (2, 2)), mode="constant")
+x_test = np.pad(x_test, ((0, 0), (2, 2), (2, 2)), mode="constant")
 # Add channels
 x_train = x_train.reshape(*x_train.shape, 1)
 x_test = x_test.reshape(*x_test.shape, 1)
@@ -188,7 +188,18 @@ score = model.evaluate(x_test, y_test, verbose=1)
 print("Test loss:", score[0])
 print("Test accuracy: {}%".format(score[1] * 100))
 
-model.save("./hong_net_5")
+model.save("hong_net_5")
+
+run_model = tf.function(lambda x: model(x))
+concrete_func = run_model.get_concrete_function(
+    tf.TensorSpec((1, *x_train.shape[1:]), x_train.dtype)
+)
+converter = tf.lite.TFLiteConverter.from_concrete_functions([concrete_func])
+tflite_model = converter.convert()
+open("converted_model.tflite", "wb").write(tflite_model)
+
+np.save("x_test.npy", x_test)
+np.save("y_test.npy", y_test)
 ```
 
 ## Inference
@@ -199,22 +210,48 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-mnist = tf.keras.datasets.mnist
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
-x_test = np.pad(x_test, ((0, 0), (2, 2), (2, 2)))
-x_test = x_test.reshape(*x_test.shape, 1)
-x_test = x_test.astype("float32")
+x_test = np.load("x_test.npy")
+y_test = np.load("y_test.npy")
 
-model = tf.keras.models.load_model("./hong_net_5")
+model = tf.keras.models.load_model("hong_net_5")
 
-while True:
+for _ in range(5):
     num = int(np.random.rand(1) * 10000)
     img = x_test[num].reshape((32, 32))
     ret = model.predict(x_test[num : num + 1])
-    print(np.argmax(ret))
+    inference = np.argmax(ret)
+    print("{}: {}".format(inference, inference == y_test[num]))
     plt.imshow(img)
     plt.show()
-    time.sleep(1)
+```
+
+```python title="inference_tflite.py"
+import tflite_runtime.interpreter as tflite
+import numpy as np
+import matplotlib.pyplot as plt
+import time
+
+x_test = np.load("x_test.npy")
+y_test = np.load("y_test.npy")
+
+interpreter = tflite.Interpreter(model_path="converted_model.tflite")
+interpreter.allocate_tensors()
+
+input_details = interpreter.get_input_details()
+input_shape = input_details[0]["shape"]
+
+output_details = interpreter.get_output_details()
+
+for _ in range(5):
+    num = int(np.random.rand(1) * 10000)
+    img = x_test[num].reshape((32, 32))
+    interpreter.set_tensor(input_details[0]["index"], x_test[num : num + 1])
+    interpreter.invoke()
+    output_data = interpreter.get_tensor(output_details[0]["index"])
+    inference = np.argmax(output_data)
+    print("{}: {}".format(inference, inference == y_test[num]))
+    plt.imshow(img)
+    plt.show()
 ```
 
 # Reference
