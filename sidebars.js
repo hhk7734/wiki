@@ -259,6 +259,9 @@ module.exports = {
       ],
     },
   ],
+  sam: [
+    "mcu/sam/sam-development-environment"
+  ],
   stm32: [
     "mcu/stm32/stm32-create-project-stm32cubeide",
     "mcu/stm32/stm32-upload-executable-file-stm32cubeide",

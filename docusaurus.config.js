@@ -58,6 +58,7 @@ module.exports = {
           nodejs: "Node.js",
           project: "Project",
           python: "Python",
+          sam: "SAM",
           stm32: "STM32",
         };
 

@@ -1,0 +1,51 @@
+---
+id: sam-development-environment
+title: SAM Development environment
+sidebar_label: Development environment
+description: SAM Development environment
+keywords:
+  - SAM
+---
+
+# Installation
+
+아래 목차에 있는 내용을 설치하셔야 합니다.
+
+각 프로그램의 설치 경로를 직접 확인하시길 바랍니다. 설치하는 시점에 따라 변경될 수 있습니다.
+
+- Atmel Studio 7
+  - [https://www.microchip.com/mplab/avr-support](https://www.microchip.com/mplab/avr-support)
+  - SMART ARM MCU 선택
+  - Visual studio 기반 IDE
+- BOSSA(Basic Open Source SAM-BA Application)
+  - [https://github.com/shumatech/BOSSA/releases](https://github.com/shumatech/BOSSA/releases)
+  - SAM-BA를 지원하는 MCU의 경우 BOSSA를 사용해 쉽게 업로드 할 수 있습니다.
+
+## BOSSAC.exe External Tools
+
+- Arduino due Programming Port
+  - `Command`: `<path to>\bossac.exe`
+  - `Arguments`: `-i -d --usb-port=0 -e -w -v -b $(TargetDir)$(TargetName).bin -R --port=COMx`
+  - `Initial directory`: `$(TargetDir)`
+  - Use Output window, Prompt for arguments
+- Arduino due Native USB Port
+  - `Command`: `<path to>\bossac.exe`
+  - `Arguments`: `-i -d -e -w -v -b $(TargetDir)$(TargetName).bin -R --port=COMx`
+  - `Initial directory`: `$(TargetDir)`
+  - Use Output window, Prompt for arguments
+- Arduino due erase
+  - `Command`: `<path to>\bossac.exe`
+  - `Arguments`: `-a --port=COMx`
+  - Use Output window, Prompt for arguments
+
+**No device found on COMx**로 인해 업로드가 안되는 경우 COM 번호를 확인합니다. 번호를 확인했는데 문제가 있고 Arduino Due 보드를 사용하는 경우 **Arduino due erase**를 실행하거나 물리적으로 **ERASE** 버튼을 약 1초 누르고 **RESET** 버튼을 누른 후 다시 시도합니다.
+
+# Atmel Software Framework(ASF) Project
+
+Atmel Studio 7을 실행합니다.
+
+File -> New -> Project -> GCC C ASF Board Project를 선택합니다.
+
+Board selection에서 사용할 보드를 검색해서 선택합니다.
+
+ASF -> ASF Wizard 를 선택합니다. ASF Wizard에서 필요한 기능을 `Add >>`버튼을 눌러 추가한 후, `Apply` 버튼을 누르면 ASF에 적용됩니다.
