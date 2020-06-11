@@ -1,0 +1,171 @@
+---
+id: linux-kernel-how-to-contribute
+title: How to contribute to Linux kernel
+sidebar_label: How to contribute
+description: How to contribute to Linux kernel
+keywords:
+  - kernel
+  - contribute
+---
+
+# Write commit message
+
+```shell
+title
+
+details
+
+Signed-off-by: Hyeonki Hong <hhk7734@gmail.com>
+```
+
+# Make patch
+
+```shell
+git format-patch [-<num of commit>] [commit]
+```
+
+```shell
+./scripts/checkpatch.pl <patch_file>
+```
+
+# Set mutt
+
+```shell title=".muttrc"
+unset use_domain
+set realname = "Hyeonki Hong"
+set from = "hhk7734@gmail.com"
+set use_from = yes
+
+set imap_user = "hhk7734@gmail.com"
+set imap_pass = "<app password>"
+set spoolfile = imaps://imap.gmail.com/INBOX
+set folder = imaps://imap.gmail.com/
+set record="imaps://imap.gmail.com/[Gmail]/Sent Mail"
+set postponed="imaps://imap.gmail.com/[Gmail]/Drafts"
+set mbox="imaps://imap.gmail.com/[Gmail]/All Mail"
+
+set smtp_url = "smtp://hhk7734@smtp.gmail.com:587/"
+set smtp_pass = $imap_pass
+set ssl_force_tls = yes
+
+set editor = "vim"
+set edit_headers = yes
+set charset = UTF-8
+```
+
+# Send patch mail
+
+## Get maintainer
+
+```shell
+./scripts/get_maintainer.pl <patch_file>
+```
+
+## Send patch using mutt
+
+```shell
+mutt -H <patch_file>
+```
+
+```txt
+To: <maintainer>, <maintainer>, ...
+```
+
+```txt
+Cc: <open list>, ...
+```
+
+# Reply to comments
+
+```shell
+mutt
+```
+
+Reply, including the message you received.
+
+Write the answer inline or at the end of the included message.
+
+## Example
+
+```mail
+From: Hyeonki Hong <hhk7734@gmail.com>
+Date: Thu, Jun 11, 2020 at 2:40 PM
+Subject: [PATCH] pinctrl: meson: fix drive strength register and bit
+calculation
+To: Jerome Brunet <jbrunet@baylibre.com>, Linus Walleij <linus.walleij@linaro.org>, <khilman@baylibre.com>
+Cc: <linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>
+
+
+On Wed, Jun 10, 2020 at 03:09:42PM +0200, Jerome Brunet wrote:
+>
+> On Wed 10 Jun 2020 at 06:13, hhk7734@gmail.com wrote:
+>
+> > From: Hyeonki Hong <hhk7734@gmail.com>
+> >
+> > If a GPIO bank has greater than 16 pins, PAD_DS_REG is split into two
+> > registers. However, when register and bit were calculated, the first
+> > register defined in the bank was used, and the bit was calculated based
+> > on the first pin. This causes problems in setting the driving strength.
+> >
+> > Solved the problem by changing the bit using a mask and selecting the
+> > next register when the bit exceeds 15.
+>
+> This fixes the case of GPIOX on g12 which goes up to 18 yes but the same
+> problem will happen again a if bank ever goes past 31 pins. In such case
+> the problem would apply to all reg types.
+>
+> I would prefer if it was solved in a more generic fashion, like defining
+> a "stride" table with the values of each reg type. This table can common
+> to all aml SoCs for now but eventually it probably need to be SoC
+> specific.
+>
+> This would allow to :
+> A) handle the case you are reporting in a generic (future proof) way
+> B) remove the weird "bit = bit << 1;" calc in place in the get/set of
+> the drive strengh pinconf
+
+If all amlogic SoC has same register style, I think the code below is fine.
+
+static const unsigned int meson_bit_strides[] = {
+        0, 0, 0, 0, 0, 1, 0
+};
+
+static void meson_calc_reg_and_bit(struct meson_bank *bank, unsigned int pin,
+                                   enum meson_reg_type reg_type,
+                                   unsigned int *reg, unsigned int *bit)
+{
+        struct meson_reg_desc *desc = &bank->regs[reg_type];
+
+        *bit = (desc->bit + pin - bank->first) << meson_bit_strides[reg_type];
+        *reg = (desc->reg + (*bit / 32)) * 4;
+        *bit &= 0x1f;
+}
+
+How about this?
+
+> >
+> > Signed-off-by: Hyeonki Hong <hhk7734@gmail.com>
+> > ---
+> >  drivers/pinctrl/meson/pinctrl-meson.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >
+> > diff --git a/drivers/pinctrl/meson/pinctrl-meson.c b/drivers/pinctrl/meson/pinctrl-meson.c
+> > index bbc919bef2bf..ef66239b7df5 100644
+> > --- a/drivers/pinctrl/meson/pinctrl-meson.c
+> > +++ b/drivers/pinctrl/meson/pinctrl-meson.c
+> > @@ -98,6 +98,13 @@ static void meson_calc_reg_and_bit(struct meson_bank *bank, unsigned int pin,
+> >
+> >     *reg = desc->reg * 4;
+> >     *bit = desc->bit + pin - bank->first;
+> > +
+> > +   if (reg_type == REG_DS) {
+> > +           if (*bit > 15) {
+> > +                   *bit &= 0xf;
+> > +                   *reg += 4;
+> > +           }
+> > +   }
+> >  }
+> >
+> >  static int meson_get_groups_count(struct pinctrl_dev *pcdev)
+>
+```

@@ -97,6 +97,7 @@ module.exports = {
     "linux/linux-kernel/build-linux-kernel",
     "linux/linux-kernel/linux-kernel-ftrace",
     "linux/linux-kernel/build-external-linux-module",
+    "linux/linux-kernel/linux-kernel-how-to-contribute",
     "linux/linux-kernel/linux-kernel-tty0uart",
     {
       type: "category",
