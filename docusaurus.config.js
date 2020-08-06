@@ -35,7 +35,7 @@ module.exports = {
         alt: "loliot Logo",
         src: "img/logo.svg",
       },
-      links: (() => {
+      items: (() => {
         const links = [];
 
         const sidebarConfig = require("./sidebars");
