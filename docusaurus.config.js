@@ -12,7 +12,6 @@ module.exports = {
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
   plugins: [
-    "@docusaurus/plugin-google-analytics",
     "docusaurus-plugin-google-adsense",
   ],
   themeConfig: {
