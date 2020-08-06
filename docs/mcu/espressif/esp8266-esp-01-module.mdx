@@ -1,0 +1,297 @@
+---
+id: esp8266-esp-01-module
+title: ESP8266 ESP-01
+sidebar_label: ESP8266 ESP-01
+description: ESP8266 ESP-01
+keywords:
+  - Espressif
+  - ESP8266
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Pin-out
+
+<center>
+  <img src={useBaseUrl("img/mcu/espressif/esp8266-esp-01-pinout.png")} />
+</center>
+
+| Pin   |                         |                       |
+| ----- | ----------------------- | --------------------- |
+| VCC   | ALL VDDx                | 3.3 V (3.0 V ~ 3.6 V) |
+| GND   | Ground                  | Ground                |
+| UTXD  | U0TXD - GPIO1 - SPI_CS1 | TX                    |
+| URXD  | U0RXD - GPIO3           | RX                    |
+| CH_PD | CHIP_PU                 | 파워 다운, Active-LOW |
+| RST   | EXT_RSTB                | 리셋, Active-LOW      |
+| GPIO0 | GPIO0 - SPI_CS2         | 부트 옵션 설정        |
+| GPIO2 | GPIO2 - I2C_SDA         | 부트 옵션 설정        |
+
+# Boot options
+
+| GPIO0 | GPIO2 | MODE  |           |
+| ----- | ----- | ----- | --------- |
+| L     | H     | UART  |           |
+| H     | H     | Flash | SPI flash |
+
+# AT
+
+## AT format
+
+| 타입        | 명령어 형식    |                                       |
+| ----------- | -------------- | ------------------------------------- |
+| 명령어 설명 | `AT+<x>=?`     | 설정 명령어의 변수, 설정 범위 등 확인 |
+| 설정 확인   | `AT+<x>?`      | 현재 설정된 값 확인                   |
+| 설정        | `AT+<x>=<...>` |                                       |
+| 실행        | `AT+<x>`       | 설정 변수가 없는 명령 실행            |
+
+- 모든 명령어가 위 4 가지 형식을 모두 지원하는 것은 아닙니다.
+- 문자열 변수의 경우 **""** 큰따옴표를 사용해야 합니다.
+- 명령어는 대문자로 구성되어 있으며, 마지막에 <strong>CR(\r) LF(\n)</strong>을 붙여야 합니다.
+- \_CUR 명령어는 설정이 Flash에 저장되지 않고, \_DEF 명령어는 설정이 Flash에 저장됩니다.
+
+## AT basic commands
+
+```shell
+AT
+```
+
+- @brief 테스트 명령어
+
+```shell
+AT+RST
+```
+
+- @brief 재시작
+
+```shell
+AT+GMR
+```
+
+- @brief 버전 확인
+
+```shell
+ATE<on/off>
+```
+
+- @brief 입력된 명령어 출력
+- @param `<on/off>` 0 이면 명령어 실행 결과만 출력, 1 이면 입력한 명령어와 실행 결과 출력
+
+```shell
+AT+RESTORE
+```
+
+- @brief 설정 초기화
+
+```shell
+AT+UART_CUR=<baudrate>,<databits>,<stopbits>,<parity>,<flow control>
+AT+UART_DEF=<baudrate>,<databits>,<stopbits>,<parity>,<flow control>
+```
+
+- @brief 현재 UART 통신 설정
+- @param `<baudrate>` 기본 115200
+- @param `<databits>` 5 ~ 8, 기본 8
+- @param `<stopbits>` ‣ 1: 1-bit stop bit ‣ 2: 1.5-bit stop bit ‣ 3: 2-bit stop bit, 기본 1
+- @param `<parity>` ‣ 0: None ‣ 1: Odd ‣ 2: Even, 기본 0
+- @param `<flow control>` ‣ 0: not enabled ‣ 1: enable RTS ‣ 2: enable CTS ‣ 3: enable both RTS and CTS, 기본 0
+
+## Wi-Fi AT 명령어
+
+```shell
+AT+CWMODE_CUR=<mode>
+AT+CWMODE_DEF=<mode>
+```
+
+- @brief 와이파이 모드 설정
+- @param `<mode>` ‣ 1: Station mode ‣ 2: SoftAP mode ‣ 3: SoftAP+Station mode
+
+```shell
+AT+CWJAP_CUR=<ssid>,<pwd>[,<bssid>][,<pci_en>]
+AT+CWJAP_DEF=<ssid>,<pwd>[,<bssid>][,<pci_en>]
+```
+
+- @brief AP(Wireless Access Point)에 연결
+- @param `<ssid>` 무선 네트워크 명, 문자열
+- @param `<pwd>` 암호, 문자열
+- @param `<bssid>` 옵션 변수, AP의 MAC 주소, 문자열
+- @param `<pci_en>` 옵션 변수, WEP 또는 OPEN AP 연결을 허용하지 않고, PCI 인증을 위해 사용 가능
+- @warning , " \ 등의 특수문자는 \ 를 붙여 사용해야함. ex) `, -> \,`, `" -> \"`, `\ -> \\`
+
+```shell
+AT+CWLAP
+```
+
+- @brief 연결 가능한 AP 검색
+- @return `+CWLAP:<ecn>,<ssid>,<rssi>,<mac>,<channel>,<freq offset>, <freq cali>,<pairwise_cipher>,<group_cipher>,<bgn>,<wps>`
+
+```shell
+AT+CWQAP
+```
+
+- @brief AP 연결 종료
+
+```shell
+AT+CWAUTOCONN=<enable>
+```
+
+- @brief 켜졌을 때, 자동 AP 연결 설정
+- @param `<enable>` ‣ 0: does NOT auto-connect ‣ 1: connects to AP automatically
+
+```shell
+AT+CIPSTA_CUR=<ip>[,<gateway>,<netmask>]
+AT+CIPSTA_DEF=<ip>[,<gateway>,<netmask>]
+AT+CIPAP_CUR=<ip>[,<gateway>,<netmask>]
+AT+CIPAP_DEF=<ip>[,<gateway>,<netmask>]
+```
+
+- @brief 고정 IP 설정(Station 모드, SoftAP 모드)
+- @param `<ip>` 할당받고 싶은 IP, 문자열
+- @param `<gateway>` AP gateway, 문자열
+- @param `<netmask>` AP netmask, 문자열
+
+## TCP/IP AT 명령어
+
+```shell
+AT+CIPSTATUS
+```
+
+- @brief 연결 상태 확인
+
+```shell
+AT+CIPSTART=[<link ID>,] "TCP",<remote IP>,<remoteport>[,<TCP keep alive>]
+AT+CIPSTART=[<link ID>,] "UDP",<remote IP>,<remoteport>[,(<UDP local port>),(<UDP mode>)]
+```
+
+- @brief TCP, UDP 연결 설정
+- @param `<link ID>` 옴션 변수, 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4
+- @param `<remote IP>` 접속할 IP 또는 도메인, 문자열
+- @param `<remote port>` 접속할 포트
+- @param `<TCP keep alive>` 옵션 변수, ‣ 0: disable ‣ 1 ~ 7200: detection time interval; unit: second (s).
+- @return 정보가 오면 +IPD,\[길이\]:\[내용\] 형식으로 반환
+
+```shell
+AT+CIPSEND
+```
+
+- @brief 단일 연결(AT+CIPMUX=0)
+  - transparent transmission mode(AT+CIPMODE=1) 에서 데이터를 연속으로 송신 패킷은 최대 2048 bytes, 20 ms 간격으로 송신
+  - +++만 포함한 패킷을 송신하면 명령 모드로 복귀, 적어도 1초 후 AT 명령어를 사용해야함
+  - +++CRLF로 보내면 안됩니다.
+
+```shell
+AT+CIPSEND=[<link ID>,]<length>[,<remote IP>,<remote port>]
+```
+
+- @brief >를 반환 받고, length 만큼 문자열을 입력하면 입력한 문자열 데이터 전송
+- @param `<link ID>` 옴션 변수, 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4
+- @param `<length>` 입력할 문자열 bytes, 최대 2048
+- @param `<remote IP>` 옴션 변수, 접속할 IP 또는 도메인, 문자열, UDP 전송 시에만 사용 가능
+- @param `<remote port>` 옵션 변수, 접속할 포트, UDP 전송 시에만 사용 가능
+
+```shell
+AT+CIPSENDEX=[<link ID>,]<length>[,<remote IP>,<remote port>]
+```
+
+- @brief >를 반환 받고, length 만큼 문자열을 입력하거나 \0 문자열이 나타나면 입력한 문자열 데이터 전송
+- @param `<link ID>` 옴션 변수, 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4
+- @param `<length>` 입력할 문자열 bytes, 최대 2048
+- @param `<remote IP>` 옵션 변수, 접속할 IP 또는 도메인, 문자열, UDP 전송 시에만 사용 가능
+- @param `<remote port>` 옵션 변수, 접속할 포트, UDP 전송 시에만 사용 가능
+
+```shell
+AT+CIPCLOSE[=<link ID>]
+```
+
+- @brief 연결 해제, TCP의 경우 자동 연결 해제 전에 명령어를 통해 연결 해제 가능, UDP는 명령어 이후 연결 해제
+- @param `<link ID>` 옵션 변수, 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4, 5 를 입력하면 모든 접속 종료
+
+```shell
+AT+CIFSR
+```
+
+- @brief ESP8266의 IP, MAC 주소 확인
+
+```shell
+AT+CIPMUX=<mode>
+```
+
+- @brief 다중 접속 설정, 모든 연결이 끊겨있을 때 설정 가능
+- @param `<mode>` ‣ 0: single connection ‣ 1: multiple connections
+
+```shell
+AT+CIPSERVER=<mode>[,<port>]
+```
+
+- @brief TCP 서버 설정, 다중 연결(AT+CIPMUX=1) 시 사용 가능
+- @param `<mode>` ‣ 0: deletes server ‣ 1: creates server
+- @param `<port>` 기본 333
+
+```shell
+AT+CIPMODE=<mode>
+```
+
+- @brief 송신 모드 설정
+- @param `<mode>` ‣ 0: normal transmission mode ‣ 1: transparent transmission mode
+
+```shell
+AT+CIPSTO=<time>
+```
+
+- @brief 서버 타임 아웃 설정
+- @param `<time>` 0~7200 초 설정 가능, 0으로 설정하면 타임 아웃 안됨
+
+```shell
+AT+PING=<remote IP>
+```
+
+- @brief PING 패킷 전송
+- @param `<remote IP>` 접속할 IP 또는 도메인, 문자열
+
+```shell
+AT+CIPDINFO=<mode>
+```
+
+- @brief 접속한 IP,port 정보 반환 설정
+- @param `<mode>` ‣ 0: does not show the remote IP and port with +IPD. ‣ 1: shows the remote IP and port with +IPD.
+
+```shell
++IPD[,<link ID>],<len>[,<remote IP>,<remote port>]:<data>
+```
+
+- @brief 수신된 네트워크 데이터
+- @param `<link ID>` 다중 연결(AT+CIPMUX=1) 시 반환, 0 ~ 4
+- @param `<len>` 수신된 데이터 bytes 수
+- @param `<remote IP>` 접속한 IP 반환, 접속 정보 반환 설정(AT+CIPDINFO=1) 시 반환
+- @param `<remote port>` 접속한 포트 반환, 접속 정보 반환 설정(AT+CIPDINFO=1) 시 반환
+- @param `<data>` 수신된 데이터
+
+## HTTP GET
+
+```shell
+AT+CWMODE_DEF=1\r\n
+AT+CWJAP_DEF=<ssid>,<pwd>\r\n
+AT+CIPMUX=0\r\n
+AT+CIPMODE=1\r\n
+AT+CIPSTART="TCP",<remote IP>,<remoteport>\r\n
+AT+CIPSEND\r\n
+> GET /xxx/xxx?key1=value1&key2=value2 HTTP/1.1\r\n
+HOST: xxx.xxx\r\n
+\r\n\r\n
+```
+
+## HTTP POST
+
+```shell
+AT+CWMODE_DEF=1\r\n
+AT+CWJAP_DEF=<ssid>,<pwd>\r\n
+AT+CIPMUX=0\r\n
+AT+CIPMODE=1\r\n
+AT+CIPSTART="TCP",<remote IP>,<remoteport>\r\n
+AT+CIPSEND\r\n
+> POST /xxx HTTP/1.1\r\n
+HOST: xxx.xxx\r\n
+Content-Type: application/json;charset=UTF-8\r\n
+Content-Length: 내용 길이\r\n
+\r\n
+내용
+```

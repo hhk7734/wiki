@@ -66,6 +66,9 @@ module.exports = {
       ],
     },
   ],
+  espressif: [
+    "mcu/espressif/esp8266-esp-01-module",
+  ],
   flutter: [
     {
       type: "category",

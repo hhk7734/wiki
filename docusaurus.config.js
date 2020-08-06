@@ -45,6 +45,7 @@ module.exports = {
           cpp: "C++",
           circuit: "Circuit",
           "debian-package": "Debian package",
+          espressif: "Espressif",
           etc: "Etc",
           flutter: "Flutter",
           infineon: "Infineon",
