@@ -16,6 +16,9 @@ module.exports = {
     "docusaurus-plugin-google-adsense",
   ],
   themeConfig: {
+    colorMode: {
+      defaultMode: "light"
+    },
     googleAnalytics: {
       trackingID: "UA-82937088-4",
       anonymizeIP: true,
@@ -23,7 +26,6 @@ module.exports = {
     googleAdsense: {
       dataAdClient: "ca-pub-5199357432848758",
     },
-    defaultDarkMode: false,
     algolia: {
       apiKey: "882821d106ded887254b7b5ec5690c5b",
       indexName: "liliot_wiki",
