@@ -15,7 +15,7 @@ RUN wc -c node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js | gr
 
 RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/index.js)
 
-RUN wc -c node_modules/@docusaurus/mdx-loader/src/index.js | grep 2042 -q && mv custom_node_modules/index.js node_modules/@docusaurus/mdx-loader/src/index.js || echo "\n\nUpdate custom_node_modules/index.js\n\n"
+RUN wc -c node_modules/@docusaurus/mdx-loader/src/index.js | grep 2214 -q && mv custom_node_modules/index.js node_modules/@docusaurus/mdx-loader/src/index.js || echo "\n\nUpdate custom_node_modules/index.js\n\n"
 
 RUN yarn build
 
