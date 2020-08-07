@@ -57,13 +57,19 @@ $$
 \Delta \mathbf{w} = - \eta \nabla C = - \epsilon \frac{\nabla C}{\lVert \nabla C \rVert} \quad ( \epsilon > 0)
 $$
 
-$\epsilon$ is called **step**. If the step is large, $C$ may diverge, and if the step is small, the convergence speed may be slow, so an appropriate value should be determined.
+$\eta$ is called **learning rate** and $\epsilon$ is called **step**. If the step is large, $C$ may diverge, and if the step is small, the convergence speed may be slow, so an appropriate value should be determined.
 
 If $\Delta \mathbf{w}$ is determined, then $\mathbf{w}_{next}$ can be
 
 $$
 \mathbf{w}_{next} = \mathbf{w} + \Delta \mathbf{w}
 $$
+
+<center>
+  <img
+    src={useBaseUrl("img/etc/project/neural-network/learning-rate-loss.jpg")}
+  />
+</center>
 
 ## Stochastic gradient descent
 
@@ -140,3 +146,4 @@ Set initail weights and biases to random and repeat process **Inference -> Back-
 
 - [http://neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com)
 - [https://machinelearning.tobiashill.se](https://machinelearning.tobiashill.se)
+- [http://www.bdhammel.com/learning-rates](http://www.bdhammel.com/learning-rates)
