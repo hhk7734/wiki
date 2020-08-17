@@ -233,8 +233,8 @@ fps = cap.get(cv.CAP_PROP_FPS)
 if cap.isOpened():
     while True:
         # 프레임 읽고, frame 변수에 할당.
-        is_sucess, frame = cap.read()
-        if not is_sucess:
+        is_success, frame = cap.read()
+        if not is_success:
             break
 
         # video 창에 frame 표시.
@@ -334,11 +334,11 @@ if cap.isOpened() and out.isOpened():
     while True:
         try:
             # 프레임 읽고, frame 변수에 할당.
-            is_sucess, frame = cap.read()
+            is_success, frame = cap.read()
         except cv.error as e:
             continue
 
-        if not is_sucess:
+        if not is_success:
             break
 
         # record.avi에 frame 쓰기.
