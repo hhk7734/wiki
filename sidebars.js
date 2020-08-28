@@ -199,6 +199,13 @@ module.exports = {
         "etc/project/neural-network/neural-network-cpu-gpu-npu",
         "etc/project/neural-network/neural-network-cnn",
       ]
+    },
+    {
+      type: "category",
+      label: "YOLOv4",
+      items: [
+        "etc/project/yolov4/yolov4-training",
+      ]
     }
   ],
   python: [
