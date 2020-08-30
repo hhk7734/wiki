@@ -177,6 +177,13 @@ module.exports = {
             "lang/nodejs/package/node-addon-api/nodejs-package-class-using-node-addon-api",
           ],
         },
+        {
+          type: "category",
+          label: "Electron",
+          items: [
+            "lang/nodejs/package/electron/electron-start-with-vue"
+          ],
+        },
       ],
     },
   ],
