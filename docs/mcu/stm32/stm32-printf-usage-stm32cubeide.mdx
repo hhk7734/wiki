@@ -21,18 +21,13 @@ STM32CubeIDE에서 printf()을 사용하는 방법이 여러가지가 있습니�
 컴파일될 소스 중에 아무 위치에나 아래 코드를 추가하면 됩니다.
 
 ```c
+#ifdef __cplusplus
+extern "C" int _write(int32_t file, uint8_t *ptr, int32_t len) {
+#else
 int _write(int32_t file, uint8_t *ptr, int32_t len) {
-    /* Implement your write code here, this is used by puts and printf for
-     * example */
-
-    for(int32_t i = 0; i < len; ++i) {
-        if(*ptr == '\n') {
-            uint8_t c = '\r';
-            HAL_UART_Transmit(&huart1, &c, 1, 100);
-        }
-        HAL_UART_Transmit(&huart1, ptr++, 1, 100);
-    }
-    return len;
+#endif
+    if( HAL_UART_Transmit(&huart1, ptr, len, len) == HAL_OK ) return len;
+    else return 0;
 }
 ```
 

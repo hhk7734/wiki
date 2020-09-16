@@ -17,9 +17,7 @@ module.exports = {
     {
       type: "category",
       label: "KiCad",
-      items: [
-        "etc/circuit/kicad/kicad-basics",
-      ],
+      items: ["etc/circuit/kicad/kicad-basics"],
     },
   ],
   "debian-package": [
@@ -41,15 +39,13 @@ module.exports = {
           items: [
             "lang/cpp/libraries/opencl/opencl-basics",
             "lang/cpp/libraries/opencl/opencl-with-mali-gpu",
-            "lang/cpp/libraries/opencl/opencl-example"
+            "lang/cpp/libraries/opencl/opencl-example",
           ],
         },
         {
           type: "category",
           label: "OpenCV",
-          items: [
-            "lang/cpp/libraries/opencv/opencv-installation"
-          ],
+          items: ["lang/cpp/libraries/opencv/opencv-installation"],
         },
       ],
     },
@@ -66,9 +62,7 @@ module.exports = {
       ],
     },
   ],
-  espressif: [
-    "mcu/espressif/esp8266-esp-01-module",
-  ],
+  espressif: ["mcu/espressif/esp8266-esp-01-module"],
   flutter: [
     {
       type: "category",
@@ -160,10 +154,7 @@ module.exports = {
     "linux/linux-uboot/uboot-custom-command",
     "linux/linux-uboot/uboot-configuration",
   ],
-  memo: [
-    "etc/memo/semantic-versioning-2-0-0",
-    "etc/memo/ssl-lets-encrypt",
-  ],
+  memo: ["etc/memo/semantic-versioning-2-0-0", "etc/memo/ssl-lets-encrypt"],
   nodejs: [
     {
       type: "category",
@@ -180,9 +171,7 @@ module.exports = {
         {
           type: "category",
           label: "Electron",
-          items: [
-            "lang/nodejs/package/electron/electron-start-with-vue"
-          ],
+          items: ["lang/nodejs/package/electron/electron-start-with-vue"],
         },
       ],
     },
@@ -195,8 +184,8 @@ module.exports = {
         "etc/project/ahrs/ahrs-quaternions-rotations",
         "etc/project/ahrs/ahrs-euler-angles",
         "etc/project/ahrs/ahrs-extended-kalman-filter",
-        "etc/project/ahrs/ahrs-sensor-calibration"
-      ]
+        "etc/project/ahrs/ahrs-sensor-calibration",
+      ],
     },
     {
       type: "category",
@@ -205,15 +194,13 @@ module.exports = {
         "etc/project/neural-network/neural-network-basics",
         "etc/project/neural-network/neural-network-cpu-gpu-npu",
         "etc/project/neural-network/neural-network-cnn",
-      ]
+      ],
     },
     {
       type: "category",
       label: "YOLOv4",
-      items: [
-        "etc/project/yolov4/yolov4-training",
-      ]
-    }
+      items: ["etc/project/yolov4/yolov4-training"],
+    },
   ],
   python: [
     {
@@ -225,15 +212,13 @@ module.exports = {
           type: "category",
           label: "ctypes",
           items: [
-            "lang/python/libraries/ctypes/python-ctypes-convert-bytes-structure"
+            "lang/python/libraries/ctypes/python-ctypes-convert-bytes-structure",
           ],
         },
         {
           type: "category",
           label: "gpiod",
-          items: [
-            "lang/python/libraries/gpiod/python-gpiod-about"
-          ],
+          items: ["lang/python/libraries/gpiod/python-gpiod-about"],
         },
         {
           type: "category",
@@ -243,7 +228,7 @@ module.exports = {
             "lang/python/libraries/opencv/opencv-read-image-video",
             "lang/python/libraries/opencv/opencv-draw-figure",
             "lang/python/libraries/opencv/opencv-color-spaces",
-            "lang/python/libraries/opencv/opencv-histogram"
+            "lang/python/libraries/opencv/opencv-histogram",
           ],
         },
         {
@@ -255,11 +240,11 @@ module.exports = {
             "lang/python/libraries/pyside2/pyside2-signal-and-slot",
             "lang/python/libraries/pyside2/pyside2-qtimer",
             "lang/python/libraries/pyside2/pyside2-qthread",
-            "lang/python/libraries/pyside2/pyside2-qrunnable-and-qthreadpool"
+            "lang/python/libraries/pyside2/pyside2-qrunnable-and-qthreadpool",
           ],
         },
         "lang/python/libraries/python-tkinter",
-        "lang/python/libraries/python-pybluez"
+        "lang/python/libraries/python-pybluez",
       ],
     },
     {
@@ -277,12 +262,11 @@ module.exports = {
       ],
     },
   ],
-  sam: [
-    "mcu/sam/sam-development-environment"
-  ],
+  sam: ["mcu/sam/sam-development-environment"],
   stm32: [
     "mcu/stm32/stm32-create-project-stm32cubeide",
     "mcu/stm32/stm32-upload-executable-file-stm32cubeide",
     "mcu/stm32/stm32-printf-usage-stm32cubeide",
+    "mcu/stm32/stm32-spi",
   ],
 };

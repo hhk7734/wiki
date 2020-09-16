@@ -1,0 +1,69 @@
+---
+id: stm32-spi
+title: STM32 SPI
+sidebar_label: SPI
+description: STM32 SPI
+keywords:
+  - STM32
+  - SPI
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Pinout & Configuration
+
+<center>
+  <img src={useBaseUrl("img/mcu/stm32/stm32-spi-mode.png")} />
+</center>
+
+# Function
+
+```c
+/**
+  * @brief  Transmit an amount of data in blocking mode.
+  * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
+  *               the configuration information for SPI module.
+  * @param  pData pointer to data buffer
+  * @param  Size amount of data to be sent
+  * @param  Timeout Timeout duration
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_SPI_Transmit(SPI_HandleTypeDef *hspi,
+                                   uint8_t *          pData,
+                                   uint16_t           Size,
+                                   uint32_t           Timeout);
+```
+
+```c
+/**
+  * @brief  Receive an amount of data in blocking mode.
+  * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
+  *               the configuration information for SPI module.
+  * @param  pData pointer to data buffer
+  * @param  Size amount of data to be received
+  * @param  Timeout Timeout duration
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_SPI_Receive(SPI_HandleTypeDef *hspi,
+                                  uint8_t *          pData,
+                                  uint16_t           Size,
+                                  uint32_t           Timeout);
+```
+
+```c
+/**
+  * @brief  Transmit and Receive an amount of data in blocking mode.
+  * @param  hspi pointer to a SPI_HandleTypeDef structure that contains
+  *               the configuration information for SPI module.
+  * @param  pTxData pointer to transmission data buffer
+  * @param  pRxData pointer to reception data buffer
+  * @param  Size amount of data to be sent and received
+  * @param  Timeout Timeout duration
+  * @retval HAL status
+  */
+HAL_StatusTypeDef HAL_SPI_TransmitReceive(SPI_HandleTypeDef *hspi,
+                                          uint8_t *          pTxData,
+                                          uint8_t *          pRxData,
+                                          uint16_t           Size,
+                                          uint32_t           Timeout);
+```

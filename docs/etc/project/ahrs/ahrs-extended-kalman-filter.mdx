@@ -15,6 +15,36 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 The extended Kalman filter(EKF) is the nonlinear version of the Kalman filter. EKF has 'Predict' and 'Update' stages and recursivley estimates target values.
 
+```c
+enum { EKF_X = 0, EKF_Y, EKF_Z, EKF_W };
+
+static const float EKF_Q_ROT = 0.1f;
+static const float EKF_R_ACC = 200.0f;
+static const float EKF_R_MAG = 2000.0f;
+
+static float quaternion[4] = {0.0, 0.0, 0.0, 1.0};
+static float P[4][4]       = {{1.0, 0.0, 0.0, 0.0},
+                              {0.0, 1.0, 0.0, 0.0},
+                              {0.0, 0.0, 1.0, 0.0},
+                              {0.0, 0.0, 0.0, 1.0}};
+
+static float F[4][4];
+static float y[6];
+static float H[6][4];
+static float S[6][6];
+static float K[4][6];
+
+void ahrs_get_unit_vector(float *vector, uint16_t vector_size) {
+    double sq_sum = 0;
+    for(uint16_t i = 0; i < vector_size; ++i) {
+        sq_sum += (vector[i] * vector[i]);
+    }
+    float norm = sqrt(sq_sum);
+
+    for(uint16_t i = 0; i < vector_size; ++i) { vector[i] /= norm; }
+}
+```
+
 # Predict
 
 $$
