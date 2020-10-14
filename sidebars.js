@@ -245,6 +245,15 @@ module.exports = {
         },
         "lang/python/libraries/python-tkinter",
         "lang/python/libraries/python-pybluez",
+        {
+          type: "category",
+          label: "yolov4",
+          items: [
+            "lang/python/libraries/yolov4/python-yolov4-about",
+            "lang/python/libraries/yolov4/python-yolov4-training",
+            "lang/python/libraries/yolov4/python-yolov4-map",
+          ],
+        },
       ],
     },
     {

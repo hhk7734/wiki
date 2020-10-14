@@ -1,0 +1,73 @@
+---
+id: python-yolov4-map
+title: Calculate mAP
+sidebar_label: mAP
+description:
+keywords:
+  - Python
+  - yolov4
+  - libgpiodcxx
+  - c++
+---
+
+# Save dataset for mAP
+
+- 2020-10-15
+- OS: Ubuntu 20.04
+- TF: v2.3.1
+- yolov4: v1.2.1
+- mAP: [https://github.com/Cartucho/mAP](https://github.com/Cartucho/mAP)
+
+## Downloads
+
+- mAP: [https://github.com/Cartucho/mAP](https://github.com/Cartucho/mAP)
+- val2017 images: [https://cocodataset.org/#download](https://cocodataset.org/#download)
+- coco.names, val2017.txt: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
+
+## Script
+
+```python
+from yolov4.tf import YOLOv4
+
+yolo = YOLOv4(tiny=True)
+
+yolo.classes = "coco.names"
+
+yolo.make_model()
+yolo.load_weights("yolov4-tiny.weights", weights_type="yolo")
+
+dataset = yolo.load_dataset(
+    "val2017.txt",
+    training=False,
+    image_path_prefix="/home/hhk7734/val2017",
+)
+
+yolo.save_dataset_for_mAP("/home/hhk7734/mAP", dataset)
+```
+
+```python
+save_dataset_for_mAP(mAP_path, data_set, num_sample=None, images_optional=False)
+```
+
+- @param `mAP_path`
+- @parma `data_set`
+- @param `num_sample`: Number of images for mAP. If `None`, all images in `data_set` are used.
+- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
+
+# Calculate mAP
+
+```shell
+cd <mAP directory>
+```
+
+```shell
+python3 -m pip install numpy matplotlib
+```
+
+```shell
+python3 main.py
+```
+
+- `--no-animation`
+- `--no-plot`
+- `--quiet`

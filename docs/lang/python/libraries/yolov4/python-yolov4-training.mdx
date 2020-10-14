@@ -1,0 +1,264 @@
+---
+id: python-yolov4-training
+title: YOLOv4 Training on Colab
+sidebar_label: Training
+description: YOLOv4 Training on Colab
+keywords:
+  - Neural Network
+  - YOLOv4
+  - training
+  - Colab
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Dataset files and formats
+
+## converted-coco
+
+```text title="image_path_and_bboxes.txt"
+<relative or full path>/image_0.jpg <class_id>,<center_x>,<center_y>,<width>,<height> <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_1.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_2.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_1.jpg
+├── image_2.jpg
+└── ...
+```
+
+Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
+
+## yolo
+
+```text title="image_path.txt"
+<relative or full path>/image_0.jpg
+<relative or full path>/image_1.jpg
+<relative or full path>/image_2.jpg
+
+...
+```
+
+```text title="<image_name>.txt"
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_0.txt
+├── image_1.jpg
+├── image_1.txt
+├── image_2.jpg
+├── image_2.txt
+└── ...
+```
+
+# Training Step
+
+- 2020-10-15
+- Google Colab
+- TF: v2.3.0
+- yolov4: v1.2.1
+- coco 2017 dataset
+
+## Installation
+
+```python
+python3 -m pip install -U yolov4
+```
+
+## Prepare dataset
+
+Usually, I create an image_path.txt using only image file names. Then, I make full path using `image_path_prefix` in `yolo.load_dataset()`.
+
+```text title="train2017.txt"
+000000000009.jpg 45,0.479492,0.688771,0.955609,0.595500 45,0.736516,0.247188,0.498875,0.476417 50,0.637063,0.732938,0.494125,0.510583 45,0.339438,0.418896,0.678875,0.781500 49,0.646836,0.132552,0.118047,0.096937 49,0.773148,0.129802,0.090734,0.097229 49,0.668297,0.226906,0.131281,0.146896 49,0.642859,0.079219,0.148063,0.148062
+000000000025.jpg 23,0.770336,0.489695,0.335891,0.697559 23,0.185977,0.901608,0.206297,0.129554
+000000000030.jpg 58,0.519219,0.451121,0.398250,0.757290 75,0.501188,0.592138,0.260000,0.456192
+
+...
+```
+
+```shell
+/content
+├── train2017
+│   ├── 000000000009.jpg
+│   ├── 000000000025.jpg
+│   ├── 000000000030.jpg
+│   └── ...
+└── ...
+```
+
+```python
+# Call load_dataset() after yolo.<parameter>: anchors, classes, input_size, xyscales, ...
+train_data_set = yolo.load_dataset(
+    "/content/drive/My Drive/Hard_Soft/NN/coco/train2017.txt",
+    image_path_prefix="/content/train2017",
+    label_smoothing=0.05
+)
+```
+
+## Set yolo parameters
+
+```python
+yolo = YOLOv4(tiny=True)
+yolo.classes = "/content/drive/My Drive/Hard_Soft/NN/coco/coco.names"
+yolo.input_size = 608 # == width, height
+yolo.batch_size = 32
+
+# Call make_model() after yolo.<parameter>: anchors, classes, input_size, xyscales, ...
+yolo.make_model()
+```
+
+## Load pre-trained weights
+
+```python
+yolo.load_weights(
+    "/content/drive/My Drive/Hard_Soft/NN/yolov4/yolov4-tiny.conv.29",
+    weights_type="yolo"
+)
+```
+
+## Set callbacks and Compile
+
+```python
+epochs = 400
+lr = 1e-4
+
+optimizer = optimizers.Adam(learning_rate=lr)
+yolo.compile(optimizer=optimizer, loss_iou_type="ciou")
+
+def lr_scheduler(epoch):
+    if epoch < int(epochs * 0.5):
+        return lr
+    if epoch < int(epochs * 0.8):
+        return lr * 0.5
+    if epoch < int(epochs * 0.9):
+        return lr * 0.1
+    return lr * 0.01
+
+_callbacks = [
+    callbacks.LearningRateScheduler(lr_scheduler),
+    callbacks.TerminateOnNaN(),
+    callbacks.TensorBoard(
+        log_dir="/content/drive/My Drive/Hard_Soft/NN/logs",
+    ),
+    SaveWeightsCallback(
+        yolo=yolo, dir_path="/content/drive/My Drive/Hard_Soft/NN/trained",
+        weights_type="yolo", epoch_per_save=10
+    ),
+]
+```
+
+## Call fit()
+
+```python
+yolo.fit(
+    train_data_set,
+    epochs=epochs,
+    callbacks=_callbacks,
+    validation_data=val_data_set,
+    validation_steps=50,
+    validation_freq=5,
+    steps_per_epoch=100,
+)
+```
+
+## Full script
+
+```python
+from tensorflow.keras import callbacks, optimizers
+from yolov4.tf import SaveWeightsCallback, YOLOv4
+import time
+
+yolo = YOLOv4(tiny=True)
+yolo.classes = "/content/drive/My Drive/Hard_Soft/NN/coco/coco.names"
+yolo.input_size = 608
+yolo.batch_size = 32
+
+yolo.make_model()
+yolo.load_weights(
+    "/content/drive/My Drive/Hard_Soft/NN/yolov4/yolov4-tiny.conv.29",
+    weights_type="yolo"
+)
+
+train_data_set = yolo.load_dataset(
+    "/content/drive/My Drive/Hard_Soft/NN/coco/train2017.txt",
+    image_path_prefix="/content/train2017",
+    label_smoothing=0.05
+)
+val_data_set = yolo.load_dataset(
+    "/content/drive/My Drive/Hard_Soft/NN/coco/val2017.txt",
+    image_path_prefix="/content/val2017",
+    training=False
+)
+
+epochs = 400
+lr = 1e-4
+
+optimizer = optimizers.Adam(learning_rate=lr)
+yolo.compile(optimizer=optimizer, loss_iou_type="ciou")
+
+def lr_scheduler(epoch):
+    if epoch < int(epochs * 0.5):
+        return lr
+    if epoch < int(epochs * 0.8):
+        return lr * 0.5
+    if epoch < int(epochs * 0.9):
+        return lr * 0.1
+    return lr * 0.01
+
+_callbacks = [
+    callbacks.LearningRateScheduler(lr_scheduler),
+    callbacks.TerminateOnNaN(),
+    callbacks.TensorBoard(
+        log_dir="/content/drive/My Drive/Hard_Soft/NN/logs",
+    ),
+    SaveWeightsCallback(
+        yolo=yolo, dir_path="/content/drive/My Drive/Hard_Soft/NN/trained",
+        weights_type="yolo", epoch_per_save=10
+    ),
+]
+
+yolo.fit(
+    train_data_set,
+    epochs=epochs,
+    callbacks=_callbacks,
+    validation_data=val_data_set,
+    validation_steps=50,
+    validation_freq=5,
+    steps_per_epoch=100,
+)
+```
+
+# TensorBoard
+
+```shell
+tensorboard --logdir logs
+```
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/yolov4/yolov4-training-tensorboard.png"
+    )}
+  />
+</center>
+
+# mAP
+
+<center>
+  <img
+    src={useBaseUrl("img/lang/python/libraries/yolov4/yolov4-training-mAP.png")}
+  />
+</center>
