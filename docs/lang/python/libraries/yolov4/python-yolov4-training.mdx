@@ -12,57 +12,6 @@ keywords:
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-# Dataset files and formats
-
-## converted-coco
-
-```text title="image_path_and_bboxes.txt"
-<relative or full path>/image_0.jpg <class_id>,<center_x>,<center_y>,<width>,<height> <class_id>,<center_x>,<center_y>,<width>,<height> ...
-<relative or full path>/image_1.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
-<relative or full path>/image_2.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
-
-...
-```
-
-```shell
-<full path>
-├── image_0.jpg
-├── image_1.jpg
-├── image_2.jpg
-└── ...
-```
-
-Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
-
-## yolo
-
-```text title="image_path.txt"
-<relative or full path>/image_0.jpg
-<relative or full path>/image_1.jpg
-<relative or full path>/image_2.jpg
-
-...
-```
-
-```text title="<image_name>.txt"
-<class_id> <center_x> <center_y> <width> <height>
-<class_id> <center_x> <center_y> <width> <height>
-<class_id> <center_x> <center_y> <width> <height>
-
-...
-```
-
-```shell
-<full path>
-├── image_0.jpg
-├── image_0.txt
-├── image_1.jpg
-├── image_1.txt
-├── image_2.jpg
-├── image_2.txt
-└── ...
-```
-
 # Training Step
 
 - 2020-10-15
@@ -79,7 +28,7 @@ python3 -m pip install -U yolov4
 
 ## Prepare dataset
 
-Usually, I create an image_path.txt using only image file names. Then, I make full path using `image_path_prefix` in `yolo.load_dataset()`.
+Usually, I create an image path related file using only image file names. Then, I make full path using `image_path_prefix` in `yolo.load_dataset()`.
 
 ```text title="train2017.txt"
 000000000009.jpg 45,0.479492,0.688771,0.955609,0.595500 45,0.736516,0.247188,0.498875,0.476417 50,0.637063,0.732938,0.494125,0.510583 45,0.339438,0.418896,0.678875,0.781500 49,0.646836,0.132552,0.118047,0.096937 49,0.773148,0.129802,0.090734,0.097229 49,0.668297,0.226906,0.131281,0.146896 49,0.642859,0.079219,0.148063,0.148062

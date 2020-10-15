@@ -1,0 +1,242 @@
+---
+id: python-yolov4-dataset
+title: Dataset for YOLOv4
+sidebar_label: Dataset
+description:
+keywords:
+  - Neural Network
+  - YOLOv4
+  - dataset
+---
+
+# Dataset files and formats
+
+## converted-coco
+
+```text title="image_path_and_bboxes.txt"
+<relative or full path>/image_0.jpg <class_id>,<center_x>,<center_y>,<width>,<height> <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_1.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_2.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_1.jpg
+├── image_2.jpg
+└── ...
+```
+
+Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
+
+## yolo
+
+```text title="image_path.txt"
+<relative or full path>/image_0.jpg
+<relative or full path>/image_1.jpg
+<relative or full path>/image_2.jpg
+
+...
+```
+
+```text title="<image_name>.txt"
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_0.txt
+├── image_1.jpg
+├── image_1.txt
+├── image_2.jpg
+├── image_2.txt
+└── ...
+```
+
+# Convert coco to custom dataset
+
+## COCO 2017 Dataset
+
+```json
+{
+    "info": {
+        "description": "COCO 2017 Dataset",
+        "url": "http://cocodataset.org",
+        "version": "1.0",
+        "year": 2017,
+        "contributor": "COCO Consortium",
+        "date_created": "2017/09/01"
+    },
+    "licenses": [
+        {
+            "url": "http://creativecommons.org/licenses/by-nc-sa/2.0/",
+            "id": 1,
+            "name": "Attribution-NonCommercial-ShareAlike License"
+        },
+        ...
+    ],
+    "images": [
+        {
+            "license": 4,
+            "file_name": "000000397133.jpg",
+            "coco_url": "http://images.cocodataset.org/val2017/000000397133.jpg",
+            "height": 427,
+            "width": 640,
+            "date_captured": "2013-11-14 17:02:52",
+            "flickr_url": "http://farm7.staticflickr.com/6116/6255196340_da26cf2c9e_z.jpg",
+            "id": 397133
+        },
+        ...
+    ],
+    "annotations": [
+        {
+            "segmentation": [[...]],
+            "area": 702.1057499999998,
+            "iscrowd": 0,
+            "image_id": 289343,
+            "bbox": [473.07,395.93,38.65,28.67], // xmin, ymin, width, height
+            "category_id": 18,
+            "id": 1768
+        },
+        ...
+    ],
+    "categories": [
+        {
+            "supercategory": "person",
+            "id": 1,
+            "name": "person"
+        },
+        {
+            "supercategory": "vehicle",
+            "id": 2,
+            "name": "bicycle"
+        },
+        ...
+    ]
+}
+```
+
+## Create names file
+
+Create a file with names you want to predict. The class name should be included in `categories` above.
+
+```text title="custom.names"
+person
+bicycle
+car
+motorbike
+aeroplane
+bus
+```
+
+## Conversion script
+
+- 2020-10-16
+- OS: Ubuntu 20.04
+
+```python
+import json
+from collections import OrderedDict
+from tqdm import tqdm
+
+INSTANCES_PATH = "instances_train2017.json"
+NAMES_PATH = "custom.names"
+OUTPUT_FILE_PATH = "custom_train2017.txt"
+
+coco = json.load(open(INSTANCES_PATH))
+images = coco["images"]
+annotations = coco["annotations"]
+categories = coco["categories"]
+replaced_name = {
+    "couch": "sofa",
+    "airplane": "aeroplane",
+    "tv": "tvmonitor",
+    "motorcycle": "motorbike",
+}
+
+class_to_id = {}
+id_to_class = {}
+with open(NAMES_PATH, "r") as fd:
+    index = 0
+    for class_name in fd:
+        class_name = class_name.strip()
+        if len(class_name) != 0:
+            id_to_class[index] = class_name
+            class_to_id[class_name] = index
+            index += 1
+
+dataset = {}
+
+for annotation in tqdm(annotations, desc="Parsing"):
+    image_id = annotation["image_id"]
+    category_id = annotation["category_id"]
+
+    # Find image
+    file_name = None
+    image_height = 0
+    image_width = 0
+    for image in images:
+        if image["id"] == image_id:
+            file_name = image["file_name"]
+            image_height = image["height"]
+            image_width = image["width"]
+            break
+
+    if file_name is None:
+        continue
+
+    # Find class id
+    class_id = None
+    for category in categories:
+        if category["id"] == category_id:
+            category_name = category["name"]
+            if category_name in replaced_name:
+                category_name = replaced_name[category_name]
+
+            class_id = class_to_id.get(category_name)
+            break
+
+    if class_id is None:
+        continue
+
+    # Calculate x,y,w,h
+    x_center = annotation["bbox"][0] + annotation["bbox"][2] / 2
+    x_center /= image_width
+    y_center = annotation["bbox"][1] + annotation["bbox"][3] / 2
+    y_center /= image_height
+    width = annotation["bbox"][2] / image_width
+    height = annotation["bbox"][3] / image_height
+
+    if dataset.get(image_id):
+        dataset[image_id][1].append(
+            [class_id, x_center, y_center, width, height]
+        )
+    else:
+        dataset[image_id] = [
+            file_name,
+            [[class_id, x_center, y_center, width, height]],
+        ]
+
+dataset = OrderedDict(sorted(dataset.items()))
+
+with open(OUTPUT_FILE_PATH, "w") as fd:
+    for image_id, bboxes in tqdm(dataset.items(), desc="Saving"):
+        data = bboxes[0]
+        for bbox in bboxes[1]:
+            data += " "
+            data += "{:d},".format(bbox[0])
+            data += "{:8.6f},".format(bbox[1])
+            data += "{:8.6f},".format(bbox[2])
+            data += "{:8.6f},".format(bbox[3])
+            data += "{:8.6f}".format(bbox[4])
+
+        data += "\n"
+        fd.write(data)
+```
