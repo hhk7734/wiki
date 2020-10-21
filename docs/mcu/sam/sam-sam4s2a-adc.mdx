@@ -1,0 +1,168 @@
+---
+id: sam-sam4s2a-adc
+title: SAM4S2A ADC
+sidebar_label: ADC
+description: SAM4S2A ADC
+keywords:
+  - SAM
+  - ADC
+---
+
+# ASF Wizard
+
+- ADC - Analog-to-digital Converter (driver): The Analog to Digital Converter is able to capture analog signals and transform them into digital format with 10-bit or 12-bit resolution.
+
+# Enum
+
+```c
+/* The max ADC clock freq definition*/
+#define ADC_FREQ_MAX 20000000
+/* The min ADC clock freq definition*/
+#define ADC_FREQ_MIN 1000000
+/* The normal ADC startup time*/
+#define ADC_STARTUP_NORM 40
+/* The fast ADC startup time*/
+#define ADC_STARTUP_FAST 12
+
+/* Definitions for ADC resolution */
+enum adc_resolution_t {
+    ADC_10_BITS = ADC_MR_LOWRES_BITS_10, /* ADC 10-bit resolution */
+    ADC_12_BITS = ADC_MR_LOWRES_BITS_12  /* ADC 12-bit resolution */
+};
+
+/* Definitions for ADC trigger */
+enum adc_trigger_t {
+    /* Starting a conversion is only possible by software. */
+    ADC_TRIG_SW = ADC_MR_TRGEN_DIS,
+    /* External trigger */
+    ADC_TRIG_EXT = ADC_MR_TRGSEL_ADC_TRIG0 | ADC_MR_TRGEN,
+    /* TIO Output of the Timer Counter Channel 0 */
+    ADC_TRIG_TIO_CH_0 = ADC_MR_TRGSEL_ADC_TRIG1 | ADC_MR_TRGEN,
+    /* TIO Output of the Timer Counter Channel 1 */
+    ADC_TRIG_TIO_CH_1 = ADC_MR_TRGSEL_ADC_TRIG2 | ADC_MR_TRGEN,
+    /* TIO Output of the Timer Counter Channel 2 */
+    ADC_TRIG_TIO_CH_2 = ADC_MR_TRGSEL_ADC_TRIG3 | ADC_MR_TRGEN,
+    /* PWM Event Line 0 */
+    ADC_TRIG_PWM_EVENT_LINE_0 = ADC_MR_TRGSEL_ADC_TRIG4 | ADC_MR_TRGEN,
+    /* PWM Event Line 1 */
+    ADC_TRIG_PWM_EVENT_LINE_1 = ADC_MR_TRGSEL_ADC_TRIG5 | ADC_MR_TRGEN
+};
+
+/* Definitions for ADC channel number */
+enum adc_channel_num_t {
+    ADC_CHANNEL_0          = 0,
+    ADC_CHANNEL_1          = 1,
+    ADC_CHANNEL_2          = 2,
+    ADC_CHANNEL_3          = 3,
+    ADC_CHANNEL_4          = 4,
+    ADC_CHANNEL_5          = 5,
+    ADC_CHANNEL_6          = 6,
+    ADC_CHANNEL_7          = 7,
+    ADC_CHANNEL_8          = 8,
+    ADC_CHANNEL_9          = 9,
+    ADC_CHANNEL_10         = 10,
+    ADC_CHANNEL_11         = 11,
+    ADC_CHANNEL_12         = 12,
+    ADC_CHANNEL_13         = 13,
+    ADC_CHANNEL_14         = 14,
+    ADC_TEMPERATURE_SENSOR = 15,
+};
+
+/* Definitions for ADC gain value */
+enum adc_gainvalue_t {
+    ADC_GAINVALUE_0 = 0,
+    ADC_GAINVALUE_1 = 1,
+    ADC_GAINVALUE_2 = 2,
+    ADC_GAINVALUE_3 = 3
+};
+
+/* Definitions for ADC analog settling time */
+enum adc_settling_time_t {
+    ADC_SETTLING_TIME_0 = ADC_MR_SETTLING_AST3,
+    ADC_SETTLING_TIME_1 = ADC_MR_SETTLING_AST5,
+    ADC_SETTLING_TIME_2 = ADC_MR_SETTLING_AST9,
+    ADC_SETTLING_TIME_3 = ADC_MR_SETTLING_AST17
+};
+
+/** Definitions for ADC Start Up Time */
+enum adc_startup_time {
+    ADC_STARTUP_TIME_0  = ADC_MR_STARTUP_SUT0,
+    ADC_STARTUP_TIME_1  = ADC_MR_STARTUP_SUT8,
+    ADC_STARTUP_TIME_2  = ADC_MR_STARTUP_SUT16,
+    ADC_STARTUP_TIME_3  = ADC_MR_STARTUP_SUT24,
+    ADC_STARTUP_TIME_4  = ADC_MR_STARTUP_SUT64,
+    ADC_STARTUP_TIME_5  = ADC_MR_STARTUP_SUT80,
+    ADC_STARTUP_TIME_6  = ADC_MR_STARTUP_SUT96,
+    ADC_STARTUP_TIME_7  = ADC_MR_STARTUP_SUT112,
+    ADC_STARTUP_TIME_8  = ADC_MR_STARTUP_SUT512,
+    ADC_STARTUP_TIME_9  = ADC_MR_STARTUP_SUT576,
+    ADC_STARTUP_TIME_10 = ADC_MR_STARTUP_SUT640,
+    ADC_STARTUP_TIME_11 = ADC_MR_STARTUP_SUT704,
+    ADC_STARTUP_TIME_12 = ADC_MR_STARTUP_SUT768,
+    ADC_STARTUP_TIME_13 = ADC_MR_STARTUP_SUT832,
+    ADC_STARTUP_TIME_14 = ADC_MR_STARTUP_SUT896,
+    ADC_STARTUP_TIME_15 = ADC_MR_STARTUP_SUT960
+};
+```
+
+# Examples
+
+```c
+#include "conf_uart_serial.h"
+
+#include <asf.h>
+
+void serial_init(void) {
+    pio_configure(
+        PINS_USART0_PIO, PINS_USART0_TYPE, PINS_USART0_MASK, PINS_USART0_ATTR);
+    pmc_enable_periph_clk(USART_SERIAL_ID);
+    sysclk_enable_peripheral_clock(USART_SERIAL_ID);
+
+    const usart_serial_options_t usart_serial_options
+        = {.baudrate   = USART_SERIAL_BAUDRATE,
+           .charlength = USART_SERIAL_CHAR_LENGTH,
+           .paritytype = USART_SERIAL_PARITY,
+           .stopbits   = USART_SERIAL_STOP_BIT};
+
+    stdio_serial_init(USART_SERIAL, &usart_serial_options);
+}
+
+void adc_setup(void) {
+    pmc_enable_periph_clk(ID_ADC);
+
+    adc_init(ADC, F_CPU, 6400000, ADC_STARTUP_TIME_8);
+    adc_configure_timing(ADC, 0, ADC_SETTLING_TIME_3, 1);
+    adc_set_resolution(ADC, ADC_MR_LOWRES_BITS_10);
+    // print
+    adc_check(ADC, F_CPU);
+
+    adc_disable_all_channel(ADC);
+    adc_enable_channel(ADC, ADC_CHANNEL_0);
+    adc_enable_channel(ADC, ADC_CHANNEL_2);
+
+    adc_configure_trigger(ADC, ADC_TRIG_SW, 0);
+
+    adc_start(ADC);
+}
+
+int main(void) {
+    sysclk_init();
+    board_init();
+    /* Insert application code here, after the board has been initialized. */
+    wdt_disable(WDT);
+
+    serial_init();
+
+    adc_setup();
+
+    for(;;) {
+        if(adc_get_channel_status(ADC, ADC_CHANNEL_0)
+           && adc_get_channel_status(ADC, ADC_CHANNEL_2)) {
+            printf("%d,%d\n",
+                   adc_get_channel_value(ADC, ADC_CHANNEL_0),
+                   adc_get_channel_value(ADC, ADC_CHANNEL_2));
+            adc_start(ADC);
+        }
+    }
+}
+```

@@ -25,6 +25,12 @@ git config --global user.email "hhk7734@gmail.com"
 ```
 
 ```shell
+git config --global core.autocrlf input
+```
+
+Windows를 사용하는 경우 `input`대신 `true`를 값으로 설정합니다.
+
+```shell
 git config --global core.eol lf \
 && git config --global core.editor vim \
 && git config --global credential.helper 'cache --timeout=86400'

@@ -1,0 +1,63 @@
+---
+id: sam-sam4s2a-ioport
+title: SAM4S2A ioport
+sidebar_label: ioport
+description: SAM4S2A ioport
+keywords:
+  - SAM
+  - ioport
+---
+
+# ASF Wizard
+
+- IOPORT - General purpose I/O service (service): IOPORT - General purpose I/O driver that includes functions for various I/O operations (set direction, set/get pin value, toggle pins etc.) Common API for XMEGA, UC3 and SAM.
+
+# Enum
+
+```c
+/** \brief IOPORT pin directions */
+enum ioport_direction {
+    IOPORT_DIR_INPUT,  /*!< IOPORT input direction */
+    IOPORT_DIR_OUTPUT, /*!< IOPORT output direction */
+};
+
+/** \brief IOPORT levels */
+enum ioport_value {
+    IOPORT_PIN_LEVEL_LOW,  /*!< IOPORT pin value low */
+    IOPORT_PIN_LEVEL_HIGH, /*!< IOPORT pin value high */
+};
+
+/** \brief IOPORT edge sense modes */
+enum ioport_sense {
+    IOPORT_SENSE_BOTHEDGES,  /*!< IOPORT sense both rising and falling edges */
+    IOPORT_SENSE_FALLING,    /*!< IOPORT sense falling edges */
+    IOPORT_SENSE_RISING,     /*!< IOPORT sense rising edges */
+    IOPORT_SENSE_LEVEL_LOW,  /*!< IOPORT sense low level  */
+    IOPORT_SENSE_LEVEL_HIGH, /*!< IOPORT sense High level  */
+};
+```
+
+# Examples
+
+```c
+#include <asf.h>
+
+#define MY_LED IOPORT_CREATE_PIN(PIOA, 10)
+
+int main(void) {
+    sysclk_init();
+    board_init();
+    /* Insert application code here, after the board has been initialized. */
+    wdt_disable(WDT);
+
+    delay_init(F_CPU);
+
+    ioport_init();
+    ioport_set_pin_dir(MY_LED, IOPORT_DIR_OUTPUT);
+
+    for(;;) {
+        ioport_toggle_pin_level(MY_LED);
+        delay_ms(100);
+    }
+}
+```

@@ -1,0 +1,135 @@
+---
+id: sam-sam4s2a-usart
+title: SAM4S2A USART
+sidebar_label: USART
+description: SAM4S2A USART
+keywords:
+  - SAM
+  - USART
+---
+
+# ASF Wizard
+
+- USART - Serial interface (service): Common API which abstracts the user from directly accessing the register and provides a generic serial interface using USART.
+- PIO - Parallel Input/Output Controller (driver): The Parallel Input/Output Controller manages up to 32 fully programmable input/output lines. Each I/O line may be dedicated as a general-purpose I/O or be assigned to a function of an embedded peripheral. This assures effective optimization of the pins of a product.
+
+# src\config\conf_board.h
+
+```c
+#ifndef CONF_BOARD_H
+#define CONF_BOARD_H
+
+#define CONSOLE_UART (Usart *)USART0
+
+/** Enable Com Port. */
+#define CONF_BOARD_UART_CONSOLE
+
+#endif    // CONF_BOARD_H
+```
+
+# src\config\conf_uart_serial.h
+
+```c
+#ifndef CONF_USART_SERIAL_H
+#define CONF_USART_SERIAL_H
+
+/* A reference setting for USART */
+/** USART Interface */
+#define CONF_UART CONSOLE_UART
+/** Baudrate setting */
+#define CONF_UART_BAUDRATE 115200
+/** Character length setting */
+#define CONF_UART_CHAR_LENGTH US_MR_CHRL_8_BIT
+/** Parity setting */
+#define CONF_UART_PARITY US_MR_PAR_NO
+/** Stop bits setting */
+#define CONF_UART_STOP_BITS US_MR_NBSTOP_1_BIT
+
+#define USART_SERIAL                CONF_UART
+#define USART_SERIAL_ID             ID_USART0
+#define USART_SERIAL_BAUDRATE       CONF_UART_BAUDRATE
+#define USART_SERIAL_CHAR_LENGTH    CONF_UART_CHAR_LENGTH
+#define USART_SERIAL_PARITY         CONF_UART_PARITY
+#define USART_SERIAL_STOP_BIT       CONF_UART_STOP_BITS
+#define USART_SERIAL_IRQ            USART0_IRQn
+#define USART_SERIAL_ISR_HANDLER    USART0_Handler
+#define USART_SERIAL_RX_BUFFER_SIZE 128
+#define USART_SERIAL_TX_BUFFER_SIZE 128
+
+#define PINS_USART0_PIO  PIOA
+#define PINS_USART0_ID   USART_SERIAL_ID
+#define PINS_USART0_TYPE PIO_PERIPH_A
+#define PINS_USART0_ATTR PIO_DEFAULT
+#define PINS_USART0_MASK (PIO_PA5A_RXD0 | PIO_PA6A_TXD0)
+
+#endif /* CONF_USART_SERIAL_H_INCLUDED */
+```
+
+# Examples
+
+```c
+#include "conf_uart_serial.h"
+
+#include <asf.h>
+
+volatile uint8_t  rx_buffer[USART_SERIAL_RX_BUFFER_SIZE];
+volatile uint16_t rx_buffer_tail = 0;
+volatile uint16_t rx_buffer_head = 0;
+
+void serial_init(void) {
+    pio_configure(
+        PINS_USART0_PIO, PINS_USART0_TYPE, PINS_USART0_MASK, PINS_USART0_ATTR);
+    pmc_enable_periph_clk(USART_SERIAL_ID);
+    sysclk_enable_peripheral_clock(USART_SERIAL_ID);
+
+    const sam_usart_opt_t usart_console_settings
+        = {.baudrate     = USART_SERIAL_BAUDRATE,
+           .char_length  = USART_SERIAL_CHAR_LENGTH,
+           .parity_type  = USART_SERIAL_PARITY,
+           .stop_bits    = USART_SERIAL_STOP_BIT,
+           .channel_mode = US_MR_CHMODE_NORMAL};
+    usart_init_rs232(USART_SERIAL, &usart_console_settings, F_CPU);
+    usart_enable_tx(USART_SERIAL);
+    usart_enable_rx(USART_SERIAL);
+
+    usart_enable_interrupt(USART_SERIAL, US_IER_RXRDY);
+    NVIC_EnableIRQ(USART_SERIAL_IRQ);
+}
+
+uint16_t serial_available(void) {
+    return (USART_SERIAL_RX_BUFFER_SIZE + rx_buffer_head - rx_buffer_tail)
+           % USART_SERIAL_RX_BUFFER_SIZE;
+}
+
+char serial_read(void) {
+    if(rx_buffer_head == rx_buffer_tail) return 0;
+    else {
+        uint8_t temp   = rx_buffer[rx_buffer_tail];
+        rx_buffer_tail = (rx_buffer_tail + 1) % USART_SERIAL_RX_BUFFER_SIZE;
+        return temp;
+    }
+}
+
+int main(void) {
+    sysclk_init();
+    board_init();
+    /* Insert application code here, after the board has been initialized. */
+    wdt_disable(WDT);
+
+    serial_init();
+
+    for(;;) {
+        if(serial_available()) { usart_write(USART_SERIAL, serial_read()); }
+    }
+}
+
+ISR(USART_SERIAL_ISR_HANDLER) {
+    if(usart_is_rx_ready(USART_SERIAL)) {
+        usart_read(USART_SERIAL, &rx_buffer[rx_buffer_head]);
+        rx_buffer_head = (rx_buffer_head + 1) % USART_SERIAL_RX_BUFFER_SIZE;
+        if(rx_buffer_head == rx_buffer_tail) {
+            rx_buffer_tail = (rx_buffer_tail + 1) % USART_SERIAL_RX_BUFFER_SIZE;
+        }
+    }
+}
+```

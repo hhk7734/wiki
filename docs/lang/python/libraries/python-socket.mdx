@@ -1,0 +1,337 @@
+---
+id: python-socket
+title: Python socket
+sidebar_label: socket
+description: Python socket
+keywords:
+  - Python
+  - socket
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# 네트워크 계층 (OSI, TCP/IP)
+
+네트워크 계층은 OSI 7 계층으로 이루어져 있고, 인터넷 사용 환경에서는 TCP/IP 4계층(또는 5계층)의 시각으로 바라볼 수 있습니다.
+
+아래 그림은 두 모델을 설명하는 그림입니다.
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/socket/python-socket-osi-tcp-ip.jpg"
+    )}
+  />
+</center>
+
+Ref: [https://community.fs.com/blog/tcpip-vs-osi-whats-the-difference-between-the-two-models.html](https://community.fs.com/blog/tcpip-vs-osi-whats-the-difference-between-the-two-models.html)
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/socket/python-socket-osi-tcp-ip-2.jpg"
+    )}
+  />
+</center>
+
+Ref: [https://www.researchgate.net/figure/The-logical-mapping-between-OSI-basic-reference-model-and-the-TCP-IP-stack_fig2_327483011](https://www.researchgate.net/figure/The-logical-mapping-between-OSI-basic-reference-model-and-the-TCP-IP-stack_fig2_327483011)
+
+각 계층의 역할은 아래와 같습니다.
+
+- `7 계층, Application` : 통신 프로토콜과 인터페이스 담당하는 계층
+- `6 계층, Presentation` : 데이터 변환, 암호화 등을 돕는 계층
+- `5 계층, Session` : 양 끝단 응용 프로세스에게 통신 연결, 유지 등에 대한 방법을 제공하는 계층
+- `4 계층, Transport` : 데이터를 전송하는 방법을 제공하는 계층
+- `3 계층, Network` : 다중 노드 네트워크의 구조화와 관리를 위해 주소 지정, 라우팅과 트래픽 제어를 담당하는 계층
+- `2 계층, Data link` : 1 계층에 의해 연결된 두 노드 사이의 신뢰성 있는 전송을 위한 계층
+- `1 계층, Physical` : 하드웨어 전송 기술로 구성된 계층
+
+# 소켓 통신
+
+소켓은 TCP/IP 모델에서 Application 계층과 Transport 계층 사이에서 네트워크 통신을 도와주는 인터페이스 입니다.
+
+# 함수 설명
+
+```python
+socket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)
+```
+
+- @brief 소켓 객체 생성
+- @param `family` address family 설정, 이 설정에 따라 address format이 결정됩니다.
+
+```python
+socket.bind(address)
+```
+
+- @brief address에 소켓을 연결
+- @param `address` `socket.AF_INET`의 경우 `(host, port)`입니다.
+
+```python
+socket.listen([backlog])
+```
+
+- @brief 서버가 연결을 허용할 수 있도록 설정
+- @param `backlog` client가 연결을 요청했을 때, socket.accept() 없이 대기 가능한 요청의 최대 개수, 주로 5 정도 설정
+
+```python
+socket.accept()
+```
+
+- @brief 연결 요청을 수락
+- @return (connected_socket, address)
+
+```python
+socket.connect(address)
+```
+
+- @brief address에 연결된 socket과 연결
+
+```python
+socket.recv(bufsize[, flags])
+```
+
+- @brief 최대 bufsize만큼 데이터를 수신, bufsize는 2^n 값이 적절함
+- @return byte
+
+상대 소켓이 닫히면 빈 byte (`b''`)를 반환하기 때문에 `if not socket.recv(1024)`: 로 연결이 끊겼는지 확인 가능
+
+```python
+socket.send(bytes[, flags])
+```
+
+- @brief 데이터를 송신
+
+```python
+socket.sendall(bytes[, flags])
+```
+
+- @brief 모든 데이터가 송신될 때까지 송신
+
+```python
+socket.close()
+```
+
+- @brief 소켓 종료
+
+```python
+socket.gethostname()
+```
+
+- @return string 호스트 이름 반환
+
+# TCP, UDP
+
+| TCP(Transmission Control Protocol) | UDP(User Datagram Protocol) |
+| ---------------------------------- | --------------------------- |
+| 연결형                             | 비연결형                    |
+| 1:1                                | 1:1, 1:N, N:N               |
+| 높은 신뢰성                        | .                           |
+| .                                  | 더 빠른 속도                |
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/socket/python-socket-tcp-udp.jpg"
+    )}
+  />
+</center>
+
+# TCP server - client 기본 예제
+
+## server
+
+```python
+import socket
+import signal
+import sys
+import logging
+import threading
+import time
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(
+    format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
+    level=logging.DEBUG)
+
+# 서버 IP, PORT
+_HOST = "xxx.xxx.xxx.xxx"
+_PORT = 12345
+
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+server_socket.bind((_HOST, _PORT))
+server_socket.listen()
+
+def signal_handler(sig, frame):
+    server_socket.close()
+    time.sleep(1)
+    sys.exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+def recv_thread(connected_socket):
+    while True:
+        try:
+            data = connected_socket.recv(1024)
+            if data == b'':
+                break
+            log.debug(data)
+        except:
+            break
+
+while True:
+    log.info("연결 대기")
+    connected_socket, client_address = server_socket.accept()
+    log.info("{} 연결".format(client_address))
+
+    t = threading.Thread(target=recv_thread, args=(
+        connected_socket,), daemon=True)
+    t.start()
+    while t.isAlive():
+        try:
+            connected_socket.send("hello client\n".encode())
+            time.sleep(1)
+        except:
+            break
+```
+
+## client
+
+```python
+import socket
+import signal
+import sys
+import logging
+import threading
+import time
+
+log = logging.getLogger(__name__)
+
+logging.basicConfig(
+    format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
+    level=logging.DEBUG)
+
+# 서버 IP, PORT
+_HOST = "xxx.xxx.xxx.xxx"
+_PORT = 12345
+
+client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+client_socket.connect((_HOST, _PORT))
+
+def signal_handler(sig, frame):
+    client_socket.close()
+    time.sleep(1)
+    sys.exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+def recv_thread(client_socket):
+    while True:
+        try:
+            data = client_socket.recv(1024)
+            if data == b'':
+                break
+            log.debug(data)
+        except:
+            break
+
+t = threading.Thread(target=recv_thread, args=(client_socket,), daemon=True)
+t.start()
+
+while t.isAlive():
+    client_socket.send("hello server\n".encode())
+    time.sleep(1)
+```
+
+# Bluetooth
+
+## server
+
+```python
+import socket
+import signal
+import sys
+
+HOST = socket.BDADDR_ANY # '블루투스 컨트롤러 맥 주소'를 직접 입력해도 됨
+PORT = 1
+
+def signal_handler(sig, frame):
+    try:
+        connected_socket.close()
+
+    except:
+        pass
+
+    server_socket.close()
+    sys.exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+# 블루투스 서버 소켓 생성
+server_socket = socket.socket(
+    socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+server_socket.bind((HOST, PORT))
+server_socket.listen()
+
+# 클라이언트 접속 대기
+connected_socket, client_address = server_socket.accept()
+
+try:
+    while True:
+        data = connected_socket.recv(1024)
+        print("client :", data)
+        connected_socket.send(data)
+
+except:
+    pass
+
+connected_socket.close()
+server_socket.close()
+```
+
+## client
+
+```python
+import socket
+import signal
+import sys
+
+# 서버의 HOST와 PORT 정보
+HOST = ''
+PORT = 1
+
+def signal_handler(sig, frame):
+    client_socket.close()
+
+    sys.exit()
+
+signal.signal(signal.SIGINT, signal_handler)
+
+# 블루투스 클라이언트 소켓 생성
+client_socket = socket.socket(
+    socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+
+# 서버 접속
+client_socket.connect((HOST, PORT))
+
+try:
+    while True:
+        data = input("client : ")
+        if data:
+            client_socket.send(data.encode())
+            data = client_socket.recv(1024)
+            print("server :", data)
+
+except:
+    pass
+
+client_socket.close()
+```
+
+# Reference
+
+- [https://docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html)
+- [https://en.wikipedia.org/wiki/OSI_model](https://en.wikipedia.org/wiki/OSI_model)

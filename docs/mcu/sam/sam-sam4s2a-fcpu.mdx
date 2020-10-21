@@ -1,0 +1,34 @@
+---
+id: sam-sam4s2a-fcpu
+title: SAM4S2A Set F_CPU
+sidebar_label: Set F_CPU
+description: SAM4S2A Set F_CPU
+keywords:
+  - SAM
+  - F_CPU
+---
+
+# F_CPU
+
+SAM 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 **F_CPU**는 클럭 관련 함수 매크로로 정의되어 있습니다.
+
+# Examples
+
+120MHz system clock을 얻기 위해 아래와 같이 값을 결정합니다.
+
+- Internal 12MHz RC oscillator
+- `System clock source`: PLLA
+- `System clock prescaler`: 2 (divided by 2)
+- `PLLA source`: Internal 12MHz RC oscillator
+- `PLLA output`: Internal 12MHz RC oscillator \* 20 / 1
+- `System clock`: 12 \* 20 / 1 / 2 = 120MHz
+
+위에서 결정된 값을 바탕으로 `src\config\conf_clock.h`를 설정하면 아래와 같습니다.
+
+```c
+#define CONFIG_SYSCLK_SOURCE        SYSCLK_SRC_PLLACK
+#define CONFIG_SYSCLK_PRES          SYSCLK_PRES_2
+#define CONFIG_PLL0_SOURCE          PLL_SRC_MAINCK_12M_RC
+#define CONFIG_PLL0_MUL             20
+#define CONFIG_PLL0_DIV             1
+```

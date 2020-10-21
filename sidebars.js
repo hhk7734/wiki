@@ -207,7 +207,6 @@ module.exports = {
       type: "category",
       label: "Libraries",
       items: [
-        "lang/python/libraries/python-logging",
         {
           type: "category",
           label: "ctypes",
@@ -220,6 +219,7 @@ module.exports = {
           label: "gpiod",
           items: ["lang/python/libraries/gpiod/python-gpiod-about"],
         },
+        "lang/python/libraries/python-logging",
         {
           type: "category",
           label: "OpenCV",
@@ -231,6 +231,7 @@ module.exports = {
             "lang/python/libraries/opencv/opencv-histogram",
           ],
         },
+        "lang/python/libraries/python-pybluez",
         {
           type: "category",
           label: "PySide2",
@@ -243,8 +244,8 @@ module.exports = {
             "lang/python/libraries/pyside2/pyside2-qrunnable-and-qthreadpool",
           ],
         },
+        "lang/python/libraries/python-socket",
         "lang/python/libraries/python-tkinter",
-        "lang/python/libraries/python-pybluez",
         {
           type: "category",
           label: "yolov4",
@@ -272,7 +273,15 @@ module.exports = {
       ],
     },
   ],
-  sam: ["mcu/sam/sam-development-environment"],
+  sam: [
+    "mcu/sam/sam-development-environment",
+    "mcu/sam/sam-sam4s2a-fcpu",
+    "mcu/sam/sam-sam4s2a-usart",
+    "mcu/sam/sam-sam4s2a-stdio",
+    "mcu/sam/sam-sam4s2a-time",
+    "mcu/sam/sam-sam4s2a-ioport",
+    "mcu/sam/sam-sam4s2a-adc",
+  ],
   stm32: [
     "mcu/stm32/stm32-create-project-stm32cubeide",
     "mcu/stm32/stm32-upload-executable-file-stm32cubeide",
