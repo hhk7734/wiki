@@ -59,61 +59,68 @@ pyside2-uic mainwindow.ui -o ui_mainwindow.py
 변환된 파일은 아래와 같습니다.
 
 ```python title="ui_mainwindow.py"
-from PySide2 import QtCore, QtGui, QtWidgets
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'mainwindow.ui'
+##
+## Created by: Qt User Interface Compiler version 5.15.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide2.QtCore import (QCoreApplication, QDate, QDateTime, QMetaObject,
+    QObject, QPoint, QRect, QSize, QTime, QUrl, Qt)
+from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
+    QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter,
+    QPixmap, QRadialGradient)
+from PySide2.QtWidgets import *
 
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(228, 218)
-        self.centralwidget = QtWidgets.QWidget(MainWindow)
-        self.centralwidget.setObjectName("centralwidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
-        self.gridLayout.setObjectName("gridLayout")
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setObjectName("pushButton")
+        if not MainWindow.objectName():
+            MainWindow.setObjectName(u"MainWindow")
+        MainWindow.resize(240, 220)
+        self.centralwidget = QWidget(MainWindow)
+        self.centralwidget.setObjectName(u"centralwidget")
+        self.gridLayout = QGridLayout(self.centralwidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton.setObjectName(u"pushButton")
+
         self.gridLayout.addWidget(self.pushButton, 3, 1, 1, 1)
-        self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.gridLayout.addWidget(self.pushButton_2, 3, 2, 1, 1)
-        self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setObjectName("textBrowser")
+
+        self.pushButton2 = QPushButton(self.centralwidget)
+        self.pushButton2.setObjectName(u"pushButton2")
+
+        self.gridLayout.addWidget(self.pushButton2, 3, 2, 1, 1)
+
+        self.textBrowser = QTextBrowser(self.centralwidget)
+        self.textBrowser.setObjectName(u"textBrowser")
+
         self.gridLayout.addWidget(self.textBrowser, 2, 1, 1, 2)
+
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 228, 18))
-        self.menubar.setObjectName("menubar")
+        self.menubar = QMenuBar(MainWindow)
+        self.menubar.setObjectName(u"menubar")
+        self.menubar.setGeometry(QRect(0, 0, 240, 20))
         MainWindow.setMenuBar(self.menubar)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
+        self.statusbar = QStatusBar(MainWindow)
+        self.statusbar.setObjectName(u"statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         self.retranslateUi(MainWindow)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+        QMetaObject.connectSlotsByName(MainWindow)
+    # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(
-            QtWidgets.QApplication.translate(
-                "MainWindow", "MainWindow", None, -1
-            )
-        )
-        self.pushButton.setText(
-            QtWidgets.QApplication.translate("MainWindow", "버튼 1", None, -1)
-        )
-        self.pushButton_2.setText(
-            QtWidgets.QApplication.translate("MainWindow", "버튼 2", None, -1)
-        )
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+        self.pushButton2.setText(QCoreApplication.translate("MainWindow", u"PushButton", None))
+    # retranslateUi
 
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
-    ui.setupUi(MainWindow)
-    MainWindow.show()
-    sys.exit(app.exec_())
 ```
 
 ## Ui 클래스 상속
@@ -122,12 +129,13 @@ GUI와 기능을 분리하기 위해 Ui 클래스를 상속받은 클래스를 �
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Ui 클래스 상속
     """
@@ -138,28 +146,30 @@ class Main_window(QMainWindow, Ui_MainWindow):
         Ui 설정
         """
         self.setupUi(self)
+        self.pushButton.setText("버튼 1")
+        self.pushButton2.setText("버튼 2")
         """
-        버튼 클릭 시그널과 기능을 위한 슬롯 연결
+        버튼 클릭 시그널에 슬롯 추가
         """
-        self.pushButton.clicked.connect(self.push_button_clickd)
-        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
+        self.pushButton.clicked.connect(self.pushButtonClicked)
+        self.pushButton2.clicked.connect(self.pushButton2Clicked)
 
-    def push_button_clickd(self):
+    def pushButtonClicked(self):
         """
         self.pushButton 클릭에 대한 기능 구현
         """
         pass
 
-    def push_button_2_clickd(self):
+    def pushButton2Clicked(self):
         """
-        self.pushButton_2 클릭에 대한 기능 구현
+        self.pushButton2 클릭에 대한 기능 구현
         """
         pass
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```

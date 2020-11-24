@@ -18,16 +18,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 이벤트 루프의 컨셉은 아래와 같습니다.
 
 ```python
-while is_active:
-    while not event_queue_is_empty:
+while isRunning:
+    while not eventQueueIsEmpty:
         """
-        event_queue 확인
+        eventQueue 확인
         event 처리
         """
-        dispatch_next_event()
+        dispatchNextEvent()
 
     # event가 발생할 때까지 대기
-    wait_for_more_events()
+    waitForMoreEvents()
 ```
 
 프로그램을 실행시키면 스택이 아래 방향으로 증가할 때, 아래와 같은 방식으로 스택이 쌓입니다.
@@ -43,7 +43,7 @@ while is_active:
 
 `QApplication::exec()`에 의해 메인 이벤트 루프가 실행됩니다. 이벤트 루프가 실행되는 동안 마우스로 버튼을 클릭하면 적당한 절차에 따라 `QWidget::event(QEvent *)`를 호출하게 됩니다. 마우스 클릭이라는 것을 판별하여 `Button::mousePressEvent(QMouseEvent *)`를 호출하고, `Button::clicked()` 시그널을 발생시킵니다. 최종적으로 `Worker::doWork()` 슬롯을 호출하여 정해진 일을 처리합니다.
 
-여기서 `doWork()`가 정해진 일을 처리하는데 오랜 시간이 걸린다면 메인 이벤트 루프가 블록킹 당하게 되면서 화면 갱신, 타이머, 네트워크 통신 등에 문제를 발생시킵니다. 이 상태가 길어지면 대부분 윈도우 매니저들은 응용프로그램이 응답하지 않음을 사용자에게 알려주게 됩니다.
+**`doWork()`가 정해진 일을 처리하는데 오랜 시간이 걸린다면 메인 이벤트 루프가 블록킹 당하게 되면서 화면 갱신, 타이머, 네트워크 통신 등에 문제를 발생시킵니다.** 이 상태가 길어지면 대부분 윈도우 매니저들은 응용프로그램이 응답하지 않음을 사용자에게 알려주게 됩니다.
 
 따라서 처리할 시간이 많이 필요하더라도 메인 이벤트 루프로 빨리 돌아갈 수 있도록 코드를 작성해야합니다.
 
@@ -134,20 +134,19 @@ Main의 슬롯과 A의 시그널을 연결했을 때, A의 시그널이 파란 �
 
 # Examples
 
+QT에서 의도하지 않은 사용방법일 수 있습니다. 추후 검토해서 수정하겠습니다.
+
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import QThread, Slot, Signal
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Background_thread(QThread):
-    """
-    QThread 파생 클래스
-    """
-
-    signal_in_a = Signal(str)
+class BackgroundThread(QThread):
+    signalInA = Signal(str)
 
     def __init__(self):
         super().__init__()
@@ -159,43 +158,47 @@ class Background_thread(QThread):
             signal : A event loop -> main event loop
             queued connection
             """
-            self.signal_in_a.emit("A event loop")
+            self.signalInA.emit("A event loop")
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
-    _background_thread = Background_thread()
+class MainWindow(QMainWindow, Ui_MainWindow):
+    _backgroundThread = BackgroundThread()
 
     def __init__(self):
         super().__init__()
+
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.push_button_clicked)
-        self.pushButton_2.clicked.connect(self.push_button_2_clicked)
+        self.pushButton.setText("버튼 1")
+        self.pushButton2.setText("버튼 2")
 
-        self._background_thread.signal_in_a.connect(self.update_text_browser)
+        self.pushButton.clicked.connect(self.pushButtonClicked)
+        self.pushButton2.clicked.connect(self.pushButton2Clicked)
 
-        if not self._background_thread.isRunning():
-            self._background_thread.start()
+        self._backgroundThread.signalInA.connect(self.appendTextBrowser)
 
-    def push_button_clicked(self):
+        if not self._backgroundThread.isRunning():
+            self._backgroundThread.start()
+
+    def pushButtonClicked(self):
         """
         쓰레드가 실행 중이지 않다면 실행
         """
-        if not self._background_thread.isRunning():
-            self._background_thread.start()
+        if not self._backgroundThread.isRunning():
+            self._backgroundThread.start()
 
-    def push_button_2_clicked(self):
+    def pushButton2Clicked(self):
         """
         signal : main event loop -> main event loop
         direct connection
         """
-        self._background_thread.signal_in_a.emit("main event loop")
+        self._backgroundThread.signalInA.emit("main event loop")
         """
         문제 terminate 사용으로 인한 문제가 발생할 수 있음.
         """
-        self._background_thread.terminate()
+        self._backgroundThread.terminate()
 
     @Slot(str)
-    def update_text_browser(self, text):
+    def appendTextBrowser(self, text):
         """
         main event loop에서 실행되는 슬롯
         """
@@ -204,15 +207,14 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     app_return = app.exec_()
 
     """
     종료 전 쓰레드 강제 종료
     """
-    main_window._background_thread.terminate()
+    mainWindow._backgroundThread.terminate()
     sys.exit(app_return)
 ```
 

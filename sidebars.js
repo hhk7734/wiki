@@ -176,6 +176,7 @@ module.exports = {
       ],
     },
   ],
+  nordic: ["mcu/nordic/nrf-development-environment"],
   project: [
     {
       type: "category",
@@ -242,6 +243,7 @@ module.exports = {
             "lang/python/libraries/pyside2/pyside2-qtimer",
             "lang/python/libraries/pyside2/pyside2-qthread",
             "lang/python/libraries/pyside2/pyside2-qrunnable-and-qthreadpool",
+            "lang/python/libraries/pyside2/pyside2-custom-qdialog",
           ],
         },
         "lang/python/libraries/python-socket",

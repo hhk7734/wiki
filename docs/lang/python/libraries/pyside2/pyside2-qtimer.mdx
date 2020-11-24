@@ -21,37 +21,40 @@ singleShot()은 일정 시간이 지난 후, 작업이 시작되도록 할 수 �
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import QTimer, SLOT
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
-        self.pushButton.clicked.connect(self.push_button_clicked)
 
-    def push_button_clicked(self):
+        self.setupUi(self)
+        self.pushButton.setText("버튼 1")
+
+        self.pushButton.clicked.connect(self.pushButtonClicked)
+
+    def pushButtonClicked(self):
         """
-        1 초 타임아웃과 push_button_clicked_single_shot 연결
-        QTimer.singleShot(1000, self, SLOT("push_button_clicked_single_shot()"))
+        1 초 타임아웃과 appendTextBrowser 연결
+        QTimer.singleShot(1000, self, SLOT("appendTextBrowser()"))
         QTimer.singleShot(
-            1000, Qt.PreciseTimer, self, SLOT("push_button_clicked_single_shot()")
+            1000, Qt.PreciseTimer, self, SLOT("appendTextBrowser()")
         )
         """
-        QTimer.singleShot(1000, self.push_button_clicked_single_shot)
+        QTimer.singleShot(1000, self.appendTextBrowser)
 
-    def push_button_clicked_single_shot(self):
-        self.textBrowser.append("a second later")
+    def appendTextBrowser(self):
+        self.textBrowser.append("1 초 후")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```
 
@@ -68,57 +71,58 @@ Qt.TimerType: [https://doc.qt.io/qtforpython/PySide2/QtCore/Qt.html](https://doc
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import QTimer
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
+
         self.setupUi(self)
-        self.pushButton.clicked.connect(self.push_button_clicked)
+        self.pushButton.setText("버튼 1")
 
-        self.is_push_button_clicked = False
+        self.pushButton.clicked.connect(self.pushButtonClicked)
 
-        self.push_button_timer = QTimer(self)
-        self.push_button_timer.setInterval(1000)
-        self.push_button_timer.timeout.connect(
-            self.push_button_clicked_repetitive
-        )
+        self.isPushButtonClicked = False
+
+        self.pushButtonTimer = QTimer(self)
+        self.pushButtonTimer.setInterval(1000)
+        self.pushButtonTimer.timeout.connect(self.appendTextBrowser)
 
         self.count = 0
 
-    def push_button_clicked(self):
-        if not self.is_push_button_clicked:
-            self.is_push_button_clicked = True
-            self.pushButton.setDown(True)
+    def pushButtonClicked(self):
+        if not self.isPushButtonClicked:
+            self.isPushButtonClicked = True
+            self.pushButton.setEnabled(False)
 
             """
             반복 시작
             """
-            self.push_button_timer.start()
+            self.pushButtonTimer.start()
 
-    def push_button_clicked_repetitive(self):
+    def appendTextBrowser(self):
         self.count += 1
-        self.textBrowser.append(str(self.count) + " seconds later")
+        self.textBrowser.append(str(self.count) + " 초 후")
 
         if self.count == 3:
             """
             반복 종료
             """
-            self.push_button_timer.stop()
-            self.is_push_button_clicked = False
-            self.pushButton.setDown(False)
+            self.pushButtonTimer.stop()
+            self.isPushButtonClicked = False
+            self.pushButton.setEnabled(True)
             self.count = 0
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```
 

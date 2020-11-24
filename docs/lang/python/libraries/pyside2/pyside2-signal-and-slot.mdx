@@ -10,6 +10,8 @@ keywords:
   - Slot
 ---
 
+# Signal and Slot
+
 시그널과 슬롯을 사용하면 객체간 통신을 할 수 있습니다.
 
 - 하나의 시그널을 여러 슬롯에 연결할 수 있습니다.
@@ -27,62 +29,70 @@ A 시그널에 a 슬롯을 여러번 연결하면, 시그널이 발생했을 때
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import Signal, Slot
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     """
+    Ui 클래스 상속 및
     사용자 정의 시그널 생성
     """
 
-    # clicked_signal = Signal((int,), (str,))
-    push_button_clicked_signal = Signal(int)
-    push_button_2_clicked_signal = Signal(str)
+    # clickedSignal = Signal((int,), (str,))
+    pushButtonClickedSignal = Signal(int)
+    pushButton2ClickedSignal = Signal(str)
 
     def __init__(self):
         super().__init__()
+        """
+        Ui 설정
+        """
         self.setupUi(self)
+        self.pushButton.setText("버튼 1")
+        self.pushButton2.setText("버튼 2")
+
         """
-        clicked 시그널에 슬롯 추가
+        버튼 클릭 시그널에 슬롯 추가
         """
-        self.pushButton.clicked.connect(self.push_button_clickd)
-        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
+        self.pushButton.clicked.connect(self.pushButtonClicked)
+        self.pushButton2.clicked.connect(self.pushButton2Clicked)
 
         """
         사용자 정의 시그널에 슬롯 추가
         """
-        # self.clicked_signal[int].connect(self.print_str)
-        # self.clicked_signal[str].connect(self.print_str)
-        self.push_button_clicked_signal.connect(self.print_str)
-        self.push_button_2_clicked_signal.connect(self.print_str)
+        # self.clickedSignal[int].connect(self.appendTextBrowser)
+        # self.clickedSignal[str].connect(self.appendTextBrowser)
+        self.pushButtonClickedSignal.connect(self.appendTextBrowser)
+        self.pushButton2ClickedSignal.connect(self.appendTextBrowser)
 
         self.count = 0
 
-    def push_button_clickd(self):
+    def pushButtonClicked(self):
         """
         Slot 데코레이터가 없으면 매개변수가 없는 슬롯으로 볼 수 있음
         """
         self.count += 1
         """
-        push_button_clicked_signal 출력
+        pushButtonClickedSignal 출력
         Signal.emit(정의된 변수)
         """
-        # self.clicked_signal[int].emit(self.count)
-        self.push_button_clicked_signal.emit(self.count)
+        # self.clickedSignal[int].emit(self.count)
+        self.pushButtonClickedSignal.emit(self.count)
 
-    def push_button_2_clickd(self):
+    def pushButton2Clicked(self):
         self.count = 0
-        # self.clicked_signal[str].emit("init count")
-        self.push_button_2_clicked_signal.emit("init count")
+        # self.clickedSignal[str].emit("init count")
+        self.pushButton2ClickedSignal.emit("init count")
 
     @Slot(int)
     @Slot(str)
-    def print_str(self, var):
+    def appendTextBrowser(self, var):
         """
-        int 또는 str 변수를 매개변수로 받을 수 있는 슬롯 생성
+        int 또는 str을 매개변수로 받을 수 있는 슬롯 생성
         """
         if isinstance(var, int):
             self.textBrowser.append("count : " + str(var))
@@ -92,62 +102,65 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import Signal, Slot
 
 from ui_mainwindow import Ui_MainWindow
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     """
-    매개변수 여러개 설정
+    2 개의 매개변수를 갖는 시그널 생성
     """
 
-    clicked_signal = Signal((int, int), (str, int))
+    clickedSignal = Signal((int, int), (str, int))
 
     def __init__(self):
         super().__init__()
-        self.setupUi(self)
-        self.pushButton.clicked.connect(self.push_button_clickd)
-        self.pushButton_2.clicked.connect(self.push_button_2_clickd)
 
-        self.clicked_signal[int, int].connect(self.print_str)
-        self.clicked_signal[str, int].connect(self.print_str)
+        self.setupUi(self)
+        self.pushButton.setText("버튼 1")
+        self.pushButton2.setText("버튼 2")
+
+        self.pushButton.clicked.connect(self.pushButtonClicked)
+        self.pushButton2.clicked.connect(self.pushButton2Clicked)
+
+        self.clickedSignal[int, int].connect(self.appendTextBrowser)
+        self.clickedSignal[str, int].connect(self.appendTextBrowser)
 
         self.count1 = 0
         self.count2 = 0
 
-    def push_button_clickd(self):
+    def pushButtonClicked(self):
         self.count1 += 1
         self.count2 += 1
-        self.clicked_signal[int, int].emit(self.count1, self.count2)
+        self.clickedSignal[int, int].emit(self.count1, self.count2)
 
-    def push_button_2_clickd(self):
+    def pushButton2Clicked(self):
         self.count1 = 0
-        self.clicked_signal[str, int].emit("init count1", self.count1)
+        self.clickedSignal[str, int].emit("set count1", self.count1)
 
     @Slot(int, int)
     @Slot(str, int)
-    def print_str(self, var1, var2):
+    def appendTextBrowser(self, var1, var2):
         if isinstance(var1, int):
-            self.textBrowser.append("count : {}, {}".format(var1, var2))
+            self.textBrowser.append("count1: {}, count2: {}".format(var1, var2))
         else:
-            self.textBrowser.append("{} : {}".format(var1, var2))
+            self.textBrowser.append("{} to {}".format(var1, var2))
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
-
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```
 

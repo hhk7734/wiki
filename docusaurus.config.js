@@ -11,12 +11,10 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
-  plugins: [
-    "docusaurus-plugin-google-adsense",
-  ],
+  plugins: ["docusaurus-plugin-google-adsense"],
   themeConfig: {
     colorMode: {
-      defaultMode: "light"
+      defaultMode: "light",
     },
     googleAnalytics: {
       trackingID: "UA-82937088-4",
@@ -58,6 +56,7 @@ module.exports = {
           mcu: "MCU",
           memo: "Memo",
           nodejs: "Node.js",
+          nordic: "Nordic",
           project: "Project",
           python: "Python",
           sam: "SAM",
@@ -121,7 +120,7 @@ module.exports = {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
           remarkPlugins: [remarkMath],
-          rehypePlugins: [[rehypeKatex, {strict: false}]],
+          rehypePlugins: [[rehypeKatex, { strict: false }]],
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),

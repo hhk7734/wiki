@@ -16,6 +16,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```python
 import sys
+
 from PySide2.QtWidgets import QMainWindow, QApplication
 from PySide2.QtCore import (
     QObject,
@@ -29,7 +30,7 @@ from PySide2.QtCore import (
 from ui_mainwindow import Ui_MainWindow
 
 
-class Task_signal(QObject):
+class TaskSignal(QObject):
     """
     QRunnable에서 사용할 시그널
     """
@@ -38,8 +39,8 @@ class Task_signal(QObject):
 
 
 class Task(QRunnable):
-    _sig = Task_signal()
-    finished = _sig.finished
+    _taskSignal = TaskSignal()
+    finished = _taskSignal.finished
 
     var = False
 
@@ -52,17 +53,19 @@ class Task(QRunnable):
         self.finished.emit(self.var)
 
 
-class Main_window(QMainWindow, Ui_MainWindow):
+class MainWindow(QMainWindow, Ui_MainWindow):
     def __init__(self):
         super().__init__()
         self.setupUi(self)
+        self.pushButton.setText("버튼 1")
 
-        self.pushButton.clicked.connect(self.task_start)
+        self.pushButton.clicked.connect(self.startTask)
+
         self.task = Task()
         self.task.setAutoDelete(False)
-        self.task.finished.connect(self.task_finished)
+        self.task.finished.connect(self.taskFinished)
 
-    def task_start(self):
+    def startTask(self):
         if self.task.var:
             self.task.var = False
         else:
@@ -79,7 +82,7 @@ class Main_window(QMainWindow, Ui_MainWindow):
         self.pushButton.setEnabled(False)
 
     @Slot(bool)
-    def task_finished(self, is_success):
+    def taskFinished(self, is_success):
         if is_success:
             self.textBrowser.append("success")
         else:
@@ -90,8 +93,8 @@ class Main_window(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    main_window = Main_window()
-    main_window.show()
+    mainWindow = MainWindow()
+    mainWindow.show()
     sys.exit(app.exec_())
 ```
 
