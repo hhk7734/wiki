@@ -11,4 +11,75 @@ keywords:
 
 # Create QDialog UI
 
+- New file or project (Ctrl + N)->Qt->Qt Designer Form-> Dialog without Buttons
+- Add `okPushButton` and `cancelPushButton`
+
 # Example
+
+```python title="settings_dialog.py"
+import copy
+
+from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QDialog
+
+from ui_settings_dialog import Ui_SettingsDialog
+
+
+class SettingsDialog(QDialog, Ui_SettingsDialog):
+    def __init__(self, parent=None) -> None:
+        super().__init__(parent=parent)
+        self.setupUi(self)
+        self.setModal(True)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+
+        # When accepted, self.result() is 1.
+        self.okPushButton.clicked.connect(self.accept)
+        # When rejected, self.result() is 0.
+        self.cancelPushButton.clicked.connect(self.reject)
+
+        self._settings = None
+
+    def setSettings(self, settings):
+        # Copies settings. Do not edit settings.
+        self._settings = copy.deepcopy(settings)
+
+    def getSettings(self):
+        return self._settings
+```
+
+```python title="main_window.py"
+import sys
+
+from PySide2.QtWidgets import QMainWindow, QApplication
+
+from ui_main_window import Ui_MainWindow
+from settings_dialog import SettingsDialog
+
+
+class MainWindow(QMainWindow, Ui_MainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+
+        ...
+
+        self.settingsDialog = SettingsDialog(self)
+        self.settingsDialog.finished.connect(self.finishedSettingsDialog)
+
+        self.settingsPushButton.clicked.connect(self.openSettingsDialog)
+
+    def openSettingsDialog(self):
+        self.settingsDialog.setSettings(self.settings)
+        self.settingsDialog.open()
+
+    def finishedSettingsDialog(self):
+        if self.settingsDialog.result():
+            self.settings = self.settingsDialog.getSettings()
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    sys.exit(app.exec_())
+```
