@@ -146,6 +146,7 @@ module.exports = {
     },
     "linux/linux-tools/linux-ssh-scp",
     "linux/linux-tools/linux-udev",
+    "linux/linux-tools/linux-clone-os-image",
     "linux/linux-tools/linux-tools-etc",
   ],
   "linux-uboot": [

@@ -1,0 +1,109 @@
+---
+id: linux-clone-os-image
+title: Clone OS image
+description: EClone OS image from disk
+keywords:
+  - Linux
+  - clone
+  - backup
+---
+
+# Read disk and save .img.xz
+
+```shell
+$ sudo fdisk -l
+
+...
+
+Disk /dev/sdb: 14.86 GiB, 15931539456 bytes, 31116288 sectors
+Disk model: STORAGE DEVICE
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disklabel type: dos
+Disk identifier: 0xf7bdbfa9
+
+Device     Boot  Start      End  Sectors  Size Id Type
+/dev/sdb1         8192   532479   524288  256M  c W95 FAT32 (LBA)
+/dev/sdb2       532480 31115263 30582784 14.6G 83 Linux
+```
+
+```shell
+sudo umount /dev/sdb1 /dev/sdb2
+```
+
+```shell
+sudo dd if=/dev/sdb of=clone.img bs=512 status=progress
+```
+
+```shell
+$ sudo parted -ms clone.img unit B print
+BYT;
+/home/hhk7734/clone.img:15931539456B:file:512:512:msdos::;
+1:4194304B:272629759B:268435456B:fat32::lba;
+2:272629760B:15931015167B:15658385408B:ext4::;
+```
+
+```shell
+$ sudo losetup -f --show -o 272629760 clone.img
+/dev/loop20
+```
+
+```shell
+sudo e2fsck -pf /dev/loop20
+```
+
+```shell
+$ sudo tune2fs -l /dev/loop20 | grep -e '^Block size:' -e '^Block count:'
+Block count:              3822848
+Block size:               4096
+```
+
+```shell
+$ sudo resize2fs -P /dev/loop20
+resize2fs 1.45.5 (07-Jan-2020)
+Estimated minimum size of the filesystem: 851980
+```
+
+```shell
+sudo resize2fs -p /dev/loop20 $((851980 + 5000))
+```
+
+```shell
+sudo losetup -d /dev/loop20
+```
+
+```shell
+sudo parted -s -a minimal clone.img rm 2
+```
+
+```shell
+sudo parted -s clone.img unit B mkpart "primary" "272629760" \
+    "$((272629760 + ((851980 + 5000) * 4096)))"
+```
+
+```shell
+$ sudo parted -ms clone.img unit B print free | tail -1 \
+    | cut -d ':' -f 2 | tr -d 'B'
+3782820352
+```
+
+```shell
+sudo truncate -s 3782820352 clone.img
+```
+
+```shell
+sudo xz -vk -T$(($(nproc) - 2)) clone.img
+```
+
+# Flash .img.xz to disk
+
+```shell
+xz -dvk -T$(($(nproc) - 2)) clone.img.xz
+```
+
+```shell
+sudo dd if=clone.img of=/dev/sdb bs=512 status=progress
+```
+
+or Use Etcher.
