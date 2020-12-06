@@ -11,9 +11,16 @@ keywords:
   - linux
 ---
 
-**HW**: Hardkernel ODROID-N2, ODROID-VU7A+ ([https://www.hardkernel.com/product/](https://www.hardkernel.com/product/))
+**HW**:
 
-**OS**: Ubuntu disco minimal 20191228 ([http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/](http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/))
+- Hardkernel ODROID-N2 ([https://www.hardkernel.com/product/](https://www.hardkernel.com/product/))
+- Hardkernel ODROID-C4 ([https://www.hardkernel.com/product/](https://www.hardkernel.com/product/))
+- ODROID-VU7A+ ([https://www.hardkernel.com/product/](https://www.hardkernel.com/product/))
+
+**OS**:
+
+- Ubuntu disco minimal 20191228(ODROID-N2) ([http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/](http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/))
+- Ubuntu focal server 20201024(ODROID-C4) ([http://ppa.linuxfactory.or.kr/images/raw/arm64/focal/](http://ppa.linuxfactory.or.kr/images/raw/arm64/focal/))
 
 <div
   style={{
@@ -39,15 +46,15 @@ keywords:
 <br />
 
 :::caution
-**Make sure the command ran successfully before running the next command!!**
+Make sure the command ran successfully before running the next command!!
 :::
 
 # Host(Linux x86_64)
 
 ```shell
 sudo apt-get update \
-&& sudo apt install -y git gcc build-essential make \
-    subversion texinfo bison flex cmake ninja-build python3
+&& sudo apt install -y git gcc build-essential make sudo lsb-release \
+    subversion texinfo bison flex cmake ninja-build python3 libgmp-dev \
 && sudo apt autoremove -y
 ```
 
@@ -59,11 +66,11 @@ mkdir -p $HOME/flutter-engine/sdk/toolchain \
 
 ## sysroot
 
-It may vary depending on various conditions. **If symbolic links are broken, various errors will occur when you follow the steps below.**
+It may vary depending on various conditions. **If symbolic links are broken, you will get some errors when following the steps below.**
 
-<p class="callout warning">
-  Most of the errors that occurred to me were for this reason.
-</p>
+:::info
+When I tested this, most of the errors occured for this reason.
+:::
 
 ### Target(Linux ARM64)
 
@@ -71,8 +78,9 @@ Connect the SD card or eMMC with OS to your SBC.
 
 ```shell
 sudo apt update \
-&& sudo apt install -y build-essential libgtk-3-dev libgles2-mesa-dev \
-    pkg-config symlinks \
+&& sudo apt install -y build-essential libgtk-3-dev libegl-mesa0 libdrm-dev \
+    libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev pkg-config \
+    symlinks git vim \
 && sudo apt autoremove -y
 ```
 
@@ -144,7 +152,7 @@ $HOME/flutter-engine/sdk/sysroot
 ### clang and LLVM
 
 ```shell
-git clone --branch=llvmorg-10.0.0 --depth=1 https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
+git clone --branch=llvmorg-11.0.0 --depth=1 https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
 ```
 
 ```shell
@@ -248,9 +256,9 @@ export PATH=$PATH:$HOME/flutter-engine/depot_tools
 
 Ref: [https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)
 
-<p class="callout warning">
-  After reading the Ref above, follow flutter-engine part.
-</p>
+::info
+After reading the Ref above, follow flutter-engine part.
+:::
 
 ```shell
 echo 'solutions = [
@@ -330,47 +338,6 @@ cd \
 ```
 
 ```shell
-sudo apt install -y git clang pkg-config \
-    libglvnd-dev libgl1-mesa-dev libgles2-mesa-dev libegl-mesa0 \
-    libdrm-dev libgbm-dev \
-    gpiod libgpiod-dev
-```
-
-```shell
 sudo apt install ttf-mscorefonts-installer fontconfig \
 && sudo fc-cache
-```
-
-## flutter-arm
-
-```shell
-git clone https://github.com/hhk7734/flutter-arm.git \
-&& cd flutter-arm \
-&& make
-```
-
-```shell
-sudo make install
-```
-
-# Example
-
-## Host
-
-```shell
-cd $HOME/development/flutter/examples/flutter_gallery
-```
-
-```shell
-flutter build bundle
-```
-
-```shell
-scp -r build/flutter_assets <user>@<ip>:~
-```
-
-## Target
-
-```shell
-sudo flutter-arm -i"/dev/input/event*" flutter_assets
 ```
