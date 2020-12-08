@@ -1,0 +1,119 @@
+---
+id: python-yolov4-edge-tpu
+title: YOLOv4 on Edge TPU
+sidebar_label: On Edge TPU
+description: YOLOv4 on Edge TPU
+keywords:
+  - Neural Network
+  - YOLOv4
+  - Coral
+  - TPU
+---
+
+# Prepare int8 tflite
+
+Supported Operation: [https://coral.ai/docs/edgetpu/models-intro/#supported-operations](https://coral.ai/docs/edgetpu/models-intro/#supported-operations)
+
+- **Use YOLOv4-Tiny** because YOLOv4 model size is too large.
+- **Use relu** for activation. YOLOv4-Tiny uses leaky-relu, but this is an **unsupported operation** on the Edge TPU.
+- Set the desired input_size before converting the model to tflite.
+
+## Training
+
+Ref: [https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-training#full-script](https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-training#full-script)
+
+```python {5,10}
+from tensorflow.keras import callbacks, optimizers
+from yolov4.tf import SaveWeightsCallback, YOLOv4
+import time
+
+yolo = YOLOv4(tiny=True)
+yolo.classes = "/content/drive/My Drive/Hard_Soft/NN/coco/coco.names"
+yolo.input_size = 608
+yolo.batch_size = 32
+
+yolo.make_model(activation1="relu")
+
+...
+```
+
+## Convert to tflite
+
+Tested on: TensorFlow v2.2.1
+
+```python
+from yolov4.tf import YOLOv4
+
+yolo = YOLOv4(tiny=True, tpu=True)
+
+yolo.classes = "coco.names"
+yolo.input_size = (512, 384) # width, height
+yolo.make_model(activation1="relu")
+
+yolo.load_weights("yolov4-tiny-relu.weights", weights_type="yolo")
+
+dataset = yolo.load_dataset(
+    "train2017.txt",
+    training=False,
+    image_path_prefix="/home/hhk7734/NN/train2017"
+)
+
+yolo.save_as_tflite(
+    "yolov4-tiny-relu-int8.tflite",
+    quantization="full_int8",
+    data_set=dataset,
+    num_calibration_steps=1000
+)
+```
+
+```shell {1}
+$ edgetpu_compiler yolov4-tiny-relu-int8.tflite
+Edge TPU Compiler version 15.0.340273435
+
+Model compiled successfully in 842 ms.
+
+Input model: yolov4-tiny-relu-int8.tflite
+Input size: 5.96MiB
+Output model: yolov4-tiny-relu-int8_edgetpu.tflite
+Output size: 6.05MiB
+On-chip memory used for caching model parameters: 5.92MiB
+On-chip memory remaining for caching model parameters: 716.25KiB
+Off-chip memory used for streaming uncached model parameters: 0.00B
+Number of Edge TPU subgraphs: 1
+Total number of operations: 149
+Operation log: yolov4-tiny-relu-int8_edgetpu.log
+
+Model successfully compiled but not all operations are supported by the Edge TPU. A percentage of the model will instead run on the CPU, which is slower. If possible, consider updating your model to use only operations supported by the Edge TPU. For details, visit g.co/coral/model-reqs.
+Number of operations that will run on Edge TPU: 50
+Number of operations that will run on CPU: 99
+See the operation log file for individual operation details.
+```
+
+# Run on Edge TPU
+
+```shell
+scp yolov4-tiny-relu-int8_edgetpu.tflite coco.names mendel@<ip>:~
+```
+
+```python title="edge_yolov4_tiny_video_test.py"
+from yolov4.tflite import YOLOv4
+import cv2
+
+yolo = YOLOv4(tiny=True, tpu=True)
+
+yolo.classes = "coco.names"
+
+yolo.load_tflite("yolov4-tiny-relu-int8_edgetpu.tflite")
+
+yolo.inference(
+    "/dev/video1",
+    is_image=False,
+    cv_apiPreference=cv2.CAP_V4L2,
+    cv_frame_size=(640, 480),
+    cv_fourcc="YUYV",
+)
+```
+
+```python
+python3 edge_yolov4_tiny_video_test.py
+```

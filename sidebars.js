@@ -257,6 +257,7 @@ module.exports = {
             "lang/python/libraries/yolov4/python-yolov4-dataset",
             "lang/python/libraries/yolov4/python-yolov4-training",
             "lang/python/libraries/yolov4/python-yolov4-map",
+            "lang/python/libraries/yolov4/python-yolov4-edge-tpu",
           ],
         },
       ],
