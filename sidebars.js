@@ -57,7 +57,10 @@ module.exports = {
         {
           type: "category",
           label: "LLVM",
-          items: ["lang/cpp/advanced-cpp/llvm/llvm-basics"],
+          items: [
+            "lang/cpp/advanced-cpp/llvm/llvm-basics",
+            "lang/cpp/advanced-cpp/llvm/llvm-cross-compile",
+          ],
         },
       ],
     },

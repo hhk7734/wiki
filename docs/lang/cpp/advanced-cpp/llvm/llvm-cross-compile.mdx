@@ -1,0 +1,19 @@
+---
+id: llvm-cross-compile
+title: LLVM Cross-compile
+sidebar_label: Cross-compile
+description: LLVM Cross-compile
+keywords:
+  - C++
+  - LLVM
+  - Clang
+---
+
+```shell
+clang++ \
+    --target=aarch64-linux-gnu \
+    --sysroot=/path/to/aarch64-sysroot \
+    -fuse-ld=lld \
+    -v \
+    main.cpp
+```

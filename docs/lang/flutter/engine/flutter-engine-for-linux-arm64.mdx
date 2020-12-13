@@ -52,16 +52,22 @@ Make sure the command ran successfully before running the next command!!
 # Host(Linux x86_64)
 
 ```shell
-sudo apt-get update \
-&& sudo apt install -y git gcc build-essential make sudo lsb-release \
-    subversion texinfo bison flex cmake ninja-build python3 libgmp-dev \
-&& sudo apt autoremove -y
-```
-
-```shell
 mkdir -p $HOME/flutter-engine/sdk/toolchain \
 && mkdir -p $HOME/flutter-engine/sdk/sysroot \
 && mkdir -p $HOME/flutter-engine/engine
+```
+
+:::info
+Using docker, run <br/>`docker run -it --volume="$HOME/flutter-engine:/root/flutter-engine:shared" ubuntu:18.04 /bin/bash`. <br/>
+Then, run `apt update && apt install sudo` on the container before following what is shown below.
+:::
+
+```shell
+sudo apt update \
+&& sudo apt install -y bison build-essential cmake curl flex git gcc \
+    lsb-release libgmp-dev make ninja-build python python3 subversion \
+    texinfo wget \
+&& sudo apt autoremove -y
 ```
 
 ## sysroot
@@ -79,7 +85,7 @@ Connect the SD card or eMMC with OS to your SBC.
 ```shell
 sudo apt update \
 && sudo apt install -y build-essential libgtk-3-dev libegl-mesa0 libdrm-dev \
-    libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev pkg-config \
+    libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev pkg-config rsync \
     symlinks git vim \
 && sudo apt autoremove -y
 ```
@@ -88,18 +94,12 @@ sudo apt update \
 sudo symlinks -crs /*
 ```
 
+```shell
+sudo rsync -rlpv -e 'ssh -p <host port>' /lib /usr /etc \
+    <host user>@<host ip>:~/flutter-engine/sdk/sysroot
+```
+
 ### Host(Linux x86_64)
-
-Connect the SD card or eMMC to your computer. Change directory to mounted directory.
-
-```shell
-cd /media/*/rootfs
-```
-
-```shell
-sudo rsync -rlpv lib usr $HOME/flutter-engine/sdk/sysroot \
-&& sync
-```
 
 When I built all successfully, the directory structure is shown below. Since `/` (root) is copied to `$HOME/flutter-engine/sdk/sysroot`, setting a symbolic link path to an absolute path can break symbolic links.
 
@@ -203,14 +203,14 @@ mkdir build_libcxxabi && cd build_libcxxabi \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CROSSCOMPILING=True \
     -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
-    -DLIBCXX_ENABLE_SHARED=False \
     -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
     -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
     -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
     -DLLVM_TARGETS_TO_BUILD=AArch64 \
-    -DLIBCXX_ENABLE_EXCEPTIONS=False \
+    -DLIBCXXABI_ENABLE_SHARED=False \
+    -DLIBCXXABI_ENABLE_EXCEPTIONS=False \
     ../libcxxabi \
 && ninja \
 && sudo ninja install
@@ -224,13 +224,13 @@ mkdir build_libcxx && cd build_libcxx \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CROSSCOMPILING=True \
     -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
-    -DLIBCXX_ENABLE_SHARED=False \
     -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
     -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
     -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
     -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    -DLIBCXX_ENABLE_SHARED=False \
     -DLIBCXX_ENABLE_EXCEPTIONS=False \
     -DLIBCXX_ENABLE_RTTI=False \
     -DLIBCXX_CXX_ABI=libcxxabi \
@@ -325,8 +325,8 @@ cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
 Copy `flutter_embedder.h`, `libflutter_engine.so`, `libflutter_linux_gtk.so`, `icudtl.dat` to Target.
 
 ```shell
-scp flutter_embedder.h libflutter_engine.so libflutter_linux_gtk.so icudtl.dat \
-    <user>@<ip>:~
+rsync flutter_embedder.h libflutter_engine.so libflutter_linux_gtk.so icudtl.dat \
+    <target user>@<target ip>:~
 ```
 
 # Target(Linux ARM64)
