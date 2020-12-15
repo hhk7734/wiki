@@ -62,7 +62,7 @@ yolo.save_as_tflite(
     "yolov4-tiny-relu-int8.tflite",
     quantization="full_int8",
     data_set=dataset,
-    num_calibration_steps=1000
+    num_calibration_steps=400
 )
 ```
 
@@ -89,11 +89,21 @@ Number of operations that will run on CPU: 99
 See the operation log file for individual operation details.
 ```
 
+```shell
+rsync yolov4-tiny-relu-int8_edgetpu.tflite coco.names mendel@<tpu ip>:~
+```
+
 # Run on Edge TPU
 
-```shell
-scp yolov4-tiny-relu-int8_edgetpu.tflite coco.names mendel@<ip>:~
-```
+## Install the Edge TPU runtime
+
+Ref: [https://coral.ai/docs/accelerator/get-started/#1-install-the-edge-tpu-runtime](https://coral.ai/docs/accelerator/get-started/#1-install-the-edge-tpu-runtime)
+
+## Install just the TensorFlow Lite interpreter
+
+Ref: [https://www.tensorflow.org/lite/guide/python#install_just_the_tensorflow_lite_interpreter](https://www.tensorflow.org/lite/guide/python#install_just_the_tensorflow_lite_interpreter)
+
+## Run example script
 
 ```python title="edge_yolov4_tiny_video_test.py"
 from yolov4.tflite import YOLOv4
