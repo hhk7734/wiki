@@ -162,6 +162,8 @@ rsync -a flutter_linux dart-sdk/bin/utils/gen_snapshot libflutter_linux_gtk.so \
 flutter create sample
 ```
 
+### Run debug mode
+
 ```shell
 flutter run -d linux
 ```
@@ -172,8 +174,24 @@ flutter run -d linux
   />
 </center>
 
-### Troubleshoot
+### Run release mode
+
+```shell
+flutter build linux
+```
+
+```shell
+./build/linux/release/bundle/sample
+```
+
+### Build-troubleshoot
 
 ```shell
 flutter build linux --verbose
+```
+
+### Run Without Xwindow(On console mode)
+
+```shell
+xinit /path/to/sample/build/linux/release/bundle/sample
 ```
