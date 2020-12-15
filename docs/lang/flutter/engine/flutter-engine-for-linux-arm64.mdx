@@ -1,8 +1,8 @@
 ---
 id: flutter-engine-for-linux-arm64
-title: Build Flutter engine for Linux ARM64
-sidebar_label: Build
-description: Build Flutter engine for Linux ARM64
+title: Build Flutter engine for linux-arm64
+sidebar_label: Build engine for linux-arm64
+description: Build Flutter engine for linux-arm64
 keywords:
   - Flutter
   - engine
@@ -21,6 +21,7 @@ keywords:
 
 - Ubuntu disco minimal 20191228(ODROID-N2) ([http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/](http://ppa.linuxfactory.or.kr/images/raw/arm64/disco/))
 - Ubuntu focal server 20201024(ODROID-C4) ([http://ppa.linuxfactory.or.kr/images/raw/arm64/focal/](http://ppa.linuxfactory.or.kr/images/raw/arm64/focal/))
+- Ubuntu focal mate 20201020(ODROID-C4) ([https://dn.odroid.com/S905X3/ODROID-C4/Ubuntu/](https://dn.odroid.com/S905X3/ODROID-C4/Ubuntu/))
 
 <div
   style={{
@@ -65,9 +66,9 @@ Then, run `apt update && apt install sudo` on the container before following wha
 ```shell
 sudo apt update \
 && sudo apt install -y bison build-essential cmake curl flex git gcc \
-    lsb-release libgmp-dev make ninja-build python python3 subversion \
-    texinfo wget \
+    lsb-release libgmp-dev make ninja-build pkg-config python python3 \
 && sudo apt autoremove -y
+    rsync subversion texinfo vim wget \
 ```
 
 ## sysroot
@@ -84,10 +85,12 @@ Connect the SD card or eMMC with OS to your SBC.
 
 ```shell
 sudo apt update \
-&& sudo apt install -y build-essential libgtk-3-dev libegl-mesa0 libdrm-dev \
-    libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev pkg-config rsync \
-    symlinks git vim \
-&& sudo apt autoremove -y
+&& sudo apt install -y build-essential clang fontconfig git libdrm-dev \
+    libegl-mesa0 libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev \
+    libgtk-3-dev liblzma-dev ninja-build pkg-config rsync symlinks \
+    ttf-mscorefonts-installer vim \
+&& sudo apt autoremove -y \
+&& sudo fc-cache
 ```
 
 ```shell
@@ -95,7 +98,7 @@ sudo symlinks -crs /*
 ```
 
 ```shell
-sudo rsync -rlpv -e 'ssh -p <host port>' /lib /usr /etc \
+sudo rsync -a -e 'ssh -p <host port>' /lib /usr /etc \
     <host user>@<host ip>:~/flutter-engine/sdk/sysroot
 ```
 
@@ -306,12 +309,12 @@ cd $HOME/flutter-engine/engine/src \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
     --target-triple aarch64-linux-gnu \
-    --linux-cpu arm64 \
-    --runtime-mode debug \
     --embedder-for-target \
     --no-lto \
+    --no-goma \
     --target-os linux \
-    --arm-float-abi hard
+    --linux-cpu arm64 \
+    --runtime-mode debug
 ```
 
 ```shell
@@ -319,25 +322,25 @@ ninja -C out/linux_debug_arm64
 ```
 
 ```shell
+cd $HOME/flutter-engine/engine/src \
+&& [ -d out/linux_release_arm64 ] && sudo rm -r out/linux_release_arm64 ;\
+./flutter/tools/gn \
+    --clang \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple aarch64-linux-gnu \
+    --embedder-for-target \
+    --no-lto \
+    --no-goma \
+    --target-os linux \
+    --linux-cpu arm64 \
+    --runtime-mode release
+```
+
+```shell
+ninja -C out/linux_release_arm64
+```
+
+```shell
 cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
-```
-
-Copy `flutter_embedder.h`, `libflutter_engine.so`, `libflutter_linux_gtk.so`, `icudtl.dat` to Target.
-
-```shell
-rsync flutter_embedder.h libflutter_engine.so libflutter_linux_gtk.so icudtl.dat \
-    <target user>@<target ip>:~
-```
-
-# Target(Linux ARM64)
-
-```shell
-cd \
-&& sudo mv libflutter_engine.so libflutter_linux_gtk.so icudtl.dat /usr/lib \
-&& sudo mv flutter_embedder.h /usr/include
-```
-
-```shell
-sudo apt install ttf-mscorefonts-installer fontconfig \
-&& sudo fc-cache
 ```

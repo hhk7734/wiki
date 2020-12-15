@@ -70,7 +70,10 @@ module.exports = {
     {
       type: "category",
       label: "Engine",
-      items: ["lang/flutter/engine/flutter-engine-for-linux-arm64"],
+      items: [
+        "lang/flutter/engine/flutter-engine-for-linux-arm64",
+        "lang/flutter/engine/flutter-app-for-linux-arm64",
+      ],
     },
   ],
   infineon: [

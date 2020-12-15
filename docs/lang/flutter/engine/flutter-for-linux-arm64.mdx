@@ -1,0 +1,179 @@
+---
+id: flutter-app-for-linux-arm64
+title: Build Flutter app for linux-arm64
+sidebar_label: Build app for linux-arm64
+description: Build Flutter app for linux-arm64
+keywords:
+  - Flutter
+  - application
+  - build
+  - arm64
+  - linux
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# Native Build
+
+## Target(Linux ARM64)
+
+```shell
+git clone https://github.com/flutter/flutter.git
+```
+
+```shell
+export PATH=$PATH:/path/to/flutter/bin
+```
+
+```shell
+$ flutter doctor
+Downloading Dart SDK ...
+... cannot execute binary file: Exec format error
+...
+```
+
+## Host(Linux x86_64)
+
+:::info
+Read **[Build engine for linux-arm64](flutter-engine-for-linux-arm64.mdx#flutter-engine)** for `out/linux_debug_arm64` and `out/linux_release_arm64`
+:::
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
+```
+
+```shell
+rsync -a dart-sdk  <target user>@<target ip>:/path/to/flutter/bin/cache/
+```
+
+## Target(Linux ARM64)
+
+```shell
+$ flutter doctor
+Building flutter tool...
+
+  ╔════════════════════════════════════════════════════════════════════════════╗
+  ║                 Welcome to Flutter! - https://flutter.dev                  ║
+  ║                                                                            ║
+  ║ The Flutter tool uses Google Analytics to anonymously report feature usage ║
+  ║ statistics and basic crash reports. This data is used to help improve      ║
+  ║ Flutter tools over time.                                                   ║
+  ║                                                                            ║
+  ║ Flutter tool analytics are not sent on the very first run. To disable      ║
+  ║ reporting, type 'flutter config --no-analytics'. To display the current    ║
+  ║ setting, type 'flutter config'. If you opt out of analytics, an opt-out    ║
+  ║ event will be sent, and then no further information will be sent by the    ║
+  ║ Flutter tool.                                                              ║
+  ║                                                                            ║
+  ║ By downloading the Flutter SDK, you agree to the Google Terms of Service.  ║
+  ║ Note: The Google Privacy Policy describes how data is handled in this      ║
+  ║ service.                                                                   ║
+  ║                                                                            ║
+  ║ Moreover, Flutter includes the Dart SDK, which may send usage metrics and  ║
+  ║ crash reports to Google.                                                   ║
+  ║                                                                            ║
+  ║ Read about data we send with crash reports:                                ║
+  ║ https://flutter.dev/docs/reference/crash-reporting                         ║
+  ║                                                                            ║
+  ║ See Google's privacy policy:                                               ║
+  ║ https://policies.google.com/privacy                                        ║
+  ╚════════════════════════════════════════════════════════════════════════════╝
+
+
+Downloading Material fonts...                                    2,337ms
+Downloading Gradle Wrapper...                                       64ms
+Downloading package sky_engine...                                1,139ms
+Downloading flutter_patched_sdk tools...                            3.1s
+Downloading flutter_patched_sdk_product tools...                 2,334ms
+Downloading linux-x64 tools...                                      4.7s
+Downloading linux-x64/font-subset tools...                       1,701ms
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel master, 1.25.0-9.0.pre.57, on Linux, locale C.UTF-8)
+[✗] Android toolchain - develop for Android devices
+    ✗ Unable to locate Android SDK.
+      Install Android Studio from: https://developer.android.com/studio/index.html
+      On first launch it will assist you in installing the Android SDK components.
+      (or visit https://flutter.dev/docs/get-started/install/linux#android-setup for detailed instructions).
+      If the Android SDK has been installed to a custom location, please use
+      `flutter config --android-sdk` to update to that location.
+
+[✗] Chrome - develop for the web (Cannot find Chrome executable at google-chrome)
+    ! Cannot find Chrome. Try setting CHROME_EXECUTABLE to a Chrome executable.
+[!] Android Studio (not installed)
+[!] Connected device
+    ! No devices available
+
+! Doctor found issues in 4 categories.
+```
+
+```shell
+flutter config --enable-linux-desktop
+```
+
+```shell
+$ flutter create sample \
+  && cd sample \
+  && flutter build linux
+Downloading linux-x64/linux-x64-flutter-gtk tools...               10.3s
+Downloading linux-x64-profile/linux-x64-flutter-gtk tools...         5.6s
+Downloading linux-x64-release/linux-x64-flutter-gtk tools...         4.4s
+Building Linux application...
+Unable to generate build files
+```
+
+## Host(Linux x86_64)
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
+```
+
+```shell
+rsync -a flutter_patched_sdk \
+    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+rsync -a flutter_linux gen/const_finder.dart.snapshot flutter_tester \
+    font-subset gen/frontend_server.dart.snapshot icudtl.dat \
+    gen/flutter/lib/snapshot/isolate_snapshot.bin libflutter_linux_gtk.so \
+    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
+    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/linux-x64
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
+```
+
+```shell
+mv flutter_patched_sdk flutter_patched_sdk_product \
+&& rsync -a flutter_patched_sdk_product \
+    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+rsync -a flutter_linux dart-sdk/bin/utils/gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/linux-x64-release
+```
+
+## Target(Linux ARM64)
+
+```shell
+[ -d /path/to/sample ] && rm -r /path/to/sample ;\
+flutter create sample
+```
+
+```shell
+flutter run -d linux
+```
+
+<center>
+  <img
+    src={useBaseUrl("img/lang/flutter/engine/flutter-run-d-linux-arm64.png")}
+  />
+</center>
+
+### Troubleshoot
+
+```shell
+flutter build linux --verbose
+```
