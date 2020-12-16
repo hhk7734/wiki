@@ -67,8 +67,8 @@ Then, run `apt update && apt install sudo` on the container before following wha
 sudo apt update \
 && sudo apt install -y bison build-essential cmake curl flex git gcc \
     lsb-release libgmp-dev make ninja-build pkg-config python python3 \
-&& sudo apt autoremove -y
     rsync subversion texinfo vim wget \
+&& sudo apt autoremove -y
 ```
 
 ## sysroot
@@ -155,7 +155,8 @@ $HOME/flutter-engine/sdk/sysroot
 ### clang and LLVM
 
 ```shell
-git clone --branch=llvmorg-11.0.0 --depth=1 https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
+git clone --branch=llvmorg-11.0.0 --depth=1 \
+    https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
 ```
 
 ```shell
@@ -164,9 +165,9 @@ cd $HOME/flutter-engine/llvm-project \
 mkdir build_llvm && cd build_llvm \
 && cmake -G Ninja \
     -DCMAKE_BUILD_TYPE=Release \
-    -DLLVM_ENABLE_PROJECTS=clang \
-    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
     -DCMAKE_CROSSCOMPILING=True \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DLLVM_ENABLE_PROJECTS=clang \
     -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-linux-gnu \
     -DLLVM_TARGET_ARCH=AArch64 \
     -DLLVM_TARGETS_TO_BUILD=AArch64 \
@@ -178,7 +179,8 @@ mkdir build_llvm && cd build_llvm \
 ### binutils-gdb
 
 ```shell
-git clone --depth=1 git://sourceware.org/git/binutils-gdb.git $HOME/flutter-engine/binutils-gdb
+git clone --depth=1 git://sourceware.org/git/binutils-gdb.git \
+    $HOME/flutter-engine/binutils-gdb
 ```
 
 ```shell
@@ -212,7 +214,6 @@ mkdir build_libcxxabi && cd build_libcxxabi \
     -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
     -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
     -DLLVM_TARGETS_TO_BUILD=AArch64 \
-    -DLIBCXXABI_ENABLE_SHARED=False \
     -DLIBCXXABI_ENABLE_EXCEPTIONS=False \
     ../libcxxabi \
 && ninja \
@@ -259,7 +260,7 @@ export PATH=$PATH:$HOME/flutter-engine/depot_tools
 
 Ref: [https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)
 
-::info
+:::info
 After reading the Ref above, follow flutter-engine part.
 :::
 
@@ -309,11 +310,11 @@ cd $HOME/flutter-engine/engine/src \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
     --target-triple aarch64-linux-gnu \
+    --target-os linux \
+    --linux-cpu arm64 \
     --embedder-for-target \
     --no-lto \
     --no-goma \
-    --target-os linux \
-    --linux-cpu arm64 \
     --runtime-mode debug
 ```
 
@@ -329,11 +330,11 @@ cd $HOME/flutter-engine/engine/src \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
     --target-triple aarch64-linux-gnu \
+    --target-os linux \
+    --linux-cpu arm64 \
     --embedder-for-target \
     --no-lto \
     --no-goma \
-    --target-os linux \
-    --linux-cpu arm64 \
     --runtime-mode release
 ```
 
