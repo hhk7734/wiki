@@ -161,11 +161,16 @@ git clone https://github.com/zsh-users/zsh-completions ~/.oh-my-zsh/custom/plugi
 ```
 
 ```shell
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+```shell
 echo '# Path to your oh-my-zsh installation.
 export ZSH="'$HOME'/.oh-my-zsh"
 
 # theme
-ZSH_THEME="refined"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 # plugins
 plugins=(
@@ -182,7 +187,17 @@ autoload -U compinit && compinit
 # alias
 alias ls="ls -F --color=auto"
 alias cf="clang-format -style=file -i -verbose"
+
+export PATH=$PATH:'$HOME'/.local/bin
+export DEBEMAIL="hhk7734@gmail.com"
+export DEBFULLNAME="Hyeonki Hong"
 ' > ~/.zshrc
+```
+
+Install `MesloLGS NF Regular.ttf`.
+
+```shell
+p10k configure
 ```
 
 # Desktop Entry
