@@ -1,0 +1,198 @@
+---
+id: python-yolov4-model-backbone
+title: Backbone
+sidebar_label: Backbone
+description: YOLOv4 Backbone
+keywords:
+  - Neural Network
+  - YOLOv4
+  - TensorFlow
+  - CSPResNet
+  - CSPDarknet
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+# ResNet
+
+**Res**: Residual
+
+## ResBlock
+
+```ini
+[convolutional]
+batch_normalize=1
+filters=32
+size=1
+stride=1
+pad=1
+activation=mish
+
+[convolutional]
+batch_normalize=1
+filters=64
+size=3
+stride=1
+pad=1
+activation=mish
+
+[shortcut]
+from=-3
+activation=linear
+```
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/yolov4/model/yolov4-resblock.jpeg"
+    )}
+  />
+</center>
+
+## ResNet
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/yolov4/model/yolov4-resnet.jpeg"
+    )}
+  />
+</center>
+
+# CSPResNet
+
+**CSP**: Cross Stage Partial
+
+```ini
+[convolutional]
+batch_normalize=1
+filters=64
+size=1
+stride=1
+pad=1
+activation=mish
+
+[route]
+layers = -2
+
+[convolutional]
+batch_normalize=1
+filters=64
+size=1
+stride=1
+pad=1
+activation=mish
+
+... resnet -> 3 x n layers ...
+
+[convolutional]
+batch_normalize=1
+filters=64
+size=1
+stride=1
+pad=1
+activation=mish
+
+[route]
+layers = -1,-7 # -(3 x n + 4)
+
+[convolutional]
+batch_normalize=1
+filters=64
+size=1
+stride=1
+pad=1
+activation=mish
+```
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/yolov4/model/yolov4-cspresnet.jpeg"
+    )}
+  />
+</center>
+
+# CSPDarknet
+
+```ini
+[convolutional]
+batch_normalize=1
+filters=32
+size=3
+stride=1
+pad=1
+activation=mish
+
+# Downsample
+
+[convolutional]
+batch_normalize=1
+filters=64
+size=3
+stride=2
+pad=1
+activation=mish
+
+... CSPResNet -> ResBlock x 1 ...
+
+# Downsample
+
+[convolutional]
+batch_normalize=1
+filters=128
+size=3
+stride=2
+pad=1
+activation=mish
+
+... CSPResNet -> ResBlock x 2 ...
+
+# Downsample
+
+[convolutional]
+batch_normalize=1
+filters=256
+size=3
+stride=2
+pad=1
+activation=mish
+
+... CSPResNet -> ResBlock x 8 ...
+
+# Downsample
+
+[convolutional]
+batch_normalize=1
+filters=512
+size=3
+stride=2
+pad=1
+activation=mish
+
+... CSPResNet -> ResBlock x 8 ...
+
+# Downsample
+
+[convolutional]
+batch_normalize=1
+filters=1024
+size=3
+stride=2
+pad=1
+activation=mish
+
+... CSPResNet -> ResBlock x 4 ...
+```
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/python/libraries/yolov4/model/yolov4-cspdarknet.jpeg"
+    )}
+  />
+</center>
+
+# Reference
+
+- [https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers](https://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers)

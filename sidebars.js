@@ -264,6 +264,14 @@ module.exports = {
             "lang/python/libraries/yolov4/python-yolov4-training",
             "lang/python/libraries/yolov4/python-yolov4-map",
             "lang/python/libraries/yolov4/python-yolov4-edge-tpu",
+            {
+              type: "category",
+              label: "Model",
+              items: [
+                "lang/python/libraries/yolov4/model/python-yolov4-model-backbone",
+                "lang/python/libraries/yolov4/model/python-yolov4-model-neck",
+              ],
+            },
           ],
         },
       ],
