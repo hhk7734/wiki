@@ -270,6 +270,7 @@ module.exports = {
               items: [
                 "lang/python/libraries/yolov4/model/python-yolov4-model-backbone",
                 "lang/python/libraries/yolov4/model/python-yolov4-model-neck",
+                "lang/python/libraries/yolov4/model/python-yolov4-model-loss",
               ],
             },
           ],

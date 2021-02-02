@@ -1,0 +1,245 @@
+---
+id: python-yolov4-model-loss
+title: Loss
+sidebar_label: Loss
+description: YOLOv4 Loss
+keywords:
+  - Neural Network
+  - YOLOv4
+  - TensorFlow
+  - Loss
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+# YOLOv1
+
+> We optimize for sum-squared error in the output of our model. We use sum-squared error because it is easy to optimize, however it does not perfectly align with our goal of maximizing average precision. It weights localization error equally with classification error which may not be ideal. Also, in every image many grid cells do not contain any object. This pushes the “confidence” scores of those cells towards zero, often overpowering the gradient from cells that do contain objects. This can lead to model instability, causing training to diverge early on.
+
+> To remedy this, we increase the loss from bounding box coordinate predictions and decrease the loss from confidence predictions for boxes that don’t contain objects. We use two parameters, $\lambda_{coord}$ and $\lambda_{noobj}$ to accomplish this. We set $\lambda_{coord} = 5$ and $\lambda_{noobj} = 0.5$.
+
+> Sum-squared error also equally weights errors in large boxes and small boxes. Our error metric should reflect that small deviations in large boxes matter less than in small boxes. To partially address this we predict the square root of the bounding box width and height instead of the width and height directly.
+
+> YOLO predicts multiple bounding boxes per grid cell. **At training time we only want one bounding box predictor to be responsible for each object.** We assign one predictor to be “responsible” for predicting an object based on which prediction has the highest current IOU with the ground truth. This leads to specialization between the bounding box predictors. Each predictor gets better at predicting certain sizes, aspect ratios, or classes of object, improving overall recall.
+
+> where $1^{obj}_i$ denotes if object appears in cell i and $1^{obj}_{ij}$ denotes that the j-th bounding box predictor in cell i is **“responsible”** for that prediction.
+
+$$
+B = \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & t_{x1} & t_{y1} & ... & c_0 & c_1 & ... & \end{pmatrix}
+$$
+
+$$
+\begin{aligned}
+x &= sigmoid(t_x), & y&= sigmoid(t_y), & w &= sigmoid(t_w), & h &= sigmoid(t_h), \\
+C &= sigmoid(t_o), & p(c_k) &= softmax(c_k)
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+loss
+&= \lambda_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left[
+        \left( x_{ij} - \hat{x}_{ij} \right)^2
+        + \left( y_{ij} - \hat{y}_{ij} \right)^2
+        + \left( \sqrt{w_{ij}}- \sqrt{\hat{w}_{ij}} \right)^2
+        + \left( \sqrt{h_{ij}} - \sqrt{\hat{h}_{ij}} \right)^2
+    \right] \\
+&+ \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( IOU^{truth}_{pred} - \hat{C}_{ij} \right)^2 \\
+&+ \lambda_{noobj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    \left( 1 - 1^{obj}_{ij} \right)
+    \left( 0 - \hat{C}_{ij} \right)^2 \\
+&+ \sum^{S^2}_{i=0}
+    1^{obj}_i
+    \sum_{c \in classes} \left( p_i(c) - \hat{p}_i(c) \right)^2
+\end{aligned}
+$$
+
+# YOLOv2
+
+> When we move to anchor boxes we also decouple the class prediction mechanism from the spatial location and instead predict class and objectness for every anchor box. Following YOLO, the objectness prediction still predicts the IOU of the ground truth and the proposed box and the class predictions predict he conditional probability of that class given that there is an object.
+
+$$
+B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+$$
+
+$$
+\begin{aligned}
+x &= sigmoid(t_x) + c_x, & y &= sigmoid(t_y) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
+C &= sigmoid(t_o), & p(c_k) &= softmax(c_k), & p^* &= anchor_*
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+loss
+&=  \lambda_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( 2 - w_{ij}h_{ij} \right)
+    \left[
+        \left( x_{ij} - \hat{x}_{ij} \right)^2
+        + \left( y_{ij} - \hat{y}_{ij} \right)^2
+        + \left( w_{ij}- \hat{w}_{ij} \right)^2
+        + \left( h_{ij} - \hat{h}_{ij} \right)^2
+    \right] \\
+&+  \lambda^{noobj}_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{noobj}_{ij}
+    \left[
+        \left( p^x_j - \hat{x}_{ij} \right)^2
+        + \left( p^y_j - \hat{y}_{ij} \right)^2
+        + \left( p^w_j- \hat{w}_{ij} \right)^2
+        + \left( p^h_j - \hat{h}_{ij} \right)^2
+    \right] \\
+&+  \lambda_{obj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( IOU^{truth}_{pred} - \hat{C}_{ij} \right)^2 \\
+&+  \lambda_{noobj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{noobj}_{ij}
+    \left( 0 - \hat{C}_{ij} \right)^2 \\
+&+ \lambda_{class}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \sum_{c \in classes} \left( p_i(c) - \hat{p}_i(c) \right)^2
+\end{aligned}
+$$
+
+# YOLOv3
+
+> Each box predicts the classes the bounding box may contain using multilabel classification. We do not use a softmax as we have found it is unnecessary for good performance, instead **we simply use independent logistic classifiers.** During training we use binary cross-entropy loss for the class predictions.
+
+$$
+B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+$$
+
+$$
+\begin{aligned}
+x &= scale(sig(t_x)) + c_x, & y &= scale(sig(t_y)) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
+C &= sigmoid(t_o), & p(c_k) &= sigmoid(c_k)
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+loss
+&= \lambda_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( 2 - w_{ij}h_{ij} \right)
+    \left[
+        \left( x_{ij} - \hat{x}_{ij} \right)^2
+        + \left( y_{ij} - \hat{y}_{ij} \right)^2
+        + \left( w_{ij}- \hat{w}_{ij} \right)^2
+        + \left( h_{ij} - \hat{h}_{ij} \right)^2
+    \right] \\
+&-  \lambda_{obj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left[
+        IOU^{truth}_{pred} \log \hat{C}_{ij}
+        + \left( 1 - IOU^{truth}_{pred} \right)
+        \log \left( 1 - \hat{C}_{ij} \right)
+    \right] \\
+&-  \lambda_{noobj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{noobj}_{ij}
+    \left[
+        0
+        + \log \left( 1 - \hat{C}_{ij} \right)
+    \right] \\
+&- \lambda_{class}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \sum_{c \in classes}
+    \left[
+        p_i(c) \log \hat{p}_i(c) + \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
+    \right]
+\end{aligned}
+$$
+
+# YOLOv4
+
+> Bag of Freebies (BoF) for backbone: CutMix and Mosaic data augmentation, DropBlock regularization, Class label smoothing
+
+> Bag of Specials (BoS) for backbone: Mish activation, Cross-stage partial connections (CSP), Multi-input weighted residual connections (MiWRC)
+
+> **Bag of Freebies (BoF) for detector: CIoU-loss, CmBN, DropBlock regularization, Mosaic data augmentation, Self-Adversarial Training, Eliminate grid sensitivity, Using multiple anchors for a single ground truth, Cosine annealing scheduler [52], Optimal hyper-parameters, Random training shapes**
+
+> Bag of Specials (BoS) for detector: Mish activation, SPP-block, SAM-block, PAN path-aggregation block, DIoU-NMS
+
+$$
+B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+$$
+
+$$
+\begin{aligned}
+x &= scale(sig(t_x)) + c_x, & y &= scale(sig(t_y)) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
+C &= sigmoid(t_o), & p(c_k) &= sigmoid(c_k)
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+loss
+&= \lambda_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( 2 - w_{ij}h_{ij} \right)
+    \left( 1 - CIOU^{truth}_{pred} \right) \\
+&-  \lambda_{obj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left[
+        IOU^{truth}_{pred} \log \hat{C}_{ij}
+        + \left( 1 - IOU^{truth}_{pred} \right)
+        \log \left( 1 - \hat{C}_{ij} \right)
+    \right] \\
+&-  \lambda_{noobj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{noobj}_{ij}
+    \left[
+        0
+        + \log \left( 1 - \hat{C}_{ij} \right)
+    \right] \\
+&- \lambda_{class}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \sum_{c \in classes}
+    \left[
+        p_i(c) \log \hat{p}_i(c) + \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
+    \right]
+\end{aligned}
+$$
+
+# Reference
+
+- You Only Look Once: Unified, Real-Time Object Detection p.3 ~ p.4
+- YOLO9000: Better, Faster, Stronger p.2 ~ p.3
+- YOLOv3: An Incremental Improvement p.2
+- YOLOv4: Optimal Speed and Accuracy of Object Detection p.7
