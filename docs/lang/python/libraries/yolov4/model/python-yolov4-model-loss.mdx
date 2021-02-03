@@ -57,7 +57,7 @@ loss
 &+ \lambda_{noobj}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
-    \left( 1 - 1^{obj}_{ij} \right)
+    1^{noobj}_{ij}
     \left( 0 - \hat{C}_{ij} \right)^2 \\
 &+ \sum^{S^2}_{i=0}
     1^{obj}_i
@@ -78,6 +78,10 @@ $$
 x &= sigmoid(t_x) + c_x, & y &= sigmoid(t_y) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
 C &= sigmoid(t_o), & p(c_k) &= softmax(c_k), & p^* &= anchor_*
 \end{aligned}
+$$
+
+$$
+1^{obj} = max(IOU^{truth}_{anchor})
 $$
 
 $$
@@ -124,6 +128,10 @@ $$
 
 # YOLOv3
 
+> During training we use **sum of squared error loss**. If the ground truth for some coordinate prediction is $t_*$ our gradient is the ground truth value (computed from the ground truth box) minus our prediction: $t_* − \hat{t}_*$. This ground truth value can be easily computed by inverting the equations above.
+
+> YOLOv3 predicts an objectness score for each bounding box using **logistic regression**. **This should be 1 if the bounding box prior overlaps a ground truth object by more than any other bounding box prior.** If the bounding box prior is not the best but does overlap a ground truth object by more than some threshold we ignore the prediction, following [Faster R-CNN](https://arxiv.org/pdf/1506.01497.pdf). **We use the threshold of 0.5.** Unlike [Faster R-CNN](https://arxiv.org/pdf/1506.01497.pdf), **our system only assigns one bounding box prior for each ground truth object. If a bounding box prior is not assigned to a ground truth object it incurs no loss for coordinate or class predictions, only objectness.**
+
 > Each box predicts the classes the bounding box may contain using multilabel classification. We do not use a softmax as we have found it is unnecessary for good performance, instead **we simply use independent logistic classifiers.** During training we use binary cross-entropy loss for the class predictions.
 
 $$
@@ -132,9 +140,13 @@ $$
 
 $$
 \begin{aligned}
-x &= scale(sig(t_x)) + c_x, & y &= scale(sig(t_y)) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
+x &= sigmoid(t_x) + c_x, & y &= sigmoid(t_y) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
 C &= sigmoid(t_o), & p(c_k) &= sigmoid(c_k)
 \end{aligned}
+$$
+
+$$
+1^{obj} = max(IOU^{truth}_{anchor})
 $$
 
 $$
@@ -144,29 +156,21 @@ loss
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
     1^{obj}_{ij}
-    \left( 2 - w_{ij}h_{ij} \right)
-    \left[
-        \left( x_{ij} - \hat{x}_{ij} \right)^2
-        + \left( y_{ij} - \hat{y}_{ij} \right)^2
-        + \left( w_{ij}- \hat{w}_{ij} \right)^2
-        + \left( h_{ij} - \hat{h}_{ij} \right)^2
+    1^{IOU^{truth}_{anchor} > 0.5}_{ij}
+    \left( 2 - w_{ij}h_{ij} \right) \\
+& \qquad \qquad \left[
+        \left( t_{xij} - \hat{t_x}_{ij} \right)^2
+        + \left( t_{yij} - \hat{t_y}_{ij} \right)^2
+        + \left( t_{wij}- \hat{t_w}_{ij} \right)^2
+        + \left( t_{hij} - \hat{t_h}_{ij} \right)^2
     \right] \\
 &-  \lambda_{obj}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
-    1^{obj}_{ij}
     \left[
-        IOU^{truth}_{pred} \log \hat{C}_{ij}
-        + \left( 1 - IOU^{truth}_{pred} \right)
+        C_{ij} \log \hat{C}_{ij}
+        + \left( 1 -  C_{ij} \right)
         \log \left( 1 - \hat{C}_{ij} \right)
-    \right] \\
-&-  \lambda_{noobj}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    1^{noobj}_{ij}
-    \left[
-        0
-        + \log \left( 1 - \hat{C}_{ij} \right)
     \right] \\
 &- \lambda_{class}
     \sum^{S^2}_{i=0}
@@ -185,7 +189,7 @@ $$
 
 > Bag of Specials (BoS) for backbone: Mish activation, Cross-stage partial connections (CSP), Multi-input weighted residual connections (MiWRC)
 
-> **Bag of Freebies (BoF) for detector: CIoU-loss, CmBN, DropBlock regularization, Mosaic data augmentation, Self-Adversarial Training, Eliminate grid sensitivity, Using multiple anchors for a single ground truth, Cosine annealing scheduler [52], Optimal hyper-parameters, Random training shapes**
+> **Bag of Freebies (BoF) for detector: CIoU-loss, CmBN, DropBlock regularization, Mosaic data augmentation, Self-Adversarial Training, Eliminate grid sensitivity, Using multiple anchors for a single ground truth, [Cosine annealing scheduler(SGDR)](https://arxiv.org/pdf/1608.03983.pdf), Optimal hyper-parameters, Random training shapes**
 
 > Bag of Specials (BoS) for detector: Mish activation, SPP-block, SAM-block, PAN path-aggregation block, DIoU-NMS
 
@@ -203,7 +207,7 @@ $$
 $$
 \begin{aligned}
 loss
-&= \lambda_{coord}
+&= \lambda_{iou}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
     1^{obj}_{ij}
@@ -212,19 +216,10 @@ loss
 &-  \lambda_{obj}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
-    1^{obj}_{ij}
     \left[
-        IOU^{truth}_{pred} \log \hat{C}_{ij}
-        + \left( 1 - IOU^{truth}_{pred} \right)
+        C_{ij} \log \hat{C}_{ij}
+        + \left( 1 -  C_{ij} \right)
         \log \left( 1 - \hat{C}_{ij} \right)
-    \right] \\
-&-  \lambda_{noobj}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    1^{noobj}_{ij}
-    \left[
-        0
-        + \log \left( 1 - \hat{C}_{ij} \right)
     \right] \\
 &- \lambda_{class}
     \sum^{S^2}_{i=0}
@@ -239,7 +234,7 @@ $$
 
 # Reference
 
-- You Only Look Once: Unified, Real-Time Object Detection p.3 ~ p.4
-- YOLO9000: Better, Faster, Stronger p.2 ~ p.3
-- YOLOv3: An Incremental Improvement p.2
-- YOLOv4: Optimal Speed and Accuracy of Object Detection p.7
+- [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/pdf/1506.02640.pdf) p.3 ~ p.4
+- [YOLO9000: Better, Faster, Stronger](https://arxiv.org/pdf/1612.08242.pdf) p.2 ~ p.3
+- [YOLOv3: An Incremental Improvement](https://arxiv.org/pdf/1804.02767.pdf) p.1 ~ p.2
+- [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/pdf/2004.10934.pdf) p.7
