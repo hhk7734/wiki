@@ -202,6 +202,7 @@ module.exports = {
         "etc/project/neural-network/neural-network-basics",
         "etc/project/neural-network/neural-network-cpu-gpu-npu",
         "etc/project/neural-network/neural-network-cnn",
+        "etc/project/neural-network/neural-network-derivative",
       ],
     },
     {

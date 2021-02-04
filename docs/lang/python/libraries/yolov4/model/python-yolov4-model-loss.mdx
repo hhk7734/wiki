@@ -27,19 +27,19 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 > where $1^{obj}_i$ denotes if object appears in cell i and $1^{obj}_{ij}$ denotes that the j-th bounding box predictor in cell i is **“responsible”** for that prediction.
 
 $$
-B = \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & t_{x1} & t_{y1} & ... & c_0 & c_1 & ... & \end{pmatrix}
+B = \begin{pmatrix} t_x & t_y & t_w & t_h & t_o \end{pmatrix}
 $$
 
 $$
 \begin{aligned}
-x &= sigmoid(t_x), & y&= sigmoid(t_y), & w &= sigmoid(t_w), & h &= sigmoid(t_h), \\
-C &= sigmoid(t_o), & p(c_k) &= softmax(c_k)
+x &= logistic(t_x), & y&= logistic(t_y), & w &= logistic(t_w), & h &= logistic(t_h), \\
+C &= logistic(t_o), & p(c_k) &= softmax(c_k)
 \end{aligned}
 $$
 
 $$
 \begin{aligned}
-loss
+Loss
 &= \lambda_{coord}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
@@ -70,13 +70,13 @@ $$
 > When we move to anchor boxes we also decouple the class prediction mechanism from the spatial location and instead predict class and objectness for every anchor box. Following YOLO, the objectness prediction still predicts the IOU of the ground truth and the proposed box and the class predictions predict he conditional probability of that class given that there is an object.
 
 $$
-B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+B= \begin{pmatrix} t_x & t_y & t_w & t_h & t_o & c_0 & c_1 & ... & \end{pmatrix} \\
 $$
 
 $$
 \begin{aligned}
-x &= sigmoid(t_x) + c_x, & y &= sigmoid(t_y) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
-C &= sigmoid(t_o), & p(c_k) &= softmax(c_k), & p^* &= anchor_*
+x &= logistic(t_x) + c_{xi}, & y &= logistic(t_y) + c_{yi}, & w &= p_w e^{t_w}, & h &= p_h e^{t_h} \\
+C &= logistic(t_o), & p(c_k) &= softmax(c_k), & p_* &= anchor_*
 \end{aligned}
 $$
 
@@ -86,7 +86,7 @@ $$
 
 $$
 \begin{aligned}
-loss
+Loss
 &=  \lambda_{coord}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
@@ -97,16 +97,6 @@ loss
         + \left( y_{ij} - \hat{y}_{ij} \right)^2
         + \left( w_{ij}- \hat{w}_{ij} \right)^2
         + \left( h_{ij} - \hat{h}_{ij} \right)^2
-    \right] \\
-&+  \lambda^{noobj}_{coord}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    1^{noobj}_{ij}
-    \left[
-        \left( p^x_j - \hat{x}_{ij} \right)^2
-        + \left( p^y_j - \hat{y}_{ij} \right)^2
-        + \left( p^w_j- \hat{w}_{ij} \right)^2
-        + \left( p^h_j - \hat{h}_{ij} \right)^2
     \right] \\
 &+  \lambda_{obj}
     \sum^{S^2}_{i=0}
@@ -135,13 +125,13 @@ $$
 > Each box predicts the classes the bounding box may contain using multilabel classification. We do not use a softmax as we have found it is unnecessary for good performance, instead **we simply use independent logistic classifiers.** During training we use binary cross-entropy loss for the class predictions.
 
 $$
-B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+B= \begin{pmatrix} t_x & t_y & t_w & t_h & t_o & c_0 & c_1 & ... & \end{pmatrix} \\
 $$
 
 $$
 \begin{aligned}
-x &= sigmoid(t_x) + c_x, & y &= sigmoid(t_y) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
-C &= sigmoid(t_o), & p(c_k) &= sigmoid(c_k)
+x &= logistic(t_x) + c_{xi}, & y &= logistic(t_y) + c_{yi}, & w &= p_w e^{t_w}, & h &= p_h e^{t_h} \\
+C &= logistic(t_o), & p(c_k) &= logistic(c_k), & p_* &= anchor_*
 \end{aligned}
 $$
 
@@ -151,7 +141,7 @@ $$
 
 $$
 \begin{aligned}
-loss
+Loss
 &= \lambda_{coord}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
@@ -194,41 +184,13 @@ $$
 > Bag of Specials (BoS) for detector: Mish activation, SPP-block, SAM-block, PAN path-aggregation block, DIoU-NMS
 
 $$
-B= \begin{pmatrix} t_{x0} & t_{y0} & t_{w0} & t_{h0} & t_{o0} & c_{0,0} & c_{0,1} & ... & t_{x1} & t_{y1} & ... & \end{pmatrix} \\
+B= \begin{pmatrix} t_x & t_y & t_w & t_h & t_o & c_0 & c_1 & ... & \end{pmatrix} \\
 $$
 
 $$
 \begin{aligned}
-x &= scale(sig(t_x)) + c_x, & y &= scale(sig(t_y)) + c_y, & w &= anchor_w e^{t_w}, & h &= anchor_h e^{t_h} \\
-C &= sigmoid(t_o), & p(c_k) &= sigmoid(c_k)
-\end{aligned}
-$$
-
-$$
-\begin{aligned}
-loss
-&= \lambda_{iou}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    1^{obj}_{ij}
-    \left( 2 - w_{ij}h_{ij} \right)
-    \left( 1 - CIOU^{truth}_{pred} \right) \\
-&-  \lambda_{obj}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    \left[
-        C_{ij} \log \hat{C}_{ij}
-        + \left( 1 -  C_{ij} \right)
-        \log \left( 1 - \hat{C}_{ij} \right)
-    \right] \\
-&- \lambda_{class}
-    \sum^{S^2}_{i=0}
-    \sum^B_{j=0}
-    1^{obj}_{ij}
-    \sum_{c \in classes}
-    \left[
-        p_i(c) \log \hat{p}_i(c) + \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
-    \right]
+x &= scale(logistic(t_x)) + c_{xi}, & y &= scale(logistic(t_y)) + c_{yi}, & w &= p_w e^{t_w}, & h &= p_h e^{t_h} \\
+C &= logistic(t_o), & p(c_k) &= logistic(c_k), & p_* &= anchor_*
 \end{aligned}
 $$
 

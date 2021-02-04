@@ -1,0 +1,50 @@
+---
+id: neural-network-derivative
+title: Derivative
+sidebar_label: Derivative
+description: Neural Network Derivative
+keywords:
+  - Neural Network
+  - Derivative
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+# Loss function
+
+## Mean Square Error
+
+$$
+Loss = \dfrac{ 1 }{ 2 } \sum_i \left( y_i - a^L_i \right)^2
+$$
+
+$$
+\dfrac{ \partial Loss }{ \partial a^L_i } = - \left( y_i - a^L_i \right)
+$$
+
+## Binary Cross-Entropy
+
+$$
+Loss = \sum_i \left[ -y_i \log a^L_i - (1 - y_i) \log \left( 1 - a^L_i \right) \right]
+$$
+
+$$
+\dfrac{\partial Loss}{\partial a^L_i}
+= \dfrac{ - \left( y_i - a^L_i \right)}{a^L_i \left( 1 - a^L_i \right) }
+$$
+
+# Activation
+
+## logistic
+
+$$
+a^l_i = \sigma ( z^l_i ) = logistic ( z^l_i ) = \dfrac{ 1 }{ 1 + e^{ -z^l_i } }
+$$
+
+$$
+\dfrac{\partial \sigma ( z^l_i )}{\partial z^l_i }
+= \dfrac{  e^{ -z^l_i } }{ \left( 1 + e^{ -z^l_i } \right)^2 }
+= a^l_i \left( 1 - a^l_i \right)
+$$
