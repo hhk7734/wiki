@@ -1,4 +1,4 @@
-FROM node:lts
+FROM node:14.15.5
 
 WORKDIR /wiki
 COPY packag*.json ./
@@ -9,13 +9,13 @@ RUN apt-get update && apt-get install yarn -y
 RUN yarn install
 COPY . .
 
-RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js)
+RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js)
 
-RUN wc -c node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js | grep 1776 -q && mv custom_node_modules/search.js node_modules/@docusaurus/mdx-loader/src/remark/rightToc/search.js || echo "\n\nUpdate custom_node_modules/search.js\n\n"
+RUN wc -c node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js | grep 1643 -q && mv custom_node_modules/search.js node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js || echo "\n\nUpdate custom_node_modules/search.js\n\n"
 
 RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/index.js)
 
-RUN wc -c node_modules/@docusaurus/mdx-loader/src/index.js | grep 2214 -q && mv custom_node_modules/index.js node_modules/@docusaurus/mdx-loader/src/index.js || echo "\n\nUpdate custom_node_modules/index.js\n\n"
+RUN wc -c node_modules/@docusaurus/mdx-loader/src/index.js | grep 2681 -q && mv custom_node_modules/index.js node_modules/@docusaurus/mdx-loader/src/index.js || echo "\n\nUpdate custom_node_modules/index.js\n\n"
 
 RUN yarn build
 
