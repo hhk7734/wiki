@@ -48,6 +48,20 @@ Usually, I create an image path related file using only image file names. Then, 
 └── ...
 ```
 
+### v3
+
+```python
+# Call YOLODataset after yolo.config.parse_cfg():
+train_dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/content/drive/My Drive/Hard_Soft/NN/coco/train2017.txt",
+    image_path_prefix="/content/train2017",
+    training=True,
+)
+```
+
+### v2
+
 ```python
 # Call load_dataset() after yolo.<parameter>: anchors, classes, input_size, xyscales, ...
 train_data_set = yolo.load_dataset(
@@ -58,6 +72,18 @@ train_data_set = yolo.load_dataset(
 ```
 
 ## Set yolo parameters
+
+### v3
+
+Use `<yolo-model>.cfg`(darknet).
+
+```python
+yolo = YOLOv4()
+yolo.config.parse_names("/content/drive/My Drive/Hard_Soft/NN/coco/coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+```
+
+### v2
 
 ```python
 yolo = YOLOv4(tiny=True)
@@ -78,7 +104,40 @@ yolo.load_weights(
 )
 ```
 
+## Freeze some layers
+
+```python
+# Tested on v3 only
+for i in range(29):
+    yolo.model.get_layer(index=i).trainable = False
+```
+
 ## Set callbacks and Compile
+
+### v3
+
+Use `<yolo-model>.cfg`(darknet).
+
+```python
+yolo.compile()
+
+_callbacks = [
+    callbacks.TerminateOnNaN(),
+    callbacks.TensorBoard(
+        log_dir="/content/drive/MyDrive/Hard_Soft/NN/logs",
+        update_freq=200,
+        histogram_freq=1,
+    ),
+    SaveWeightsCallback(
+        yolo=yolo,
+        dir_path="/content/drive/MyDrive/Hard_Soft/NN/trained",
+        weights_type="yolo",
+        step_per_save=2000,
+    ),
+]
+```
+
+### v2
 
 ```python
 epochs = 400
@@ -111,6 +170,19 @@ _callbacks = [
 
 ## Call fit()
 
+### v3
+
+```python
+yolo.fit(
+    train_dataset,
+    callbacks=_callbacks,
+    validation_data=val_dataset,
+    verbose=3,  # 3: print step info
+)
+```
+
+### v2
+
 ```python
 yolo.fit(
     train_data_set,
@@ -124,6 +196,75 @@ yolo.fit(
 ```
 
 ## Full script
+
+### v3
+
+- 2021-02-13
+- OS: Ubuntu 20.04
+- TF: v2.4.1
+- yolov4: v3.0.0
+
+```python
+from tensorflow.keras import callbacks
+
+from yolov4.tf import YOLOv4, YOLODataset, SaveWeightsCallback
+
+yolo = YOLOv4()
+
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.make_model()
+yolo.load_weights(
+    "/content/drive/MyDrive/Hard_Soft/NN/yolov4/yolov4-tiny.conv.29",
+    weights_type="yolo",
+)
+yolo.summary(summary_type="yolo")
+
+for i in range(29):
+    yolo.model.get_layer(index=i).trainable = False
+yolo.summary()
+
+train_dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/content/drive/MyDrive/Hard_Soft/NN/coco/train2017.txt",
+    image_path_prefix="/content/train2017",
+    training=True,
+)
+
+val_dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/content/drive/MyDrive/Hard_Soft/NN/coco/val2017.txt",
+    image_path_prefix="/content/val2017",
+    training=False,
+)
+
+yolo.compile()
+
+_callbacks = [
+    callbacks.TerminateOnNaN(),
+    callbacks.TensorBoard(
+        log_dir="/content/drive/MyDrive/Hard_Soft/NN/logs",
+        update_freq=200,
+        histogram_freq=1,
+    ),
+    SaveWeightsCallback(
+        yolo=yolo,
+        dir_path="/content/drive/MyDrive/Hard_Soft/NN/trained",
+        weights_type="yolo",
+        step_per_save=2000,
+    ),
+]
+
+yolo.fit(
+    train_dataset,
+    callbacks=_callbacks,
+    validation_data=val_dataset,
+    verbose=3,  # 3: print step info
+)
+```
+
+### v2
 
 ```python
 from tensorflow.keras import callbacks, optimizers

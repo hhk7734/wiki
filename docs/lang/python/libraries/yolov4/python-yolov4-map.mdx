@@ -11,12 +11,6 @@ keywords:
 
 # Save dataset for mAP
 
-- 2020-10-15
-- OS: Ubuntu 20.04
-- TF: v2.3.1
-- yolov4: v1.2.1
-- mAP: [https://github.com/Cartucho/mAP](https://github.com/Cartucho/mAP)
-
 ## Downloads
 
 - mAP: [https://github.com/Cartucho/mAP](https://github.com/Cartucho/mAP)
@@ -24,6 +18,47 @@ keywords:
 - coco.names, val2017.txt: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
 
 ## Script
+
+### v3
+
+- 2020-02-13
+- OS: Ubuntu 20.04
+- TF: v2.4.1
+- yolov4: v3.0.0
+
+```python
+from yolov4.tf import YOLOv4, YOLODataset, create_mAP_input_files
+
+
+yolo = YOLOv4()
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.make_model()
+yolo.load_weights("/home/hhk7734/NN/yolov4-tiny.weights", weights_type="yolo")
+
+dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/home/hhk7734/NN/val2017.txt",
+    image_path_prefix="/home/hhk7734/NN/val2017",
+    training=False,
+)
+
+create_mAP_input_files(yolo, mAP_path="/home/hhk7734/mAP", dataset=dataset)
+```
+
+- @param `yolo`
+- @parma `data_set`
+- @param `mAP_path`
+- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
+- @param `num_sample`: Number of images for mAP. If `None`, all images in `data_set` are used.
+
+### v2
+
+- 2020-10-15
+- OS: Ubuntu 20.04
+- TF: v2.3.1
+- yolov4: v1.2.1
 
 ```python
 from yolov4.tf import YOLOv4
@@ -43,15 +78,6 @@ dataset = yolo.load_dataset(
 
 yolo.save_dataset_for_mAP("/home/hhk7734/mAP", dataset)
 ```
-
-```python
-save_dataset_for_mAP(mAP_path, data_set, num_sample=None, images_optional=False)
-```
-
-- @param `mAP_path`
-- @parma `data_set`
-- @param `num_sample`: Number of images for mAP. If `None`, all images in `data_set` are used.
-- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
 
 # Calculate mAP
 

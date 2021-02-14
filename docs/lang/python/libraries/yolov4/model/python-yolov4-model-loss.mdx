@@ -154,21 +154,21 @@ Loss
         + \left( t_{wij}- \hat{t_w}_{ij} \right)^2
         + \left( t_{hij} - \hat{t_h}_{ij} \right)^2
     \right] \\
-&-  \lambda_{obj}
+&+  \lambda_{obj}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
     \left[
-        C_{ij} \log \hat{C}_{ij}
-        + \left( 1 -  C_{ij} \right)
-        \log \left( 1 - \hat{C}_{ij} \right)
+        - C_{ij} \log \hat{C}_{ij}
+        - \left( 1 -  C_{ij} \right) \log \left( 1 - \hat{C}_{ij} \right)
     \right] \\
-&- \lambda_{class}
+&+ \lambda_{class}
     \sum^{S^2}_{i=0}
     \sum^B_{j=0}
     1^{obj}_{ij}
     \sum_{c \in classes}
     \left[
-        p_i(c) \log \hat{p}_i(c) + \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
+        - p_i(c) \log \hat{p}_i(c)
+        - \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
     \right]
 \end{aligned}
 $$
@@ -194,9 +194,40 @@ C &= logistic(t_o), & p(c_k) &= logistic(c_k), & p_* &= anchor_*
 \end{aligned}
 $$
 
+$$
+1^{obj} = max(IOU^{truth}_{anchors}) \quad and \quad IOU^{truth}_{anchors} > iou\_thresh
+$$
+
+$$
+\begin{aligned}
+Loss
+&= \lambda_{coord}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \left( 1 - CIOU(pred, truth) \right) \\
+&+  \lambda_{obj}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    \left[
+        - C_{ij} \log \hat{C}_{ij}
+        - \left( 1 -  C_{ij} \right) \log \left( 1 - \hat{C}_{ij} \right)
+    \right] \\
+&+ \lambda_{class}
+    \sum^{S^2}_{i=0}
+    \sum^B_{j=0}
+    1^{obj}_{ij}
+    \sum_{c \in classes}
+    \left[
+        - p_i(c) \log \hat{p}_i(c)
+        - \left( 1- p_i(c) \right) \log \left( 1 - \hat{p}_i(c) \right)
+    \right]
+\end{aligned}
+$$
+
 # Reference
 
 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/pdf/1506.02640.pdf) p.3 ~ p.4
 - [YOLO9000: Better, Faster, Stronger](https://arxiv.org/pdf/1612.08242.pdf) p.2 ~ p.3
 - [YOLOv3: An Incremental Improvement](https://arxiv.org/pdf/1804.02767.pdf) p.1 ~ p.2
-- [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/pdf/2004.10934.pdf) p.7
+- [YOLOv4: Optimal Speed and Accuracy of Object Detection](https://arxiv.org/pdf/2004.10934.pdf) p.7 ~ p.8

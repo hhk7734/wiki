@@ -246,6 +246,70 @@ with open(OUTPUT_FILE_PATH, "w") as fd:
 
 ## Dataset test script
 
+### v3
+
+- 2021-02-13
+- OS: Ubuntu 20.04
+- yolov4: v3.0.0
+
+```python
+import cv2
+import numpy as np
+from yolov4.tf import YOLOv4, YOLODataset
+
+
+yolo = YOLOv4()
+yolo.config.parse_names("test/coco.names")
+yolo.config.parse_cfg("config/yolov4-tiny.cfg")
+
+dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/home/hhk7734/NN/val2017.txt",
+    image_path_prefix="/home/hhk7734/NN/val2017",
+    training=True,
+)
+
+count = 0
+for i, (images, gt) in enumerate(dataset):
+    cv2.namedWindow("truth", cv2.WINDOW_AUTOSIZE)
+
+    beta_nms = 0.6
+
+    candidates = []
+    for j in range(yolo.config.layer_count["yolo"]):
+        metayolo = yolo.config.find_metalayer("yolo", i)
+        beta_nms = metayolo.beta_nms
+        stride = 5 + metayolo.classes
+        candidates.append(
+            np.reshape(
+                gt[j][..., : -len(yolo.config.yolo_0.mask)],
+                (yolo.config.net.batch, -1, stride),
+            )
+        )
+    candidates = np.concatenate(candidates, axis=1)
+
+    for j in range(len(images)):
+        frame = images[j, ...] * 255
+        frame = cv2.cvtColor(frame.astype(np.uint8), cv2.COLOR_RGB2BGR)
+        heights, widht, _ = frame.shape
+
+        treu_bboxes = yolo.yolo_diou_nms(
+            candidates[j].astype(np.float32), beta_nms
+        )
+        yolo.fit_to_original(treu_bboxes, heights, widht)
+        image2 = yolo.draw_bboxes(frame, treu_bboxes)
+        cv2.imshow("truth", image2)
+        while cv2.waitKey(10) & 0xFF != ord("q"):
+            pass
+        count += 1
+        if count == 30:
+            break
+    if count == 30:
+        break
+```
+
+### v2
+
 - 2020-10-27
 - OS: Ubuntu 20.04
 - yolov4: v2.0.0

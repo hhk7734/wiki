@@ -60,7 +60,7 @@ Ref: [https://www.tensorflow.org/lite/guide/python](https://www.tensorflow.org/l
 - [x] Run yolov4-tiny-relu on Coral board(TPU).
 - [x] Train tiny-relu with coco 2017 dataset
 - [ ] Update Docs
-- [ ] Optimize model and operations
+- [x] Optimize model and operations
 
 ## Performance
 
@@ -89,6 +89,38 @@ Ref: [https://www.tensorflow.org/lite/guide/python](https://www.tensorflow.org/l
 
 ### tensorflow
 
+#### v3
+
+```python
+import cv2
+
+from yolov4.tf import YOLOv4
+
+yolo = YOLOv4()
+
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.make_model()
+yolo.load_weights("yolov4-tiny.weights", weights_type="yolo")
+yolo.summary(summary_type="yolo")
+yolo.summary()
+
+yolo.inference(media_path="kite.jpg")
+
+yolo.inference(media_path="road.mp4", is_image=False)
+
+yolo.inference(
+    "/dev/video0",
+    is_image=False,
+    cv_apiPreference=cv2.CAP_V4L2,
+    cv_frame_size=(640, 480),
+    cv_fourcc="YUYV",
+)
+```
+
+#### v2
+
 ```python
 from yolov4.tf import YOLOv4
 
@@ -108,6 +140,41 @@ yolo.inference(media_path="road.mp4", is_image=False)
 ```
 
 ### tensorflow lite
+
+#### v3
+
+```python
+from yolov4.tf import YOLOv4, save_as_tflite
+
+yolo = YOLOv4()
+
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.make_model()
+yolo.load_weights("yolov4-tiny.weights", weights_type="yolo")
+
+save_as_tflite(
+    model=yolo.model,
+    tflite_path="yolov4-tiny-float16.tflite",
+    quantization="float16",
+)
+```
+
+```python
+from yolov4.tflite import YOLOv4
+
+yolo = YOLOv4()
+
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.load_tflite("yolov4-tiny-float16.tflite")
+
+yolo.inference("kite.jpg")
+```
+
+#### v2
 
 ```python
 from yolov4.tf import YOLOv4
