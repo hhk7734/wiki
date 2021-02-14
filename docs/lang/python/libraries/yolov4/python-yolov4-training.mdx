@@ -79,7 +79,8 @@ Use `<yolo-model>.cfg`(darknet).
 
 ```python
 yolo = YOLOv4()
-yolo.config.parse_names("/content/drive/My Drive/Hard_Soft/NN/coco/coco.names")
+
+yolo.config.parse_names("coco.names")
 yolo.config.parse_cfg("yolov4-tiny.cfg")
 ```
 
@@ -223,6 +224,7 @@ yolo.summary(summary_type="yolo")
 
 for i in range(29):
     yolo.model.get_layer(index=i).trainable = False
+
 yolo.summary()
 
 train_dataset = YOLODataset(
