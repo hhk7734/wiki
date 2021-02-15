@@ -9,6 +9,9 @@ keywords:
   - dataset
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Dataset files and formats
 
 - `class_id` is an integer greater than or equal to 0.
@@ -246,7 +249,15 @@ with open(OUTPUT_FILE_PATH, "w") as fd:
 
 ## Dataset test script
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 - 2021-02-13
 - OS: Ubuntu 20.04
@@ -308,7 +319,9 @@ for i, (images, gt) in enumerate(dataset):
         break
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 - 2020-10-27
 - OS: Ubuntu 20.04
@@ -354,3 +367,7 @@ for i, (images, gt) in enumerate(dataset):
 
 cv2.destroyWindow("result")
 ```
+
+</TabItem>
+
+</Tabs>

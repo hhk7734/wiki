@@ -10,6 +10,8 @@ keywords:
   - Colab
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 # Training Step
@@ -48,7 +50,15 @@ Usually, I create an image path related file using only image file names. Then, 
 └── ...
 ```
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 ```python
 # Call YOLODataset after yolo.config.parse_cfg():
@@ -60,7 +70,9 @@ train_dataset = YOLODataset(
 )
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 # Call load_dataset() after yolo.<parameter>: anchors, classes, input_size, xyscales, ...
@@ -71,9 +83,21 @@ train_data_set = yolo.load_dataset(
 )
 ```
 
+</TabItem>
+
+</Tabs>
+
 ## Set yolo parameters
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 Use `<yolo-model>.cfg`(darknet).
 
@@ -84,7 +108,9 @@ yolo.config.parse_names("coco.names")
 yolo.config.parse_cfg("yolov4-tiny.cfg")
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 yolo = YOLOv4(tiny=True)
@@ -95,6 +121,10 @@ yolo.batch_size = 32
 # Call make_model() after yolo.<parameter>: anchors, classes, input_size, xyscales, ...
 yolo.make_model()
 ```
+
+</TabItem>
+
+</Tabs>
 
 ## Load pre-trained weights
 
@@ -115,7 +145,15 @@ for i in range(29):
 
 ## Set callbacks and Compile
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 Use `<yolo-model>.cfg`(darknet).
 
@@ -138,7 +176,9 @@ _callbacks = [
 ]
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 epochs = 400
@@ -169,9 +209,21 @@ _callbacks = [
 ]
 ```
 
+</TabItem>
+
+</Tabs>
+
 ## Call fit()
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 ```python
 yolo.fit(
@@ -182,7 +234,9 @@ yolo.fit(
 )
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 yolo.fit(
@@ -196,9 +250,21 @@ yolo.fit(
 )
 ```
 
+</TabItem>
+
+</Tabs>
+
 ## Full script
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 - 2021-02-13
 - OS: Ubuntu 20.04
@@ -266,7 +332,9 @@ yolo.fit(
 )
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 from tensorflow.keras import callbacks, optimizers
@@ -332,6 +400,10 @@ yolo.fit(
     steps_per_epoch=100,
 )
 ```
+
+</TabItem>
+
+</Tabs>
 
 # TensorBoard
 

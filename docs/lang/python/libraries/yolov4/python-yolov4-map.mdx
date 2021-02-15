@@ -9,6 +9,9 @@ keywords:
   - mAP
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Save dataset for mAP
 
 ## Downloads
@@ -19,7 +22,15 @@ keywords:
 
 ## Script
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 - 2020-02-13
 - OS: Ubuntu 20.04
@@ -47,13 +58,9 @@ dataset = YOLODataset(
 create_mAP_input_files(yolo, mAP_path="/home/hhk7734/mAP", dataset=dataset)
 ```
 
-- @param `yolo`
-- @parma `data_set`
-- @param `mAP_path`
-- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
-- @param `num_sample`: Number of images for mAP. If `None`, all images in `data_set` are used.
+</TabItem>
 
-### v2
+<TabItem value="v2">
 
 - 2020-10-15
 - OS: Ubuntu 20.04
@@ -78,6 +85,16 @@ dataset = yolo.load_dataset(
 
 yolo.save_dataset_for_mAP("/home/hhk7734/mAP", dataset)
 ```
+
+</TabItem>
+
+</Tabs>
+
+- @param `yolo`
+- @parma `dataset`
+- @param `mAP_path`
+- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
+- @param `num_sample`: Number of images for mAP. If `None`, all images in `dataset` are used.
 
 # Calculate mAP
 

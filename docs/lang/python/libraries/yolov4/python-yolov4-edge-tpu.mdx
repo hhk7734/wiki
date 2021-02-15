@@ -10,6 +10,9 @@ keywords:
   - TPU
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 # Prepare int8 tflite
 
 Supported Operation: [https://coral.ai/docs/edgetpu/models-intro/#supported-operations](https://coral.ai/docs/edgetpu/models-intro/#supported-operations)
@@ -22,11 +25,21 @@ Supported Operation: [https://coral.ai/docs/edgetpu/models-intro/#supported-oper
 
 Ref: [https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-training#full-script](https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-training#full-script)
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 Use [yolov4-tiny-relu.cfg](https://github.com/hhk7734/tensorflow-yolov4/tree/master/config)
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python {5,10}
 from tensorflow.keras import callbacks, optimizers
@@ -43,9 +56,21 @@ yolo.make_model(activation1="relu")
 ...
 ```
 
+</TabItem>
+
+</Tabs>
+
 ## Convert to tflite
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 - 2020-02-14
 - OS: Ubuntu 20.04
@@ -125,7 +150,9 @@ rsync yolov4-tiny-relu-int8_edgetpu.tflite coco.names yolov4-tiny-relu-tpu.cfg \
     mendel@<tpu ip>:~
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 from yolov4.tf import YOLOv4
@@ -196,6 +223,10 @@ SPLIT_V                        12         Operation not supported
 rsync yolov4-tiny-relu-int8_edgetpu.tflite coco.names mendel@<tpu ip>:~
 ```
 
+</TabItem>
+
+</Tabs>
+
 # Run on Edge TPU
 
 ## Install the Edge TPU runtime
@@ -208,7 +239,15 @@ Ref: [https://www.tensorflow.org/lite/guide/python#install_just_the_tensorflow_l
 
 ## Run example script
 
-### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 ```python title="edge_yolov4_tiny_video_test.py"
 import cv2
@@ -233,7 +272,9 @@ yolo.inference(
 )
 ```
 
-### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python title="edge_yolov4_tiny_video_test.py"
 from yolov4.tflite import YOLOv4
@@ -253,6 +294,10 @@ yolo.inference(
     cv_fourcc="YUYV",
 )
 ```
+
+</TabItem>
+
+</Tabs>
 
 ```python
 python3 edge_yolov4_tiny_video_test.py

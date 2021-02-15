@@ -9,6 +9,8 @@ keywords:
   - TensorFlow
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ![license](https://img.shields.io/github/license/hhk7734/tensorflow-yolov4)
@@ -89,7 +91,15 @@ Ref: [https://www.tensorflow.org/lite/guide/python](https://www.tensorflow.org/l
 
 ### tensorflow
 
-#### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 ```python
 import cv2
@@ -119,7 +129,9 @@ yolo.inference(
 )
 ```
 
-#### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 from yolov4.tf import YOLOv4
@@ -139,9 +151,21 @@ yolo.inference(media_path="kite.jpg")
 yolo.inference(media_path="road.mp4", is_image=False)
 ```
 
+</TabItem>
+
+</Tabs>
+
 ### tensorflow lite
 
-#### v3
+<Tabs
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
 
 ```python
 from yolov4.tf import YOLOv4, save_as_tflite
@@ -174,7 +198,9 @@ yolo.load_tflite("yolov4-tiny-float16.tflite")
 yolo.inference("kite.jpg")
 ```
 
-#### v2
+</TabItem>
+
+<TabItem value="v2">
 
 ```python
 from yolov4.tf import YOLOv4
@@ -201,3 +227,7 @@ yolo.load_tflite("yolov4_640x480.tflite")
 
 yolo.inference("kite.jpg")
 ```
+
+</TabItem>
+
+</Tabs>
