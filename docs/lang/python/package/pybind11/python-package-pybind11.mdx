@@ -9,17 +9,11 @@ keywords:
   - Pybind11
 ---
 
-Ref
-
-- [https://pybind11.readthedocs.io/](https://pybind11.readthedocs.io/)
-- [https://github.com/pybind/pybind11](https://github.com/pybind/pybind11)
-- [https://packaging.python.org/guides/distributing-packages-using-setuptools/](https://packaging.python.org/guides/distributing-packages-using-setuptools/)
-
 # Installation
 
 ```shell
 sudo apt install -y libffi-dev python3 python3-pip python3-dev \
-&& python3 -m pip install -U --user pip setuptools wheel twine keyrings.alt pybind11
+&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11
 ```
 
 # Package directory structure
@@ -133,163 +127,115 @@ from <package>._<package> import *
 
 ## setup.py
 
-Ref: [https://github.com/pybind/python_example](https://github.com/pybind/python_example)
-
 ```python
-from setuptools import setup, Extension
-from setuptools.command.build_ext import build_ext
-import sys
-import setuptools
+from glob import glob
 from os import path
+
+from setuptools import setup
+from pybind11.setup_helpers import ParallelCompile, Pybind11Extension, build_ext
 
 BASE_DIR = path.dirname(path.abspath(__file__))
 CHANGELOG_PATH = path.join(BASE_DIR, "CHANGELOG")
 
+with open(CHANGELOG_PATH, "r") as f:
+    __version__ = f.readline()
+    __version__ = __version__.split()
+    __version__ = __version__[1][1:-1]
 
-class get_pybind_include(object):
-    """Helper class to determine the pybind11 include path
-    The purpose of this class is to postpone importing pybind11
-    until it is actually installed, so that the ``get_include()``
-    method can be invoked. """
-
-    def __init__(self, user=False):
-        self.user = user
-
-    def __str__(self):
-        import pybind11
-
-        return pybind11.get_include(self.user)
-
+ParallelCompile("NPY_NUM_BUILD_JOBS").install()
 
 ext_modules = [
-    Extension(
-        "<package>._<package>",
-        sources=["c_src/gpio.cpp"],
-        include_dirs=[
-            # Path to pybind11 headers
-            get_pybind_include(),
-            get_pybind_include(user=True),
-        ],
-        language="c++",
+    Pybind11Extension(
+        # Ref: distutils.extension.Extension
+        name="yolov4.common._common",
+        sources=sorted(glob("c_src/**/*.cpp", recursive=True)),
+        include_dirs=["c_src/"],  # -I
+        define_macros=[(("VERSION_INFO", __version__))],  # -D<string>=<string>
+        undef_macros=[],  # [string] -D<string>
+        library_dirs=[],  # [string] -L<string>
+        libraries=[],  # [string] -l<string>
+        runtime_library_dirs=[],  # [string] -rpath=<string>
+        extra_objects=[],  # [string]
+        extra_compile_args=[],  # [string]
+        extra_link_args=[],  # [string]
     ),
 ]
 
-with open(CHANGELOG_PATH, "r") as f:
-    version = f.readline()
-    version = version.split()
-    version = version[1][1:-1]
-
-
-def has_flag(compiler, flagname):
-    """Return a boolean indicating whether a flag name is supported on
-    the specified compiler.
-    """
-    import tempfile
-
-    with tempfile.NamedTemporaryFile("w", suffix=".cpp") as f:
-        f.write("int main (int argc, char **argv) { return 0; }")
-        try:
-            compiler.compile([f.name], extra_postargs=[flagname])
-        except setuptools.distutils.errors.CompileError:
-            return False
-    return True
-
-
-def cpp_flag(compiler):
-    """Return the -std=c++[11/14/17] compiler flag.
-    The newer version is prefered over c++11 (when it is available).
-    """
-    flags = ["-std=c++17", "-std=c++14", "-std=c++11"]
-
-    for flag in flags:
-        if has_flag(compiler, flag):
-            return flag
-
-    raise RuntimeError(
-        "Unsupported compiler -- at least C++11 support " "is needed!"
-    )
-
-
-class BuildExt(build_ext):
-    """A custom build extension for adding compiler-specific options."""
-
-    c_opts = {
-        "msvc": ["/EHsc"],
-        "unix": [],
-    }
-    l_opts = {
-        "msvc": [],
-        "unix": [],
-    }
-
-    if sys.platform == "darwin":
-        darwin_opts = ["-stdlib=libc++", "-mmacosx-version-min=10.7"]
-        c_opts["unix"] += darwin_opts
-        l_opts["unix"] += darwin_opts
-
-    def build_extensions(self):
-        ct = self.compiler.compiler_type
-        opts = self.c_opts.get(ct, [])
-        link_opts = self.l_opts.get(ct, [])
-        if ct == "unix":
-            opts.append('-DVERSION_INFO="%s"' % self.distribution.get_version())
-            opts.append(cpp_flag(self.compiler))
-            if has_flag(self.compiler, "-fvisibility=hidden"):
-                opts.append("-fvisibility=hidden")
-        elif ct == "msvc":
-            opts.append(
-                '/DVERSION_INFO=\\"%s\\"' % self.distribution.get_version()
-            )
-        for ext in self.extensions:
-            ext.extra_compile_args = opts
-            ext.extra_link_args = link_opts
-        build_ext.build_extensions(self)
-
 
 setup(
-    version=version, ext_modules=ext_modules, cmdclass={"build_ext": BuildExt},
+    version=__version__,
+    ext_modules=ext_modules,
+    cmdclass={"build_ext": build_ext},
 )
+```
+
+You can use \_\_version\_\_ in `.cpp` files.
+
+```cpp
+#define MACRO_STRINGIFY(x) #x
+
+PYBIND11_MODULE(_<package>, m) {
+#ifdef VERSION_INFO
+    m.attr("__version__") = MACRO_STRINGIFY(VERSION_INFO);
+#else
+    m.attr("__version__") = "dev";
+#endif
+}
 ```
 
 ## setup.cfg
 
 ```ini
 [metadata]
-name =
-url = https://github.com/loliot
+name = yolov4
+url = https://github.com/hhk7734/tensorflow-yolov4
 project_urls =
-    Source =
+    Documentation = https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-about
+    Source = https://github.com/hhk7734/tensorflow-yolov4
 
 author = Hyeonki Hong
 author_email = hhk7734@gmail.com
-description =
+description = YOLOv4: Optimal Speed and Accuracy of Object Detection
 long-description = file: README.md, CHANGELOG
 long_description_content_type = text/markdown
-keywords =
+keywords = tensorflow, yolo, AI, TPU
 license = MIT
 classifiers =
     Programming Language :: Python :: 3
     License :: OSI Approved :: MIT License
     Operating System :: POSIX :: Linux
     Intended Audience :: Developers
+    Intended Audience :: Science/Research
+    Topic :: Scientific/Engineering
+    Topic :: Scientific/Engineering :: Artificial Intelligence
     Topic :: Software Development
     Topic :: System :: Hardware
+
 
 [options]
 package_dir =
     = py_src
 packages = find:
 zip_safe = False
-setup_requires =
-    pybind11>=2.4
 install_requires =
-    pybind11>=2.4
+    numpy>=1.18.0
 
 [options.packages.find]
 where = py_src
 ```
 
-Ref: [https://pypi.org/classifiers/](https://pypi.org/classifiers/)
+## pyproject.toml
+
+```toml
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "pybind11>=2.6.0",
+]
+
+build-backend = "setuptools.build_meta"
+```
 
 ## MANIFEST.in
 
@@ -305,7 +251,7 @@ include c_src/*
 The preferred approach to building an extension module for python is to compile it with setuptools, which comes with all recent versions of python.
 
 ```shell
-python3 setup.py install --user
+python3 setup.py install
 ```
 
 ```shell
@@ -339,3 +285,10 @@ python3 -m twine upload dist/*
 ```shell
 python3 -m pip install <package>
 ```
+
+# Reference
+
+- [https://pybind11.readthedocs.io](https://pybind11.readthedocs.io)
+- [https://github.com/pybind/pybind11](https://github.com/pybind/pybind11)
+- [https://packaging.python.org/guides/distributing-packages-using-setuptools](https://packaging.python.org/guides/distributing-packages-using-setuptools)
+- [https://pypi.org/classifiers](https://pypi.org/classifiers)
