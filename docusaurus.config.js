@@ -3,6 +3,15 @@ const _fs = require("fs");
 const remarkMath = require("remark-math");
 const rehypeKatex = require("rehype-katex");
 
+const LocaleConfigs = {
+  en: {
+    label: "English",
+  },
+  ko: {
+    label: "한국어",
+  },
+};
+
 module.exports = {
   title: "loliot",
   tagline: "loliot",
@@ -103,11 +112,19 @@ module.exports = {
             links.push(link);
           });
 
+        // right
+        // links.push({
+        //   type: "localeDropdown",
+        //   position: "right",
+        // });
+
         links.push({
           href: "https://github.com/hhk7734/wiki.loliot.net",
-          label: "GitHub",
           position: "right",
+          className: "header-github-link",
+          "aria-label": "GitHub",
         });
+
         return links;
       })(),
     },
@@ -137,4 +154,9 @@ module.exports = {
       },
     ],
   ],
+  i18n: {
+    defaultLocale: "en",
+    locales: Object.keys(LocaleConfigs),
+    localeConfigs: LocaleConfigs,
+  },
 };
