@@ -13,8 +13,16 @@ module.exports = {
   projectName: "wiki.loliot.net",
   plugins: ["docusaurus-plugin-google-adsense"],
   themeConfig: {
+    algolia: {
+      apiKey: "882821d106ded887254b7b5ec5690c5b",
+      indexName: "liliot_wiki",
+    },
     colorMode: {
       defaultMode: "light",
+    },
+    footer: {
+      style: "dark",
+      copyright: `Copyright © ${new Date().getFullYear()} HandS. Built with Docusaurus.`,
     },
     googleAnalytics: {
       trackingID: "UA-82937088-4",
@@ -22,10 +30,6 @@ module.exports = {
     },
     googleAdsense: {
       dataAdClient: "ca-pub-5199357432848758",
-    },
-    algolia: {
-      apiKey: "882821d106ded887254b7b5ec5690c5b",
-      indexName: "liliot_wiki",
     },
     navbar: {
       title: "loliot",
@@ -107,9 +111,9 @@ module.exports = {
         return links;
       })(),
     },
-    footer: {
-      style: "dark",
-      copyright: `Copyright © ${new Date().getFullYear()} HandS. Built with Docusaurus.`,
+    prism: {
+      // https://prismjs.com/#supported-languages
+      additionalLanguages: ["apacheconf", "bnf", "cmake", "ini", "nginx"],
     },
   },
   presets: [
