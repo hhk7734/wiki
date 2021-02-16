@@ -62,6 +62,11 @@ module.exports = {
           label: "OpenCV",
           items: ["lang/cpp/libraries/opencv/opencv-installation"],
         },
+        {
+          type: "category",
+          label: "Eigen",
+          items: ["lang/cpp/libraries/Eigen/eigen-basics"],
+        },
       ],
     },
     {
