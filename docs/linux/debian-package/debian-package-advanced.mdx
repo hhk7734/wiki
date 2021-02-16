@@ -52,22 +52,16 @@ sudo dh binary
 dh <command> --no-act
 ```
 
-```shell
-dh clean
-```
-
-```shell
+```shell {1}
+$ dh clean
    dh_testdir
    dh_auto_clean
       make distclean
    dh_clean
 ```
 
-```shell
-dh build
-```
-
-```shell
+```shell {1}
+$ dh build
    dh_testdir
    dh_update_autotools_config
    dh_auto_configure
@@ -76,11 +70,8 @@ dh build
    dh_auto_test
 ```
 
-```shell
-dh binary
-```
-
-```shell
+```shell {1}
+$ dh binary
    dh_testroot
    dh_prep
    dh_installdirs

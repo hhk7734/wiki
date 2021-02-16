@@ -80,7 +80,7 @@ Ref: [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/pa
 
 Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
 
-```python
+```json
 {
     "targets": [
         {
@@ -222,11 +222,8 @@ console.log(addon.hello());
 console.log(addon.add(1, 2));
 ```
 
-```shell
-node test/test.js
-```
-
-```shell
+```shell {1}
+$ node test/test.js
 wrapper info { hello: [Function], add: [Function] }
 Hello World!
 3

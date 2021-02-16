@@ -1,0 +1,71 @@
+---
+id: cpp-cmake
+title: CMake
+sidebar_label: CMake
+description: Build c++ using CMake
+keywords:
+  - c++
+  - build
+  - CMake
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+# Project tree
+
+```shell
+project
+├── CMakeLists.txt
+└── main.cpp
+```
+
+# CMakeLists.txt
+
+```cmake title="CMakeLists.txt"
+cmake_minimum_required(VERSION 3.15)
+
+project(example LANGUAGES CXX)
+
+add_executable(example main.cpp)
+```
+
+# Build
+
+<Tabs
+    defaultValue="makefile"
+    values={[
+        {label: 'Ninja', value: 'ninja',},
+        {label: 'Makefile', value: 'makefile',},
+    ]}
+>
+
+<TabItem value="ninja">
+
+```shell
+cmake -G Ninja -S . -B build
+```
+
+```shell
+cmake --build build
+```
+
+</TabItem>
+
+<TabItem value="makefile">
+
+```shell
+cmake -S . -B build
+```
+
+```shell
+cmake --build build -j 4
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+cmake --install build
+```

@@ -10,7 +10,7 @@ keywords:
 
 # Read disk and save .img.xz
 
-```shell
+```shell {1}
 $ sudo fdisk -l
 
 ...
@@ -36,7 +36,7 @@ sudo umount /dev/sdb1 /dev/sdb2
 sudo dd if=/dev/sdb of=clone.img bs=512 status=progress
 ```
 
-```shell
+```shell {1}
 $ sudo parted -ms clone.img unit B print
 BYT;
 /home/hhk7734/clone.img:15931539456B:file:512:512:msdos::;
@@ -44,7 +44,7 @@ BYT;
 2:272629760B:15931015167B:15658385408B:ext4::;
 ```
 
-```shell
+```shell {1}
 $ sudo losetup -f --show -o 272629760 clone.img
 /dev/loop20
 ```
@@ -53,13 +53,13 @@ $ sudo losetup -f --show -o 272629760 clone.img
 sudo e2fsck -pf /dev/loop20
 ```
 
-```shell
+```shell {1}
 $ sudo tune2fs -l /dev/loop20 | grep -e '^Block size:' -e '^Block count:'
 Block count:              3822848
 Block size:               4096
 ```
 
-```shell
+```shell {1}
 $ sudo resize2fs -P /dev/loop20
 resize2fs 1.45.5 (07-Jan-2020)
 Estimated minimum size of the filesystem: 851980
@@ -82,7 +82,7 @@ sudo parted -s clone.img unit B mkpart "primary" "272629760" \
     "$((272629760 + ((851980 + 5000) * 4096)))"
 ```
 
-```shell
+```shell {1}
 $ sudo parted -ms clone.img unit B print free | tail -1 \
     | cut -d ':' -f 2 | tr -d 'B'
 3782820352

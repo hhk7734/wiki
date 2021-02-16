@@ -87,7 +87,7 @@ Write the answer inline or at the end of the included message.
 
 ## Example
 
-```mail
+```text
 From: Hyeonki Hong <hhk7734@gmail.com>
 Date: Thu, Jun 11, 2020 at 2:40 PM
 Subject: [PATCH] pinctrl: meson: fix drive strength register and bit
@@ -95,9 +95,8 @@ calculation
 To: Jerome Brunet <jbrunet@baylibre.com>, Linus Walleij <linus.walleij@linaro.org>, <khilman@baylibre.com>
 Cc: <linux-gpio@vger.kernel.org>, <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>, <linux-amlogic@lists.infradead.org>
 
-
 On Wed, Jun 10, 2020 at 03:09:42PM +0200, Jerome Brunet wrote:
->
+
 > On Wed 10 Jun 2020 at 06:13, hhk7734@gmail.com wrote:
 >
 > > From: Hyeonki Hong <hhk7734@gmail.com>
@@ -127,45 +126,45 @@ On Wed, Jun 10, 2020 at 03:09:42PM +0200, Jerome Brunet wrote:
 If all amlogic SoC has same register style, I think the code below is fine.
 
 static const unsigned int meson_bit_strides[] = {
-        0, 0, 0, 0, 0, 1, 0
+0, 0, 0, 0, 0, 1, 0
 };
 
 static void meson_calc_reg_and_bit(struct meson_bank *bank, unsigned int pin,
-                                   enum meson_reg_type reg_type,
-                                   unsigned int *reg, unsigned int *bit)
+enum meson_reg_type reg_type,
+unsigned int *reg, unsigned int *bit)
 {
-        struct meson_reg_desc *desc = &bank->regs[reg_type];
+struct meson_reg_desc *desc = &bank->regs[reg_type];
 
         *bit = (desc->bit + pin - bank->first) << meson_bit_strides[reg_type];
         *reg = (desc->reg + (*bit / 32)) * 4;
         *bit &= 0x1f;
+
 }
 
 How about this?
 
+> > ## Signed-off-by: Hyeonki Hong <hhk7734@gmail.com>
 > >
-> > Signed-off-by: Hyeonki Hong <hhk7734@gmail.com>
-> > ---
-> >  drivers/pinctrl/meson/pinctrl-meson.c | 7 +++++++
-> >  1 file changed, 7 insertions(+)
+> > drivers/pinctrl/meson/pinctrl-meson.c | 7 +++++++
+> > 1 file changed, 7 insertions(+)
 > >
 > > diff --git a/drivers/pinctrl/meson/pinctrl-meson.c b/drivers/pinctrl/meson/pinctrl-meson.c
 > > index bbc919bef2bf..ef66239b7df5 100644
 > > --- a/drivers/pinctrl/meson/pinctrl-meson.c
 > > +++ b/drivers/pinctrl/meson/pinctrl-meson.c
-> > @@ -98,6 +98,13 @@ static void meson_calc_reg_and_bit(struct meson_bank *bank, unsigned int pin,
+> > @@ -98,6 +98,13 @@ static void meson_calc_reg_and_bit(struct meson_bank \*bank, unsigned int pin,
 > >
 > >     *reg = desc->reg * 4;
 > >     *bit = desc->bit + pin - bank->first;
-> > +
-> > +   if (reg_type == REG_DS) {
-> > +           if (*bit > 15) {
-> > +                   *bit &= 0xf;
-> > +                   *reg += 4;
-> > +           }
-> > +   }
-> >  }
 > >
-> >  static int meson_get_groups_count(struct pinctrl_dev *pcdev)
->
+> > -
+> > - if (reg_type == REG_DS) {
+> > -           if (*bit > 15) {
+> > -                   *bit &= 0xf;
+> > -                   *reg += 4;
+> > -           }
+> > - }
+> >   }
+> >
+> > static int meson_get_groups_count(struct pinctrl_dev \*pcdev)
 ```

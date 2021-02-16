@@ -169,11 +169,8 @@ cd ~/opencv \
 
 컴파일하기 전에 메모리 크기가 최소 3 GB가 되는지 확인해야합니다.
 
-```shell
-free -ht
-```
-
-```shell
+```shell {1}
+$ free -ht
               total        used        free      shared  buff/cache   available
 Mem:           1.8G        635M        219M         29M        1.0G        1.2G
 Swap:            0B          0B          0B
@@ -231,11 +228,8 @@ sudo make install \
 
 # C++
 
-```shell
-sudo find / -name opencv* | grep .pc
-```
-
-```shell
+```shell {1}
+$ sudo find / -name opencv* | grep .pc
 /usr/local/lib/pkgconfig/opencv4.pc
 ```
 
@@ -257,11 +251,8 @@ python3 -m venv [venv_path]
 
 유저 라이브러리로 설치된 cv2 패키지 경로를 확인합니다.
 
-```shell
-sudo find / -name cv2 -type d
-```
-
-```shell
+```shell {1}
+$ sudo find / -name cv2 -type d
 /usr/local/lib/python3.6/dist-packages/cv2
 ```
 

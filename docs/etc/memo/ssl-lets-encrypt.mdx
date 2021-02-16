@@ -40,7 +40,7 @@ dig -t TXT _acme-challenge.loliot.net
 sudo vim /etc/apache2/sites-available/xxx.conf
 ```
 
-```xml
+```apacheconf
 <VirtualHost *:80>
     ServerName xxx
     Redirect permanent / https://xxx
@@ -65,7 +65,7 @@ sudo systemctl restart apache2
 sudo vim /etc/nginx/sites-available/xxx
 ```
 
-```c
+```nginx
 server {
     listen 80;
     return 301 https://$host$request_uri;

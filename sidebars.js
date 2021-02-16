@@ -29,6 +29,21 @@ module.exports = {
   cpp: [
     {
       type: "category",
+      label: "Build",
+      items: [
+        {
+          type: "category",
+          label: "Makefile",
+          items: [
+            "lang/cpp/build/makefile/makefile-basics",
+            "lang/cpp/build/makefile/makefile-avr-example",
+          ],
+        },
+        "lang/cpp/build/cpp-cmake",
+      ],
+    },
+    {
+      type: "category",
       label: "Libraries",
       items: [
         "lang/cpp/libraries/cpp-stl",
@@ -135,14 +150,6 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Makefile",
-      items: [
-        "linux/linux-tools/makefile/makefile-basics",
-        "linux/linux-tools/makefile/makefile-avr-example",
-      ],
-    },
-    {
-      type: "category",
       label: "Shell script",
       items: [
         "linux/linux-tools/shell-script/shell-script-basics",
@@ -174,11 +181,6 @@ module.exports = {
             "lang/nodejs/package/node-addon-api/nodejs-package-using-node-addon-api",
             "lang/nodejs/package/node-addon-api/nodejs-package-class-using-node-addon-api",
           ],
-        },
-        {
-          type: "category",
-          label: "Electron",
-          items: ["lang/nodejs/package/electron/electron-start-with-vue"],
         },
       ],
     },

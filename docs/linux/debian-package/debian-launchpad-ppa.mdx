@@ -16,13 +16,9 @@ Ref: [https://help.ubuntu.com/community/GnuPrivacyGuardHowto](https://help.ubunt
 
 ## Generating key
 
-```shell
-gpg --gen-key
-```
+```shell {1}
+$ gpg --gen-key
 
-사용자 정보를 입력하면 키가 생성됩니다.
-
-```shell
 ...
 Real name: Hyeonki Hong
 Email address: hhk7734@gmail.com
@@ -42,11 +38,8 @@ gpg --send-keys --keyserver keyserver.ubuntu.com YYYYYYYY
 
 ## Importing key
 
-```shell
-gpg --fingerprint
-```
-
-```shell
+```shell {1}
+$ gpg --fingerprint
 pub   rsa3072 2019-09-08 [SC] [expires: 2021-09-07]
       XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX YYYY YYYY
 uid                      Hyeonki Hong <hhk7734@gmail.com>
