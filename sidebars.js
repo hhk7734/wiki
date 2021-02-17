@@ -314,5 +314,6 @@ module.exports = {
     "mcu/stm32/stm32-upload-executable-file-stm32cubeide",
     "mcu/stm32/stm32-printf-usage-stm32cubeide",
     "mcu/stm32/stm32-spi",
+    "mcu/stm32/stm32-low-power-modes",
   ],
 };

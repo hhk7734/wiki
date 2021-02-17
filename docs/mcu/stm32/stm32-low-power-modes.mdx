@@ -1,0 +1,173 @@
+---
+id: stm32-low-power-modes
+title: STM32 Low-power modes
+sidebar_label: Low-power
+description: STM32 Low-power modes
+keywords:
+  - STM32
+  - STM32CubeMX
+  - STM32CubeIDE
+  - Low-power
+---
+
+# Overview
+
+HW: STM32L053
+
+## Power consumption range
+
+- Range 1: VDD 1.71 ~ 3.6, CPU up to 32 MHz
+- Range 2: full VDD range, CPU up to 16 MHz
+- Range 3: full VDD range, CPU up to 4.2 MHz
+
+## Modes
+
+- Sleep
+  - Only the CPU is stopped.
+  - All peripherals continue to operate.
+  - All peripherals can wake up the CPU when an interrupt/event occurs.
+  - Power consumption at 16 MHz is about 1 mA with all peripherals off.
+- Low-power run
+  - is achieved with
+    - MSI RC oscillator set to the lowspeed clock (max 131 kHz),
+    - execution from SRAM or Flash memory,
+    - internal regulator in low-power mode.
+- Low-power sleep
+  - is achieved by entering Sleep mode with the internal voltage regulator in low-power mode.
+  - When wakeup is triggered by an event or an interrupt, the system reverts to the Run mode with the regulator on.
+- Stop mode
+  - achieves the lowest power consumption while retaining the RAM and register contents and real time clock.
+  - All clocks in the Vcore domain are stopped.
+  - The PLL, MSI RC, HSE crystal and HSI RC oscillators are disabled.
+  - The LSE or LSI is still running.
+  - The voltage regulator is in the low-power mode.
+  - Some peripherals featuring wakeup capability can enable the HSI RC during Stop mode to detect their wakeup condition.
+  - The device can be woken up from Stop mode by any of the EXTI line, in 3.5 µs. It can be
+    - any GPIO EXTI.
+    - the PVD output.
+    - the comparator 1 event or comparator 2 event (if internal reference voltage is on)
+    - the USB/USART/I2C/LPUART/LPTIMER wakeup events.
+    - the RTC alarm/tamper/timestamp/wakeup events **if with RTC**.
+- Standby mode
+  - is used to achieve **the lowest power consumption**.
+  - The internal voltage regulator is switched off so that the entire Vcore domain is powered off.
+  - The PLL, MSI RC, HSE crystal and HSI RC oscillators are also switched off.
+  - The LSE or LSI is still running **if with RTC**.
+  - **The RAM and register contents are lost** except for registers in the Standby circuitry (wakeup logic, IWDG, RTC, LSI, LSE Crystal 32 KHz oscillator, RCC_CSR register)
+  - The device exits Standby mode in 60 µs when
+    - an external reset (NRST pin)
+    - a rising edge on one of the three WKUP pins
+    - an IWDG reset **if with RTC**
+    - RTC alarm (Alarm A or Alarm B), RTC tamper event, RTC timestamp event or RTC Wakeup event occurs, **if with RTC**
+
+:::caution
+The RTC, the IWDG, and the corresponding clock sources **are not stopped automatically** by entering Stop or Standby mode.The LCD is not stopped automatically by entering Stop mode.
+:::
+
+## Standby with RTC Alarm
+
+### Pinout & Configuration
+
+- Timer
+  - RTC
+    - Mode
+      - Activate Clock Source
+      - Activate Calendar
+      - Alarm A -> internal Alarm A
+    - Configuration
+      - Parameter Settings
+        - General -> Asynchronous Predivider value = 124
+        - General -> Synchronous Predivider value = 295
+        - 37 KHz / (124 + 1) / (295 + 1) == 1 (Depend on clock source)
+      - NVIC Settings
+        - RTC global interrupt -> Enable
+
+### Clock Configuration
+
+Set RTC clock.
+
+### Code
+
+```cpp title="rtc.c"
+
+...
+
+void MX_RTC_Init(void)
+{
+    ...
+
+    /* USER CODE BEGIN Check_RTC_BKUP */
+    if(HAL_RTCEx_BKUPRead(&hrtc, RTC_BKP_DR0) == 0x1234) return;
+
+    ...
+
+    HAL_RTCEx_BKUPWrite(&hrtc,RTC_BKP_DR0,0x1234);
+    /* USER CODE END Check_RTC_BKUP */
+
+    ...
+}
+
+...
+
+```
+
+```cpp title="main.c"
+
+...
+
+/* USER CODE BEGIN PV */
+RTC_TimeTypeDef sTime;
+RTC_DateTypeDef sDate;
+RTC_AlarmTypeDef sAlarm;
+/* USER CODE END PV */
+
+...
+
+int main(void) {
+
+    ...
+
+    /* USER CODE BEGIN 2 */
+    // Check the Standby flag
+    if(__HAL_PWR_GET_FLAG(PWR_FLAG_SB) != RESET) {
+        // Clear the Standby flag
+        __HAL_PWR_CLEAR_FLAG(PWR_FLAG_SB);
+        printf("Wake up from standby mode\n");
+    } else {
+        printf("Power on or Reset\n");
+    }
+
+    // Clear the Wake Up flag
+    __HAL_PWR_CLEAR_FLAG(PWR_FLAG_WU);
+
+    HAL_RTC_DeactivateAlarm(&hrtc, RTC_ALARM_A);
+    /* USER CODE END 2 */
+
+    ...
+
+        if(condition) {
+            HAL_RTC_GetTime(&hrtc, &sTime, RTC_FORMAT_BIN);    // BIN
+            // Must call HAL_RTC_GetDate() after HAL_RTC_GetTime()
+            HAL_RTC_GetDate(&hrtc, &sDate, RTC_FORMAT_BCD);    // BCD
+
+            // Set to compare only seconds
+            sAlarm.AlarmTime.Seconds        = (sTime.Seconds + 5) % 60;
+            sAlarm.AlarmTime.SubSeconds     = sTime.SubSeconds;
+            sAlarm.AlarmTime.SecondFraction = sTime.SecondFraction;
+            sAlarm.AlarmMask          = RTC_ALARMMASK_ALL & ~RTC_ALARMMASK_SECONDS;
+            sAlarm.AlarmSubSecondMask = RTC_ALARMSUBSECONDMASK_SS14_3;
+            sAlarm.Alarm              = RTC_ALARM_A;
+            HAL_RTC_SetAlarm_IT(&hrtc, &sAlarm, RTC_FORMAT_BIN);
+
+            printf("Try to enter standby mode\n");
+
+            HAL_PWR_EnterSTANDBYMode();
+            printf("Failed to enter Standby mode\n");
+        }
+
+    ...
+}
+
+...
+
+```
