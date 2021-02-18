@@ -22,21 +22,21 @@ HW: STM32L053
 
 ## Modes
 
-- Sleep
+- `Sleep`
   - Only the CPU is stopped.
   - All peripherals continue to operate.
   - All peripherals can wake up the CPU when an interrupt/event occurs.
   - Power consumption at 16 MHz is about 1 mA with all peripherals off.
-- Low-power run
+- `Low-power run`
   - is achieved with
     - MSI RC oscillator set to the lowspeed clock (max 131 kHz),
     - execution from SRAM or Flash memory,
     - internal regulator in low-power mode.
-- Low-power sleep
+- `Low-power sleep`
   - is achieved by entering Sleep mode with the internal voltage regulator in low-power mode.
   - All I/O pins keep the same state as in Run mode.
   - When wakeup is triggered by an event or an interrupt, the system reverts to the Run mode with the regulator on.
-- Stop mode
+- `Stop mode`
   - achieves the lowest power consumption while retaining the RAM and register contents and real time clock.
   - All clocks in the Vcore domain are stopped.
   - The PLL, MSI RC, HSE crystal and HSI RC oscillators are disabled.
@@ -50,7 +50,7 @@ HW: STM32L053
     - the comparator 1 event or comparator 2 event (if internal reference voltage is on)
     - the USB/USART/I2C/LPUART/LPTIMER wakeup events.
     - the RTC alarm/tamper/timestamp/wakeup events **if with RTC**.
-- Standby mode
+- `Standby mode`
   - is used to achieve **the lowest power consumption**.
   - The internal voltage regulator is switched off so that the entire Vcore domain is powered off.
   - The PLL, MSI RC, HSE crystal and HSI RC oscillators are also switched off.
@@ -66,9 +66,9 @@ HW: STM32L053
 The RTC, the IWDG, and the corresponding clock sources **are not stopped automatically** by entering Stop or Standby mode.The LCD is not stopped automatically by entering Stop mode.
 :::
 
-## Standby with RTC Alarm
+# Standby with RTC Alarm
 
-### Pinout & Configuration
+## Pinout & Configuration
 
 - Timer
   - RTC
@@ -84,11 +84,11 @@ The RTC, the IWDG, and the corresponding clock sources **are not stopped automat
       - NVIC Settings
         - RTC global interrupt -> Enable
 
-### Clock Configuration
+## Clock Configuration
 
 Set RTC clock.
 
-### Code
+## Example
 
 ```cpp title="rtc.c"
 
