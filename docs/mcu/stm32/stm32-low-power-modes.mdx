@@ -34,6 +34,7 @@ HW: STM32L053
     - internal regulator in low-power mode.
 - Low-power sleep
   - is achieved by entering Sleep mode with the internal voltage regulator in low-power mode.
+  - All I/O pins keep the same state as in Run mode.
   - When wakeup is triggered by an event or an interrupt, the system reverts to the Run mode with the regulator on.
 - Stop mode
   - achieves the lowest power consumption while retaining the RAM and register contents and real time clock.
@@ -41,6 +42,7 @@ HW: STM32L053
   - The PLL, MSI RC, HSE crystal and HSI RC oscillators are disabled.
   - The LSE or LSI is still running.
   - The voltage regulator is in the low-power mode.
+  - All I/O pins keep the same state as in Run mode.
   - Some peripherals featuring wakeup capability can enable the HSI RC during Stop mode to detect their wakeup condition.
   - The device can be woken up from Stop mode by any of the EXTI line, in 3.5 µs. It can be
     - any GPIO EXTI.
