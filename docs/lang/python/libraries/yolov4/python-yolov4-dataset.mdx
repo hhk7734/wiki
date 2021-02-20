@@ -260,15 +260,14 @@ with open(OUTPUT_FILE_PATH, "w") as fd:
 
 <TabItem value="v3">
 
-- 2021-02-13
+- 2021-02-21
 - OS: Ubuntu 20.04
-- yolov4: v3.0.0
+- yolov4: v3.1.0
 
 ```python
 import cv2
 import numpy as np
 from yolov4.tf import YOLOv4, YOLODataset
-
 
 yolo = YOLOv4()
 yolo.config.parse_names("test/coco.names")
@@ -278,37 +277,49 @@ dataset = YOLODataset(
     config=yolo.config,
     dataset_list="/home/hhk7734/NN/val2017.txt",
     image_path_prefix="/home/hhk7734/NN/val2017",
-    training=True,
 )
 
 count = 0
 for i, (images, gt) in enumerate(dataset):
     cv2.namedWindow("truth", cv2.WINDOW_AUTOSIZE)
 
-    beta_nms = 0.6
+    beta_nms = yolo.config.metayolos[0].beta_nms
+    classes = yolo.config.metayolos[0].classes
+    stride = classes + 5
+    num_mask = len(yolo.config.masks[0])
 
     candidates = []
-    for j in range(yolo.config.layer_count["yolo"]):
-        metayolo = yolo.config.find_metalayer("yolo", i)
-        beta_nms = metayolo.beta_nms
-        stride = 5 + metayolo.classes
-        candidates.append(
-            np.reshape(
-                gt[j][..., : -len(yolo.config.yolo_0.mask)],
-                (yolo.config.net.batch, -1, stride),
-            )
-        )
-    candidates = np.concatenate(candidates, axis=1)
+    for y, metayolo in enumerate(yolo.config.metayolos):
+        candidates.append(gt[y][..., : -len(yolo.config.yolo_0.mask)])
 
-    for j in range(len(images)):
-        frame = images[j, ...] * 255
+    for batch in range(len(images)):
+        frame = images[batch, ...] * 255
         frame = cv2.cvtColor(frame.astype(np.uint8), cv2.COLOR_RGB2BGR)
-        heights, widht, _ = frame.shape
+        height, width, _ = frame.shape
 
-        treu_bboxes = yolo.yolo_diou_nms(
-            candidates[j].astype(np.float32), beta_nms
+        yolos = []
+        for c, cand in enumerate(candidates):
+            truth = cand[batch : batch + 1, ...]
+            _, h, w, ch = truth.shape
+            mask = yolo.config.masks[c]
+            for n in range(num_mask):
+                xy_index = n * stride
+                wh_index = xy_index + 2
+                oc_index = xy_index + 4
+
+                xy = truth[..., xy_index:wh_index] * np.array([w, h])
+                truth[..., xy_index:wh_index] = xy - xy.astype(np.int)
+
+                awh = yolo.config.anchors[mask[n]]
+                wh = truth[..., wh_index:oc_index] / awh
+                truth[..., wh_index:oc_index] = np.log(
+                    wh + np.finfo(np.float32).eps
+                )
+
+        treu_bboxes = yolo.get_yolo_detections(
+            [c[batch : batch + 1, ...] for c in candidates]
         )
-        yolo.fit_to_original(treu_bboxes, heights, widht)
+        # yolo.fit_to_original(treu_bboxes, height, width)
         image2 = yolo.draw_bboxes(frame, treu_bboxes)
         cv2.imshow("truth", image2)
         while cv2.waitKey(10) & 0xFF != ord("q"):
