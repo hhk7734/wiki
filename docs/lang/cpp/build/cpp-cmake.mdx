@@ -12,6 +12,24 @@ keywords:
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
+# Installation
+
+Download: [https://cmake.org/download](https://cmake.org/download/)
+
+```shell
+sudo apt install libssl-dev
+```
+
+```shell
+cd cmake-<version>
+```
+
+```shell
+./bootstrap \
+  && make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
+  && sudo make install
+```
+
 # Project tree
 
 ```shell
