@@ -10,6 +10,10 @@ keywords:
 # 키 생성
 
 ```shell
+ssh-keygen -t ed25519 -C "your_email@example.com"
+```
+
+```shell
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
@@ -22,13 +26,13 @@ eval "$(ssh-agent -s)"
 # 키 등록
 
 ```shell
-ssh-add ~/.ssh/id_rsa
+ssh-add ~/<ssh path>/<id file>
 ```
 
 # 퍼블릭 키 접속할 곳에 등록
 
 ```shell
-ssh-copy-id -i ~/.ssh/id_rsa.pub <remote>
+ssh-copy-id -i ~/<ssh path>/<id file>.pub <remote>
 ```
 
 # SCP
@@ -44,6 +48,6 @@ scp [options] <source> <target>
 # 파일 권한
 
 ```shell
-sudo chmod 700 ~/.ssh
-sudo chmod 600 ~/.ssh/*
+sudo chmod 700 ~/<ssh path>
+sudo chmod 600 ~/<ssh path>/*
 ```
