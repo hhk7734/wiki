@@ -1,0 +1,153 @@
+---
+id: nn-basics
+title: Neural Network Basics
+sidebar_label: Basics
+description: Neural Network Basics
+keywords:
+  - Neural Network
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/nn-nn.jpg")} />
+</center>
+
+# Neuron(Perceptron)
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/nn-neuron.jpg")} />
+</center>
+
+$$
+z^l_j = \sum_k{\omega^l_{jk}a^{l-1}_k} + b^l_j
+$$
+
+$$
+a^l_j = \sigma\left(z^l_j\right)
+$$
+
+# Loss function
+
+## L2 loss function
+
+$$
+Loss \equiv \frac{1}{2} \lVert \mathbf{y} - \mathbf{a}^L \rVert^2 = \frac{1}{2} \sum_i{\left(y_i - a^L_i\right)^2}
+$$
+
+$$
+Loss \geq 0 \quad \left(\mathbf{y}\text{ is the desired output}\right)
+$$
+
+# Neural Network Training
+
+What we need to look for through neural network training are weights and biases to minimize the consequences of the loss function. When $\mathbf{w}$ is a vector representing weights and biases,
+
+$$
+Loss_{next} = Loss + \Delta Loss \approx Loss + \nabla Loss \cdot \Delta \mathbf{w}
+$$
+
+It must be $\nabla Loss \cdot \Delta \mathbf{w} < 0$, because $Loss$ should decrease. Therfore, $\Delta \mathbf{w}$ can be determined as
+
+$$
+\Delta \mathbf{w} = - \eta \nabla Loss = - \epsilon \frac{\nabla Loss}{\lVert \nabla Loss \rVert} \quad ( \epsilon > 0)
+$$
+
+$\eta$ is called **learning rate** and $\epsilon$ is called **step**. If the step is large, $Loss$ may diverge, and if the step is small, the convergence speed may be slow, so an appropriate value should be determined.
+
+If $\Delta \mathbf{w}$ is determined, then $\mathbf{w}_{next}$ can be
+
+$$
+\mathbf{w}_{next} = \mathbf{w} + \Delta \mathbf{w}
+$$
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/nn-lr-loss.jpg")} />
+</center>
+
+## Stochastic gradient descent
+
+$$
+\nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x}
+$$
+
+When the number of training inputs is very large, this can take a long time. Stochastic gradient descent works by randomly picking out a small number $m$ of randomly chosen training inputs.
+
+$$
+\nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x} \approx \frac{1}{m}\sum^m_{i=1}{\nabla Loss_{X_i}}
+$$
+
+Those random training inputs $X_1, X_2, ..., X_m$ are called **mini-batch**.
+
+## Forward-propagation
+
+Forward propagation (or forward pass) refers to the calculation and storage of intermediate variables (including outputs) for a neural network in order from the input layer to the output layer.
+
+## Back-propagation
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/nn-back-propagation.jpg")} />
+</center>
+
+$$
+z^l_j = \sum_k{\omega^l_{jk}a^{l-1}_k} + b^l_j
+$$
+
+$$
+a^l_j = \sigma\left(z^l_j\right)
+$$
+
+<br />
+
+Back-propagation is used to find $\nabla Loss$, because it is difficult for a computer to obtain $\nabla Loss$ by differentiating loss function.
+
+Error $\delta^l_j$ of neuron $j$ in layer $l$ is defined as
+
+$$
+\delta^l_j \equiv \frac{\partial Loss}{\partial z^l_j}
+$$
+
+Since $z^l_j$ was obtained from forward propagation, If we know $\mathbf{\delta}^{l+1}$, we can get $\delta^l_j$ as below.
+
+$$
+\begin{aligned}
+\delta^l_j = \frac{\partial Loss}{\partial z^l_j}
+& = \sum_i{\frac{\partial Loss}{\partial z^{l+1}_i} \frac{\partial z^{l+1}_i}{\partial z^l_j}}
+  \quad \left( \frac{\partial z^{l+1}_i}{\partial z^l_j} = \omega^{l+1}_{ij} \, \sigma' \left(z^l_j\right) \right)\\
+& = \sum_i{\frac{\partial Loss}{\partial z^{l+1}_i} \omega^{l+1}_{ij} \, \sigma' \left(z^l_j\right)} \\
+& = \sum_i{\delta^{l+1}_i \omega^{l+1}_{ij} \, \sigma' \left(z^l_j\right)}
+\end{aligned}
+$$
+
+If we use L2 loss, since $a^L_j$ was obtained from forward propagation and $\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)$, we can get the errors like this:
+
+$$
+\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)
+$$
+
+$$
+\delta^{L-1}_j = \sum_i{ \delta^L_i \omega^L_{ij} \, \sigma' \left(z^{L-1}_j\right)} \\
+\vdots
+$$
+
+Finally, $\nabla Loss$ can be obtained by using the errors obtained above.
+
+$$
+\frac{\partial Loss}{\partial b^l_j} = \frac{\partial Loss}{\partial z^l_j} \frac{\partial z^l_j}{\partial b^l_j} = \delta^l_j
+$$
+
+$$
+\frac{\partial Loss}{\partial \omega^l_{jk}} = \frac{\partial Loss}{\partial z^l_j} \frac{\partial z^l_j}{\partial \omega^l_{jk}} = \delta^l_j a^{l-1}_k
+$$
+
+## Training
+
+Set initail weights and biases to random and repeat process **Forward-propagation -> Back-propagation -> weights and biases update**. When it is judged that $Loss$ cannot be made smaller, the final weights and biases are determined.
+
+# Reference
+
+- [http://neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com)
+- [https://machinelearning.tobiashill.se](https://machinelearning.tobiashill.se)
+- [http://www.bdhammel.com/learning-rates](http://www.bdhammel.com/learning-rates)

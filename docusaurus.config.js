@@ -53,6 +53,7 @@ module.exports = {
         const labelDic = {
           arduino: "Arduino",
           avr: "AVR",
+          basics: "Basics",
           cpp: "C++",
           circuit: "Circuit",
           "debian-package": "Debian package",
@@ -68,6 +69,7 @@ module.exports = {
           "linux-uboot": "u-boot",
           mcu: "MCU",
           memo: "Memo",
+          nn: "NN",
           nodejs: "Node.js",
           nordic: "Nordic",
           project: "Project",

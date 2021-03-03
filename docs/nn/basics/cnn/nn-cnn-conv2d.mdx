@@ -1,0 +1,167 @@
+---
+id: nn-cnn-conv2d
+title: Convolution 2D
+sidebar_label: Conv2D
+description: Neural Network CNN(Convolution)
+keywords:
+  - Neural Network
+  - Convolution
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-example.png")} />
+</center>
+
+$$
+z^l_{i,j} = \sum_m \sum_n{a^{l-1}_{i+m,j+n} (\omega')^l_{m,n} + b^l_{i,j}}
+$$
+
+$$
+A^l = \sigma (Z^l) = \sigma ( A^{l-1} * W^l + B^l )
+$$
+
+# Convolution
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-conv2d.gif")} />
+</center>
+
+$$
+K, K' \isin \R^{M \times N} \quad K(m, n) = K'(M-1-m, N-1-n)
+$$
+
+$$
+\begin{aligned}
+( I * K )_{ij}
+&= \sum_m \sum_n {I(i+m, j+n)K(M-1-m, N-1-n)} \\
+&= \sum_m \sum_n {I(i+m, j+n)K'(m, n)} &= (I \otimes K')_{ij}
+\end{aligned}
+$$
+
+:::info
+In the CNN description, most of the picture representing convolution seem to the cross-correlation using $K'$.
+:::
+
+## Kernel example
+
+$$
+K' = \begin{bmatrix}9 & 8 & 7 \\ 6 & 5 & 4 \\ 3 & 2 & 1\end{bmatrix} \quad
+K = \begin{bmatrix}1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9\end{bmatrix}
+$$
+
+# Forward-propagation
+
+<center>
+  <img
+    src={useBaseUrl("img/nn/basics/cnn/nn-cnn-same-padding-no-strides.gif")}
+  />
+</center>
+
+```python {5}
+in_channels=1,
+out_channels(filters)=1,
+kernel_size=3,
+stride=1,
+padding=1,
+dilation=1,
+bias=False
+```
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-strides.gif")} />
+</center>
+
+```python {4}
+in_channels=1,
+out_channels(filters)=1,
+kernel_size=3,
+stride=2,
+padding=0,
+dilation=1,
+bias=False
+```
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-dilation.gif")} />
+</center>
+
+```python {6}
+in_channels=1,
+out_channels(filters)=1,
+kernel_size=3,
+stride=1,
+padding=0,
+dilation=2,
+bias=False
+```
+
+<center>
+  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-in2out3.jpg")} />
+</center>
+
+```python
+in_channels=2,
+out_channels(filters)=3,
+kernel_size=3,
+stride=1,
+padding=0,
+dilation=1,
+bias=True
+```
+
+# Back-propagation
+
+$$
+\delta^l_{i,j} \equiv \frac{\partial Loss}{\partial z^l_{i,j}}
+$$
+
+$$
+\begin{aligned}
+\delta^l_{i,j} = \frac{\partial Loss}{\partial z^l_{i,j}}
+&= \sum_x \sum_y {
+  \frac { \partial Loss } { \partial z^{l+1}_{x,y} }
+  \frac { \partial z^{l+1}_{x,y} } { \partial z^l_{i,j} }
+  } \\
+&= \sum_x \sum_y {
+  \delta^{l+1}_{x,y} (\omega')^{l+1}_{i-x,j-y} \sigma' (z^l_{i,j})
+  } \\
+&= \sum_m \sum_n {
+  \delta^{l+1}_{i-m,j-n} (\omega')^{l+1}_{m,n} \sigma' (z^l_{i,j})
+  }
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\frac {\partial Loss} {\partial (\omega')^l_{m,n}}
+&= \sum_i \sum_j {
+  \frac { \partial Loss } { \partial z^{l}_{i,j} }
+  \frac { \partial z^{l}_{i,j} } { \partial ( \omega' )^l_{m,n} }
+  } \\
+&= \sum_i \sum_j {
+  \delta^l_{i,j} a^{l-1}_{i+m, j+n}
+  }
+\end{aligned}
+$$
+
+$$
+\begin{aligned}
+\frac {\partial Loss} {\partial b^l_{i,j}}
+&= \sum_x \sum_y {
+  \frac { \partial Loss } { \partial z^{l}_{x,y} }
+  \frac { \partial z^{l}_{x,y} } { \partial b^l_{i,j} }
+  } \\
+& = \delta^l_{i,j}
+\end{aligned}
+$$
+
+# Reference
+
+- [https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/](https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/)
+- [https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215)
+- Gradient-Based Learning Applied to Document Recognition(LeNet 5)
+- [A guide to convolution arithmetic for deep learning](https://arxiv.org/pdf/1603.07285.pdf)

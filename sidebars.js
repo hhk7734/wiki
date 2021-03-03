@@ -13,6 +13,16 @@ module.exports = {
     "mcu/avr/avr-eeprom",
     "mcu/avr/avr-i2c",
   ],
+  basics: [
+    "nn/basics/nn-basics",
+    "nn/basics/nn-cpu-gpu-npu",
+    "nn/basics/nn-derivative",
+    {
+      type: "category",
+      label: "CNN",
+      items: ["nn/basics/cnn/nn-cnn-conv2d"],
+    },
+  ],
   circuit: [
     {
       type: "category",
@@ -211,11 +221,6 @@ module.exports = {
         "etc/project/neural-network/neural-network-cnn",
         "etc/project/neural-network/neural-network-derivative",
       ],
-    },
-    {
-      type: "category",
-      label: "YOLOv4",
-      items: ["etc/project/yolov4/yolov4-training"],
     },
   ],
   python: [
