@@ -1,12 +1,13 @@
 ---
 id: stm32-upload-executable-file-stm32cubeide
-title: STM32 Upload executable file in STM32CubeIDE
-sidebar_label: Upload executable file
-description: STM32 Upload executable file in STM32CubeIDE
+title: STM32CubeIDE에서 실행 파일 업로드
+sidebar_label: 실행파일 업로드
+description: STM32CubeIDE에서 실행 파일 업로드
 keywords:
   - STM32
   - STM32CubeMX
   - STM32CubeIDE
+  - executable
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -58,16 +59,24 @@ shutdown command invoked
 
 위와 같은 에러를 보면 System memory 모드로 1회 업로드 후 다시 User Flash memory로 변경 후 사용하시기 바랍니다.
 
-# Upload
+# 업로드
 
 ## STM32CubeIDE
 
+처음 업로드시 elf 파일을 자동으로 찾지 못하는 경우가 있으므로 **Project -\> Build All**을 먼저 실행시켜 elf파일을 만들어주세요.
+
 - Run -\> Debug Configurations
-- STM32 Coretex-M C/C++ Application -\> <project\> Debug -\> Debugger 탭
-- Debug probe -\> ST-LINK
-- GDB Server Command Line Options
-  - SWD, JTAG 중 선택
-  - Check ST-Link S/N -\> Scan
-- Click Apply -\> Debug
+- STM32 Coretex-M C/C++ Application -\> <project\> Debug
+  - main
+    - C/C++ Application -\> Search Project
+      - Binaries: <project\>.elf 파일 선택
+  - Debugger
+    - Debug probe: ST-LINK (ST-LINK GDB server)
+    - GDB Server Command Line Options
+      - SWD, JTAG 중 선택
+      - ✓ ST-Link S/N
+        - Scan후 장치 선택
+    - Apply
+- Close
 
 설정 후에는 Run -\> Run or Debug 또는 Run or Debug(F11) 버튼을 눌러 업로드하고 디버깅하면 됩니다.

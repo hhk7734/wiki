@@ -1,61 +1,75 @@
 ---
 id: stm32-create-project-stm32cubeide
-title: STM32 Create project in STM32CubeIDE
-sidebar_label: Create project
-description: STM32 Create project in STM32CubeIDE
+title: STM32CubeIDE에서 프로젝트 생성
+sidebar_label: 프로젝트 생성
+description: STM32CubeIDE에서 프로젝트 생성
 keywords:
   - STM32
   - STM32CubeMX
   - STM32CubeIDE
+  - project
 ---
 
-# Installation
-
-Install JRE or JDK first.
+# STM32CubeIDE 설치
 
 Download: [https://www.st.com/en/development-tools/stm32cubeide.html](https://www.st.com/en/development-tools/stm32cubeide.html)
 
-# Create project
+# 프로젝트 생성
 
 - File -\> New -\> STM32 Project
-- Part Number Search
-- Select chip
-- Click Next
-- Set project
-- Click Finish
+- Target Selection
+  - MCU/MPU Selector
+    - Part Number: 사용할 MCU 파트 번호 ex) STM32F407VG, STM32F103C8, ...
+  - **Next \>**
+- Setup STM32 Project
+  - Project
+    - Project Name: 프로젝트 명 입력
+    - ✓ Use default location
+      - 원하는 저장 경로가 있으면 체크를 해제하고 원하는 경로를 선택
+  - Options
+    - Targeted Language: C++
+    - Targeted Binary Type: Executable
+    - Targeted Project Type: STM32Cube
+  - **Next \>**
+  - Target and Firmware Package
+    - Firmware Package Name and Version: 원하는 버전이 없다면 최신 버전을 사용
+  - Code Generator Options
+    - ✓ Copy only the necessary library files
+  - **Finish**
 
-## Chip configuration
+# MCU 설정
 
-- Project Explorer -\> <project\>.ioc
+STM32CubeIDE 왼쪽에 **Project Explorer**가 있는데 거기서 `<project\>.ioc` 파일을 클릭하여 열면 Perspective가 STM32CubeMX로 변경되면서 설정 창이 열립니다.
+
+Pinout & Configuration 에서 오실레이터관련 설정 후 Clock Configuration을 설정하고 다시 Pinout & Configuration 관련 설정을 진행하는 것이 좋습니다. 클럭이 다른 설정에 영향을 줄 수 있기 때문입니다.
+
+**STM32F103C8T6(blue-pill) 보드**를 사용하여 클럭은 최대 속도, 디버깅은 Serial Wire, LED와 UART를 사용한다고 가정하고 설정을 진행해 보겠습니다.
+
 - Pinout & Configuration
+  - System Core
+    - RCC
+      - HSE: Crystal/Ceramic Resonator
+      - LSE: Crystal/Ceramic Resonator
+    - SYS
+      - Debug: Serial Wire
 - Clock Configuration
+  - HCLK: 72 MHz, 72 입력 후 엔터를 치면 STM32CubeMX가 적당한 솔루션을 제공해 줍니다.
+- Pinout & Configuration
+  - Connectivity
+    - USART1
+      - Mode
+        - Mode: Asynchronous
+      - Configuration
+        - Parameter Settings
+          - Basic Parameters
+            - Baud Rate: 115200 Bits/s
+  - Pinout view
+    - PC13: GPIO_Output
 - Project Manager
-  - Generate peripheral initialization as a pair of '.c/.h' files per peripheral
-  - Keep User Code when re-generating
-  - Delete previously generated files when not re-generated
+  - ✓ Generate peripheral initialization as a pair of '.c/.h' files per peripheral
+  - ✓ Keep User Code when re-generating
+  - ✓ Delete previously generated files when not re-generated
 - File -\> Save
-
-### Pinout & Configuration Example
-
-HW: STM32F103C8T6(blue-pill)
-
-- System Core
-  - RCC -\> HSE -\> Crystal/Ceramic Resonator
-  - RCC -\> LSE -\> Crystal/Ceramic Resonator
-  - SYS -\> Debug -\> Serial Wire
-- Connectivity
-  - USART1 -\> Mode -\> Asynchronous
-    - Parameter Settings -\> Basic Parameters -\> Baud Rate
-    - NVIC Settings -\> USART1 global Interrupt -\> Enabled
-  - USB -\> Device (FS)
-- Pinout view
-  - PC13 -\> GPIO_Output
-
-### Clock Configuration Example
-
-HW: STM32F103C8T6(blue-pill)
-
-Set HCLK (MHz) to 72. Other clocks are set automatically.
 
 # Code
 
@@ -68,5 +82,5 @@ Set HCLK (MHz) to 72. Other clocks are set automatically.
 ```
 
 :::caution
-When you code, write code only between `USER CODE BEGIN XXX` and `USER CODE END XXX`. If you write code elsewhere, the code generator can change it when changing the chip settings.
+코드를 작성할 때, `USER CODE BEGIN XXX`와 `USER CODE END XXX` 사이에만 작성하세요. 설정을 변경했을 때, 해당 주석 사이에 작성된 코드와 직접 생성한 파일을 제외하고 모두 지워집니다.
 :::
