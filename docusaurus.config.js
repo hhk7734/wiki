@@ -3,14 +3,14 @@ const _fs = require("fs");
 const remarkMath = require("remark-math");
 const rehypeKatex = require("rehype-katex");
 
-const LocaleConfigs = {
-  en: {
-    label: "English",
-  },
-  ko: {
-    label: "한국어",
-  },
-};
+// const LocaleConfigs = {
+//   en: {
+//     label: "English",
+//   },
+//   ko: {
+//     label: "한국어",
+//   },
+// };
 
 module.exports = {
   title: "loliot",
@@ -156,9 +156,9 @@ module.exports = {
       },
     ],
   ],
-  i18n: {
-    defaultLocale: "en",
-    locales: Object.keys(LocaleConfigs),
-    localeConfigs: LocaleConfigs,
-  },
+  // i18n: {
+  //   defaultLocale: "en",
+  //   locales: Object.keys(LocaleConfigs),
+  //   localeConfigs: LocaleConfigs,
+  // },
 };
