@@ -45,7 +45,11 @@ cmake_minimum_required(VERSION 3.15)
 
 project(example LANGUAGES CXX)
 
-add_executable(example main.cpp)
+set(SOURCE
+    main.cpp
+)
+
+add_executable(example ${SOURCE})
 ```
 
 # Build
