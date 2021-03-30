@@ -41,7 +41,7 @@ Download: [https://www.st.com/en/development-tools/stm32cubeide.html](https://ww
 
 STM32CubeIDE 왼쪽에 **Project Explorer**에서 `<project\>.ioc` 파일을 클릭하여 열면 Perspective가 STM32CubeMX로 변경되면서 설정 창이 열립니다.
 
-Pinout & Configuration 에서 오실레이터관련 설정 후 Clock Configuration을 설정하고 다시 Pinout & Configuration 관련 설정을 진행하는 것이 좋습니다. 클럭이 다른 설정에 영향을 줄 수 있기 때문입니다.
+Pinout & Configuration 탭에서 RCC(Reset and Clock Control) 설정 후, Clock Configuration 탭에서 클럭 설정을하고 다시 Pinout & Configuration 탭으로 돌아가 관련 설정을 진행하는 것이 좋습니다. 클럭이 다른 설정에 영향을 줄 수 있기 때문입니다.
 
 **STM32F103C8T6(blue-pill) 보드**를 사용하여 클럭은 최대 속도, 디버깅은 SWV, LED와 UART를 사용한다고 가정하고 설정을 진행해 보겠습니다.
 
@@ -66,9 +66,10 @@ Pinout & Configuration 에서 오실레이터관련 설정 후 Clock Configurati
   - Pinout view
     - PC13: GPIO_Output
 - Project Manager
-  - ✓ Generate peripheral initialization as a pair of '.c/.h' files per peripheral
-  - ✓ Keep User Code when re-generating
-  - ✓ Delete previously generated files when not re-generated
+  - Code Generator
+    - ✓ Generate peripheral initialization as a pair of '.c/.h' files per peripheral
+    - ✓ Keep User Code when re-generating
+    - ✓ Delete previously generated files when not re-generated
 - File -\> Save
 
 # Code
