@@ -1,0 +1,90 @@
+---
+id: stm32-call-c++-on-c
+title: C에서 C++ 함수 호출하기
+sidebar_label: C에서 C++ 함수 호출하기
+description: C에서 C++ 함수 호출하기
+keywords:
+  - STM32
+  - STM32CubeMX
+  - STM32CubeIDE
+  - C/C++ mix
+---
+
+# 네임 맹글링(Name Mangling)
+
+> In compiler construction, name mangling (also called name decoration) is a technique used to solve various problems caused by the need to resolve unique names for programming entities in many modern programming languages.
+
+[https://en.wikipedia.org/wiki/Name_mangling](https://en.wikipedia.org/wiki/Name_mangling)
+
+컴파일 과정에서 컴파일러는 네임 맹글링 규칙에 따라 전역 변수와 함수 이름을 변경합니다. C의 경우 중복된 이름을 사용할 수 없기 때문에 규칙이 간단하지만, C++에서는 오버로딩을 지원하기 때문에 네임 맹글링 규칙도 복잡합니다. 그래서 C와 C++은 코드상에서 이름이 같더라도 링크를 시도하면 에러가 발생합니다.
+
+C++은 링크과정에서 이런 문제를 해결하기 위해, C에서 링크 가능하게 컴파일 하라는 `extern "C"` 지시자를 지원합니다.
+
+# extern "C"
+
+C++에서 `extern "C"`를 사용하여 전역 변수나 함수를 **선언**하는 방식은 아래와 같습니다.
+
+```cpp
+extern "C" int   x;
+extern "C" float func();
+```
+
+또는
+
+```cpp
+extern "C" {
+extern int x;
+float      func();
+}
+```
+
+# C에서 C++ 함수 호출
+
+C++의 모든 함수를 호출 할 수 있는 것은 아닙니다. C에서 사용할 함수는 C 스타일로 작성을 해야하고 C 컴파일러는 `extern "C"` 지시자를 해석할 수 없으므로 `__cplusplus` 매크로를 사용하여 가려야 합니다.
+
+예를 들어 `void setup()`와 `void loop()` 함수를 만들고 내부는 C++ 코드를 사용하여 작성하고, 호출은 C에서 한다고 가정하면 아래와 같이 선언과 정의를 구현할 수 있습니다.
+
+```cpp title="bridge.h"
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void setup();
+void loop();
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+```cpp title="bridge.cpp"
+#include "bridge.h"
+
+void setup() {
+    // C/C++ 코드 사용
+}
+
+void loop() {
+    // C/C++ 코드 사용
+}
+```
+
+```c title="main.c"
+#include "bridge.h"
+
+int main() {
+    setup();
+
+    while(1) { loop(); }
+}
+```
+
+# C++에서 C 함수 호출
+
+```cpp title="main.cpp"
+extern "C" {
+#include <c_header.h>
+}
+```
