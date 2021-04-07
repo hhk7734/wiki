@@ -52,6 +52,16 @@ set(SOURCE
 add_executable(example ${SOURCE})
 ```
 
+# Help
+
+```shell
+cmake --help-variable CMAKE_SYSROOT_COMPILE
+```
+
+```shell
+cmake --help-variable-list
+```
+
 # Build
 
 <Tabs
@@ -81,7 +91,7 @@ cmake -S . -B build
 ```
 
 ```shell
-cmake --build build -j 4
+cmake --build build -j$(expr $(expr $(nproc) \* 6) \/ 5)
 ```
 
 </TabItem>

@@ -89,6 +89,7 @@ module.exports = {
           label: "LLVM",
           items: [
             "lang/cpp/advanced-cpp/llvm/llvm-basics",
+            "lang/cpp/advanced-cpp/llvm/llvm-build-from-source",
             "lang/cpp/advanced-cpp/llvm/llvm-cross-compile",
           ],
         },

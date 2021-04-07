@@ -1,8 +1,8 @@
 ---
 id: flutter-app-for-linux-arm64
-title: Build Flutter app for linux-arm64
-sidebar_label: Build app for linux-arm64
-description: Build Flutter app for linux-arm64
+title: Build Flutter app for linux-arm/arm64
+sidebar_label: Build app for linux-arm/arm64
+description: Build Flutter app for linux-arm/arm64
 keywords:
   - Flutter
   - application
@@ -12,41 +12,72 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 # Native Build
 
-## Target(Linux ARM64)
+## Target(Linux ARM/ARM64)
 
 ```shell
-git clone https://github.com/flutter/flutter.git
+git clone https://github.com/flutter/flutter.git $HOME/development/flutter
 ```
 
 ```shell
-export PATH=$PATH:/path/to/flutter/bin
+cd $HOME/development/flutter \
+&& git checkout stable
 ```
 
-```shell {1}
-$ flutter doctor
-Downloading Dart SDK ...
-... cannot execute binary file: Exec format error
-...
+```shell
+mkdir -p $HOME/development/flutter/bin/cache
+```
+
+```shell
+export PATH=$PATH:$HOME/development/flutter/bin
 ```
 
 ## Host(Linux x86_64)
 
 :::info
-Read **[Build engine for linux-arm64](flutter-engine-for-linux-arm64.mdx#flutter-engine)** for `out/linux_debug_arm64` and `out/linux_release_arm64`
+Read **[Build engine for linux-arm64](flutter-engine-for-linux-arm64.mdx#flutter-engine)** for `out/linux_<profile/release>_<arm/arm64>`
 :::
 
-```shell
-cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
-```
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
 
 ```shell
-rsync -a dart-sdk  <target user>@<target ip>:/path/to/flutter/bin/cache/
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm
 ```
 
-## Target(Linux ARM64)
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+rsync -a dart-sdk  <target user>@<target ip>:~/development/flutter/bin/cache
+```
+
+## Target(Linux ARM/ARM64)
+
+```shell
+cp $HOME/development/flutter/bin/internal/engine.version \
+    $HOME/development/flutter/bin/cache/engine-dart-sdk.stamp
+```
 
 ```shell {1}
 $ flutter doctor
@@ -110,34 +141,86 @@ Doctor summary (to see all details, run flutter doctor -v):
 flutter config --enable-linux-desktop
 ```
 
-```shell {1-3}
-$ flutter create sample \
-  && cd sample \
-  && flutter build linux
-Downloading linux-x64/linux-x64-flutter-gtk tools...               10.3s
-Downloading linux-x64-profile/linux-x64-flutter-gtk tools...         5.6s
-Downloading linux-x64-release/linux-x64-flutter-gtk tools...         4.4s
-Building Linux application...
-Unable to generate build files
+## Host(Linux x86_64)
+
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm
 ```
 
-## Host(Linux x86_64)
+```shell
+rsync -a flutter_linux \
+    flutter_tester \
+    font-subset \
+    icudtl.dat \
+    libflutter_linux_gtk.so \
+    gen/const_finder.dart.snapshot \
+    gen/frontend_server.dart.snapshot \
+    gen/flutter/lib/snapshot/isolate_snapshot.bin \
+    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_profile_arm
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64-profile
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm
+```
+
+```shell
+rsync -a flutter_patched_sdk flutter_patched_sdk_product \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64-release
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
 
 ```shell
 cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
 ```
 
 ```shell
-rsync -a flutter_patched_sdk \
-    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/common
+rsync -a flutter_linux \
+    flutter_tester \
+    font-subset \
+    icudtl.dat \
+    libflutter_linux_gtk.so \
+    gen/const_finder.dart.snapshot \
+    gen/frontend_server.dart.snapshot \
+    gen/flutter/lib/snapshot/isolate_snapshot.bin \
+    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64
 ```
 
 ```shell
-rsync -a flutter_linux gen/const_finder.dart.snapshot flutter_tester \
-    font-subset gen/frontend_server.dart.snapshot icudtl.dat \
-    gen/flutter/lib/snapshot/isolate_snapshot.bin libflutter_linux_gtk.so \
-    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
-    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/linux-x64
+cd $HOME/flutter-engine/engine/src/out/linux_profile_arm64
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64-profile
 ```
 
 ```shell
@@ -145,21 +228,24 @@ cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
 ```
 
 ```shell
-mv flutter_patched_sdk flutter_patched_sdk_product \
-&& rsync -a flutter_patched_sdk_product \
-    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/common
+rsync -a flutter_patched_sdk flutter_patched_sdk_product \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
 ```
 
 ```shell
-rsync -a flutter_linux dart-sdk/bin/utils/gen_snapshot libflutter_linux_gtk.so \
-    <target user>@<target ip>:/path/to/flutter/bin/cache/artifacts/engine/linux-x64-release
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64-release
 ```
 
-## Target(Linux ARM64)
+</TabItem>
+
+</Tabs>
+
+## Target(Linux ARM/ARM64)
 
 ```shell
-[ -d /path/to/sample ] && rm -r /path/to/sample ;\
-flutter create sample
+flutter create sample \
+&& cd sample
 ```
 
 ### Run debug mode

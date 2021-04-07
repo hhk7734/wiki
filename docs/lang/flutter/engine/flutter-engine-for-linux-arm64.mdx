@@ -1,15 +1,19 @@
 ---
 id: flutter-engine-for-linux-arm64
-title: Build Flutter engine for linux-arm64
-sidebar_label: Build engine for linux-arm64
-description: Build Flutter engine for linux-arm64
+title: Build Flutter engine for linux-arm/arm64
+sidebar_label: Build engine for linux-arm/arm64
+description: Build Flutter engine for linux-arm/arm64
 keywords:
   - Flutter
   - engine
   - build
-  - arm64
+  - arm
+  - aarch64
   - linux
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 **HW**:
 
@@ -50,7 +54,9 @@ keywords:
 Make sure the command ran successfully before running the next command!!
 :::
 
-# Host(Linux x86_64)
+# Dependency
+
+## Host(Linux x86_64)
 
 ```shell
 mkdir -p $HOME/flutter-engine/sdk/toolchain \
@@ -64,14 +70,26 @@ Then, run `apt update && apt install sudo` on the container before following wha
 :::
 
 ```shell
-sudo apt update \
-&& sudo apt install -y bison build-essential cmake curl flex git gcc \
+sudo apt update -y \
+&& sudo apt install -y bison build-essential cmake curl flex gcc git \
     lsb-release libgmp-dev make ninja-build pkg-config python python3 \
     rsync subversion texinfo vim wget \
 && sudo apt autoremove -y
 ```
 
-## sysroot
+## Target(Linux ARM/ARM64)
+
+Connect the SD card or eMMC with OS to your SBC.
+
+```shell
+sudo apt update -y \
+&& sudo apt install -y build-essential clang git libblkid-dev libfreetype6-dev \
+    libglib2.0-dev libgtk-3-dev liblzma-dev ninja-build pkg-config rsync \
+    symlinks vim \
+&& sudo apt autoremove -y
+```
+
+# sysroot
 
 It may vary depending on various conditions. **If symbolic links are broken, you will get some errors when following the steps below.**
 
@@ -79,30 +97,18 @@ It may vary depending on various conditions. **If symbolic links are broken, you
 When I tested this, most of the errors occured for this reason.
 :::
 
-### Target(Linux ARM64)
-
-Connect the SD card or eMMC with OS to your SBC.
-
-```shell
-sudo apt update \
-&& sudo apt install -y build-essential clang fontconfig git libdrm-dev \
-    libegl-mesa0 libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libglvnd-dev \
-    libgtk-3-dev liblzma-dev ninja-build pkg-config rsync symlinks \
-    ttf-mscorefonts-installer vim \
-&& sudo apt autoremove -y \
-&& sudo fc-cache
-```
+## Target(Linux ARM/ARM64)
 
 ```shell
 sudo symlinks -crs /*
 ```
 
 ```shell
-sudo rsync -a -e 'ssh -p <host port>' /lib /usr /etc \
+sudo rsync -a -e 'ssh -p <host port>' /lib /usr /etc /opt \
     <host user>@<host ip>:~/flutter-engine/sdk/sysroot
 ```
 
-### Host(Linux x86_64)
+## Host(Linux x86_64)
 
 When I built all successfully, the directory structure is shown below. Since `/` (root) is copied to `$HOME/flutter-engine/sdk/sysroot`, setting a symbolic link path to an absolute path can break symbolic links.
 
@@ -150,30 +156,70 @@ $HOME/flutter-engine/sdk/sysroot
                     └── libstdc++.so -> ../../../aarch64-linux-gnu/libstdc++.so.6
 ```
 
+# Host(Linux x86_64)
+
 ## Clang installation
 
-### clang and LLVM
+### Clang and LLVM
 
 ```shell
-git clone --branch=llvmorg-11.0.0 --depth=1 \
+git clone --branch=llvmorg-11.1.0 --depth=1 \
     https://github.com/llvm/llvm-project.git $HOME/flutter-engine/llvm-project
 ```
 
 ```shell
-cd $HOME/flutter-engine/llvm-project \
-&& [ -d build_llvm ] && sudo rm -r build_llvm ;\
-mkdir build_llvm && cd build_llvm \
-&& cmake -G Ninja \
+cd $HOME/flutter-engine/llvm-project
+```
+
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+[ -d build_llvm ] && sudo rm -r build_llvm ;\
+cmake -G Ninja \
+    -S llvm \
+    -B build_llvm \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CROSSCOMPILING=True \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DLLVM_ENABLE_PROJECTS=clang \
+    -DLLVM_DEFAULT_TARGET_TRIPLE=arm-linux-gnueabihf \
+    -DLLVM_TARGET_ARCH=ARM \
+    -DLLVM_TARGETS_TO_BUILD=ARM
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+[ -d build_llvm ] && sudo rm -r build_llvm ;\
+cmake -G Ninja \
+    -S llvm \
+    -B build_llvm \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_CROSSCOMPILING=True \
     -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
     -DLLVM_ENABLE_PROJECTS=clang \
     -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-linux-gnu \
     -DLLVM_TARGET_ARCH=AArch64 \
-    -DLLVM_TARGETS_TO_BUILD=AArch64 \
-    ../llvm \
-&& ninja \
-&& sudo ninja install
+    -DLLVM_TARGETS_TO_BUILD=AArch64
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+cmake --build build_llvm \
+&& sudo cmake --install build_llvm
 ```
 
 ### binutils-gdb
@@ -184,72 +230,195 @@ git clone --depth=1 git://sourceware.org/git/binutils-gdb.git \
 ```
 
 ```shell
-cd $HOME/flutter-engine/binutils-gdb \
-&& ./configure --prefix="$HOME/flutter-engine/sdk/toolchain" \
-    --enable-gold \
-    --enable-ld \
-    --target=aarch64-linux-gnu \
-&& make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
-&& sudo make install
+cd $HOME/flutter-engine/binutils-gdb
 ```
 
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
 ```shell
-sudo cp -ap $HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-* \
-    $HOME/flutter-engine/sdk/sysroot/usr/bin/
+./configure --prefix="$HOME/flutter-engine/sdk/toolchain" \
+    --enable-gold \
+    --enable-ld \
+    --target=arm-linux-gnueabihf
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+./configure --prefix="$HOME/flutter-engine/sdk/toolchain" \
+    --enable-gold \
+    --enable-ld \
+    --target=aarch64-linux-gnu
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
+&& sudo make install
 ```
 
 ### libcxxabi and libcxx
 
-```shell
-cd $HOME/flutter-engine/llvm-project \
-&& [ -d build_libcxxabi ] && sudo rm -r build_libcxxabi ;\
-mkdir build_libcxxabi && cd build_libcxxabi \
-&& cmake -G Ninja \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CROSSCOMPILING=True \
-    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
-    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
-    -DCMAKE_SYSTEM_NAME=Linux \
-    -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
-    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
-    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
-    -DLLVM_TARGETS_TO_BUILD=AArch64 \
-    -DLIBCXXABI_ENABLE_EXCEPTIONS=False \
-    ../libcxxabi \
-&& ninja \
-&& sudo ninja install
-```
+`libcxx` is statically linked to the engine for minimal dependencies.
 
 ```shell
-cd $HOME/flutter-engine/llvm-project \
-&& [ -d build_libcxx ] && sudo rm -r build_libcxx ;\
-mkdir build_libcxx && cd build_libcxx \
-&& cmake -G Ninja \
+cd $HOME/flutter-engine/llvm-project
+```
+
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+[ -d build_libcxxabi ] && sudo rm -r build_libcxxabi ;\
+cmake -G Ninja \
+    -S libcxxabi \
+    -B build_libcxxabi \
+    -DCMAKE_MAKE_PROGRAM=$(which ninja) \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CROSSCOMPILING=True \
+    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_SYSTEM_NAME=Linux \
+    -DCMAKE_SYSTEM_PROCESSOR=ARM \
+    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
+    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DCMAKE_AR=$HOME/flutter-engine/sdk/toolchain/bin/arm-linux-gnueabihf-ar \
+    -DCMAKE_RANLIB=$HOME/flutter-engine/sdk/toolchain/bin/arm-linux-gnueabihf-ranlib \
+    -DLLVM_TARGETS_TO_BUILD=ARM \
+    -DLIBCXX_ENABLE_SHARED=False \
+    -DLIBCXXABI_ENABLE_EXCEPTIONS=False
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+[ -d build_libcxxabi ] && sudo rm -r build_libcxxabi ;\
+cmake -G Ninja \
+    -S libcxxabi \
+    -B build_libcxxabi \
+    -DCMAKE_MAKE_PROGRAM=$(which ninja) \
+    -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
     -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
     -DCMAKE_SYSTEM_NAME=Linux \
     -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
     -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
     -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DCMAKE_AR=$HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-ar \
+    -DCMAKE_RANLIB=$HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-ranlib \
     -DLLVM_TARGETS_TO_BUILD=AArch64 \
     -DLIBCXX_ENABLE_SHARED=False \
+    -DLIBCXXABI_ENABLE_EXCEPTIONS=False
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+cmake --build build_libcxxabi \
+&& sudo cmake --install build_libcxxabi
+```
+
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+[ -d build_libcxx ] && sudo rm -r build_libcxx ;\
+cmake -G Ninja \
+    -S libcxx \
+    -B build_libcxx \
+    -DCMAKE_MAKE_PROGRAM=$(which ninja) \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_SYSTEM_NAME=Linux \
+    -DCMAKE_SYSTEM_PROCESSOR=ARM \
+    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
+    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DCMAKE_AR=$HOME/flutter-engine/sdk/toolchain/bin/arm-linux-gnueabihf-ar \
+    -DCMAKE_RANLIB=$HOME/flutter-engine/sdk/toolchain/bin/arm-linux-gnueabihf-ranlib \
+    -DLLVM_TARGETS_TO_BUILD=ARM \
     -DLIBCXX_ENABLE_EXCEPTIONS=False \
+    -DLIBCXX_ENABLE_SHARED=False \
     -DLIBCXX_ENABLE_RTTI=False \
     -DLIBCXX_CXX_ABI=libcxxabi \
     -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$HOME/flutter-engine/llvm-project/libcxxabi/include \
     -DLIBCXX_CXX_ABI_LIBRARY_PATH=$HOME/flutter-engine/sdk/toolchain/lib \
-    -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=True \
-    ../libcxx \
-&& ninja \
-&& sudo ninja install
+    -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=True
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+[ -d build_libcxx ] && sudo rm -r build_libcxx ;\
+cmake -G Ninja \
+    -S libcxx \
+    -B build_libcxx \
+    -DCMAKE_MAKE_PROGRAM=$(which ninja) \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_SYSROOT=$HOME/flutter-engine/sdk/sysroot \
+    -DCMAKE_INSTALL_PREFIX=$HOME/flutter-engine/sdk/toolchain \
+    -DCMAKE_SYSTEM_NAME=Linux \
+    -DCMAKE_SYSTEM_PROCESSOR=AArch64 \
+    -DCMAKE_C_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang \
+    -DCMAKE_CXX_COMPILER=$HOME/flutter-engine/sdk/toolchain/bin/clang++ \
+    -DCMAKE_AR=$HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-ar \
+    -DCMAKE_RANLIB=$HOME/flutter-engine/sdk/toolchain/bin/aarch64-linux-gnu-ranlib \
+    -DLLVM_TARGETS_TO_BUILD=AArch64 \
+    -DLIBCXX_ENABLE_EXCEPTIONS=False \
+    -DLIBCXX_ENABLE_SHARED=False \
+    -DLIBCXX_ENABLE_RTTI=False \
+    -DLIBCXX_CXX_ABI=libcxxabi \
+    -DLIBCXX_CXX_ABI_INCLUDE_PATHS=$HOME/flutter-engine/llvm-project/libcxxabi/include \
+    -DLIBCXX_CXX_ABI_LIBRARY_PATH=$HOME/flutter-engine/sdk/toolchain/lib \
+    -DLIBCXX_ENABLE_STATIC_ABI_LIBRARY=True
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+cmake --build build_libcxx \
+&& sudo cmake --install build_libcxx
 ```
 
 ## depot_tools
 
 ```shell
-git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git $HOME/flutter-engine/depot_tools
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git \
+    $HOME/flutter-engine/depot_tools
 ```
 
 ```shell
@@ -261,7 +430,7 @@ export PATH=$PATH:$HOME/flutter-engine/depot_tools
 Ref: [https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)
 
 :::info
-After reading the Ref above, follow flutter-engine part.
+After reading the **Ref** above, follow flutter-engine part.
 :::
 
 ```shell
@@ -303,10 +472,93 @@ cd $HOME/flutter-engine/engine/src/flutter \
 ```
 
 ```shell
-cd $HOME/flutter-engine/engine/src \
-&& [ -d out/linux_debug_arm64 ] && sudo rm -r out/linux_debug_arm64 ;\
+cd $HOME/flutter-engine/engine/src
+```
+
+<Tabs
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+cp $HOME/flutter-engine/sdk/sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig/* \
+    $HOME/flutter-engine/sdk/sysroot/usr/share/pkgconfig
+```
+
+```shell
+[ -d out/linux_debug_arm ] && sudo rm -r out/linux_debug_arm ;\
 ./flutter/tools/gn \
-    --clang \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple aarch64-linux-gnu \
+    --target-os linux \
+    --linux-cpu arm64 \
+    --embedder-for-target \
+    --no-lto \
+    --no-goma \
+    --runtime-mode debug \
+    --arm-float-abi hard
+```
+
+```shell
+ninja -C out/linux_debug_arm
+```
+
+```shell
+[ -d out/linux_profile_arm ] && sudo rm -r out/linux_profile_arm ;\
+./flutter/tools/gn \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple arm-linux-gnueabihf \
+    --target-os linux \
+    --linux-cpu arm \
+    --embedder-for-target \
+    --no-lto \
+    --no-goma \
+    --runtime-mode profile \
+    --arm-float-abi hard
+```
+
+```shell
+ninja -C out/linux_profile_arm
+```
+
+```shell
+[ -d out/linux_release_arm ] && sudo rm -r out/linux_release_arm ;\
+./flutter/tools/gn \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple arm-linux-gnueabihf \
+    --target-os linux \
+    --linux-cpu arm \
+    --embedder-for-target \
+    --no-lto \
+    --no-goma \
+    --runtime-mode release \
+    --arm-float-abi hard
+```
+
+```shell
+ninja -C out/linux_release_arm
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+cp $HOME/flutter-engine/sdk/sysroot/usr/lib/aarch64-linux-gnu/pkgconfig/* \
+    $HOME/flutter-engine/sdk/sysroot/usr/share/pkgconfig
+```
+
+```shell
+[ -d out/linux_debug_arm64 ] && sudo rm -r out/linux_debug_arm64 ;\
+./flutter/tools/gn \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
     --target-triple aarch64-linux-gnu \
@@ -323,10 +575,26 @@ ninja -C out/linux_debug_arm64
 ```
 
 ```shell
-cd $HOME/flutter-engine/engine/src \
-&& [ -d out/linux_release_arm64 ] && sudo rm -r out/linux_release_arm64 ;\
+[ -d out/linux_profile_arm64 ] && sudo rm -r out/linux_profile_arm64 ;\
 ./flutter/tools/gn \
-    --clang \
+    --target-sysroot $HOME/flutter-engine/sdk/sysroot \
+    --target-toolchain $HOME/flutter-engine/sdk/toolchain \
+    --target-triple aarch64-linux-gnu \
+    --target-os linux \
+    --linux-cpu arm64 \
+    --embedder-for-target \
+    --no-lto \
+    --no-goma \
+    --runtime-mode profile
+```
+
+```shell
+ninja -C out/linux_profile_arm64
+```
+
+```shell
+[ -d out/linux_release_arm64 ] && sudo rm -r out/linux_release_arm64 ;\
+./flutter/tools/gn \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
     --target-triple aarch64-linux-gnu \
@@ -341,3 +609,7 @@ cd $HOME/flutter-engine/engine/src \
 ```shell
 ninja -C out/linux_release_arm64
 ```
+
+</TabItem>
+
+</Tabs>

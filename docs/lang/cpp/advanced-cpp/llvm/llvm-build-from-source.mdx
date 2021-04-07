@@ -1,0 +1,49 @@
+---
+id: llvm-build-from-source
+title: Build LLVM
+sidebar_label: Build LLVM
+description: Build LLVM
+keywords:
+  - C++
+  - LLVM
+---
+
+# Download
+
+```shell
+sudo apt update \
+&& sudo apt install -y cmake gcc git ninja-build python3
+```
+
+```shell
+git clone --branch=llvmorg-11.1.0 --depth=1 \
+    https://github.com/llvm/llvm-project.git $HOME/llvm-project
+```
+
+# LLVM
+
+```shell
+cd $HOME/llvm-project/
+```
+
+```shell
+cmake -G Ninja \
+    -S llvm \
+    -B build_llvm \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/opt/toolchain/clang/11 \
+    -DLLVM_ENABLE_PROJECTS=clang;lld
+```
+
+```shell
+cmake --build build_llvm
+```
+
+```shell
+sudo cmake --install build_llvm
+```
+
+# Reference
+
+- [https://llvm.org/docs/CMake.html](https://llvm.org/docs/CMake.html)
+- [https://libcxx.llvm.org/docs/BuildingLibcxx.html](https://libcxx.llvm.org/docs/BuildingLibcxx.html)
