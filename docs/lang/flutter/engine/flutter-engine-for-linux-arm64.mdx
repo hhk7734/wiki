@@ -83,9 +83,9 @@ Connect the SD card or eMMC with OS to your SBC.
 
 ```shell
 sudo apt update -y \
-&& sudo apt install -y build-essential clang git libblkid-dev libfreetype6-dev \
-    libglib2.0-dev libgtk-3-dev liblzma-dev ninja-build pkg-config rsync \
-    symlinks vim \
+&& sudo apt install -y build-essential clang cmake git libblkid-dev \
+    libfreetype6-dev libglib2.0-dev libgtk-3-dev liblzma-dev ninja-build \
+    pkg-config rsync symlinks vim \
 && sudo apt autoremove -y
 ```
 
@@ -172,6 +172,7 @@ cd $HOME/flutter-engine/llvm-project
 ```
 
 <Tabs
+    groupId="cpu-architecture"
     defaultValue="aarch64"
     values={[
         {label: 'ARM', value: 'arm',},
@@ -234,6 +235,7 @@ cd $HOME/flutter-engine/binutils-gdb
 ```
 
 <Tabs
+    groupId="cpu-architecture"
     defaultValue="aarch64"
     values={[
         {label: 'ARM', value: 'arm',},
@@ -279,6 +281,7 @@ cd $HOME/flutter-engine/llvm-project
 ```
 
 <Tabs
+    groupId="cpu-architecture"
     defaultValue="aarch64"
     values={[
         {label: 'ARM', value: 'arm',},
@@ -342,6 +345,7 @@ cmake --build build_libcxxabi \
 ```
 
 <Tabs
+    groupId="cpu-architecture"
     defaultValue="aarch64"
     values={[
         {label: 'ARM', value: 'arm',},
@@ -476,6 +480,7 @@ cd $HOME/flutter-engine/engine/src
 ```
 
 <Tabs
+    groupId="cpu-architecture"
     defaultValue="aarch64"
     values={[
         {label: 'ARM', value: 'arm',},
@@ -495,9 +500,9 @@ cp $HOME/flutter-engine/sdk/sysroot/usr/lib/arm-linux-gnueabihf/pkgconfig/* \
 ./flutter/tools/gn \
     --target-sysroot $HOME/flutter-engine/sdk/sysroot \
     --target-toolchain $HOME/flutter-engine/sdk/toolchain \
-    --target-triple aarch64-linux-gnu \
+    --target-triple arm-linux-gnueabihf \
     --target-os linux \
-    --linux-cpu arm64 \
+    --linux-cpu arm \
     --embedder-for-target \
     --no-lto \
     --no-goma \
