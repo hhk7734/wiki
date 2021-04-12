@@ -42,14 +42,16 @@ project
 
 ```cmake title="CMakeLists.txt"
 cmake_minimum_required(VERSION 3.15)
+set(PROJECT_NAME "example")
+project(${PROJECT_NAME} LANGUAGES CXX)
 
-project(example LANGUAGES CXX)
+set(TARGET_NAME "${PROJECT_NAME}_main")
 
 set(SOURCE
-    main.cpp
+    "main.cpp"
 )
 
-add_executable(example ${SOURCE})
+add_executable(${TARGET_NAME} ${SOURCE})
 ```
 
 # Help
