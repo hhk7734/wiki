@@ -21,6 +21,8 @@ import {
   useActiveVersion,
 } from "@theme/hooks/useDocs";
 
+import Comment from "../../component/Comment.js";
+
 function DocItem(props) {
   const { siteConfig } = useDocusaurusContext();
   const { url: siteUrl } = siteConfig;
@@ -99,6 +101,7 @@ function DocItem(props) {
               )}
               <div className="markdown">
                 <DocContent />
+                <Comment />
               </div>
             </article>
             {(editUrl || lastUpdatedAt || lastUpdatedBy) && (
