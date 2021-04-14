@@ -21,6 +21,7 @@ import {
   useActiveVersion,
 } from "@theme/hooks/useDocs";
 
+import AdSense from "react-adsense";
 import Comment from "../../component/Comment.js";
 
 function DocItem(props) {
@@ -100,7 +101,25 @@ function DocItem(props) {
                 </header>
               )}
               <div className="markdown">
+                <div>
+                  <AdSense.Google
+                    client="ca-pub-5199357432848758"
+                    slot="5326538900"
+                    style={{ display: "block" }}
+                    format="auto"
+                    responsive="true"
+                  />
+                </div>
                 <DocContent />
+                <div>
+                  <AdSense.Google
+                    client="ca-pub-5199357432848758"
+                    slot="5326538900"
+                    style={{ display: "block" }}
+                    format="auto"
+                    responsive="true"
+                  />
+                </div>
                 <Comment />
               </div>
             </article>
