@@ -13,10 +13,6 @@ RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js)
 
 RUN wc -c node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js | grep 1643 -q && mv custom_node_modules/search.js node_modules/@docusaurus/mdx-loader/src/remark/toc/search.js || echo "\n\nUpdate custom_node_modules/search.js\n\n"
 
-RUN echo $(wc -c node_modules/@docusaurus/mdx-loader/src/index.js)
-
-RUN wc -c node_modules/@docusaurus/mdx-loader/src/index.js | grep 2681 -q && mv custom_node_modules/index.js node_modules/@docusaurus/mdx-loader/src/index.js || echo "\n\nUpdate custom_node_modules/index.js\n\n"
-
 RUN yarn build
 
 FROM nginx:latest
