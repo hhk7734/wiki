@@ -51,31 +51,35 @@ module.exports = {
 
         const sidebarConfig = require("./sidebars");
         const labelDic = {
-          arduino: "Arduino",
-          avr: "AVR",
-          basics: "Basics",
-          cpp: "C++",
-          circuit: "Circuit",
-          "debian-package": "Debian package",
-          espressif: "Espressif",
           etc: "Etc",
-          flutter: "Flutter",
-          infineon: "Infineon",
-          labview: "LabVIEW",
+          circuit: "Circuit",
+          memo: "Memo",
+          project: "Project",
+          //
           lang: "Programming",
+          cpp: "C++",
+          flutter: "Flutter",
+          labview: "LabVIEW",
+          nodejs: "Node.js",
+          python: "Python",
+          //
           linux: "Linux",
+          "debian-package": "Debian package",
           "linux-kernel": "Linux kernel",
           "linux-tools": "Linux tools",
           "linux-uboot": "u-boot",
+          //
           mcu: "MCU",
-          memo: "Memo",
-          nn: "NN",
-          nodejs: "Node.js",
+          arduino: "Arduino",
+          avr: "AVR",
+          espressif: "Espressif",
+          infineon: "Infineon",
           nordic: "Nordic",
-          project: "Project",
-          python: "Python",
           sam: "SAM",
           stm32: "STM32",
+          //
+          nn: "NN",
+          basics: "Basics",
         };
 
         _fs
