@@ -29,6 +29,21 @@ module.exports = {
       label: "KiCad",
       items: ["etc/circuit/kicad/kicad-basics"],
     },
+    {
+      type: "category",
+      label: "Power",
+      items: ["etc/circuit/power/power-noise-filter"],
+    },
+    {
+      type: "category",
+      label: "Commnuication",
+      items: ["etc/circuit/communication/communication-isolation"],
+    },
+    {
+      type: "category",
+      label: "Sensor",
+      items: ["etc/circuit/sensor/sensor-fine-dust"],
+    },
   ],
   "debian-package": [
     "linux/debian-package/debian-package-basics",
