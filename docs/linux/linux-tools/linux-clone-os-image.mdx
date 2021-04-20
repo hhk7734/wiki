@@ -10,7 +10,7 @@ keywords:
 
 # Read disk and save .img.xz
 
-```shell {1}
+```shell {1,8,15}
 $ sudo fdisk -l
 
 ...
@@ -33,7 +33,7 @@ sudo umount /dev/sdb1 /dev/sdb2
 ```
 
 ```shell
-sudo dd if=/dev/sdb of=clone.img bs=512 status=progress
+sudo dd if=/dev/sdb of=clone.img bs=512 count=$((31115263 + 1)) status=progress
 ```
 
 ```shell {1}
@@ -82,7 +82,7 @@ sudo parted -s clone.img unit B mkpart "primary" "272629760" \
     "$((272629760 + ((851980 + 5000) * 4096)))"
 ```
 
-```shell {1}
+```shell {1-2}
 $ sudo parted -ms clone.img unit B print free | tail -1 \
     | cut -d ':' -f 2 | tr -d 'B'
 3782820352

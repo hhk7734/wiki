@@ -43,6 +43,18 @@ cmake --build build_llvm
 sudo cmake --install build_llvm
 ```
 
+# link
+
+```shell
+sudo update-alternatives \
+    --install /usr/bin/clang clang /opt/toolchain/clang/11/bin/clang 11 \
+    --slave /usr/bin/clang++ clang++ /opt/toolchain/clang/11/bin/clang++
+```
+
+```shell
+update-alternatives --display clang
+```
+
 # Reference
 
 - [https://llvm.org/docs/CMake.html](https://llvm.org/docs/CMake.html)

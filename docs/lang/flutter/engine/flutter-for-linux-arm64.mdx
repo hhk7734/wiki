@@ -173,6 +173,11 @@ rsync -a flutter_linux \
 ```
 
 ```shell
+rsync -a flutter_patched_sdk \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
 cd $HOME/flutter-engine/engine/src/out/linux_profile_arm
 ```
 
@@ -186,7 +191,11 @@ cd $HOME/flutter-engine/engine/src/out/linux_release_arm
 ```
 
 ```shell
-rsync -a flutter_patched_sdk flutter_patched_sdk_product \
+mv flutter_patched_sdk flutter_patched_sdk_product
+```
+
+```shell
+rsync -a flutter_patched_sdk_product \
     <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
 ```
 
@@ -217,6 +226,11 @@ rsync -a flutter_linux \
 ```
 
 ```shell
+rsync -a flutter_patched_sdk \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
 cd $HOME/flutter-engine/engine/src/out/linux_profile_arm64
 ```
 
@@ -230,7 +244,11 @@ cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
 ```
 
 ```shell
-rsync -a flutter_patched_sdk flutter_patched_sdk_product \
+mv flutter_patched_sdk flutter_patched_sdk_product
+```
+
+```shell
+rsync -a flutter_patched_sdk_product \
     <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
 ```
 
