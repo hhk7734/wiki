@@ -121,6 +121,15 @@ module.exports = {
         "lang/flutter/engine/flutter-app-for-linux-arm64",
       ],
     },
+    {
+      type: "category",
+      label: "Bloc",
+      items: [
+        "lang/flutter/bloc/flutter-bloc-widgets",
+        "lang/flutter/bloc/flutter-bloc-event-state",
+        "lang/flutter/bloc/flutter-bloc-observer",
+      ],
+    },
   ],
   infineon: [
     "mcu/infineon/tricore-development-environment",

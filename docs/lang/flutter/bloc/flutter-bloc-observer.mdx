@@ -1,0 +1,107 @@
+---
+id: flutter-bloc-observer
+title: Bloc Observer
+sidebar_label: Observer
+description: Flutter Bloc Observer
+keywords:
+  - Flutter
+  - bloc
+---
+
+- flutter_bloc: 7.0.0
+
+# Cubit
+
+## BlocObserver
+
+```dart
+class CubitTestObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print('onCreate -- ${bloc.runtimeType}');
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('onChange -- ${bloc.runtimeType}, $change');
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print('onError -- ${bloc.runtimeType}, $error');
+    super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    print('onClose -- ${bloc.runtimeType}');
+  }
+}
+```
+
+```dart
+void main() {
+    Bloc.observer = CubitTestObserver();
+}
+```
+
+`BlocObserver`를 상속하고 필요한 함수만 오버라이드하여 수정한 후 `Bloc.observer`에 등록하면 **모든 Cubit**의 변화를 확인 할 수 있습니다.
+
+`emit(State)` -\> `onChange` 순으로 호출됩니다.
+
+# Bloc
+
+## BlocObserver
+
+```dart
+class BlocTestObserver extends BlocObserver {
+  @override
+  void onCreate(BlocBase bloc) {
+    super.onCreate(bloc);
+    print('onCreate -- ${bloc.runtimeType}');
+  }
+
+  @override
+  void onEvent(Bloc bloc, Object? event) {
+    super.onEvent(bloc, event);
+    print('onEvent -- ${bloc.runtimeType}, $event');
+  }
+
+  @override
+  void onChange(BlocBase bloc, Change change) {
+    super.onChange(bloc, change);
+    print('onChange -- ${bloc.runtimeType}, $change');
+  }
+
+  @override
+  void onTransition(Bloc bloc, Transition transition) {
+    super.onTransition(bloc, transition);
+    print('onTransition -- ${bloc.runtimeType}, $transition');
+  }
+
+  @override
+  void onError(BlocBase bloc, Object error, StackTrace stackTrace) {
+    print('onError -- ${bloc.runtimeType}, $error');
+    super.onError(bloc, error, stackTrace);
+  }
+
+  @override
+  void onClose(BlocBase bloc) {
+    super.onClose(bloc);
+    print('onClose -- ${bloc.runtimeType}');
+  }
+}
+```
+
+```dart
+void main() {
+    Bloc.observer = BlocTestObserver();
+}
+```
+
+`BlocObserver`를 상속하고 필요한 함수만 오버라이드하여 수정한 후 `Bloc.observer`에 등록하면 **모든 Bloc**의 변화를 확인 할 수 있습니다. Bloc는 추가적으로 `onEvent`와 `onTransition` 함수를 호출 할 수 있습니다.
+
+`add(Event)` -\> `onEvent` -\> `yield State` -\> `onChange` and `onTransition` 순으로 호출됩니다.
