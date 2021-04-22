@@ -136,7 +136,14 @@ module.exports = {
     },
     prism: {
       // https://prismjs.com/#supported-languages
-      additionalLanguages: ["apacheconf", "bnf", "cmake", "ini", "nginx"],
+      additionalLanguages: [
+        "apacheconf",
+        "bnf",
+        "cmake",
+        "dart",
+        "ini",
+        "nginx",
+      ],
     },
   },
   presets: [
