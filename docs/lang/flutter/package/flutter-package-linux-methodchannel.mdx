@@ -1,0 +1,45 @@
+---
+id: flutter-package-linux-methodchannel
+title: Flutter Linux MethodChannel
+sidebar_label: Linux MethodChannel
+description: Flutter Linux MethodChannel
+keywords:
+  - Flutter
+  - MethodChannel
+---
+
+:::info
+Plugin 코드는 Platform thread에서 실행됩니다.
+:::
+
+# 준비
+
+```shell
+flutter create -t plugin --platforms=linux <plugin>
+```
+
+```shell
+cd <plugin>
+```
+
+```shell
+<plugin>
+├── CHANGELOG.md
+├── LICENSE
+├── README.md
+├── <plugin>.iml
+├── lib
+│   └── <plugin>.dart
+├── linux
+│   ├── CMakeLists.txt
+│   ├── <plugin>_plugin.cc
+│   └── include
+│       └── <plugin>
+│           └── <plugin>_plugin.h
+├── pubspec.lock
+└── pubspec.yaml
+```
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format
+```

@@ -59,7 +59,7 @@ class ControllerFanRequested extends ControllerEvent {
 
 State 명은 `Bloc 명 + 취한 행동(동사) + 상태`로 구성하는 것을 추천하지만 헷갈리지 않는다면 어떻게 작성하든 상관 없습니다.
 
-Event와 마찬가지로 `enum` 또는 `class`로 정의할 수 있지만, 불필요한 렌더링을 막기 위해 State의 경우 중복된 것은 무시합니다.
+Event와 마찬가지로 `enum` 또는 `class`로 정의할 수 있지만, 불필요한 렌더링을 막기 위해 State의 경우 중복된 것은 무시됩니다.
 
 :::info
 중복 검사는 단순하게 `previousState == nextState`가 참인지 아닌지만 판단합니다.

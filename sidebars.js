@@ -130,6 +130,11 @@ module.exports = {
         "lang/flutter/bloc/flutter-bloc-observer",
       ],
     },
+    {
+      type: "category",
+      label: "Package",
+      items: ["lang/flutter/package/flutter-package-linux-methodchannel"],
+    },
   ],
   infineon: [
     "mcu/infineon/tricore-development-environment",
