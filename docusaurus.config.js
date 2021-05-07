@@ -21,6 +21,12 @@ module.exports = {
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
   plugins: ["docusaurus-plugin-google-adsense"],
+  stylesheets: [
+    {
+      href: "/katex/v0.13.9/katex.min.css",
+      type: "text/css",
+    },
+  ],
   themeConfig: {
     algolia: {
       apiKey: "882821d106ded887254b7b5ec5690c5b",
