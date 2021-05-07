@@ -10,10 +10,6 @@ keywords:
   - Loss
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
-
-<link rel="stylesheet" href={useBaseUrl("katex/katex.min.css")} />
-
 # YOLOv1
 
 > We optimize for sum-squared error in the output of our model. We use sum-squared error because it is easy to optimize, however it does not perfectly align with our goal of maximizing average precision. It weights localization error equally with classification error which may not be ideal. Also, in every image many grid cells do not contain any object. This pushes the “confidence” scores of those cells towards zero, often overpowering the gradient from cells that do contain objects. This can lead to model instability, causing training to diverge early on.
