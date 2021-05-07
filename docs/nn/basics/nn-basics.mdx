@@ -7,16 +7,16 @@ keywords:
   - Neural Network
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/nn-nn.jpg")} />
+  <img src={useBaseUrl('img/nn/basics/nn-nn.jpg')} />
 </center>
 
-# Neuron(Perceptron)
+## Neuron(Perceptron)
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/nn-neuron.jpg")} />
+  <img src={useBaseUrl('img/nn/basics/nn-neuron.jpg')} />
 </center>
 
 $$
@@ -27,9 +27,9 @@ $$
 a^l_j = \sigma\left(z^l_j\right)
 $$
 
-# Loss function
+## Loss function
 
-## L2 loss function
+### L2 loss function
 
 $$
 Loss \equiv \frac{1}{2} \lVert \mathbf{y} - \mathbf{a}^L \rVert^2 = \frac{1}{2} \sum_i{\left(y_i - a^L_i\right)^2}
@@ -39,7 +39,7 @@ $$
 Loss \geq 0 \quad \left(\mathbf{y}\text{ is the desired output}\right)
 $$
 
-# Neural Network Training
+## Neural Network Training
 
 What we need to look for through neural network training are weights and biases to minimize the consequences of the loss function. When $\mathbf{w}$ is a vector representing weights and biases,
 
@@ -62,10 +62,10 @@ $$
 $$
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/nn-lr-loss.jpg")} />
+  <img src={useBaseUrl('img/nn/basics/nn-lr-loss.jpg')} />
 </center>
 
-## Stochastic gradient descent
+### Stochastic gradient descent
 
 $$
 \nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x}
@@ -79,14 +79,14 @@ $$
 
 Those random training inputs $X_1, X_2, ..., X_m$ are called **mini-batch**.
 
-## Forward-propagation
+### Forward-propagation
 
 Forward propagation (or forward pass) refers to the calculation and storage of intermediate variables (including outputs) for a neural network in order from the input layer to the output layer.
 
-## Back-propagation
+### Back-propagation
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/nn-back-propagation.jpg")} />
+  <img src={useBaseUrl('img/nn/basics/nn-back-propagation.jpg')} />
 </center>
 
 $$
@@ -140,11 +140,11 @@ $$
 \frac{\partial Loss}{\partial \omega^l_{jk}} = \frac{\partial Loss}{\partial z^l_j} \frac{\partial z^l_j}{\partial \omega^l_{jk}} = \delta^l_j a^{l-1}_k
 $$
 
-## Training
+### Training
 
 Set initail weights and biases to random and repeat process **Forward-propagation -> Back-propagation -> weights and biases update**. When it is judged that $Loss$ cannot be made smaller, the final weights and biases are determined.
 
-# Reference
+## Reference
 
 - [http://neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com)
 - [https://machinelearning.tobiashill.se](https://machinelearning.tobiashill.se)

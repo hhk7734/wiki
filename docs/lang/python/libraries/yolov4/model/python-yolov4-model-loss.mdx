@@ -10,7 +10,7 @@ keywords:
   - Loss
 ---
 
-# YOLOv1
+## YOLOv1
 
 > We optimize for sum-squared error in the output of our model. We use sum-squared error because it is easy to optimize, however it does not perfectly align with our goal of maximizing average precision. It weights localization error equally with classification error which may not be ideal. Also, in every image many grid cells do not contain any object. This pushes the “confidence” scores of those cells towards zero, often overpowering the gradient from cells that do contain objects. This can lead to model instability, causing training to diverge early on.
 
@@ -61,7 +61,7 @@ Loss
 \end{aligned}
 $$
 
-# YOLOv2
+## YOLOv2
 
 > When we move to anchor boxes we also decouple the class prediction mechanism from the spatial location and instead predict class and objectness for every anchor box. Following YOLO, the objectness prediction still predicts the IOU of the ground truth and the proposed box and the class predictions predict he conditional probability of that class given that there is an object.
 
@@ -112,7 +112,7 @@ Loss
 \end{aligned}
 $$
 
-# YOLOv3
+## YOLOv3
 
 > During training we use **sum of squared error loss**. If the ground truth for some coordinate prediction is $t_*$ our gradient is the ground truth value (computed from the ground truth box) minus our prediction: $t_* − \hat{t}_*$. This ground truth value can be easily computed by inverting the equations above.
 
@@ -169,7 +169,7 @@ Loss
 \end{aligned}
 $$
 
-# YOLOv4
+## YOLOv4
 
 > Bag of Freebies (BoF) for backbone: CutMix and Mosaic data augmentation, DropBlock regularization, Class label smoothing
 
@@ -221,7 +221,7 @@ Loss
 \end{aligned}
 $$
 
-# Reference
+## Reference
 
 - [You Only Look Once: Unified, Real-Time Object Detection](https://arxiv.org/pdf/1506.02640.pdf) p.3 ~ p.4
 - [YOLO9000: Better, Faster, Stronger](https://arxiv.org/pdf/1612.08242.pdf) p.2 ~ p.3

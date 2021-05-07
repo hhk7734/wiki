@@ -7,16 +7,16 @@ keywords:
   - ftrace
 ---
 
-# Linux kernel configuration
+## Linux kernel configuration
 
 Ref: [https://www.kernel.org/doc/Documentation/trace/ftrace.txt](https://www.kernel.org/doc/Documentation/trace/ftrace.txt)
 
-## <board\>\_defconfig
+### <board\>\_defconfig
 
 - `kernel/trace/Kconfig`: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기 바랍니다.
 - `arch/<architecture>/configs/<board>_defconfig`
 
-### Options
+#### Options
 
 - **`CONFIG_FTRACE=y`**: Enables the kernel tracing infrastructure.
   - **`CONFIG_FUNCTION_TRACER=y`**: Enables the kernel to trace every kernel function.
@@ -28,17 +28,17 @@ Ref: [https://www.kernel.org/doc/Documentation/trace/ftrace.txt](https://www.ker
   - **`CONFIG_STACK_TRACER=y`**: Records the maximum stack footprint of the kernel and displays it in /sys/kernel/debug/tracing/stack_trace.
   - **`CONFIG_DYNAMIC_FTRACE=y`**: This option will modify all the calls to function tracing dynamically (will patch them out of the binary image and replace them with a No-Op instruction) on boot up. During compile time, a table is made of all the locations that ftrace can function trace, and this table is linked into the kernel image. When this is enabled, functions can be individually enabled, and the functions not enabled will not affect performance of the system.
 
-## trace_printk
+### trace_printk
 
 `<linux/kernel.h>`에 정의되어 있는 함수입니다.
 
 > Ftrace introduces a new form of printk() called trace_printk(). It can be used just like printk(), and can also be used in any context (interrupt code, NMI code, and scheduler code). What is nice about trace_printk() is that it does not output to the console. Instead it writes to the Ftrace ring buffer and can be read via the trace file.
 
-# ftrace setup
+## ftrace setup
 
 설정을 시작하기 전에 ftrace를 비활성화한 후 설정하시기 바랍니다.
 
-## ftrace on(restart)/off
+### ftrace on(restart)/off
 
 ```shell
 echo 1 > /sys/kernel/debug/tracing/tracing_on && sleep 1
@@ -52,7 +52,7 @@ echo 0 > /sys/kernel/debug/tracing/tracing_on && sleep 1
 cat /sys/kernel/debug/tracing/tracing_on
 ```
 
-## ftrace event on/off
+### ftrace event on/off
 
 ```shell
 echo 1 > /sys/kernel/debug/tracing/events/enable && sleep 1
@@ -66,7 +66,7 @@ echo 0 > /sys/kernel/debug/tracing/events/enable && sleep 1
 cat /sys/kernel/debug/tracing/events/enable
 ```
 
-## set_ftrace_filter
+### set_ftrace_filter
 
 `/sys/kernel/debug/tracing/available_filter_functions`에 등록된 함수만 추척 가능합니다.
 
@@ -102,7 +102,7 @@ format: `<function>:<command>:<parameter>`
 cat /sys/kernel/debug/tracing/set_ftrace_filter
 ```
 
-## ftrace tracer setup
+### ftrace tracer setup
 
 `/sys/kernel/debug/tracing/available_tracers`에 등록된 tracer만 설정 가능합니다.
 
@@ -134,7 +134,7 @@ echo function_graph > /sys/kernel/debug/tracing/current_tracer && sleep 1
 cat /sys/kernel/debug/tracing/current_tracer
 ```
 
-# Trace
+## Trace
 
 ```shell
 cat /sys/kernel/debug/tracing/trace
@@ -150,13 +150,13 @@ cat /sys/kernel/debug/tracing/trace | grep -n -C <number> <function>
 
 tracer가 변경되면 초기화 됩니다.
 
-# Example
+## Example
 
 spidev의 bus 번호가 어떻게 설정되는지 확인하는 테스트 예제입니다. 테스트는 Hardkernel Odroid-C2에서 진행했습니다.
 
-## Linux kernel configuration
+### Linux kernel configuration
 
-### <board\>\_defconfig
+#### <board\>\_defconfig
 
 ```Makefile title="arch/<architecture>/configs/<board>_defconfig"
 CONFIG_FTRACE=y
@@ -166,7 +166,7 @@ CONFIG_STACK_TRACER=y
 CONFIG_DYNAMIC_FTRACE=y
 ```
 
-### Linux kernel driver
+#### Linux kernel driver
 
 ```c title="driver/spi/spi.c"
 int spi_register_master(struct spi_master *master) {
@@ -196,9 +196,9 @@ int spi_register_master(struct spi_master *master) {
 EXPORT_SYMBOL_GPL(spi_register_master);
 ```
 
-### Build Linux kernel
+#### Build Linux kernel
 
-## ftrace setup
+### ftrace setup
 
 ```shell
 echo 0 > /sys/kernel/debug/tracing/tracing_on && sleep 1 &&\
@@ -209,7 +209,7 @@ echo function_graph > /sys/kernel/debug/tracing/current_tracer && sleep 1 &&\
 echo 1 > /sys/kernel/debug/tracing/tracing_on && sleep 1
 ```
 
-## Trace
+### Trace
 
 ```shell
 cat /sys/kernel/debug/tracing/trace
@@ -250,7 +250,7 @@ cat /sys/kernel/debug/tracing/trace
  1)   2.000 us    |  spi_uevent();
 ```
 
-## Consequence
+### Consequence
 
 수정된 spi.c 코드와 trace 내용을 비교해보면 bus 번호가 처음부터 할당되지 않아 음수였고, `of_alias_get_id()`함수 호출 후에도 할당되지 않아 음수인 것을 확인할 수 있습니다.
 

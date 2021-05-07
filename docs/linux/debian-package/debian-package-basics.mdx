@@ -10,7 +10,7 @@ keywords:
 
 Ref: [https://www.debian.org/doc/manuals/debmake-doc/](https://www.debian.org/doc/manuals/debmake-doc/)
 
-# Pre-installation
+## Pre-installation
 
 ```shell
 sudo apt-get install -y debmake
@@ -23,7 +23,7 @@ export DEBEMAIL="hhk7734@gmail.com"
 export DEBFULLNAME="Hyeonki Hong"
 ```
 
-# Creating template files
+## Creating template files
 
 아래 명령어를 통해 `<package>`와 동일한 디렉토리에 `<package>-<version>`, `<package>-<version>.tar.gz`, `<package>_<version>.orig.tar.gz`이 생성됩니다.
 
@@ -35,7 +35,7 @@ export DEBFULLNAME="Hyeonki Hong"
 debmake -t -p <package> -u <version> [-r <revision>] -x[0-4]
 ```
 
-## Examples
+### Examples
 
 ```shell {1}
 $ debmake -t -p <package> -u <version> [-r <revision>] -x0
@@ -100,11 +100,11 @@ $ debmake -t -p <package> -u <version> [-r <revision>] -x2
 └── ...
 ```
 
-# Required files
+## Required files
 
 Ref: [https://www.debian.org/doc/manuals/maint-guide/dreq.en.html](https://www.debian.org/doc/manuals/maint-guide/dreq.en.html)
 
-## control
+### control
 
 Ref: [https://www.debian.org/doc/debian-policy/ch-controlfields.html](https://www.debian.org/doc/debian-policy/ch-controlfields.html)
 
@@ -172,7 +172,7 @@ sudo apt-get install pack pack-config pack-dev
 - Description: 설명 (mandatory)
 - Homepage: URL
 
-## copyright
+### copyright
 
 Ref: [https://www.debian.org/doc/debian-policy/ch-docs.html#s-copyrightfile](https://www.debian.org/doc/debian-policy/ch-docs.html#s-copyrightfile)
 
@@ -190,7 +190,7 @@ Copyright: xxx
 License: LGPL-2.1
 ```
 
-## changelog
+### changelog
 
 Ref: [https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog](https://www.debian.org/doc/debian-policy/ch-source.html#s-dpkgchangelog)
 
@@ -228,7 +228,7 @@ changelog는 형식이 존재합니다. 형식에 맞지 않는 changelog를 사
   - month: Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
   - +zzzz or -zzzz is the time zone offset from Coordinated (UTC)
 
-## rules
+### rules
 
 debhelper에 의해 패키지가 빌드 될 때, 각 단계에 실행되는 명령을 수정할 수 있는 파일입니다.
 
@@ -239,11 +239,11 @@ debhelper에 의해 패키지가 빌드 될 때, 각 단계에 실행되는 명�
  dh $@
 ```
 
-# Miscellaneous files
+## Miscellaneous files
 
 Ref: [https://www.debian.org/doc/manuals/maint-guide/dother.en.html](https://www.debian.org/doc/manuals/maint-guide/dother.en.html)
 
-## <package\>.cron.\*
+### <package\>.cron.\*
 
 - package.cron.hourly - Installed as /etc/cron.hourly/package; run once an hour.
 - package.cron.daily - Installed as /etc/cron.daily/package; run once a day.
@@ -251,7 +251,7 @@ Ref: [https://www.debian.org/doc/manuals/maint-guide/dother.en.html](https://www
 - package.cron.monthly - Installed as /etc/cron.monthly/package: run once a month.
 - package.cron.d - Installed as /etc/cron.d/package: for any other time.
 
-## install (<package\>.install)
+### install (<package\>.install)
 
 표준 `make install`이 하지 않는 파일 설치 목록 입니다. 파일 명과 설치되어야할 위치를 한 줄에 하나씩 적으면 됩니다. 패키지 안에서 파일의 상대 경로와 설치될 경로가 동일한 경우 파일 명만 작성해도 됩니다.
 
@@ -262,11 +262,11 @@ lib/B /usr/local/lib
 
 위처럼 작성한 경우 `/usr/local/bin/A`, `/usr/local/lib/B`가 설치됩니다.
 
-## Debian maintainer scripts
+### Debian maintainer scripts
 
 Ref: [https://www.debian.org/doc/debian-policy/ap-flowcharts.html](https://www.debian.org/doc/debian-policy/ap-flowcharts.html)
 
-### preinst (<package\>.preinst)
+#### preinst (<package\>.preinst)
 
 ```shell
 #!/bin/sh
@@ -291,7 +291,7 @@ esac
 exit 0
 ```
 
-### postinst (<package\>.postinst)
+#### postinst (<package\>.postinst)
 
 ```shell
 #!/bin/sh
@@ -316,7 +316,7 @@ esac
 exit 0
 ```
 
-### prerm (<package\>.prerm)
+#### prerm (<package\>.prerm)
 
 ```shell
 #!/bin/sh
@@ -341,7 +341,7 @@ esac
 exit 0
 ```
 
-### postrm (<package\>.postrm)
+#### postrm (<package\>.postrm)
 
 ```shell
 #!/bin/sh

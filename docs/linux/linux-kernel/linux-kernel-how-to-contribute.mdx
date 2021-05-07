@@ -8,7 +8,7 @@ keywords:
   - contribute
 ---
 
-# Write commit message
+## Write commit message
 
 ```shell
 title
@@ -18,7 +18,7 @@ details
 Signed-off-by: Hyeonki Hong <hhk7734@gmail.com>
 ```
 
-# Make patch
+## Make patch
 
 ```shell
 git format-patch [-<num of commit>] [commit]
@@ -28,7 +28,7 @@ git format-patch [-<num of commit>] [commit]
 ./scripts/checkpatch.pl <patch_file>
 ```
 
-# Set mutt
+## Set mutt
 
 ```shell title=".muttrc"
 unset use_domain
@@ -53,15 +53,15 @@ set edit_headers = yes
 set charset = UTF-8
 ```
 
-# Send patch mail
+## Send patch mail
 
-## Get maintainer
+### Get maintainer
 
 ```shell
 ./scripts/get_maintainer.pl <patch_file>
 ```
 
-## Send patch using mutt
+### Send patch using mutt
 
 ```shell
 mutt -H <patch_file>
@@ -75,7 +75,7 @@ To: <maintainer>, <maintainer>, ...
 Cc: <open list>, ...
 ```
 
-# Reply to comments
+## Reply to comments
 
 ```shell
 mutt
@@ -85,7 +85,7 @@ Reply, including the message you received.
 
 Write the answer inline or at the end of the included message.
 
-## Example
+### Example
 
 ```text
 From: Hyeonki Hong <hhk7734@gmail.com>

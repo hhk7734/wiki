@@ -7,7 +7,7 @@ keywords:
   - SSL
 ---
 
-# Installation
+## Installation
 
 ```shell
 sudo add-apt-repository -y ppa:certbot/certbot \
@@ -22,7 +22,7 @@ sudo apt-get install python-certbot-apache
 sudo apt-get install python-certbot-nginx
 ```
 
-# Wildcard
+## Wildcard
 
 ```shell
 certbot certonly --manual \
@@ -34,7 +34,7 @@ certbot certonly --manual \
 dig -t TXT _acme-challenge.loliot.net
 ```
 
-## Apache
+### Apache
 
 ```shell
 sudo vim /etc/apache2/sites-available/xxx.conf
@@ -59,7 +59,7 @@ sudo vim /etc/apache2/sites-available/xxx.conf
 sudo systemctl restart apache2
 ```
 
-## Nginx
+### Nginx
 
 ```shell
 sudo vim /etc/nginx/sites-available/xxx
@@ -89,7 +89,7 @@ server {
 sudo systemctl restart nginx
 ```
 
-# Renew
+## Renew
 
 ```shell
 certbot renew

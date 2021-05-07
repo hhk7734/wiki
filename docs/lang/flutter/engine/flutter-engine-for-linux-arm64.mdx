@@ -12,8 +12,8 @@ keywords:
   - linux
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 **HW**:
 
@@ -29,18 +29,18 @@ import TabItem from "@theme/TabItem";
 
 <div
   style={{
-    position: "relative",
-    width: "100%",
-    "padding-top": "56.25%",
+    position: 'relative',
+    width: '100%',
+    'padding-top': '56.25%',
   }}
 >
   <iframe
     style={{
-      position: "absolute",
-      top: "0",
-      left: "0",
-      width: "100%",
-      height: "100%",
+      position: 'absolute',
+      top: '0',
+      left: '0',
+      width: '100%',
+      height: '100%',
     }}
     src="//www.youtube.com/embed/ZSQqIY7HJMw?autoplay=1"
     allowfullscreen="allowfullscreen"
@@ -54,9 +54,9 @@ import TabItem from "@theme/TabItem";
 Make sure the command ran successfully before running the next command!!
 :::
 
-# Dependencies
+## Dependencies
 
-## Host(Linux x86_64)
+### Host(Linux x86_64)
 
 ```shell
 mkdir -p $HOME/flutter-engine/sdk/toolchain \
@@ -77,7 +77,7 @@ sudo apt update -y \
 && sudo apt autoremove -y
 ```
 
-## Target(Linux ARM/ARM64)
+### Target(Linux ARM/ARM64)
 
 Connect the SD card or eMMC with OS to your SBC.
 
@@ -89,7 +89,7 @@ sudo apt update -y \
 && sudo apt autoremove -y
 ```
 
-# sysroot
+## sysroot
 
 It may vary depending on various conditions. **If symbolic links are broken, you will get some errors when following the steps below.**
 
@@ -97,7 +97,7 @@ It may vary depending on various conditions. **If symbolic links are broken, you
 When I tested this, most of the errors occured for this reason.
 :::
 
-## Target(Linux ARM/ARM64)
+### Target(Linux ARM/ARM64)
 
 ```shell
 sudo symlinks -crs /*
@@ -108,7 +108,7 @@ sudo rsync -a -e 'ssh -p <host port>' /lib /usr /etc /opt \
     <host user>@<host ip>:~/flutter-engine/sdk/sysroot
 ```
 
-## Host(Linux x86_64)
+### Host(Linux x86_64)
 
 When I built all successfully, the directory structure is shown below. Since `/` (root) is copied to `$HOME/flutter-engine/sdk/sysroot`, setting a symbolic link path to an absolute path can break symbolic links.
 
@@ -156,11 +156,11 @@ $HOME/flutter-engine/sdk/sysroot
                     └── libstdc++.so -> ../../../aarch64-linux-gnu/libstdc++.so.6
 ```
 
-# Host(Linux x86_64)
+## Host(Linux x86_64)
 
-## Clang installation
+### Clang installation
 
-### Clang and LLVM
+#### Clang and LLVM
 
 ```shell
 git clone --branch=llvmorg-11.1.0 --depth=1 \
@@ -223,7 +223,7 @@ cmake --build build_llvm \
 && sudo cmake --install build_llvm
 ```
 
-### binutils-gdb
+#### binutils-gdb
 
 ```shell
 git clone --depth=1 git://sourceware.org/git/binutils-gdb.git \
@@ -272,7 +272,7 @@ make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
 && sudo make install
 ```
 
-### libcxxabi and libcxx
+#### libcxxabi and libcxx
 
 `libcxx` is statically linked to the engine for minimal dependencies.
 
@@ -418,7 +418,7 @@ cmake --build build_libcxx \
 && sudo cmake --install build_libcxx
 ```
 
-## depot_tools
+### depot_tools
 
 ```shell
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git \
@@ -429,7 +429,7 @@ git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git \
 export PATH=$PATH:$HOME/flutter-engine/depot_tools
 ```
 
-## flutter-engine
+### flutter-engine
 
 Ref: [https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment](https://github.com/flutter/flutter/wiki/Setting-up-the-Engine-development-environment)
 
@@ -452,7 +452,7 @@ echo 'solutions = [
 && gclient sync -D
 ```
 
-### Select engine revision
+#### Select engine revision
 
 ```shell
 cd $HOME/flutter-engine/engine/src/flutter \
@@ -473,7 +473,7 @@ git checkout <engine revision>
 gclient sync -D
 ```
 
-### Dependencies
+#### Dependencies
 
 ```shell
 cd $HOME/flutter-engine/engine/src \
@@ -488,7 +488,7 @@ sudo ./build/install-build-deps.sh
 sudo ./flutter/build/install-build-deps-linux-desktop.sh
 ```
 
-### Build
+#### Build
 
 ```shell
 cd $HOME/flutter-engine/engine/src

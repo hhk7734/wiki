@@ -10,11 +10,11 @@ keywords:
   - ppa
 ---
 
-# OpenPGP keys
+## OpenPGP keys
 
 Ref: [https://help.ubuntu.com/community/GnuPrivacyGuardHowto](https://help.ubuntu.com/community/GnuPrivacyGuardHowto)
 
-## Generating key
+### Generating key
 
 ```shell {1}
 $ gpg --gen-key
@@ -36,7 +36,7 @@ sub   rsa3072 2019-09-08 [E] [expires: 2021-09-07]
 gpg --send-keys --keyserver keyserver.ubuntu.com YYYYYYYY
 ```
 
-## Importing key
+### Importing key
 
 ```shell {1}
 $ gpg --fingerprint
@@ -54,21 +54,21 @@ sub   rsa3072 2019-09-08 [E] [expires: 2021-09-07]
 Fingerprint: XXXX XXXX XXXX XXXX XXXX XXXX XXXX XXXX YYYY YYYY
 ```
 
-# PPA
+## PPA
 
 [https://launchpad.net/](https://launchpad.net/) -> your page
 
 **Create a new PPA** 버튼을 누르거나, 기존 PPA를 선택합니다.
 
-## Setting processors
+### Setting processors
 
 **Change details**에 들어가서 PPA에 맞는 프로세서를 선택 후 저장합니다.
 
-## Import
+### Import
 
 [https://code.launchpad.net/](https://code.launchpad.net/) -> Code -> Import your project
 
-## Recipes
+### Recipes
 
 Ref: [https://help.launchpad.net/Packaging/SourceBuilds/Recipes](https://help.launchpad.net/Packaging/SourceBuilds/Recipes)
 
@@ -78,20 +78,20 @@ Ref: [https://help.launchpad.net/Packaging/SourceBuilds/Recipes](https://help.la
 
 **Create packaging recipe** 버튼을 누르거나 기존 recipe를 선택합니다.
 
-### Edit recipe -> Recipe text
+#### Edit recipe -> Recipe text
 
 ```text
 # git-build-recipe format 0.4 deb-version {debversion}~{revtime}
 xxx [branch 명]
 ```
 
-### Requesting build
+#### Requesting build
 
 **Requesting build** 버튼을 누르면 Recipe text와 레포지토리의 debian 디렉토리를 참고하여 빌드 요청을 하게 됩니다. 작업 순서에 따라 몇시간 후에 진행될 수 있습니다.
 
 빌드가 끝나면 검토 후 자동으로 ppa에 등록됩니다.
 
-## PPA registration
+### PPA registration
 
 아래 명령어를 통해 PPA를 등록할 수 있습니다.
 

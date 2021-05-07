@@ -15,7 +15,7 @@ keywords:
 avrdude -p<partno> -c<programmer-id> -U efuse:r:-:b -U hfuse:r:-:b -U lfuse:r:-:b -U lock:r:-:b
 ```
 
-# Lock bits
+## Lock bits
 
 Lock bits는 프로그래머를 통해 메모리에 접근하는 것을 보호하는 설정에 대한 비트입니다.
 
@@ -29,25 +29,25 @@ Lock bits에 0 쓰는 것은 자유롭지만 1 을 쓰기 위해서는 칩을 �
 avrdude -p<partno> -c<programmer-id> -U efuse:w:[0bxxxxxxxx]:m
 ```
 
-# Fuse bits
+## Fuse bits
 
 Fuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.
 
 기능에 해당하는 비트를 0 으로 설정하면 활성화되고 1 로 설정하면 비활성화 됩니다.
 
-## Extended Fuse bits
+### Extended Fuse bits
 
 ```shell
 avrdude -p<partno> -c<programmer-id> -U efuse:w:[0bxxxxxxxx]:m
 ```
 
-## Fuse High bits
+### Fuse High bits
 
 ```shell
 avrdude -p<partno> -c<programmer-id> -U hfuse:w:[0bxxxxxxxx]:m
 ```
 
-## Fuse Low bits
+### Fuse Low bits
 
 ```shell
 avrdude -p<partno> -c<programmer-id> -U lfuse:w:[0bxxxxxxxx]:m

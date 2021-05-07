@@ -8,12 +8,12 @@ keywords:
   - ESP8266
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Pin-out
+## Pin-out
 
 <center>
-  <img src={useBaseUrl("img/mcu/espressif/esp8266-esp-01-pinout.png")} />
+  <img src={useBaseUrl('img/mcu/espressif/esp8266-esp-01-pinout.png')} />
 </center>
 
 | Pin   |                         |                       |
@@ -27,16 +27,16 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 | GPIO0 | GPIO0 - SPI_CS2         | 부트 옵션 설정        |
 | GPIO2 | GPIO2 - I2C_SDA         | 부트 옵션 설정        |
 
-# Boot options
+## Boot options
 
 | GPIO0 | GPIO2 | MODE  |           |
 | ----- | ----- | ----- | --------- |
 | L     | H     | UART  |           |
 | H     | H     | Flash | SPI flash |
 
-# AT
+## AT
 
-## AT format
+### AT format
 
 | 타입        | 명령어 형식    |                                       |
 | ----------- | -------------- | ------------------------------------- |
@@ -50,7 +50,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - 명령어는 대문자로 구성되어 있으며, 마지막에 <strong>CR(\r) LF(\n)</strong>을 붙여야 합니다.
 - \_CUR 명령어는 설정이 Flash에 저장되지 않고, \_DEF 명령어는 설정이 Flash에 저장됩니다.
 
-## AT basic commands
+### AT basic commands
 
 ```shell
 AT
@@ -95,7 +95,7 @@ AT+UART_DEF=<baudrate>,<databits>,<stopbits>,<parity>,<flow control>
 - @param `<parity>` ‣ 0: None ‣ 1: Odd ‣ 2: Even, 기본 0
 - @param `<flow control>` ‣ 0: not enabled ‣ 1: enable RTS ‣ 2: enable CTS ‣ 3: enable both RTS and CTS, 기본 0
 
-## Wi-Fi AT 명령어
+### Wi-Fi AT 명령어
 
 ```shell
 AT+CWMODE_CUR=<mode>
@@ -149,7 +149,7 @@ AT+CIPAP_DEF=<ip>[,<gateway>,<netmask>]
 - @param `<gateway>` AP gateway, 문자열
 - @param `<netmask>` AP netmask, 문자열
 
-## TCP/IP AT 명령어
+### TCP/IP AT 명령어
 
 ```shell
 AT+CIPSTATUS
@@ -265,7 +265,7 @@ AT+CIPDINFO=<mode>
 - @param `<remote port>` 접속한 포트 반환, 접속 정보 반환 설정(AT+CIPDINFO=1) 시 반환
 - @param `<data>` 수신된 데이터
 
-## HTTP GET
+### HTTP GET
 
 ```shell
 AT+CWMODE_DEF=1\r\n
@@ -279,7 +279,7 @@ HOST: xxx.xxx\r\n
 \r\n\r\n
 ```
 
-## HTTP POST
+### HTTP POST
 
 ```shell
 AT+CWMODE_DEF=1\r\n

@@ -8,7 +8,7 @@ keywords:
   - I2C
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 clock에 맞춰 데이터를 보내기 위한 **SDA**으로 구성되어 있습니다. 통신을 주도하는 master가 있고, master의 명령에 따라 데이터를 송수신하는 slave가 있습니다.
 
@@ -19,12 +19,12 @@ SDA, SCL 선은 아래 그림처럼 Pull-up저항을 연결해야 합니다.
 :::
 
 <center>
-  <img src={useBaseUrl("img/mcu/avr/avr-i2c-bus-interconnection.png")} />
+  <img src={useBaseUrl('img/mcu/avr/avr-i2c-bus-interconnection.png')} />
 </center>
 
 주소 데이터는 slave 주소 7 비트와 read/write 1 비트로 구성되어 있습니다.(10 비트 주소를 갖는 경우도 있습니다.) R/W 비트가 1 이면 slave -> master, 0 이면 master -> slave 방향으로 데이터가 전송됩니다.
 
-# Abbreviation
+## Abbreviation
 
 - **S**: Start condition
 - **Rs**: Repeated start condition
@@ -36,9 +36,9 @@ SDA, SCL 선은 아래 그림처럼 Pull-up저항을 연결해야 합니다.
 - **P**: stoP condition
 - **SLA**: SLave Adress
 
-# Master 모드
+## Master 모드
 
-## master -> slave
+### master -> slave
 
 통신 순서는 **S -> SLA + W -> Data -> ... -> P** 입니다. ...은 여러 개의 데이터를 의미합니다.
 
@@ -62,7 +62,7 @@ slave의 레지스터 주소를 보낼 때는 주소를 하나의 Data라고 생
   - `TWCR` 레지스터에 `TWINT`, `TWSTO`, `TWEN` 비트를 1 로 설정합니다.
   - STOP 신호는 `TWINT` 비트가 1인지 확인하지 않습니다.
 
-## slave -> master
+### slave -> master
 
 통신 순서는 **S -> SLA + R -> Data -> ... -> P** 입니다.
 
@@ -81,7 +81,7 @@ slave에서 읽고싶은 값의 레지스터 주소를 SLRA라고 한다면 데�
   - 마지막 데이터를 읽는 경우는 `TWINT`, `TWEN` 비트만 1 로 설정합니다.
   - `TWDR` 레지스터의 값을 읽습니다.
 
-# 통신 오류
+## 통신 오류
 
 통신을 할 때, `TWCR` 레지스터의 `TWINT` 비트가 1 이 되지 않는 경우 통신이 실패했다는 것을 의미합니다.
 

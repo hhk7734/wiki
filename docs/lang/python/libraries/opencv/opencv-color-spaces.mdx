@@ -9,7 +9,7 @@ keywords:
   - color spaces
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
 
@@ -33,7 +33,7 @@ cv.imshow('red', image)
 cv.waitKey()
 ```
 
-# BGR
+## BGR
 
 ```python
 import cv2 as cv
@@ -48,11 +48,11 @@ cv.waitKey()
 
 <center>
   <img
-    src={useBaseUrl("img/lang/python/libraries/opencv/opencv-color-bgr.png")}
+    src={useBaseUrl('img/lang/python/libraries/opencv/opencv-color-bgr.png')}
   />
 </center>
 
-# Grayscale
+## Grayscale
 
 ```python
 import cv2 as cv
@@ -67,11 +67,11 @@ cv.waitKey()
 
 <center>
   <img
-    src={useBaseUrl("img/lang/python/libraries/opencv/opencv-color-gray.png")}
+    src={useBaseUrl('img/lang/python/libraries/opencv/opencv-color-gray.png')}
   />
 </center>
 
-# RGB, HSV, HSL 색 공간
+## RGB, HSV, HSL 색 공간
 
 - Hue(색상) : 8 bits로 볼때 R=0(0$^{\circ}$), G=60(120$^{\circ}$), B=120(240$^{\circ}$)
 - Saturation(채도)
@@ -79,10 +79,10 @@ cv.waitKey()
 - Lightness(밝기)
 
 <center>
-  <img src={useBaseUrl("img/lang/python/libraries/opencv/opencv-color.png")} />
+  <img src={useBaseUrl('img/lang/python/libraries/opencv/opencv-color.png')} />
 </center>
 
-# 색 공간(color space) 변환
+## 색 공간(color space) 변환
 
 ```python
 dst = cv.cvtColor(src, code, dst=None, dstCn=0)

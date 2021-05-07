@@ -11,7 +11,7 @@ keywords:
 
 - flutter_bloc: 7.0.0
 
-# BlocBuilder
+## BlocBuilder
 
 새로운 state에 반응하여 위젯을 반환하는 빌더입니다. state 변화에 바뀌는 부분만 포함하는 것이 좋습니다.
 
@@ -31,11 +31,11 @@ BlocBuilder<BlocA, BlocAState>(
 - `buildWhen`: state 변화에 따라 `builder`를 호출하려면 `true`, 호출하지 않으려면 `false`를 반환하는 콜백을 설정할 수 있습니다.
 - `builder`: `state` 데이터에 따라 원하는 위젯을 반환하는 콜백을 설정합니다.
 
-# BlocProvider
+## BlocProvider
 
 child 포함 그 subtree에 있는 자식들에게 Bloc를 제공합니다. 대부분 상황에서 `create`를 사용하여 원하는 Bloc 객체를 생성하여 BlocProvider가 관리하게 합니다.
 
-## BlocProvider
+### BlocProvider
 
 ```dart
 BlocProvider(
@@ -61,7 +61,7 @@ BlocProvider.value(
 - `value`: 제공할 Bloc를 설정합니다.
 - `child`: 위젯을 설정합니다.
 
-## MultiBlocProvider
+### MultiBlocProvider
 
 MultiBlocProvider 사용시 `BlocProvider<BlocA>` 처럼 사용할 Bloc를 명시해줘야 합니다.
 
@@ -82,11 +82,11 @@ MultiBlocProvider(
 );
 ```
 
-# BlocListener
+## BlocListener
 
 BlocListener는 Bloc가 생성될때 방출하는 초기 상태에는 반응하지 않습니다. 라우팅, 스낵바, 다이얼로그 등 state 변화에 따라 다양한 기능을 구현할 수 있습니다.
 
-## BlocListener
+### BlocListener
 
 ```dart
 BlocListener<BlocA, BlocAState>(
@@ -106,7 +106,7 @@ BlocListener<BlocA, BlocAState>(
 - `listener`: `state` 데이터에 따라 원하는 기능을 수행하는 콜백을 설정합니다.
 - `child`: 위쳇을 설정합니다.
 
-## MultiBlocListener
+### MultiBlocListener
 
 ```dart
 MultiBlocListener(
@@ -125,11 +125,11 @@ MultiBlocListener(
 );
 ```
 
-# BlocConsumer
+## BlocConsumer
 
 `BlocListener`와 `BlocBuilder`를 한 번에 쓸 수 있게 합쳐 놓은 위젯입니다.
 
-# RepositoryProvider
+## RepositoryProvider
 
 `RepositoryProvider`는 `BlocProvider`와 유사하지만 Bloc 대신 Repository 객체를 subtree에 제공하며 관리는 하지 않습니다.
 

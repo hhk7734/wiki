@@ -6,7 +6,7 @@ keywords:
   - kernel
 ---
 
-# Toolchain
+## Toolchain
 
 Download: [https://www.linaro.org/downloads/](https://www.linaro.org/downloads/)
 
@@ -22,7 +22,7 @@ export CROSS_COMPILE=<prefix>-
 export ARCH=<architecture>
 ```
 
-# Building Linux kernel
+## Building Linux kernel
 
 If a customized repository exists for the board, clone or download it.
 
@@ -55,13 +55,13 @@ If the above command fails, check **arch/<arch\>/configs**. If not in arch/<arch
 make -j$(expr $(expr $(nproc) \* 6) \/ 5)
 ```
 
-# /lib/modules
+## /lib/modules
 
 ```shell
 sudo make modules_install ARCH=<architecture> INSTALL_MOD_PATH=/<path to>/rootfs && sync
 ```
 
-# BOOT
+## BOOT
 
 ```shell
 sudo cp arch/<architecture>/boot/<image> arch/<architecture>/boot/dts/<board>.dtb /<path to>/BOOT && sync

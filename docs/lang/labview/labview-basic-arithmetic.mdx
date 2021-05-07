@@ -8,22 +8,22 @@ keywords:
   - arithmetic
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 프로젝트 탐색기의 내 컴퓨터에 VI를 새로 만듭니다.
 
 프로젝트에 장치가 여러 개 존재할 수 있습니다. 만약 A, B, C 장치가 있을 때, **A에 VI를 만들면 그 VI는 A에서 실행**되고, **B에 만들면 B에서 실행**됩니다. 따라서 A, B에 각각 만든 VI는 개별적으로 실행되며, 서로 충돌하지 않습니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-add-vi.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-add-vi.gif')} />
 </center>
 
-# 간단한 연산 해보기
+## 간단한 연산 해보기
 
 VI가 생성되면 **Ctrl + T를 눌러 창을 나눕니다.** 프론트패널 팔레트에서 **숫자형 - 숫자형 컨트롤**을 선택하여 프론트패널 에 추가합니다. 자동으로 블록다이어그램에 숫자형 컨트롤 터미널이 생성된 것을 확인할 수 있습니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-num-control.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-num-control.gif')} />
 </center>
 
 블록다이어그램 팔레트에서 **숫자형 - 더하기**를 선택합니다. 다른 연산자를 선택해도 됩니다. 숫자형 컨트롤 터미널에 마우스 포인터를 올려 놓으면, 오른쪽에 보이는 화살표에 점이 생깁니다. 점을 클릭한 후 마우스 포인터를 이동시키면 마우스 포인터를 따라 와이어가 생깁니다.
@@ -31,31 +31,31 @@ VI가 생성되면 **Ctrl + T를 눌러 창을 나눕니다.** 프론트패널 �
 연산자 노드까지 마우스 포인터를 이동시키면 노드에 연결 가능한 점이 보입니다. 주로 왼쪽이 입력, 오른쪽이 출력이기 때문에 왼쪽에 연결시키면 됩니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-node-connection1.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-node-connection1.gif')} />
 </center>
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-node-connection2.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-node-connection2.gif')} />
 </center>
 
 프론트패널 팔레트에서 **숫자형 - 숫자형 인디케이터**를 선택하여 프론트패널에 추가합니다. 그리고 블록다이어그램에서 사칙 연산 노드와 와이어로 연결합니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-num-indicator.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-num-indicator.gif')} />
 </center>
 
 프론트패널에서 숫자형 컨트롤의 숫자를 바꿉니다. 그리고 **Ctrl + R**을 누르거나 왼쪽 상단의 실행버튼(화살표 모양)을 누르 면 연산결과가 숫자형 인디케이터에 표시되는 것을 확인할 수 있습니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labivew-execute-vi.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labivew-execute-vi.gif')} />
 </center>
 
-# 노드부터 만들기
+## 노드부터 만들기
 
 컨트롤과 인디케이터를 먼저 만들고 코드를 작성해나가는 것은 번거로운 작업이 될 수 있습니다. 하지만 **노드를 먼저 만들면 컨트롤과 인디케이터는 쉽게 만들 수 있습니다.**
 
 원하는 노드를 블록다이어그램에 배치합니다. 그리고 노드 위에 마우스 포인터를 올려놓으면 와이어를 연결할 수 있는 점들이 표시됩니다. 그 점을 오른쪽 클릭 후 **생성 - 컨트롤** 또는 **생성 - 인디케이터** 중에 맞는 것을 선택하면 기본 컨트롤 또는 인디케이터가 생성됩니다.
 
 <center>
-  <img src={useBaseUrl("img/lang/labview/labview-node-auto-create.gif")} />
+  <img src={useBaseUrl('img/lang/labview/labview-node-auto-create.gif')} />
 </center>

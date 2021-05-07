@@ -16,27 +16,27 @@ Ref
 
 매번하는 작업을 최대한 효율적으로 관리하고 실행하기 위해서 **Makefile**이라는 형식을 사용하고 **make**라는 명령을 사용합니다.
 
-# Installation
+## Installation
 
-## macOS
+### macOS
 
 xcode command line tools에 포함되어 있습니다.
 
-## Linux(debian)
+### Linux(debian)
 
 ```shell
 sudo apt install -y make
 ```
 
-## Windows
+### Windows
 
 Download: [http://gnuwin32.sourceforge.net/packages/make.htm](http://gnuwin32.sourceforge.net/packages/make.htm)
 
 **<path\>/bin**을 환경 변수의 Path에 등록합니다. 별도 수정 없이 설치했다면 **C:\Program Files (x86)\GnuWin32\bin**입니다.
 
-# Makefile
+## Makefile
 
-## Format
+### Format
 
 기본적인 Makefile의 형식은 아래와 같습니다.
 
@@ -86,7 +86,7 @@ gcc -c -Os -o test.o test.c
 gcc -o test.out test.o
 ```
 
-## Command
+### Command
 
 ```shell
 make [target] [VAR=VALUE]
@@ -96,7 +96,7 @@ make [target] [VAR=VALUE]
 
 **VAR=VALUE**를 추가적으로 정의해서 Makefile을 실행할 수도 있습니다.
 
-# Automatic Variables(자동 변수)
+## Automatic Variables(자동 변수)
 
 - `$@`: 타겟
 - `$<`: 첫 번째 의존성
@@ -118,7 +118,7 @@ test.out: test.o
 
 `$`의 사용방법을 정확히 알지 못한다면 사용을 피하는 것이 좋습니다.
 
-# Pre-defined Macro
+## Pre-defined Macro
 
 아래 명령어를 통해 Pre-defined Macro를 확인할 수 있습니다.
 
@@ -163,7 +163,7 @@ OUTPUT_OPTION = -o $@
     $(COMPILE.c) $(OUTPUT_OPTION) $<
 ```
 
-# clean
+## clean
 
 컴파일 과정에서 생기는 파일의 경우 지워야 하는 경우도 있습니다. 주로 **clean**이라는 타겟을 만들어 아래와 같이 사용하게 됩니다.
 
@@ -174,7 +174,7 @@ clean: ; rm -f test.o test.out
 
 .PHONY 타겟의 의존성으로 clean을 설정하면, 실제 파일의 유무나 변경과 관계없이 clean 타겟의 커맨드를 항상 실행시킬 수 있습니다.
 
-# Pattern Rules(패턴)
+## Pattern Rules(패턴)
 
 `%`를 사용하면 Makefile과 같은 폴더에 있는 파일 중 패턴이 있는 내용을 쉽게 작성할 수 있습니다.
 
@@ -191,7 +191,7 @@ bar.o: bar.c
     $(CC) $(CFLAGS) -c -o $@ $<
 ```
 
-## vpath
+### vpath
 
 - `vpath pattern directories`: %.c, %.h 등의 pattern을 찾기 위한 directories를 설정
 - `vpath pattern`: pattern을 찾기 위한 directories 목록을 비움
@@ -213,13 +213,13 @@ vpath %.c src lib/foo
     $(CC) $(CFLAGS) -c -o $@ $<
 ```
 
-# Function
+## Function
 
 x...은 띄어쓰기로 구분하여 나열된 여러 개의 x를 의미합니다. 함수의 결과가 여러 개인 경우에도 띄어쓰기로 구분되어 나열됩니다.
 
 예를 들어 x...은 x1 x2 x3가 될 수 있습니다.
 
-## wildcard
+### wildcard
 
 `$(wildcard pattern...)`는 Makefile과 같은 폴더에 있는 파일 중 **pattern**들에 해당하는 파일 명을 나열합니다.
 
@@ -237,7 +237,7 @@ OBJS  = main.o foo.o bar.o
 OBJS  = $(wildcard *.o)
 ```
 
-## (pat)subst
+### (pat)subst
 
 - `$(subst from,to,text)`: text에서 from을 찾아 to로 바꿉니다.
 - `$(patsubst pattern,replacement,text)`: text에서 pattern을 찾아 replacement로 바꿉니다.
@@ -256,7 +256,7 @@ SRCS  = $(wildcard *.c)
 OBJS  = $(patsubst %.c,%.o,$(SRCS))
 ```
 
-## add suffix,prefix
+### add suffix,prefix
 
 - `$(addsuffix suffix,names…)`
 - `$(addprefix prefix,names…)`
@@ -274,7 +274,7 @@ SRCS  = $(wildcard *.c)
 OBJS  = $(addprefix obj/,$(patsubst %.c,%.o,$(SRCS)))
 ```
 
-## foreach
+### foreach
 
 `$(foreach var,list,text)`는 **list**의 원소를 순차적으로 변수 **var**에 할당하여 **text**를 반복하는 함수입니다.
 
@@ -291,7 +291,7 @@ SRCS  = $(wildcard *.c)
 OBJS  = $(foreach src,$(SRCS),obj/$(patsubst %.c,%.o,$(src)))
 ```
 
-## call macro
+### call macro
 
 - `macro = $(1) $(2) ...`: call 함수를 통해 부를 수 있는 macro 입니다. \$(1)이 param1입니다.
 - `define macro = $(1) ... endif`: 여러 줄에 걸쳐 macro를 정의할 수 있습니다.

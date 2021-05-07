@@ -16,13 +16,13 @@ HW: ShieldBuddy TC275
 BaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLLD를 다운로드 받아 BaseSw를 교체해주시거나 필요한 라이브러리만 추가해주시기 바랍니다.
 :::
 
-# Related header
+## Related header
 
 - `Ifx_Shell.h`: Shell functions.
 - `Ifx_Console.h`: Main Console module.
 - `Assert.h`: Assert functions.
 
-# Ifx_Shell_Command
+## Ifx_Shell_Command
 
 ```c
 typedef boolean (*Ifx_Shell_Call)(pchar args, void *data, IfxStdIf_DPipe *io);
@@ -37,7 +37,7 @@ typedef struct {
 } Ifx_Shell_Command;
 ```
 
-# Examples
+## Examples
 
 :::info
 폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.
@@ -53,7 +53,7 @@ typedef struct {
 #define IFX_INTPRIO_ASCLIN3_ER 3
 ```
 
-## 0_Src/AppSw/Tricore/TC27D_lib/shell_interface/shell_interface.h
+### 0_Src/AppSw/Tricore/TC27D_lib/shell_interface/shell_interface.h
 
 ```c
 #pragma once
@@ -83,7 +83,7 @@ void shell_init(void);
 void shell_run(void);
 ```
 
-## 0_Src/AppSw/Tricore/TC27D_lib/shell_interface/shell_interface.c
+### 0_Src/AppSw/Tricore/TC27D_lib/shell_interface/shell_interface.c
 
 ```c
 #include "Assert.h"

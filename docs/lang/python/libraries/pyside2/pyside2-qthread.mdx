@@ -9,9 +9,9 @@ keywords:
   - QThread
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Evenv loop
+## Evenv loop
 
 > Being an event-driven toolkit, events and event delivery play a central role in Qt architecture.
 
@@ -47,9 +47,9 @@ while isRunning:
 
 따라서 처리할 시간이 많이 필요하더라도 메인 이벤트 루프로 빨리 돌아갈 수 있도록 코드를 작성해야합니다.
 
-# Forcing event dispatching
+## Forcing event dispatching
 
-## QCoreApplication::processEvents()
+### QCoreApplication::processEvents()
 
 시간이 오래 걸릴 것으로 예상되는 작업이 있다면, `QCoreApplication::processEvents()`를 작업 중간에 호출하여 작업을 중단하고 다른 이벤트가 있는 지 확인 후 끝내고 돌아와서 중단 지점 부터 작업을 처리하는 방식으로 일을 처리할 수 있습니다.
 
@@ -57,13 +57,13 @@ while isRunning:
 `processEvent()`를 통해 이벤트 루프에 진입했을 때, `processEvent()`를 포함한 이벤트를 호출하면 문제가 발생할 수 있습니다. `QEventLoop::ExcludeUserInputEvents` 등을 사용하여 발생할 수 있는 문제를 피해야 합니다.
 :::
 
-## QEventLoop::exec()
+### QEventLoop::exec()
 
 논블록킹 API의 경우 순차적으로 일을 처리해야할 때, 작업은 없지만 기타 이유로 시간 지연이 필요한 경우가 있습니다. A 일이 끝난 후 B 일을 해야할 때, A 일이 끝나는 시그널을 `QEventLoop::quit()` 슬롯에 연결한 후 `QEventLoop::exec()`를 통해 강제로 이벤트 루프로 재진입하는 방법이 있습니다.
 
 이 방법을 사용하면 A 가 끝나는 것을 기다리는 동안 들어오는 이벤트를 처리하고 끝나면 바로 B를 처리할 수 있도록 만들 수 있습니다.
 
-# QThread
+## QThread
 
 **Forcing event dispatching** 방법을 적용하기 어려운 경우 쓰레드를 추가하여 처리 시간이 길 것으로 예상되는 이벤트 처리는 추가된 쓰레드에 맡기고, 이벤트 루프로 돌아가서 다른 이벤트들을 처리하는 방법이 있습니다.
 
@@ -71,7 +71,7 @@ while isRunning:
 Python의 GIL로 인해 메인 쓰레드 외에 QThread에서 `QThread.msleep` 없이 연속적인 연산이 이어지는 경우 메인 쓰레드가 블록킹 당할 수 있습니다.
 :::
 
-## QThread와 QObject
+### QThread와 QObject
 
 > Reentrant(재진입) : A class is reentrant if it's safe to use its instances from more than one thread, provided that at most one thread is accessing the same instance at the same time. A function is reentrant if it's safe to invoke it from more than one thread at the same, provided that each invocation references unique data. In other words, this means that users of that class/function must serialize all accesses to instances/shared data by means of some external locking mechanism.
 
@@ -95,7 +95,7 @@ Python의 GIL로 인해 메인 쓰레드 외에 QThread에서 `QThread.msleep` �
 
 `QThread` 객체를 할당해제하기 전에 내부에 살아가는 모든 객체가 먼저 사라져야 합니다. 이는 `QThread::run()` 의 스택에서 해당 쓰레드에 살아가는 모든 객체를 생성하면 쉽게 구현할 수 있습니다.
 
-## 쓰레드간의 시그널과 슬롯
+### 쓰레드간의 시그널과 슬롯
 
 - `direct connection` : 시그널이 발생된 쓰레드에서 직접 슬롯을 호출
 - `queued connection` : 수신측 쓰레드의 이벤트 큐에 이벤트가 추가되고, 나중에 이벤트 루프에서 빠질 때 슬롯 호출
@@ -105,7 +105,7 @@ Python의 GIL로 인해 메인 쓰레드 외에 QThread에서 `QThread.msleep` �
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/pyside2/pyside2-qthread-loop-diagram.png"
+      'img/lang/python/libraries/pyside2/pyside2-qthread-loop-diagram.png'
     )}
   />
 </center>
@@ -124,7 +124,7 @@ A의 시그널이나 슬롯은 Main 또는 A event loop 어디에서나 실행�
 
 Main의 슬롯과 A의 시그널을 연결했을 때, A의 시그널이 파란 원에서 발생하면 direct, 주황 원에서 발생하면 queued가 됩니다.
 
-## 기타
+### 기타
 
 `QThread::terminate` 사용은 피하는 것이 좋습니다. 코드가 실행되는 중에 중단되기 때문에 문제가 발생할 수 있습니다. 꼭 필요한 경우에만 사용할 것을 권장합니다.
 
@@ -132,7 +132,7 @@ Main의 슬롯과 A의 시그널을 연결했을 때, A의 시그널이 파란 �
 
 쓰레드가 구동 중일 때, 쓰레드 객체를 파괴하면 안됩니다. **`QThread::finished()` 시그널을 `QObject::deleteLater()` 슬롯과 연결**하여 쓰레드가 끝났을 때, 자동으로 파괴도도록 설계해야합니다.
 
-# Examples
+## Examples
 
 QT에서 의도하지 않은 사용방법일 수 있습니다. 추후 검토해서 수정하겠습니다.
 
@@ -218,7 +218,7 @@ if __name__ == "__main__":
     sys.exit(app_return)
 ```
 
-# Reference
+## Reference
 
 - [https://wiki.qt.io/Threads_Events_QObjects](https://wiki.qt.io/Threads_Events_QObjects)
 - [https://doc.qt.io/qtforpython/PySide2/QtCore/QThread.html](https://doc.qt.io/qtforpython/PySide2/QtCore/QThread.html)

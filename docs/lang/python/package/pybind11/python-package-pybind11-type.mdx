@@ -10,7 +10,7 @@ keywords:
   - Type
 ---
 
-# Custom type caster
+## Custom type caster
 
 Ref: [https://pybind11.readthedocs.io/en/stable/advanced/cast/custom.html](https://pybind11.readthedocs.io/en/stable/advanced/cast/custom.html)
 
@@ -63,11 +63,11 @@ namespace detail {
 }    // namespace pybind11
 ```
 
-# Class member function type casting
+## Class member function type casting
 
 Use ClassWrapper or lambda function that has class as the first parameter.
 
-## Example
+### Example
 
 ```cpp
 /*
@@ -105,11 +105,11 @@ py::class_<lot::Uart>(m, "Uart")
     });
 ```
 
-# Class member lambda arguments
+## Class member lambda arguments
 
 Register variables in order except self.
 
-## Example
+### Example
 
 ```cpp
     .def(

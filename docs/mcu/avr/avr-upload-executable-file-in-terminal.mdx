@@ -9,39 +9,39 @@ keywords:
   - upload
 ---
 
-# Installation
+## Installation
 
-## macOS
+### macOS
 
 ```shell
 brew install avrdude
 ```
 
-## Linux(debian)
+### Linux(debian)
 
 ```shell
 sudo apt-get install -y avrdude
 ```
 
-## Windows
+### Windows
 
 Download: [http://download.savannah.gnu.org/releases/avrdude/](http://download.savannah.gnu.org/releases/avrdude/)
 
 **.zip**파일을 받으시고 원하는 위치에 압축을 푼 뒤, 환경 변수의 Path에 해당 디렉토리를 등록하면 됩니다.
 
-# Programmer
+## Programmer
 
 Atmel-ICE, USBtoUART, stk500 등을 사용할 수 있습니다.
 
-## USB to UART
+### USB to UART
 
-### CH340G 드라이버
+#### CH340G 드라이버
 
-#### macOS
+##### macOS
 
 Download: [http://www.wch.cn/download/CH341SER_MAC_ZIP.html](http://www.wch.cn/download/CH341SER_MAC_ZIP.html)
 
-#### Linux(debian)
+##### Linux(debian)
 
 **USB to UART 를 사용하는 경우** ttyUSBx의 소유권이 root에게 있고 그룹이 dialout이기 때문에 **권한 문제가 발생할 수 있습니다.** 아래 명령어를 사용하여 사용자를 dialout 그룹에 추가시켜 주면 됩니다.
 
@@ -61,31 +61,31 @@ sudo make load
 
 `make` 할 때, error가 출력되면 ch34x.c 에 `#include <linux/sched/signal.h>`를 추가하고 `wait_queue_t를`wait_queue_entry_t`로 수정한 뒤, 다시 make를 시도해보시기 바랍니다.
 
-#### Windows
+##### Windows
 
 Download: [http://wch.cn/downloads/CH341SER_ZIP.html](http://wch.cn/downloads/CH341SER_ZIP.html)
 
-### FTDI 드라이버 설치
+#### FTDI 드라이버 설치
 
-#### Linux(debian)
+##### Linux(debian)
 
 Ubuntu 11.10 이후 버전에서는 FTDI 드라이버가 커널에 통합되어 있습니다.
 
-#### macOS, Windows
+##### macOS, Windows
 
 Download: [https://www.ftdichip.com/Drivers/VCP.htm](https://www.ftdichip.com/Drivers/VCP.htm)
 
-### CP2102 드라이버 설치
+#### CP2102 드라이버 설치
 
-#### Linux(debian)
+##### Linux(debian)
 
 Linux 3.x.x와 Linux 4.x.x 버전에서는 CP2102 드라이버가 커널에 통합되어 있습니다. Ubuntu 기준 11.10 ~ 18.04 LTS로 확인 됩니다.
 
-#### macOS, Windows
+##### macOS, Windows
 
 Download: [https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers](https://www.silabs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers)
 
-# Upload
+## Upload
 
 업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.
 
@@ -95,7 +95,7 @@ avr-objcopy는 binutils-avr에 포함되어 있는 오브젝트 파일을 복사
 avr-objcopy -j .text -j .data -O ihex <elf file> <hex file>
 ```
 
-## avrdude
+### avrdude
 
 Ref: [https://nongnu.org/avrdude/user-manual/avrdude_4.html#Option-Descriptions](https://nongnu.org/avrdude/user-manual/avrdude_4.html#Option-Descriptions)
 
@@ -116,7 +116,7 @@ avrdude는 프로그래머를 사용하여 AVR MCU에 실행 파일을 업로드
   - .elf 파일 업로드: `-Uflash:w:[filename].elf:e`
   - .hex 파일 업로드: `-Uflash:w:[filename].hex:i`
 
-### stk500
+#### stk500
 
 (@todo stk500 사용시 ISP 클럭 설정 테스트 안됨.)
 
@@ -124,13 +124,13 @@ avrdude는 프로그래머를 사용하여 AVR MCU에 실행 파일을 업로드
 avrdude -p<partno> -cstk500 -P<port> -v -Uflash:w:<executable file>:e
 ```
 
-### avrispmkII
+#### avrispmkII
 
 ```shell
 avrdude -p<partno> -cavrispmkII -B0.5 -v -Uflash:w:<executable file>:e
 ```
 
-### arduino
+#### arduino
 
 nano의 경우 Old Bootloader를 사용하면 `-b57600`을 사용해야 합니다.
 
@@ -138,7 +138,7 @@ nano의 경우 Old Bootloader를 사용하면 `-b57600`을 사용해야 합니�
 avrdude -p<partno> -carduino -P<port> -b115200 -v -Uflash:w:<executable file>:e
 ```
 
-### atmelice_isp
+#### atmelice_isp
 
 (@todo atmelice_isp 사용시 ISP 클럭 설정 테스트 안됨.)
 
@@ -146,7 +146,7 @@ avrdude -p<partno> -carduino -P<port> -b115200 -v -Uflash:w:<executable file>:e
 avrdude -p<partno> -catmelice_isp -v -Uflash:w:<executable file>:e
 ```
 
-### USBasp
+#### USBasp
 
 ```shell
 avrdude -p<partno> -cusbasp -B3 -Pusb -v -Uflash:w:<executable>:e`

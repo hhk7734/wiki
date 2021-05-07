@@ -7,7 +7,7 @@ keywords:
   - shell script
 ---
 
-# Basic script
+## Basic script
 
 ```shell
 #!/bin/sh
@@ -18,7 +18,7 @@ keywords:
 echo "shell script"
 ```
 
-# Exit
+## Exit
 
 ```shell
 # 스크립트 종료
@@ -31,13 +31,13 @@ exit
 exit 1
 ```
 
-# Shellcheck
+## Shellcheck
 
 ```shell
 sudo apt install -y shellcheck
 ```
 
-# Variables
+## Variables
 
 ```shell
 # str1 = hello 안됨
@@ -60,13 +60,13 @@ echo ${str2}!!
 shell script는 공백 사용에 주의해야 합니다.
 :::
 
-## Reserved Variable
+### Reserved Variable
 
 - `$HOME`: 사용자 홈 디렉토리
 - `$PATH`: 실행 파일 경로
 - `$EUID`: Effective User ID
 
-# Commands
+## Commands
 
 터미널에서 사용하던 커맨드를 모두 사용할 수 있습니다.
 
@@ -78,7 +78,7 @@ echo "hi"
 stdout=$(command)
 ```
 
-# Functions
+## Functions
 
 ```shell
 sample_func() {
@@ -96,7 +96,7 @@ sample_func arg1 arg2 arg3 ...
 echo $?
 ```
 
-## Special parameters
+### Special parameters
 
 - `$0`: 스크립트 이름
 - `$n`: n번째 인자
@@ -105,7 +105,7 @@ echo $?
 - `$#`: 인자 개수
 - `$?`: 스크립트에서 최근 실행된 명령어, 함수, 자식 스크립트 종료 상태
 
-# if 문
+## if 문
 
 ```shell
 if [ conditional expression ]; then
@@ -149,9 +149,9 @@ then
 fi
 ```
 
-# Conditional expressions
+## Conditional expressions
 
-## Relation
+### Relation
 
 - `$num1 -eq $num2`: `num1 == num2`
 - `$num1 -ne $num2`: `num1 != num2`
@@ -160,14 +160,14 @@ fi
 - `$num1 -lt $num2`: `num1 < num2`
 - `$num1 -le $num2`: `num1 < = num2`
 
-## String
+### String
 
 - `"$str1" = "$str2"`: 문자열이 같으면 true
 - `"$str1" != "$str2"`: 문자열이 다른면 true
 - `-z "$str"`: 빈 문자열이면 true
 - `-n "$str"`: 빈 문자열이 아니면 true
 
-## File test
+### File test
 
 - `-e file`: 파일이 존재하면 true
 - `-d directory`: 디렉토리가 존재하면 true
@@ -175,11 +175,11 @@ fi
 - `-w file`
 - `-x file`
 
-## Boolean
+### Boolean
 
 - `! expression`: 조건이 거짓이면 true
 
-## Return 0
+### Return 0
 
 ```shell
 #!/bin/sh
@@ -193,7 +193,7 @@ if a; then
 fi
 ```
 
-# while 문
+## while 문
 
 ```shell
 while [ conditional expression ]; do
@@ -201,7 +201,7 @@ while [ conditional expression ]; do
 done
 ```
 
-# for 문
+## for 문
 
 ```shell
 for i in one two three; do
@@ -224,7 +224,7 @@ for i in $(seq 1 2 10); do
 done
 ```
 
-# case 문
+## case 문
 
 ```shell
 case ${var} in
@@ -243,7 +243,7 @@ case ${var} in
 esac
 ```
 
-# Importing other scripts
+## Importing other scripts
 
 ```shell
 #!/bin/sh
@@ -262,7 +262,7 @@ sub_func() {
 sub_func
 ```
 
-# Arithmetic operations
+## Arithmetic operations
 
 ```shell
 $((expression))

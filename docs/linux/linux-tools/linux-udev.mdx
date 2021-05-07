@@ -6,7 +6,7 @@ keywords:
   - udev
 ---
 
-# udev
+## udev
 
 `udev` (userspace /dev) is a device manager for the Linux kernel.
 
@@ -14,7 +14,7 @@ keywords:
 
 Users can register custom rules in `/etc/udev/rules.d/`.
 
-# device info
+## device info
 
 If you want to know the information of `/dev/i2c-1`, run the below command.
 
@@ -24,7 +24,7 @@ udevadm info -ap $(udevadm info -q path -n /dev/i2c-1)
 
 The information displayed is useful for writing rules for the device.
 
-# xx-descriptive-name.rules
+## xx-descriptive-name.rules
 
 > Files should be named xx-descriptive-name.rules, the xx should be chosen first according to the following sequence points:
 >
@@ -38,7 +38,7 @@ The information displayed is useful for writing rules for the device.
 >
 > **>=90** rules that should run last
 
-# Example
+## Example
 
 `/etc/udev/rules.d/50-gpio.rules`
 

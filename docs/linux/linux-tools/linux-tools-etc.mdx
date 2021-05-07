@@ -6,16 +6,16 @@ keywords:
   - Linux
 ---
 
-# clang-format
+## clang-format
 
-## Installation
+### Installation
 
 ```shell
 sudo apt install -y clang-format-9 \
 && sudo update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-9) 1
 ```
 
-## Option
+### Option
 
 [https://clang.llvm.org/docs/ClangFormatStyleOptions.html](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
 
@@ -23,15 +23,15 @@ sudo apt install -y clang-format-9 \
 wget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format
 ```
 
-## Usage
+### Usage
 
 ```shell
 clang-format -style=file -i -verbose [file]
 ```
 
-# User and Group
+## User and Group
 
-## User
+### User
 
 ```shell
 sudo useradd -m -s $SHELL <user>
@@ -64,13 +64,13 @@ sudo visudo
 # hhk7734 ALL=(ALL:ALL) NOPASSWD:SETENV: ALL
 ```
 
-## Group
+### Group
 
 ```shell
 sudo groupadd <group>
 ```
 
-# systemd service
+## systemd service
 
 시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.
 
@@ -82,7 +82,7 @@ sudo vim /etc/systemd/system/<service_name>.service
 sudo chmod +x /etc/systemd/system/<service_name>.service
 ```
 
-## <service_name\>.service
+### <service_name\>.service
 
 ```makefile
 [Unit]
@@ -119,7 +119,7 @@ WantedBy=default.target
 RequiredBy=
 ```
 
-## systemctl
+### systemctl
 
 ```shell
 sudo systemctl status <service_name>
@@ -145,7 +145,7 @@ sudo systemctl stop <service_name>
 sudo systemctl restart <service_name>
 ```
 
-# Zsh
+## Zsh
 
 ```shell
 sudo apt install -y git zsh curl \
@@ -201,7 +201,7 @@ Install `MesloLGS NF Regular.ttf`.
 p10k configure
 ```
 
-# Desktop Entry
+## Desktop Entry
 
 ```ini title="example.desktop"
 [Desktop Entry]

@@ -10,17 +10,17 @@ keywords:
   - Low-power
 ---
 
-# Overview
+## Overview
 
 HW: STM32L053
 
-## Power consumption range
+### Power consumption range
 
 - Range 1: VDD 1.71 ~ 3.6, CPU up to 32 MHz
 - Range 2: full VDD range, CPU up to 16 MHz
 - Range 3: full VDD range, CPU up to 4.2 MHz
 
-## Modes
+### Modes
 
 - `Sleep`
   - Only the CPU is stopped.
@@ -66,9 +66,9 @@ HW: STM32L053
 The RTC, the IWDG, and the corresponding clock sources **are not stopped automatically** by entering Stop or Standby mode.The LCD is not stopped automatically by entering Stop mode.
 :::
 
-# Standby with RTC Alarm
+## Standby with RTC Alarm
 
-## Pinout & Configuration
+### Pinout & Configuration
 
 - Timer
   - RTC
@@ -84,11 +84,11 @@ The RTC, the IWDG, and the corresponding clock sources **are not stopped automat
       - NVIC Settings
         - RTC global interrupt -> Enable
 
-## Clock Configuration
+### Clock Configuration
 
 Set RTC clock.
 
-## Example
+### Example
 
 ```cpp title="rtc.c"
 

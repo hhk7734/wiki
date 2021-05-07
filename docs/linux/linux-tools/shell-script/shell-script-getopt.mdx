@@ -17,7 +17,7 @@ $ script.sh a  b  c  d
              $@
 ```
 
-# getopts
+## getopts
 
 > **The getopts command is a POSIX Shell built-in command that retrieves options and option-arguments from a list of parameters.** An option begins with a - (minus sign) followed by a character. An option that does not begin with a - ends parsing. Each time the getopts command is invoked, it places the value of the next option in Name and the index of the next argument to be processed in the shell variable OPTIND. Whenever the shell is invoked, OPTIND is initialized to 1.
 
@@ -31,7 +31,7 @@ echo $OPTARG
 echo $OPTIND # index of next argument
 ```
 
-# getopt
+## getopt
 
 The disadvantage of `getopts` is that it
 
@@ -44,7 +44,7 @@ The disadvantage of `getopts` is that it
 getopt -o <shortOptString> -l <longOptString> -- <parameters>
 ```
 
-## shortOptString
+### shortOptString
 
 ```shell
 <option1>[:][<option2>[:]...]
@@ -52,7 +52,7 @@ getopt -o <shortOptString> -l <longOptString> -- <parameters>
 
 When parsing `-a -b`, shortOptString is `ab`. If `-a` option requires an argument, use `:` as in `a:b`. `getopt` parses `-a a_arg` and `-aa_arg` in the same way.
 
-### Example
+#### Example
 
 ```shell
 set -- -aa_arg -b asdf \
@@ -63,7 +63,7 @@ set -- -aa_arg -b asdf \
  -a 'a_arg' -b -- 'asdf'
 ```
 
-## longOptString
+### longOptString
 
 ```shell
 <option1>[:][,<option2>[:],...]
@@ -71,14 +71,14 @@ set -- -aa_arg -b asdf \
 
 When parsing `--foo --bar`, longOptString is `foo,bar`. If `--foo` option requires an argument, use `:` as in `foo:,bar`. `getopt` parses `--foo=arg` and `--foo arg` in the same way.
 
-### Example
+#### Example
 
 ```shell
 set -- --foo arg --bar \
 && getopt -o "" -l foo:,bar -- "$@"
 ```
 
-# Example script
+## Example script
 
 ```shell
 #!/bin/sh

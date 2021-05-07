@@ -11,7 +11,7 @@ keywords:
 #include <stdexcept>
 ```
 
-# Exception
+## Exception
 
 - `class logic_error;` - 논리적 사전 조건 위반과 같이 프로그램이 실행되기 전에 검색될 수 있는 오류를 보고하기 위해 발생하는 모든 예외
   - `class domain_error;` - 도메인 오류를 보고하기 위해 발생하는 모든 예외
@@ -37,7 +37,7 @@ class runtime_error : public exception {
 };
 ```
 
-# Exception specification
+## Exception specification
 
 ```cpp
 void func( void ) noexcept;
@@ -47,7 +47,7 @@ void func( void ) throw();
 
 위 선언 모두 해당 함수는 예외를 throw 하지 않는다는 선언입니다. `noexcept`를 권장합니다.
 
-# Custom exception
+## Custom exception
 
 ```cpp
 class custom_error : public std::exception
@@ -71,7 +71,7 @@ public:
 };
 ```
 
-# try, catch
+## try, catch
 
 ```cpp
 try

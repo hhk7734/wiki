@@ -8,7 +8,7 @@ keywords:
   - backup
 ---
 
-# Read disk and save .img.xz
+## Read disk and save .img.xz
 
 ```shell {1,8,15}
 $ sudo fdisk -l
@@ -96,7 +96,7 @@ sudo truncate -s 3782820352 clone.img
 sudo xz -vk -T$(($(nproc) - 2)) clone.img
 ```
 
-# Flash .img.xz to disk
+## Flash .img.xz to disk
 
 ```shell
 xz -dvk -T$(($(nproc) - 2)) clone.img.xz

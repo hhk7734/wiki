@@ -19,13 +19,13 @@ keywords:
 - Github: [https://github.com/hhk7734/python3-gpiod](https://github.com/hhk7734/python3-gpiod)
 - PyPI : [https://pypi.org/project/gpiod/](https://pypi.org/project/gpiod/)
 
-# Installation
+## Installation
 
 ```shell
 python3 -m pip install -U --user pip gpiod
 ```
 
-# Help command
+## Help command
 
 ```python
 >>> import gpiod
@@ -48,7 +48,7 @@ open(self, device, how:int=1)
         chip.open(0, chip.OPEN_BY_NUMBER)
 ```
 
-# Test command
+## Test command
 
 ```shell
 python3 -m gpiod.test.blink <chip> <line offset>
@@ -60,9 +60,9 @@ python3 -m gpiod.test.bulk_button <chip> <line offset> [<line offset2> ...]
     <[rising|falling|both]>
 ```
 
-# Python vs. C++
+## Python vs. C++
 
-## Python
+### Python
 
 ```python
 import gpiod
@@ -95,7 +95,7 @@ while True:
     time.sleep(0.1)
 ```
 
-## C++
+### C++
 
 ```cpp title="blink.cpp"
 #include <chrono>

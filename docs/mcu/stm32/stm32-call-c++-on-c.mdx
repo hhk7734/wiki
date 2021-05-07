@@ -10,7 +10,7 @@ keywords:
   - C/C++ mix
 ---
 
-# 네임 맹글링(Name Mangling)
+## 네임 맹글링(Name Mangling)
 
 > In compiler construction, name mangling (also called name decoration) is a technique used to solve various problems caused by the need to resolve unique names for programming entities in many modern programming languages.
 
@@ -20,7 +20,7 @@ keywords:
 
 C++은 링크과정에서 이런 문제를 해결하기 위해, C에서 링크 가능하게 컴파일 하라는 `extern "C"` 지시자를 지원합니다.
 
-# extern "C"
+## extern "C"
 
 C++에서 `extern "C"`를 사용하여 전역 변수나 함수를 **선언**하는 방식은 아래와 같습니다.
 
@@ -38,7 +38,7 @@ float      func();
 }
 ```
 
-# C에서 C++ 함수 호출
+## C에서 C++ 함수 호출
 
 C++의 모든 함수를 호출 할 수 있는 것은 아닙니다. C에서 사용할 함수는 C 스타일로 작성을 해야하고 C 컴파일러는 `extern "C"` 지시자를 해석할 수 없으므로 `__cplusplus` 매크로를 사용하여 가려야 합니다.
 
@@ -100,7 +100,7 @@ int main() {
 ...
 ```
 
-# C++에서 C 함수 호출
+## C++에서 C 함수 호출
 
 ```cpp title="main.cpp"
 extern "C" {

@@ -9,22 +9,22 @@ keywords:
   - pull request
 ---
 
-# 원하는 저장소 fork
+## 원하는 저장소 fork
 
 - 원하는 저장소에가서 fork
   `https://github.com/<owner>/<repository>`
 - fork된 저장소
   `https://github.com/<contributor>/<repository>`
 
-# fork된 저장소 clone
+## fork된 저장소 clone
 
 ```shell
 git clone https://github.com/<contributor>/<repository>
 ```
 
-# branch 관리
+## branch 관리
 
-## branch 확인
+### branch 확인
 
 ```shell
 git branch -a
@@ -36,19 +36,19 @@ git branch -a
   remotes/origin/master
 ```
 
-## branch 생성
+### branch 생성
 
 ```shell
 git checkout -b <new_branch> [<branch_to_copy>]
 ```
 
-## branch 변경
+### branch 변경
 
 ```shell
 git checkout <branch>
 ```
 
-# code 수정
+## code 수정
 
 ```shell
 git add <file>
@@ -62,7 +62,7 @@ git commit -m "<message>"
 git push origin <branch>
 ```
 
-# 원 저장소에 업데이트된 내용 local에 병합
+## 원 저장소에 업데이트된 내용 local에 병합
 
 ```shell
 git remote add upstream https://github.com/<owner>/<repository>
@@ -72,7 +72,7 @@ git remote add upstream https://github.com/<owner>/<repository>
 git pull upstream <branch>
 ```
 
-## conflict 파일이 있는 경우
+### conflict 파일이 있는 경우
 
 ```shell
 vim <conflict_file>
@@ -90,9 +90,9 @@ git commit
 git push origin <new_branch>
 ```
 
-# Pull Request
+## Pull Request
 
-# After PR complete
+## After PR complete
 
 fork된 저장소를 유지할 예정이라면 작업 중인 브랜치를 업데이트 합니다.
 

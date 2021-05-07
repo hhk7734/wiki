@@ -9,11 +9,11 @@ keywords:
   - histogram
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
 
-# 영상 히스토그램
+## 영상 히스토그램
 
 영상 히스토그램은 X 축 - 픽셀 값, Y 축 - 픽셀 수로 만든 그래프입니다.
 
@@ -63,13 +63,13 @@ plt.show()
 
 <center>
   <img
-    src={useBaseUrl("img/lang/python/libraries/opencv/opencv-histogram.png")}
+    src={useBaseUrl('img/lang/python/libraries/opencv/opencv-histogram.png')}
   />
 </center>
 
-# 이치화
+## 이치화
 
-## cv.threshold
+### cv.threshold
 
 ```python
 retval, dst = cv.threshold(src, thresh, maxval, type, dst=None)
@@ -105,7 +105,7 @@ plt.show()
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/opencv/opencv-histogram-otsu.png"
+      'img/lang/python/libraries/opencv/opencv-histogram-otsu.png'
     )}
   />
 </center>
@@ -113,12 +113,12 @@ plt.show()
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/opencv/opencv-histogram-otsu2.png"
+      'img/lang/python/libraries/opencv/opencv-histogram-otsu2.png'
     )}
   />
 </center>
 
-## cv.adaptiveThreshold
+### cv.adaptiveThreshold
 
 ```python
 dst = cv.adaptiveThreshold(src, maxValue, adaptiveMethod, thresholdType, blockSize, C, dst=None)
@@ -152,12 +152,12 @@ plt.show()
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/opencv/opencv-histogram-adaptive.png"
+      'img/lang/python/libraries/opencv/opencv-histogram-adaptive.png'
     )}
   />
 </center>
 
-# 평활화
+## 평활화
 
 ```python
 dst = cv.equalizeHist(src, dst=None)

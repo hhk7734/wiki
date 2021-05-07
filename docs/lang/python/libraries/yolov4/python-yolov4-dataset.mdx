@@ -2,22 +2,22 @@
 id: python-yolov4-dataset
 title: Dataset for YOLOv4
 sidebar_label: Dataset
-description:
+description: Dataset for YOLOv4
 keywords:
   - Neural Network
   - YOLOv4
   - dataset
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-# Dataset files and formats
+## Dataset files and formats
 
 - `class_id` is an integer greater than or equal to 0.
 - `center_x`, `center_y`, `width`and `height` are between 0.0 and 1.0.
 
-## converted-coco
+### converted-coco
 
 ```text title="image_path_and_bboxes.txt"
 <relative or full path>/image_0.jpg <class_id>,<center_x>,<center_y>,<width>,<height> <class_id>,<center_x>,<center_y>,<width>,<height> ...
@@ -37,7 +37,7 @@ import TabItem from "@theme/TabItem";
 
 Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
 
-## yolo
+### yolo
 
 ```text title="image_path.txt"
 <relative or full path>/image_0.jpg
@@ -66,9 +66,9 @@ Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](htt
 └── ...
 ```
 
-# Convert coco to custom dataset
+## Convert coco to custom dataset
 
-## COCO 2017 Dataset
+### COCO 2017 Dataset
 
 ```json
 {
@@ -129,7 +129,7 @@ Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](htt
 }
 ```
 
-## Create names file
+### Create names file
 
 Create a file with names you want to predict. The class name should be included in `categories` above.
 
@@ -142,7 +142,7 @@ aeroplane
 bus
 ```
 
-## Conversion script
+### Conversion script
 
 - 2020-10-16
 - OS: Ubuntu 20.04
@@ -247,7 +247,7 @@ with open(OUTPUT_FILE_PATH, "w") as fd:
         fd.write(data)
 ```
 
-## Dataset test script
+### Dataset test script
 
 <Tabs
     groupId="yolov4-version"

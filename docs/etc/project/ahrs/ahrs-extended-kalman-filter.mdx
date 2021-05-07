@@ -41,7 +41,7 @@ void ahrs_get_unit_vector(float *vector, uint16_t vector_size) {
 }
 ```
 
-# Predict
+## Predict
 
 $$
 x_k = q^0_k = \begin{bmatrix} q_x & q_y & q_z & q_w \end{bmatrix}^T
@@ -163,7 +163,7 @@ void ahrs_predict(float *half_delta_angle) {
 }
 ```
 
-# Update
+## Update
 
 $$
 {}^0a = \begin{bmatrix} 0 & 0 & g & 0 \end{bmatrix}^T
@@ -407,7 +407,7 @@ void ahrs_update(float *unit_acc, float *unit_acc_cross_mag) {
 }
 ```
 
-# Reference
+## Reference
 
 - Matthew Watson, Luke Seed, and Chee Hing Tan, 2013, “The Design and Implementation of a robust AHRS for Integration into a Quadrotor Platform.”, p.14 ~ p.34
 - Heikki Hyyiti, and Arto Visala, 2015, “A DCM Based Attitude Estimation Algorithm for Low-Cost MEMS IMUs”, p.4 ~ p.5

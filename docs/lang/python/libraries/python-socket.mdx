@@ -8,9 +8,9 @@ keywords:
   - socket
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# 네트워크 계층 (OSI, TCP/IP)
+## 네트워크 계층 (OSI, TCP/IP)
 
 네트워크 계층은 OSI 7 계층으로 이루어져 있고, 인터넷 사용 환경에서는 TCP/IP 4계층(또는 5계층)의 시각으로 바라볼 수 있습니다.
 
@@ -19,7 +19,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/socket/python-socket-osi-tcp-ip.jpg"
+      'img/lang/python/libraries/socket/python-socket-osi-tcp-ip.jpg'
     )}
   />
 </center>
@@ -29,7 +29,7 @@ Ref: [https://community.fs.com/blog/tcpip-vs-osi-whats-the-difference-between-th
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/socket/python-socket-osi-tcp-ip-2.jpg"
+      'img/lang/python/libraries/socket/python-socket-osi-tcp-ip-2.jpg'
     )}
   />
 </center>
@@ -46,11 +46,11 @@ Ref: [https://www.researchgate.net/figure/The-logical-mapping-between-OSI-basic-
 - `2 계층, Data link` : 1 계층에 의해 연결된 두 노드 사이의 신뢰성 있는 전송을 위한 계층
 - `1 계층, Physical` : 하드웨어 전송 기술로 구성된 계층
 
-# 소켓 통신
+## 소켓 통신
 
 소켓은 TCP/IP 모델에서 Application 계층과 Transport 계층 사이에서 네트워크 통신을 도와주는 인터페이스 입니다.
 
-# 함수 설명
+## 함수 설명
 
 ```python
 socket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)
@@ -119,7 +119,7 @@ socket.gethostname()
 
 - @return string 호스트 이름 반환
 
-# TCP, UDP
+## TCP, UDP
 
 | TCP(Transmission Control Protocol) | UDP(User Datagram Protocol) |
 | ---------------------------------- | --------------------------- |
@@ -131,14 +131,14 @@ socket.gethostname()
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/socket/python-socket-tcp-udp.jpg"
+      'img/lang/python/libraries/socket/python-socket-tcp-udp.jpg'
     )}
   />
 </center>
 
-# TCP server - client 기본 예제
+## TCP server - client 기본 예제
 
-## server
+### server
 
 ```python
 import socket
@@ -198,7 +198,7 @@ while True:
             break
 ```
 
-## client
+### client
 
 ```python
 import socket
@@ -246,9 +246,9 @@ while t.isAlive():
     time.sleep(1)
 ```
 
-# Bluetooth
+## Bluetooth
 
-## server
+### server
 
 ```python
 import socket
@@ -292,7 +292,7 @@ connected_socket.close()
 server_socket.close()
 ```
 
-## client
+### client
 
 ```python
 import socket
@@ -331,7 +331,7 @@ except:
 client_socket.close()
 ```
 
-# Reference
+## Reference
 
 - [https://docs.python.org/3/library/socket.html](https://docs.python.org/3/library/socket.html)
 - [https://en.wikipedia.org/wiki/OSI_model](https://en.wikipedia.org/wiki/OSI_model)

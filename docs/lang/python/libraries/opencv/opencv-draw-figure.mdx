@@ -9,11 +9,11 @@ keywords:
   - figure
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
 
-# Common options
+## Common options
 
 - @param **img**: np.ndarray
 - @param **color**: tuple (B, G, R)
@@ -25,7 +25,7 @@ Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
   - `cv.LINE_AA`
 - @param **shift**: int 모든 좌표를 (x, y) -> (x·2^(-shift), y·2^(-shift))로 변환
 
-# Line
+## Line
 
 ```python
 img = cv.arrowedLine(img, pt1, pt2, color, thickness=1, line_type=cv.LINE_8, shift=0, tipLength=0.1)
@@ -34,7 +34,7 @@ img = cv.line(img, pt1, pt2, color, thickness=1, lineType=cv.LINE_8, shift=0)
 
 - @param **pt1, pt2**: tuple (x, y) start, end
 
-# Rectangle
+## Rectangle
 
 ```python
 img = cv.rectangle(img, pt1, pt2, color, thickness=1, lineType=cv.LINE_8, shift=0)
@@ -42,7 +42,7 @@ img = cv.rectangle(img, pt1, pt2, color, thickness=1, lineType=cv.LINE_8, shift=
 
 - @param **pt1, pt2**: tuple (x, y) top-left, bottom-right
 
-# Polygone
+## Polygone
 
 ```python
 img = cv.polylines(img, pts, isClosed, color, thickness=1, lineType=cv.LINE_8, shift=0)
@@ -53,7 +53,7 @@ img = cv.fillPoly(img, pts, color, lineType=cv.LINE_8, shift=0, offset=(0,0))
 - @param **isClosed**: bool True : 시작점과 끝점 연결, False : 시작점과 끝점 연결 안함
 - @param **offset**: tuple (x, y)
 
-# Ellipse
+## Ellipse
 
 ```python
 img = cv.circle(img, center, radius, color, thickness=1, lineType=cv.LINE_8, shift=0)
@@ -73,11 +73,11 @@ pts = cv.ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta)
 
 <center>
   <img
-    src={useBaseUrl("img/lang/python/libraries/opencv/opencv-draw-ellipse.png")}
+    src={useBaseUrl('img/lang/python/libraries/opencv/opencv-draw-ellipse.png')}
   />
 </center>
 
-# Marker
+## Marker
 
 ```python
 img = cv.drawMarker(img, position, color, markerType=cv.MARKER_CROSS, markerSize=20, thickness=1, line_type=cv.LINE_8)
@@ -93,7 +93,7 @@ img = cv.drawMarker(img, position, color, markerType=cv.MARKER_CROSS, markerSize
   - `cv.MARKER_TRIANGLE_UP`
   - `cv.MARKER_TRIANGLE_DOWN`
 
-# Text
+## Text
 
 ```python
 img = cv.putText(img, text, org, fontFace, fontScale, color, thickness=1, lineType=cv.LINE_8, bottomLeftOrigin=False)

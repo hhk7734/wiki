@@ -8,9 +8,9 @@ keywords:
   - Derivative
 ---
 
-# Loss function
+## Loss function
 
-## Mean Square Error
+### Mean Square Error
 
 $$
 Loss = \dfrac{ 1 }{ 2 } \sum_i \left( y_i - a^L_i \right)^2
@@ -20,7 +20,7 @@ $$
 \dfrac{ \partial Loss }{ \partial a^L_i } = - \left( y_i - a^L_i \right)
 $$
 
-## Binary Cross-Entropy
+### Binary Cross-Entropy
 
 $$
 Loss = \sum_i \left[ -y_i \log a^L_i - (1 - y_i) \log \left( 1 - a^L_i \right) \right]
@@ -31,9 +31,9 @@ $$
 = \dfrac{ - \left( y_i - a^L_i \right)}{a^L_i \left( 1 - a^L_i \right) }
 $$
 
-# Activation
+## Activation
 
-## logistic
+### logistic
 
 $$
 a^l_i = \sigma ( z^l_i ) = logistic ( z^l_i ) = \dfrac{ 1 }{ 1 + e^{ -z^l_i } }

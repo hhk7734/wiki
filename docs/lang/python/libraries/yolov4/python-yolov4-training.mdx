@@ -10,11 +10,11 @@ keywords:
   - Colab
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Training Step
+## Training Step
 
 - 2020-10-15
 - Google Colab
@@ -22,13 +22,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - yolov4: v1.2.1
 - coco 2017 dataset
 
-## Installation
+### Installation
 
 ```python
 python3 -m pip install -U yolov4
 ```
 
-## Prepare dataset
+### Prepare dataset
 
 Usually, I create an image path related file using only image file names. Then, I make full path using `image_path_prefix` in `yolo.load_dataset()`.
 
@@ -88,7 +88,7 @@ train_data_set = yolo.load_dataset(
 
 </Tabs>
 
-## Set yolo parameters
+### Set yolo parameters
 
 <Tabs
     groupId="yolov4-version"
@@ -128,7 +128,7 @@ yolo.make_model()
 
 </Tabs>
 
-## Load pre-trained weights
+### Load pre-trained weights
 
 ```python
 yolo.load_weights(
@@ -137,7 +137,7 @@ yolo.load_weights(
 )
 ```
 
-## Freeze some layers
+### Freeze some layers
 
 ```python
 # Tested on v3 only
@@ -145,7 +145,7 @@ for i in range(29):
     yolo.model.get_layer(index=i).trainable = False
 ```
 
-## Set callbacks and Compile
+### Set callbacks and Compile
 
 <Tabs
     groupId="yolov4-version"
@@ -216,7 +216,7 @@ _callbacks = [
 
 </Tabs>
 
-## Call fit()
+### Call fit()
 
 <Tabs
     groupId="yolov4-version"
@@ -258,7 +258,7 @@ yolo.fit(
 
 </Tabs>
 
-## Full script
+### Full script
 
 <Tabs
     groupId="yolov4-version"
@@ -410,7 +410,7 @@ yolo.fit(
 
 </Tabs>
 
-# TensorBoard
+## TensorBoard
 
 ```shell
 tensorboard --logdir logs
@@ -419,7 +419,7 @@ tensorboard --logdir logs
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/yolov4/yolov4-training-tensorboard.png"
+      'img/lang/python/libraries/yolov4/yolov4-training-tensorboard.png'
     )}
   />
 </center>

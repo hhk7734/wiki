@@ -9,13 +9,13 @@ keywords:
   - boot process
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <center>
-  <img src={useBaseUrl("img/linux/linux-uboot/www-uefi-org.png")} />
+  <img src={useBaseUrl('img/linux/linux-uboot/www-uefi-org.png')} />
 </center>
 
-# BL1
+## BL1
 
 > This stage begins execution from the platform's reset vector in trusted ROM at EL3. BL1 code starts at `0x00000000` (trusted ROM) in the FVP memory map. The BL1 data section is placed at the start of trusted SRAM, `0x04000000`. The functionality implemented by this stage is as follows.
 
@@ -29,7 +29,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - BL1 passes control to the BL2 image at Secure EL1, starting from its load address
   - BL1 also passes information about the amount of trusted SRAM used and available for use. This information is populated at a platform-specific memory address
 
-# BL2
+## BL2
 
 > BL1 loads and passes control to BL2 at Secure-EL1. BL2 is linked against and loaded at a platform-specific base address (more information can be found later in this document). The functionality implemented by BL2 is as follows.
 
@@ -46,7 +46,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   - BL1 passes control to BL3-1 at the specified entrypoint at EL3
   - BL2 relies on BL3-1 to pass control to BL3-3 once secure state initialization is complete
 
-# BL3-1
+## BL3-1
 
 > The image for this stage is loaded by BL2 and BL1 passes control to BL3-1 at EL3. BL3-1 executes solely in trusted SRAM. BL3-1 is linked against and loaded at a platform-specific base address (more information can be found later in this document). The functionality implemented by BL3-1 is as follows.
 
@@ -81,15 +81,15 @@ Trusted ROM
 +----------+ 0x00000000
 ```
 
-# BL3-2
+## BL3-2
 
 Optional BL for Security.
 
-# BL3-3
+## BL3-3
 
 Boot software like u-boot.
 
-# Reference
+## Reference
 
 - [https://chromium.googlesource.com/external/github.com/ARM-software/arm-trusted-firmware/+/v0.4-rc1/docs/firmware-design.md](https://chromium.googlesource.com/external/github.com/ARM-software/arm-trusted-firmware/+/v0.4-rc1/docs/firmware-design.md)
 - [https://uefi.org/sites/default/files/resources/NXP_Capsule%20update%20with%20MM_Fall%202018%20Plugfest.pdf](https://uefi.org/sites/default/files/resources/NXP_Capsule%20update%20with%20MM_Fall%202018%20Plugfest.pdf)

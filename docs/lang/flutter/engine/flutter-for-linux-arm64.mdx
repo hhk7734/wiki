@@ -11,13 +11,13 @@ keywords:
   - linux
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
-# Native Build
+## Native Build
 
-## Target(Linux ARM/ARM64)
+### Target(Linux ARM/ARM64)
 
 ```shell
 git clone https://github.com/flutter/flutter.git $HOME/development/flutter
@@ -36,7 +36,7 @@ mkdir -p $HOME/development/flutter/bin/cache
 export PATH=$PATH:$HOME/development/flutter/bin
 ```
 
-## Host(Linux x86_64)
+### Host(Linux x86_64)
 
 :::info
 Read **[Build engine for linux-arm64](flutter-engine-for-linux-arm64.mdx#flutter-engine)** for `out/linux_<profile/release>_<arm/arm64>`
@@ -73,7 +73,7 @@ cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
 rsync -a dart-sdk  <target user>@<target ip>:~/development/flutter/bin/cache
 ```
 
-## Target(Linux ARM/ARM64)
+### Target(Linux ARM/ARM64)
 
 ```shell
 cp $HOME/development/flutter/bin/internal/engine.version \
@@ -142,7 +142,7 @@ Doctor summary (to see all details, run flutter doctor -v):
 flutter config --enable-linux-desktop
 ```
 
-## Host(Linux x86_64)
+### Host(Linux x86_64)
 
 <Tabs
     groupId="cpu-architecture"
@@ -261,14 +261,14 @@ rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
 
 </Tabs>
 
-## Target(Linux ARM/ARM64)
+### Target(Linux ARM/ARM64)
 
 ```shell
 flutter create sample \
 && cd sample
 ```
 
-### Run debug mode
+#### Run debug mode
 
 ```shell
 flutter run -d linux
@@ -276,11 +276,11 @@ flutter run -d linux
 
 <center>
   <img
-    src={useBaseUrl("img/lang/flutter/engine/flutter-run-d-linux-arm64.png")}
+    src={useBaseUrl('img/lang/flutter/engine/flutter-run-d-linux-arm64.png')}
   />
 </center>
 
-### Run release mode
+#### Run release mode
 
 ```shell
 flutter build linux
@@ -290,13 +290,13 @@ flutter build linux
 ./build/linux/release/bundle/sample
 ```
 
-### Build-troubleshoot
+#### Build-troubleshoot
 
 ```shell
 flutter build linux --verbose
 ```
 
-### Run Without Xwindow(On console mode)
+#### Run Without Xwindow(On console mode)
 
 ```shell
 xinit /path/to/sample/build/linux/release/bundle/sample

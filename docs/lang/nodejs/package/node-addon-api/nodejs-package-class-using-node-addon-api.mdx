@@ -32,7 +32,7 @@ Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/no
     └── <target>.cpp
 ```
 
-# binding.gyp
+## binding.gyp
 
 Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
 
@@ -54,9 +54,9 @@ Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https:/
 }
 ```
 
-# Wrapper
+## Wrapper
 
-## c_src/Class.h
+### c_src/Class.h
 
 ```cpp
 #pragma once
@@ -72,7 +72,7 @@ private:
 };
 ```
 
-## c_src/Class.cpp
+### c_src/Class.cpp
 
 ```cpp
 #include "Class.h"
@@ -88,7 +88,7 @@ double Class::add(double value) {
 }
 ```
 
-## c_src/ClassWrapper.h
+### c_src/ClassWrapper.h
 
 `InstanceMethod`로 등록 가능한 함수는 아래와 같습니다.
 
@@ -117,7 +117,7 @@ private:
 };
 ```
 
-## c_src/ClassWrapper.cpp
+### c_src/ClassWrapper.cpp
 
 ```cpp
 #include "ClassWrapper.h"
@@ -179,7 +179,7 @@ Napi::Value ClassWrapper::add(const Napi::CallbackInfo &info) {
 }
 ```
 
-## c_src/<target\>.cpp
+### c_src/<target\>.cpp
 
 ```cpp
 #include "ClassWrapper.h"
@@ -193,18 +193,18 @@ Napi::Object init_all(Napi::Env env, Napi::Object exports) {
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
 ```
 
-# Build
+## Build
 
 ```shell
 npm run build
 ```
 
-# test/test.js
+## test/test.js
 
 ```javascript
-const addon = require("../build/Release/<target>");
+const addon = require('../build/Release/<target>');
 
-console.log("wrapper info", addon);
+console.log('wrapper info', addon);
 
 const testClass = new addon.Class(10);
 

@@ -9,7 +9,7 @@ keywords:
   - build
 ---
 
-# Installtion
+## Installtion
 
 컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.
 
@@ -19,20 +19,20 @@ keywords:
 
 Download: [https://www.microchip.com/mplab/avr-support](https://www.microchip.com/mplab/avr-support)
 
-## macOS
+### macOS
 
 ```shell
 brew tap osx-cross/avr \
 && brew install avr-gcc
 ```
 
-## Linux(debian)
+### Linux(debian)
 
 ```shell
 sudo apt-get install -y binutils-avr gcc-avr avr-libc
 ```
 
-## Windows
+### Windows
 
 AVR 8-bit Toolchain for Windows를 다운 받습니다.
 
@@ -49,7 +49,7 @@ Atmel studio을 설치했다면 Atmel studio가 사용하는 toolchain을 Path�
 
 예를 들어 **C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin**을 추가하면 됩니다.
 
-# Compile
+## Compile
 
 **소스 파일**(.c)을 **목적 파일**(.o)로 컴파일하는 명령어는 아래와 같습니다.
 
@@ -60,7 +60,7 @@ avr-gcc -c -Os -Wall -mmcu=<MCU> -DF_CPU=<frequency> -o <object file> <source fi
 - `-mmcu=<MCU>`: 사용할 MCU 설정.
   - [https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html](https://gcc.gnu.org/onlinedocs/gcc/AVR-Options.html)
 
-# Link
+## Link
 
 컴파일을 통해 만든 **목적 파일**(.o)과 사용된 라이브러리를 링크해서 **실행 파일**(.elf)을 만들고, 링크 정보를 가지고 있는 **맵 파일**(.map)을 만드는 명령어는 아래와 같습니다.
 

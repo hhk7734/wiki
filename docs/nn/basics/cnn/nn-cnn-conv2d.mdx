@@ -8,10 +8,10 @@ keywords:
   - Convolution
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-example.png")} />
+  <img src={useBaseUrl('img/nn/basics/cnn/nn-cnn-example.png')} />
 </center>
 
 $$
@@ -22,10 +22,10 @@ $$
 A^l = \sigma (Z^l) = \sigma ( A^{l-1} * W^l + B^l )
 $$
 
-# Convolution
+## Convolution
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-conv2d.gif")} />
+  <img src={useBaseUrl('img/nn/basics/cnn/nn-cnn-conv2d.gif')} />
 </center>
 
 $$
@@ -44,18 +44,18 @@ $$
 In the CNN description, most of the picture representing convolution seem to the cross-correlation using $K'$.
 :::
 
-## Kernel example
+### Kernel example
 
 $$
 K' = \begin{bmatrix}9 & 8 & 7 \\ 6 & 5 & 4 \\ 3 & 2 & 1\end{bmatrix} \quad
 K = \begin{bmatrix}1 & 2 & 3 \\ 4 & 5 & 6 \\ 7 & 8 & 9\end{bmatrix}
 $$
 
-# Forward-propagation
+## Forward-propagation
 
 <center>
   <img
-    src={useBaseUrl("img/nn/basics/cnn/nn-cnn-same-padding-no-strides.gif")}
+    src={useBaseUrl('img/nn/basics/cnn/nn-cnn-same-padding-no-strides.gif')}
   />
 </center>
 
@@ -70,7 +70,7 @@ bias=False
 ```
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-strides.gif")} />
+  <img src={useBaseUrl('img/nn/basics/cnn/nn-cnn-strides.gif')} />
 </center>
 
 ```python {4}
@@ -84,7 +84,7 @@ bias=False
 ```
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-dilation.gif")} />
+  <img src={useBaseUrl('img/nn/basics/cnn/nn-cnn-dilation.gif')} />
 </center>
 
 ```python {6}
@@ -98,7 +98,7 @@ bias=False
 ```
 
 <center>
-  <img src={useBaseUrl("img/nn/basics/cnn/nn-cnn-in2out3.jpg")} />
+  <img src={useBaseUrl('img/nn/basics/cnn/nn-cnn-in2out3.jpg')} />
 </center>
 
 ```python
@@ -111,7 +111,7 @@ dilation=1,
 bias=True
 ```
 
-# Back-propagation
+## Back-propagation
 
 $$
 \delta^l_{i,j} \equiv \frac{\partial Loss}{\partial z^l_{i,j}}
@@ -157,7 +157,7 @@ $$
 \end{aligned}
 $$
 
-# Reference
+## Reference
 
 - [https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/](https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/)
 - [https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215](https://towardsdatascience.com/a-comprehensive-introduction-to-different-types-of-convolutions-in-deep-learning-669281e58215)

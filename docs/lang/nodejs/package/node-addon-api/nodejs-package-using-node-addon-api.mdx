@@ -11,7 +11,7 @@ keywords:
 
 Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
 
-# Installation
+## Installation
 
 ```shell
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - \
@@ -52,7 +52,7 @@ npm install node-addon-api
     └── <target>.cpp
 ```
 
-# package.json
+## package.json
 
 Ref: [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/package.json)
 
@@ -76,7 +76,7 @@ Ref: [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/pa
 }
 ```
 
-# binding.gyp
+## binding.gyp
 
 Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
 
@@ -111,17 +111,17 @@ Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https:/
 `target_name`에 '-' 등은 들어갈 수 없습니다.
 :::
 
-# index.js
+## index.js
 
 ```javascript
-module.exports = require("./build/Release/<target>");
+module.exports = require('./build/Release/<target>');
 ```
 
-# Wrapper
+## Wrapper
 
 Ref: [https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f](https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f)
 
-## c_src/funcs.h
+### c_src/funcs.h
 
 ```cpp
 #pragma once
@@ -132,7 +132,7 @@ std::string hello(void);
 int         add(int a, int b);
 ```
 
-## c_src/funcs.cpp
+### c_src/funcs.cpp
 
 ```cpp
 #include "funcs.h"
@@ -142,7 +142,7 @@ std::string hello(void) { return "Hello World!"; }
 int add(int a, int b) { return a + b; }
 ```
 
-## c_src/funcs_wrapper.h
+### c_src/funcs_wrapper.h
 
 ```cpp
 #pragma once
@@ -155,7 +155,7 @@ Napi::String hello_wrapper(const Napi::CallbackInfo &info);
 Napi::Number add_wrapper(const Napi::CallbackInfo &info);
 ```
 
-## c_src/funcs_wrapper.cpp
+### c_src/funcs_wrapper.cpp
 
 ```cpp
 #include "funcs.h"
@@ -191,7 +191,7 @@ Napi::Number add_wrapper(const Napi::CallbackInfo &info) {
 }
 ```
 
-## c_src/<target\>.cpp
+### c_src/<target\>.cpp
 
 ```cpp
 #include "funcs_wrapper.h"
@@ -205,18 +205,18 @@ Napi::Object init_all(Napi::Env env, Napi::Object exports) {
 NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
 ```
 
-# Build
+## Build
 
 ```shell
 npm run build
 ```
 
-# test/test.js
+## test/test.js
 
 ```javascript
-const addon = require("../build/Release/<target>");
+const addon = require('../build/Release/<target>');
 
-console.log("wrapper info", addon);
+console.log('wrapper info', addon);
 
 console.log(addon.hello());
 console.log(addon.add(1, 2));

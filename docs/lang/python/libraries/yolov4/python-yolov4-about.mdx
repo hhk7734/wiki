@@ -9,15 +9,15 @@ keywords:
   - TensorFlow
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ![license](https://img.shields.io/github/license/hhk7734/tensorflow-yolov4)
 ![pypi](https://img.shields.io/pypi/v/yolov4)
 ![language](https://img.shields.io/github/languages/top/hhk7734/tensorflow-yolov4)
 
-# tensorflow-yolov4
+## tensorflow-yolov4
 
 ```shell
 python3 -m pip install yolov4
@@ -25,7 +25,7 @@ python3 -m pip install yolov4
 
 YOLOv4 Implemented in Tensorflow 2.
 
-## Download Weights
+### Download Weights
 
 - [yolov4-tiny.conv.29](https://drive.google.com/file/d/1WtOuGfUgNyNfALo5_VhQ1kb5QenRE0Gt/view?usp=sharing)
 - [yolov4-tiny.weights](https://drive.google.com/file/d/1GJwGiR7rizY_19c_czuLN8p31BwkhWY5/view?usp=sharing)
@@ -37,7 +37,7 @@ YOLOv4 Implemented in Tensorflow 2.
 - [coco.names](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
 - [config](https://github.com/hhk7734/tensorflow-yolov4/tree/master/config)
 
-## Dependencies
+### Dependencies
 
 ```shell
 python3 -m pip install opencv-python
@@ -47,44 +47,44 @@ python3 -m pip install opencv-python
 python3 -m pip install tensorflow
 ```
 
-### TFlite
+#### TFlite
 
 Ref: [https://www.tensorflow.org/lite/guide/python](https://www.tensorflow.org/lite/guide/python)
 
-## Objective
+### Objective
 
-- [x] Train and predict using TensorFlow 2 only
+- [ ] Train and predict using TensorFlow 2 only
 - [x] Run yolov4-tiny-relu on Coral board(TPU).
-- [x] Train tiny-relu with coco 2017 dataset
+- [ ] Train tiny-relu with coco 2017 dataset
 - [ ] Update Docs
 - [x] Optimize model and operations
 
-## Performance
+### Performance
 
 <center>
   <img
-    src={useBaseUrl("img/lang/python/libraries/yolov4/yolov4-performance.png")}
+    src={useBaseUrl('img/lang/python/libraries/yolov4/yolov4-performance.png')}
   />
 </center>
 
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/python/libraries/yolov4/yolov4-performance-tiny.png"
+      'img/lang/python/libraries/yolov4/yolov4-performance-tiny.png'
     )}
   />
 </center>
 
-## Help
+### Help
 
 ```python
 >>> from yolov4.tf import YOLOv4
 >>> help(YOLOv4)
 ```
 
-## Inference
+### Inference
 
-### tensorflow
+#### tensorflow
 
 <Tabs
     groupId="yolov4-version"
@@ -151,7 +151,7 @@ yolo.inference(media_path="road.mp4", is_image=False)
 
 </Tabs>
 
-### tensorflow lite
+#### tensorflow lite
 
 <Tabs
     groupId="yolov4-version"

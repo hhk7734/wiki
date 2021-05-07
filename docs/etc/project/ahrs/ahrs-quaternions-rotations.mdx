@@ -9,9 +9,9 @@ keywords:
   - Rotations
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
-# Quaternions
+## Quaternions
 
 Quaternion은 사원수 또는 쿼터니언이라고 부르며, 복소수를 확장해 만든 수 체계입니다.
 
@@ -23,13 +23,13 @@ q = x\,\mathbf{i} + y\,\mathbf{j} + z\,\mathbf{k} + w
 \underline{q} = \begin{bmatrix}x & y & z & w\end{bmatrix}^T
 $$
 
-## Norm
+### Norm
 
 $$
 \begin{Vmatrix}q\end{Vmatrix} = \sqrt{x^2 + y^2 + z^2 + w^2}
 $$
 
-## Conjugate quaternion
+### Conjugate quaternion
 
 $$
 \bar{q} = -x\,\mathbf{i} - y\,\mathbf{j} - z\,\mathbf{k} + w
@@ -39,19 +39,19 @@ $$
 \overline{pq} = \bar{q}\bar{p}
 $$
 
-## Pure quaternion
+### Pure quaternion
 
 $$
 \underline{q} = \begin{bmatrix}x & y & z & 0\end{bmatrix}^T
 $$
 
-## Identity quaternion
+### Identity quaternion
 
 $$
 \underline{I} = \begin{bmatrix}0 & 0 & 0 & 1\end{bmatrix}^T
 $$
 
-## Inverse quaternion
+### Inverse quaternion
 
 $$
 q^{-1} = \cfrac{\bar{q}}{||q||^2} \quad
@@ -60,7 +60,7 @@ q^{-1} = \cfrac{\bar{q}}{||q||^2} \quad
   \end{pmatrix}
 $$
 
-## Hamilton product
+### Hamilton product
 
 $$
 \begin{aligned}
@@ -88,13 +88,13 @@ pq & = L(p)\underline{q} & =
 \end{aligned}
 $$
 
-# Rotations
+## Rotations
 
-## Rotate Vector
+### Rotate Vector
 
 <center>
   <img
-    src={useBaseUrl("img/etc/project/ahrs/ahrs-quaternions-rotate-vector.png")}
+    src={useBaseUrl('img/etc/project/ahrs/ahrs-quaternions-rotate-vector.png')}
   />
 </center>
 
@@ -164,11 +164,11 @@ $$
 q_{0}^{k} = q_{k-1}^{k} q_{k-2}^{k-1} \cdots q_{0}^{1}
 $$
 
-## Rotate Frame
+### Rotate Frame
 
 <center>
   <img
-    src={useBaseUrl("img/etc/project/ahrs/ahrs-quaternions-rotate-frame.png")}
+    src={useBaseUrl('img/etc/project/ahrs/ahrs-quaternions-rotate-frame.png')}
   />
 </center>
 
@@ -227,7 +227,7 @@ $$
 q_{k}^{0} = q_{1}^{0} q_{2}^{1} \cdots q_{k}^{k-1}
 $$
 
-## Small angle approximation
+### Small angle approximation
 
 Taylor Series에 의해 sin함수와 cos함수는 아래와 같은 다항식으로 나타낼 수 있습니다.
 

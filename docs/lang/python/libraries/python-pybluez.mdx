@@ -8,20 +8,20 @@ keywords:
   - pybluez
 ---
 
-# socket
+## socket
 
 파이썬에 기본 내장되어있는 socket 모듈을 통해 간단한 블루투스 통신을 구축 할 수 있습니다.
 
 단 참고할 문서가 거의 없기 때문에 단순 통신 기능 외에는 프로그램 개발이 어려울 수 있습니다.
 
-# pybluez 설치
+## pybluez 설치
 
 ```shell
 sudo apt install -y bluez bluetooth libbluetooth-dev python3-pip \
 && python3 -m pip install pybluez
 ```
 
-## BLE 추가 설치
+### BLE 추가 설치
 
 ```shell
 sudo apt install -y pkg-config libboost-python-dev \
@@ -29,7 +29,7 @@ sudo apt install -y pkg-config libboost-python-dev \
 && python3 -m pip install pybluez\[ble\]
 ```
 
-## bluetooth.service 변경
+### bluetooth.service 변경
 
 실행 옵션으로 `-C`(--compat)를 추가합니다.
 
@@ -50,7 +50,7 @@ echo -e '\nsudo chmod 777 /var/run/sdp' >> ~/.bashrc
 sudo reboot
 ```
 
-# 블루투스 컨트롤러
+## 블루투스 컨트롤러
 
 아래 명령을 통해 블루투스 장치명과 MAC 주소를 확인합니다.
 
@@ -66,7 +66,7 @@ Devices:
 sudo hciconfig hci0 piscan
 ```
 
-## bluetoothctl
+### bluetoothctl
 
 `bluetoothctl` 명령어를 통해 블루투스 장치를 제어할 수 있습니다.
 
@@ -117,11 +117,11 @@ help                        Display help about this program
 정보가 안나오면 `sudo bluetoothctl` 명령어를 통해 블루투스 장치를 제어할 수 있습니다.
 :::
 
-# Examples
+## Examples
 
-## server - client
+### server - client
 
-### server
+#### server
 
 ```python
 import bluetooth
@@ -179,7 +179,7 @@ connected_socket.close()
 server_socket.close()
 ```
 
-### client
+#### client
 
 ```python
 import bluetooth
@@ -234,7 +234,7 @@ except:
 client_socket.close()
 ```
 
-## 송수신 쓰레드
+### 송수신 쓰레드
 
 ```python
 import bluetooth
@@ -334,6 +334,6 @@ class Bluetooth_socket(threading.Thread):
         return self._is_connected
 ```
 
-# Reference
+## Reference
 
 - [https://github.com/pybluez/pybluez](https://github.com/pybluez/pybluez)

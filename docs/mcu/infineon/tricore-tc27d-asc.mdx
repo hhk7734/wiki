@@ -16,19 +16,19 @@ HW: ShieldBuddy TC275
 BaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLLD를 다운로드 받아 BaseSw를 교체해주시거나 필요한 라이브러리만 추가해주시기 바랍니다.
 :::
 
-# Related header
+## Related header
 
 - `IfxAsclin_cfg.h`: ASCLIN on-chip implementation data.
 - `IfxAsclin_PinMap.h`: ASCLIN I/O map.
 - `IfxAsclin_Asc.h`: ASCLIN ASC details.
 - `IfxAsclin.h`: ASCLIN basic functionality.
 
-# IfxAsclin_Asc.h
+## IfxAsclin_Asc.h
 
 > - The ASC interface driver provides a default ASCLIN configuration for asynchronous serial communication in 8bit mode, and a set of data transfer routines.
 > - Data transfers are buffered by the hardware based FIFOs, and in addition by software based FIFOs with a configurable size. Incoming and outgoing data is transfered in background from/to the ASCLIN peripheral by interrupt service handlers, which are part of this driver as well. This allows a nonblocking communication without stalling the thread(s) from where data is sent and received.
 
-# Examples
+## Examples
 
 :::info
 폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.
@@ -44,7 +44,7 @@ BaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. 
 #define IFX_INTPRIO_ASCLIN3_ER 3
 ```
 
-## Read/Write
+### Read/Write
 
 ```c
 #include "IfxAsclin_Asc.h"

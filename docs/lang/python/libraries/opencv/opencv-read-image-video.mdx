@@ -10,12 +10,12 @@ keywords:
   - video
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 Ref: [https://docs.opencv.org/master/](https://docs.opencv.org/master/)
 
-# Read image
+## Read image
 
 ```python
 image = cv.imread(fileName, flag=cv.IMREAD_COLOR)
@@ -48,9 +48,9 @@ cv.imwrite(fileName, image)
 - @param **fileName**: string 파일 경로
 - @param **image**: numpy.ndarray 이미지 3 차원 배열
 
-# Read video, cam
+## Read video, cam
 
-## cv.VideoCapture
+### cv.VideoCapture
 
 ```python
 class cv.VideoCapture(index|filename, apiPreference=cv.CAP_ANY)
@@ -109,7 +109,7 @@ cv.VideoCapture.release()
 
 - @brief 파일 또는 캠 닫기
 
-## cv.VideoWriter
+### cv.VideoWriter
 
 ```python
 class cv.VideoWriter(filename, apiPreference=cv.CAP_ANY, fourcc, fps, frameSize, isColor=True)
@@ -149,7 +149,7 @@ cv.VideoWriter.write(image)
 
 - @brief 다음 프레임 추가
 
-# Examples
+## Examples
 
 C++ compilation
 
@@ -157,7 +157,7 @@ C++ compilation
 g++ [input.cpp] -o [output] $(pkg-config opencv4 --libs --cflags)
 ```
 
-## Read image
+### Read image
 
 <Tabs
     groupId="programing-language"
@@ -211,7 +211,7 @@ int main(void) {
 </TabItem>
 </Tabs>
 
-## Read video
+### Read video
 
 <Tabs
     groupId="programing-language"
@@ -295,7 +295,7 @@ int main(void) {
 </TabItem>
 </Tabs>
 
-## Read cam
+### Read cam
 
 <Tabs
     groupId="programing-language"

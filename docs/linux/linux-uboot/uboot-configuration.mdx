@@ -11,7 +11,7 @@ keywords:
 - target: Odroid-N2
 - tag: v2019.07
 
-# Tips to add/remove boards
+## Tips to add/remove boards
 
 ```
 When adding a new board, the following steps are generally needed:
@@ -81,24 +81,24 @@ SRCARCH := ..
 # this makefile can be deleted.
 ```
 
-# Etc
+## Etc
 
-## CONFIG_SYS_CPU=
+### CONFIG_SYS_CPU=
 
 ```
 ./config.mk:43:CPUDIR=arch/$(ARCH)/cpu$(if $(CPU),/$(CPU),)
 ./scripts/Makefile.autoconf:130:  dest=arch/$(ARCH)/include/asm/arch-$(if $(SOC),$(SOC),$(CPU))
 ```
 
-## CONFIG_SYS_SOC=
+### CONFIG_SYS_SOC=
 
 ```
-# If arch/$(ARCH)/mach-$(SOC)/include/mach exists,
-# make a symbolic link to that directory.
-# Otherwise, create a symbolic link to arch/$(ARCH)/include/asm/arch-$(SOC).
+## If arch/$(ARCH)/mach-$(SOC)/include/mach exists,
+## make a symbolic link to that directory.
+## Otherwise, create a symbolic link to arch/$(ARCH)/include/asm/arch-$(SOC).
 ```
 
-## CONFIG_SYS_VENDOR=
+### CONFIG_SYS_VENDOR=
 
 ```
 ./config.mk:53:BOARDDIR = $(VENDOR)/$(BOARD)
@@ -106,7 +106,7 @@ SRCARCH := ..
 ./scripts/Makefile.autoconf:106: echo \#define CONFIG_BOARDDIR board/$(if $(VENDOR),$(VENDOR)/)$(BOARD);\
 ```
 
-## CONFIG_SYS_BOARD=
+### CONFIG_SYS_BOARD=
 
 ```
 ./include/common.h:156:/* $(BOARD)/$(BOARD).c */
@@ -119,7 +119,7 @@ SRCARCH := ..
 ./scripts/Makefile.autoconf:106:        echo \#define CONFIG_BOARDDIR board/$(if $(VENDOR),$(VENDOR)/)$(BOARD);\
 ```
 
-## CONFIG_SYS_CONFIG_NAME=
+### CONFIG_SYS_CONFIG_NAME=
 
 ```
 ./arch/Kconfig:276:       The header file include/configs/<CONFIG_SYS_CONFIG_NAME>.h
@@ -128,6 +128,6 @@ SRCARCH := ..
 ./scripts/Makefile.autoconf:109:        echo \#include \<configs/$(CONFIG_SYS_CONFIG_NAME).h\>;
 ```
 
-# Reference
+## Reference
 
 - [https://gitlab.denx.de/u-boot/u-boot/-/blob/master/doc/README.kconfig](https://gitlab.denx.de/u-boot/u-boot/-/blob/master/doc/README.kconfig)
