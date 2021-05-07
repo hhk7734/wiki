@@ -1,0 +1,101 @@
+---
+id: circuit-capacitor
+title: Capacitor
+sidebar_label: Capacitor
+description: Capacitor
+keywords:
+  - Capacitor
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+## 커패시터
+
+커패시터는 전하를 저장할 수 있는 소자입니다.
+
+$$
+X_L = {1 \over 2 \pi fC}
+$$
+
+커패시터의 임피던스는 정전 용량과 주파수에 영향을 받습니다. 이상적인 커패시터의 경우 주파수가 같다면 정전 용량이 클 수록 임피던스는 낮아지고, 정전 용량이 같다면 주파수가 클 수록 임피던스가 낮아집니다.
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/etc/circuit/basics/capacitor/capacitor-frequency-impedance.gif'
+    )}
+  />
+</center>
+
+### ESR
+
+**등가 직렬 저항(Equivalent Series Resistance, ESR)**은 **자기 공진 주파수(Self Resonance Frequency, SRF)**에서 임피던스 값과 같습니다. 온도 보상 커패시터의 경우 ESR이 작습니다. ESR은 커패시터의 전극과 유전체 손실이 요인입니다.
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/etc/circuit/basics/capacitor/capacitor-equivalent-circuit.gif'
+    )}
+  />
+</center>
+
+### ESL
+
+**등가 직렬 인덕턴스(Equivalent Series Inductance, ESL)**로 인해 실재 커패시터는 SRF 근처와 그 이상 주파수에서 이론과 다르게 작동합니다. ESL의 요인은 전극에 흐르는 전류에 의한 자기장입니다. 따러서 ESL은 주변 요인에 따라 변할 수 있습니다.
+
+- 리드가 길면 커질 수 있습니다.
+- 주변 회로에 영향을 받습니다.
+- 정전 용량이 커지면 커질 수 있습니다.
+
+<center>
+  <img src={useBaseUrl('img/etc/circuit/basics/capacitor/capacitor-esl.gif')} />
+</center>
+
+다층 기판이면서 0.4mm 아래 GND 판이 있다고 가정할 경우, 일반적으로 via는 0.1nH, 패턴은 1mm 당 0.5nH 정도의 값을 갖습니다. 양면 기판인 경우 값이 커집니다. 일반적인 1604 MLCC가 약 0.5nH의 ESL을 갖는다고 생각하면, 매우 큰 값입니다.
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/etc/circuit/basics/capacitor/capacitor-esl-in-pattern.gif'
+    )}
+  />
+</center>
+
+최대한 짧은 패턴과 적절한 via 배치는 회로로 인해 생기는 ESL을 감소시킬 수 있습니다.
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/etc/circuit/basics/capacitor/capacitor-pattern-to-reduce-esl.gif'
+    )}
+  />
+</center>
+
+## 세라믹 커패시터
+
+- 온도보상형은 발진기의 Load C로 많이 사용
+- MLCC는 바이패스, 디커플링에 많이 사용됨. 디커플링 시, 최대한 IC에 가까이 붙여야 함
+
+## 탈탄 커패시터
+
+- 온도 특성, 주파수 특성이 좋음
+- 비교적 큰 정전 용량을 가질 수 있음
+
+## 알루미늄 전해 커패시터
+
+- 큰 정전 용량을 가질 수 있음
+- ESR이 큼
+- 직접적인 노이즈 억제에 부적합
+- 온도가 올라갈 수 있는 실외나, 전원부는 105 도 제품 사용
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/etc/circuit/basics/capacitor/capacitor-electrolytic-capacitor.gif'
+    )}
+  />
+</center>
+
+## Reference
+
+- [https://www.murata.com/en-global/products/emc/emifil/library/knowhow/basic](https://www.murata.com/en-global/products/emc/emifil/library/knowhow/basic)
