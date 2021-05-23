@@ -24,7 +24,7 @@ Download: [https://www.kicad-pcb.org/download](https://www.kicad-pcb.org/downloa
 - KiCad project window -\> File -\> New -\> Project
 - KiCad project window -\> File -\> New -\> Project From Template
 
-## Schematic
+## Eeschematic
 
 - KiCad project window -\> <project\>.sch
 - File -\> Page Settings
@@ -35,9 +35,17 @@ Download: [https://www.kicad-pcb.org/download](https://www.kicad-pcb.org/downloa
 - Tools -\> Annotate Schematic
 - Inspect -\> Electrical Rules Checker
 
-## PCB
+## Pcbnew
+
+1 oz == 0.035 mm, 1 mil == 0.0254 mm
 
 - KiCad project window -\> <project\>.kicad_pcb
+- Edge.Cuts을 선택하고 아웃라인을 그림
+- File - Board Setup
+  - Design Rules
+    - Net Classes
+      - Clearance: 패턴과 패턴 사이 간격
+      - Track Width: 패턴 폭; 두께 1 oz, 온도 10 도 상승을 가정했을 때, 1 mm에 1 A (계산기 값은 외부 0.3 mm 내부 0.7 mm 정도면 된다고 나옴)
 - Tools -\> Update PCB from schematic
 - PCB 수정
 - Inspcet -\> Design Rules Checker
