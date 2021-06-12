@@ -1,0 +1,46 @@
+---
+id: mlops-ansible
+title: Ansible
+sidebar_label: Ansible
+description: Ansible
+keywords:
+  - Ansible
+---
+
+## Installation
+
+```shell
+sudo apt install -y ansible
+```
+
+## Control node
+
+```shell
+ssh-keygen -t ed25519 -C "user@domain"
+```
+
+```shell
+eval "$(ssh-agent -s)"
+```
+
+```shell
+ssh-add <path>/<id file>
+```
+
+```shell
+ssh-copy-id -i<path>/<id file>.pub [-p<port>] <worker user>@<worker ip>
+```
+
+## Managed node
+
+```shell
+sudo vidudo
+
+...
+
+<user> ALL=(ALL) NOPASSWD:ALL
+```
+
+## Inventory
+
+## Playbook

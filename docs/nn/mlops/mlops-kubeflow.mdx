@@ -1,0 +1,85 @@
+---
+id: mlops-kubeflow
+title: Kubeflow
+sidebar_label: Kubeflow
+description: Kubeflow
+keywords:
+  - Kubeflow
+---
+
+## Installation
+
+### kfctl
+
+```shell
+mkidr $HOME/kubeflow
+```
+
+[https://github.com/kubeflow/kfctl/releases](https://github.com/kubeflow/kfctl/releases)
+
+```shell
+wget https://github.com/kubeflow/kfctl/releases/download/v1.2.0/kfctl_v1.2.0-0-gbc038f9_linux.tar.gz \
+&& tar zxf kfctl_v1.2.0-0-gbc038f9_linux.tar.gz \
+&& sudo mv kfctl $HOME/kubeflow
+```
+
+### Nvidia GPU node
+
+```shell
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+&& curl -s -L https://nvidia.github.io/nvidia-docker/gpgkey | sudo apt-key add - \
+&& curl -s -L https://nvidia.github.io/nvidia-docker/$distribution/nvidia-docker.list \
+| sudo tee /etc/apt/sources.list.d/nvidia-docker.list
+```
+
+```shell
+sudo apt-get update && sudo apt-get install -y nvidia-docker2
+```
+
+```json title="/etc/docker/daemon.json"
+{
+  ...
+  "default-runtime": "nvidia",
+  "runtimes": {
+    "nvidia": {
+      "path": "/usr/bin/nvidia-container-runtime",
+      "runtimeArgs": []
+    }
+  }
+}
+```
+
+```shell
+sudo systemctl restart docker
+```
+
+[https://github.com/NVIDIA/k8s-device-plugin](https://github.com/NVIDIA/k8s-device-plugin)
+
+```shell
+kubectl create -f https://raw.githubusercontent.com/NVIDIA/k8s-device-plugin/v1.12/nvidia-device-plugin.yml
+```
+
+### kubeflow
+
+[https://github.com/kubeflow/manifests](https://github.com/kubeflow/manifests)
+
+```shell
+cd $HOME/kubeflow
+export PATH=$PATH:$PWD
+export KF_NAME=hhk7734-kubeflow
+export KF_DIR=$PWD/$KF_NAME
+export CONFIG_FILE=$KF_DIR/kfctl_k8s_istio.v1.2.0.yaml
+export CONFIG_URI="https://github.com/kubeflow/manifests/raw/master/distributions/kfdef/kfctl_k8s_istio.v1.2.0.yaml"
+```
+
+```shell
+cd $KF_DIR
+```
+
+```shell
+kfctl build -V -f $CONFIG_URI
+```
+
+```shell
+kfctl apply -V -f $CONFIG_FILE
+```
