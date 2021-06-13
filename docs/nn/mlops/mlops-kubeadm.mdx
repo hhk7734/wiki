@@ -1,0 +1,145 @@
+---
+id: mlops-kubeadm
+title: Kubeadm
+sidebar_label: Kubeadm
+description: Kubeadm
+keywords:
+  - Kubeadm
+---
+
+## Installation
+
+### kubeadm
+
+- 2 GB 램 이상
+- 2 CPU 이상
+
+```shell
+sudo apt-get update \
+&& sudo apt-get install -y apt-transport-https ca-certificates curl
+```
+
+```shell
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
+    https://packages.cloud.google.com/apt/doc/apt-key.gpg
+```
+
+```shell
+echo \
+  "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg]" \
+  "https://apt.kubernetes.io/ kubernetes-xenial main" \
+| sudo tee /etc/apt/sources.list.d/kubernetes.list
+```
+
+```shell
+sudo apt-get update \
+&& sudo apt-get install -y kubelet kubeadm kubectl \
+&& sudo apt-mark hold kubelet kubeadm kubectl
+```
+
+### firewalld
+
+```shell
+sudo apt install -y firewalld
+```
+
+### 스왑 제거
+
+```shell
+sudo swapoff -a
+```
+
+```shell
+sudo vim /etc/fstab
+```
+
+### iptable
+
+```shell
+cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+br_netfilter
+EOF
+```
+
+```shell
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+EOF
+```
+
+### Complition
+
+```shell
+echo "source <(kubectl completion bash)" >> ~/.bashrc
+```
+
+```shell
+echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc
+```
+
+## Control plane node
+
+```shell
+sudo firewall-cmd --add-port 6443/tcp --permanent \
+&& sudo firewall-cmd --add-port 2379-2380/tcp --permanent \
+&& sudo firewall-cmd --add-port 10250/tcp --permanent \
+&& sudo firewall-cmd --add-port 10251/tcp --permanent \
+&& sudo firewall-cmd --add-port 10252/tcp --permanent \
+&& sudo firewall-cmd --reload
+```
+
+```shell
+sudo kubeadm init \
+    --apiserver-advertise-address <ip> \
+    --pod-network-cidr <ip>
+```
+
+```shell
+mkdir -p $HOME/.kube \
+&& sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
+&& sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+### token
+
+```shell
+sudo kubeadm token list
+```
+
+### hash
+
+```shell
+openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
+| openssl rsa -pubin -outform der 2>/dev/null \
+| openssl dgst -sha256 -hex | sed 's/^.* //'
+```
+
+## Worker node
+
+```shell
+sudo firewall-cmd --add-port 10250/tcp --permanent \
+&& sudo firewall-cmd --add-port 30000-32767/tcp --permanent \
+&& sudo firewall-cmd --reload
+```
+
+```shell
+sudo kubeadm join <control plane ip>:6443 \
+    --token <token> \
+    --discovery-token-ca-cert-hash sha256:<hash>
+```
+
+## reset
+
+```shell
+sudo kubeadm reset -f [--kubeconfig $HOME/.kube/config]
+```
+
+```shell
+sudo rm -r /etc/kubernetes/manifests $HOME/.kube/config
+```
+
+## Reference
+
+- [https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/](https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+- [https://kubernetes.io/docs/reference/setup-tools/kubeadm/](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
