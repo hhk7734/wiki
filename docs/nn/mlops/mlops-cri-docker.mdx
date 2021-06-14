@@ -1,0 +1,144 @@
+---
+id: mlops-cri-docker
+title: CRI - Docker
+sidebar_label: CRI - Docker
+description: CRI - Docker
+keywords:
+  - CRI
+  - Docker
+---
+
+## Installation
+
+```shell
+sudo apt-get purge docker docker-engine docker.io containerd runc
+```
+
+```shell
+sudo apt-get update \
+&& sudo apt-get install -y apt-transport-https ca-certificates curl gnupg \
+    lsb-release
+```
+
+```shell
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+| sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+
+```shell
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]" \
+  "https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
+| sudo tee /etc/apt/sources.list.d/docker.list
+```
+
+```shell
+sudo apt-get update \
+&& sudo apt-get install -y docker-ce docker-ce-cli containerd.io
+```
+
+```shell
+sudo groupadd docker
+```
+
+```shell
+sudo usermod -aG docker $USER
+```
+
+```shell
+newgrp docker
+```
+
+```shell
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+```
+
+```shell
+sudo systemctl enable docker \
+&& sudo systemctl enable containerd \
+&& sudo systemctl daemon-reload
+```
+
+```shell
+sudo reboot
+```
+
+## Commands
+
+### run
+
+```shell
+docker run [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+
+`-it` 옵션이 많이 사용됩니다.
+
+- `--interactive`
+- `--tty`
+
+### pull, create, start, attach
+
+`docker create` 또는 `docker run`을 실행했을 때, 이미지가 없다면 `docker pull` 명령어로 이미지를 가져옵니다.
+
+`docker run -it` == `docker create -it` -> `docker start` -> `docker attach`
+
+```shell
+docker create [OPTIONS] IMAGE [COMMAND] [ARG...]
+```
+
+```shell
+docker start [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+```shell
+docker attach [OPTIONS] CONTAINER
+```
+
+### ps
+
+```shell
+docker ps [OPTIONS]
+```
+
+- `-a | --all`: 모든 컨테이너를 보여줍니다. 기본은 실행중인 컨테이너만 보여줍니다.
+
+### inspect
+
+```shell
+docker inspect [OPTIONS] NAME|ID [NAME|ID...]
+```
+
+도커 오브젝트의 자세한 정보를 보여줍니다.
+
+### stop
+
+```shell
+ docker stop [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+### rm
+
+```shell
+docker rm [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+### rmi
+
+```shell
+docker rmi [OPTIONS] IMAGE [IMAGE...]
+```
+
+## Dockerfile
+
+## Reference
+
+- [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
