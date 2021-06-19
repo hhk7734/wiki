@@ -7,3 +7,87 @@ keywords:
   - CNI
   - Calico
 ---
+
+## Docker network
+
+### bridge
+
+```txt
+                                              ┌─── container0 ───┐
+host eth0 ─── docker0(172.17.0.1) ┬── veth0 ─── eth0(172.17.0.2) │
+                                  │           └──────────────────┘
+                                  │           ┌─── container1 ───┐
+                                  ├── veth1 ─── eth0(172.17.0.3) │
+                                  │           └──────────────────┘
+                                  │           ┌─── container2 ───┐
+                                  └── veth2 ─── eth0(172.17.0.4) │
+                                              └──────────────────┘
+```
+
+### host
+
+```txt
+                                                  ┌─── container2 ───┐
+                                                ┌─── container1 ───┐ │
+                                              ┌─── container0 ───┐ │─┘
+host eth0 ─── docker0(172.17.0.1) ─── veth0 ─── eth0(172.17.0.2) │─┘
+                                              └──────────────────┘
+```
+
+## Kubernetes network
+
+Kubernetes network 기본 요구 사항
+
+- 노드의 파드는 NAT 없이 모든 노드의 모든 파드와 통신할 수 있다.
+- 노드의 에이전트(예: 시스템 데몬, kubelet)는 해당 노드의 모든 파드와 통신할 수 있다.
+- 노드의 호스트 네트워크에 있는 파드는 NAT 없이 모든 노드에 있는 모든 파드와 통신할 수 있다.
+
+### Pod
+
+Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유합니다. `Pause`라는 container가 생성되며 이 컨테이너가 IPC, Network namespace를 생성하고 유지합니다.
+
+## Calico
+
+```shell
+kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+```
+
+```yaml title="calico.yaml" {13}
+# This section includes base Calico installation configuration.
+# For more information, see: https://docs.projectcalico.org/v3.19/reference/installation/api#operator.tigera.io/v1.Installation
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  calicoNetwork:
+    # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+      - blockSize: 26
+        cidr: <pod-network-cidr>
+        encapsulation: VXLANCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()
+```
+
+```shell
+kubectl create -f calico.yaml
+```
+
+```shell
+watch kubectl get pods -n calico-system
+```
+
+```shell
+kubectl taint nodes --all node-role.kubernetes.io/master-
+```
+
+```shell
+kubectl get nodes -o wide
+```
+
+## Reference
+
+- [https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/](https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/)
+- [https://docs.projectcalico.org/getting-started/kubernetes/quickstart](https://docs.projectcalico.org/getting-started/kubernetes/quickstart)

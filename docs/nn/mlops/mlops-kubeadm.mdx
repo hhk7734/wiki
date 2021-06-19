@@ -90,10 +90,11 @@ sudo firewall-cmd --add-port 6443/tcp --permanent \
 ```
 
 ```shell
-sudo kubeadm init \
-    --apiserver-advertise-address <ip> \
-    --pod-network-cidr <ip>
+sudo kubeadm init
 ```
+
+- `--apiserver-advertise-address`: Control plane node IP
+- `--pod-network-cidr`
 
 ```shell
 mkdir -p $HOME/.kube \

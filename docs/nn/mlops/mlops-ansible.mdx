@@ -16,7 +16,7 @@ sudo apt install -y ansible
 ## Control node
 
 ```shell
-ssh-keygen -t ed25519 -C "user@domain"
+ssh-keygen -t ed25519 -N "" -f <keyfile>
 ```
 
 ```shell
@@ -28,7 +28,7 @@ ssh-add <path>/<id file>
 ```
 
 ```shell
-ssh-copy-id -i<path>/<id file>.pub [-p<port>] <worker user>@<worker ip>
+ssh-copy-id -i<path>/<id file>.pub [-p<port>] <managed user>@<managed ip>
 ```
 
 ## Managed node
@@ -43,4 +43,94 @@ sudo vidudo
 
 ## Inventory
 
+기본 인벤토리 파일은 `/etc/ansible/hosts` 파일입니다.
+
+```yaml
+all:
+  hosts:
+    <hostname>:
+      ansible_host: <ip|url>
+  children:
+    <group>:
+      hosts:
+        <group:hostname>:
+```
+
+```shell
+ansible all -m ping
+```
+
 ## Playbook
+
+```shell
+ansible-playbook <playbook>
+```
+
+- `-i|--inventory`
+- `-K|--ask-become-pass`
+
+```yaml title="docker-installation.yaml"
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: purge
+      apt:
+        name: '{{ item }}'
+        state: absent
+        update_cache: yes
+      loop: ['docker', 'docker-engine', 'docker.io', 'containerd', 'runc']
+
+    - name: install required
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop:
+        [
+          'apt-transport-https',
+          'ca-certificates',
+          'curl',
+          'gnupg',
+          'lsb-release',
+        ]
+
+    - name: add docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+
+    - name: add docker repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+
+    - name: install docker
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop: ['docker-ce', 'docker-ce-cli', 'containerd.io']
+
+    - name: set cgroupdriver to systemd
+      copy:
+        dest: '/etc/docker/daemon.json'
+        content: |
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"],
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "100m"
+            },
+            "storage-driver": "overlay2"
+          }
+
+    - name: systemd enable docker
+      ansible.builtin.systemd:
+        name: '{{ item }}'
+        enabled: yes
+        state: started
+      loop: ['docker', 'containerd']
+
+    - name: systemd daemon-reload
+      ansible.builtin.systemd:
+        daemon_reload: yes
+```
