@@ -9,63 +9,74 @@ keywords:
 
 ## Installation
 
-### kubeadm
-
 - 2 GB 램 이상
 - 2 CPU 이상
 
-```shell
-sudo apt-get update \
-&& sudo apt-get install -y apt-transport-https ca-certificates curl
-```
+```yaml title="kubeadm-installation.yaml" {5}
+---
+- hosts: all
+  become: yes
+  vars:
+    version: 1.17.0-00
+  tasks:
+    - name: install required
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'firewalld']
 
-```shell
-sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg \
-    https://packages.cloud.google.com/apt/doc/apt-key.gpg
-```
+    - name: add kubernetes GPG apt key
+      apt_key:
+        url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+        keyring: /usr/share/keyrings/kubernetes-archive-keyring.gpg
 
-```shell
-echo \
-  "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg]" \
-  "https://apt.kubernetes.io/ kubernetes-xenial main" \
-| sudo tee /etc/apt/sources.list.d/kubernetes.list
-```
+    - name: add kubernetes repository
+      apt_repository:
+        repo: deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg]
+          https://apt.kubernetes.io/ kubernetes-xenial main
+        filename: kubernetes
 
-```shell
-sudo apt-get update \
-&& sudo apt-get install -y kubelet kubeadm kubectl \
-&& sudo apt-mark hold kubelet kubeadm kubectl
-```
+    - name: install kubeadm kubectl version={{ version }}
+      apt:
+        name: '{{ item }}={{ version }}'
+        update_cache: yes
+        force: yes
+      loop: ['kubelet', 'kubeadm', 'kubectl']
 
-### firewalld
+    - name: disable swap
+      command: swapoff -a
+      when: ansible_swaptotal_mb > 0
 
-```shell
-sudo apt install -y firewalld
-```
+    - name: remove swapfile from /etc/fstab
+      mount:
+        name: swap
+        fstype: swap
+        state: absent
 
-### 스왑 제거
+    - name: add br_netfilter to modules-load.d
+      lineinfile:
+        path: /etc/modules-load.d/k8s.conf
+        line: br_netfilter
+        create: yes
 
-```shell
-sudo swapoff -a
-```
+    - name: modprobe br_netfilter
+      command: modprobe br_netfilter
 
-```shell
-sudo vim /etc/fstab
-```
+    - name: add netbridge config ip6
+      lineinfile:
+        path: /etc/sysctl.d/k8s.conf
+        line: 'net.bridge.bridge-nf-call-ip6tables = 1'
+        create: yes
 
-### iptable
+    - name: add netbridge config ip4
+      lineinfile:
+        path: /etc/sysctl.d/k8s.conf
+        line: 'net.bridge.bridge-nf-call-iptables = 1'
+        create: yes
 
-```shell
-cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
-br_netfilter
-EOF
-```
-
-```shell
-cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
-net.bridge.bridge-nf-call-ip6tables = 1
-net.bridge.bridge-nf-call-iptables = 1
-EOF
+    - name: update sysctl
+      command: sysctl --system
 ```
 
 ### Complition

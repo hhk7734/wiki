@@ -210,10 +210,10 @@ module.exports = {
   ],
   memo: ['etc/memo/semantic-versioning-2-0-0', 'etc/memo/ssl-lets-encrypt'],
   mlops: [
+    'nn/mlops/mlops-ansible',
     'nn/mlops/mlops-cri-docker',
     'nn/mlops/mlops-kubeadm',
     'nn/mlops/mlops-cni-calico',
-    'nn/mlops/mlops-ansible',
     'nn/mlops/mlops-kubernetes',
     'nn/mlops/mlops-kubeflow',
   ],

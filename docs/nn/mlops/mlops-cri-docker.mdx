@@ -10,66 +10,75 @@ keywords:
 
 ## Installation
 
-```shell
-sudo apt-get purge docker docker-engine docker.io containerd runc
-```
+```yaml title="docker-installation.yaml"
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: purge
+      apt:
+        name: '{{ item }}'
+        state: absent
+        update_cache: yes
+      loop: ['docker', 'docker-engine', 'docker.io', 'containerd', 'runc']
 
-```shell
-sudo apt-get update \
-&& sudo apt-get install -y apt-transport-https ca-certificates curl gnupg \
-    lsb-release
-```
+    - name: install required
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop:
+        [
+          'apt-transport-https',
+          'ca-certificates',
+          'curl',
+          'gnupg',
+          'lsb-release',
+        ]
 
-```shell
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
-| sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-```
+    - name: add docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /usr/share/keyrings/docker-archive-keyring.gpg
 
-```shell
-echo \
-  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]" \
-  "https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
-| sudo tee /etc/apt/sources.list.d/docker.list
-```
+    - name: add docker repository
+      apt_repository:
+        repo: deb
+          [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
+          https://download.docker.com/linux/ubuntu
+          {{ ansible_distribution_release }} stable
+        filename: docker
 
-```shell
-sudo apt-get update \
-&& sudo apt-get install -y docker-ce docker-ce-cli containerd.io
-```
+    - name: install docker
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop: ['docker-ce', 'docker-ce-cli', 'containerd.io']
 
-```shell
-sudo groupadd docker
-```
+    - name: set cgroupdriver to systemd
+      copy:
+        dest: '/etc/docker/daemon.json'
+        content: |
+          {
+            "exec-opts": ["native.cgroupdriver=systemd"],
+            "log-driver": "json-file",
+            "log-opts": {
+              "max-size": "100m"
+            },
+            "storage-driver": "overlay2"
+          }
 
-```shell
-sudo usermod -aG docker $USER
-```
+    - name: systemd enable docker
+      ansible.builtin.systemd:
+        name: '{{ item }}'
+        enabled: yes
+        state: started
+      loop: ['docker', 'containerd']
 
-```shell
-newgrp docker
-```
-
-```shell
-cat <<EOF | sudo tee /etc/docker/daemon.json
-{
-  "exec-opts": ["native.cgroupdriver=systemd"],
-  "log-driver": "json-file",
-  "log-opts": {
-    "max-size": "100m"
-  },
-  "storage-driver": "overlay2"
-}
-EOF
-```
-
-```shell
-sudo systemctl enable docker \
-&& sudo systemctl enable containerd \
-&& sudo systemctl daemon-reload
-```
-
-```shell
-sudo reboot
+    - name: systemd daemon-reload
+      ansible.builtin.systemd:
+        daemon_reload: yes
 ```
 
 ## Commands
