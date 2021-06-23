@@ -50,10 +50,10 @@ keywords:
       when: ansible_swaptotal_mb > 0
 
     - name: remove swapfile from /etc/fstab
-      mount:
-        name: swap
-        fstype: swap
-        state: absent
+      replace:
+        path: /etc/fstab
+        regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
+        replace: '# \1'
 
     - name: add br_netfilter to modules-load.d
       lineinfile:
@@ -113,6 +113,10 @@ mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
+### calico
+
+[Go to calico installation](nn/mlops/mlops-cni-calico.mdx)
 
 ### token
 

@@ -27,14 +27,7 @@ keywords:
         name: '{{ item }}'
         state: latest
         update_cache: yes
-      loop:
-        [
-          'apt-transport-https',
-          'ca-certificates',
-          'curl',
-          'gnupg',
-          'lsb-release',
-        ]
+      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg']
 
     - name: add docker GPG apt key
       apt_key:
