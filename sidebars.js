@@ -214,7 +214,11 @@ module.exports = {
     'nn/mlops/mlops-cri-docker',
     'nn/mlops/mlops-kubeadm',
     'nn/mlops/mlops-cni-calico',
-    'nn/mlops/mlops-kubernetes',
+    {
+      type: 'category',
+      label: 'Kubernetes',
+      items: ['nn/mlops/kubernetes/mlops-k8s-service'],
+    },
     'nn/mlops/mlops-kubeflow',
   ],
   nodejs: [

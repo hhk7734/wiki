@@ -1,0 +1,50 @@
+---
+id: mlops-k8s-service
+title: Service
+sidebar_label: Service
+description: kubernetes service
+keywords:
+  - kubernetes
+  - service
+---
+
+## NodePort
+
+NodePort는 `pod ip:targetPort` --- `service ip:port` --- `node ip:nodePort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
+
+```shell {1}
+$ kubectl describe pods -n kubernetes-dashboard kubernetes-dashboard
+
+...
+Labels:       k8s-app=kubernetes-dashboard
+...
+Containers:
+  kubernetes-dashboard:
+    ...
+    Port:          8443/TCP
+    ...
+```
+
+```yaml title="kubernetes-dashboard-nodeport.yaml"
+apiVersion: v1
+kind: Service
+metadata:
+  name: <service name>
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort
+  ports:
+    - port: <service cluster ip>
+      targetPort: 8443
+      <nordPort: <30000-32767>>
+  selector:
+    k8s-app: kubernetes-dashboard
+```
+
+```shell
+kubectl apply -f kubernetes-dashboard-nodeport.yaml
+```
+
+```shell
+kubectl describe svc -n kubernetes-dashboard <service name>
+```
