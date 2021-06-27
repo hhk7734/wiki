@@ -1,0 +1,27 @@
+---
+id: mlops-k8s-persistent-volume
+title: Persistent volume
+sidebar_label: Persistent volume
+description: kubernetes persistent volume
+keywords:
+  - kubernetes
+  - persistent volume
+---
+
+## Static provisioning
+
+- 관리자가 PV(PersistentVolume)를 생성
+- PVC(PersistentVolumeClaim) 생성, 명시된 요구 사항을 충족시킬 수 있는 PV가 있으면 바인딩
+
+## Dynamic provisioning
+
+- StorageClass에 프로비저닝을 위한 속성 설정
+- StorageClass를 명시한 PVC 생성
+  - 부합하는 PV가 존재하면 바인딩
+  - 없으면 StorageClass의 속성에 따라 PV 생성
+
+## StorageClass
+
+## PersistentVolume
+
+## PersistentVolumeClaim
