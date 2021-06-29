@@ -223,6 +223,7 @@ module.exports = {
       ],
     },
     'nn/mlops/mlops-kubeflow',
+    'nn/mlops/mlops-istio',
   ],
   nodejs: [
     {
@@ -250,16 +251,6 @@ module.exports = {
         'etc/project/ahrs/ahrs-euler-angles',
         'etc/project/ahrs/ahrs-extended-kalman-filter',
         'etc/project/ahrs/ahrs-sensor-calibration',
-      ],
-    },
-    {
-      type: 'category',
-      label: 'Neural Network',
-      items: [
-        'etc/project/neural-network/neural-network-basics',
-        'etc/project/neural-network/neural-network-cpu-gpu-npu',
-        'etc/project/neural-network/neural-network-cnn',
-        'etc/project/neural-network/neural-network-derivative',
       ],
     },
   ],

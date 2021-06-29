@@ -6,3 +6,51 @@ description: Istio
 keywords:
   - Istio
 ---
+
+## Proxy & Service mesh
+
+```txt
+Client ─── Service A ┬── Service B
+                     └── Service C
+```
+
+`Client`가 `Service A`에 어떤 요청을 하냐에 따라 `Service B` 또는 `Service C`를 호출하는 시스템이 있다고 가정합니다.
+
+`Service B`에 문제가 발생해서 `Service A`로부터의 호출에 응답을 못하면 `Service A`의 한 스레드가 대기 상태에 들어가게 될 수 있습니다. 이러한 상황이 반복되면 대기중인 스레드가 많아지고, 그 결과 `Service A`가 멈출 수 있고, `Service C`를 호출해서 진행되는 과정에도 문제가 발생할 수 있습니다.
+
+```txt
+Client ─── Service A ┬── Circuit breaker B ─── Service B
+                     └── Circuit breaker C ─── Service C
+```
+
+이러한 지연을 감지하여 네트워크를 끊어주는 Circuit breaker를 서비스들 사이에 추가하면 문제가 발생했을 때, 네트워크가 끊기면서 `Service A`의 대기 중인 스레드가 통신 에러를 감지하게 되고 그에 따라 스레드를 정리할 수 있습니다. 그렇게 되면 `Service C`를 이용하던 서비스는 문제없이 제공될 수 있습니다.
+
+```txt
+Client ─── Service A ─── Proxy A ┬── Proxy B ─── Service B
+                                 └── Proxy C ─── Service C
+```
+
+통신 장애 처리 외에도, 통신 흐름을 제어하거나 통신 흐름을 모니터링하는 등 다양한 문제가 있는데, 서비스들을 직접 연결하는 것이 아니라 서비스 사이에 프록시를 추가하여 연결하면 이러한 문제를 해결할 수 있습니다.
+
+```txt
+Client ─── Service A ─── Proxy A ┬── Proxy B ─── Service B
+                                 └── Proxy C ─── Service C
+Client ─── Service D ─── Proxy D ┬── Proxy E ─── Service E
+                                 └── Proxy F ─── Service F
+
+...
+
+Control Plane
+```
+
+서비스 규모가 작을 때는 직접 프록시 설정을 변경해가며 네트워크를 구성할 수 있지만 규모가 커지면 설정이 어려워집니다. 프록시들(`Data Plane`)을 한 번에 관리할 수 있는 `Control Plane`을 추가하면 이러한 문제를 해결 할 수 있습니다.
+
+이렇게 서비스간 통신을 관리하기 위해 구축한 전용 인프라 계층을 서비스 메쉬라고 합니다.
+
+## Envoy
+
+### Sidecar
+
+## Reference
+
+- [https://bcho.tistory.com/1293](https://bcho.tistory.com/1293)
