@@ -23,7 +23,7 @@ Client ─── Service A ┬── Circuit breaker B ─── Service B
                      └── Circuit breaker C ─── Service C
 ```
 
-이러한 지연을 감지하여 네트워크를 끊어주는 Circuit breaker를 서비스들 사이에 추가하면 문제가 발생했을 때, 네트워크가 끊기면서 `Service A`의 대기 중인 스레드가 통신 에러를 감지하게 되고 그에 따라 스레드를 정리할 수 있습니다. 그렇게 되면 `Service C`를 이용하던 서비스는 문제없이 제공될 수 있습니다.
+이러한 지연을 감지하여 네트워크를 끊어주는 서킷 브레이커(Circuit breaker)를 서비스들 사이에 추가하면 문제가 발생했을 때, 네트워크가 끊기면서 `Service A`의 대기 중인 스레드가 통신 에러를 감지하게 되고 그에 따라 스레드를 정리할 수 있습니다. 그렇게 되면 `Service C`를 이용하던 서비스는 문제없이 제공될 수 있습니다.
 
 ```txt
 Client ─── Service A ─── Proxy A ┬── Proxy B ─── Service B
@@ -49,8 +49,13 @@ Control Plane
 
 ## Envoy
 
-### Sidecar
+`Envoy`는 L7 프록시로 Istio에서는 수정된 Envoy가 사용됩니다.
+
+사이드카(sidecar)란 Pod에 기능을 추가하기 위해 추가된 컨테이너를 말하는 데, Istio는 Pod가 생성될 때 Injection rules에 따라 Envoy를 사이드카로 추가합니다.
+
+## Kiali
 
 ## Reference
 
 - [https://bcho.tistory.com/1293](https://bcho.tistory.com/1293)
+- [https://istio.io/latest/docs/examples/bookinfo/](https://istio.io/latest/docs/examples/bookinfo/)

@@ -223,7 +223,9 @@ module.exports = {
       ],
     },
     'nn/mlops/mlops-kubeflow',
+    'nn/mlops/mlops-kustomize',
     'nn/mlops/mlops-istio',
+    'nn/mlops/mlops-knative',
   ],
   nodejs: [
     {
