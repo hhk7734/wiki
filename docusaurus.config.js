@@ -150,6 +150,7 @@ module.exports = {
         'dart',
         'ini',
         'nginx',
+        'yaml',
       ],
     },
   },
