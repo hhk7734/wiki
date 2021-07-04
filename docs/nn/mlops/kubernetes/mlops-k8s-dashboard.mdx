@@ -1,0 +1,50 @@
+---
+id: mlops-k8s-dashboard
+title: Kubernetes Dashboard
+sidebar_label: Dashboard
+description: Kubernetes Dashboard
+keywords:
+  - kubernetes
+---
+
+## Installation
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+```
+
+## ServiceAccount
+
+```yaml title="kubernetes-dashboard-admin.yaml"
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: kubernetes-dashboard-admin
+  namespace: kubernetes-dashboard
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: kubernetes-dashboard-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+  - kind: ServiceAccount
+    name: kubernetes-dashboard-admin
+    namespace: kubernetes-dashboard
+```
+
+```shell
+kubectl apply -f kubernetes-dashboard-admin.yaml
+```
+
+```shell
+kubectl describe secret -n kubernetes-dashboard kubernetes-dashboard-admin
+```
+
+## Reference
+
+- [https://github.com/kubernetes/dashboard](https://github.com/kubernetes/dashboard)
