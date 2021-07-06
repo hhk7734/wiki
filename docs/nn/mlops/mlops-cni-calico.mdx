@@ -8,6 +8,8 @@ keywords:
   - Calico
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 ## Docker network
 
 ### bridge
@@ -48,6 +50,15 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 
 ## Calico
 
+<center>
+  <img src={useBaseUrl('img/nn/mlops/mlops-calico-cni-with-calico-ipam.png')} />
+</center>
+
+<center>
+  <strong>Calico CNI and Calico IPAM</strong>
+</center>
+<br />
+
 ### Installation
 
 ```shell
@@ -67,7 +78,7 @@ spec:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
       - blockSize: 26
-        cidr: <pod-network-cidr>
+        cidr: 10.130.0.0/16
         encapsulation: VXLANCrossSubnet
         natOutgoing: Enabled
         nodeSelector: all()
@@ -93,3 +104,4 @@ kubectl get nodes -o wide
 
 - [https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/](https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/)
 - [https://docs.projectcalico.org/getting-started/kubernetes/quickstart](https://docs.projectcalico.org/getting-started/kubernetes/quickstart)
+- [https://www.youtube.com/watch?v=JyLtg_SJ1lo](https://www.youtube.com/watch?v=JyLtg_SJ1lo)
