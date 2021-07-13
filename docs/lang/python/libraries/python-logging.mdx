@@ -8,15 +8,13 @@ keywords:
   - logging
 ---
 
-Ref: [https://docs.python.org/3/library/logging.html](https://docs.python.org/3/library/logging.html)
-
 프로그래밍을 하거나 프로그램을 실행했을 때, 원하는 수준으로 진행상황을 텍스트로 출력하여 log파일에 기록하거나 터미널에 출력할 수 있습니다.
 
 쓰레드 안전합니다.
 
 ## 로깅 수준
 
-수준 : NOTSET -> DEBUG -> INFO -> WARNING -> ERROR -> CRITICAL
+수준 : `NOTSET` -> `DEBUG` -> `INFO` -> `WARNING` -> `ERROR` -> `CRITICAL`
 
 | 수준     | 값  | 사용                                  |
 | -------- | --- | ------------------------------------- |
@@ -29,8 +27,6 @@ Ref: [https://docs.python.org/3/library/logging.html](https://docs.python.org/3/
 
 ## 포맷
 
-Ref: [https://docs.python.org/3/library/stdtypes.html#old-string-formatting](https://docs.python.org/3/library/stdtypes.html#old-string-formatting)
-
 | 포맷                | 설명                                                                   |
 | ------------------- | ---------------------------------------------------------------------- |
 | %(created)f         | time.time()                                                            |
@@ -39,7 +35,7 @@ Ref: [https://docs.python.org/3/library/stdtypes.html#old-string-formatting](htt
 | %(pathname)s        | 파일 경로                                                              |
 | %(filename)s        | 파일 경로의 파일명 부분                                                |
 | %(module)s          | 파일명의 확장자를 제외한 부분                                          |
-| %(asctime)s         | 'yyyy-mm-dd hh:mm:ss,sss'                                              |
+| %(asctime)s         | `yyyy-mm-dd hh:mm:ss,sss`                                              |
 | %(name)s            | 로거 이름                                                              |
 | %(levelname)s       | 로깅 수준                                                              |
 | %(levelno)s         | 로깅 수준 값                                                           |
@@ -54,26 +50,29 @@ Ref: [https://docs.python.org/3/library/stdtypes.html#old-string-formatting](htt
 ## 함수
 
 ```python
-log = logging.getLogger(name=None)
+LOG = logging.getLogger(name=None)
 ```
 
-- @brief logging.Logger 객체 반환
-- @param name 특별한 경우가 아니면 `__name__` 설정
-- @return logging.Logger
+- @param `name` 특별한 경우가 아니면 `__name__` 설정
+- @return `logging.Logger`
 
 ```python
 logging.basicConfig(**kwargs)
 ```
 
-- @brief 루트 로거 설정, 로깅이 시작되기전 호출해야 유효함
-- @param filename 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
-- @param format 포맷
+- @brief 루트 로거 설정
+- @param `filename` 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
+- @param `format` 포맷
   ex) `fmt='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s'`
-- @param datefmt time.strftime() 설정 방법 Ref
-- @param level 수준
-- @param handlers 핸들러 설정, filename이나 stream을 설정하면 안됨, 포매터 설정 안하면 format이 설정됨
+- @param `datefmt` `time.strftime()` 설정과 동일
+- @param `level` 수준
+- @param `handlers` 핸들러 설정, `filename`이나 `stream`을 설정하면 안됨, 포매터 설정 안하면 `format`이 설정됨
 
 자식 로거는 자신에게 설정된 수준에 맞춰 부모 로거에게 메시지를 전달합니다.
+
+:::info
+`logging.basicConfig`sms 로깅이 시작되기 전에 호출해야 유효합니다.
+:::
 
 ### logging.Logger
 
@@ -131,8 +130,8 @@ formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
 ```
 
 - @brief 출력 형식을 설정
-- @param fmt 포맷
-- @param datefmt time.strftime() 설정 방법 Ref
+- @param `fmt` 포맷
+- @param `datefmt` time.strftime() 설정 방법 Ref
 
 ## Examples
 
@@ -141,39 +140,42 @@ formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
 ```python
 import logging
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.ERROR)
+LOG = logging.getLogger(__name__)
+# LOG.setLevel()을 사용하지 않으면 루트 로거의 level을 따름
+
 
 def child_function():
-    log.debug("debug")
-    log.info("info")
-    log.warning("warning")
-    log.error("error")
-    log.critical("critical")
+    LOG.debug("debug")
+    LOG.info("info")
+    LOG.warning("warning")
+    LOG.error("error")
+    LOG.critical("critical")
 ```
 
 ### main.py
 
 ```python
-import child
 import logging
+
+import child
+
 '''
 루트 로거 설정, format만 설정했으므로 StreamHandler 생성
 '''
 logging.basicConfig(
     format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
-    level=logging.CRITICAL)
+    level=logging.ERROR)
 
-log = logging.getLogger(__name__)
-log.setLevel(logging.INFO)
+LOG = logging.getLogger(__name__)
+LOG.setLevel(logging.INFO)
 
 
 def main_function():
-    log.debug("debug")
-    log.info("info")
-    log.warning("warning")
-    log.error("error")
-    log.critical("critical")
+    LOG.debug("debug")
+    LOG.info("info")
+    LOG.warning("warning")
+    LOG.error("error")
+    LOG.critical("critical")
 
 
 if __name__ == '__main__':
@@ -186,6 +188,9 @@ if __name__ == '__main__':
 
     # 루트 로거
     logging.debug("debug")
+    logging.info("info")
+    logging.warning("warning")
+    logging.error("error")
     logging.critical("critical")
 ```
 
@@ -193,11 +198,17 @@ if __name__ == '__main__':
 
 ```shell {1}
 $ python3 main.py
-[INFO    ] main.py      16 행 : info
-[WARNING ] main.py      17 행 : warning
-[ERROR   ] main.py      18 행 : error
-[CRITICAL] main.py      19 행 : critical
-[ERROR   ] child.py     12 행 : error
-[CRITICAL] child.py     13 행 : critical
-[CRITICAL] main.py      29 행 : critical
+[INFO    ] main.py      18 행 : info
+[WARNING ] main.py      19 행 : warning
+[ERROR   ] main.py      20 행 : error
+[CRITICAL] main.py      21 행 : critical
+[ERROR   ] child.py     10 행 : error
+[CRITICAL] child.py     11 행 : critical
+[ERROR   ] main.py      36 행 : error
+[CRITICAL] main.py      37 행 : criticall
 ```
+
+## Reference
+
+- [https://docs.python.org/3/library/logging.html](https://docs.python.org/3/library/logging.html)
+- [https://docs.python.org/3/library/stdtypes.html#old-string-formatting](https://docs.python.org/3/library/stdtypes.html#old-string-formatting)
