@@ -223,6 +223,7 @@ module.exports = {
         'nn/mlops/kubernetes/mlops-k8s-persistent-volume',
       ],
     },
+    'nn/mlops/mlops-cert-manager',
     'nn/mlops/mlops-kubeflow',
     'nn/mlops/mlops-kustomize',
     'nn/mlops/mlops-istio',

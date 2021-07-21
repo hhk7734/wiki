@@ -6,3 +6,63 @@ description: Kustomize
 keywords:
   - kustomize
 ---
+
+## kustomize
+
+```shell
+kustomize build <directory path> | kubectl apply -f -
+```
+
+`kustomize`는 위와 같은 형식으로 사용됩니다. `<directory path>/kustomization.yaml` 의 설정에 따라 yaml 파일들이 조합되고, 그 조합 결과가 `kubectl apply -f -`에 의해 적용됩니다.
+
+## Example
+
+```shell
+local-path-provisioner
+├── base
+│   ├── kustomization.yaml
+│   └── local-path-storage.yaml
+└── overlays
+    └── default-storageclass
+        ├── kustomization.yaml
+        └── patches
+            └── default-storageclass.yaml
+```
+
+```yaml title="local-path-provisioner/base/local-path-storage.yaml"
+#...
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path
+#...
+```
+
+```yaml title="local-path-provisioner/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - local-path-storage.yaml
+```
+
+```yaml title="local-path-provisioner/overlays/default-storageclass/patchs/default-storageclass.yaml" {5}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.beta.kubernetes.io/is-default-class: 'true'
+  name: local-path
+```
+
+```yaml title="local-path-provisioner/overlays/default-storageclass/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+bases:
+  - ../../base
+patches:
+  - patches/default-storageclass.yaml
+```
+
+## Reference
+
+- [https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/)

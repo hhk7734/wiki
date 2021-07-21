@@ -25,7 +25,7 @@ keywords:
         name: '{{ item }}'
         state: latest
         update_cache: yes
-      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'firewalld']
+      loop: ['apt-transport-https', 'ca-certificates', 'curl']
 
     - name: add kubernetes GPG apt key
       apt_key:
@@ -92,20 +92,20 @@ echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc
 
 ## Control plane node
 
-```shell
-sudo firewall-cmd --add-port 6443/tcp --permanent \
-&& sudo firewall-cmd --add-port 2379-2380/tcp --permanent \
-&& sudo firewall-cmd --add-port 10250/tcp --permanent \
-&& sudo firewall-cmd --add-port 10251/tcp --permanent \
-&& sudo firewall-cmd --add-port 10252/tcp --permanent \
-&& sudo firewall-cmd --reload
-```
+| 프로토콜 | 방향     | 포트 범위 | 목적                     | 사용자               |
+| -------- | -------- | --------- | ------------------------ | -------------------- |
+| TCP      | 인바운드 | 6443\*    | 쿠버네티스 API 서버      | 모두                 |
+| TCP      | 인바운드 | 2379-2380 | etcd 서버 클라이언트 API | kube-apiserver, etcd |
+| TCP      | 인바운드 | 10250     | kubelet API              | 자체, 컨트롤 플레인  |
+| TCP      | 인바운드 | 10251     | kube-scheduler           | 자체                 |
+| TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
 ```shell
 sudo kubeadm init --pod-network-cidr 10.130.0.0/16
 ```
 
-- `--apiserver-advertise-address`: Control plane node IP
+- `--pod-network-cidr`: Specify range of IP addresses for the pod network. ex) `192.168.0.0/16`
+- `--apiserver-advertise-address`: The IP address the API Server will advertise it's listening on.
 
 ```shell
 mkdir -p $HOME/.kube \
@@ -133,11 +133,10 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
 
 ## Worker node
 
-```shell
-sudo firewall-cmd --add-port 10250/tcp --permanent \
-&& sudo firewall-cmd --add-port 30000-32767/tcp --permanent \
-&& sudo firewall-cmd --reload
-```
+| 프로토콜 | 방향     | 포트 범위   | 목적        | 사용자              |
+| -------- | -------- | ----------- | ----------- | ------------------- |
+| TCP      | 인바운드 | 10250       | kubelet API | 자체, 컨트롤 플레인 |
+| TCP      | 인바운드 | 30000-32767 | NodePort    | 서비스† 모두        |
 
 ```shell
 sudo kubeadm join <control plane ip>:6443 \
@@ -148,7 +147,7 @@ sudo kubeadm join <control plane ip>:6443 \
 ## reset
 
 ```shell
-sudo kubeadm reset -f [--kubeconfig $HOME/.kube/config]
+sudo kubeadm reset -f
 ```
 
 ```shell
