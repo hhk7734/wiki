@@ -22,6 +22,11 @@ module.exports = {
       label: 'CNN',
       items: ['nn/basics/cnn/nn-cnn-conv2d'],
     },
+    {
+      type: 'category',
+      label: 'RNN',
+      items: ['nn/basics/rnn/nn-rnn'],
+    },
   ],
   circuit: [
     {
@@ -337,6 +342,7 @@ module.exports = {
             'lang/python/package/pybind11/python-package-pybind11-type',
           ],
         },
+        'lang/python/package/python-package-sphinx',
       ],
     },
   ],

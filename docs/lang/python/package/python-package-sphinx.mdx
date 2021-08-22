@@ -1,0 +1,60 @@
+---
+id: python-package-sphinx
+title: Documentation using Sphinx
+sidebar_label: Sphinx
+description: Documentation using Sphinx
+keywords:
+  - Python
+  - Sphinx
+---
+
+## Installation
+
+```shell
+python3 -m pip install sphinx
+```
+
+## Configuration
+
+```shell
+cd <package>
+```
+
+```shell {1,5,8-10,18}
+sphinx-quickstart docs
+
+...
+
+> Separate source and build directories (y/n) [n]: y
+
+The project name will occur in several places in the built documentation.
+> Project name: <package>
+> Author name(s): <author>
+> Project release []: <version>
+
+If the documents are to be written in a language other than English,
+you can select a language here by its language code. Sphinx will then
+translate text that it generates into that language.
+
+For a list of supported codes, see
+https://www.sphinx-doc.org/en/master/usage/configuration.html#confval-language.
+> Project language [en]:
+
+...
+```
+
+### conf.py
+
+```python title="docs/source/conf.py"
+
+```
+
+## Build
+
+```shell
+sphinx-apidoc -f -o docs/source <package path>
+```
+
+```shell
+sphinx-build -b html docs/source/ docs/build/html
+```

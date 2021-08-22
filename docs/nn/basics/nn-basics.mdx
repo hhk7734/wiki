@@ -36,26 +36,26 @@ Loss \equiv \frac{1}{2} \lVert \mathbf{y} - \mathbf{a}^L \rVert^2 = \frac{1}{2} 
 $$
 
 $$
-Loss \geq 0 \quad \left(\mathbf{y}\text{ is the desired output}\right)
+Loss \geq 0 \quad \left(\mathbf{y}\text{ 는 주어진 답}\right)
 $$
 
 ## Neural Network Training
 
-What we need to look for through neural network training are weights and biases to minimize the consequences of the loss function. When $\mathbf{w}$ is a vector representing weights and biases,
+`Neural Network Training`을 통해 찾아야 할 것은 $Loss$의 결과를 최소화하기 위한 `weights`와 `biases`입니다. $\mathbf{w}$ 가 weights와 biases를 나타내는 벡터일 때,
 
 $$
 Loss_{next} = Loss + \Delta Loss \approx Loss + \nabla Loss \cdot \Delta \mathbf{w}
 $$
 
-It must be $\nabla Loss \cdot \Delta \mathbf{w} < 0$, because $Loss$ should decrease. Therfore, $\Delta \mathbf{w}$ can be determined as
+$Loss$는 감소해야하기 때문에, 반드시 $\nabla Loss \cdot \Delta \mathbf{w} < 0$ 조건을 만족해야합니다. 따라서 $\Delta \mathbf{w}$는 아래와 같이 결정 될 수 있습니다.
 
 $$
 \Delta \mathbf{w} = - \eta \nabla Loss = - \epsilon \frac{\nabla Loss}{\lVert \nabla Loss \rVert} \quad ( \epsilon > 0)
 $$
 
-$\eta$ is called **learning rate** and $\epsilon$ is called **step**. If the step is large, $Loss$ may diverge, and if the step is small, the convergence speed may be slow, so an appropriate value should be determined.
+$\eta$는 `learning rate`이고, $\epsilon$은 `step`입니다. 만약 step이 너무 크다면, $Loss$는 발산하고, 너무 작으면, 수렴속도가 느려집니다. 따라서 적절한 값을 설정하는 것이 중요합니다.
 
-If $\Delta \mathbf{w}$ is determined, then $\mathbf{w}_{next}$ can be
+$\Delta \mathbf{w}$ 이 결정되면, $\mathbf{w}_{next}$은 아래와 같이 결정됩니다.
 
 $$
 \mathbf{w}_{next} = \mathbf{w} + \Delta \mathbf{w}
@@ -71,17 +71,17 @@ $$
 \nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x}
 $$
 
-When the number of training inputs is very large, this can take a long time. Stochastic gradient descent works by randomly picking out a small number $m$ of randomly chosen training inputs.
+훈련을 위한 데이터셋이 큰 경우, 시간이 많이 걸릴 수 있습니다. 전체 데이터셋에서 $m$ 만큼 데이터를 선택하여 `mini-batch`를 만들어 훈련하는 방식을 `Stochastic gradient descent`이라고 합니다.
 
 $$
 \nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x} \approx \frac{1}{m}\sum^m_{i=1}{\nabla Loss_{X_i}}
 $$
 
-Those random training inputs $X_1, X_2, ..., X_m$ are called **mini-batch**.
+전체 데이터셋에서 랜덤으로 데이터를 선택해 만든 데이터셋 $X_1, X_2, ..., X_m$ 을 `mini-batch`라고 합니다.
 
 ### Forward-propagation
 
-Forward propagation (or forward pass) refers to the calculation and storage of intermediate variables (including outputs) for a neural network in order from the input layer to the output layer.
+`Forward-propagation` (or forward pass)는 입력부터 출력으로 이어지는 네트워크를 순서대로 계산하고 그 결과를 저장하는 과정을 말합니다.
 
 ### Back-propagation
 
@@ -99,15 +99,15 @@ $$
 
 <br />
 
-Back-propagation is used to find $\nabla Loss$, because it is difficult for a computer to obtain $\nabla Loss$ by differentiating loss function.
+$Loss$를 직접 미분하기 어렵기 때문에, `Back-propagation`을 사용하여 $\nabla Loss$를 계산합니다.
 
-Error $\delta^l_j$ of neuron $j$ in layer $l$ is defined as
+$l$ 레이어의 $j$ 뉴런의 에러 $\delta^l_j$ 는 아래와 같이 정의됩니다.
 
 $$
 \delta^l_j \equiv \frac{\partial Loss}{\partial z^l_j}
 $$
 
-Since $z^l_j$ was obtained from forward propagation, If we know $\mathbf{\delta}^{l+1}$, we can get $\delta^l_j$ as below.
+$z^l_j$는 forward propagation을 통해 계산된 값이므로, $\mathbf{\delta}^{l+1}$를 안다면, $\delta^l_j$를 아래와 같이 구할 수 있습니다.
 
 $$
 \begin{aligned}
@@ -119,7 +119,7 @@ $$
 \end{aligned}
 $$
 
-If we use L2 loss, since $a^L_j$ was obtained from forward propagation and $\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)$, we can get the errors like this:
+`L2 loss`를 사용한다면, $a^L_j$는 forward propagation을 통해 구할 수 있고 $\delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)$ 이므로, 아래와 같이 에러를 구할 수 있습니다.
 
 $$
 \delta^L_j = (a^L_j - y_j) \, \sigma' \left( z^L_j \right)
@@ -130,7 +130,7 @@ $$
 \vdots
 $$
 
-Finally, $\nabla Loss$ can be obtained by using the errors obtained above.
+결과적으로 $\nabla Loss$는 위 식들을 통해 아래와 같이 구할 수 있습니다.
 
 $$
 \frac{\partial Loss}{\partial b^l_j} = \frac{\partial Loss}{\partial z^l_j} \frac{\partial z^l_j}{\partial b^l_j} = \delta^l_j
@@ -142,7 +142,13 @@ $$
 
 ### Training
 
-Set initail weights and biases to random and repeat process **Forward-propagation -> Back-propagation -> weights and biases update**. When it is judged that $Loss$ cannot be made smaller, the final weights and biases are determined.
+초기 weights and biases를 랜덤하게 설정하고, `Forward-propagation` -> `Back-propagation` -> `weights and biases update`를 반복하는 것을 `Training`이라고 합니다. $Loss$가 더이상 작아질 수 없다고 판단될 때, weights and biases 값이 최종 결과물이 됩니다.
+
+### Initialization
+
+입력의 분산보다 출력의 분산이 커지면 활성화 함수에 따라 수렴하는 부분이 생길 수 있고, 이것은 Vanishing gradient 문제를 야기할 수 있습니다.
+
+변수를 적절히 초기화 해주는 것은 `Vanishing gradient`, `Exploding gradient` 등의 문제 해결에 도움이 되고, 훈련속도를 높일 수 있습니다.
 
 ## Reference
 
