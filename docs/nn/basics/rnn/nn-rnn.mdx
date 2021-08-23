@@ -42,12 +42,12 @@ $$
 
 $$
 \begin{aligned}
-f_t &= \sigma(W_{fx} x_t, + W_{fh} h_{t-1} + b_f) \\
-i_t &= \sigma(W_{ix} x_t, + W_{ih} h_{t-1} + b_i) \\
-\widetilde{c_t} &= \tanh(W_{\tilde{c}x} x_t, + W_{\tilde{c}h} h_{t-1} + b_{\tilde{c}}) \\
-o_t &= \sigma(W_{ox} x_t, + W_{oh} h_{t-1} + b_o) \\
-c_t &= f_t \odot c_{t-1} + i_t \odot \widetilde{c_t} \\
-h_t &= o_t \odot \tanh(c_t)
+f_t &= \sigma(W_{xf} x_t + b_{xf} + W_{hf} h_{t-1} + b_{hf}) \\
+i_t &= \sigma(W_{xi} x_t + b_{xi} + W_{hi} h_{t-1} + b_{hi}) \\
+\widetilde{c_t} &= \tanh(W_{x\tilde{c}} x_t + b_{x\tilde{c}} + W_{h\tilde{c}} h_{t-1} + b_{h\tilde{c}}) \\
+o_t &= \sigma(W_{xo} x_t + b_{xo} + W_{ho} h_{t-1} + b_{ho}) \\
+c_t &= f_t \otimes c_{t-1} + i_t \otimes \widetilde{c_t} \\
+h_t &= o_t \otimes \tanh(c_t)
 \end{aligned}
 $$
 
@@ -58,3 +58,22 @@ $$
 - $o_t$는 `output gate`로 업데이트 된 cell state에서 어떤 정보를 내보낼지 결정합니다.
 
 ## GRU(Gated Recurrent Unit)
+
+LSTM variants 중 하나입니다.
+
+<center>
+  <img src={useBaseUrl('img/nn/basics/rnn/nn-rnn-gru.jpg')} />
+</center>
+
+$$
+\begin{aligned}
+r_t &= \sigma(W_{xr} x_t + b_{xr} + W_{hr} h_{t-1} + b_{hr}) \\
+z_t &= \sigma(W_{xz} x_t + b_{xz} + W_{hz} h_{t-1} + b_{hz}) \\
+\widetilde{h_t} &= \tanh(W_{x\tilde{h}} x_t + b_{x\tilde{h}} + r_t \otimes (W_{h\tilde{h}} h_{t-1} + b_{h\tilde{h}})) \\
+h_t &= z_t \otimes h_{t-1} + (1 - z_t) \otimes \widetilde{h_t}\\
+\end{aligned}
+$$
+
+- $h_t$는 `outpu`입니다.
+- $r_t$는 `reset gate`로 이전 state를 얼마나 output에 포함시킬지 결정합니다.
+- $z_t$는 `update gate`로 값이 1에 가까울 수록 이전 state가 저장되고, 0에 가까울 수록 새로운 state가 저장됩니다.
