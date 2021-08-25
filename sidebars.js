@@ -28,6 +28,7 @@ module.exports = {
       items: ['nn/basics/rnn/nn-rnn'],
     },
   ],
+  biochemistry: ['etc/biochemistry/biochemistry-receptor-ligand'],
   circuit: [
     {
       type: 'category',

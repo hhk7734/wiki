@@ -87,6 +87,7 @@ module.exports = {
           mlops: 'MLOps',
           nn: 'NN',
           basics: 'Basics',
+          biochemistry: 'BioChemistry',
         };
 
         _fs
