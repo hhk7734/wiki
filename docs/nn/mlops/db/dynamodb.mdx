@@ -1,0 +1,107 @@
+---
+id: dynamodb
+title: DynamoDB
+sidebar_label: DynamoDB
+description: DynamoDB
+keywords:
+  - dynamodb
+---
+
+## DynamoDB
+
+## Price
+
+- 데이터 저장: 25GB 무료, $0.25/GB/월
+
+## Key-Value
+
+### Key
+
+- `Partition key`
+  - 내부 해시 함수에 대한 입력으로 partition key 값을 사용합니다. 해시 함수 출력에 따라 item을 저장할 파티션 (DynamoDB 내부의 물리적 스토리지) 이 결정됩니다.
+  - 하나의 테이블에서 partition key는 고유합니다.
+- `Partition key`+`Sort key`
+  - 내부 해시 함수에 대한 입력으로 partition key 값을 사용합니다. 같은 partition key를 같는 item들의 경우 partition key에 의해 결정된 파티션에 sort key 값을 기준으로 정렬되어 함께 저장됩니다.
+  - 하나의 테이블에서 partition key, sort key 조합은 고유합니다.
+
+### Index
+
+- `LSI(Local Secondary Index)`
+  - 기본 테이블의 `Partition Key`와 새로운 `Sort Key`를 사용하여 새로운 테이블을 생성합니다.
+  - LSI의 sort key 값은 고유할 필요가 없습니다.
+  - 기본 테이블의 sort key가 기본으로 `Projection` 됩니다.
+  - 기본 테이블의 `Attirbute` 중 원하는 것을 인덱스 테이블에 포함 시킬 수 있습니다.
+  - 테이블당 최대 5개의 LSI를 생성할 수 있고, 테이블을 만들 때 미리 설정해두어야 합니다.
+  - LSI가 있는 테이블의 경우 파티션 키 값당 10GB의 `item collection` 한도가 적용됩니다.
+- `GSI(Global Secondary Index)`
+  - 새로운 `Partition Key`와 `Sort Key`를 사용하여 새로운 테이블을 생성합니다.
+  - GSI의 키 값은 고유할 필요가 없습니다.
+  - 기본 테이블의 partition key와 sort key가 기본으로 `Projection` 됩니다.
+  - 기본 테이블의 `Attirbute` 중 원하는 것을 인덱스 테이블에 포함 시킬 수 있습니다.
+  - 테이블당 최대 20개의 GSI를 생성할 수 있습니다.
+  - 기본 테이블과 GSI 테이블은 자동으로 동기화됩니다.
+
+### Item
+
+- 최대 400 KB의 크기를 가질 수 있습니다.
+
+## Table
+
+### Create
+
+```python
+import boto3
+from boto3.dynamodb.types import BOOLEAN, NUMBER, STRING
+
+dynamodb = boto3.resource("dynamodb", region_name="us-west-2")
+
+create_table_kwargs = {
+    "TableName": "Test",
+    "KeySchema": [
+        {"AttributeName": "PK", "KeyType": "HASH"},
+        {"AttributeName": "SK", "KeyType": "RANGE"},
+    ],
+    "AttributeDefinitions": [
+        {"AttributeName": "PK", "AttributeType": STRING},
+        {"AttributeName": "SK", "AttributeType": NUMBER},
+        {"AttributeName": "attr1", "AttributeType": STRING},
+        {"AttributeName": "attr2", "AttributeType": BOOLEAN},
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+}
+
+table = dynamodb.create_table(**create_table_kwargs)
+```
+
+### Get
+
+## Read
+
+### GetItem
+
+### BatchGetItem
+
+## Scan and Query
+
+### Scan
+
+### Query
+
+`KeyConditionExpression`
+`FilterExpression`
+`ProjectionExpression`
+
+## Write
+
+### PutItem
+
+### UpdateItem
+
+### DeleteItem
+
+### BatchWriteItem
+
+## Reference
+
+- [https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html)
+- [https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html)

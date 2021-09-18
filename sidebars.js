@@ -234,6 +234,11 @@ module.exports = {
     'nn/mlops/mlops-kustomize',
     'nn/mlops/mlops-istio',
     'nn/mlops/mlops-knative',
+    {
+      type: 'category',
+      label: 'DB',
+      items: ['nn/mlops/db/dynamodb', 'nn/mlops/db/mariadb'],
+    },
   ],
   nodejs: [
     {
