@@ -9,9 +9,34 @@ keywords:
 
 ## DynamoDB
 
+미국 서부(오레곤) 기준입니다.
+
 ## Price
 
-- 데이터 저장: 25GB 무료, $0.25/GB/월
+- 데이터 저장: 25 GB 무료, `$ 0.25 / GB / 월`
+- 쓰기: `$ 1.25 / 1,000,000 WCU`
+- 복제된 쓰기: `$ 1.875 / 1,000,000 rWCU` (GSI)
+- 읽기: `$ 0.25 / 1,000,000 RCU`
+- 데이터 수신: 무료
+- 데이터 송신: `1 GB / 월` 무료, 다음 `40 TB / 월` `$ 0.085 / GB`
+
+## Capacity
+
+### Capacity Unit
+
+계산 시 발생하는 소수점 이하 부분은 올림합니다.
+
+- Read Capacity Units: `RCU`
+  - `Strongly Consistent Read`: 4 KB 당 1 RCU
+  - `Eventually Consistent Read`: 8 KB 당 1 RCU
+  - `Transaction Read`: 2 KB 당 1 RCU
+- Write Capacity Units: `WCU`
+  - `Write`: 1 KB 당 1 WCU
+  - `Transaction Write`: 0.5 KB 당 2 WCU
+
+### Provisioned Capacity
+
+초당 `Provisioned read capacity` 또는 `Provisioned write capacity`를 넘는 작업이 요청되면 해당 작업은 `ProvisionedThroughputExceededException`과 함께 `throttle` 상태가 됩니다.
 
 ## Key-Value
 
@@ -43,7 +68,14 @@ keywords:
 
 ### Item
 
+- Key-Value(Attirbute)로 구성되어 있는 하나의 항목입니다.
 - 최대 400 KB의 크기를 가질 수 있습니다.
+- 크기
+  - 문자열: (Attribute 이름 길이) + (UTF-8 인코딩된 문자열 바이트 수)
+  - 숫자: (Attribute 이름 길이) + (유효 숫자 2 자리당 1) + 1, 양 끝의 0은 제외
+  - 바이너리: (Attribute 이름 길이) + (바이너리 바이트 수)
+  - null or 불리언: (Attribute 이름 길이) + 1
+  - List or Map: (Attribute 이름 길이) + (중첩된 요소 크기) + (오버헤드 3)
 
 ## Table
 
@@ -79,29 +111,54 @@ table = dynamodb.create_table(**create_table_kwargs)
 
 ### GetItem
 
+- RCU는 가져온 item 크기로 계산됩니다.
+
 ### BatchGetItem
 
-## Scan and Query
+- DynamoDB 로의 네트워크 왕복 수가 감소될 수 있습니다. 또한 DynamoDB 는 개별 읽기 작업을 병렬로 수행합니다.
+- 최대 100개의 개별 작업을 포함할 수 있습니다. 최대 16MB의 데이터를 검색할 수 있습니다.
+- RCU는 각 item 별로 계산됩니다.
 
-### Scan
+## Query and Scan
 
 ### Query
+
+- 최대 1 MB의 데이터를 가져올 수 있습니다.
+- RCU는 반환되는 모든 item 크기의 합으로 계산됩니다.
 
 `KeyConditionExpression`
 `FilterExpression`
 `ProjectionExpression`
 
+### Scan
+
+- 최대 1 MB의 데이터를 가져올 수 있습니다.
+- RCU는 scan을 위해 확인한 모든 item 크기의 합으로 계산됩니다.
+
 ## Write
+
+- `ConditionExpression` 식에 맞지 않아 쓰기를 실패하더라도 해당 WCU가 사용됩니다.
 
 ### PutItem
 
+- WCU는 동일 키가 존재하지 않은 경우 새로 생성되는 item 크기로 계산되고, 존재하는 경우 더 큰 크기로 계산됩니다.
+
 ### UpdateItem
+
+- WCU는 업데이트 전 후의 item 크기 중 더 큰 크기로 계산됩니다.
 
 ### DeleteItem
 
+- WCU는 삭제된 item 크기로 계산됩니다.
+
 ### BatchWriteItem
+
+- DynamoDB 로의 네트워크 왕복 수가 감소될 수 있습니다. 또한 DynamoDB 는 개별 쓰기 작업을 병렬로 수행합니다.
+- 최대 25개의 개별 작업을 포함할 수 있습니다. 최대 16MB의 데이터를 쓸 수 있습니다.
+- WCU는 각 item 별로 계산됩니다.
 
 ## Reference
 
 - [https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html](https://docs.aws.amazon.com/ko_kr/amazondynamodb/latest/developerguide/HowItWorks.CoreComponents.html)
 - [https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html](https://boto3.amazonaws.com/v1/documentation/api/latest/guide/dynamodb.html)
+- [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html)
