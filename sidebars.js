@@ -237,7 +237,12 @@ module.exports = {
     {
       type: 'category',
       label: 'DB',
-      items: ['nn/mlops/db/dynamodb', 'nn/mlops/db/mariadb'],
+      items: [
+        'nn/mlops/db/dynamodb',
+        'nn/mlops/db/mongodb',
+        'nn/mlops/db/influxdb',
+        'nn/mlops/db/postgresql',
+      ],
     },
   ],
   nodejs: [
