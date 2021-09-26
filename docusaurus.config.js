@@ -151,8 +151,11 @@ module.exports = {
         'dart',
         'ini',
         'nginx',
+        'sql',
         'yaml',
       ],
+      theme: require('prism-react-renderer/themes/vsLight'),
+      darkTheme: require('prism-react-renderer/themes/vsDark'),
     },
   },
   presets: [

@@ -1,0 +1,141 @@
+---
+id: terraform
+title: Terraform
+sidebar_label: Terraform
+description: Terraform
+keywords:
+  - terraform
+---
+
+## Installation
+
+### Terraform
+
+```shell
+sudo apt-get update && sudo apt-get install -y gnupg software-properties-common curl
+```
+
+```shell
+curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+```
+
+```shell
+sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+```
+
+```shell
+sudo apt-get update && sudo apt-get install terraform
+```
+
+### AWS
+
+```shell
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+- `AWS Access Key ID and Access Key`: IAM -> 사용자 -> <user\> -> 보안 자격 증명 -> 액세스 키 만들기
+
+```shell
+aws configure
+```
+
+## Block
+
+```terraform
+<BLOCK TYPE> "<BLOCK LABEL>" "<BLOCK LABEL>" {
+  # Block body
+  <IDENTIFIER> = <EXPRESSION> # Argument
+}
+```
+
+### terraform
+
+```terraform
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 3.27"
+    }
+  }
+
+  required_version = ">= 0.14.9"
+}
+```
+
+### provider
+
+```terraform
+provider "aws" {
+  profile = "default"
+  region  = "us-west-2"
+}
+```
+
+### variable
+
+```terraform
+variable "instance_name" {
+  description = "Value of the Name tag for the EC2 instance"
+  type        = string
+}
+```
+
+### resource
+
+```terraform
+resource "aws_instance" "app_server" {
+  ami           = "ami-08d70e59c07c61a3a"
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = var.instance_name
+  }
+}
+```
+
+### output
+
+```terraform
+output "instance_id" {
+  description = "ID of the EC2 instance"
+  value       = aws_instance.app_server.id
+}
+
+output "instance_public_ip" {
+  description = "Public IP address of the EC2 instance"
+  value       = aws_instance.app_server.public_ip
+}
+```
+
+## CLI
+
+```shell
+.
+├── main.tf
+├── outputs.tf
+└── variables.tf
+```
+
+```shell
+terraform init
+```
+
+```shell
+terraform plan
+```
+
+```shell
+terraform apply
+```
+
+```shell
+terraform destroy
+```
+
+## Reference
+
+- [https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started](https://learn.hashicorp.com/tutorials/terraform/install-cli?in=terraform/aws-get-started)
+- [https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
