@@ -1,0 +1,106 @@
+---
+id: basics
+title: Pulumi basics
+sidebar_label: Basics
+description: Pulumi basics
+keywords:
+  - pulumi
+---
+
+## Installation
+
+### AWS
+
+```shell
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+- `AWS Access Key ID and Access Key`: IAM -> 사용자 -> <user\> -> 보안 자격 증명 -> 액세스 키 만들기
+
+```shell
+aws configure
+```
+
+### Pulumi
+
+```shell
+curl -fsSL https://get.pulumi.com | sh
+```
+
+```shell
+pulumi login [<url>]
+```
+
+- `url`
+  - `s3://<pulumi-stack-bucket>`
+  - `file://<pulumi-stack-path>`
+
+## Tutorial
+
+```shell
+mkdir test && cd test
+```
+
+```shell
+pulumi new aws-python
+```
+
+```shell
+test
+├── __main__.py
+├── Pulumi.dev.yaml
+├── Pulumi.yaml
+├── requirements.txt
+└── venv/
+```
+
+```yaml title="Pulumi.yaml"
+name: test
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A minimal AWS Python Pulumi program
+```
+
+```yaml title="Pulumi.dev.yaml"
+encryptionsalt: ***
+config:
+  aws:region: us-west-2
+```
+
+```python titile="__main__.py"
+import pulumi
+import pulumi_aws as aws
+
+aws_instance = aws.ec2.Instance(
+    "app_server",
+    ami="ami-090717c950a5c34d3",
+    instance_type="t3.micro",
+    tags={
+        "Name": "HelloWorld",
+    },
+)
+
+pulumi.export("instance_id", aws_instance.id)
+pulumi.export("instance_public_ip", aws_instance.public_ip)
+```
+
+```shell
+pulumi up
+```
+
+```shell
+pulumi destroy
+```
+
+```shell
+pulumi stack rm dev
+```
+
+## Reference
+
+- [https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+- [https://www.pulumi.com/docs/intro/concepts/state/](https://www.pulumi.com/docs/intro/concepts/state/)
