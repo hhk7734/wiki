@@ -21,6 +21,9 @@ import { MainHeading } from '@theme/Heading';
 import styles from './styles.module.css';
 import { ThemeClassNames } from '@docusaurus/theme-common';
 
+import AdSense from 'react-adsense';
+import Comment from '../../component/Comment.js';
+
 export default function DocItem(props: Props): JSX.Element {
   const { content: DocContent, versionMetadata } = props;
   const { metadata, frontMatter } = DocContent;
@@ -90,7 +93,31 @@ export default function DocItem(props: Props): JSX.Element {
                 */}
                 {shouldAddTitle && <MainHeading>{title}</MainHeading>}
 
+                <div>
+                  <AdSense.Google
+                    client="ca-pub-5199357432848758"
+                    slot="5326538900"
+                    style={{ display: 'block' }}
+                    format="auto"
+                    responsive="true"
+                  />
+                </div>
+                <br />
+
                 <DocContent />
+
+                <br />
+                <div>
+                  <AdSense.Google
+                    client="ca-pub-5199357432848758"
+                    slot="5326538900"
+                    style={{ display: 'block' }}
+                    format="auto"
+                    responsive="true"
+                  />
+                </div>
+
+                <Comment />
               </div>
 
               <DocItemFooter {...props} />
