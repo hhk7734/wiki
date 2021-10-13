@@ -281,6 +281,8 @@ module.exports = {
     },
   ],
   python: [
+    'lang/python/exception',
+    'lang/python/logging',
     {
       type: 'category',
       label: 'Libraries',
@@ -297,7 +299,6 @@ module.exports = {
           label: 'gpiod',
           items: ['lang/python/libraries/gpiod/python-gpiod-about'],
         },
-        'lang/python/libraries/python-logging',
         {
           type: 'category',
           label: 'OpenCV',
