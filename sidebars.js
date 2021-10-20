@@ -112,6 +112,16 @@ module.exports = {
       ],
     },
   ],
+  db: [
+    {
+      type: 'category',
+      label: 'DynamoDB',
+      items: ['lang/db/dynamodb/basics', 'lang/db/dynamodb/update-item'],
+    },
+    'lang/db/mongodb',
+    'lang/db/influxdb',
+    'lang/db/postgresql',
+  ],
   espressif: ['mcu/espressif/esp8266-esp-01-module'],
   flutter: [
     {
@@ -221,8 +231,15 @@ module.exports = {
       label: 'Pulumi',
       items: ['nn/mlops/pulumi/basics'],
     },
-
-    'nn/mlops/mlops-ansible',
+    {
+      type: 'category',
+      label: 'Ansible',
+      items: [
+        'nn/mlops/ansible/basics',
+        'nn/mlops/ansible/vault',
+        'nn/mlops/ansible/roles',
+      ],
+    },
     'nn/mlops/mlops-cri-docker',
     'nn/mlops/mlops-kubeadm',
     'nn/mlops/mlops-cni-calico',
@@ -240,16 +257,6 @@ module.exports = {
     'nn/mlops/mlops-kustomize',
     'nn/mlops/mlops-istio',
     'nn/mlops/mlops-knative',
-    {
-      type: 'category',
-      label: 'DB',
-      items: [
-        'nn/mlops/db/dynamodb',
-        'nn/mlops/db/mongodb',
-        'nn/mlops/db/influxdb',
-        'nn/mlops/db/postgresql',
-      ],
-    },
   ],
   nodejs: [
     {

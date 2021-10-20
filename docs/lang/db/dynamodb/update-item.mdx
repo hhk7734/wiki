@@ -1,0 +1,70 @@
+---
+id: update-item
+title: DynamoDB Update Item
+sidebar_label: Update Item
+description: DynamoDB Update Item
+keywords:
+  - dynamodb
+  - Update Item
+---
+
+## Terms
+
+- `path`: Item의 문서 경로 EX) user, info.name, #name
+- `value`: `path`에 대입할 값 EX) :name
+- `operand`: `path` or `value`.
+
+## ConditionExpression
+
+- Comparator
+  - `a = b`
+  - `a <> b`: a와 b가 다르면 True
+  - `a < b`
+  - `a <= b`
+  - `a > b`
+  - `a >= b`
+  - `a BETWEEN b AND c`: `(b <= a) AND (a <= c)`
+  - `a IN (b, c)`: `(a = b) OR (a = c)`, 리스트는 최대 100개 까지 설정할 수 있음
+- Function
+  - `attribute_exists(path)`
+  - `attribute_not_exists(path)`
+  - `attribute_type(path, type)`
+  - `contains(path, operand)`
+  - `begins_with(path, substr)`
+  - `size(path)`
+- Logical
+  - `a AND b`
+  - `a OR b`
+  - `NOT a`
+
+## UpdateExpression
+
+- `SET path = value [, path = value]`
+  - `SET path = value`
+  - `SET path = operand + operand`
+  - `SET path = operand - operand`
+  - `SET path = list_append(operand, operand)`
+- `REMOVE path [, path]`
+
+## ExpressionAttributeNames
+
+## ExpressionAttributeValues
+
+## ReturnValues
+
+- `NONE`: 기본값
+- `ALL_OLD`
+- `UPDATED_OLD`: 업데이트하기 전 `path`의 값만 반환
+- `ALL_NEW`
+- `UPDATED_NEW`
+
+## ReturnConsumedCapacity
+
+- `INDEXES`: 기본 테이블 + 인덱스 테이블
+- `TOTAL`: 기본 테이블
+- `NONE`
+
+## Reference
+
+- [https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.update_item](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/dynamodb.html#DynamoDB.Client.update_item)
+- [https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.OperatorsAndFunctions.html](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.OperatorsAndFunctions.html)

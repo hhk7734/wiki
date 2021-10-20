@@ -64,6 +64,7 @@ module.exports = {
           //
           lang: 'Programming',
           cpp: 'C++',
+          db: 'Database',
           flutter: 'Flutter',
           labview: 'LabVIEW',
           nodejs: 'Node.js',
