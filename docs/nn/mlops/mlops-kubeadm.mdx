@@ -9,7 +9,7 @@ keywords:
 
 ## Installation
 
-- Minimum system requirements
+- 최소 필요 조건
   - 2 CPU
   - 2 GB memory
 
@@ -18,7 +18,7 @@ keywords:
 - hosts: all
   become: yes
   vars:
-    version: 1.17.0-00
+    version: 1.19.15-00
   tasks:
     - name: install required
       apt:
@@ -46,7 +46,7 @@ keywords:
       loop: ['kubelet', 'kubeadm', 'kubectl']
 
     - name: disable swap
-      command: swapoff -a
+      shell: swapoff -a
       when: ansible_swaptotal_mb > 0
 
     - name: remove swapfile from /etc/fstab
@@ -62,7 +62,7 @@ keywords:
         create: yes
 
     - name: modprobe br_netfilter
-      command: modprobe br_netfilter
+      shell: modprobe br_netfilter
 
     - name: add netbridge config ip6
       lineinfile:
@@ -77,17 +77,23 @@ keywords:
         create: yes
 
     - name: update sysctl
-      command: sysctl --system
+      shell: sysctl --system
 ```
 
 ### Complition
 
-```shell
-echo "source <(kubectl completion bash)" >> ~/.bashrc
+```shell title=".bashrc"
+source <(kubectl completion bash)
+
+alias k=kubectl
+complete -F __start_kubectl k
 ```
 
-```shell
-echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc
+```shell title=".zshrc"
+source <(kubectl completion zsh)
+
+alias k=kubectl
+complete -F __start_kubectl k
 ```
 
 ## Control plane node
@@ -101,17 +107,30 @@ echo "[[ $commands[kubectl] ]] && source <(kubectl completion zsh)" >> ~/.zshrc
 | TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
 ```shell
-sudo kubeadm init --pod-network-cidr 10.130.0.0/16
+sudo kubeadm init \
+    --pod-network-cidr 192.168.0.0/16
 ```
 
-- `--pod-network-cidr`: Specify range of IP addresses for the pod network. ex) `192.168.0.0/16`
-- `--apiserver-advertise-address`: The IP address the API Server will advertise it's listening on.
+- `--pod-network-cidr`: pod network로 사용되는 IP 주소 범위 ex) `192.168.0.0/16`
+- `--apiserver-advertise-address`:
+  - Default: 해당 노드 IP
+  - 다른 노드가 API Sever에 접속하기 위한 IP 주소
+- `--apiserver-cert-extra-sans`:
+- `--service-cidr`:
+  - Default: `10.96.0.0/12` (10.96.0.0 ~ 10.111.255.255)
+- `--control-plane-endpoint`:
 
 ```shell
 mkdir -p $HOME/.kube \
 && sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
+
+```shell
+kubectl get pods -n kube-system
+```
+
+`coredns` 체크
 
 ### calico
 

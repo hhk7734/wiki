@@ -25,11 +25,11 @@ Containers:
     ...
 ```
 
-```yaml title="kubernetes-dashboard-nodeport.yaml" {5,10,13}
+```yaml title="k8s-dashboard-nodeport.yaml" {5,10,13}
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubernetes-dashboard-nodeport
+  name: k8s-dashboard-nodeport
   namespace: kubernetes-dashboard
 spec:
   type: NodePort
@@ -42,9 +42,9 @@ spec:
 ```
 
 ```shell
-kubectl apply -f kubernetes-dashboard-nodeport.yaml
+kubectl apply -f k8s-dashboard-nodeport.yaml
 ```
 
 ```shell
-kubectl describe svc -n kubernetes-dashboard kubernetes-dashboard-nodeport
+kubectl describe svc -n kubernetes-dashboard k8s-dashboard-nodeport
 ```

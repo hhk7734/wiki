@@ -55,14 +55,18 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 </center>
 
 <center>
-  <strong>Calico CNI and Calico IPAM</strong>
+  <strong>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</strong>
 </center>
 <br />
 
 ### Installation
 
 ```shell
-kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+wget https://docs.projectcalico.org/manifests/tigera-operator.yaml
+```
+
+```shell
+kubectl create -f tigera-operator.yaml
 ```
 
 ```yaml title="calico.yaml" {13}
@@ -78,10 +82,19 @@ spec:
     # Note: The ipPools section cannot be modified post-install.
     ipPools:
       - blockSize: 26
-        cidr: 10.130.0.0/16
+        cidr: 192.168.0.0/16
         encapsulation: VXLANCrossSubnet
         natOutgoing: Enabled
         nodeSelector: all()
+
+---
+# This section configures the Calico API server.
+# For more information, see: https://docs.projectcalico.org/v3.20/reference/installation/api#operator.tigera.io/v1.APIServer
+apiVersion: operator.tigera.io/v1
+kind: APIServer
+metadata:
+  name: default
+spec: {}
 ```
 
 ```shell
@@ -91,6 +104,8 @@ kubectl create -f calico.yaml
 ```shell
 watch kubectl get pods -n calico-system
 ```
+
+마스터 노드에 Pod이 생성 될 수 있도록 설정하려면 아래 명령어를 실행하면 됩니다.
 
 ```shell
 kubectl taint nodes --all node-role.kubernetes.io/master-

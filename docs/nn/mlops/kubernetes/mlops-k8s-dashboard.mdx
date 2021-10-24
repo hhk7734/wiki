@@ -10,39 +10,43 @@ keywords:
 ## Installation
 
 ```shell
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml -O k8s-dashboard.yaml
+```
+
+```shell
+kubectl apply -f k8s-dashboard.yaml
 ```
 
 ## ServiceAccount
 
-```yaml title="kubernetes-dashboard-admin.yaml"
+```yaml title="k8s-dashboard-admin.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kubernetes-dashboard-admin
+  name: k8s-dashboard-admin
   namespace: kubernetes-dashboard
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kubernetes-dashboard-admin
+  name: k8s-dashboard-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: kubernetes-dashboard-admin
+    name: k8s-dashboard-admin
     namespace: kubernetes-dashboard
 ```
 
 ```shell
-kubectl apply -f kubernetes-dashboard-admin.yaml
+kubectl apply -f k8s-dashboard-admin.yaml
 ```
 
 ```shell
-kubectl describe secret -n kubernetes-dashboard kubernetes-dashboard-admin
+kubectl describe secret -n kubernetes-dashboard k8s-dashboard-admin
 ```
 
 ## Reference

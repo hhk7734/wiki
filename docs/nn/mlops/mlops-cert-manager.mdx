@@ -12,7 +12,15 @@ keywords:
 [https://github.com/jetstack/cert-manager/releases](https://github.com/jetstack/cert-manager/releases)에서 원하는 버전을 찾은 후 `cert-manager.yaml`을 다운로드 받습니다.
 
 ```shell
+wget https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+```
+
+```shell
 kubectl apply -f cert-manager.yaml
+```
+
+```shell
+kubectl get pods --namespace cert-manager
 ```
 
 ## selfSigned

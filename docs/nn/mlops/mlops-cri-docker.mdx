@@ -15,13 +15,6 @@ keywords:
 - hosts: all
   become: yes
   tasks:
-    - name: purge
-      apt:
-        name: '{{ item }}'
-        state: absent
-        update_cache: yes
-      loop: ['docker', 'docker-engine', 'docker.io', 'containerd', 'runc']
-
     - name: install required
       apt:
         name: '{{ item }}'
@@ -34,7 +27,7 @@ keywords:
         url: https://download.docker.com/linux/ubuntu/gpg
         keyring: /usr/share/keyrings/docker-archive-keyring.gpg
 
-    - name: add docker repository
+    - name: add docker repository ({{ ansible_distribution_release }})
       apt_repository:
         repo: deb
           [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
@@ -63,14 +56,14 @@ keywords:
           }
 
     - name: systemd enable docker
-      ansible.builtin.systemd:
+      systemd:
         name: '{{ item }}'
         enabled: yes
         state: started
       loop: ['docker', 'containerd']
 
     - name: systemd daemon-reload
-      ansible.builtin.systemd:
+      systemd:
         daemon_reload: yes
 ```
 

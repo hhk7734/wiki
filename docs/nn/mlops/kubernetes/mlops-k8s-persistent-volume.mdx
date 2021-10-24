@@ -38,6 +38,23 @@ metadata:
 kustomize build "github.com/rancher/local-path-provisioner/deploy?ref=master" | kubectl apply -f -
 ```
 
+### AWS provisioner
+
+```yaml title="aws-standard-storage-class.yaml"
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: standard
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate
+```
+
 ## PersistentVolume
 
 ## PersistentVolumeClaim

@@ -9,7 +9,34 @@ keywords:
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-<br />
+## Installation
+
+```shell
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.5 TARGET_ARCH=x86_64 sh - \
+&& sudo mv istio-1.9.5/ /opt/
+```
+
+```shell
+export PATH=/opt/istio-1.9.5/bin:$PATH
+```
+
+```shell
+istioctl install
+```
+
+```shell
+istioctl x uninstall --purge
+```
+
+```shell
+kubectl delete namespace istio-system
+```
+
+```shell
+kubectl label namespace default istio-injection-
+```
+
+## Proxy & Service mesh
 
 <center>
   <img src={useBaseUrl('img/nn/mlops/mlops-istio-service-mesh-before.svg')} />
@@ -27,8 +54,6 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 <center>
   <strong>After utilizing Istio</strong>
 </center>
-
-## Proxy & Service mesh
 
 ```txt
 Client ─── Service A ┬── Service B
@@ -245,6 +270,7 @@ spec:
 ## Reference
 
 - [https://bcho.tistory.com/1293](https://bcho.tistory.com/1293)
+- [https://istio.io/latest/docs/setup/install/](https://istio.io/latest/docs/setup/install/)
 - [https://istio.io/latest/about/service-mesh/](https://istio.io/latest/about/service-mesh/)
 - [https://istio.io/latest/docs/examples/bookinfo/](https://istio.io/latest/docs/examples/bookinfo/)
 - [https://github.com/kubeflow/manifests/tree/v1.3.0](https://github.com/kubeflow/manifests/tree/v1.3.0)

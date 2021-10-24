@@ -155,7 +155,7 @@ module.exports = {
         'sql',
         'yaml',
       ],
-      theme: require('prism-react-renderer/themes/vsDark'),
+      theme: require('prism-react-renderer/themes/nightOwlLight'),
       darkTheme: require('prism-react-renderer/themes/vsDark'),
     },
   },
