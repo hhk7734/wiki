@@ -20,64 +20,78 @@ keywords:
   vars:
     version: 1.19.15-00
   tasks:
-    - name: install required
+    - name: Install requirements
       apt:
         name: '{{ item }}'
         state: latest
         update_cache: yes
       loop: ['apt-transport-https', 'ca-certificates', 'curl']
 
-    - name: add kubernetes GPG apt key
+    - name: Add kubernetes GPG apt key
       apt_key:
         url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
         keyring: /usr/share/keyrings/kubernetes-archive-keyring.gpg
 
-    - name: add kubernetes repository
+    - name: Add kubernetes repository
       apt_repository:
         repo: deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg]
           https://apt.kubernetes.io/ kubernetes-xenial main
         filename: kubernetes
 
-    - name: install kubeadm kubectl version={{ version }}
+    - name: Install kubeadm kubectl kubelet version={{ version }}
       apt:
         name: '{{ item }}={{ version }}'
         update_cache: yes
         force: yes
       loop: ['kubelet', 'kubeadm', 'kubectl']
 
-    - name: disable swap
-      shell: swapoff -a
+    - name: Disable swap
+      command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
-    - name: remove swapfile from /etc/fstab
+    - name: Remove swapfile from /etc/fstab
       replace:
         path: /etc/fstab
         regexp: '^([^#].*?\sswap\s+sw\s+.*)$'
         replace: '# \1'
 
-    - name: add br_netfilter to modules-load.d
+    - name: Add br_netfilter to modules-load.d
       lineinfile:
         path: /etc/modules-load.d/k8s.conf
         line: br_netfilter
+        mode: 0644
         create: yes
 
     - name: modprobe br_netfilter
-      shell: modprobe br_netfilter
+      modprobe:
+        name: br_netfilter
 
-    - name: add netbridge config ip6
+    - name: Add netbridge config ip6
       lineinfile:
         path: /etc/sysctl.d/k8s.conf
         line: 'net.bridge.bridge-nf-call-ip6tables = 1'
+        mode: 0644
         create: yes
 
-    - name: add netbridge config ip4
+    - name: Add netbridge config ip4
       lineinfile:
         path: /etc/sysctl.d/k8s.conf
         line: 'net.bridge.bridge-nf-call-iptables = 1'
+        mode: 0644
         create: yes
 
-    - name: update sysctl
+    - name: Update sysctl
       shell: sysctl --system
+
+    - name: Add kubectl completion to /home/{{ ansible_user }}/.bashrc
+      lineinfile:
+        path: /home/{{ ansible_user }}/.bashrc
+        line: |
+          source <(kubectl completion bash)
+
+          alias k=kubectl
+          complete -F __start_kubectl k
+        mode: 0644
 ```
 
 ### Complition
