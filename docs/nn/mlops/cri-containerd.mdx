@@ -1,0 +1,108 @@
+---
+id: cri-containerd
+title: CRI - containerd
+sidebar_label: CRI - containerd
+description: CRI - containerd
+keywords:
+  - CRI
+  - containerd
+---
+
+## Installation
+
+```yaml title="containerd-installation.yaml"
+---
+- hosts: all
+  become: yes
+  tasks:
+    - name: Install requirements
+      apt:
+        name: '{{ item }}'
+        state: latest
+        update_cache: yes
+      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg']
+
+    - name: Add docker GPG apt key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        keyring: /usr/share/keyrings/docker-archive-keyring.gpg
+
+    - name: Add docker repository ({{ ansible_distribution_release }})
+      apt_repository:
+        repo: deb
+          [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg]
+          https://download.docker.com/linux/ubuntu
+          {{ ansible_distribution_release }} stable
+        filename: docker
+
+    - name: Install containerd.io
+      apt:
+        name: containerd.io
+        state: latest
+        update_cache: yes
+
+    - name: Add containerd.conf to /etc/modules-load.d
+      copy:
+        dest: /etc/modules-load.d/containerd.conf
+        content: |
+          overlay
+          br_netfilter
+        mode: 0644
+
+    - name: modprobe overlay
+      modprobe:
+        name: overlay
+
+    - name: modprobe br_netfilter
+      modprobe:
+        name: br_netfilter
+
+    - name: Add 99-k8s-cri.conf to /etc/sysctl.d
+      copy:
+        dest: /etc/sysctl.d/99-k8s-cri.conf
+        content: |
+          net.bridge.bridge-nf-call-iptables  = 1
+          net.ipv4.ip_forward                 = 1
+          net.bridge.bridge-nf-call-ip6tables = 1
+        mode: 0644
+
+    - name: Update sysctl
+      shell: sysctl --system
+
+    - name: mkdir /etc/containerd
+      file:
+        path: /etc/containerd
+        state: directory
+        mode: 0755
+
+    - name: Add config.toml to /etc/containerd
+      shell: containerd config default > /etc/containerd/config.toml
+      args:
+        chdir: /etc/containerd
+
+    - name: Insert 'SystemdCgroup = true' for containerd with runc
+      lineinfile:
+        path: /etc/containerd/config.toml
+        regexp: '(^.*containerd\.runtimes\.runc\.options\]$)'
+        line: '\1\n            SystemdCgroup = true'
+        backrefs: yes
+
+    - name: grep /etc/containerd/config.toml
+      shell: grep -C 3 'SystemdCgroup = true' /etc/containerd/config.toml
+      register: config_toml_grep
+
+    - name: Debug config.toml changes
+      debug:
+        msg: "{{ config_toml_grep.stdout.split('\n') }}"
+
+    - name: systemd enable and restart containerd
+      systemd:
+        name: containerd
+        enabled: yes
+        state: restarted
+```
+
+## Reference
+
+- [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
+- [https://kubernetes.io/docs/setup/production-environment/container-runtimes/](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)

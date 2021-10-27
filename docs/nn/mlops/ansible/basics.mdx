@@ -31,16 +31,6 @@ ssh-add <path>/<id file>
 ssh-copy-id -i<path>/<id file>.pub [-p<port>] <managed user>@<managed ip>
 ```
 
-## Managed node
-
-```shell
-sudo vidudo
-
-...
-
-<user> ALL=(ALL) NOPASSWD:ALL
-```
-
 ## Inventory
 
 기본 인벤토리 파일은 `/etc/ansible/hosts` 파일입니다.
@@ -50,14 +40,71 @@ all:
   hosts:
     <hostname>:
       ansible_host: <ip|url>
+      ansible_port: <port>
   children:
     <group>:
       hosts:
-        <group:hostname>:
+        <hostname>:
+    <group>:
+      children:
+        <group>:
 ```
 
 ```shell
 ansible all -m ping
+```
+
+## Directory structure
+
+```shell
+ansible/
+├── inventories/
+│   ├── production/
+│   │   ├── hosts # production 서버용 inventory
+│   │   ├── group_vars/
+│   │   │   ├── <group 1>.yaml # 특정 그룹에 대한 변수
+│   │   │   ├── <group 2>.yaml
+│   │   │   └── ...
+│   │   └──  host_vars/
+│   │       ├── <hostname 1>.yaml # 특정 호스트에 대한 변수
+│   │       ├── <hostname 2>.yaml
+│   │       └── ...
+│   └── dev/
+│       ├── hosts
+│       ├── group_vars/
+│       │   ├── <group 1>.yaml
+│       │   ├── <group 2>.yaml
+│       │   └── ...
+│       └──  host_vars/
+│           ├── <hostname 1>.yaml
+│           ├── <hostname 2>.yaml
+│           └── ...
+├── library/ # 커스텀 모듈
+├── module_utils/ # 커스텀 모듈 유틸
+├── filter_plugins/ # 커스텀 필터 플러그인
+├── <purpose 1>.yaml # playbook
+├── <purpose 2>.yaml
+├── ...
+└── roles/
+    ├── <role 1>/
+    │   ├── tasks/
+    │   │   └── main.yaml
+    │   ├── files/
+    │   │   ├── <shell script>
+    │   │   └── <file>
+    │   ├── vars/
+    │   │   └── main.yaml
+    │   └── ...
+    ├── <role 2>/
+    │   ├── tasks/
+    │   │   └── main.yaml
+    │   ├── files/
+    │   │   ├── <shell script>
+    │   │   └── <file>
+    │   ├── vars/
+    │   │   └── main.yaml
+    │   └── ...
+    └── ...
 ```
 
 ## Playbook

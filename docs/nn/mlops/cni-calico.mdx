@@ -1,5 +1,5 @@
 ---
-id: mlops-cni-calico
+id: cni-calico
 title: CNI - Calico
 sidebar_label: CNI - Calico
 description: CNI - Calico
@@ -69,7 +69,11 @@ wget https://docs.projectcalico.org/manifests/tigera-operator.yaml
 kubectl create -f tigera-operator.yaml
 ```
 
-```yaml title="calico.yaml" {13}
+| Policy | IPAM   | CNI    | Overlay | Routing | Datastore  |
+| ------ | ------ | ------ | ------- | ------- | ---------- |
+| Calico | Calico | Calico | IPIP    | BGP     | Kubernetes |
+
+```yaml title="calico.yaml" {13,14,17}
 # This section includes base Calico installation configuration.
 # For more information, see: https://docs.projectcalico.org/v3.19/reference/installation/api#operator.tigera.io/v1.Installation
 apiVersion: operator.tigera.io/v1
@@ -83,10 +87,10 @@ spec:
     ipPools:
       - blockSize: 26
         cidr: 192.168.0.0/16
-        encapsulation: VXLANCrossSubnet
+        encapsulation: IPIP
         natOutgoing: Enabled
         nodeSelector: all()
-
+    bgp: Enabled
 ---
 # This section configures the Calico API server.
 # For more information, see: https://docs.projectcalico.org/v3.20/reference/installation/api#operator.tigera.io/v1.APIServer
@@ -98,7 +102,7 @@ spec: {}
 ```
 
 ```shell
-kubectl create -f calico.yaml
+kubectl apply -f calico.yaml
 ```
 
 ```shell
@@ -115,8 +119,35 @@ kubectl taint nodes --all node-role.kubernetes.io/master-
 kubectl get nodes -o wide
 ```
 
+### Test
+
+```shell
+kubectl create deployment pingtest --image=busybox --replicas=3 -- sleep infinity
+```
+
+```shell
+kubectl get pods --selector=app=pingtest -o wide
+```
+
+```shell
+kubectl exec -ti <pingtest> -- sh
+```
+
+```shell
+ping <IP> -c 4
+```
+
+```shell
+traceroute calico-api.calico-apiserver.svc.cluster.local
+```
+
+```shell
+kubectl delete deployment pingtest
+```
+
 ## Reference
 
 - [https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/](https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/)
 - [https://docs.projectcalico.org/getting-started/kubernetes/quickstart](https://docs.projectcalico.org/getting-started/kubernetes/quickstart)
 - [https://www.youtube.com/watch?v=JyLtg_SJ1lo](https://www.youtube.com/watch?v=JyLtg_SJ1lo)
+- [https://docs.projectcalico.org/reference/installation/api](https://docs.projectcalico.org/reference/installation/api)

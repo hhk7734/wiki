@@ -1,5 +1,5 @@
 ---
-id: mlops-kubeadm
+id: kubeadm
 title: Kubeadm
 sidebar_label: Kubeadm
 description: Kubeadm
@@ -106,19 +106,23 @@ complete -F __start_kubectl k
 | TCP      | 인바운드 | 10251     | kube-scheduler           | 자체                 |
 | TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
-```shell
-sudo kubeadm init \
-    --pod-network-cidr 192.168.0.0/16
+```yaml title="kubeadm-master.yaml" {3,6}
+kind: ClusterConfiguration
+apiVersion: kubeadm.k8s.io/v1beta2
+kubernetesVersion: v1.19.15
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 192.168.0.0/16 # pod network에 할당되는 IP 주소 범위
+  serviceSubnet: 10.96.0.0/12 # 10.96.0.0 ~ 10.111.255.255
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
 ```
 
-- `--pod-network-cidr`: pod network로 사용되는 IP 주소 범위 ex) `192.168.0.0/16`
-- `--apiserver-advertise-address`:
-  - Default: 해당 노드 IP
-  - 다른 노드가 API Sever에 접속하기 위한 IP 주소
-- `--apiserver-cert-extra-sans`:
-- `--service-cidr`:
-  - Default: `10.96.0.0/12` (10.96.0.0 ~ 10.111.255.255)
-- `--control-plane-endpoint`:
+```shell
+sudo kubeadm init --config kubeadm-master.yaml
+```
 
 ```shell
 mkdir -p $HOME/.kube \
@@ -130,11 +134,11 @@ mkdir -p $HOME/.kube \
 kubectl get pods -n kube-system
 ```
 
-`coredns` 체크
+`coredns`가 `Pending` 상태인 것을 확인할 수 있습니다.
 
 ### calico
 
-[Go to calico installation](nn/mlops/mlops-cni-calico.mdx)
+[Go to calico installation](nn/mlops/cni-calico.mdx)
 
 ### token
 
@@ -177,3 +181,5 @@ sudo rm -r /etc/kubernetes/manifests $HOME/.kube/config
 
 - [https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/](https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 - [https://kubernetes.io/docs/reference/setup-tools/kubeadm/](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
+- [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/)
+- [https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm](https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm)
