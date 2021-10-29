@@ -92,6 +92,10 @@ keywords:
           alias k=kubectl
           complete -F __start_kubectl k
         mode: 0644
+
+    # AWS
+    - name: Set hostname to aws private dns name
+      shell: hostnamectl set-hostname $(curl http://169.254.169.254/latest/meta-data/local-hostname)
 ```
 
 ### Complition
@@ -120,14 +124,28 @@ complete -F __start_kubectl k
 | TCP      | 인바운드 | 10251     | kube-scheduler           | 자체                 |
 | TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
-```yaml title="kubeadm-master.yaml" {3,6}
-kind: ClusterConfiguration
+```yaml title="kubeadm-master.yaml" {3,4,7,21}
 apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+clusterName: hhk-cluster
 kubernetesVersion: v1.19.15
 networking:
   dnsDomain: cluster.local
   podSubnet: 192.168.0.0/16 # pod network에 할당되는 IP 주소 범위
   serviceSubnet: 10.96.0.0/12 # 10.96.0.0 ~ 10.111.255.255
+# AWS
+apiServer:
+  extraArgs:
+    cloud-provider: external
+controllerManager:
+  extraArgs:
+    cloud-provider: external
+---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: InitConfiguration
+nodeRegistration:
+  kubeletExtraArgs:
+    cloud-provider: external
 ---
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
@@ -144,13 +162,28 @@ mkdir -p $HOME/.kube \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
+### aws-cloud-controller-manager
+
+```shell
+sudo snap install helm --classic
+```
+
+```shell
+helm repo add aws-cloud-controller-manager https://kubernetes.github.io/cloud-provider-aws
+helm repo update
+```
+
+```shell
+helm upgrade --install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager
+```
+
+### calico
+
 ```shell
 kubectl get pods -n kube-system
 ```
 
 `coredns`가 `Pending` 상태인 것을 확인할 수 있습니다.
-
-### calico
 
 [Go to calico installation](nn/mlops/cni-calico.mdx)
 
@@ -175,10 +208,23 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
 | TCP      | 인바운드 | 10250       | kubelet API | 자체, 컨트롤 플레인 |
 | TCP      | 인바운드 | 30000-32767 | NodePort    | 서비스† 모두        |
 
+```yaml title="kubeadm-worker.yaml" {6,7,9}
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: <master endpoint>:6443
+    token: <token>
+    caCertHashes:
+      - <hash>
+nodeRegistration:
+  kubeletExtraArgs:
+    cloud-provider: external
+```
+
 ```shell
-sudo kubeadm join <control plane ip>:6443 \
-    --token <token> \
-    --discovery-token-ca-cert-hash sha256:<hash>
+sudo kubeadm join --config kubeadm-worker.yaml
 ```
 
 ## reset
@@ -197,3 +243,6 @@ sudo rm -r /etc/kubernetes/manifests $HOME/.kube/config
 - [https://kubernetes.io/docs/reference/setup-tools/kubeadm/](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
 - [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/)
 - [https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm](https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm)
+- [https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/)
+- [https://cloud-provider-aws.sigs.k8s.io/prerequisites/](https://cloud-provider-aws.sigs.k8s.io/prerequisites/)
+- [https://blog.scottlowe.org/2021/10/12/using-the-external-aws-cloud-provider-for-kubernetes/](https://blog.scottlowe.org/2021/10/12/using-the-external-aws-cloud-provider-for-kubernetes/)

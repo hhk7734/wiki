@@ -112,7 +112,11 @@ watch kubectl get pods -n calico-system
 마스터 노드에 Pod이 생성 될 수 있도록 설정하려면 아래 명령어를 실행하면 됩니다.
 
 ```shell
-kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl taint nodes <name> node-role.kubernetes.io/master:NoSchedule-
+```
+
+```shell
+kubectl taint nodes <name> node-role.kubernetes.io=master:NoSchedule
 ```
 
 ```shell
