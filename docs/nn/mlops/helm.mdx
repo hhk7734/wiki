@@ -1,0 +1,75 @@
+---
+id: helm
+title: Helm
+sidebar_label: Helm
+description: Helm
+keywords:
+  - helm
+---
+
+## Installation
+
+```shell
+sudo snap install helm --classic
+```
+
+## Repository
+
+```shell
+helm repo add [NAME] [URL] [flags]
+```
+
+Ex) `helm repo add stable https://charts.helm.sh/stable`
+
+```shell
+helm repo list [flags]
+```
+
+```shell
+helm search repo [keyword] [flags]
+```
+
+```shell
+helm repo update [REPO1 [REPO2 ...]] [flags]
+```
+
+## Chart
+
+```shell
+helm show values [CHART] [flags]
+```
+
+```shell
+helm install [NAME] [CHART] [flags]
+```
+
+- `-f <path>`: 오버라이드 할 YAML 설정 파일
+- `--set <name>=<value>`: 오버라이드 할 설정
+
+```shell
+helm list [flags]
+```
+
+```shell
+helm status RELEASE_NAME [flags]
+```
+
+```shell
+helm upgrade [RELEASE] [CHART] [flags]
+```
+
+```shell
+helm get values RELEASE_NAME [flags]
+```
+
+```shell
+helm history RELEASE_NAME [flags]
+```
+
+```shell
+helm rollback <RELEASE> [REVISION] [flags]
+```
+
+```shell
+helm uninstall RELEASE_NAME [...] [flags]
+```

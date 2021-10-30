@@ -254,8 +254,9 @@ module.exports = {
     },
     'nn/mlops/cert-manager',
     'nn/mlops/istio',
+    'nn/mlops/helm',
+    'nn/mlops/kustomize',
     'nn/mlops/mlops-kubeflow',
-    'nn/mlops/mlops-kustomize',
     'nn/mlops/mlops-knative',
   ],
   nodejs: [

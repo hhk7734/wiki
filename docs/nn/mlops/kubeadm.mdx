@@ -174,7 +174,8 @@ helm repo update
 ```
 
 ```shell
-helm upgrade --install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager
+helm upgrade --install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager \
+    --set "args={--v=2,--cloud-provider=aws,--configure-cloud-routes=false}"
 ```
 
 ### calico
