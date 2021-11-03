@@ -1,0 +1,97 @@
+---
+id: import-export
+title: Pulumi import/export
+sidebar_label: Import/Export
+description: Pulumi import export
+keywords:
+  - pulumi
+---
+
+## `pulumi refresh`
+
+현재 스택의 리소스 상태를 실제 클라우드와 비교하여 업데이트 합니다.
+
+```shell
+pulumi refresh [flags]
+```
+
+## `pulumi import`
+
+```shell
+pulumi import [type] [name] [id] [flags]
+```
+
+직접 생성하거나 다른 프로그램에 의해 생성된 리소스를 현재 스택에 추가합니다. 추가된 리소스를 코드로 추가할 수 있도록 예시 코드를 출력해줍니다.
+외부에서 가져오 리소스는 기본적으로 프로텍팅 되어 있어서 프로텍트를 풀어주지 않는 한 변경이 안됩니다.
+
+```shell {1,44}
+$ pulumi import aws:ec2/subnet:Subnet public_subnet subnet-0160b548b050b7f7a
+
+Previewing import (dev):
+     Type                 Name           Plan
+     pulumi:pulumi:Stack  master-dev
+ =   └─ aws:ec2:Subnet    public_subnet  import
+
+Resources:
+    = 1 to import
+    xx unchanged
+
+Do you want to perform this import? yes
+Importing (dev):
+     Type                 Name           Status
+     pulumi:pulumi:Stack  master-dev
+ =   └─ aws:ec2:Subnet    public_subnet  imported
+
+Outputs:
+    ...
+
+Resources:
+    = 1 imported
+    xx unchanged
+
+Duration: 5s
+
+Please copy the following code into your Pulumi application. Not doing so
+will cause Pulumi to report that an update will happen on the next update command.
+
+Please note that the imported resources are marked as protected. To destroy them
+you will need to remove the `protect` option and run `pulumi update` *before*
+the destroy will take effect.
+
+import pulumi
+import pulumi_aws as aws
+
+public_subnet = aws.ec2.Subnet("public_subnet",
+    assign_ipv6_address_on_creation=False,
+    cidr_block="1.2.3.4/24",
+    map_public_ip_on_launch=False,
+    tags={
+        "Name": "test",
+    },
+    vpc_id="vpc-xxxxx",
+    opts=pulumi.ResourceOptions(protect=True))
+```
+
+## `pulumi stack export`
+
+```shell
+pulumi stack export [flags]
+```
+
+`flags`
+
+- `--file <path>`: 파일로 저장
+
+## `pulumi stack import`
+
+```shell
+pulumi stack import [flags]
+```
+
+`flags`
+
+- `--file <path>`: 파일을 읽어옴
+
+:::info
+`pulumi stack export --file stack.json`으로 스택을 추출해서 이름, id 등을 변경하거나, 리소스를 추가하거나 삭제한 후, `pulumi stack import --file stack.json`으로 스택을 다시 설정해 줄 수 있습니다.
+:::

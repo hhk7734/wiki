@@ -16,7 +16,7 @@ sudo snap install helm --classic
 ## Repository
 
 ```shell
-helm repo add [NAME] [URL] [flags]
+helm repo add <NAME> <URL> [flags]
 ```
 
 Ex) `helm repo add stable https://charts.helm.sh/stable`
@@ -26,7 +26,7 @@ helm repo list [flags]
 ```
 
 ```shell
-helm search repo [keyword] [flags]
+helm search repo <keyword> [flags]
 ```
 
 ```shell
@@ -36,11 +36,11 @@ helm repo update [REPO1 [REPO2 ...]] [flags]
 ## Chart
 
 ```shell
-helm show values [CHART] [flags]
+helm show values <CHART> [flags]
 ```
 
 ```shell
-helm install [NAME] [CHART] [flags]
+helm install <NAME> <CHART> [flags]
 ```
 
 - `-f <path>`: 오버라이드 할 YAML 설정 파일
@@ -51,25 +51,25 @@ helm list [flags]
 ```
 
 ```shell
-helm status RELEASE_NAME [flags]
+helm status <NAME> [flags]
 ```
 
 ```shell
-helm upgrade [RELEASE] [CHART] [flags]
+helm upgrade <NAME> <CHART> [flags]
 ```
 
 ```shell
-helm get values RELEASE_NAME [flags]
+helm get values <CHART> [flags]
 ```
 
 ```shell
-helm history RELEASE_NAME [flags]
+helm history <NAME> [flags]
 ```
 
 ```shell
-helm rollback <RELEASE> [REVISION] [flags]
+helm rollback <NAME> <REVISION> [flags]
 ```
 
 ```shell
-helm uninstall RELEASE_NAME [...] [flags]
+helm uninstall <NAME> [...] [flags]
 ```

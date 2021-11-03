@@ -9,14 +9,20 @@ keywords:
 
 ## Installation
 
-[https://github.com/jetstack/cert-manager/releases](https://github.com/jetstack/cert-manager/releases)에서 원하는 버전을 찾은 후 `cert-manager.yaml`을 다운로드 받습니다.
-
 ```shell
-wget https://github.com/jetstack/cert-manager/releases/download/v1.3.1/cert-manager.yaml
+helm repo add jetstack https://charts.jetstack.io
 ```
 
 ```shell
-kubectl apply -f cert-manager.yaml
+helm repo update
+```
+
+```shell
+helm install cert-manager jetstack/cert-manager \
+    --namespace cert-manager \
+    --create-namespace \
+    --version v1.3.1 \
+    --set installCRDs=true
 ```
 
 ```shell
@@ -26,6 +32,16 @@ kubectl get pods --namespace cert-manager
 ## selfSigned
 
 ## Let's Encrypt
+
+### HTTP-01 challenge
+
+인증을 시작하면 `<path>`와 `<token>`을 발행해 주는데, `http://<domain>/.well-known/acme-challenge/<path>`에 접속했을 때 `<token>`을 반환하도록 하여 서버를 제어할 수 있음을 증명하면 인증서가 발급됩니다. 80 포트만 사용 가능하며 와일드카드(`"*".<domain>`)를 사용할 수 없습니다.
+
+### DNS-01 challenge
+
+인증을 시작하면 `<token>`을 발행해 주는데, `_acme-challenge.<domain>` TXT 레코드에 넣어 DNS를 제어할 수 있음을 증명하면 인증서가 발급됩니다. DNS 제공 업체에서 자동으로 DNS를 업데이트 할 수 있도록 API를 제공해주는 경우 좋습니다. 오래된 TXT 레코드는 삭제해주는 것이 좋습니다.
+
+## istio-csr
 
 ## Reference
 

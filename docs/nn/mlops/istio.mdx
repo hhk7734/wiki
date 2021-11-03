@@ -20,8 +20,25 @@ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.5 TARGET_ARCH=x86_64 
 export PATH=/opt/istio-1.9.5/bin:$PATH
 ```
 
+```yaml title="istio-cr.yaml"
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: istio-operator
+spec:
+  profile: default
+  components:
+    ingressGateways:
+      - name: istio-ingressgateway
+        enabled: true
+        k8s:
+          serviceAnnotations:
+            service.beta.kubernetes.io/aws-load-balancer-type: 'nlb' # AWS
+```
+
 ```shell
-istioctl install
+istioctl install -f istio-cr.yaml
 ```
 
 ```shell

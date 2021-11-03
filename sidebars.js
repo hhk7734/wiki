@@ -229,7 +229,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Pulumi',
-      items: ['nn/mlops/pulumi/basics'],
+      items: ['nn/mlops/pulumi/basics','nn/mlops/pulumi/import-export'],
     },
     {
       type: 'category',
@@ -256,8 +256,8 @@ module.exports = {
     'nn/mlops/istio',
     'nn/mlops/helm',
     'nn/mlops/kustomize',
+    'nn/mlops/knative',
     'nn/mlops/mlops-kubeflow',
-    'nn/mlops/mlops-knative',
   ],
   nodejs: [
     {
