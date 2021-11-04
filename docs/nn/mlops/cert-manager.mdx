@@ -41,9 +41,123 @@ kubectl get pods --namespace cert-manager
 
 인증을 시작하면 `<token>`을 발행해 주는데, `_acme-challenge.<domain>` TXT 레코드에 넣어 DNS를 제어할 수 있음을 증명하면 인증서가 발급됩니다. DNS 제공 업체에서 자동으로 DNS를 업데이트 할 수 있도록 API를 제공해주는 경우 좋습니다. 오래된 TXT 레코드는 삭제해주는 것이 좋습니다.
 
+#### Cloudflare
+
+`API token`과 `API key`를 사용한 방법이 있는데, 여기서는 `API token`만 테스트 해보겠습니다.
+
+My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 사용하여 토큰을 생성합니다. 예시로 아래와 같이 설정했습니다.
+
+- Permissions
+  - Zone, DNS, Edit
+  - Zone, Zone, Read
+- Zone
+  - Include, Specific zone, <domain\>
+- Client IP Address Filtering
+  - None
+- TTL
+  - None
+
+생성하면 토큰과 함께 테스트 코드를 줍니다.
+
+```yaml title="cloudflare-api-token-secret.yaml" {7}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cloudflare-api-token-secret
+  namespace: cert-manager # 빠지면 cert-manager가 찾지 못함
+type: Opaque
+stringData:
+  api-token: <token>
+```
+
+```shell
+kubectl create -f cloudflare-api-token-secret.yaml
+```
+
+```yaml title="letsencrypt-staging.yaml"
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-staging # or -prod
+  namespace: cert-manager
+spec:
+  acme:
+    email: <email>
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    # or server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging # or -prod
+    solvers:
+      - selector:
+          dnsNames:
+            - '*.<sub>.<domain>'
+            - '<sub>.<domain>'
+          dnsZones:
+            - '<domain>'
+        dns01:
+          cloudflare:
+            email: <cloud flare email>
+            apiTokenSecretRef:
+              name: cloudflare-api-token-secret
+              key: api-token
+```
+
+```shell
+kubectl create -f letsencrypt-staging.yaml
+```
+
+```shell
+kubectl describe clusterissuers.cert-manager.io letsencrypt-staging
+```
+
+```yaml title="ingress-cert.yaml"
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: ingress-cert
+  namespace: istio-system
+spec:
+  secretName: ingress-cert
+  duration: 2160h # 90d
+  renewBefore: 360h # 15d
+  dnsNames:
+    - '*.<sub>.<domain>'
+    - '<sub>.<domain>'
+  issuerRef:
+    kind: ClusterIssuer
+    name: letsencrypt-staging # or -prod
+```
+
+```shell
+kubectl create -f ingress-cert.yaml
+```
+
+`Certificate`을 생성하는 순간 인증을 시작합니다.
+
+```shell
+kubectl get certificates.cert-manager.io -n istio-system ingress-cert
+```
+
+:::warning
+이 다음 순서는 인증에 실패를 하는 경우 체크 해볼 수 있는 절차입니다. 무조건 실행해보기 보단 `Status`, `Events`를 잘 읽어보면서 적절한 명령어를 실행시켜서 디버깅 해야합니다.
+:::
+
+```shell
+kubectl describe certificates.cert-manager.io -n istio-system ingress-cert
+```
+
+```shell
+kubectl describe certificaterequests.cert-manager.io -n istio-system <name>
+```
+
+```shell
+kubectl logs -n cert-manager cert-manager-
+```
+
 ## istio-csr
 
 ## Reference
 
 - [https://github.com/jetstack/cert-manager](https://github.com/jetstack/cert-manager)
 - [https://istio.io/latest/docs/ops/integrations/certmanager/](https://istio.io/latest/docs/ops/integrations/certmanager/)
+- [https://cert-manager.io/docs/faq/acme/](https://cert-manager.io/docs/faq/acme/)

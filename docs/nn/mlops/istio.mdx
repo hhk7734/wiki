@@ -20,7 +20,7 @@ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.5 TARGET_ARCH=x86_64 
 export PATH=/opt/istio-1.9.5/bin:$PATH
 ```
 
-```yaml title="istio-cr.yaml"
+```yaml title="istio-operator.yaml"
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -38,7 +38,7 @@ spec:
 ```
 
 ```shell
-istioctl install -f istio-cr.yaml
+istioctl install -f istio-operator.yaml
 ```
 
 ```shell
@@ -143,6 +143,20 @@ metadata:
   labels:
     istio-operator-managed: Reconcile
     istio-injection: disabled
+```
+
+아래 명령으로 namespace에 `istio-injection` 라벨을 추가/변경/제거/확인 할 수 있습니다.
+
+```shell
+kubectl label namespace <namespace> istio-injection=<enabled|disabled>
+```
+
+```shell
+kubectl label namespace <namespace> istio-injection-
+```
+
+```shell
+kubectl get namespace -L istio-injection
 ```
 
 ## Gateway & VirtualService

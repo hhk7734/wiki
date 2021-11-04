@@ -124,7 +124,7 @@ complete -F __start_kubectl k
 | TCP      | 인바운드 | 10251     | kube-scheduler           | 자체                 |
 | TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
-```yaml title="kubeadm-master.yaml" {3,4,7,21}
+```yaml title="kubeadm-master.yaml" {3,4,7,22}
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
 clusterName: hhk-cluster
@@ -141,6 +141,7 @@ controllerManager:
   extraArgs:
     cloud-provider: external
 ---
+# AWS
 apiVersion: kubeadm.k8s.io/v1beta3
 kind: InitConfiguration
 nodeRegistration:
@@ -186,7 +187,7 @@ kubectl get pods -n kube-system
 
 `coredns`가 `Pending` 상태인 것을 확인할 수 있습니다.
 
-[Go to calico installation](nn/mlops/cni-calico.mdx)
+[Calico](nn/mlops/cni-calico.mdx) 글을 읽어보시기 바랍니다.
 
 ### token
 
