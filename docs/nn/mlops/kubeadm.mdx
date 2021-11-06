@@ -124,16 +124,37 @@ complete -F __start_kubectl k
 | TCP      | 인바운드 | 10251     | kube-scheduler           | 자체                 |
 | TCP      | 인바운드 | 10252     | kube-controller-manager  | 자체                 |
 
-```yaml title="kubeadm-master.yaml" {3,4,7,22}
+```yaml title="kubeadm-master.yaml"
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: ClusterConfiguration
-clusterName: hhk-cluster
-kubernetesVersion: v1.19.15
+clusterName: kubernetes
+kubernetesVersion: <version> # v1.19.15
 networking:
   dnsDomain: cluster.local
   podSubnet: 192.168.0.0/16 # pod network에 할당되는 IP 주소 범위
   serviceSubnet: 10.96.0.0/12 # 10.96.0.0 ~ 10.111.255.255
-# AWS
+---
+kind: KubeletConfiguration
+apiVersion: kubelet.config.k8s.io/v1beta1
+cgroupDriver: systemd
+```
+
+Remote에서 `kubectl` 명령어를 사용하고 싶은 경우 아래 내용을 추가합니다.
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
+apiServer:
+  certSANs:
+    - <private-ip>
+    - <public-ip>
+```
+
+클라우드 서비스를 사용하는 경우 `cloud-provider` 사용을 위해 아래 내용을 추가합니다.
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: ClusterConfiguration
 apiServer:
   extraArgs:
     cloud-provider: external
@@ -141,17 +162,16 @@ controllerManager:
   extraArgs:
     cloud-provider: external
 ---
-# AWS
-apiVersion: kubeadm.k8s.io/v1beta3
+apiVersion: kubeadm.k8s.io/v1beta2
 kind: InitConfiguration
 nodeRegistration:
   kubeletExtraArgs:
     cloud-provider: external
----
-kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
-cgroupDriver: systemd
 ```
+
+:::warning
+**Highly Available topology** 구성을 위해서는 `controlPlaneEndpoint`를 로드밸런서로 설정해야합니다. 추가 옵션이 있을 수 있습니다. 테스트 후 업데이트 하겠습니다.(TODO)
+:::
 
 ```shell
 sudo kubeadm init --config kubeadm-master.yaml
@@ -176,7 +196,9 @@ helm repo update
 
 ```shell
 helm upgrade --install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager \
-    --set "args={--v=2,--cloud-provider=aws,--configure-cloud-routes=false}"
+    --set "args[0]=--v=2" \
+    --set "args[1]=--cloud-provider=aws" \
+    --set "args[2]=--configure-cloud-routes=false"
 ```
 
 ### calico
@@ -203,6 +225,46 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
 | openssl dgst -sha256 -hex | sed 's/^.* //'
 ```
 
+### Control plane node 추가
+
+:::warning
+**Highly Available topology** 구성을 위해서는 `apiServerEndpoint`를 로드밸런서로 설정해서 진행해야합니다.
+:::
+
+기존 마스터 노드에서 아래 명령어를 통해 2시간 동안 유효한 `certificateKey`를 생성할 수 있습니다.
+
+```shell
+kubeadm init phase upload-certs --upload-certs
+```
+
+```yaml title="kubeadm-master.yaml"
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: JoinConfiguration
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: <load balencer>:6443
+    token: <token>
+    caCertHashes:
+      - <hash>
+controlPlane:
+  localAPIEndpoint:
+    advertiseAddress: <master ip>
+  certificateKey: <certificate key>
+```
+
+클라우드 서비스를 사용하는 경우 `cloud-provider` 사용을 위해 아래 내용을 추가합니다.
+
+```yaml
+nodeRegistration:
+  kubeletExtraArgs:
+    cloud-provider: external
+```
+
+```shell
+sudo kubeadm join --config kubeadm-master.yaml
+```
+
 ## Worker node
 
 | 프로토콜 | 방향     | 포트 범위   | 목적        | 사용자              |
@@ -210,7 +272,7 @@ openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt \
 | TCP      | 인바운드 | 10250       | kubelet API | 자체, 컨트롤 플레인 |
 | TCP      | 인바운드 | 30000-32767 | NodePort    | 서비스† 모두        |
 
-```yaml title="kubeadm-worker.yaml" {6,7,9}
+```yaml title="kubeadm-worker.yaml"
 ---
 apiVersion: kubeadm.k8s.io/v1beta2
 kind: JoinConfiguration
@@ -220,6 +282,11 @@ discovery:
     token: <token>
     caCertHashes:
       - <hash>
+```
+
+클라우드 서비스를 사용하는 경우 `cloud-provider` 사용을 위해 아래 내용을 추가합니다.
+
+```yaml
 nodeRegistration:
   kubeletExtraArgs:
     cloud-provider: external
@@ -227,6 +294,31 @@ nodeRegistration:
 
 ```shell
 sudo kubeadm join --config kubeadm-worker.yaml
+```
+
+## apiServer에 SAN 추가
+
+SAN(Subject Alternative Name)
+
+```shell
+kubectl get configmap -n kube-system kubeadm-config -o jsonpath='{.data.ClusterConfiguration}' > kubeadm-conf.yaml
+```
+
+```yaml
+apiServer:
+  certSANs:
+    - <private-ip>
+    - <public-ip>
+```
+
+위 내용을 추가한 후 `/etc/kubernetes/pki/apiserver.*`을 삭제하고 아래 명령어를 실행하면 됩니다.
+
+```shell
+sudo kubeadm init phase certs apiserver --config kubeadm-conf.yaml
+```
+
+```shell
+openssl x509 -in /etc/kubernetes/pki/apiserver.crt -text
 ```
 
 ## reset

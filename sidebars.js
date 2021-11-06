@@ -121,6 +121,11 @@ module.exports = {
     'lang/db/mongodb',
     'lang/db/influxdb',
     'lang/db/postgresql',
+    {
+      type: 'category',
+      label: 'S3',
+      items: ['lang/db/s3/basics'],
+    },
   ],
   espressif: ['mcu/espressif/esp8266-esp-01-module'],
   flutter: [
@@ -229,7 +234,11 @@ module.exports = {
     {
       type: 'category',
       label: 'Pulumi',
-      items: ['nn/mlops/pulumi/basics','nn/mlops/pulumi/import-export'],
+      items: [
+        'nn/mlops/pulumi/basics',
+        'nn/mlops/pulumi/import-export',
+        'nn/mlops/pulumi/resource-options',
+      ],
     },
     {
       type: 'category',
@@ -258,6 +267,15 @@ module.exports = {
     'nn/mlops/kustomize',
     'nn/mlops/knative',
     'nn/mlops/mlops-kubeflow',
+    {
+      type: 'category',
+      label: 'AWS',
+      items: [
+        'nn/mlops/aws/kube2iam',
+        'nn/mlops/aws/cluster-autoscaler',
+        'nn/mlops/aws/aws-ebs-csi-driver',
+      ],
+    },
   ],
   nodejs: [
     {

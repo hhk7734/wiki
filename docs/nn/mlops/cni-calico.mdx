@@ -101,6 +101,18 @@ metadata:
 spec: {}
 ```
 
+아래와 같이 operator가 생성하는 리소스에 대한 tolerations을 추가할 수 있습니다.
+
+```yaml
+apiVersion: operator.tigera.io/v1
+kind: Installation
+spec:
+  controlPlaneTolerations:
+    - effect: NoSchedule
+      key: node.cloudprovider.kubernetes.io/uninitialized
+      value: 'true'
+```
+
 ```shell
 kubectl apply -f calico.yaml
 ```

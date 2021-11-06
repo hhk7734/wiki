@@ -5,6 +5,8 @@ sidebar_label: Import/Export
 description: Pulumi import export
 keywords:
   - pulumi
+  - import
+  - export
 ---
 
 ## `pulumi refresh`
@@ -25,7 +27,7 @@ pulumi import [type] [name] [id] [flags]
 외부에서 가져오 리소스는 기본적으로 프로텍팅 되어 있어서 프로텍트를 풀어주지 않는 한 변경이 안됩니다.
 
 ```shell {1,44}
-$ pulumi import aws:ec2/subnet:Subnet public_subnet subnet-0160b548b050b7f7a
+$ pulumi import aws:ec2/subnet:Subnet public_subnet subnet-xxxxxxxxx
 
 Previewing import (dev):
      Type                 Name           Plan

@@ -1,0 +1,153 @@
+---
+id: cluster-autoscaler
+title: cluster-autoscaler
+sidebar_label: cluster-autoscaler
+description: cluster-autoscaler
+keywords:
+  - cluster-autoscaler
+---
+
+`cluster-autoscaler`는 디플로이먼트로 배포됩니다. Leader Election을 사용합니다.
+
+## Prerequisites
+
+- Auto Scaling 그룹에 아래 태그가 있어야합니다.
+  - `k8s.io/cluster-autoscaler/<cluster-name>`: `owned`
+  - `k8s.io/cluster-autoscaler/enabled`: `TRUE`
+
+### IAM
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:DescribeLaunchConfigurations",
+        "autoscaling:DescribeTags",
+        "autoscaling:SetDesiredCapacity",
+        "autoscaling:TerminateInstanceInAutoScalingGroup",
+        "ec2:DescribeLaunchTemplateVersions"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+```
+
+### AWS Credentials
+
+On-premise 환경에서 사용하는 경우 아래와 같이 인증 하는 방식을 사용할 수 있습니다.(보안 위협 요소가 될 수 있음)
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-secret
+  namespace: kube-system
+type: Opaque
+data:
+  aws_access_key_id: BASE64_OF_YOUR_AWS_ACCESS_KEY_ID
+  aws_secret_access_key: BASE64_OF_YOUR_AWS_SECRET_ACCESS_KEY
+```
+
+설치과정에서 Deployment에 아래와 같은 환경 변수를 추가해줘야합니다.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    spec:
+      containers:
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.21.0
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: aws_access_key_id
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: aws-secret
+                  key: aws_secret_access_key
+            - name: AWS_REGION
+              value: us-west-2
+```
+
+## Installation
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml
+```
+
+다운로드 받은 파일에서 아래 하이라이트 부분을 수정했습니다.
+
+```yaml {18,29,45-47}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+      annotations:
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8085'
+    spec:
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      serviceAccountName: cluster-autoscaler
+      containers:
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.21.0
+          name: cluster-autoscaler
+          resources:
+            limits:
+              cpu: 100m
+              memory: 600Mi
+            requests:
+              cpu: 100m
+              memory: 600Mi
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=aws
+            - --skip-nodes-with-local-storage=false
+            - --expander=least-waste
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/kubernetes
+            - --balance-similar-node-groups
+            - --skip-nodes-with-system-pods=false
+          volumeMounts:
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs/ca-certificates.crt #/etc/ssl/certs/ca-bundle.crt for Amazon Linux Worker Nodes
+              readOnly: true
+          imagePullPolicy: 'Always'
+      volumes:
+        - name: ssl-certs
+          hostPath:
+            path: '/etc/ssl/certs/ca-certificates.crt' #/etc/ssl/certs/ca-bundle.crt for Amazon Linux Worker Nodes
+```
+
+## Reference
+
+- [https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html](https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html)
+- [https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)

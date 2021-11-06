@@ -1,0 +1,20 @@
+---
+id: kube2iam
+title: kube2iam
+sidebar_label: kube2iam
+description: kube2iam
+keywords:
+  - kube2iam
+---
+
+## kiam과의 비교
+
+> kube2iam은 모든 워커 인스턴스에 Assume Role을 부여해야 하지만, 설치 및 관리가 상대적으로 간편하다는 장점이 있었습니다.
+
+> kiam은 kiam 서버가 위치한 워커 인스턴스에만 Assume Role 권한을 부여하면 되지만, 서버-에이전트 간 TLS 통신을 위해 인증서를 별도로 관리하거나 kiam 서버가 위치할 워커 그룹을 nodeSelector로 따로 지정해야 하는 등 별도로 신경써야 할 부분이 있었습니다.
+
+> 무엇보다도 두 애드온 모두 오픈소스다보니 Helm 차트 및 프로젝트가 빠르게 업데이트되지 않는 등의 애로사항이 있었습니다. 뿐만 아니라 많은 애드온을 함께 운영하고 있다보니, 최대한 외부 의존적인 애드온의 갯수를 줄일 수 있었으면 하는 바람도 없지않아 있었습니다.
+
+## Reference
+
+- [https://tech.devsisters.com/posts/pod-iam-role/](https://tech.devsisters.com/posts/pod-iam-role/)

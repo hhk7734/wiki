@@ -35,9 +35,19 @@ helm repo update [REPO1 [REPO2 ...]] [flags]
 
 ## Chart
 
+### Installation
+
 ```shell
 helm show values <CHART> [flags]
 ```
+
+```shell
+helm template <NAME> <CHART> [flags] > <NAME>.yaml
+```
+
+:::info
+`helm template`을 사용해서 yaml 파일을 생성하고, `kustomize`를 사용해서 설치하는 것을 고려해 볼 수 있습니다.
+:::
 
 ```shell
 helm install <NAME> <CHART> [flags]
@@ -54,6 +64,8 @@ helm list [flags]
 helm status <NAME> [flags]
 ```
 
+### Management
+
 ```shell
 helm upgrade <NAME> <CHART> [flags]
 ```
@@ -63,12 +75,18 @@ helm get values <CHART> [flags]
 ```
 
 ```shell
+helm get manifests <NAME> [flags]
+```
+
+```shell
 helm history <NAME> [flags]
 ```
 
 ```shell
 helm rollback <NAME> <REVISION> [flags]
 ```
+
+### Uninstallation
 
 ```shell
 helm uninstall <NAME> [...] [flags]

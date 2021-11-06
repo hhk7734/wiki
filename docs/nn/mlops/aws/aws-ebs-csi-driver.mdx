@@ -1,0 +1,42 @@
+---
+id: aws-ebs-csi-driver
+title: aws-ebs-csi-driver
+sidebar_label: aws-ebs-csi-driver
+description: aws-ebs-csi-driver
+keywords:
+  - aws-ebs-csi-driver
+---
+
+AWS EBS Container Storage Interface (CSI) Driver
+
+## Prerequisites
+
+### IAM
+
+```shell
+wget https://raw.githubusercontent.com/kubernetes-sigs/aws-ebs-csi-driver/master/docs/example-iam-policy.json
+```
+
+## Installation
+
+```shell
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+helm repo update
+```
+
+[이미지 주소](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/add-ons-images.html)를 참고하여 아래 옵션을 수정합니다.
+
+```shell
+helm upgrade -install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+--namespace kube-system \
+--set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+--set enableVolumeResizing=true \
+--set enableVolumeSnapshot=true \
+--set serviceAccount.controller.create=true \
+--set serviceAccount.controller.name=ebs-csi-controller-sa
+```
+
+## Reference
+
+- [https://github.com/kubernetes-sigs/aws-ebs-csi-driver](https://github.com/kubernetes-sigs/aws-ebs-csi-driver)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/ebs-csi.html)

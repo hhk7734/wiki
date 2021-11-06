@@ -89,11 +89,15 @@ pulumi.export("instance_public_ip", aws_instance.public_ip)
 ```
 
 ```shell
+pulumi refresh --yes --skip-preview
+```
+
+```shell
 pulumi up
 ```
 
 ```shell
-pulumi destroy
+pulumi destroy --skip-preview
 ```
 
 ```shell
