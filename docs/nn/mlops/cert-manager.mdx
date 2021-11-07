@@ -18,11 +18,48 @@ helm repo update
 ```
 
 ```shell
-helm install cert-manager jetstack/cert-manager \
+mkdir -p cert-manager/base
+```
+
+```shell
+helm template cert-manager jetstack/cert-manager \
     --namespace cert-manager \
     --create-namespace \
     --version v1.3.1 \
-    --set installCRDs=true
+    --set installCRDs=true > cert-manager/base/cert-manager.yaml
+```
+
+```yaml title="cert-manager/base/patches/crd-preserve-unknown-fields.yaml"
+- op: add
+  path: /spec/preserveUnknownFields
+  value: false
+```
+
+```yaml title="cert-manager/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cert-manager.yaml
+
+# Patch upstream manifests to explicitly disable 'preserveUnknownFields',
+# otherwise upgrade with 'kubectl apply' fails.
+patches:
+  - path: patches/crd-preserve-unknown-fields.yaml
+    target:
+      kind: CustomResourceDefinition
+```
+
+```shell
+cert-manager
+└── base/
+    ├── cert-manager.yaml
+    ├── kustomization.yaml
+    └── patches/
+        └── crd-preserve-unknown-fields.yaml
+```
+
+```shell
+kustomize build cert-manager/base | kubectl apply -f -
 ```
 
 ```shell
@@ -67,50 +104,47 @@ metadata:
   namespace: cert-manager # 빠지면 cert-manager가 찾지 못함
 type: Opaque
 stringData:
-  api-token: <token>
+  api-token: # token
 ```
 
 ```shell
 kubectl create -f cloudflare-api-token-secret.yaml
 ```
 
-```yaml title="letsencrypt-staging.yaml"
+```yaml title="letsencrypt-prod.yaml" {8,16,19}
 apiVersion: cert-manager.io/v1alpha2
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-staging # or -prod
+  name: letsencrypt-prod
   namespace: cert-manager
 spec:
   acme:
-    email: <email>
-    server: https://acme-staging-v02.api.letsencrypt.org/directory
-    # or server: https://acme-v02.api.letsencrypt.org/directory
+    email: # email
+    # server: https://acme-staging-v02.api.letsencrypt.org/directory
+    server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-staging # or -prod
+      name: letsencrypt-prod
     solvers:
       - selector:
-          dnsNames:
-            - '*.<sub>.<domain>'
-            - '<sub>.<domain>'
           dnsZones:
-            - '<domain>'
+            -  # "domain"
         dns01:
           cloudflare:
-            email: <cloud flare email>
+            email: # cloudflare email
             apiTokenSecretRef:
               name: cloudflare-api-token-secret
               key: api-token
 ```
 
 ```shell
-kubectl create -f letsencrypt-staging.yaml
+kubectl create -f letsencrypt-prod.yaml
 ```
 
 ```shell
-kubectl describe clusterissuers.cert-manager.io letsencrypt-staging
+kubectl describe clusterissuers.cert-manager.io letsencrypt-prod
 ```
 
-```yaml title="ingress-cert.yaml"
+```yaml title="ingress-cert.yaml" {11-12}
 apiVersion: cert-manager.io/v1alpha2
 kind: Certificate
 metadata:
@@ -121,11 +155,11 @@ spec:
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   dnsNames:
-    - '*.<sub>.<domain>'
-    - '<sub>.<domain>'
+    -  # "*.sub.domain"
+    -  # "sub.domain"
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-staging # or -prod
+    name: letsencrypt-prod
 ```
 
 ```shell
