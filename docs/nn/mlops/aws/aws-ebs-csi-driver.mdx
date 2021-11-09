@@ -28,12 +28,12 @@ helm repo update
 
 ```shell
 helm upgrade --install aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
---namespace kube-system \
---set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
---set enableVolumeResizing=true \
---set enableVolumeSnapshot=true \
---set serviceAccount.controller.create=true \
---set serviceAccount.controller.name=ebs-csi-controller-sa
+    --namespace kube-system \
+    --set image.repository=602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-ebs-csi-driver \
+    --set enableVolumeResizing=true \
+    --set enableVolumeSnapshot=true \
+    --set serviceAccount.controller.create=true \
+    --set serviceAccount.controller.name=ebs-csi-controller-sa
 ```
 
 ## StorageClass

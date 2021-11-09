@@ -31,7 +31,7 @@ Intelligent Tiering는 관리비용으로 128 KB 이상 객체에 대하여 `$ 0
 
 DELETE, CANCEL 요청은 무료입니다. 수명 주기 전환은 해당 클래스가 되기 위한 요금입니다.
 
-| 클래스               | PUT, COPY, POST, LIST | GET, SELECT, 기타 | 수명 주기 전환 | 데이터 검색 요청 | 데이터 검색(GB 당) |
+| 클래스               | PUT, COPY, POST, LIST | GET, SELECT, 기타 | 수명 주기 전환 | 데이터 회복 요청 | 데이터 회복(GB 당) |
 | -------------------- | :-------------------: | :---------------: | :------------: | :--------------: | :----------------: |
 | Standard             |          $ 5          |       $ 0.4       |       -        |        -         |         -          |
 | Standard IA          |         $ 10          |        $ 1        |      $ 10      |        -         |       $ 0.01       |
@@ -54,27 +54,37 @@ Batch, Select 등의 추가 요금이 있습니다.
 ### EBS
 
 - EC2용으로 설계된 Storage 입니다.
+- IOPS: io1/io2/gp2는 16 KB I/O, st1/sc1는 1 MB I/O가 기준입니다.
+- io의 최대 성능을 이끌어내려면 AWS Nitro 시스템에 구축된 EC2 인스턴스를 사용해야 합니다.
+- 스냅샷(증분식) 비용은 `$ 0.05 / GB / 월` 입니다.
 - ReadWriteOnce
-- TODO: gp2 vs gp3
 
-|                               | 유형       | 비용                                                                                                                   |
-| ----------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------- |
-| General Purpose SSD(gp3)      | Storage    | `$ 0.08 / GB / 월`                                                                                                     |
-|                               | IOPS       | 3000 IOPS 까지 무료, `$ 0.005 / IOPS / 월`                                                                             |
-|                               | Throughput | 125 MB/s 까지 무료, `$ 0.04 / MP/s / 월`                                                                               |
-| gp2                           | Storage    | `$ 0.10 / GB / 월`                                                                                                     |
-| Provisioned IOPS SSD(io2)     | Storage    | `$ 0.125 / GB / 월`                                                                                                    |
-|                               | IOPS       | 0 ~ 32,000 IOPS , `$ 0.065 / IOPS / 월`<br/>32,001 ~ 64,000, `$ 0.046 / IOPS / 월`<br/>64,001 ~, `$ 0.032 / IOPS / 월` |
-| io1                           | Storage    | `$ 0.125 / GB / 월`                                                                                                    |
-|                               | IOPS       | `$ 0.065 / IOPS / 월`                                                                                                  |
-| Throughput Optimized HDD(st1) | Storage    | `$ 0.045 / GB / 월`                                                                                                    |
-| Cold HDD(sc1)                 | Storage    | `$ 0.015 / GB / 월`                                                                                                    |
-| 스냅샷                        |            | `$ 0.05 / GB / 월`, 증분식으로 저장됨                                                                                  |
+|                               | 유형       | 비용                                                                                                                                                      |
+| ----------------------------- | ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| General Purpose SSD(gp3)      | Storage    | `$ 0.08 / GB / 월`                                                                                                                                        |
+|                               | IOPS       | `$ 0.005 / IOPS / 월`, 3,000 IOPS 까지 무료, ~ 16,000 IOPS                                                                                                |
+|                               | Throughput | `$ 0.04 / MP/s / 월`, 125 MB/s 까지 무료, ~ 1,000 MB/s                                                                                                    |
+| gp2                           | Storage    | `$ 0.10 / GB / 월`, 1 GB ~ 16 TB                                                                                                                          |
+|                               | IOPS       | 3 IOPS / GB, 100 IOPS ~ 16,000 IOPS                                                                                                                       |
+|                               | Throughput | 250 MB/s                                                                                                                                                  |
+| Provisioned IOPS SSD(io2)     | Storage    | `$ 0.125 / GB / 월`, 4 GB ~ 16 TB                                                                                                                         |
+|                               | IOPS       | 0 ~ 32,000 IOPS , `$ 0.065 / IOPS / 월`<br/>32,001 ~ 64,000, `$ 0.046 / IOPS / 월`<br/>64,001 ~, `$ 0.032 / IOPS / 월`<br/>~ 500 IOPS / GB, ~ 64,000 IOPS |
+|                               | Throughput | ~ 1000 MB/s                                                                                                                                               |
+| io1                           | Storage    | `$ 0.125 / GB / 월`, 4 GB ~ 16 TB                                                                                                                         |
+|                               | IOPS       | `$ 0.065 / IOPS / 월`, ~ 50 IOPS / GB, ~ 64,000 IOPS                                                                                                      |
+|                               | Throughput | ~ 1000 MB/s                                                                                                                                               |
+| Throughput Optimized HDD(st1) | Storage    | `$ 0.045 / GB / 월`, 125 GB ~ 16 TB                                                                                                                       |
+|                               | IOPS       | 500 IOPS                                                                                                                                                  |
+|                               | Throughput | 500 MB/s                                                                                                                                                  |
+| Cold HDD(sc1)                 | Storage    | `$ 0.015 / GB / 월`, 125 GB ~ 16 TB                                                                                                                       |
+|                               | IOPS       | 250 IOPS                                                                                                                                                  |
+|                               | Throughput | 250 MB/s                                                                                                                                                  |
 
 ### EFS
 
 - Infrequent Access 전환 기준은 설정을 따르며, 해당 파일이 설정일을 경과하면 IA로 전환됩니다.
 - Storage 용량은 자동 프로비저닝 됩니다.
+- ~ 10 GB/s, ~ 500,000 IOPS 성능을 낼 수 있지만 단일 인스턴스에서 순차처리 속도는 EBS에 비해 느립니다.
 - ReadWriteMany
 
 | 가용 영역 | Frequent           | Infrequent           | Effective(20/80)     |
