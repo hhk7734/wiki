@@ -7,10 +7,27 @@ keywords:
   - kubernetes
 ---
 
+## metrics-server
+
+```shell
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+```
+
+```shell
+helm template metrics-server metrics-server/metrics-server > metrics-server.yaml
+```
+
+- `--kubelet-insecure-tls`
+- `--v=2`
+
+```shell
+kubectl apply -n kube-system -f metrics-server.yaml
+```
+
 ## Installation
 
 ```shell
-wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml -O k8s-dashboard.yaml
+wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml -O k8s-dashboard.yaml
 ```
 
 ```shell
@@ -47,6 +64,16 @@ kubectl apply -f k8s-dashboard-admin.yaml
 
 ```shell
 kubectl describe secret -n kubernetes-dashboard k8s-dashboard-admin
+```
+
+```shell
+kubectl proxy
+```
+
+[http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
+
+```shell
+kubectl describe secret -n kubernetes-dashboard k8s-dashboard-admin | grep token: | awk '{ print $2 }'
 ```
 
 ## Reference

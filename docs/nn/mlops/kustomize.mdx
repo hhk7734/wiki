@@ -7,6 +7,24 @@ keywords:
   - kustomize
 ---
 
+## Resources
+
+쿠버네티스 객체의 인스턴스(Deployment, Services, Namespace 등)을 리소스라고 합니다. 그 중 컨테이너를 실행시키는 리소스를 워크로드(Workloads) 라고 합니다. 워크로드에는 `Deployment`, `StatefulSets`, `Jobs`, `CronJobs`, `DaemonSets` 등이 있습니다.
+
+리소스는 다음에 의해 구별됩니다.
+
+- `apiVersion`
+- `kind`
+- `metadata.namespace`
+- `metadata.name`
+
+리소스는 아래와 같은 구성을 갖습니다.
+
+- `TypeMeta`: apiVersion, kind
+- `ObjectMeta`: namespace, name
+- `Spec`: 원하는 상태
+- `Status`: 관찰된 상태
+
 ## kustomize
 
 ```shell
@@ -66,3 +84,4 @@ patches:
 ## Reference
 
 - [https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/](https://kubectl.docs.kubernetes.io/references/kustomize/kustomization/)
+- [https://kubectl.docs.kubernetes.io/guides/introduction/resources_controllers/](https://kubectl.docs.kubernetes.io/guides/introduction/resources_controllers/)
