@@ -1,0 +1,24 @@
+---
+id: progress-bar
+title: Progress Bar
+sidebar_label: Progress Bar
+description: Progress Bar
+keywords:
+  - Progress Bar
+---
+
+## Copy
+
+```shell
+rsync -ah --info=progress2 <src> <dst>
+```
+
+## Compress
+
+```shell
+tar -czpf - <src> | (pv -p --timer --rate --bytes > <dst>.tar.gz)
+```
+
+```shell
+pv <src>.tar.gz | tar -xzp
+```

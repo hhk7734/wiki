@@ -218,6 +218,7 @@ module.exports = {
         'linux/linux-tools/shell-script/shell-script-getopt',
       ],
     },
+    'linux/linux-tools/progress-bar',
     'linux/linux-tools/linux-ssh-scp',
     'linux/linux-tools/linux-udev',
     'linux/linux-tools/linux-clone-os-image',
@@ -251,6 +252,8 @@ module.exports = {
     },
     'nn/mlops/cri-containerd',
     'nn/mlops/kubeadm',
+    'nn/mlops/kustomize',
+    'nn/mlops/helm',
     'nn/mlops/cni-calico',
     {
       type: 'category',
@@ -263,8 +266,6 @@ module.exports = {
     },
     'nn/mlops/cert-manager',
     'nn/mlops/istio',
-    'nn/mlops/helm',
-    'nn/mlops/kustomize',
     'nn/mlops/knative',
     'nn/mlops/mlops-kubeflow',
     {
