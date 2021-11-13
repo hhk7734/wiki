@@ -23,10 +23,16 @@ mkdir -p cert-manager/base
 
 ```shell
 helm template cert-manager jetstack/cert-manager \
-    --namespace cert-manager \
-    --create-namespace \
-    --version v1.3.1 \
-    --set installCRDs=true > cert-manager/base/cert-manager.yaml
+    --version v1.6.1 \
+    --set installCRDs=true \
+    > cert-manager/base/cert-manager.yaml
+```
+
+```yaml title="cert-manager/base/namespace.yaml"
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: cert-manager
 ```
 
 ```yaml title="cert-manager/base/patches/crd-preserve-unknown-fields.yaml"
@@ -39,7 +45,10 @@ helm template cert-manager jetstack/cert-manager \
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - namespace.yaml
   - cert-manager.yaml
+
+namespace: cert-manager
 
 # Patch upstream manifests to explicitly disable 'preserveUnknownFields',
 # otherwise upgrade with 'kubectl apply' fails.
@@ -54,6 +63,7 @@ cert-manager
 └── base/
     ├── cert-manager.yaml
     ├── kustomization.yaml
+    ├── namespace.yaml
     └── patches/
         └── crd-preserve-unknown-fields.yaml
 ```

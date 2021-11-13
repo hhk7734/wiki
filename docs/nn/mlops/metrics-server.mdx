@@ -1,0 +1,69 @@
+---
+id: metrics-server
+title: metrics-server
+sidebar_label: metrics-server
+description: metrics-server
+keywords:
+  - metrics-server
+---
+
+## Installation
+
+```shell
+mkdir -p metrics-server/base
+```
+
+```shell
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+```
+
+```shell
+helm template metrics-server metrics-server/metrics-server \
+    --version 3.6.0 \
+    > metrics-server/base/metrics-server.yaml
+```
+
+```yaml title="metrics-server/base/patch/metrics-server-args.yaml"
+- op: add
+  path: /spec/template/spec/containers/0/args
+  value:
+    - --secure-port=4443
+    - --cert-dir=/tmp
+    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+    - --kubelet-use-node-status-port
+    - --metric-resolution=15s
+    # - --kubelet-insecure-tls
+    # - --v=2
+```
+
+```yaml title="metrics-server/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - metrics-server.yaml
+
+patches:
+  - path: patches/metrics-server-args.yaml
+    target:
+      kind: Deployment
+      name: metrics-server
+```
+
+```shell
+metrics-server
+└── base/
+    ├── kustomization.yaml
+    ├── metrics-server.yaml
+    └── patches/
+        └── metrics-server-args.yaml
+```
+
+```shell
+kustomize build metrics-server/base | kubectl apply -f -
+```
+
+## Troubleshooting
+
+```shell
+kubectl describe apiservices v1beta1.metrics.k8s.io
+```

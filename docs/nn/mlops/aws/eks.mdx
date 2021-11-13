@@ -1,0 +1,75 @@
+---
+id: eks
+title: EKS
+sidebar_label: EKS
+description: EKS
+keywords:
+  - EKS
+---
+
+## Installation
+
+```shell
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+```
+
+```shell
+sudo mv /tmp/eksctl /usr/local/bin
+```
+
+```shell
+eksctl version
+```
+
+## Create
+
+```shell {2-3}
+aws ec2 create-key-pair \
+    --region <region> \
+    --key-name <key-name> \
+    --query 'KeyMaterial' \
+    --output text > cluster.pem
+```
+
+```yaml title="cluster.yaml" {5-6,12,26}
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: <cluster-name>
+  region: <region>
+
+iam:
+  withOIDC: true
+
+vpc:
+  cidr: <cidr>
+
+managedNodeGroups:
+  - name: worker-m5-large-ng
+    instanceType: m5.large
+    minSize: 1
+    maxSize: 10
+    desiredCapacity: 1
+    volumeSize: 30
+    labels:
+      role: worker
+    tags:
+      nodegroup-role: worker
+    ssh:
+      publicKeyName: <key-name>
+```
+
+```shell
+eksctl create cluster -f cluster.yaml
+```
+
+```shell
+aws eks update-kubeconfig \
+    --region <region> \
+    --name <cluster-name>
+```
+
+## Reference
+
+- [https://eksctl.io/](https://eksctl.io/)

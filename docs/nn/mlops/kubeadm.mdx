@@ -218,7 +218,11 @@ kubectl get pods -n kube-system
 ### token
 
 ```shell
-sudo kubeadm token list
+kubeadm token list
+```
+
+```shell
+kubeadm token create --print-join-command --ttl 10m
 ```
 
 ### hash

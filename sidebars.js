@@ -239,6 +239,7 @@ module.exports = {
         'nn/mlops/pulumi/basics',
         'nn/mlops/pulumi/import-export',
         'nn/mlops/pulumi/resource-options',
+        'nn/mlops/pulumi/dynamic'
       ],
     },
     {
@@ -255,6 +256,10 @@ module.exports = {
     'nn/mlops/kustomize',
     'nn/mlops/helm',
     'nn/mlops/cni-calico',
+    'nn/mlops/cert-manager',
+    'nn/mlops/istio',
+    'nn/mlops/metrics-server',
+    'nn/mlops/cluster-autoscaler',
     {
       type: 'category',
       label: 'Kubernetes',
@@ -264,16 +269,13 @@ module.exports = {
         'nn/mlops/kubernetes/mlops-k8s-persistent-volume',
       ],
     },
-    'nn/mlops/cert-manager',
-    'nn/mlops/istio',
     'nn/mlops/knative',
     'nn/mlops/mlops-kubeflow',
     {
       type: 'category',
       label: 'AWS',
       items: [
-        'nn/mlops/aws/kube2iam',
-        'nn/mlops/aws/cluster-autoscaler',
+        'nn/mlops/aws/eks',
         'nn/mlops/aws/aws-ebs-csi-driver',
       ],
     },

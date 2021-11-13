@@ -1,0 +1,201 @@
+---
+id: cluster-autoscaler
+title: cluster-autoscaler
+sidebar_label: cluster-autoscaler
+description: cluster-autoscaler
+keywords:
+  - cluster-autoscaler
+---
+
+`cluster-autoscaler`는 디플로이먼트로 배포됩니다. Leader Election을 사용합니다.
+
+## AWS
+
+### Prerequisites
+
+#### ASG(Auto Scaling Group)
+
+- Auto Scaling 그룹에 아래 태그가 있어야합니다.
+  - `k8s.io/cluster-autoscaler/<cluster-name>`: `owned`
+  - `k8s.io/cluster-autoscaler/enabled`: `true`
+- 사용자 데이터를 사용하여 **Control plane node** 연결, **node label** 설정을 자동화 해줍니다.
+
+```shell title="eks-asg-example.sh"
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="//"
+
+--//
+Content-Type: text/x-shellscript; charset="us-ascii"
+#!/bin/bash
+set -ex
+B64_CLUSTER_CA=xxx
+API_SERVER_URL=xxx
+K8S_CLUSTER_DNS_IP=xxx
+/etc/eks/bootstrap.sh hhk-eks --kubelet-extra-args '--node-labels=eks.amazonaws.com/sourceLaunchTemplateVersion=1,alpha.eksctl.io/cluster-name=hhk-eks,alpha.eksctl.io/nodegroup-name=worker-m5-large-ng,role=worker,eks.amazonaws.com/nodegroup-image=ami-0eb873de16468e55e,eks.amazonaws.com/capacityType=ON_DEMAND,eks.amazonaws.com/nodegroup=worker-m5-large-ng,eks.amazonaws.com/sourceLaunchTemplateId=lt-0676b3adb0ce8d3cc' --b64-cluster-ca $B64_CLUSTER_CA --apiserver-endpoint $API_SERVER_URL --dns-cluster-ip $K8S_CLUSTER_DNS_IP
+
+--//--
+```
+
+### Installation
+
+```shell
+mkdir -p aws-cluster-autoscaler/base/patches
+```
+
+```shell
+wget https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml \
+    -O aws-cluster-autoscaler/base/cluster-autoscaler-autodiscover.yaml
+```
+
+```yaml {6} title="aws-cluster-autoscaler/base/patches/annotations.yaml"
+- op: replace
+  path: /spec/template/metadata/annotations
+  value:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8085'
+    cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+```
+
+- `cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'`: 제거 비용이 많이 드는 pod라는 표시로, 해당 pod이 node에 있는 경우 node는 scalie in 되지 않습니다.
+
+```yaml {10-12} title="aws-cluster-autoscaler/base/patches/command.yaml"
+- op: replace
+  path: /spec/template/spec/containers/0/command
+  value:
+    - ./cluster-autoscaler
+    - --v=4
+    - --stderrthreshold=info
+    - --cloud-provider=aws
+    - --skip-nodes-with-local-storage=false
+    - --expander=least-waste
+    - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<cluster-name>
+    - --balance-similar-node-groups
+    - --skip-nodes-with-system-pods=false
+```
+
+```shell title=" aws-cluster-autoscaler/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cluster-autoscaler-autodiscover.yaml
+
+patches:
+  - path: patches/annotations.yaml
+    target:
+      kind: Deployment
+  - path: patches/command.yaml
+    target:
+      kind: Deployment
+
+```
+
+```shell
+mkdir -p aws-cluster-autoscaler/overlays/iam/patches
+```
+
+```yaml {4} title="aws-cluster-autoscaler/overlays/iam/patches/role.yaml"
+- op: add
+  path: /metadata/annotations
+  value:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
+```
+
+```yaml title="aws-cluster-autoscaler/overlays/iam/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+
+patches:
+  - path: patches/role.yaml
+    target:
+      kind: ServiceAccount
+```
+
+```shell
+kustomize build aws-cluster-autoscaler/overlays/iam | kubectl apply -f -
+```
+
+:::warning
+On-premise 환경에서 사용하는 경우 아래와 같은 인증 방식을 사용할 수 있습니다. (보안 위협 요소가 될 수 있음)
+:::
+
+```shell
+mkdir -p aws-cluster-autoscaler/overlays/credentials/patches
+```
+
+```yaml {8-9} title="aws-cluster-autoscaler/overlays/credentials/credentials.yaml"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aws-secret
+  namespace: kube-system
+type: Opaque
+data:
+  aws_access_key_id: <BASE64_OF_YOUR_AWS_ACCESS_KEY_ID>
+  aws_secret_access_key: <BASE64_OF_YOUR_AWS_SECRET_ACCESS_KEY>
+```
+
+```yaml {15} title="aws-cluster-autoscaler/overlays/credentials/patches/env.yaml"
+- op: add
+  path: /spec/template/spec/containers/0/env
+  value:
+    - name: AWS_ACCESS_KEY_ID
+      valueFrom:
+        secretKeyRef:
+          name: aws-secret
+          key: aws_access_key_id
+    - name: AWS_SECRET_ACCESS_KEY
+      valueFrom:
+        secretKeyRef:
+          name: aws-secret
+          key: aws_secret_access_key
+    - name: AWS_REGION
+      value: <REGION>
+```
+
+```yaml title="aws-cluster-autoscaler/overlays/credentials/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - credentials.yaml
+  - ../../base
+
+patches:
+  - path: patches/env.yaml
+    target:
+      kind: Deployment
+```
+
+```shell
+aws-cluster-autoscaler
+├── base/
+│   ├── cluster-autoscaler-autodiscover.yaml
+│   ├── kustomization.yaml
+│   └── patches/
+│       ├── annotations.yaml
+│       └── command.yaml
+└── overlays/
+    ├── credentials/
+    │   ├── credentials.yaml
+    │   ├── kustomization.yaml
+    │   └── patches/
+    │       └── env.yaml
+    └── iam/
+        ├── cluster-autoscaler-policy.json
+        ├── kustomization.yaml
+        └── patches/
+            └── role.yaml
+```
+
+## Troubleshooting
+
+```shell
+kubectl logs -n kube-system -f deployment.apps/cluster-autoscaler
+```
+
+## Reference
+
+- [https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html](https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html)
+- [https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws](https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/aws)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
