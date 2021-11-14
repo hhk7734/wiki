@@ -161,136 +161,70 @@ kubectl get namespace -L istio-injection
 
 ## Gateway & VirtualService
 
-```yaml title="kubeflow/manifests/common/istio-1-9-0/kubeflow-istio-resources/base/kf-istio-resources.yaml" {2,4}
+```yaml {12}
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ml-pipeline-ui
+  name: ml-pipeline-ui
+  namespace: kubeflow
+spec:
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+  selector:
+    app: ml-pipeline-ui
+```
+
+```yaml {14,16}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: ml-pipeline-ui
+  namespace: istio-system
+spec:
+  hosts:
+    - 'kubeflow.loliot.net'
+  gateways:
+    - istio-gateway
+  http:
+    - route:
+        - destination:
+            host: ml-pipeline-ui.kubeflow.svc.cluster.local
+            port:
+              number: 80
+```
+
+```yaml {}
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: kubeflow-gateway
+  name: istio-gateway
+  namespace: istio-system
 spec:
   selector:
     istio: ingressgateway
   servers:
     - port:
         number: 80
-        name: http
+        name: http-kubeflow
         protocol: HTTP
+      tls:
+        httpsRedirect: true
       hosts:
-        - '*'
-```
-
-```txt title="manifests/apps/centraldashboard/upstream/base/params.env"
-CD_CLUSTER_DOMAIN=cluster.local
-CD_USERID_HEADER=kubeflow-userid
-CD_USERID_PREFIX=
-CD_REGISTRATION_FLOW=false
-```
-
-```yaml title="kubeflow/manifests/apps/centraldashboard/upstream/base/kustomization.yaml"
-# ...
-configMapGenerator:
-  - envs:
-      - params.env
-    name: centraldashboard-parameters
-generatorOptions:
-  disableNameSuffixHash: true
-vars:
-  - fieldref:
-      fieldPath: metadata.namespace
-    name: CD_NAMESPACE
-    objref:
-      apiVersion: v1
-      kind: Service
-      name: centraldashboard
-  - fieldref:
-      fieldPath: data.CD_CLUSTER_DOMAIN
-    name: CD_CLUSTER_DOMAIN
-    objref:
-      apiVersion: v1
-      kind: ConfigMap
-      name: centraldashboard-parameters
-# ...
-```
-
-```yaml title="kubeflow/manifests/apps/centraldashboard/upstream/overlays/istio/params.yaml"
-varReference:
-  - path: spec/http/route/destination/host
-    kind: VirtualService
-```
-
-```yaml title="kubeflow/manifests/apps/centraldashboard/upstream/overlays/istio/virtual-service.yaml" {16-20}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: centraldashboard
-spec:
-  gateways:
-    - kubeflow-gateway
-  hosts:
-    - '*'
-  http:
-    - match:
-        - uri:
-          prefix: /
-      rewrite:
-        uri: /
-      route:
-        - destination:
-          host: centraldashboard.$(CD_NAMESPACE).svc.$(CD_CLUSTER_DOMAIN)
-          port:
-            number: 80
-```
-
-```yaml title="kubeflow/manifests/apps/centraldashboard/upstream/base/service.yaml" {9-11}
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: centraldashboard
-  name: centraldashboard
-spec:
-  ports:
-    - port: 80
-      protocol: TCP
-      targetPort: 8082
-  selector:
-    app: centraldashboard
-  sessionAffinity: None
-  type: ClusterIP
-```
-
-```yaml title="kubeflow/manifests/apps/centraldashboard/upstream/base/deployment.yaml" {17,30}
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  labels:
-    app: centraldashboard
-  name: centraldashboard
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: centraldashboard
-  template:
-    metadata:
-      labels:
-        app: centraldashboard
-      annotations:
-        sidecar.istio.io/inject: 'false'
-    spec:
-      containers:
-        - name: centraldashboard
-          image: public.ecr.aws/j1r0q0g6/notebooks/central-dashboard
-          imagePullPolicy: IfNotPresent
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 8082
-            initialDelaySeconds: 30
-            periodSeconds: 30
-          ports:
-            - containerPort: 8082
-              protocol: TCP
-#...
+        - 'kubeflow.loliot.net'
+    - port:
+        number: 443
+        name: https-kubeflow
+        protocol: HTTPS
+      tls:
+        mode: SIMPLE
+        credentialName: ingress-cert
+      hosts:
+        - 'kubeflow.loliot.net'
 ```
 
 ## Kiali

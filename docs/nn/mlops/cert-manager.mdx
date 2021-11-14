@@ -28,13 +28,6 @@ helm template cert-manager jetstack/cert-manager \
     > cert-manager/base/cert-manager.yaml
 ```
 
-```yaml title="cert-manager/base/namespace.yaml"
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: cert-manager
-```
-
 ```yaml title="cert-manager/base/patches/crd-preserve-unknown-fields.yaml"
 - op: add
   path: /spec/preserveUnknownFields
@@ -45,10 +38,7 @@ metadata:
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - namespace.yaml
   - cert-manager.yaml
-
-namespace: cert-manager
 
 # Patch upstream manifests to explicitly disable 'preserveUnknownFields',
 # otherwise upgrade with 'kubectl apply' fails.
@@ -63,7 +53,6 @@ cert-manager
 └── base/
     ├── cert-manager.yaml
     ├── kustomization.yaml
-    ├── namespace.yaml
     └── patches/
         └── crd-preserve-unknown-fields.yaml
 ```
@@ -73,7 +62,7 @@ kustomize build cert-manager/base | kubectl apply -f -
 ```
 
 ```shell
-kubectl get pods --namespace cert-manager
+kubectl get pod -l app.kubernetes.io/instance=cert-manager -w
 ```
 
 ## selfSigned
@@ -106,31 +95,28 @@ My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 �
 
 생성하면 토큰과 함께 테스트 코드를 줍니다.
 
-```yaml title="cloudflare-api-token-secret.yaml" {8}
+```shell
+mkdir -p letsencrypt/base
+```
+
+```yaml title="letsencrypt/base/cloudflare-api-token-secret.yaml" {8}
 apiVersion: v1
 kind: Secret
 metadata:
   name: cloudflare-api-token-secret
-  namespace: cert-manager # 빠지면 cert-manager가 찾지 못함
 type: Opaque
 stringData:
   api-token: # token
 ```
 
-```shell
-kubectl create -f cloudflare-api-token-secret.yaml
-```
-
-```yaml title="letsencrypt-prod.yaml" {8,16,19}
-apiVersion: cert-manager.io/v1alpha2
+```yaml title="letsencrypt/base/letsencrypt-prod.yaml" {8,15,18}
+apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
   name: letsencrypt-prod
-  namespace: cert-manager
 spec:
   acme:
     email: # email
-    # server: https://acme-staging-v02.api.letsencrypt.org/directory
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod
@@ -146,16 +132,8 @@ spec:
               key: api-token
 ```
 
-```shell
-kubectl create -f letsencrypt-prod.yaml
-```
-
-```shell
-kubectl describe clusterissuers.cert-manager.io letsencrypt-prod
-```
-
-```yaml title="ingress-cert.yaml" {11-12}
-apiVersion: cert-manager.io/v1alpha2
+```yaml title="letsencrypt/base/ingress-cert.yaml" {11-12}
+apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert
@@ -172,11 +150,33 @@ spec:
     name: letsencrypt-prod
 ```
 
+```yaml title="letsencrypt/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - cloudflare-api-token-secret.yaml
+  - letsencrypt-prod.yaml
+  - ingress-cert.yaml
+```
+
 ```shell
-kubectl create -f ingress-cert.yaml
+letsencrypt
+└── base/
+    ├── cloudflare-api-token-secret.yaml
+    ├── ingress-cert.yaml
+    ├── kustomization.yaml
+    └── letsencrypt-prod.yaml
+```
+
+```shell
+kustomize build letsencrypt/base | kubectl apply -f -
 ```
 
 `Certificate`을 생성하는 순간 인증을 시작합니다.
+
+```shell
+kubectl describe clusterissuers.cert-manager.io letsencrypt-prod
+```
 
 ```shell
 kubectl get certificates.cert-manager.io -n istio-system ingress-cert
@@ -195,10 +195,8 @@ kubectl describe certificaterequests.cert-manager.io -n istio-system <name>
 ```
 
 ```shell
-kubectl logs -n cert-manager cert-manager-
+kubectl logs cert-manager-
 ```
-
-## istio-csr
 
 ## Reference
 
