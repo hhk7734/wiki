@@ -158,6 +158,10 @@ module.exports = {
       theme: require('prism-react-renderer/themes/nightOwlLight'),
       darkTheme: require('prism-react-renderer/themes/vsDark'),
     },
+    tableOfContents: {
+      minHeadingLevel: 2,
+      maxHeadingLevel: 5,
+    },
   },
   presets: [
     [
