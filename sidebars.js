@@ -260,6 +260,7 @@ module.exports = {
     'nn/mlops/istio',
     'nn/mlops/metrics-server',
     'nn/mlops/cluster-autoscaler',
+    'nn/mlops/prometheus-operator',
     {
       type: 'category',
       label: 'Kubernetes',
