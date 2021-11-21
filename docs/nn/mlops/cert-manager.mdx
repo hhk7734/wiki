@@ -18,13 +18,23 @@ helm repo update
 ```
 
 ```shell
+helm show values jetstack/cert-manager \
+    --version v1.6.1 \
+    > cert-manager-values.yaml
+```
+
+```shell
 mkdir -p cert-manager/base
+```
+
+```yaml title="cert-manager/base/values.yaml"
+installCRDs: true
 ```
 
 ```shell
 helm template cert-manager jetstack/cert-manager \
     --version v1.6.1 \
-    --set installCRDs=true \
+    -f cert-manager/base/values.yaml \
     > cert-manager/base/cert-manager.yaml
 ```
 
@@ -53,8 +63,9 @@ cert-manager
 └── base/
     ├── cert-manager.yaml
     ├── kustomization.yaml
-    └── patches/
-        └── crd-preserve-unknown-fields.yaml
+    ├── patches/
+    │   └── crd-preserve-unknown-fields.yaml
+    └── values.yaml
 ```
 
 ```shell

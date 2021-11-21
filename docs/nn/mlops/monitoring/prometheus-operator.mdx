@@ -1,0 +1,212 @@
+---
+id: prometheus-operator
+title: prometheus-operator
+sidebar_label: prometheus-operator
+description: prometheus-operator
+keywords:
+  - prometheus-operator
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+## prometheus-operator
+
+```shell
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+```shell
+helm repo update
+```
+
+```shell
+mkdir -p prometheus-operator/prometheus-operator/base
+```
+
+```shell
+helm search repo kube-prometheus-stack -l
+```
+
+```shell
+helm show values prometheus-community/kube-prometheus-stack \
+    --version 20.0.1 \
+    > prometheus-operator/prometheus-operator/base/values.yaml
+```
+
+```yaml title="prometheus-operator/prometheus-operator/base/values.yaml"
+# ...
+
+namespaceOverride: monitoring
+
+# ...
+
+fullnameOverride: prometheus-operator
+
+# ...
+
+defaultRules:
+  create: false
+
+# ...
+
+kubeControllerManager:
+  enabled: false
+
+# ...
+
+kubeEtcd:
+  enabled: false
+
+# ...
+
+kubeScheduler:
+  enabled: false
+
+# ...
+
+prometheusOperator:
+  enabled: true
+  tls:
+    enabled: false
+
+  admissionWebhooks:
+    # PrometheusRules의 형식이 올바른지 확인해주는 기능인데 control plane이 webhook 서비스에
+    # 접근할 수 있어야하는 문제가 있습니다.
+    enabled: false
+
+    patch:
+      enabled: false
+
+  # ...
+
+  hostNetwork: true
+
+# ...
+
+prometheus: # prometheus 설치
+  # ...
+
+  prometheusSpec:
+    # ...
+
+    ruleSelectorNilUsesHelmValues: false # ruleSelector에 대한 추가 설정이 없으면 모든 rule이 적용됩니다.
+
+    # ...
+
+    serviceMonitorSelectorNilUsesHelmValues: false # serviceMonitorSelector에 대한 설정이 없으면 모든 serviceMonitor가 적용됩니다.
+
+    # namespace에 prometheus: enabled 라는 라벨이 있으면 해당 ServiceMonitor를 수집합니다.
+    serviceMonitorNamespaceSelector:
+      matchLabels:
+        prometheus: enabled
+
+    podMonitorSelectorNilUsesHelmValues: false # podMonitorSelector에 대한 설정이 없으면 모든 podMonitor가 적용됩니다.
+
+    # ...
+
+    probeSelectorNilUsesHelmValues: false # probeSelector에 대한 설정이 없으면 모든 probe가 적용됩니다.
+
+    # ...
+
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp2
+          accessModes:
+            - 'ReadWriteOnce'
+          resources:
+            requests:
+              storage: 30Gi
+```
+
+```shell
+helm install prometheus-operator prometheus-community/kube-prometheus-stack \
+    --version 20.0.1 \
+    -n monitoring \
+    --create-namespace \
+    -f prometheus-operator/prometheus-operator/base/values.yaml
+```
+
+```shell
+helm get manifest -n monitoring prometheus-operator \
+    > prometheus-operator/prometheus-operator/base/prometheus-operator.yaml
+```
+
+```yaml title="prometheus-operator/prometheus/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - prometheus-operator.yaml
+```
+
+```shell
+kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
+kubectl delete crd alertmanagers.monitoring.coreos.com
+kubectl delete crd podmonitors.monitoring.coreos.com
+kubectl delete crd probes.monitoring.coreos.com
+kubectl delete crd prometheuses.monitoring.coreos.com
+kubectl delete crd prometheusrules.monitoring.coreos.com
+kubectl delete crd servicemonitors.monitoring.coreos.com
+kubectl delete crd thanosrulers.monitoring.coreos.com
+```
+
+## CRDs
+
+<center>
+  <img
+    src={useBaseUrl(
+      'img/nn/mlops/monitoring/prometheus-operator-architecture.png'
+    )}
+  />
+</center>
+
+### Prometheus
+
+spec에 맞는 prometheus StatefulSets을 생성합니다.
+
+```shell
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: istiod
+  namespace: monitoring
+spec:
+  # ...
+
+  serviceMonitorNamespaceSelector: # 감시할 ServiceMonitor의 namespace를 선택합니다.
+    matchLabels:
+      prometheus: enabled
+
+  # ...
+```
+
+### ServiceMonitor
+
+모니터링 하고싶은 Service 정보를 입력합니다.
+
+```shell
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istiod
+  namespace: monitoring
+  labels:
+    app: istiod
+spec:
+  jobLabel: jobLabel
+  selector:
+    matchLabels: # Service labels
+      app: istiod
+  namespaceSelector: # Service namespace selector
+    # any: true
+    matchNames:
+      - istio-system
+  endpoints:
+    - port: http-monitoring # metrics port
+      interval: 15s
+```
+
+## Reference
+
+- [https://github.com/prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+- [https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md)

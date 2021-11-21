@@ -239,7 +239,7 @@ module.exports = {
         'nn/mlops/pulumi/basics',
         'nn/mlops/pulumi/import-export',
         'nn/mlops/pulumi/resource-options',
-        'nn/mlops/pulumi/dynamic'
+        'nn/mlops/pulumi/dynamic',
       ],
     },
     {
@@ -257,15 +257,25 @@ module.exports = {
     'nn/mlops/helm',
     'nn/mlops/cni-calico',
     'nn/mlops/cert-manager',
-    'nn/mlops/istio',
+    {
+      type: 'category',
+      label: 'Istio',
+      items: ['nn/mlops/istio/istio', 'nn/mlops/istio/kiali'],
+    },
+    {
+      type: 'category',
+      label: 'Monitoring',
+      items: [
+        'nn/mlops/monitoring/k8s-dashboard',
+        'nn/mlops/monitoring/prometheus-operator',
+      ],
+    },
     'nn/mlops/metrics-server',
     'nn/mlops/cluster-autoscaler',
-    'nn/mlops/prometheus-operator',
     {
       type: 'category',
       label: 'Kubernetes',
       items: [
-        'nn/mlops/kubernetes/mlops-k8s-dashboard',
         'nn/mlops/kubernetes/mlops-k8s-service',
         'nn/mlops/kubernetes/mlops-k8s-persistent-volume',
       ],
@@ -275,10 +285,7 @@ module.exports = {
     {
       type: 'category',
       label: 'AWS',
-      items: [
-        'nn/mlops/aws/eks',
-        'nn/mlops/aws/aws-ebs-csi-driver',
-      ],
+      items: ['nn/mlops/aws/eks', 'nn/mlops/aws/aws-ebs-csi-driver'],
     },
   ],
   nodejs: [

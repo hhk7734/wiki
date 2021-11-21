@@ -1,0 +1,97 @@
+---
+id: kiali
+title: Kiali
+sidebar_label: Kiali
+description: Kiali
+keywords:
+  - kiali
+---
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+## Kiali architecture
+
+<center>
+  <img src={useBaseUrl('img/nn/mlops/istio/kiali-architecture.png')} />
+</center>
+
+## Installation
+
+```shell
+helm repo add kiali https://kiali.org/helm-charts
+```
+
+```shell
+helm repo update
+```
+
+Istio 버전에 따라 호환되는 Kiali 버전을 선택해야합니다.
+
+```shell
+helm search repo kiali -l
+```
+
+```shell
+mkdir -p istio/kiali/base
+```
+
+```shell
+helm show values kiali/kiali-server \
+    --version 1.33.1 \
+    > istio/kiali/base/values.yaml
+```
+
+```yaml title="istio/kiali/base/values.yaml"
+# ...
+
+auth:
+  openid: {}
+  openshift: {}
+  strategy: anonymous
+
+# ...
+
+external_services:
+  custom_dashboards:
+    enabled: true
+  prometheus:
+    url: http://prometheus-operator-prometheus.monitoring:9090 # 프로메테우스 서비스 주소
+  grafana:
+    url: http://prometheus-operator-grafana.monitoring # 그라파나 서비스 주소
+# ...
+```
+
+:::warning
+Grafana는 아직 테스트 되지 않았습니다.
+:::
+
+```shell
+helm install kiali kiali/kiali-server \
+    --version 1.33.1 \
+    -n istio-system \
+    -f istio/kiali/base/values.yaml
+```
+
+```shell
+helm get manifest -n istio-system kiali > istio/kiali/base/kiali.yaml
+```
+
+```yaml title="istio/kiali/base/kustomization.yaml"
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kiali.yaml
+```
+
+## Service
+
+```shell
+kubectl proxy
+```
+
+[http://localhost:8001/api/v1/namespaces/istio-system/services/http:kiali:20001/proxy/#](http://localhost:8001/api/v1/namespaces/istio-system/services/http:kiali:20001/proxy/#)
+
+## Reference
+
+- [https://kiali.io/docs/architecture/architecture/](https://kiali.io/docs/architecture/architecture/)
+- [https://kiali.io/docs/configuration/](https://kiali.io/docs/configuration/)
