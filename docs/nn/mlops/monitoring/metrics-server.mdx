@@ -1,0 +1,65 @@
+---
+id: metrics-server
+title: metrics-server
+sidebar_label: metrics-server
+description: metrics-server
+keywords:
+  - metrics-server
+---
+
+## Installation
+
+```shell
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+```
+
+```shell
+helm repo update
+```
+
+```shell
+mkdir -p metrics-server/base
+```
+
+```shell
+helm search repo metrics-server -l
+```
+
+```shell
+helm show values metrics-server/metrics-server \
+    --version 3.7.0 \
+    > metrics-server/base/values.yaml
+```
+
+```yaml title="metrics-server/base/values.yaml"
+# ...
+
+defaultArgs:
+  - --cert-dir=/tmp
+  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+  - --kubelet-use-node-status-port
+  - --metric-resolution=15s
+  # - --kubelet-insecure-tls
+  # - --v=2
+# ...
+```
+
+```shell
+helm upgrade metrics-server metrics-server/metrics-server \
+    --install \
+    --version 3.7.0 \
+    -n monitoring \
+    --create-namespace \
+    -f metrics-server/base/values.yaml
+```
+
+```shell
+helm get manifest -n monitoring metrics-server \
+    > metrics-server/base/metrics-server.yaml
+```
+
+## Troubleshooting
+
+```shell
+kubectl describe apiservices v1beta1.metrics.k8s.io
+```

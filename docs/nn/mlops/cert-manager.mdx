@@ -18,58 +18,36 @@ helm repo update
 ```
 
 ```shell
+mkdir -p cert-manager/cert-manager/base
+```
+
+```shell
+helm search repo cert-manager -l
+```
+
+```shell
 helm show values jetstack/cert-manager \
     --version v1.6.1 \
-    > cert-manager-values.yaml
+    > cert-manager/cert-manager/base/values.yaml
 ```
 
-```shell
-mkdir -p cert-manager/base
-```
+```yaml title="cert-manager/cert-manager/base/values.yaml"
+# ...
 
-```yaml title="cert-manager/base/values.yaml"
 installCRDs: true
+# ...
 ```
 
 ```shell
-helm template cert-manager jetstack/cert-manager \
+helm upgrade cert-manager jetstack/cert-manager \
+    --install \
     --version v1.6.1 \
-    -f cert-manager/base/values.yaml \
-    > cert-manager/base/cert-manager.yaml
-```
-
-```yaml title="cert-manager/base/patches/crd-preserve-unknown-fields.yaml"
-- op: add
-  path: /spec/preserveUnknownFields
-  value: false
-```
-
-```yaml title="cert-manager/base/kustomization.yaml"
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - cert-manager.yaml
-
-# Patch upstream manifests to explicitly disable 'preserveUnknownFields',
-# otherwise upgrade with 'kubectl apply' fails.
-patches:
-  - path: patches/crd-preserve-unknown-fields.yaml
-    target:
-      kind: CustomResourceDefinition
+    -f cert-manager/cert-manager/base/values.yaml
 ```
 
 ```shell
-cert-manager
-└── base/
-    ├── cert-manager.yaml
-    ├── kustomization.yaml
-    ├── patches/
-    │   └── crd-preserve-unknown-fields.yaml
-    └── values.yaml
-```
-
-```shell
-kustomize build cert-manager/base | kubectl apply -f -
+helm get manifest cert-manager \
+    > cert-manager/cert-manager/base/cert-manager.yaml
 ```
 
 ```shell

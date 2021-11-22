@@ -120,7 +120,8 @@ prometheus: # prometheus 설치
 ```
 
 ```shell
-helm install prometheus-operator prometheus-community/kube-prometheus-stack \
+helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
+    --install \
     --version 20.0.1 \
     -n monitoring \
     --create-namespace \
@@ -132,12 +133,7 @@ helm get manifest -n monitoring prometheus-operator \
     > prometheus-operator/prometheus-operator/base/prometheus-operator.yaml
 ```
 
-```yaml title="prometheus-operator/prometheus/kustomization.yaml"
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - prometheus-operator.yaml
-```
+삭제할 때는 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
 
 ```shell
 kubectl delete crd alertmanagerconfigs.monitoring.coreos.com

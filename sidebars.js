@@ -266,11 +266,11 @@ module.exports = {
       type: 'category',
       label: 'Monitoring',
       items: [
+        'nn/mlops/monitoring/metrics-server',
         'nn/mlops/monitoring/k8s-dashboard',
         'nn/mlops/monitoring/prometheus-operator',
       ],
     },
-    'nn/mlops/metrics-server',
     'nn/mlops/cluster-autoscaler',
     {
       type: 'category',

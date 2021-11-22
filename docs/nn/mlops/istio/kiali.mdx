@@ -66,7 +66,8 @@ Grafana는 아직 테스트 되지 않았습니다.
 :::
 
 ```shell
-helm install kiali kiali/kiali-server \
+helm upgrade kiali kiali/kiali-server \
+    --install \
     --version 1.33.1 \
     -n istio-system \
     -f istio/kiali/base/values.yaml
@@ -74,13 +75,6 @@ helm install kiali kiali/kiali-server \
 
 ```shell
 helm get manifest -n istio-system kiali > istio/kiali/base/kiali.yaml
-```
-
-```yaml title="istio/kiali/base/kustomization.yaml"
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - kiali.yaml
 ```
 
 ## Service
