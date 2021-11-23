@@ -29,6 +29,8 @@ helm repo list [flags]
 helm search repo <keyword> [flags]
 ```
 
+- `-l`, `--versions`: 여러 버전을 표시합니다.
+
 ```shell
 helm repo update [REPO1 [REPO2 ...]] [flags]
 ```
@@ -69,6 +71,8 @@ helm status <NAME> [flags]
 ```shell
 helm upgrade <NAME> <CHART> [flags]
 ```
+
+- `--install`: 설치가 안되어 있으면 설치합니다.
 
 ```shell
 helm get values <CHART> [flags]

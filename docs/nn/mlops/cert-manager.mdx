@@ -10,11 +10,8 @@ keywords:
 ## Installation
 
 ```shell
-helm repo add jetstack https://charts.jetstack.io
-```
-
-```shell
-helm repo update
+helm repo add jetstack https://charts.jetstack.io \
+&& helm repo update
 ```
 
 ```shell
@@ -47,7 +44,7 @@ helm upgrade cert-manager jetstack/cert-manager \
 
 ```shell
 helm get manifest cert-manager \
-    > cert-manager/cert-manager/base/cert-manager.yaml
+    > cert-manager/cert-manager/base/manifest.yaml
 ```
 
 ```shell

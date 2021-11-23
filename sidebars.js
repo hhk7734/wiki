@@ -253,6 +253,14 @@ module.exports = {
     },
     'nn/mlops/cri-containerd',
     'nn/mlops/kubeadm',
+    {
+      type: 'category',
+      label: 'Kubernetes',
+      items: [
+        'nn/mlops/kubernetes/mlops-k8s-service',
+        'nn/mlops/kubernetes/mlops-k8s-persistent-volume',
+      ],
+    },
     'nn/mlops/kustomize',
     'nn/mlops/helm',
     'nn/mlops/cni-calico',
@@ -274,18 +282,19 @@ module.exports = {
     'nn/mlops/cluster-autoscaler',
     {
       type: 'category',
-      label: 'Kubernetes',
-      items: [
-        'nn/mlops/kubernetes/mlops-k8s-service',
-        'nn/mlops/kubernetes/mlops-k8s-persistent-volume',
-      ],
+      label: 'GPU',
+      items: ['nn/mlops/gpu/nvidia-gpu-operator'],
     },
     'nn/mlops/knative',
     'nn/mlops/mlops-kubeflow',
     {
       type: 'category',
       label: 'AWS',
-      items: ['nn/mlops/aws/eks', 'nn/mlops/aws/aws-ebs-csi-driver'],
+      items: [
+        'nn/mlops/aws/eks',
+        'nn/mlops/aws/aws-cloud-controller-manager​',
+        'nn/mlops/aws/aws-ebs-csi-driver',
+      ],
     },
   ],
   nodejs: [

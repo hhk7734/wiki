@@ -1,0 +1,27 @@
+---
+id: nvidia-gpu-operator
+title: nvidia-gpu-operator
+sidebar_label: nvidia-gpu-operator
+description: nvidia-gpu-operator
+keywords:
+  - nvidia-gpu-operator
+---
+
+## Installation
+
+```shell
+helm repo add nvidia https://nvidia.github.io/gpu-operator \
+&& helm repo update
+```
+
+```shell
+mkdir -p nvidia/gpu-operator/base
+```
+
+```shell
+helm search repo gpu-operator -l
+```
+
+## Reference
+
+- [https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator)

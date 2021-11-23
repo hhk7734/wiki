@@ -18,11 +18,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 ## Installation
 
 ```shell
-helm repo add kiali https://kiali.org/helm-charts
-```
-
-```shell
-helm repo update
+helm repo add kiali https://kiali.org/helm-charts \
+&& helm repo update
 ```
 
 Istio 버전에 따라 호환되는 Kiali 버전을 선택해야합니다.
@@ -74,7 +71,8 @@ helm upgrade kiali kiali/kiali-server \
 ```
 
 ```shell
-helm get manifest -n istio-system kiali > istio/kiali/base/kiali.yaml
+helm get manifest -n istio-system kiali \
+    > istio/kiali/base/manifest.yaml
 ```
 
 ## Service

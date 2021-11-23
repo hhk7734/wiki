@@ -12,11 +12,8 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 ## prometheus-operator
 
 ```shell
-helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-```
-
-```shell
-helm repo update
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts \
+&& helm repo update
 ```
 
 ```shell
@@ -130,7 +127,7 @@ helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
 
 ```shell
 helm get manifest -n monitoring prometheus-operator \
-    > prometheus-operator/prometheus-operator/base/prometheus-operator.yaml
+    > prometheus-operator/prometheus-operator/base/manifest.yaml
 ```
 
 삭제할 때는 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.

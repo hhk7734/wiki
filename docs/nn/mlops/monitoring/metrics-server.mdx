@@ -10,11 +10,8 @@ keywords:
 ## Installation
 
 ```shell
-helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-```
-
-```shell
-helm repo update
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
+&& helm repo update
 ```
 
 ```shell
@@ -55,7 +52,7 @@ helm upgrade metrics-server metrics-server/metrics-server \
 
 ```shell
 helm get manifest -n monitoring metrics-server \
-    > metrics-server/base/metrics-server.yaml
+    > metrics-server/base/manifest.yaml
 ```
 
 ## Troubleshooting

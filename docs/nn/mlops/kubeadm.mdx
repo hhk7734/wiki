@@ -187,23 +187,9 @@ mkdir -p $HOME/.kube \
 && sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-### aws-cloud-controller-manager
-
-```shell
-sudo snap install helm --classic
-```
-
-```shell
-helm repo add aws-cloud-controller-manager https://kubernetes.github.io/cloud-provider-aws
-helm repo update
-```
-
-```shell
-helm upgrade --install aws-cloud-controller-manager aws-cloud-controller-manager/aws-cloud-controller-manager \
-    --set "args[0]=--v=2" \
-    --set "args[1]=--cloud-provider=aws" \
-    --set "args[2]=--configure-cloud-routes=false"
-```
+:::info
+cloud에서 self managed kubernetes를 운영하는 경우 cloud-provider를 설치합니다.
+:::
 
 ### calico
 
@@ -344,7 +330,5 @@ sudo rm -r /etc/kubernetes/manifests $HOME/.kube/config
 - [https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/](https://kubernetes.io/ko/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
 - [https://kubernetes.io/docs/reference/setup-tools/kubeadm/](https://kubernetes.io/docs/reference/setup-tools/kubeadm/)
 - [https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/)
-- [https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm](https://tanzu.vmware.com/content/blog/bootstrapping-an-aws-integrated-kubernetes-1-15-cluster-with-kubeadm)
 - [https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta3/)
-- [https://cloud-provider-aws.sigs.k8s.io/prerequisites/](https://cloud-provider-aws.sigs.k8s.io/prerequisites/)
 - [https://blog.scottlowe.org/2021/10/12/using-the-external-aws-cloud-provider-for-kubernetes/](https://blog.scottlowe.org/2021/10/12/using-the-external-aws-cloud-provider-for-kubernetes/)
