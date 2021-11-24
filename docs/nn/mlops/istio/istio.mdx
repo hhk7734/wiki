@@ -20,7 +20,11 @@ curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.6 TARGET_ARCH=x86_64 
 export PATH=/opt/istio-1.9.6/bin:$PATH
 ```
 
-```yaml title="istio-operator.yaml"
+```shell
+mkdir -p istio/istio-operator/base
+```
+
+```yaml title="istio/istio-operator/base/istio-operator.yaml"
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -33,12 +37,14 @@ spec:
       - name: istio-ingressgateway
         enabled: true
         k8s:
-          serviceAnnotations:
-            service.beta.kubernetes.io/aws-load-balancer-type: 'nlb' # AWS
+          service:
+            type: NodePort # or LoadBalancer
+          # serviceAnnotations:
+          #   service.beta.kubernetes.io/aws-load-balancer-type: 'nlb' # AWS
 ```
 
 ```shell
-istioctl install -f istio-operator.yaml
+istioctl install -f istio/istio-operator/base/istio-operator.yaml
 ```
 
 ```shell
@@ -230,7 +236,6 @@ spec:
 ## Reference
 
 - [https://bcho.tistory.com/1293](https://bcho.tistory.com/1293)
-- [https://istio.io/latest/docs/setup/install/](https://istio.io/latest/docs/setup/install/)
 - [https://istio.io/latest/about/service-mesh/](https://istio.io/latest/about/service-mesh/)
+- [https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/)
 - [https://istio.io/latest/docs/examples/bookinfo/](https://istio.io/latest/docs/examples/bookinfo/)
-- [https://github.com/kubeflow/manifests/tree/v1.3.0](https://github.com/kubeflow/manifests/tree/v1.3.0)

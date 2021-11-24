@@ -22,6 +22,39 @@ mkdir -p nvidia/gpu-operator/base
 helm search repo gpu-operator -l
 ```
 
+```shell
+helm show values nvidia/gpu-operator \
+    --version v1.8.2 \
+    > nvidia/gpu-operator/base/values.yaml
+```
+
+```yaml title="nvidia/gpu-operator/base/values.yaml"
+operator:
+  # ...
+
+  defaultRuntime: containerd # or docker
+
+# ...
+
+driver:
+  enabled: true # OS에 드라이버를 미리 설치한 경우 false로 설정해주세요.
+
+# ...
+
+toolkit:
+  enabled: true # OS에 nvidia-docker2를 미리 설치한 경우 false로 설정해주세요.
+```
+
+```shell
+helm upgrade gpu-operator nvidia/gpu-operator \
+    --install \
+    --version v1.8.2 \
+    -n nvidia \
+    --create-namespace \
+    -f nvidia/gpu-operator/base/values.yaml
+```
+
 ## Reference
 
 - [https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator)
+- [https://github.com/NVIDIA/gpu-operator](https://github.com/NVIDIA/gpu-operator)

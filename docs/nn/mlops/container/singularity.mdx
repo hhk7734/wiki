@@ -1,0 +1,92 @@
+---
+id: singularity
+title: singularity for HPC
+sidebar_label: singularity for HPC
+description: singularity for HPC
+keywords:
+  - HPC
+  - singularity
+---
+
+## Installation
+
+### Prerequisites
+
+```shell
+sudo yum update -y \
+&& sudo yum groupinstall -y 'Development Tools' \
+&& sudo yum install -y \
+    openssl-devel \
+    libuuid-devel \
+    libseccomp-devel \
+    wget \
+    squashfs-tools \
+    cryptsetup
+```
+
+or
+
+```shell
+sudo apt-get update -y \
+&& sudo apt-get install -y \
+    build-essential \
+    uuid-dev \
+    libgpgme-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget \
+    pkg-config \
+    git \
+    cryptsetup-bin
+```
+
+### Go
+
+```shell
+wget https://go.dev/dl/go1.17.3.linux-amd64.tar.gz
+```
+
+```shell
+sudo mkdir -p /opt/go/1.17.3
+```
+
+```shell
+pv -ptrb go1.17.3.linux-amd64.tar.gz | sudo tar -xzp -C /opt/go/1.17.3
+```
+
+```shell
+export PATH=/opt/go/1.17.3/go/bin:$PATH
+```
+
+### Singularity
+
+```shell
+mkdir -p /opt/singularity/3.8.4
+```
+
+```shell
+git clone https://github.com/hpcng/singularity.git -b v3.8.4 --depth 1 \
+&& cd singularity
+```
+
+```shell
+./mconfig --prefix=/opt/singularity/3.8.4 \
+&& make -C builddir \
+&& sudo make -C builddir install
+```
+
+`./mconfig --help`
+
+```shell
+export PATH=/opt/singularity/3.8.4/bin:$PATH
+```
+
+## Uninstall
+
+```shell
+sudo rm -r /opt/singularity/3.8.4
+```
+
+## Reference
+
+- [https://github.com/hpcng/singularity](https://github.com/hpcng/singularity)

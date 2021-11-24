@@ -15,7 +15,7 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
 ```
 
 ```shell
-mkdir -p metrics-server/base
+mkdir -p monitoring/metrics-server/base
 ```
 
 ```shell
@@ -25,10 +25,10 @@ helm search repo metrics-server -l
 ```shell
 helm show values metrics-server/metrics-server \
     --version 3.7.0 \
-    > metrics-server/base/values.yaml
+    > monitoring/metrics-server/base/values.yaml
 ```
 
-```yaml title="metrics-server/base/values.yaml"
+```yaml title="monitoring/metrics-server/base/values.yaml"
 # ...
 
 defaultArgs:
@@ -41,18 +41,22 @@ defaultArgs:
 # ...
 ```
 
+:::info
+로그에 `"Failed to scrape node" err="Get \"https://xxx:10250/stats/summary?only_cpu_and_memory=true\": x509: cannot validate certificate for xxx because it doesn't contain any IP SANs" node="xxx"`와 같은 에러가 발생하는 경우 `--kubelet-insecure-tls`를 추가해주세요.
+:::
+
 ```shell
 helm upgrade metrics-server metrics-server/metrics-server \
     --install \
     --version 3.7.0 \
     -n monitoring \
     --create-namespace \
-    -f metrics-server/base/values.yaml
+    -f monitoring/metrics-server/base/values.yaml
 ```
 
 ```shell
 helm get manifest -n monitoring metrics-server \
-    > metrics-server/base/manifest.yaml
+    > monitoring/metrics-server/base/manifest.yaml
 ```
 
 ## Troubleshooting

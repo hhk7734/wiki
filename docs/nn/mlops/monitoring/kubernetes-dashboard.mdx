@@ -1,5 +1,5 @@
 ---
-id: k8s-dashboard
+id: kubernetes-dashboard
 title: Kubernetes Dashboard
 sidebar_label: Dashboard
 description: Kubernetes Dashboard
@@ -10,54 +10,55 @@ keywords:
 ## Installation
 
 ```shell
-mkdir -p k8s-dashboard/base
+mkdir -p monitoring/kubernetes-dashboard/base
 ```
 
 ```shell
 wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml \
-    -O k8s-dashboard/base/k8s-dashboard.yaml
+    -O monitoring/kubernetes-dashboard/base/kubernetes-dashboard.yaml
 ```
 
-```yaml title="k8s-dashboard/base/k8s-dashboard-admin.yaml"
+```yaml title="monitoring/kubernetes-dashboard/base/kubernetes-dashboard-admin.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: k8s-dashboard-admin
+  name: kubernetes-dashboard-admin
   namespace: kubernetes-dashboard
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: k8s-dashboard-admin
+  name: kubernetes-dashboard-admin
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: k8s-dashboard-admin
+    name: kubernetes-dashboard-admin
     namespace: kubernetes-dashboard
 ```
 
-```yaml title="k8s-dashboard/base/kustomization.yaml"
+```yaml title="monitoring/kubernetes-dashboard/base/kustomization.yaml"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - k8s-dashboard.yaml
-  - k8s-dashboard-admin.yaml
+  - kubernetes-dashboard.yaml
+  - kubernetes-dashboard-admin.yaml
 ```
 
 ```shell
-k8s-dashboard
-└── base/
-    ├── k8s-dashboard-admin.yaml
-    ├── k8s-dashboard.yaml
-    └── kustomization.yaml
+monitoring
+└── kubernetes-dashboard
+    └── base/
+        ├── kubernetes-dashboard-admin.yaml
+        ├── kubernetes-dashboard.yaml
+        └── kustomization.yaml
 ```
 
 ```shell
-kustomize build k8s-dashboard/base | kubectl apply -f -
+kustomize build monitoring/kubernetes-dashboard/base | kubectl apply -f -
 ```
 
 ## Service
@@ -69,7 +70,7 @@ kubectl proxy
 [http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
 
 ```shell
-kubectl describe secret -n kubernetes-dashboard k8s-dashboard-admin | grep token: | awk '{ print $2 }'
+kubectl describe secret -n kubernetes-dashboard kubernetes-dashboard-admin | grep token: | awk '{ print $2 }'
 ```
 
 ## Reference

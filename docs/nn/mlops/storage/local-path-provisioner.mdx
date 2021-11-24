@@ -1,0 +1,44 @@
+---
+id: local-path-provisioner
+title: local-path-provisioner
+sidebar_label: local-path-provisioner
+description: local-path-provisioner
+keywords:
+  - local-path-provisioner
+---
+
+## Installation
+
+```shell
+git clone https://github.com/rancher/local-path-provisioner.git -b v0.0.20 --depth 1
+```
+
+```shell
+mkdir -p storage/local-path-provisioner/base
+```
+
+```shell
+helm show values ./local-path-provisioner/deploy/chart \
+    > storage/local-path-provisioner/base/values.yaml
+```
+
+```shell
+helm upgrade local-path-provisioner ./local-path-provisioner/deploy/chart \
+    --install \
+    -n storage \
+    --create-namespace \
+    -f storage/local-path-provisioner/base/values.yaml
+```
+
+```shell
+helm get manifest local-path-provisioner \
+    > storage/local-path-provisioner/base/manifest.yaml
+```
+
+:::info
+`kubectl annotate storageclasses -n storage local-path storageclass.kubernetes.io/is-default-class=true` 명령어로 어노테이션을 추가해주면 해당 스토리지 클래스가 디폴트 스토리지 클래스가 됩니다.
+:::
+
+## Reference
+
+- [https://github.com/rancher/local-path-provisioner](https://github.com/rancher/local-path-provisioner)]

@@ -251,7 +251,14 @@ module.exports = {
         'nn/mlops/ansible/roles',
       ],
     },
-    'nn/mlops/cri-containerd',
+    {
+      type: 'category',
+      label: 'Container',
+      items: [
+        'nn/mlops/container/cri-containerd',
+        'nn/mlops/container/singularity',
+      ],
+    },
     'nn/mlops/kubeadm',
     {
       type: 'category',
@@ -264,6 +271,11 @@ module.exports = {
     'nn/mlops/kustomize',
     'nn/mlops/helm',
     'nn/mlops/cni-calico',
+    {
+      type: 'category',
+      label: 'Storage',
+      items: ['nn/mlops/storage/local-path-provisioner'],
+    },
     'nn/mlops/cert-manager',
     {
       type: 'category',
@@ -275,7 +287,7 @@ module.exports = {
       label: 'Monitoring',
       items: [
         'nn/mlops/monitoring/metrics-server',
-        'nn/mlops/monitoring/k8s-dashboard',
+        'nn/mlops/monitoring/kubernetes-dashboard',
         'nn/mlops/monitoring/prometheus-operator',
       ],
     },

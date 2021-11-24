@@ -32,12 +32,6 @@ metadata:
 #...
 ```
 
-### Local provisioner
-
-```shell
-kustomize build "github.com/rancher/local-path-provisioner/deploy?ref=master" | kubectl apply -f -
-```
-
 ### AWS provisioner
 
 ```yaml title="aws-standard-storage-class.yaml"
@@ -61,5 +55,4 @@ volumeBindingMode: Immediate
 
 ## Reference
 
-- [https://github.com/rancher/local-path-provisioner](https://github.com/rancher/local-path-provisioner)
 - [https://kubernetes.io/ko/docs/tasks/administer-cluster/change-default-storage-class/](https://kubernetes.io/ko/docs/tasks/administer-cluster/change-default-storage-class/)

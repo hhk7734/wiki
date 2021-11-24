@@ -17,7 +17,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 ```
 
 ```shell
-mkdir -p prometheus-operator/prometheus-operator/base
+mkdir -p monitoring/prometheus-operator/base
 ```
 
 ```shell
@@ -27,10 +27,10 @@ helm search repo kube-prometheus-stack -l
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
     --version 20.0.1 \
-    > prometheus-operator/prometheus-operator/base/values.yaml
+    > monitoring/prometheus-operator/base/values.yaml
 ```
 
-```yaml title="prometheus-operator/prometheus-operator/base/values.yaml"
+```yaml title="monitoring/prometheus-operator/base/values.yaml"
 # ...
 
 namespaceOverride: monitoring
@@ -122,12 +122,12 @@ helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --version 20.0.1 \
     -n monitoring \
     --create-namespace \
-    -f prometheus-operator/prometheus-operator/base/values.yaml
+    -f monitoring/prometheus-operator/base/values.yaml
 ```
 
 ```shell
 helm get manifest -n monitoring prometheus-operator \
-    > prometheus-operator/prometheus-operator/base/manifest.yaml
+    > monitoring/prometheus-operator/base/manifest.yaml
 ```
 
 삭제할 때는 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
