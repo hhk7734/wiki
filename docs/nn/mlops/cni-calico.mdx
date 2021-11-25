@@ -138,27 +138,7 @@ kubectl get nodes -o wide
 ### Test
 
 ```shell
-kubectl create deployment pingtest --image=busybox --replicas=3 -- sleep infinity
-```
-
-```shell
-kubectl get pods --selector=app=pingtest -o wide
-```
-
-```shell
-kubectl exec -ti <pingtest> -- sh
-```
-
-```shell
-ping <IP> -c 4
-```
-
-```shell
-traceroute calico-api.calico-apiserver.svc.cluster.local
-```
-
-```shell
-kubectl delete deployment pingtest
+kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot -- /bin/bash
 ```
 
 ## Reference
@@ -167,3 +147,4 @@ kubectl delete deployment pingtest
 - [https://docs.projectcalico.org/getting-started/kubernetes/quickstart](https://docs.projectcalico.org/getting-started/kubernetes/quickstart)
 - [https://www.youtube.com/watch?v=JyLtg_SJ1lo](https://www.youtube.com/watch?v=JyLtg_SJ1lo)
 - [https://docs.projectcalico.org/reference/installation/api](https://docs.projectcalico.org/reference/installation/api)
+- [https://github.com/nicolaka/netshoot](https://github.com/nicolaka/netshoot)
