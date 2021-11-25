@@ -280,7 +280,11 @@ module.exports = {
     {
       type: 'category',
       label: 'Istio',
-      items: ['nn/mlops/istio/istio', 'nn/mlops/istio/kiali'],
+      items: [
+        'nn/mlops/istio/istio',
+        'nn/mlops/istio/kiali',
+        'nn/mlops/istio/trafic-management',
+      ],
     },
     {
       type: 'category',

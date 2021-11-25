@@ -1,0 +1,43 @@
+---
+id: trafic-management
+title: Trafic Management
+sidebar_label: Trafic Management
+description: Trafic Management
+keywords:
+  - Trafic Management
+---
+
+## VirtualService
+
+### HTTP route
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: <name>
+spec:
+  hosts: # 목적지의 IP|DNS 목록입니다. 필수는 아니며, `Delegate VirtualService`의 경우 이 필드는 생략해야 합니다.
+    - <host>
+  gateways: # 이 VirtualService가 적용될 Gateway
+    - <gateway>
+    - <namespace>/<gateway>
+  http: # HTTP 라우팅 규칙입니다.
+    - name: <name> # 디버깅에 사용되는 이름
+      match:
+        # 이 규칙을 적용할 트래픽을 선택합니다. uri, schema, method, headers 등
+      route:
+        - destination:
+            host: <host> # <service>.<namespace>.svc.cluster.local
+            subset: <subset> # 메시 내의 서비스에만 적용됩니다.
+            port: <port> # 서비스의 포트를 지정합니다. 단일 포트만 노출하는 경우 지정할 필요 업습니다.
+          weight: <0-100> # 트래픽 비율, 총 합이 100이어야 합니다.
+```
+
+### HTTP redirect
+
+### HTTP rewrite
+
+## Reference
+
+- [https://istio.io/latest/docs/reference/config/networking/virtual-service/](https://istio.io/latest/docs/reference/config/networking/virtual-service/)
