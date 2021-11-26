@@ -22,6 +22,16 @@ helm show values ./local-path-provisioner/deploy/chart \
     > storage/local-path-provisioner/base/values.yaml
 ```
 
+```yaml title="storage/local-path-provisioner/base/values.yaml"
+# ...
+
+storageClass:
+  create: true
+  defaultClass: false # storageclass.kubernetes.io/is-default-class=false
+
+# ...
+```
+
 ```shell
 helm upgrade local-path-provisioner ./local-path-provisioner/deploy/chart \
     --install \
@@ -34,10 +44,6 @@ helm upgrade local-path-provisioner ./local-path-provisioner/deploy/chart \
 helm get manifest local-path-provisioner \
     > storage/local-path-provisioner/base/manifest.yaml
 ```
-
-:::info
-`kubectl annotate storageclasses -n storage local-path storageclass.kubernetes.io/is-default-class=true` 명령어로 어노테이션을 추가해주면 해당 스토리지 클래스가 디폴트 스토리지 클래스가 됩니다.
-:::
 
 ## Reference
 

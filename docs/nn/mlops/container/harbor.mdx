@@ -1,0 +1,42 @@
+---
+id: harbor
+title: Harbor
+sidebar_label: Harbor
+description: Harbor
+keywords:
+  - harbor
+---
+
+## Installation
+
+```shell
+helm repo add harbor https://helm.goharbor.io \
+&& helm repo update
+```
+
+```shell
+mkdir -p harbor/base
+```
+
+```shell
+helm search repo harbor -l
+```
+
+```shell
+helm show values harbor/harbor \
+    --version 1.8.0 \
+    > harbor/base/values.yaml
+```
+
+```shell
+helm upgrade harbor harbor/harbor \
+    --install \
+    --version 1.8.0 \
+    -n harbor \
+    --create-namespace \
+    -f harbor/base/values.yaml
+```
+
+## Reference
+
+- [https://github.com/goharbor/harbor-helm](https://github.com/goharbor/harbor-helm)

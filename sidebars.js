@@ -257,6 +257,7 @@ module.exports = {
       items: [
         'nn/mlops/container/cri-containerd',
         'nn/mlops/container/singularity',
+        'nn/mlops/container/harbor',
       ],
     },
     'nn/mlops/kubeadm',
@@ -274,7 +275,10 @@ module.exports = {
     {
       type: 'category',
       label: 'Storage',
-      items: ['nn/mlops/storage/local-path-provisioner'],
+      items: [
+        'nn/mlops/storage/local-path-provisioner',
+        'nn/mlops/storage/rook-ceph',
+      ],
     },
     'nn/mlops/cert-manager',
     {
