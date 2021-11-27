@@ -15,7 +15,7 @@ helm repo add harbor https://helm.goharbor.io \
 ```
 
 ```shell
-mkdir -p harbor/base
+mkdir -p cicd/harbor/base
 ```
 
 ```shell
@@ -25,16 +25,16 @@ helm search repo harbor -l
 ```shell
 helm show values harbor/harbor \
     --version 1.8.0 \
-    > harbor/base/values.yaml
+    > cicd/harbor/base/values.yaml
 ```
 
 ```shell
 helm upgrade harbor harbor/harbor \
     --install \
     --version 1.8.0 \
-    -n harbor \
+    -n cicd \
     --create-namespace \
-    -f harbor/base/values.yaml
+    -f cicd/harbor/base/values.yaml
 ```
 
 ## Reference

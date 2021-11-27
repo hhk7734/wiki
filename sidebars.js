@@ -257,7 +257,6 @@ module.exports = {
       items: [
         'nn/mlops/container/cri-containerd',
         'nn/mlops/container/singularity',
-        'nn/mlops/container/harbor',
       ],
     },
     'nn/mlops/kubeadm',
@@ -271,7 +270,6 @@ module.exports = {
     },
     'nn/mlops/kustomize',
     'nn/mlops/helm',
-    'nn/mlops/cni-calico',
     {
       type: 'category',
       label: 'Storage',
@@ -283,11 +281,12 @@ module.exports = {
     'nn/mlops/cert-manager',
     {
       type: 'category',
-      label: 'Istio',
+      label: 'Network',
       items: [
-        'nn/mlops/istio/istio',
-        'nn/mlops/istio/kiali',
-        'nn/mlops/istio/trafic-management',
+        'nn/mlops/network/cni-calico',
+        'nn/mlops/network/istio',
+        'nn/mlops/network/kiali',
+        'nn/mlops/network/trafic-management',
       ],
     },
     {
@@ -306,6 +305,11 @@ module.exports = {
       items: ['nn/mlops/gpu/nvidia-gpu-operator'],
     },
     'nn/mlops/knative',
+    {
+      type: 'category',
+      label: 'CI/CD',
+      items: ['nn/mlops/cicd/harbor', 'nn/mlops/cicd/argo'],
+    },
     'nn/mlops/mlops-kubeflow',
     {
       type: 'category',

@@ -1,0 +1,90 @@
+---
+id: argo
+title: Argo
+sidebar_label: Argo
+description: Argo
+keywords:
+  - argo
+---
+
+## Installation
+
+```shell
+helm repo add argo https://argoproj.github.io/argo-helm \
+&& helm repo update
+```
+
+```shell
+mkdir -p cicd/argo/{events,workflows,cd}
+```
+
+```shell
+helm search repo argo -l
+```
+
+### argo-events
+
+```shell
+helm show values argo/argo-events \
+    --version 1.8.0 \
+    > cicd/argo/events/values.yaml
+```
+
+```yaml title="cicd/argo/events/values.yaml"
+# ...
+
+namespace: cicd
+singleNamespace: true
+# ...
+```
+
+```shell
+helm upgrade argo-events argo/argo-events \
+    --install \
+    --version 1.8.0 \
+    -n cicd \
+    --create-namespace \
+    --values cicd/argo/events/values.yaml
+```
+
+### argo-workflows
+
+```shell
+helm show values argo/argo-workflows \
+    --version 0.9.2 \
+    > cicd/argo/workflows/values.yaml
+```
+
+```yaml title="cicd/argo/workflows/values.yaml"
+# ...
+controller:
+  # ...
+
+  # -- Specifies the container runtime interface to use (one of: `docker`, `kubelet`, `k8sapi`, `pns`, `emissary`)
+  ## Ref: https://argoproj.github.io/argo-workflows/workflow-executors/
+  containerRuntimeExecutor: emissary
+```
+
+```shell
+helm upgrade argo-workflows argo/argo-workflows \
+    --install \
+    --version 0.9.2 \
+    -n cicd \
+    --values cicd/argo/workflows/values.yaml
+```
+
+### argo-cd
+
+```shell
+helm show values argo/argo-cd \
+    --version 3.26.11 \
+    > cicd/argo/cd/values.yaml
+```
+
+```shell
+helm upgrade argo-cd argo/argo-cd \
+    --install \
+    --version 3.26.11 \
+    -n cicd \
+    --values cicd/argo/cd/values.yaml
+```
