@@ -7,6 +7,12 @@ keywords:
   - SCP
 ---
 
+## Installation
+
+```shell
+sudo apt install -y openssh-server openssh-client ssh-askpass
+```
+
 ## 키 생성
 
 ```shell
@@ -17,16 +23,40 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
+## .ssh/config
+
+```shell
+Host <alias>
+  HostName <host>
+  User <user>
+  PreferredAuthentications publickey
+  IdentityFile <path>
+```
+
 ## ssh agent 실행
 
 ```shell
 eval "$(ssh-agent -s)"
 ```
 
+```shell title="/etc/profile.d/ssh-agent.sh"
+#!/bin/sh
+
+if [ -z "$SSH_AUTH_SOCK" ]; then
+   # Check for a currently running instance of the agent
+   RUNNING_AGENT="`ps -ax | grep 'ssh-agent -s' | grep -v grep | wc -l | tr -d '[:space:]'`"
+   if [ "$RUNNING_AGENT" = "0" ]; then
+        # Launch a new instance of the agent
+        ssh-agent -s &> .ssh/ssh-agent
+   fi
+   eval `cat .ssh/ssh-agent`
+fi
+```
+
 ## 키 등록
 
 ```shell
-ssh-add ~/<ssh path>/<id file>
+ssh-add ~/.ssh/<id file>
 ```
 
 ```shell
@@ -36,7 +66,7 @@ ssh-add -l
 ## 퍼블릭 키 접속할 곳에 등록
 
 ```shell
-ssh-copy-id -i ~/<ssh path>/<id file>.pub <remote>
+ssh-copy-id -i ~/.ssh/<id file>.pub <remote>
 ```
 
 ## SCP
@@ -52,6 +82,10 @@ scp [options] <source> <target>
 ## 파일 권한
 
 ```shell
-sudo chmod 700 ~/<ssh path>
-sudo chmod 600 ~/<ssh path>/*
+sudo chmod 700 ~/.ssh
+sudo chmod 400 ~/.ssh/*
 ```
+
+## Reference
+
+- [https://www.ssh.com/academy/ssh/config](https://www.ssh.com/academy/ssh/config)

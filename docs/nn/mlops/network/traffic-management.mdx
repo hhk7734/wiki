@@ -7,7 +7,48 @@ keywords:
   - Trafic Management
 ---
 
+## Gateway
+
+독립적으로 실행되는 Envoy proxy를 통해 Mesh의 edge에서 특정 in/outbound 트래픽을 관리할 수 있습니다. **default** 프로필로 설치한 경우 `istio-ingressgateway`가 inbound 트래픽을 관리하는 Envoy proxy입니다.
+
+`Gateway`는 어떤 트래픽을 허용할 지 설정하는 CRD입니다.
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  selector: # 규칙이 적용될 Pod 가 가지고 있어야 할 labels 목록입니다.
+    istio: ingressgateway # istio-ingressgateway에 설정되어 있는 기본 label
+  servers:
+    - name: <name> # 모든 server에서 고유해야하며, 설정할 경우 디버깅 등에 사용됩니다.
+      port:
+        number: <port>
+        name: <name>
+        protocol: <protocol> # HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS
+      hosts:
+        - '*'
+      tls:
+        httpsRedirect: <bool>
+        mode: <mode> # PASSTHROUGH|SIMPLE|MUTUAL|AUTO_PASSTHROUGH|ISTIO_MUTUAL
+        credentialName: <secret name> # CA, TLS 인증서를 가지고 있는 Secret의 name
+```
+
+이 외 설정은 [Gateway](https://istio.io/latest/docs/reference/config/networking/gateway/)를 참고하세요.
+
+:::info
+기본적으로 모든 namespace에 적용됩니다. 동일 namespace로 제한 하려면 `PILOT_SCOPE_GATEWAY_TO_NAMESPACE` 관련 설정을 확인하세요.
+:::
+
+:::warning
+`TLS` 프로토콜의 경우 연결을 종료하지 않고 SNI 헤더 기반으로 라우팅이 진행됩니다.
+:::
+
 ## VirtualService
+
+`VirtualService`는 트래픽의 라우팅을 설정하는 CRD입니다.
 
 ### HTTP route
 
@@ -16,6 +57,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: <name>
+  namespace: <namespace>
 spec:
   hosts: # 목적지의 IP|DNS 목록입니다. 필수는 아니며, `Delegate VirtualService`의 경우 이 필드는 생략해야 합니다.
     - <host>
@@ -30,7 +72,8 @@ spec:
         - destination:
             host: <host> # <service>.<namespace>.svc.cluster.local
             subset: <subset> # 메시 내의 서비스에만 적용됩니다.
-            port: <port> # 서비스의 포트를 지정합니다. 단일 포트만 노출하는 경우 지정할 필요 업습니다.
+            port:
+              number: <port> # 서비스의 포트를 지정합니다. 단일 포트만 노출하는 경우 지정할 필요 업습니다.
           weight: <0-100> # 트래픽 비율, 총 합이 100이어야 합니다.
 ```
 
@@ -40,4 +83,5 @@ spec:
 
 ## Reference
 
+- [https://istio.io/latest/docs/reference/config/networking/gateway/](https://istio.io/latest/docs/reference/config/networking/gateway/)
 - [https://istio.io/latest/docs/reference/config/networking/virtual-service/](https://istio.io/latest/docs/reference/config/networking/virtual-service/)
