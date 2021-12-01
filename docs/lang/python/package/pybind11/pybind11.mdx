@@ -1,5 +1,5 @@
 ---
-id: python-package-pybind11
+id: pybind11
 title: Python package using Pybind11
 sidebar_label: Basics
 description: Python package using Pybind11
@@ -13,14 +13,14 @@ keywords:
 
 ```shell
 sudo apt install -y libffi-dev python3 python3-pip python3-dev \
-&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11
+&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build
 ```
 
 ## Package directory structure
 
 ```shell
 workspace
-├── LICENSE.txt
+├── LICENSE
 ├── MANIFEST.in
 ├── README.md
 ├── CHANGELOG
@@ -125,7 +125,74 @@ from <package>._<package> import *
 
 ## Build
 
+### pyproject.toml
+
+```toml
+[build-system]
+requires = [
+    "setuptools>=42",
+    "wheel",
+    "pybind11>=2.6.0",
+]
+build-backend = "setuptools.build_meta"
+```
+
+:::warning
+`build-system.requires`는 build할 때만 사용되는 패키지입니다. 설치 이후에 사용될 패키지는 `setup.cfg`에서 관리하세요.
+:::
+
+### setup.cfg
+
+Static metadata를 관리하는 파일입니다. 설치 상황에 따라 바뀌지 않는 내용을 적으세요.
+
+```ini
+[metadata]
+name = yolov4
+url = https://github.com/hhk7734/tensorflow-yolov4
+project_urls =
+    Documentation = https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-about
+    Source = https://github.com/hhk7734/tensorflow-yolov4
+
+author = Hyeonki Hong
+author_email = hhk7734@gmail.com
+description = YOLOv4: Optimal Speed and Accuracy of Object Detection
+long-description = file: README.md, CHANGELOG
+long_description_content_type = text/markdown
+keywords = tensorflow, yolo, AI, TPU
+license = MIT
+classifiers =
+    Programming Language :: Python :: 3
+    License :: OSI Approved :: MIT License
+    Operating System :: POSIX :: Linux
+    Intended Audience :: Developers
+    Intended Audience :: Science/Research
+    Topic :: Scientific/Engineering
+    Topic :: Scientific/Engineering :: Artificial Intelligence
+    Topic :: Software Development
+    Topic :: System :: Hardware
+
+
+[options]
+package_dir =
+    = py_src
+packages = find:
+zip_safe = False
+install_requires =
+    numpy>=1.18.0
+
+[options.packages.find]
+where = py_src
+```
+
+:::info
+`install_requires`에 같이 설치되어야할 패키지를 적으면 됩니다.
+:::
+
+TODO: `extras_require`
+
 ### setup.py
+
+Dynamic metadata를 관리하는 파일입니다. 설치 상황에 따라 바뀔 수 있는 내용을 프로그래밍할 수 있습니다.
 
 ```python
 from glob import glob
@@ -169,7 +236,7 @@ setup(
 )
 ```
 
-You can use \_\_version\_\_ in `.cpp` files.
+\_\_version\_\_ 값을 `.cpp`파일 안에서 호출할 수 있습니다.
 
 ```cpp
 #define MACRO_STRINGIFY(x) #x
@@ -183,75 +250,19 @@ PYBIND11_MODULE(_<package>, m) {
 }
 ```
 
-### setup.cfg
-
-```ini
-[metadata]
-name = yolov4
-url = https://github.com/hhk7734/tensorflow-yolov4
-project_urls =
-    Documentation = https://wiki.loliot.net/docs/lang/python/libraries/yolov4/python-yolov4-about
-    Source = https://github.com/hhk7734/tensorflow-yolov4
-
-author = Hyeonki Hong
-author_email = hhk7734@gmail.com
-description = YOLOv4: Optimal Speed and Accuracy of Object Detection
-long-description = file: README.md, CHANGELOG
-long_description_content_type = text/markdown
-keywords = tensorflow, yolo, AI, TPU
-license = MIT
-classifiers =
-    Programming Language :: Python :: 3
-    License :: OSI Approved :: MIT License
-    Operating System :: POSIX :: Linux
-    Intended Audience :: Developers
-    Intended Audience :: Science/Research
-    Topic :: Scientific/Engineering
-    Topic :: Scientific/Engineering :: Artificial Intelligence
-    Topic :: Software Development
-    Topic :: System :: Hardware
-
-
-[options]
-package_dir =
-    = py_src
-packages = find:
-zip_safe = False
-install_requires =
-    numpy>=1.18.0
-
-[options.packages.find]
-where = py_src
-```
-
-### pyproject.toml
-
-```toml
-[build-system]
-requires = [
-    "setuptools>=42",
-    "wheel",
-    "pybind11>=2.6.0",
-]
-
-build-backend = "setuptools.build_meta"
-```
-
 ### MANIFEST.in
 
 ```text
-include LICENSE.txt
+include LICENSE
 include README.md
 include CHANGELOG
 include c_src/*
 ```
 
-### Using setuptools
-
-The preferred approach to building an extension module for python is to compile it with setuptools, which comes with all recent versions of python.
+### Test install/uninstall with pip
 
 ```shell
-python3 setup.py install
+python3 -m pip install <directory|git|package>
 ```
 
 ```shell
@@ -263,17 +274,22 @@ python3 -m pip uninstall <package>
 ### dist
 
 ```shell
-python3 setup.py sdist
+python3 -m build
 ```
 
 ### Test 등록/설치
 
 ```shell
-python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+python3 -m twine upload --repository testpypi dist/*
 ```
 
 ```shell
-python3 -m pip install --index-url https://test.pypi.org/simple/ --verbose --user <package>
+python3 -m pip install \
+    --index-url https://test.pypi.org/simple/ \
+    --verbose \
+    --user \
+    --no-deps \
+    <package>
 ```
 
 ### 정식 등록/설치
@@ -292,3 +308,4 @@ python3 -m pip install <package>
 - [https://github.com/pybind/pybind11](https://github.com/pybind/pybind11)
 - [https://packaging.python.org/guides/distributing-packages-using-setuptools](https://packaging.python.org/guides/distributing-packages-using-setuptools)
 - [https://pypi.org/classifiers](https://pypi.org/classifiers)
+- [https://packaging.python.org/tutorials/packaging-projects/](https://packaging.python.org/tutorials/packaging-projects/)

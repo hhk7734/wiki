@@ -1,0 +1,63 @@
+---
+id: partition-management
+title: Partition Management
+sidebar_label: Partition Management
+description: Partition Management
+keywords:
+  - Linux
+  - partition
+  - fdisk
+  - parted
+---
+
+## LVM
+
+### Resize PV
+
+#### Check
+
+```shell
+lsblk
+```
+
+```shell
+sudo pvdisplay
+```
+
+- `sudo pvs`
+
+```shell
+sudo lvdisplay
+```
+
+- `sudo lvs`
+
+#### Backup
+
+볼륨을 줄일 때는 Backup을 하는 것이 좋습니다.
+
+#### Resize
+
+확대할 때는 Partition -> PV -> LV, 축소할 때는 LV -> PV -> Partition
+
+TODO: 상황별 추가 테스트 및 정리
+
+```shell
+sudo lvchange --activate n <l-volume>
+```
+
+```shell
+sudo pvresize --help
+```
+
+```shell
+sudo cfdisk <disk>
+```
+
+```shell
+sudo lvresize --help
+```
+
+```shell
+sudo lvchange --activate y <l-volume>
+```

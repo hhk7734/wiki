@@ -221,7 +221,14 @@ module.exports = {
     'linux/linux-tools/progress-bar',
     'linux/linux-tools/linux-ssh-scp',
     'linux/linux-tools/linux-udev',
-    'linux/linux-tools/linux-clone-os-image',
+    {
+      type: 'category',
+      label: 'Storage',
+      items: [
+        'linux/linux-tools/storage/partition-management',
+        'linux/linux-tools/storage/clone-os-image',
+      ],
+    },
     'linux/linux-tools/linux-tools-etc',
   ],
   'linux-uboot': [
@@ -351,6 +358,11 @@ module.exports = {
     },
   ],
   python: [
+    {
+      type: 'category',
+      label: 'ENV',
+      items: ['lang/python/env/pyenv', 'lang/python/env/pipenv'],
+    },
     'lang/python/exception',
     'lang/python/logging',
     {
@@ -426,8 +438,8 @@ module.exports = {
           type: 'category',
           label: 'Pybind11',
           items: [
-            'lang/python/package/pybind11/python-package-pybind11',
-            'lang/python/package/pybind11/python-package-pybind11-type',
+            'lang/python/package/pybind11/pybind11',
+            'lang/python/package/pybind11/type',
           ],
         },
         'lang/python/package/python-package-sphinx',
