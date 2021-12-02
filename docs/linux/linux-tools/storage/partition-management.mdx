@@ -12,7 +12,11 @@ keywords:
 
 ## LVM
 
-### Resize PV
+:::warning
+테스트 되지 않은 내용입니다. 따라하지 마세요.
+:::
+
+### Resize
 
 #### Check
 
@@ -31,12 +35,6 @@ sudo lvdisplay
 ```
 
 - `sudo lvs`
-
-#### Backup
-
-볼륨을 줄일 때는 Backup을 하는 것이 좋습니다.
-
-#### Resize
 
 확대할 때는 Partition -> PV -> LV, 축소할 때는 LV -> PV -> Partition
 

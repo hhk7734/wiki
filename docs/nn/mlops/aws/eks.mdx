@@ -21,11 +21,14 @@ sudo mv /tmp/eksctl /usr/local/bin
 eksctl version
 ```
 
+```shell
+
+```
+
 ## Create
 
 ```shell {2-3}
 aws ec2 create-key-pair \
-    --region <region> \
     --key-name <key-name> \
     --query 'KeyMaterial' \
     --output text > cluster.pem
@@ -38,12 +41,26 @@ kind: ClusterConfig
 metadata:
   name: <cluster-name>
   region: <region>
+  version: <kubernetes-version>
 
 iam:
   withOIDC: true
 
 vpc:
   cidr: <cidr>
+# vpc:
+#   id: <vpc-id>
+#   subnets:
+#     private:
+#       private1:
+#         id: <subnet-id>
+#       private2:
+#         id: <subnet-id>
+#     public:
+#       public1:
+#         id: <subnet-id>
+#       public2:
+#         id: <subnet-id>
 
 managedNodeGroups:
   - name: worker-m5-large-ng
@@ -58,6 +75,8 @@ managedNodeGroups:
       nodegroup-role: worker
     ssh:
       publicKeyName: <key-name>
+    # subnets:
+    #   - <subnet-id>
 ```
 
 ```shell
@@ -68,6 +87,12 @@ eksctl create cluster -f cluster.yaml
 aws eks update-kubeconfig \
     --region <region> \
     --name <cluster-name>
+```
+
+## Delete
+
+```shell
+eksctl delete cluster -f cluster.yaml
 ```
 
 ## Reference
