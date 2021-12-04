@@ -21,20 +21,16 @@ sudo mv /tmp/eksctl /usr/local/bin
 eksctl version
 ```
 
-```shell
-
-```
-
 ## Create
 
-```shell {2-3}
+```shell
 aws ec2 create-key-pair \
     --key-name <key-name> \
     --query 'KeyMaterial' \
     --output text > cluster.pem
 ```
 
-```yaml title="cluster.yaml" {5-6,12,26}
+```yaml title="cluster.yaml"
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 

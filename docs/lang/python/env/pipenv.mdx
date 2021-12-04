@@ -8,3 +8,71 @@ keywords:
 ---
 
 ## Installation
+
+```shell
+python3 -m pip install pipenv
+```
+
+```shell
+echo 'eval "$(_PIPENV_COMPLETE=zsh_source pipenv)"' >> ~/.zshrc
+```
+
+or
+
+```shell
+echo 'eval "$(_PIPENV_COMPLETE=bash_source pipenv)"' >> ~/.bashrc
+```
+
+## Virtualenv
+
+```shell
+pipenv --python <version>
+```
+
+해당 버전으로 가상환경이 생성됩니다. 해당 버전이 설치되어 있지않고 `pyenv`가 설치되어 있다면, 해당 버전을 설치한 후 가상환경을 생성합니다.
+
+```shell
+pipenv shell
+```
+
+가상환경이 활성화된 shell에 접속합니다.
+
+```shell
+pipenv --venv
+```
+
+가상환경 위치를 확인합니다.
+
+```shell
+pipenv --rm
+```
+
+가상환경을 삭제합니다.
+
+## Package
+
+```shell
+pipenv install <package|git>
+```
+
+- `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.
+- `<git>`: `-e <vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>@<branch_or_tag>#<package_name>`
+  - `-e`: 경로를 수정할 수 있다는 의미입니다.
+  - `<vcs_type>`: `git`, `bzr`, `svn` or `hg`
+  - `<scheme>`: `http`, `https`, `ssh` or `file`
+
+```shell
+pipenv lock
+```
+
+`Pipfile.lock` 파일을 생성합니다.
+
+```shell
+pipenv uninstall <package>
+```
+
+- `--all`: 패키지명 대신 해당 옵션을 쓰면 모든 패키지를 제거합니다.
+
+## Reference
+
+- [https://github.com/pypa/pipenv](https://github.com/pypa/pipenv)

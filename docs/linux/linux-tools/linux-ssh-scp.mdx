@@ -39,9 +39,9 @@ Host <alias>
 eval "$(ssh-agent -s)"
 ```
 
-```shell title="/etc/profile.d/ssh-agent.sh"
-#!/bin/sh
+아래 코드를 `.zshrc`에 추가하면 agent를 자동으로 실행합니다.
 
+```shell
 env=~/.ssh/agent.env
 
 agent_load_env () { test -f "$env" && . "$env" >| /dev/null ; }
