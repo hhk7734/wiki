@@ -7,13 +7,9 @@ keywords:
   - cluster-autoscaler
 ---
 
-`cluster-autoscaler`는 디플로이먼트로 배포됩니다. Leader Election을 사용합니다.
+## Prerequisites
 
-## AWS
-
-### Prerequisites
-
-#### ASG(Auto Scaling Group)
+### ASG(Auto Scaling Group)
 
 - Auto Scaling 그룹에 아래 태그가 있어야합니다.
   - `k8s.io/cluster-autoscaler/<cluster-name>`: `owned`
@@ -36,7 +32,46 @@ K8S_CLUSTER_DNS_IP=xxx
 --//--
 ```
 
-### Installation
+### IAM
+
+```json title="cluster-autoscaler-policy.json"
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "autoscaling:DescribeAutoScalingGroups",
+        "autoscaling:DescribeAutoScalingInstances",
+        "autoscaling:DescribeLaunchConfigurations",
+        "autoscaling:DescribeTags",
+        "autoscaling:SetDesiredCapacity",
+        "autoscaling:TerminateInstanceInAutoScalingGroup",
+        "ec2:DescribeLaunchTemplateVersions"
+      ],
+      "Resource": "*",
+      "Effect": "Allow"
+    }
+  ]
+}
+```
+
+```shell
+aws iam create-policy \
+    --policy-name AmazonEKSClusterAutoscalerPolicy \
+    --policy-document file://cluster-autoscaler-policy.json
+```
+
+```shell
+eksctl create iamserviceaccount \
+  --cluster=<my-cluster> \
+  --namespace=kube-system \
+  --name=cluster-autoscaler \
+  --attach-policy-arn=arn:aws:iam::<AWS_ACCOUNT_ID>:policy/AmazonEKSClusterAutoscalerPolicy \
+  --override-existing-serviceaccounts \
+  --approve
+```
+
+## Installation
 
 ```shell
 mkdir -p aws-cluster-autoscaler/base/patches
@@ -47,47 +82,77 @@ wget https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-auto
     -O aws-cluster-autoscaler/base/cluster-autoscaler-autodiscover.yaml
 ```
 
-```yaml {6} title="aws-cluster-autoscaler/base/patches/annotations.yaml"
-- op: replace
-  path: /spec/template/metadata/annotations
-  value:
-    prometheus.io/scrape: 'true'
-    prometheus.io/port: '8085'
-    cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+```yaml title="aws-cluster-autoscaler/base/cluster-autoscaler-autodiscover.yaml" {22,31,47,52}
+# ...
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cluster-autoscaler
+  namespace: kube-system
+  labels:
+    app: cluster-autoscaler
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cluster-autoscaler
+  template:
+    metadata:
+      labels:
+        app: cluster-autoscaler
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8085'
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+    spec:
+      priorityClassName: system-cluster-critical
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65534
+        fsGroup: 65534
+      serviceAccountName: cluster-autoscaler
+      containers:
+        - image: k8s.gcr.io/autoscaling/cluster-autoscaler:v1.21.0
+          name: cluster-autoscaler
+          resources:
+            limits:
+              cpu: 100m
+              memory: 600Mi
+            requests:
+              cpu: 100m
+              memory: 600Mi
+          command:
+            - ./cluster-autoscaler
+            - --v=4
+            - --stderrthreshold=info
+            - --cloud-provider=aws
+            - --skip-nodes-with-local-storage=false
+            - --expander=least-waste
+            - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<cluster-name>
+            - --balance-similar-node-groups
+            - --skip-nodes-with-system-pods=false
+          volumeMounts:
+            - name: ssl-certs
+              mountPath: /etc/ssl/certs/ca-certificates.crt # /etc/ssl/certs/ca-bundle.crt for Amazon Linux Worker Nodes
+              readOnly: true
+          imagePullPolicy: 'Always'
+      volumes:
+        - name: ssl-certs
+          hostPath:
+            path: '/etc/ssl/certs/ca-bundle.crt'
 ```
 
 - `cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'`: 제거 비용이 많이 드는 pod라는 표시로, 해당 pod이 node에 있는 경우 node는 scalie in 되지 않습니다.
-
-```yaml {10-12} title="aws-cluster-autoscaler/base/patches/command.yaml"
-- op: replace
-  path: /spec/template/spec/containers/0/command
-  value:
-    - ./cluster-autoscaler
-    - --v=4
-    - --stderrthreshold=info
-    - --cloud-provider=aws
-    - --skip-nodes-with-local-storage=false
-    - --expander=least-waste
-    - --node-group-auto-discovery=asg:tag=k8s.io/cluster-autoscaler/enabled,k8s.io/cluster-autoscaler/<cluster-name>
-    - --balance-similar-node-groups
-    - --skip-nodes-with-system-pods=false
-```
 
 ```shell title=" aws-cluster-autoscaler/base/kustomization.yaml"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cluster-autoscaler-autodiscover.yaml
-
-patches:
-  - path: patches/annotations.yaml
-    target:
-      kind: Deployment
-  - path: patches/command.yaml
-    target:
-      kind: Deployment
-
 ```
+
+### IAM
 
 ```shell
 mkdir -p aws-cluster-autoscaler/overlays/iam/patches
@@ -99,6 +164,10 @@ mkdir -p aws-cluster-autoscaler/overlays/iam/patches
   value:
     eks.amazonaws.com/role-arn: arn:aws:iam::<ACCOUNT_ID>:role/<AmazonEKSClusterAutoscalerRole>
 ```
+
+:::warning
+`AmazonEKSClusterAutoscalerPolicy` policy를 적용한 role의 ARN을 설정해야합니다.
+:::
 
 ```yaml title="aws-cluster-autoscaler/overlays/iam/kustomization.yaml"
 apiVersion: kustomize.config.k8s.io/v1beta1
@@ -113,8 +182,10 @@ patches:
 ```
 
 ```shell
-kustomize build aws-cluster-autoscaler/overlays/iam | kubectl apply -f -
+kubectl apply -k aws-cluster-autoscaler/overlays/iam
 ```
+
+### AWS Credential(Optional)
 
 :::warning
 On-premise 환경에서 사용하는 경우 아래와 같은 인증 방식을 사용할 수 있습니다. (보안 위협 요소가 될 수 있음)
@@ -165,27 +236,6 @@ patches:
   - path: patches/env.yaml
     target:
       kind: Deployment
-```
-
-```shell
-aws-cluster-autoscaler
-├── base/
-│   ├── cluster-autoscaler-autodiscover.yaml
-│   ├── kustomization.yaml
-│   └── patches/
-│       ├── annotations.yaml
-│       └── command.yaml
-└── overlays/
-    ├── credentials/
-    │   ├── credentials.yaml
-    │   ├── kustomization.yaml
-    │   └── patches/
-    │       └── env.yaml
-    └── iam/
-        ├── cluster-autoscaler-policy.json
-        ├── kustomization.yaml
-        └── patches/
-            └── role.yaml
 ```
 
 ## Troubleshooting

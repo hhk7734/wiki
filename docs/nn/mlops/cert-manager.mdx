@@ -82,20 +82,15 @@ My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 �
 생성하면 토큰과 함께 테스트 코드를 줍니다.
 
 ```shell
-mkdir -p letsencrypt/base
+mkdir -p cert-manager/letsencrypt/base
 ```
 
-```yaml title="letsencrypt/base/cloudflare-api-token-secret.yaml" {8}
-apiVersion: v1
-kind: Secret
-metadata:
-  name: cloudflare-api-token-secret
-type: Opaque
-stringData:
-  api-token: # token
+```shell
+kubectl create secret generic cloudflare-api-token-secret \
+    --from-literal=api-token=<token>
 ```
 
-```yaml title="letsencrypt/base/letsencrypt-prod.yaml" {8,15,18}
+```yaml title="cert-manager/letsencrypt/base/letsencrypt-prod.yaml" {8,15,18}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -118,7 +113,7 @@ spec:
               key: api-token
 ```
 
-```yaml title="letsencrypt/base/ingress-cert.yaml" {11-12}
+```yaml title="cert-manager/letsencrypt/base/ingress-cert.yaml" {11-12}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -136,11 +131,10 @@ spec:
     name: letsencrypt-prod
 ```
 
-```yaml title="letsencrypt/base/kustomization.yaml"
+```yaml title="cert-manager/letsencrypt/base/kustomization.yaml"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - cloudflare-api-token-secret.yaml
   - letsencrypt-prod.yaml
   - ingress-cert.yaml
 ```
@@ -148,14 +142,13 @@ resources:
 ```shell
 letsencrypt
 └── base/
-    ├── cloudflare-api-token-secret.yaml
     ├── ingress-cert.yaml
     ├── kustomization.yaml
     └── letsencrypt-prod.yaml
 ```
 
 ```shell
-kustomize build letsencrypt/base | kubectl apply -f -
+kubectl apply -k cert-manager/letsencrypt/base
 ```
 
 `Certificate`을 생성하는 순간 인증을 시작합니다.

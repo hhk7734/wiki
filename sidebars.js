@@ -305,7 +305,6 @@ module.exports = {
         'nn/mlops/monitoring/prometheus-operator',
       ],
     },
-    'nn/mlops/cluster-autoscaler',
     {
       type: 'category',
       label: 'GPU',
@@ -324,6 +323,7 @@ module.exports = {
       items: [
         'nn/mlops/aws/eks',
         'nn/mlops/aws/aws-cloud-controller-manager​',
+        'nn/mlops/aws/cluster-autoscaler',
         'nn/mlops/aws/aws-ebs-csi-driver',
       ],
     },
