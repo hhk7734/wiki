@@ -229,6 +229,11 @@ module.exports = {
         'linux/linux-tools/storage/clone-os-image',
       ],
     },
+    {
+      type: 'category',
+      label: 'Network',
+      items: ['linux/linux-tools/network/nmap'],
+    },
     'linux/linux-tools/linux-tools-etc',
   ],
   'linux-uboot': [

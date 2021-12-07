@@ -1,0 +1,67 @@
+---
+id: nmap
+title: nmap(Network Mapper)
+sidebar_label: nmap
+description: nmap
+keywords:
+  - Linux
+  - nmap
+---
+
+```shell
+Nmap 7.80 ( https://nmap.org )
+Usage: nmap [Scan Type(s)] [Options] {TARGET SPECIFICATION}
+```
+
+:::info
+옵션에 따라 root 권한으로 실행하는 경우 더 많은 정보를 표시하는 경우가 있습니다.
+:::
+
+## TARGET SPECIFICATION
+
+- hostnames
+- IP
+- `--exclude <host1[,host2][,host3],...>`
+
+## HOST DISCOVERY
+
+- `-sn`: ping을 사용해 scan합니다. port scan이 disable 됩니다.
+- `-Pn`: 모든 host를 online으로 처리합니다. (skip host discovery)
+
+### Examples
+
+```shell
+sudo nmap -sn 192.168.0.0/24
+```
+
+ping을 사용하여 `192.168.0.0/24` 네트워크 스캔
+
+## SCAN TECHNIQUES
+
+- `-sS/sT/sA/sW/sM`: TCP SYN/Connect()/ACK/Window/Maimon scans
+- `-sU`: UDP Scan
+
+### Examples
+
+```shell
+sudo nmap -sT 192.168.0.0/24
+```
+
+TCP 통신을 사용하여 `192.168.0.0/24` 네트워크 스캔, 어떤 TCP 포트가 열려있는지 확인할 수 있습니다.
+
+## OUTPUT
+
+- `-v`: Increase verbosity level (use -vv or more for greater effect)
+- `-d`: Increase debugging level (use -dd or more for greater effect)
+
+## MISC
+
+- `-A`: OS detection, version detection, script scanning, and traceroute 을 활성화합니다.
+
+### Examples
+
+```shell
+sudo nmap -A 192.168.0.11
+```
+
+열려있는 포트 정보, OS 정보, hop 수, traceroute 등이 표시됩니다.
