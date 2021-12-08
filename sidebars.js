@@ -330,6 +330,7 @@ module.exports = {
         'nn/mlops/aws/aws-cloud-controller-manager​',
         'nn/mlops/aws/cluster-autoscaler',
         'nn/mlops/aws/aws-ebs-csi-driver',
+        'nn/mlops/aws/aws-efs-csi-driver',
       ],
     },
   ],

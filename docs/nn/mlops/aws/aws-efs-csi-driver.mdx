@@ -1,0 +1,125 @@
+---
+id: aws-efs-csi-driver
+title: aws-efs-csi-driver
+sidebar_label: aws-efs-csi-driver
+description: aws-efs-csi-driver
+keywords:
+  - aws-efs-csi-driver
+---
+
+AWS EFS Container Storage Interface (CSI) Driver
+
+## Prerequisites
+
+### IAM
+
+```shell
+wget https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/master/docs/iam-policy-example.json
+```
+
+```shell
+aws iam create-policy \
+    --policy-name AmazonEKS_EFS_CSI_Driver_Policy \
+    --policy-document file://iam-policy-example.json
+```
+
+```shell
+eksctl create iamserviceaccount \
+    --name efs-csi-controller-sa \
+    --namespace kube-system \
+    --cluster <cluster-name> \
+    --attach-policy-arn arn:aws:iam::<Account ID>:policy/AmazonEKS_EFS_CSI_Driver_Policy \
+    --approve \
+    --override-existing-serviceaccounts \
+    --region us-west-2
+```
+
+## Installation
+
+```shell
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver \
+&& helm repo update
+```
+
+```shell
+mkdir -p storage/aws-efs-csi-driver/base
+```
+
+```shell
+helm search repo aws-efs-csi-driver -l
+```
+
+```shell
+helm show values aws-efs-csi-driver/aws-efs-csi-driver \
+    --version 2.2.0 \
+    > storage/aws-efs-csi-driver/base/values.yaml
+```
+
+[이미지 주소](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/add-ons-images.html)를 참고하여 아래 옵션을 수정합니다.
+
+```yaml title="storage/aws-efs-csi-driver/base/values.yaml"
+image:
+  repository: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
+# ...
+
+controller:
+  # ...
+
+  serviceAccount:
+    create: false
+    name: efs-csi-controller-sa
+    annotations: {}
+
+  # ...
+#...
+```
+
+```shell
+helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+    --install \
+    --version 2.2.0 \
+    -n kube-system \
+    --create-namespace \
+    -f storage/aws-efs-csi-driver/base/values.yaml
+```
+
+```shell
+helm get manifest -n kube-system aws-efs-csi-driver \
+    > storage/aws-efs-csi-driver/base/manifest.yaml
+```
+
+## StorageClass
+
+### Static Provisioning
+
+```yaml title="storage/aws-efs-csi-driver/base/efs-sp-sc.yaml"
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sp-sc
+provisioner: efs.csi.aws.com
+```
+
+### Dynamic Provisioning
+
+:::warning
+Dynamic Provisioning을 사용하려면 EFS access points가 있어야 합니다.
+:::
+
+```yaml title="storage/aws-efs-csi-driver/base/efs-dp-sc.yaml"
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-dp-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap
+  fileSystemId: <FileSystemId>
+  directoryPerms: '755'
+  basePath: '/workdir_efs'
+```
+
+## Reference
+
+- [https://github.com/kubernetes-sigs/aws-efs-csi-driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html)
