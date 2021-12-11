@@ -337,17 +337,21 @@ module.exports = {
   nodejs: [
     {
       type: 'category',
-      label: 'Package',
+      label: 'ENV',
+      items: ['lang/nodejs/env/nvm'],
+    },
+    {
+      type: 'category',
+      label: 'node-addon-api',
       items: [
-        {
-          type: 'category',
-          label: 'Node-addon-API',
-          items: [
-            'lang/nodejs/package/node-addon-api/nodejs-package-using-node-addon-api',
-            'lang/nodejs/package/node-addon-api/nodejs-package-class-using-node-addon-api',
-          ],
-        },
+        'lang/nodejs/node-addon-api/basics',
+        'lang/nodejs/node-addon-api/class-binding',
       ],
+    },
+    {
+      type: 'category',
+      label: 'emscripten',
+      items: ['lang/nodejs/emscripten/basics'],
     },
   ],
   nordic: ['mcu/nordic/nrf-development-environment'],

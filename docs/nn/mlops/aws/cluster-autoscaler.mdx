@@ -12,6 +12,7 @@ keywords:
 ### ASG(Auto Scaling Group)
 
 - Auto Scaling 그룹에 아래 태그가 있어야합니다.
+  - `kubernetes.io/cluster/<cluster-name>`: `owned`
   - `k8s.io/cluster-autoscaler/<cluster-name>`: `owned`
   - `k8s.io/cluster-autoscaler/enabled`: `true`
 - 사용자 데이터를 사용하여 **Control plane node** 연결, **node label** 설정을 자동화 해줍니다.
@@ -31,6 +32,14 @@ K8S_CLUSTER_DNS_IP=xxx
 
 --//--
 ```
+
+#### managedNodeGroup
+
+- EKS 클러스터의 노드 프로비저닝 및 수명 주기 관리 자동화
+- AWS 계정의 최신 Amazon EKS 최적화 AMI를 사용하여 실행
+- 노드 업데이트 및 종료시 노드를 적절하게 비워 애플리케이션을 계속 사용할 수 있도록 관리
+
+#### nodeGroup(self-managed)
 
 ### IAM
 

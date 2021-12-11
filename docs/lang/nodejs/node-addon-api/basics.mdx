@@ -1,15 +1,13 @@
 ---
-id: nodejs-package-using-node-addon-api
-title: Node.js package using node-addon-api
+id: basics
+title: node-addon-api
 sidebar_label: Basics
-description: Node.js package using node-addon-api
+description: node-addon-api
 keywords:
   - Node.js
   - package
   - node-addon-api
 ---
-
-Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
 
 ## Installation
 
@@ -32,6 +30,8 @@ sudo npm install -g node-gyp
 npm install node-addon-api
 ```
 
+## Setup
+
 ```shell
 <package>
 ├── binding.gyp
@@ -52,35 +52,38 @@ npm install node-addon-api
     └── <target>.cpp
 ```
 
-## package.json
+[package.json](https://docs.npmjs.com/files/package.json)
 
-Ref: [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/package.json)
-
-```json
+```json title="package.json"
 {
     "name": "<package>",
-...
+
+    # ...
+
     "gypfile": true,
-...
+
+    # ...
+
     "scripts": {
         "install": "node-gyp rebuild",
         "build": "node-gyp rebuild --verbose",
         "clean": "node-gyp clean",
         "cf": "clang-format -style=file -i -verbose c_src/*"
     },
-...
+
+    # ...
+
     "dependencies": {
         "node-addon-api": "*",
     },
-...
+
+    # ...
 }
 ```
 
-## binding.gyp
+[binding.gyp](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
 
-Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
-
-```json
+```json title="binding.gyp"
 {
     "targets": [
         {
@@ -111,19 +114,13 @@ Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https:/
 `target_name`에 '-' 등은 들어갈 수 없습니다.
 :::
 
-## index.js
-
-```javascript
+```javascript title="index.js"
 module.exports = require('./build/Release/<target>');
 ```
 
 ## Wrapper
 
-Ref: [https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f](https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f)
-
-### c_src/funcs.h
-
-```cpp
+```cpp title="c_src/funcs.h"
 #pragma once
 
 #include <string>
@@ -132,9 +129,7 @@ std::string hello(void);
 int         add(int a, int b);
 ```
 
-### c_src/funcs.cpp
-
-```cpp
+```cpp title="c_src/funcs.cpp"
 #include "funcs.h"
 
 std::string hello(void) { return "Hello World!"; }
@@ -142,9 +137,7 @@ std::string hello(void) { return "Hello World!"; }
 int add(int a, int b) { return a + b; }
 ```
 
-### c_src/funcs_wrapper.h
-
-```cpp
+```cpp title="c_src/funcs_wrapper.h"
 #pragma once
 
 #include <napi.h>
@@ -155,9 +148,7 @@ Napi::String hello_wrapper(const Napi::CallbackInfo &info);
 Napi::Number add_wrapper(const Napi::CallbackInfo &info);
 ```
 
-### c_src/funcs_wrapper.cpp
-
-```cpp
+```cpp title="c_src/funcs_wrapper.cpp"
 #include "funcs.h"
 #include "funcs_wrapper.h"
 
@@ -191,9 +182,7 @@ Napi::Number add_wrapper(const Napi::CallbackInfo &info) {
 }
 ```
 
-### c_src/<target\>.cpp
-
-```cpp
+```cpp title="c_src/<target>.cpp"
 #include "funcs_wrapper.h"
 
 #include <napi.h>
@@ -211,9 +200,9 @@ NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
 npm run build
 ```
 
-## test/test.js
+## Test
 
-```javascript
+```javascript title="test/test.js"
 const addon = require('../build/Release/<target>');
 
 console.log('wrapper info', addon);
@@ -228,3 +217,10 @@ wrapper info { hello: [Function], add: [Function] }
 Hello World!
 3
 ```
+
+## Reference
+
+- [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
+- [https://docs.npmjs.com/files/package.json](https://docs.npmjs.com/files/package.json)
+- [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
+- [https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f](https://medium.com/@atulanand94/beginners-guide-to-writing-nodejs-addons-using-c-and-n-api-node-addon-api-9b3b718a9a7f)

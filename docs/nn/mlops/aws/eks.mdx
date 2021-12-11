@@ -30,6 +30,8 @@ aws ec2 create-key-pair \
     --output text > cluster.pem
 ```
 
+[Config file Schema](https://eksctl.io/usage/schema/)
+
 ```yaml title="cluster.yaml"
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
@@ -92,3 +94,4 @@ eksctl delete cluster -f cluster.yaml
 ## Reference
 
 - [https://eksctl.io/](https://eksctl.io/)
+- [https://eksctl.io/usage/schema/](https://eksctl.io/usage/schema/)

@@ -1,0 +1,161 @@
+---
+id: basics
+title: Basics
+sidebar_label: Basics
+description: basics
+keywords:
+  - basics
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Installation
+
+```shell
+git clone https://github.com/emscripten-core/emsdk.git \
+&& cd emsdk
+```
+
+```shell
+./emsdk install 3.0.0
+```
+
+```shell
+./emsdk activate 3.0.0
+```
+
+```shell
+source ./emsdk_env.sh
+```
+
+## Setup
+
+```shell
+<package>/
+├── CMakeLists.txt
+├── c_src/
+│   ├── funcs.cpp
+│   ├── funcs.h
+│   └── <target>.cpp
+└── test/
+    └── ...
+```
+
+```cmake title="CMakeLists.txt"
+cmake_minimum_required(VERSION 3.15)
+set(PROJECT_NAME "<target>")
+project(${PROJECT_NAME} LANGUAGES CXX)
+
+set(TARGET_NAME "${PROJECT_NAME}")
+
+set(SOURCE
+    "c_src/funcs.cpp"
+    "c_src/<target>.cpp"
+)
+
+add_executable(${TARGET_NAME} ${SOURCE})
+
+target_link_options(${TARGET_NAME} PUBLIC "--bind")
+```
+
+## Wrapper
+
+```cpp title="c_src/funcs.h"
+#pragma once
+
+#include <string>
+
+std::string hello(void);
+int         add(int a, int b);
+```
+
+```cpp title="c_src/funcs.cpp"
+#include "funcs.h"
+
+std::string hello(void) { return "Hello World!"; }
+
+int add(int a, int b) { return a + b; }
+```
+
+```cpp title="c_src/<target>.cpp"
+#include "funcs.h"
+
+#include <emscripten/bind.h>
+
+using namespace emscripten;
+
+EMSCRIPTEN_BINDINGS(my_module) {
+    function("hello", &hello);
+    function("add", &add);
+}
+```
+
+## Build
+
+<Tabs
+    defaultValue="makefile"
+    values={[
+        {label: 'Ninja', value: 'ninja',},
+        {label: 'Makefile', value: 'makefile',},
+    ]}
+>
+
+<TabItem value="ninja">
+
+```shell
+emcmake cmake -G Ninja -S . -B build
+```
+
+```shell
+cmake --build build
+```
+
+</TabItem>
+
+<TabItem value="makefile">
+
+```shell
+emcmake cmake -S . -B build
+```
+
+```shell
+cmake --build build -j$(expr $(expr $(nproc) \* 6) \/ 5)
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+<package>/
+├── build/
+│   ├── <target>.js
+│   ├── <target>.wasm*
+│   └── ...
+└── ...
+```
+
+## Test
+
+```html title="test/test.html"
+<!DOCTYPE html>
+<html>
+  <script>
+    var Module = {
+      onRuntimeInitialized: function () {
+        document.body.innerHTML = `<div>${Module.hello()}</div>
+        <div>1 + 2 = ${Module.add(1, 2)}</div>`;
+      },
+    };
+  </script>
+  <script src="../build/target.js"></script>
+
+  <body></body>
+</html>
+```
+
+## Reference
+
+- [https://emscripten.org/docs/getting_started/downloads.html#sdk-download-and-install](https://emscripten.org/docs/getting_started/downloads.html#sdk-download-and-install)
+- [https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html)

@@ -1,8 +1,8 @@
 ---
-id: nodejs-package-class-using-node-addon-api
-title: Node.js node-addon-api Class
-sidebar_label: C++ Class
-description: Node.js package using node-addon-api
+id: class-binding
+title: Class binding with node-addon-api
+sidebar_label: C++ Class Binding
+description: C++ Class binding with node-addon-api
 keywords:
   - Node.js
   - package
@@ -10,7 +10,7 @@ keywords:
   - Class
 ---
 
-Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
+## Setup
 
 ```shell
 <package>
@@ -27,28 +27,28 @@ Ref: [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/no
 └── c_src
     ├── class.cpp
     ├── class.h
-    ├── class_wrap.cpp
-    ├── class_wrap.h
+    ├── class_wrapper.cpp
+    ├── class_wrapper.h
     └── <target>.cpp
 ```
 
-## binding.gyp
+[binding.gyp](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
 
-Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
-
-```python
+```json title="binding.gyp"
 {
     "targets": [
         {
-            ...
+            # ...
+
             "sources": [
-                "c_src/Class.cpp",
-                "c_src/Class.h",
-                "c_src/ClassWrapper.cpp",
-                "c_src/ClassWrapper.h",
+                "c_src/class.cpp",
+                "c_src/class.h",
+                "c_src/class_wrapper.cpp",
+                "c_src/class_wrapper.h",
                 "c_src/<target>.cpp",
             ],
-            ...
+
+            #...
         }
     ]
 }
@@ -56,9 +56,7 @@ Ref: [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https:/
 
 ## Wrapper
 
-### c_src/Class.h
-
-```cpp
+```cpp title="c_src/class.h"
 #pragma once
 
 class Class {
@@ -72,10 +70,8 @@ private:
 };
 ```
 
-### c_src/Class.cpp
-
-```cpp
-#include "Class.h"
+```cpp title="c_src/class.cpp"
+#include "class.h"
 
 Class::Class(double value)
     : m_value(value) {}
@@ -88,17 +84,15 @@ double Class::add(double value) {
 }
 ```
 
-### c_src/ClassWrapper.h
-
 `InstanceMethod`로 등록 가능한 함수는 아래와 같습니다.
 
 - `typedef void (T::*InstanceVoidMethodCallback)(const CallbackInfo& info);`
 - `typedef Napi::Value (T::*InstanceMethodCallback)(const CallbackInfo& info);`
 
-```cpp
+```cpp title="c_src/class_wrapper.h"
 #pragma once
 
-#include "Class.h"
+#include "class.h"
 
 #include <napi.h>
 
@@ -117,10 +111,8 @@ private:
 };
 ```
 
-### c_src/ClassWrapper.cpp
-
-```cpp
-#include "ClassWrapper.h"
+```cpp title="c_src/class_wrapper.cpp"
+#include "class_wrapper.h"
 
 Napi::FunctionReference ClassWrapper::m_constructor;
 
@@ -179,10 +171,8 @@ Napi::Value ClassWrapper::add(const Napi::CallbackInfo &info) {
 }
 ```
 
-### c_src/<target\>.cpp
-
-```cpp
-#include "ClassWrapper.h"
+```cpp title="c_src/<target>.cpp"
+#include "class_wrapper.h"
 
 #include <napi.h>
 
@@ -199,9 +189,9 @@ NODE_API_MODULE(NODE_GYP_MODULE_NAME, init_all)
 npm run build
 ```
 
-## test/test.js
+## Test
 
-```javascript
+```javascript title="test/test.js"
 const addon = require('../build/Release/<target>');
 
 console.log('wrapper info', addon);
@@ -218,3 +208,8 @@ wrapper info { Class: [Function: Class] }
 10
 12
 ```
+
+## Reference
+
+- [https://github.com/nodejs/node-addon-api#api](https://github.com/nodejs/node-addon-api#api)
+- [https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md](https://github.com/nodejs/node-addon-api/blob/master/doc/setup.md)
