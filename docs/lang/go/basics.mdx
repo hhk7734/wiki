@@ -1,0 +1,46 @@
+---
+id: basics
+title: Basics
+sidebar_label: Basics
+description: basics
+keywords:
+  - basics
+---
+
+## Installation
+
+```shell
+wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
+```
+
+```shell
+sudo mkdir -p /opt/go/1.17.5
+```
+
+```shell
+pv -ptrb go1.17.5.linux-amd64.tar.gz | sudo tar -xzp -C /opt/go/1.17.5
+```
+
+```shell
+export PATH=/opt/go/1.17.5/go/bin:$PATH
+```
+
+## Setup
+
+```shell
+mkdir <package>
+```
+
+```shell
+cd <package>
+```
+
+```shell
+go mod init github.com/<user>/<package>
+```
+
+```shell
+go mod tidy
+```
+
+모듈의 소스코드와 `go.mod` 파일을 비교하여 모듈을 추가 또는 제거합니다.

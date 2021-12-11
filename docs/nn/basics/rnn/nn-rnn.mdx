@@ -27,7 +27,7 @@ $$
 
 ## Vanishing/exploding gradient
 
-긴 시퀀스를 처리하는 RNN은 깊은 네트워크가 되면서 `Vanishing/exploding gradient` 문제가 발생하기 쉽습니다.
+긴 시퀀스를 처리하는 RNN은 깊은 네트워크가 되면서($W$가 반복적으로 곱해지면서) `Vanishing/exploding gradient` 문제가 발생하기 쉽습니다.
 
 - Relu와 같이 수렴하지 않는 activation을 사용하면 불안정해질 수 있습니다.
 - Exploding gradient 문제가 발견되면, `gradient clipping`을 사용하여 값을 제한 해볼 수 있습니다.
@@ -46,8 +46,8 @@ f_t &= \sigma(W_{xf} x_t + b_{xf} + W_{hf} h_{t-1} + b_{hf}) \\
 i_t &= \sigma(W_{xi} x_t + b_{xi} + W_{hi} h_{t-1} + b_{hi}) \\
 \widetilde{c_t} &= \tanh(W_{x\tilde{c}} x_t + b_{x\tilde{c}} + W_{h\tilde{c}} h_{t-1} + b_{h\tilde{c}}) \\
 o_t &= \sigma(W_{xo} x_t + b_{xo} + W_{ho} h_{t-1} + b_{ho}) \\
-c_t &= f_t \otimes c_{t-1} + i_t \otimes \widetilde{c_t} \\
-h_t &= o_t \otimes \tanh(c_t)
+c_t &= f_t \odot c_{t-1} + i_t \odot \widetilde{c_t} \\
+h_t &= o_t \odot \tanh(c_t)
 \end{aligned}
 $$
 
@@ -69,8 +69,8 @@ $$
 \begin{aligned}
 r_t &= \sigma(W_{xr} x_t + b_{xr} + W_{hr} h_{t-1} + b_{hr}) \\
 z_t &= \sigma(W_{xz} x_t + b_{xz} + W_{hz} h_{t-1} + b_{hz}) \\
-\widetilde{h_t} &= \tanh(W_{x\tilde{h}} x_t + b_{x\tilde{h}} + r_t \otimes (W_{h\tilde{h}} h_{t-1} + b_{h\tilde{h}})) \\
-h_t &= z_t \otimes h_{t-1} + (1 - z_t) \otimes \widetilde{h_t}\\
+\widetilde{h_t} &= \tanh(W_{x\tilde{h}} x_t + b_{x\tilde{h}} + r_t \odot (W_{h\tilde{h}} h_{t-1} + b_{h\tilde{h}})) \\
+h_t &= z_t \odot h_{t-1} + (1 - z_t) \odot \widetilde{h_t}\\
 \end{aligned}
 $$
 
