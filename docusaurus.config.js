@@ -66,6 +66,7 @@ module.exports = {
           cpp: 'C++',
           db: 'Database',
           flutter: 'Flutter',
+          go: 'Go',
           labview: 'LabVIEW',
           nodejs: 'Node.js',
           python: 'Python',

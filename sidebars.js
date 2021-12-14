@@ -152,6 +152,7 @@ module.exports = {
       items: ['lang/flutter/package/flutter-package-linux-methodchannel'],
     },
   ],
+  go: ['lang/go/basics'],
   infineon: [
     'mcu/infineon/tricore-development-environment',
     'mcu/infineon/tricore-upload-executable-file-in-udevisualplatform',
