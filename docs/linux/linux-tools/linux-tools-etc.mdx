@@ -6,6 +6,41 @@ keywords:
   - Linux
 ---
 
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+## tldr
+
+```shell
+python3 -m pip install tldr
+```
+
+```shell
+tldr <command>
+```
+
+`<command>` 의 몇 가지 사용 예제를 볼 수 있습니다.
+
+## fzf
+
+```shell
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+```
+
+```shell
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+# fdfind를 사용하는 경우
+export FZF_DEFAULT_COMMAND='fd --type f --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+```
+
+경로를 완성할 때 `**<Tab>`을 사용하면 하위 경로 검색이 가능합니다. 예를 들어 `aaa/bbb/ccc/ddd.txt`를 찾고 싶으면 `aaa/**<Tab>` 후에 원하는 파일명을 특징 지을 수 있는 문자열 몇개를 입력하면 됩니다. Ex) `b/c/d` 또는 `c/d.txt` 등
+
+<center>
+  <img src={useBaseUrl('img/linux/linux-tools/etc/fzf-test.png')} />
+</center>
+
 ## clang-format
 
 ### Installation
@@ -64,10 +99,18 @@ sudo visudo
 # hhk7734 ALL=(ALL:ALL) NOPASSWD:SETENV: ALL
 ```
 
+```shell
+sudo userdel -r <user>
+```
+
 ### Group
 
 ```shell
 sudo groupadd <group>
+```
+
+```shell
+sudo groupdel <group>
 ```
 
 ## systemd service
@@ -117,32 +160,6 @@ Restart=[no|on-success|on-failure|on-watchdog|on-abort|always]
 # 유닛을 등록할때 등록에 필요한 유닛
 WantedBy=default.target
 RequiredBy=
-```
-
-### systemctl
-
-```shell
-sudo systemctl status <service_name>
-```
-
-```shell
-sudo systemctl enable <service_name>
-```
-
-```shell
-sudo systemctl disable <service_name>
-```
-
-```shell
-sudo systemctl start <service_name>
-```
-
-```shell
-sudo systemctl stop <service_name>
-```
-
-```shell
-sudo systemctl restart <service_name>
 ```
 
 ## Zsh
