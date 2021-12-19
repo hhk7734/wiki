@@ -10,7 +10,7 @@ keywords:
 ## Installation
 
 ```shell
-sudo apt install -y openssh-server openssh-client ssh-askpass
+sudo apt install -y openssh-server openssh-client ssh-askpass ssh-askpass-gnome
 ```
 
 ## 키 생성
@@ -31,6 +31,7 @@ Host <alias>
   User <user>
   PreferredAuthentications publickey
   IdentityFile <path>
+  AddKeysToAgent yes
 ```
 
 ## ssh agent 실행
