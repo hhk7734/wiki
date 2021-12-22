@@ -39,10 +39,6 @@ module.exports = {
       style: 'dark',
       copyright: `Copyright © ${new Date().getFullYear()} HandS. Built with Docusaurus.`,
     },
-    googleAnalytics: {
-      trackingID: 'UA-82937088-4',
-      anonymizeIP: true,
-    },
     googleAdsense: {
       dataAdClient: 'ca-pub-5199357432848758',
     },
@@ -180,6 +176,10 @@ module.exports = {
         sitemap: {
           changefreq: 'weekly',
           priority: 0.5,
+        },
+        googleAnalytics: {
+          trackingID: 'UA-82937088-4',
+          anonymizeIP: true,
         },
       },
     ],
