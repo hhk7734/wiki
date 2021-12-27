@@ -42,7 +42,7 @@ helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-d
 ```
 
 ```shell
-mkdir -p storage/aws-efs-csi-driver/base
+mkdir -p storage/aws-efs-csi-driver/{base,static,dynamic}
 ```
 
 ```shell
@@ -90,9 +90,17 @@ helm get manifest -n kube-system aws-efs-csi-driver \
 
 ## StorageClass
 
+:::warning
+EFS에 접근 가능한 SecurityGroup을 NodeGroup에 추가해줘야 합니다.
+:::
+
+:::info
+Provisioning 시에 선언되는 storage 크기는 더미 값입니다. 실제 사용 시에는 제한이 없습니다.
+:::
+
 ### Static Provisioning
 
-```yaml title="storage/aws-efs-csi-driver/base/efs-sp-sc.yaml"
+```yaml title="storage/aws-efs-csi-driver/static/efs-sp-sc.yaml"
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -100,23 +108,64 @@ metadata:
 provisioner: efs.csi.aws.com
 ```
 
+```yaml title="storage/aws-efs-csi-driver/static/efs-sp-pvc.yaml" {15}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-sp-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sp-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: <FileSystemId>
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-sp-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sp-sc
+  resources:
+    requests:
+      storage: 5Gi
+```
+
 ### Dynamic Provisioning
 
-:::warning
-Dynamic Provisioning을 사용하려면 EFS access points가 있어야 합니다.
-:::
-
-```yaml title="storage/aws-efs-csi-driver/base/efs-dp-sc.yaml"
+```yaml title="storage/aws-efs-csi-driver/dynamic/efs-dp-sc.yaml" {8-10}
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: efs-dp-sc
 provisioner: efs.csi.aws.com
 parameters:
-  provisioningMode: efs-ap
+  provisioningMode: efs-ap # PVC를 선언하면 AccessPoint가 생성됩니다.
   fileSystemId: <FileSystemId>
-  directoryPerms: '755'
-  basePath: '/workdir_efs'
+  directoryPerms: "755"
+  basePath: "/k8s" # 설정하지 않으면 루트 디렉토리에 AccessPoint가 생성됩니다.
+```
+
+```yaml title="storage/aws-efs-csi-driver/dynamic/efs-dp-pvc.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-dp-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-dp-sc
+  resources:
+    requests:
+      storage: 5Gi
 ```
 
 ## Reference
