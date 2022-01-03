@@ -7,12 +7,46 @@ keywords:
   - RESTful API
 ---
 
+## REST(REpresentational state transfer)
+
+> The REST architectural style emphasises the scalability of interactions between components, uniform interfaces, independent deployment of components, and the creation of a layered architecture to facilitate caching components to reduce user-perceived latency, enforce security, and encapsulate legacy systems.
+
 ## URI(Uniform Resource Identifiers)
 
 `<schema>://<authority>/<path>[?<query>][#<fragment>]`
 
-- `/`는 리소스 사이의 계층적 관계를 나타낼 때 사용한다.
-- URI의 마지막에는 `/`를 붙이지 않는다.
-- `-`를 사용할 수 있다.
-- `_`를 사용하지 않는다.
-- 대소문자를 구분한다. 일반적으로 소문자를 사용한다.
+- `/`는 리소스 사이의 계층적 관계를 나타낼 때 사용
+- URI의 마지막에는 `/`를 붙이지 않음
+- `-`를 사용할 수 있음
+- `_`를 사용하지 않음
+- 대소문자를 구분, 일반적으로 소문자를 사용
+
+## URI path
+
+- Collection
+  - 여러 리소스가 들어있는 하나의 디렉토리를 가리키는 리소스, 서버에서 관리
+  - 복수 명사를 사용
+  - Ex) `/products`
+- Document
+  - 하나의 객체를 가리키는 리소스
+  - 하위 리소스를 가질 수 있음
+  - 단수 명사를 사용
+  - Ex) `/products/candy`
+- Controller
+  - 특정 동작을 실행하는 리소스
+  - `CRUD(Create, Read, Update, Delete)` 기능에 매핑 할 수 없는 경우에만 구현
+  - 하위 리소스를 가질 수 없음
+  - 동사를 사용
+- Store
+  - Collection과 유사하지만 클라이언트가 관리
+
+## URI query
+
+## HTTP Verb
+
+- `POST`(Create): 새로운 리소스 생성 또는 컨트롤러 실행
+- `GET`(Read): 리소스 조회
+- `PUT`(Put): 리소스 전체 업데이트
+- `DELETE`(Delete): 리소스 삭제
+
+## HTTP status codes
