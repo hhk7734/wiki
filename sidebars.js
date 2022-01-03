@@ -152,7 +152,7 @@ module.exports = {
       items: ["lang/flutter/package/flutter-package-linux-methodchannel"],
     },
   ],
-  go: ["lang/go/basics"],
+  go: ["lang/go/basics", "lang/go/restful-api"],
   infineon: [
     "mcu/infineon/tricore-development-environment",
     "mcu/infineon/tricore-upload-executable-file-in-udevisualplatform",
@@ -270,6 +270,9 @@ module.exports = {
       items: [
         "nn/mlops/container/cri-containerd",
         "nn/mlops/container/singularity",
+        "nn/mlops/container/buildah",
+        "nn/mlops/container/skopeo",
+        "nn/mlops/container/podman",
       ],
     },
     "nn/mlops/kubeadm",

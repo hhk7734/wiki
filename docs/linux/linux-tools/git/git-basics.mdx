@@ -7,7 +7,7 @@ keywords:
   - Git
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## Installation
 
@@ -61,7 +61,7 @@ git clone <repository> -b <tag or branch> --depth <# of commit>
 ## add, rm, mv, commit
 
 <center>
-  <img src={useBaseUrl('img/linux/linux-tools/git/git-basics-diagram.png')} />
+  <img src={useBaseUrl("img/linux/linux-tools/git/git-basics-diagram.png")} />
 </center>
 
 ### add
@@ -157,7 +157,7 @@ git reflog
 `HEAD`라는 키워드 조합으로 현재 커밋 기준으로 상대적 위치의 커밋을 가리킬 수도 있는데 규칙은 아래와 같습니다.
 
 <center>
-  <img src={useBaseUrl('img/linux/linux-tools/git/git-basics-head.png')} />
+  <img src={useBaseUrl("img/linux/linux-tools/git/git-basics-head.png")} />
 </center>
 
 reflog에 따른 상대적인 커밋 위치는 `HEAD@{#}`으로 가리킬 수 있습니다. # 대신 숫자를 적으시면 됩니다.
@@ -171,3 +171,9 @@ git reset --[soft|mixed|hard] <commit hash>
 - soft: index는 유지하고, HEAD만 해당 커밋으로 되돌립니다.
 - mixed: index, HEAD를 해당 커밋으로 되돌립니다. 파일 수정 내용은 남아있습니다.
 - hard: 해당 커밋 시점으로 완전히 되돌립니다.
+
+## remote
+
+```shell
+git remote update --prune
+```

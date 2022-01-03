@@ -1,0 +1,18 @@
+---
+id: skopeo
+title: skopeo
+sidebar_label: skopeo
+description: skopeo
+keywords:
+  - skopeo
+---
+
+## login
+
+### ECR
+
+```shell
+aws ecr get-login-password | skopeo login --username AWS --password-stdin <account>.dkr.ecr.<region>.amazonaws.com
+```
+
+## Reference
