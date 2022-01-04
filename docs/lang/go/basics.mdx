@@ -48,8 +48,24 @@ go mod tidy
 ## Build
 
 ```shell
-go build
+[envs] go build [flags] [-o <output>]
 ```
+
+- `[envs]`
+  - `GOOS=<os>`
+  - `GOARCH=<arch>`
+  - `CGO_ENABLED=0|1`: `cgo` 사용 여부
+- `[flags]`
+  - `-a`: 사용되는 모든 패키지를 강제로 다시 빌드합니다.
+  - `-ldflags 'flags'`
+    - `flags`
+      - `-s`: static linking
+
+Ex) `CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-s' -o app`
+
+:::info
+사용 가능한 `GOOS`와 `GOARCH`는 `go tool dist list | column -c 75 | column -t` 명령어로 알 수 있습니다.
+:::
 
 ```shell
 go install

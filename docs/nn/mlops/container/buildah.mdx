@@ -13,6 +13,46 @@ keywords:
 
 ```
 
+## Build
+
+```go title="main.go"
+package main
+
+import (
+	"github.com/gin-gonic/gin"
+)
+
+func main() {
+	r := gin.Default()
+	r.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
+}
+```
+
+### Dockerfile
+
+```dockerfile
+FROM golang:1.17 AS build
+COPY . /app
+WORKDIR /app
+RUN go get -u github.com/gin-gonic/gin
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o app
+
+FROM scratch AS runtime
+WORKDIR /app
+COPY --from=build /app/app /usr/bin/
+ENV GIN_MODE=release
+CMD ["app"]
+```
+
+```shell
+buildah bud --tag <tag> .
+```
+
 ## Reference
 
 - [https://github.com/containers/buildah/blob/main/install.md](https://github.com/containers/buildah/blob/main/install.md)
