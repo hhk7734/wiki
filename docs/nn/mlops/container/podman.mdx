@@ -1,10 +1,21 @@
 ---
 id: podman
-title: podman
-sidebar_label: podman
-description: podman
+title: Podman
+sidebar_label: Podman
+description: Podman
 keywords:
   - podman
 ---
 
-## Reference
+## run
+
+```shell
+podman run [options] <image> [command [arg ...]]
+```
+
+- options
+  - `-d|--detach`: 컨테이너를 백그라운드에서 실행하고 컨테이너 ID를 프린트
+  - `-it`: STDIN를 열고 컨테이너에 가상 터미널 할당
+  - `-p|--publish <hostport>:<containerport>[/<protocol>]`: 포트 포워딩
+  - `--name <name>`: 컨테이너 이름
+  - `--rm`: 종료 시 컨테이너 삭제

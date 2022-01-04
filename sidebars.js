@@ -270,8 +270,7 @@ module.exports = {
       items: [
         "nn/mlops/container/cri-containerd",
         "nn/mlops/container/singularity",
-        "nn/mlops/container/buildah",
-        "nn/mlops/container/skopeo",
+        "nn/mlops/container/buildah-skopeo",
         "nn/mlops/container/podman",
       ],
     },
