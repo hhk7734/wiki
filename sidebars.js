@@ -279,7 +279,8 @@ module.exports = {
       type: "category",
       label: "Kubernetes",
       items: [
-        "nn/mlops/kubernetes/mlops-k8s-service",
+        "nn/mlops/kubernetes/deployment",
+        "nn/mlops/kubernetes/service",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
       ],
     },

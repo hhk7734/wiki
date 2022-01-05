@@ -1,0 +1,97 @@
+---
+id: service
+title: Service
+sidebar_label: Service
+description: kubernetes service
+keywords:
+  - kubernetes
+  - service
+---
+
+import Image from "@theme/IdealImage";
+
+## Service
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/kubernetes/service.jpg")}
+    width={750}
+  />
+</center>
+<center>
+  <strong>Deployment and Service</strong>
+</center>
+<br />
+
+각 Pod는 고유한 IP 주소를 갖습니다. 하지만 Deployment를 사용하여 어플리케이션을 배포할 때, 한 시점에 실행되는 Pod 집합과 다음 시점에서 실행되고 있는 Pod 집합이 다를 수 있습니다. 이런 상황에서 해당 Pod 집합을 사용해야하는 서비스가 존재한다면, 이 변화를 추적해야하는 문제가 생깁니다. 이러한 문제를 해결하기 위해 Service 리소스가 필요합니다.
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: ClusterIP # ClusterIP(default)|NodePort|LoadBalancer|ExternalName
+  selector: # selector를 사용하지 않으면 Endpoints를 생성하여 수동으로 매핑
+    app: my-app # Pod의 label에 해당 key: value 가 있는 것을 선택
+  ports:
+    - name: http # 정의하지 않아도 됨
+      port: 8080 # service port
+      targetPort: 8080 # pod port
+      protocol: TCP # TCP(default)|UDP|SCTP|HTTP|PROXY
+```
+
+`<name>.<namespace>.svc.cluster.local`이 쿠버네티스 DNS에 등록됩니다.
+
+## NodePort
+
+NodePort는 `pod ip:targetPort` --- `service ip:port` --- `node ip:nodePort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
+
+```shell {1}
+$ kubectl describe pods -n kubernetes-dashboard kubernetes-dashboard
+
+...
+
+Labels:       k8s-app=kubernetes-dashboard
+              pod-template-hash=576cb95f94
+
+...
+
+Containers:
+  kubernetes-dashboard:
+    ...
+
+    Port:          8443/TCP
+
+    ...
+
+```
+
+```yaml title="kubernetes-dashboard-nodeport.yaml" {5,10,13}
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-dashboard-nodeport
+  namespace: kubernetes-dashboard
+spec:
+  type: NodePort
+  selector:
+    k8s-app: kubernetes-dashboard
+  ports:
+    - port: 443
+      targetPort: 8443
+      # nordPort: <30000-32767> # 설정하지 않으면 해당 범위에서 랜덤하게 선택
+```
+
+```shell
+kubectl apply -f kubernetes-dashboard-nodeport.yaml
+```
+
+```shell
+kubectl describe svc -n kubernetes-dashboard kubernetes-dashboard-nodeport
+```
+
+## Reference
+
+- [https://kubernetes.io/ko/docs/concepts/services-networking/service/](https://kubernetes.io/ko/docs/concepts/services-networking/service/)
+- [https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#service-v1-core](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.23/#service-v1-core)
