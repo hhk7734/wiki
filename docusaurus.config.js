@@ -20,7 +20,16 @@ module.exports = {
   favicon: "img/favicon.ico",
   organizationName: "HandS",
   projectName: "wiki.loliot.net",
-  plugins: ["docusaurus-plugin-google-adsense"],
+  plugins: [
+    "docusaurus-plugin-google-adsense",
+    [
+      // https://docusaurus.io/ko/docs/next/api/plugins/@docusaurus/plugin-ideal-image
+      "@docusaurus/plugin-ideal-image",
+      {
+        disableInDev: false,
+      },
+    ],
+  ],
   stylesheets: [
     {
       href: "/katex/v0.13.9/katex.min.css",
