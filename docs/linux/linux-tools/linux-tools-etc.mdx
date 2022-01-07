@@ -6,9 +6,11 @@ keywords:
   - Linux
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## tldr
+
+[https://github.com/tldr-pages/tldr](https://github.com/tldr-pages/tldr)
 
 ```shell
 python3 -m pip install tldr
@@ -21,6 +23,8 @@ tldr <command>
 `<command>` 의 몇 가지 사용 예제를 볼 수 있습니다.
 
 ## fzf
+
+[https://github.com/junegunn/fzf](https://github.com/junegunn/fzf)
 
 ```shell
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
@@ -38,8 +42,85 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 경로를 완성할 때 `**<Tab>`을 사용하면 하위 경로 검색이 가능합니다. 예를 들어 `aaa/bbb/ccc/ddd.txt`를 찾고 싶으면 `aaa/**<Tab>` 후에 원하는 파일명을 특징 지을 수 있는 문자열 몇개를 입력하면 됩니다. Ex) `b/c/d` 또는 `c/d.txt` 등
 
 <center>
-  <img src={useBaseUrl('img/linux/linux-tools/etc/fzf-test.png')} />
+  <img src={useBaseUrl("img/linux/linux-tools/etc/fzf-test.png")} />
 </center>
+
+## bat
+
+[https://github.com/sharkdp/bat](https://github.com/sharkdp/bat)
+
+```shell
+sudo apt install bat
+```
+
+```shell
+alias cat="batcat -p --paging=never"
+```
+
+## fd
+
+[https://github.com/sharkdp/fd](https://github.com/sharkdp/fd)
+
+```shell
+sudo apt-get install fd-find
+```
+
+```shell
+alias fd="fdfind"
+```
+
+## ripgrep(rg)
+
+[https://github.com/BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
+
+```shell
+sudo apt-get install ripgrep
+```
+
+## lsd
+
+[https://github.com/Peltoche/lsd](https://github.com/Peltoche/lsd)
+
+```shell
+wget https://github.com/Peltoche/lsd/releases/download/0.20.1/lsd_0.20.1_amd64.deb \
+&& sudo dpkg -i lsd_0.20.1_amd64.deb
+```
+
+```shell
+alias ls='lsd --icon never'
+alias lt='ls --tree'
+```
+
+## pet
+
+[https://github.com/knqyf263/pet](https://github.com/knqyf263/pet)
+
+```shell
+wget https://github.com/knqyf263/pet/releases/download/v0.3.6/pet_0.3.6_linux_amd64.deb \
+&& dpkg -i pet_0.3.6_linux_amd64.deb
+```
+
+```shell title=".bashrc"
+function pet-select() {
+  BUFFER=$(pet search --query "$READLINE_LINE")
+  READLINE_LINE=$BUFFER
+  READLINE_POINT=${#BUFFER}
+}
+bind -x '"\C-x\C-r": pet-select'
+```
+
+```shell title=".zshrc"
+function pet-select() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+stty -ixon
+bindkey '^s' pet-select
+```
+
+`<param>` or `<param=default>` 기능이 좋긴 한데, `<` `>`가 사용되는 명령어들은 파싱이 이상하게 되는 경우가 있습니다. 시간이 되면 PR...
 
 ## clang-format
 
@@ -186,7 +267,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
 
 ```shell
 echo '# Path to your oh-my-zsh installation.
-export ZSH="'$HOME'/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # theme
 ZSH_THEME="powerlevel10k/powerlevel10k"
@@ -202,15 +283,40 @@ plugins=(
 source $ZSH/oh-my-zsh.sh
 autoload -U compinit && compinit
 
-# alias
-alias ls="ls -F --color=auto"
-alias cf="clang-format -style=file -i -verbose"
-alias tree="tree -F"
-alias cp="rsync -h --info=progress2"
-
-export PATH=$PATH:'$HOME'/.local/bin
+export PATH=$PATH:$HOME/.local/bin
 export DEBEMAIL="hhk7734@gmail.com"
 export DEBFULLNAME="Hyeonki Hong"
+
+is_installed() {
+    [ -n "$(command -v "$1" 2>/dev/null)" ]
+}
+
+# alias
+
+alias tree="tree -F"
+
+if is_installed lsd; then
+    alias ls="lsd --icon never"
+    alias lt="ls --tree"
+else
+    alias ls="ls --color=auto"
+    alias lt="tree"
+fi
+
+if is_installed rsync; then
+    alias cp="rsync -h --info=progress2"
+fi
+
+if is_installed fdfind; then
+    alias fd="fdfind"
+fi
+
+if is_installed batcat; then
+    alias cat="batcat -p --paging=never"
+fi
+if is_installed bat; then
+    alias cat="bat -p --paging=never"
+fi
 ' > ~/.zshrc
 ```
 
