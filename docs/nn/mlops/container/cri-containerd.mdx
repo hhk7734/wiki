@@ -8,11 +8,32 @@ keywords:
   - containerd
 ---
 
+import Image from "@theme/IdealImage";
+
+## Container
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/container/vm-vs-container.png")}
+    width={750}
+  />
+</center>
+<center>
+  <strong>VM vs Container</strong>
+</center>
+<br />
+
+- VM
+  - Guest OS의 커널에 요청되는 시스템 콜은 하이퍼바이저를 통해 처리
+- Container
+  - Container의 시스템 콜은 Host OS의 커널을 공유하여 처리
+  - Linux namespace와 cgroup을 통해 격리된 환경 제공
+
+## Installation
+
 :::warning
 기본적으로 설치되어야하는 프로그램의 경우 미리 설치된 이미지를 준비하면 좋습니다.
 :::
-
-## Installation
 
 ```yaml title="containerd-installation.yaml"
 ---
@@ -21,10 +42,10 @@ keywords:
   tasks:
     - name: Install requirements
       apt:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: latest
         update_cache: yes
-      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg']
+      loop: ["apt-transport-https", "ca-certificates", "curl", "gnupg"]
 
     - name: Add docker GPG apt key
       apt_key:
@@ -108,5 +129,6 @@ keywords:
 
 ## Reference
 
+- [https://bi-insider.com/posts/virtual-machines-vs-containers/](https://bi-insider.com/posts/virtual-machines-vs-containers/)
 - [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
 - [https://kubernetes.io/docs/setup/production-environment/container-runtimes/](https://kubernetes.io/docs/setup/production-environment/container-runtimes/)

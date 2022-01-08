@@ -35,15 +35,31 @@ spec:
   selector: # selector를 사용하지 않으면 Endpoints를 생성하여 수동으로 매핑
     app: my-app # Pod의 label에 해당 key: value 가 있는 것을 선택
   ports:
-    - name: http # 정의하지 않아도 됨
+    - name: http
       port: 8080 # service port
-      targetPort: 8080 # pod port
+      targetPort: 8080 # pod port. pod에 port.name을 정의했다면 name으로 대체 가능
       protocol: TCP # TCP(default)|UDP|SCTP|HTTP|PROXY
 ```
 
+:::info
+`kubectl explain [--recursive] service[.<fieldName>]` 을 통해 자세한 설명을 볼 수 있습니다.
+:::
+
+### FQDN
+
 `<name>.<namespace>.svc.cluster.local`이 쿠버네티스 DNS에 등록됩니다.
 
-## NodePort
+컨테이너 내부에서 Service를 찾을 때, `<name>`, `<name>.<namespace>` 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, `/etc/resolv.conf` 파일의 `search` 옵션에 적힌 값을 기준으로 탐색합니다.
+
+```shell title="/etc/resolv.conf"
+...
+
+search <namespace>.svc.cluster.local svc.cluster.local cluster.local us-west-2.compute.internal
+
+...
+```
+
+### NodePort
 
 NodePort는 `pod ip:targetPort` --- `service ip:port` --- `node ip:nodePort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
 
@@ -89,6 +105,12 @@ kubectl apply -f kubernetes-dashboard-nodeport.yaml
 
 ```shell
 kubectl describe svc -n kubernetes-dashboard kubernetes-dashboard-nodeport
+```
+
+## Debug
+
+```shell
+kubectl run tmp-shell --rm -it --image nicolaka/netshoot -- sh
 ```
 
 ## Reference

@@ -22,3 +22,77 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
   <strong>Deployment and RollingUpdate</strong>
 </center>
 <br />
+
+`ReplicaSet`은 Pod 집합을 식별하기 위한 `.spec.selector`, 유지하고 싶은 Pod 수를 지정하는 `.spec.replicas`, 새로 생성될 Pod 정보인 `.spec.template`을 가지고 있습니다.
+
+`Deployment`는 `ReplicaSet`을 생성하고 컨트롤하는 데 사용되는 리소스입니다. `Deployment`에 의해 생성된 `ReplicaSet`은 사용자가 직접 관리하면 안됩니다.
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deployment
+spec:
+  replicas: 3 # 유지하고 싶은 Pod 수
+  minReadySeconds: 10 # readinessProbe 성공 후 최소 준비 시간, 의도적으로 업데이트 속도를 늦출 수 있음
+  strategy:
+    type: RollingUpdate # RollingUpdate(default)|Recreate
+    rollingUpdate:
+      # replicas - maxUnavailable <= 사용 가능 Pod <= replicas + maxSurge
+      maxSurge: 25% # 정수 또는 비율(%, ceil(replicas * maxSurge))
+      maxUnavailable: 25% # 정수 또는 비율(%, floor(replicas * maxUnavailable))
+  selector: # 관리하고 싶은 Pod의 정보
+    matchLabels:
+      app: my-app
+  template: # 새로 생성될 Pod
+    metadata:
+      labels: # .spec.selector에 의해 선택 될 수 있도록 설정
+        app: my-app
+    spec:
+      containers:
+        - image: [<url>/]<image>[:tag]
+          name: my-app
+          ports:
+            - name: http # Pod 내에서 특별해야하며, service에 의해 참조될 수 있음
+              containerPort: 8080
+              protocol: TCP # TCP(default)|UDP|SCTP
+```
+
+## Probe
+
+`kubelet`에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구현된 핸들러가 있습니다.
+
+- `ExecAction(exec)`: 주어진 커맨드 수행 후 `return code == 0` 이면 성공
+- `TCPSocketAction(tcpSocket)`: 지정 port가 활성화 되어 있다면 성공
+- `HTTPGetAction(httpGet)`: 지정 `<host>:<port><path>` 에 GET 요청 수행 후 `200 <= status code < 400` 이면 성공
+
+진단 성공 시 `Success`, 실패 시 `Failure`, 진단 자체가 실패하는 경우 `Unknown`으로 표시됩니다.
+
+### startupProbe
+
+### livenessProbe
+
+### readinessProbe
+
+## rollout
+
+```shell
+kubectl rollout <subcommand> <resource> <name>
+```
+
+- `<subcommand>`
+  - `pause`: 일시 중지
+  - `resume`: 일시 중지 해제
+  - `restart`: 재시작
+  - `status`: rollout이 완료될 때까지 진행 상태를 출력
+  - `history`: revision 목록, `--revision <int>`을 설정하면 자세한 정보를 확인 할 수 있음
+  - `undo`: 이전 revision 로 되돌리기, `--to-revision <int>`을 설정하면 해당 revision으로 되돌릴 수 있음
+- `<resource>`
+  - `deployment`
+  - `statefulset`
+  - `daemonset`
+
+## Reference
+
+- [https://kubernetes.io/ko/docs/concepts/workloads/controllers/deployment](https://kubernetes.io/ko/docs/concepts/workloads/controllers/deployment)
+- [https://kubernetes.io/ko/docs/concepts/workloads/pods/pod-lifecycle/](https://kubernetes.io/ko/docs/concepts/workloads/pods/pod-lifecycle/)

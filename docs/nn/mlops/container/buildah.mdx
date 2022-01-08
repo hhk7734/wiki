@@ -57,7 +57,7 @@ runtime=$(buildah from scratch)
 buildah copy $runtime $build_root/app/app /usr/bin/
 buildah config --env GIN_MODE=release $runtime
 buildah config --cmd "app" $runtime
-buildah commit $runtime ping
+buildah commit $runtime ping:1.0.0
 
 buildah rm $runtime
 
@@ -109,6 +109,10 @@ buildah rmi <image>
 
 ## login
 
+```shell
+skopeo login <url>
+```
+
 ### ECR
 
 ```shell
@@ -122,13 +126,17 @@ aws ecr-public get-login-password --region us-east-1 | skopeo login --username A
 ## copy
 
 ```shell
-skopeo copy containers-storage:localhost/ping:latest docker://<account>.dkr.ecr.<region>.amazonaws.com/<image>
+skopeo copy <src-image> <dst-image>
 ```
+
+- image
+  - `containers-storage:localhost/<image>[:tag]`
+  - `docker://<url>/<image>[:tag]`
 
 ## inspect
 
 ```shell
-skopeo inspect docker://<account>.dkr.ecr.<region>.amazonaws.com/<image>:<tag>
+skopeo inspect <image>
 ```
 
 ## Reference
