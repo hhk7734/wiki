@@ -233,7 +233,11 @@ module.exports = {
     {
       type: "category",
       label: "Network",
-      items: ["linux/linux-tools/network/nmap"],
+      items: [
+        "linux/linux-tools/network/nmap",
+        "linux/linux-tools/network/ss",
+        "linux/linux-tools/network/nslookup",
+      ],
     },
     "linux/linux-tools/linux-tools-etc",
   ],
