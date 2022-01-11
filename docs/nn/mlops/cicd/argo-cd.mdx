@@ -1,0 +1,102 @@
+---
+id: argo-cd
+title: Argo CD
+sidebar_label: Argo CD
+description: Argo CD
+keywords:
+  - argo
+  - cd
+---
+
+## Installation
+
+```shell
+helm repo add argo https://argoproj.github.io/argo-helm \
+&& helm repo update
+```
+
+```shell
+mkdir -p cicd/argo/cd
+```
+
+```shell
+helm search repo argo -l
+```
+
+```shell
+helm show values argo/argo-cd \
+    --version 3.29.4 \
+    > cicd/argo/cd/values.yaml
+```
+
+```yaml title="cicd/argo/cd/values.yaml"
+# ...
+
+server:
+  # ...
+
+  extraArgs:
+    - --insecure # https://github.com/argoproj/argo-cd/issues/2953
+
+# ...
+```
+
+```shell
+helm upgrade argo-cd argo/argo-cd \
+    --install \
+    --version 3.29.4 \
+    -n cicd \
+    --values cicd/argo/cd/values.yaml
+```
+
+## SSO-Dex
+
+### Google-OIDC
+
+- [OAuth consent](https://console.cloud.google.com/apis/credentials/consent)
+- [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent/edit)
+  - OAuth consent screen
+    - `App name`, `User support email` 설정
+    - `Authorized domains`에 필터링 하고싶은 도메인 입력, `example.com`을 입력하면 `@example.com`만 인증할 수 있음
+  - Scopes
+    - `.../auth/userinfo.profile`, `openid` 추가
+- [Credentials](https://console.cloud.google.com/apis/credentials)
+  - `+ CREATE CREDENTIALS` -> `OAuth client ID`
+    - `Application type`: Web application
+    - `Name` 설정
+    - `Authorized JavaScript origins`
+      - `+ ADD URI` -> `https://argo-cd.example.com`
+    - `Authorized redirect URIs`
+      - `+ ADD URI` -> `https://argo-cd.example.com/api/dex/callback`
+  - `Client ID`, `Client Secret` 복사 또는 json 파일 다운로드
+
+```yaml title="cicd/argo/cd/values.yaml"
+# ...
+
+server:
+  # ...
+
+  # ConfigMap.data, name: argocd-cm
+  config:
+    url: https://argo-cd.example.com
+
+    # ...
+
+    dex.config: |
+      connectors:
+        - type: oidc
+          id: google
+          name: Google
+          config:
+            issuer: https://accounts.google.com
+            clientID: XXXXXXXXXXXXX.apps.googleusercontent.com
+            clientSecret: XXXXXXXXXXXXX
+
+    # ...
+
+    # ConfigMap.data, name: argocd-rbac-cm
+    rbacConfig:
+      policy.default: role:readonly
+      # policy.csv: |
+      #   ...
+```

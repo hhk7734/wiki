@@ -327,7 +327,11 @@ module.exports = {
     {
       type: "category",
       label: "CI/CD",
-      items: ["nn/mlops/cicd/harbor", "nn/mlops/cicd/argo"],
+      items: [
+        "nn/mlops/cicd/harbor",
+        "nn/mlops/cicd/argo",
+        "nn/mlops/cicd/argo-cd",
+      ],
     },
     "nn/mlops/mlops-kubeflow",
     {
