@@ -11,6 +11,11 @@ keywords:
 ## Installation
 
 ```shell
+curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 \
+&& chmod +x /usr/local/bin/argocd
+```
+
+```shell
 helm repo add argo https://argoproj.github.io/argo-helm \
 && helm repo update
 ```
@@ -49,26 +54,81 @@ helm upgrade argo-cd argo/argo-cd \
     --values cicd/argo/cd/values.yaml
 ```
 
-## SSO-Dex
+## `argocd` command
 
-### Google-OIDC
+### login
 
-- [OAuth consent](https://console.cloud.google.com/apis/credentials/consent)
-- [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent/edit)
-  - OAuth consent screen
-    - `App name`, `User support email` 설정
-    - `Authorized domains`에 필터링 하고싶은 도메인 입력, `example.com`을 입력하면 `@example.com`만 인증할 수 있음
-  - Scopes
-    - `.../auth/userinfo.profile`, `openid` 추가
-- [Credentials](https://console.cloud.google.com/apis/credentials)
-  - `+ CREATE CREDENTIALS` -> `OAuth client ID`
-    - `Application type`: Web application
-    - `Name` 설정
-    - `Authorized JavaScript origins`
-      - `+ ADD URI` -> `https://argo-cd.example.com`
-    - `Authorized redirect URIs`
-      - `+ ADD URI` -> `https://argo-cd.example.com/api/dex/callback`
-  - `Client ID`, `Client Secret` 복사 또는 json 파일 다운로드
+```shell
+argocd context
+```
+
+#### ID
+
+```shell
+kubectl -n cicd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+```
+
+admin의 초기 암호를 알 수 있습니다.
+
+```shell
+argocd login <server>
+```
+
+```shell
+argocd account update-password [--account <user>]
+```
+
+암호 업데이트 후 `argocd-initial-admin-secret`은 삭제해 줍니다.
+
+:::warning
+적절한 RBAC가 적용된 유저를 생성한 경우 admin을 비활성화 하는 것이 좋습니다. `argocd-cm` ConfigMap의 data에 `admin.enabled: "false"`를 추가하면 됩니다.
+:::
+
+#### Kubectl
+
+```shell
+kubectl config set-context --current --namespace cicd
+```
+
+```shell
+argocd login --core
+```
+
+:::warning
+`--core`를 사용하면 암호 업데이트 시 실패하는데, 아직 원인을 찾지 못했습니다.
+:::
+
+## User
+
+### ConfigMap
+
+```shell
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: argocd
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+data:
+  # add an additional local user with apiKey and login capabilities
+  #   apiKey - allows generating API keys
+  #   login - allows to login using UI
+  accounts.<user>: apiKey, login
+  # disables user. User is enabled by default
+  accounts.<user>.enabled: "false"
+```
+
+```shell
+argocd account list
+```
+
+### SSO-Dex
+
+[Example connectors](https://github.com/dexidp/website/tree/main/content/docs/connectors)
+
+`redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
 ```yaml title="cicd/argo/cd/values.yaml"
 # ...
@@ -79,24 +139,79 @@ server:
   # ConfigMap.data, name: argocd-cm
   config:
     url: https://argo-cd.example.com
+```
 
+#### Github
+
+:::warning
+아직 테스트하지 않은 상태입니다.
+:::
+
+argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
+
+```yaml title="cicd/argo/cd/values.yaml"
+# ...
+
+server:
+  # ...
+
+  # ConfigMap.data, name: argocd-cm
+  config:
     # ...
 
     dex.config: |
       connectors:
-        - type: oidc
-          id: google
-          name: Google
+        - type: github
+          id: github
+          name: GitHub
           config:
-            issuer: https://accounts.google.com
-            clientID: XXXXXXXXXXXXX.apps.googleusercontent.com
-            clientSecret: XXXXXXXXXXXXX
-
-    # ...
-
-    # ConfigMap.data, name: argocd-rbac-cm
-    rbacConfig:
-      policy.default: role:readonly
-      # policy.csv: |
-      #   ...
+            clientID: xxx
+            clientSecret: $dex.github.clientSecret
+            # hostName: github.acme.com # Enterprise
+            orgs:
+              - name: your-github-org
+                # team: # 없으면 모든 팀을 포함
+                #   - developers
+                #   - researchers
 ```
+
+:::info
+다른 Secret을 쓰고 싶으면 아래와 같이 추가하고, config에 `$github-client-secret:dex.gtihub.clientSecret: <base64 encoded>`를 사용하면 됩니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-client-secret
+  namespace: cicd
+  labels:
+    app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
+type: Opaque
+data:
+  dex.github.clientSecret: <base64 encoded>
+```
+
+:::
+
+### RBAC
+
+```yaml title="cicd/argo/cd/values.yaml"
+# ...
+
+server:
+  # ...
+
+  # ConfigMap.data, name: argocd-rbac-cm
+  rbacConfig:
+    # role:readonly, role:admin
+    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+    policy.default: ""
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+    policy.csv: |
+      g, <user>, role:admin
+```
+
+## Reference
+
+- [https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+- [https://argo-cd.readthedocs.io/en/stable/](https://argo-cd.readthedocs.io/en/stable/)
