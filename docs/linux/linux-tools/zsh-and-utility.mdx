@@ -1,0 +1,194 @@
+---
+id: zsh-and-utility
+title: zsh & utility
+sidebar_label: zsh & utility
+description: zsh & utility
+keywords:
+  - zsh
+  - utility
+---
+
+import Image from "@theme/IdealImage";
+
+## Installation
+
+```shell
+sudo apt install -y git zsh curl \
+&& chsh -s $(which zsh) \
+&& sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+```shell
+git clone https://github.com/zsh-users/zsh-completions \
+    ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions \
+&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
+&& git clone https://github.com/zsh-users/zsh-autosuggestions \
+    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+```shell
+git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+```
+
+```shell title=".zshrc"
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+ZSH_THEME="powerlevel10k/powerlevel10k"
+
+zstyle '"':omz:update'"' mode auto
+zstyle '"':omz:update'"' frequency 13 # in days
+
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+plugins=(
+    git
+    zsh-completions
+    zsh-syntax-highlighting
+    zsh-autosuggestions
+)
+
+source $ZSH/oh-my-zsh.sh
+autoload -U compinit && compinit
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+is_installed() {
+    [ -n "$(command -v "$1" 2>/dev/null)" ]
+}
+
+# User configuration
+
+# export
+
+export PATH=$PATH:$HOME/.local/bin
+
+# alias
+
+if is_installed rsync; then
+    alias cp="rsync -h --info=progress2"
+fi
+```
+
+```shell
+wget https://github.com/romkatv/dotfiles-public/raw/master/.local/share/fonts/NerdFonts/MesloLGS%20NF%20Regular.ttf
+```
+
+Install `MesloLGS NF Regular.ttf`
+
+```shell
+p10k configure
+```
+
+## Utility
+
+### tldr
+
+[https://github.com/tldr-pages/tldr](https://github.com/tldr-pages/tldr)
+
+```shell
+python3 -m pip install tldr
+```
+
+```shell
+tldr <command>
+```
+
+`<command>` 의 몇 가지 사용 예제를 볼 수 있습니다.
+
+### fzf
+
+[https://github.com/junegunn/fzf](https://github.com/junegunn/fzf)
+
+```shell
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
+&& ~/.fzf/install
+```
+
+```shell title=".zshrc"
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+
+# fdfind를 사용하는 경우
+export FZF_DEFAULT_COMMAND='fd --type f --follow' # --hidden --exclude .git
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+```
+
+경로를 완성할 때 `**<Tab>`을 사용하면 하위 경로 검색이 가능합니다. 예를 들어 `aaa/bbb/ccc/ddd.txt`를 찾고 싶으면 `aaa/**<Tab>` 후에 원하는 파일명을 특징 지을 수 있는 문자열 몇개를 입력하면 됩니다. Ex) `b/c/d` 또는 `c/d.txt` 등
+
+<center>
+  <Image
+    img={require("@site/static/img/linux/linux-tools/zsh-and-utility/fzf-test.png")}
+    width={750}
+  />
+</center>
+
+### bat
+
+[https://github.com/sharkdp/bat](https://github.com/sharkdp/bat)
+
+```shell
+sudo apt install bat \
+&& sudo update-alternatives --install /usr/local/bin/bat bat `which batcat` 1
+```
+
+```shell title=".zshrc"
+alias cat="bat -p --paging=never"
+```
+
+### fd
+
+[https://github.com/sharkdp/fd](https://github.com/sharkdp/fd)
+
+```shell
+sudo apt-get install fd-find \
+&& sudo update-alternatives --install /usr/local/bin/fd fd `which fdfind` 1
+```
+
+### ripgrep(rg)
+
+[https://github.com/BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
+
+```shell
+sudo apt-get install ripgrep
+```
+
+:::info
+`/usr/.crates2.json` 관련 에러가 나면 `sudo apt install -o Dpkg::Options::="--force-overwrite" ripgrep`로 시도해보면 됩니다.
+:::
+
+### lsd
+
+[https://github.com/Peltoche/lsd](https://github.com/Peltoche/lsd)
+
+```shell
+wget https://github.com/Peltoche/lsd/releases/download/0.20.1/lsd_0.20.1_amd64.deb \
+&& sudo dpkg -i lsd_0.20.1_amd64.deb
+```
+
+```shell
+alias ls='lsd --icon never'
+```
+
+### pet
+
+[https://github.com/knqyf263/pet](https://github.com/knqyf263/pet)
+
+```shell
+wget https://github.com/knqyf263/pet/releases/download/v0.4.0/pet_0.4.0_linux_amd64.deb \
+&& sudo dpkg -i pet_0.4.0_linux_amd64.deb
+```
+
+```shell title=".zshrc"
+function pet-select() {
+  BUFFER=$(pet search --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle redisplay
+}
+zle -N pet-select
+bindkey '^s' pet-select
+```
+
+`<param>` or `<param=default>` 기능이 좋긴 한데, `<` `>`가 사용되는 명령어들은 파싱이 이상하게 되는 경우가 있습니다. 시간이 되면 PR...

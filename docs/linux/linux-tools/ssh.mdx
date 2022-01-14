@@ -1,17 +1,10 @@
 ---
-id: linux-ssh-scp
-title: SSH and SCP
-description: SSH and SCP
+id: ssh
+title: SSH
+description: SSH
 keywords:
   - SSH
-  - SCP
 ---
-
-## Installation
-
-```shell
-sudo apt install -y openssh-server openssh-client ssh-askpass ssh-askpass-gnome
-```
 
 ## 키 생성
 
@@ -23,7 +16,9 @@ ssh-keygen -t ed25519 -C "your_email@example.com"
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 ```
 
-## .ssh/config
+## config
+
+`~/.ssh/config` 또는 `/etc/ssh/ssh_config` 파일에 아래 설정을 추가할 수 있습니다.
 
 ```shell
 Host <alias>
@@ -72,10 +67,6 @@ unset env
 ssh-add ~/.ssh/<id file>
 ```
 
-```shell
-ssh-add -l
-```
-
 ## 퍼블릭 키 접속할 곳에 등록
 
 ```shell
@@ -102,3 +93,4 @@ sudo chmod 400 ~/.ssh/*
 ## Reference
 
 - [https://www.ssh.com/academy/ssh/config](https://www.ssh.com/academy/ssh/config)
+- [https://linux.die.net/man/5/ssh_config](https://linux.die.net/man/5/ssh_config)

@@ -12,6 +12,10 @@ keywords:
 ### OpenMPI
 
 ```shell
+sudo apt-get install flex
+```
+
+```shell
 git clone --branch=v4.1.2 --depth=1 https://github.com/open-mpi/ompi.git \
 && cd ompi
 ```
@@ -34,7 +38,7 @@ make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
 && sudo make install
 ```
 
-```shell
+```shell title=".zshrc"
 export PATH=/opt/openmpi-4.1.2/bin:$PATH
 export LD_LIBRARY_PATH=/opt/openmpi-4.1.2/lib:$LD_LIBRARY_PATH
 ```

@@ -189,6 +189,7 @@ module.exports = {
     },
   ],
   "linux-tools": [
+    "linux/linux-tools/zsh-and-utility",
     {
       type: "category",
       label: "Vim",
@@ -220,7 +221,7 @@ module.exports = {
       ],
     },
     "linux/linux-tools/progress-bar",
-    "linux/linux-tools/linux-ssh-scp",
+    "linux/linux-tools/ssh",
     "linux/linux-tools/linux-udev",
     {
       type: "category",
