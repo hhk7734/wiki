@@ -286,6 +286,7 @@ module.exports = {
       items: [
         "nn/mlops/kubernetes/deployment",
         "nn/mlops/kubernetes/service",
+        "nn/mlops/kubernetes/rbac",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
       ],
     },

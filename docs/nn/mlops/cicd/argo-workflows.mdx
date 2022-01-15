@@ -81,9 +81,13 @@ server:
           secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
 ```
 
+:::info
+Dex는 클라이언트(`aud(audience)`)대신 다른 클라이언트(`azp(authorized party)`)에게 ID 토큰 발행을 맞길 수 있는 기능이 있습니다. `staticClients.trustedPeers: []`에 azp가 될 클라이언트의 id를 추가하면 됩니다.
+:::
+
 ```yaml title="cicd/argo/workflows/values.yaml"
 server:
-  # ConfigMap.data.config: |, name: workflow-controller-configmap
+  # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
     issuer: <argo-cd-server-url>/api/dex
     sessionExpiry: 120h
@@ -96,6 +100,57 @@ server:
     redirectUrl: <workflow-server-url>/oauth2/callback
 ```
 
+### RBAC
+
+```yaml title="cicd/argo/workflows/values.yaml"
+server:
+  # ConfigMap.data.config: |, name: workflow-controller-configmap
+  sso:
+    scopes:
+      - groups
+    rbac:
+      enabled: true
+```
+
+```yaml title="cicd/argo/workflows/rbac/guest-sa.yaml"
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: guest-sa
+  namespace: cicd
+  annotations:
+    workflows.argoproj.io/rbac-rule: "true"
+    # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
+    # 이상으로 설정해주세요
+    workflows.argoproj.io/rbac-rule-precedence: "0"
+```
+
+```yaml title="cicd/argo/workflows/rbac/admin-sa.yaml"
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-sa
+  namespace: cicd
+  annotations:
+    workflows.argoproj.io/rbac-rule: "'<group>' in groups"
+    workflows.argoproj.io/rbac-rule-precedence: "1"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-workflows-admin-binding
+subjects:
+  - kind: ServiceAccount
+    name: admin-sa
+    namespace: cicd
+roleRef:
+  kind: ClusterRole
+  name: argo-workflows-admin
+  apiGroup: rbac.authorization.k8s.io
+```
+
 ## Reference
 
 - [https://argoproj.github.io/argo-workflows](https://argoproj.github.io/argo-workflows)
+- [https://dexidp.io/docs/custom-scopes-claims-clients/](https://dexidp.io/docs/custom-scopes-claims-clients/)
