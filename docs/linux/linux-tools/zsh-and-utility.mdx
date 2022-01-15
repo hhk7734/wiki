@@ -192,3 +192,10 @@ bindkey '^s' pet-select
 ```
 
 `<param>` or `<param=default>` 기능이 좋긴 한데, `<` `>`가 사용되는 명령어들은 파싱이 이상하게 되는 경우가 있습니다. 시간이 되면 PR...
+
+### bpytop
+
+```shell
+python3 -m pip install bpytop \
+&& sudo update-alternatives --install /usr/local/bin/btop btop `which bpytop` 1
+```

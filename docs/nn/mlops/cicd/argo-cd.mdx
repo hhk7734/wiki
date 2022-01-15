@@ -11,8 +11,9 @@ keywords:
 ## Installation
 
 ```shell
-curl -sSL -o /usr/local/bin/argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 \
-&& chmod +x /usr/local/bin/argocd
+wget https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64 \
+&& sudo mv argocd-linux-amd64 /usr/local/bin/argocd \
+&& sudo chmod +x /usr/local/bin/argocd
 ```
 
 ```shell
@@ -25,7 +26,7 @@ mkdir -p cicd/argo/cd
 ```
 
 ```shell
-helm search repo argo -l
+helm search repo argo/argo-cd -l
 ```
 
 ```shell
@@ -35,15 +36,9 @@ helm show values argo/argo-cd \
 ```
 
 ```yaml title="cicd/argo/cd/values.yaml"
-# ...
-
 server:
-  # ...
-
   extraArgs:
     - --insecure # https://github.com/argoproj/argo-cd/issues/2953
-
-# ...
 ```
 
 ```shell
@@ -102,7 +97,7 @@ argocd login --core
 
 ### ConfigMap
 
-```shell
+```yaml
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -131,11 +126,7 @@ argocd account list
 `redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
 ```yaml title="cicd/argo/cd/values.yaml"
-# ...
-
 server:
-  # ...
-
   # ConfigMap.data, name: argocd-cm
   config:
     url: https://argo-cd.example.com
@@ -143,36 +134,27 @@ server:
 
 #### Github
 
-:::warning
-아직 테스트하지 않은 상태입니다.
-:::
-
 argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
 
 ```yaml title="cicd/argo/cd/values.yaml"
-# ...
-
 server:
-  # ...
-
   # ConfigMap.data, name: argocd-cm
   config:
-    # ...
-
     dex.config: |
       connectors:
         - type: github
           id: github
           name: GitHub
           config:
-            clientID: xxx
+            clientID: <clientID>
             clientSecret: $dex.github.clientSecret
-            # hostName: github.acme.com # Enterprise
+            # 소문자와 `-`만 사용된 필드로 변환된 값을 사용할 수 있음
+            # ex) R&D -> r-d
+            teamNameField: both
             orgs:
-              - name: your-github-org
+              - name: <orgName>
                 # team: # 없으면 모든 팀을 포함
-                #   - developers
-                #   - researchers
+                #   - <teamName>
 ```
 
 :::info
@@ -196,11 +178,7 @@ data:
 ### RBAC
 
 ```yaml title="cicd/argo/cd/values.yaml"
-# ...
-
 server:
-  # ...
-
   # ConfigMap.data, name: argocd-rbac-cm
   rbacConfig:
     # role:readonly, role:admin
@@ -208,8 +186,13 @@ server:
     policy.default: ""
     # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
     policy.csv: |
-      g, <user>, role:admin
+      g, <role/user/group>, role:<role>
+      g, <orgName>:<teamName>, role:<role>
 ```
+
+:::info
+JWT의 `sub`가 `user`로 인식됩니다.
+:::
 
 ## Reference
 

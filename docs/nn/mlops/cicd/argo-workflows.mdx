@@ -1,0 +1,101 @@
+---
+id: argo-workflows
+title: Argo Workflows
+sidebar_label: Argo Workflows
+description: Argo Workflows
+keywords:
+  - argo
+  - workflows
+---
+
+## Installation
+
+```shell
+wget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \
+&& gzip -d argo-linux-amd64.gz \
+&& sudo mv argo-linux-amd64 /usr/local/bin/argo \
+&& sudo chmod +x /usr/local/bin/argo
+```
+
+```shell
+helm repo add argo https://argoproj.github.io/argo-helm \
+&& helm repo update
+```
+
+```shell
+mkdir -p cicd/argo/workflows
+```
+
+```shell
+helm search repo argo/argo-workflows -l
+```
+
+```shell
+helm show values argo/argo-workflows \
+    --version 0.9.2 \
+    > cicd/argo/workflows/values.yaml
+```
+
+```shell
+helm upgrade argo-workflows argo/argo-workflows \
+    --install \
+    --version 0.9.2 \
+    -n cicd \
+    --values cicd/argo/workflows/values.yaml
+```
+
+## User
+
+### SSO-Dex with Argo CD
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-workflows-sso
+  namespace: cicd
+data:
+  # `printf argo-workflows-sso | base64`
+  client-id: YXJnby13b3JrZmxvd3Mtc3Nv
+  # `printf MY-SECRET-STRING-CAN-BE-UUID | base64`
+  client-secret: TVktU0VDUkVULVNUUklORy1DQU4tQkUtVVVJRA==
+```
+
+```yaml title="cicd/argo/cd/values.yaml"
+dex:
+  env:
+    - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: argo-workflows-sso
+          key: client-secret
+
+server:
+  config:
+    dex.config: |
+      staticClients:
+        - id: argo-workflows-sso
+          name: Argo Workflow
+          redirectURIs:
+            - <workflow-server-url>/oauth2/callback
+          secretEnv: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
+```
+
+```yaml title="cicd/argo/workflows/values.yaml"
+server:
+  # ConfigMap.data.config: |, name: workflow-controller-configmap
+  sso:
+    issuer: <argo-cd-server-url>/api/dex
+    sessionExpiry: 120h
+    clientId:
+      name: argo-workflows-sso
+      key: client-id
+    clientSecret:
+      name: argo-workflows-sso
+      key: client-secret
+    redirectUrl: <workflow-server-url>/oauth2/callback
+```
+
+## Reference
+
+- [https://argoproj.github.io/argo-workflows](https://argoproj.github.io/argo-workflows)

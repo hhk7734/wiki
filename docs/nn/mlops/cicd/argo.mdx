@@ -15,7 +15,7 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/{events,workflows}
+mkdir -p cicd/argo/events
 ```
 
 ```shell
@@ -45,30 +45,4 @@ helm upgrade argo-events argo/argo-events \
     -n cicd \
     --create-namespace \
     --values cicd/argo/events/values.yaml
-```
-
-### argo-workflows
-
-```shell
-helm show values argo/argo-workflows \
-    --version 0.9.2 \
-    > cicd/argo/workflows/values.yaml
-```
-
-```yaml title="cicd/argo/workflows/values.yaml"
-# ...
-controller:
-  # ...
-
-  # -- Specifies the container runtime interface to use (one of: `docker`, `kubelet`, `k8sapi`, `pns`, `emissary`)
-  ## Ref: https://argoproj.github.io/argo-workflows/workflow-executors/
-  containerRuntimeExecutor: emissary
-```
-
-```shell
-helm upgrade argo-workflows argo/argo-workflows \
-    --install \
-    --version 0.9.2 \
-    -n cicd \
-    --values cicd/argo/workflows/values.yaml
 ```

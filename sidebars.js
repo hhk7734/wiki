@@ -332,6 +332,7 @@ module.exports = {
         "nn/mlops/cicd/harbor",
         "nn/mlops/cicd/argo",
         "nn/mlops/cicd/argo-cd",
+        "nn/mlops/cicd/argo-workflows",
       ],
     },
     "nn/mlops/mlops-kubeflow",
