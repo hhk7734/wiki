@@ -331,9 +331,9 @@ module.exports = {
       label: "CI/CD",
       items: [
         "nn/mlops/cicd/harbor",
-        "nn/mlops/cicd/argo",
         "nn/mlops/cicd/argo-cd",
         "nn/mlops/cicd/argo-workflows",
+        "nn/mlops/cicd/argo-events",
       ],
     },
     "nn/mlops/mlops-kubeflow",

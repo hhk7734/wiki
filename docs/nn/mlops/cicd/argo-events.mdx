@@ -1,0 +1,140 @@
+---
+id: argo-events
+title: Argo Events
+sidebar_label: Argo Events
+description: Argo Events
+keywords:
+  - argo
+  - events
+---
+
+import Image from "@theme/IdealImage";
+
+## Installation
+
+```shell
+helm repo add argo https://argoproj.github.io/argo-helm \
+&& helm repo update
+```
+
+```shell
+mkdir -p cicd/argo/events/{eventbus,eventsource,sensor}
+```
+
+```shell
+helm search repo argo/argo-events -l
+```
+
+```shell
+helm show values argo/argo-events \
+    --version 1.10.0 \
+    > cicd/argo/events/values.yaml
+```
+
+```shell
+helm upgrade argo-events argo/argo-events \
+    --install \
+    --version 1.10.0 \
+    -n cicd \
+    --create-namespace \
+    --values cicd/argo/events/values.yaml
+```
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/cicd/argo-events-architecture.jpg")}
+    width={750}
+  />
+</center>
+
+## EventBus
+
+```yaml title="cicd/argo/events/eventbus/default.yaml"
+apiVersion: argoproj.io/v1alpha1
+kind: EventBus
+metadata:
+  name: default
+  namespace: cicd
+spec:
+  nats:
+    native: {}
+```
+
+## EventSource
+
+### Github
+
+- Settings -> Developer setttings -> Personal access tokens -> Generate new tokens
+  - admin: repo_hook
+- secret을 임의로 정합니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <name>
+  namespace: cicd
+type: Opaque
+data:
+  token: <base64-token>
+  secret: <base64-secret>
+```
+
+```yaml title="cicd/argo/events/eventsource/github/eventsource.yaml"
+apiVersion: argoproj.io/v1alpha1
+kind: EventSource
+metadata:
+  name: github
+  namespace: cicd
+spec:
+  eventBusName: default
+  service:
+    ports:
+      - port: 12000
+        targetPort: 12000 # pod port
+  github:
+    example: # eventName, 임의로 설정하면 됩니다.
+      # https://github.com/argoproj/argo-events/blob/master/api/event-source.md#githubeventsource
+      owner: <owner>
+      repository: <repository>
+      webhook:
+        endpoint: <endpoint>
+        port: "12000" # pod port
+        method: POST
+        url: https://<eventsource-url>
+      # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads
+      contentType: json
+      insecure: false
+      active: true
+      events:
+        - "*"
+      apiToken:
+        name: <secret-name>
+        key: token
+      webhookSecret:
+        name: <secret-name>
+        key: secret
+```
+
+- repository -> Settings -> Webhooks -> Add webhook
+  - 아래 내용에 맞춰 Webhook이 자동으로 생성됩니다.
+  - Payload URL: `https://<eventsource-url>/<endpoint>`
+  - Content type: application/json
+  - Secret: `<secret>`
+  - Enable SSL verification
+  - Send me everything.
+  - Active
+- `github-eventsource-svc.cicd` Service가 자동 생성됩니다.
+- `https://<eventsource-url>/<endpoint>`가 외부로 노출 될 수 있도록 네트워크를 구성합니다.
+
+### SQS
+
+## Sensor
+
+### Dependencies
+
+### Triggers
+
+## Reference
+
+- [https://argoproj.github.io/argo-events/](https://argoproj.github.io/argo-events/)
