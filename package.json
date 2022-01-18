@@ -10,7 +10,7 @@
     "deploy": "docusaurus deploy",
     "serve": "docusaurus serve",
     "clear": "docusaurus clear",
-    "docker-build": "buildah bud --tag wiki-loliot-net:1.0 . && skopeo copy containers-storage:localhost/wiki-loliot-net:1.0 docker://hhk7734/wiki-loliot-net:1.0",
+    "docker-build": "buildah bud --tag wiki-loliot-net:1.0 . && skopeo login docker.io && skopeo copy containers-storage:localhost/wiki-loliot-net:1.0 docker://hhk7734/wiki-loliot-net:1.0",
     "docker-update": "docker stack deploy -c docker-compose.yml wiki"
   },
   "dependencies": {
