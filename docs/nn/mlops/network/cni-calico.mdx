@@ -8,7 +8,7 @@ keywords:
   - Calico
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## Docker network
 
@@ -51,7 +51,7 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 ## Calico
 
 <center>
-  <img src={useBaseUrl('img/nn/mlops/mlops-calico-cni-with-calico-ipam.png')} />
+  <img src={useBaseUrl("img/nn/mlops/mlops-calico-cni-with-calico-ipam.png")} />
 </center>
 
 <center>
@@ -61,21 +61,21 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 
 ### Installation
 
-```shell
-wget https://docs.projectcalico.org/manifests/tigera-operator.yaml
-```
+:::warning
+EKS에서 VPC 네트워크를 활용하지 않는 경우, Calico 설치 전에 aws-node DemonSet을 삭제해주세요. 노드 그룹은 Calico 설치 후 추가해주세요.
+:::
 
 ```shell
-kubectl create -f tigera-operator.yaml
+kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
 ```
 
 | Policy | IPAM   | CNI    | Overlay | Routing | Datastore  |
 | ------ | ------ | ------ | ------- | ------- | ---------- |
-| Calico | Calico | Calico | IPIP    | BGP     | Kubernetes |
+| Calico | Calico | Calico | VXLAN   | Calico  | Kubernetes |
 
-```yaml title="calico.yaml" {13,14,17}
+```yaml title="calico.yaml" {13,14}
 # This section includes base Calico installation configuration.
-# For more information, see: https://docs.projectcalico.org/v3.19/reference/installation/api#operator.tigera.io/v1.Installation
+# For more information, see: https://projectcalico.docs.tigera.io/archive/v3.19/reference/installation/api#operator.tigera.io/v1.Installation
 apiVersion: operator.tigera.io/v1
 kind: Installation
 metadata:
@@ -87,13 +87,12 @@ spec:
     ipPools:
       - blockSize: 26
         cidr: 192.168.0.0/16
-        encapsulation: IPIP
+        encapsulation: VXLANCrossSubnet
         natOutgoing: Enabled
         nodeSelector: all()
-    bgp: Enabled
 ---
 # This section configures the Calico API server.
-# For more information, see: https://docs.projectcalico.org/v3.20/reference/installation/api#operator.tigera.io/v1.APIServer
+# For more information, see: https://projectcalico.docs.tigera.io/archive/v3.20/reference/installation/api#operator.tigera.io/v1.APIServer
 apiVersion: operator.tigera.io/v1
 kind: APIServer
 metadata:
@@ -110,7 +109,7 @@ spec:
   controlPlaneTolerations:
     - effect: NoSchedule
       key: node.cloudprovider.kubernetes.io/uninitialized
-      value: 'true'
+      value: "true"
 ```
 
 ```shell
@@ -148,3 +147,4 @@ kubectl run tmp-shell --rm -i --tty --image nicolaka/netshoot -- /bin/bash
 - [https://www.youtube.com/watch?v=JyLtg_SJ1lo](https://www.youtube.com/watch?v=JyLtg_SJ1lo)
 - [https://docs.projectcalico.org/reference/installation/api](https://docs.projectcalico.org/reference/installation/api)
 - [https://github.com/nicolaka/netshoot](https://github.com/nicolaka/netshoot)
+- [https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/eks](https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/eks)
