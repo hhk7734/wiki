@@ -386,7 +386,11 @@ module.exports = {
     {
       type: "category",
       label: "ENV",
-      items: ["lang/python/env/pyenv", "lang/python/env/pipenv"],
+      items: [
+        "lang/python/env/pyenv",
+        "lang/python/env/pipenv",
+        "lang/python/env/conda",
+      ],
     },
     "lang/python/exception",
     "lang/python/logging",

@@ -67,6 +67,20 @@ pipenv uninstall <package>
 
 - `--all`: 패키지명 대신 해당 옵션을 쓰면 모든 패키지를 제거합니다.
 
+## Sync
+
+`Pipfile`이 있는 경로에서 아래 명령어를 실행하면 Pipfile에 정의된 패키지가 설치됩니다.
+
+```shell
+pipenv install [--dev]
+```
+
+`Pipfile.lock`이 있는 경로에서 아래 명령어를 실행하면 Pipfile.lock에 정의된 패키지가 설치됩니다.
+
+```shell
+pipenv sync [--dev]
+```
+
 ## Reference
 
 - [https://github.com/pypa/pipenv](https://github.com/pypa/pipenv)

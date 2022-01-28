@@ -1,0 +1,71 @@
+---
+id: conda
+title: conda
+sidebar_label: conda
+description: conda
+keywords:
+  - conda
+---
+
+## Installation
+
+```shell
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+&& sh Miniconda3-latest-Linux-x86_64.sh
+```
+
+init을 자동으로 하는 경우 기본 shell이 bash로 설정되있기 때문에 zsh 등 다른 shell을 사용한다면 아래 명령어를 실행하여 초기화 해줍니다.
+
+```shell
+<path>/miniconda3/bin/conda init <shell-name>
+```
+
+```shell
+conda config --set auto_activate_base false
+```
+
+## Virtualenv
+
+```shell
+conda create --name <name> python=<version>
+```
+
+```shell
+cnoda activate <name>
+```
+
+```shell
+conda deactivate
+```
+
+## Develop mode
+
+```shell
+conda install conda-build
+```
+
+개발중인 경로를 site-package에 추가해서 설치하지 않아도 모듈로 인식 시킬 수 있습니다.
+
+```shell
+conda build <path>
+```
+
+:::info
+`cat <path>/miniconda3/envs/<env>/lib/python<version>/site-packages/conda.pth`를 확인하면 추가된 경로를 알 수 있습니다.
+:::
+
+## Sync
+
+아래 명령어로 현재 activate되어 있는 환경의 패키지 리스트를 `package-list.txt` 파일에 저장합니다.
+
+```shell
+conda list --export > package-list.txt
+```
+
+- `--name <name>`: conda 환경 이름 지정
+
+아래 명령어로 `package-list.txt`에 정의된 내용대로 환경을 생성합니다.
+
+```shell
+conda create --name <name> --file package-list.txt
+```
