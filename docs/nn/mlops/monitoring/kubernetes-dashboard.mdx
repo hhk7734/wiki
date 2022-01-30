@@ -18,25 +18,25 @@ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/re
     -O monitoring/kubernetes-dashboard/base/kubernetes-dashboard.yaml
 ```
 
-```yaml title="monitoring/kubernetes-dashboard/base/kubernetes-dashboard-admin.yaml"
+```yaml title="monitoring/kubernetes-dashboard/base/admin-user.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: kubernetes-dashboard-admin
+  name: admin-user
   namespace: kubernetes-dashboard
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: kubernetes-dashboard-admin
+  name: admin-user
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: kubernetes-dashboard-admin
+    name: admin-user
     namespace: kubernetes-dashboard
 ```
 
@@ -45,14 +45,14 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - kubernetes-dashboard.yaml
-  - kubernetes-dashboard-admin.yaml
+  - admin-user.yaml
 ```
 
 ```shell
 monitoring
 └── kubernetes-dashboard
     └── base/
-        ├── kubernetes-dashboard-admin.yaml
+        ├── admin-user.yaml
         ├── kubernetes-dashboard.yaml
         └── kustomization.yaml
 ```
@@ -63,14 +63,26 @@ kubectl apply -k monitoring/kubernetes-dashboard/base
 
 ## Service
 
+### Proxy
+
 ```shell
 kubectl proxy
 ```
 
 [http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/)
 
+### Port forward
+
 ```shell
-kubectl describe secret -n kubernetes-dashboard kubernetes-dashboard-admin | grep token: | awk '{ print $2 }'
+kubectl port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8080:443
+```
+
+[https://localhost:8080](https://localhost:8080)
+
+### Token
+
+```shell
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 ```
 
 ## Reference

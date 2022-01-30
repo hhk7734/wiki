@@ -7,17 +7,21 @@ keywords:
   - Istio
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## Installation
 
 ```shell
-curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.9.6 sh - \
-&& sudo mv istio-1.9.6/ /opt/
+export ISTIO_VERSION=1.11.5
 ```
 
 ```shell
-export PATH=/opt/istio-1.9.6/bin:$PATH
+curl -L https://istio.io/downloadIstio | sh - \
+&& sudo mv istio-$ISTIO_VERSION/ /opt/
+```
+
+```shell
+export PATH=/opt/istio-$ISTIO_VERSION/bin:$PATH
 ```
 
 ```shell
@@ -62,7 +66,7 @@ kubectl label namespace default istio-injection-
 ## Proxy & Service mesh
 
 <center>
-  <img src={useBaseUrl('img/nn/mlops/mlops-istio-service-mesh-before.svg')} />
+  <img src={useBaseUrl("img/nn/mlops/mlops-istio-service-mesh-before.svg")} />
 </center>
 
 <center>
@@ -71,7 +75,7 @@ kubectl label namespace default istio-injection-
 <br />
 
 <center>
-  <img src={useBaseUrl('img/nn/mlops/mlops-istio-service-mesh.svg')} />
+  <img src={useBaseUrl("img/nn/mlops/mlops-istio-service-mesh.svg")} />
 </center>
 
 <center>
@@ -131,12 +135,12 @@ patches:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: '*'
+  name: "*"
 spec:
   template:
     metadata:
       annotations:
-        sidecar.istio.io/inject: 'true'
+        sidecar.istio.io/inject: "true"
 ```
 
 아래와 같이 설정한 경우 해당 `Namespace`에 있는 Pod에는 사이드카가 주입되지 않습니다.
@@ -193,7 +197,7 @@ metadata:
   namespace: istio-system
 spec:
   hosts:
-    - 'kubeflow.loliot.net'
+    - "kubeflow.loliot.net"
   gateways:
     - istio-gateway
   http:
@@ -221,7 +225,7 @@ spec:
       tls:
         httpsRedirect: true
       hosts:
-        - 'kubeflow.loliot.net'
+        - "kubeflow.loliot.net"
     - port:
         number: 443
         name: https-kubeflow
@@ -230,7 +234,7 @@ spec:
         mode: SIMPLE
         credentialName: ingress-cert
       hosts:
-        - 'kubeflow.loliot.net'
+        - "kubeflow.loliot.net"
 ```
 
 ## Reference
