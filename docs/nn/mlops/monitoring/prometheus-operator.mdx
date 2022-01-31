@@ -7,7 +7,7 @@ keywords:
   - prometheus-operator
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## prometheus-operator
 
@@ -21,12 +21,12 @@ mkdir -p monitoring/prometheus-operator/base
 ```
 
 ```shell
-helm search repo kube-prometheus-stack -l
+helm search repo prometheus-community/kube-prometheus-stack -l | head -n 10
 ```
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 20.0.1 \
+    --version 30.2.0 \
     > monitoring/prometheus-operator/base/values.yaml
 ```
 
@@ -110,7 +110,7 @@ prometheus: # prometheus 설치
         spec:
           storageClassName: gp2
           accessModes:
-            - 'ReadWriteOnce'
+            - "ReadWriteOnce"
           resources:
             requests:
               storage: 30Gi
@@ -148,7 +148,7 @@ kubectl delete crd thanosrulers.monitoring.coreos.com
 <center>
   <img
     src={useBaseUrl(
-      'img/nn/mlops/monitoring/prometheus-operator-architecture.png'
+      "img/nn/mlops/monitoring/prometheus-operator-architecture.png"
     )}
   />
 </center>
@@ -227,7 +227,7 @@ spec:
       relabelings:
         - action: keep
           sourceLabels: [__meta_kubernetes_pod_container_name]
-          regex: 'istio-proxy'
+          regex: "istio-proxy"
         - action: keep
           sourceLabels:
             [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
@@ -238,7 +238,7 @@ spec:
           replacement: $1:$2
           targetLabel: __address__
         - action: labeldrop
-          regex: '__meta_kubernetes_pod_label_(.+)'
+          regex: "__meta_kubernetes_pod_label_(.+)"
         - sourceLabels: [__meta_kubernetes_namespace]
           action: replace
           targetLabel: namespace

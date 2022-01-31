@@ -297,6 +297,8 @@ module.exports = {
       label: "Storage",
       items: [
         "nn/mlops/storage/local-path-provisioner",
+        "nn/mlops/storage/aws-ebs-csi-driver",
+        "nn/mlops/storage/aws-efs-csi-driver",
         "nn/mlops/storage/rook-ceph",
       ],
     },
@@ -344,8 +346,6 @@ module.exports = {
         "nn/mlops/aws/eks",
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
-        "nn/mlops/aws/aws-ebs-csi-driver",
-        "nn/mlops/aws/aws-efs-csi-driver",
       ],
     },
   ],
