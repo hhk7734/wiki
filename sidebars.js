@@ -302,12 +302,12 @@ module.exports = {
         "nn/mlops/storage/rook-ceph",
       ],
     },
-    "nn/mlops/cert-manager",
     {
       type: "category",
       label: "Network",
       items: [
         "nn/mlops/network/cni-calico",
+        "nn/mlops/network/cert-manager",
         "nn/mlops/network/istio",
         "nn/mlops/network/kiali",
         "nn/mlops/network/trafic-management",
@@ -322,6 +322,7 @@ module.exports = {
         "nn/mlops/monitoring/prometheus-operator",
       ],
     },
+    "nn/mlops/karpenter",
     {
       type: "category",
       label: "GPU",

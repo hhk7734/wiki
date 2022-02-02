@@ -15,7 +15,7 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
 ```
 
 ```shell
-mkdir -p monitoring/metrics-server/base
+mkdir -p monitoring/metrics-server/helm
 ```
 
 ```shell
@@ -25,10 +25,10 @@ helm search repo metrics-server -l
 ```shell
 helm show values metrics-server/metrics-server \
     --version 3.7.0 \
-    > monitoring/metrics-server/base/values.yaml
+    > monitoring/metrics-server/helm/values.yaml
 ```
 
-```yaml title="monitoring/metrics-server/base/values.yaml"
+```yaml title="monitoring/metrics-server/helm/values.yaml"
 # ...
 
 defaultArgs:
@@ -51,7 +51,7 @@ helm upgrade metrics-server metrics-server/metrics-server \
     --version 3.7.0 \
     -n monitoring \
     --create-namespace \
-    -f monitoring/metrics-server/base/values.yaml
+    -f monitoring/metrics-server/helm/values.yaml
 ```
 
 ## Troubleshooting

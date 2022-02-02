@@ -15,36 +15,28 @@ helm repo add jetstack https://charts.jetstack.io \
 ```
 
 ```shell
-mkdir -p cert-manager/cert-manager/base
+mkdir -p network/cert-manager/{base,helm}
 ```
 
 ```shell
-helm search repo cert-manager -l
+helm search repo jetstack/cert-manager -l | head -n 10
 ```
 
 ```shell
 helm show values jetstack/cert-manager \
-    --version v1.6.1 \
-    > cert-manager/cert-manager/base/values.yaml
+    --version v1.6.2 \
+    > network/cert-manager/helm/values.yaml
 ```
 
-```yaml title="cert-manager/cert-manager/base/values.yaml"
-# ...
-
+```yaml title="network/cert-manager/helm/values.yaml"
 installCRDs: true
-# ...
 ```
 
 ```shell
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
-    --version v1.6.1 \
-    -f cert-manager/cert-manager/base/values.yaml
-```
-
-```shell
-helm get manifest cert-manager \
-    > cert-manager/cert-manager/base/manifest.yaml
+    --version v1.6.2 \
+    -f network/cert-manager/helm/values.yaml
 ```
 
 ```shell
@@ -82,15 +74,11 @@ My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 �
 생성하면 토큰과 함께 테스트 코드를 줍니다.
 
 ```shell
-mkdir -p cert-manager/letsencrypt/base
-```
-
-```shell
 kubectl create secret generic cloudflare-api-token-secret \
     --from-literal=api-token=<token>
 ```
 
-```yaml title="cert-manager/letsencrypt/base/letsencrypt-prod.yaml" {8,15,18}
+```yaml title="network/letsencrypt/base/letsencrypt-prod.yaml" {7,14,17}
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -113,7 +101,7 @@ spec:
               key: api-token
 ```
 
-```yaml title="cert-manager/letsencrypt/base/ingress-cert.yaml" {11-12}
+```yaml title="network/letsencrypt/base/ingress-cert.yaml" {11-12}
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -131,7 +119,7 @@ spec:
     name: letsencrypt-prod
 ```
 
-```yaml title="cert-manager/letsencrypt/base/kustomization.yaml"
+```yaml title="network/letsencrypt/base/kustomization.yaml"
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
@@ -148,7 +136,7 @@ letsencrypt
 ```
 
 ```shell
-kubectl apply -k cert-manager/letsencrypt/base
+kubectl apply -k network/letsencrypt/base
 ```
 
 `Certificate`을 생성하는 순간 인증을 시작합니다.

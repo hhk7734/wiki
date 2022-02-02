@@ -76,7 +76,7 @@ helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-d
 ```
 
 ```shell
-mkdir -p storage/aws-ebs-csi-driver/base
+mkdir -p storage/aws-ebs-csi-driver/{base,helm}
 ```
 
 ```shell
@@ -86,10 +86,10 @@ helm search repo aws-ebs-csi-driver/aws-ebs-csi-driver -l | head -n 10
 ```shell
 helm show values aws-ebs-csi-driver/aws-ebs-csi-driver \
     --version 2.6.2 \
-    > storage/aws-ebs-csi-driver/base/values.yaml
+    > storage/aws-ebs-csi-driver/helm/values.yaml
 ```
 
-```yaml title="storage/aws-ebs-csi-driver/base/values.yaml"
+```yaml title="storage/aws-ebs-csi-driver/helm/values.yaml"
 controller:
   serviceAccount:
     create: true
@@ -104,7 +104,7 @@ helm upgrade aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
     --version 2.6.2 \
     -n kube-system \
     --create-namespace \
-    -f storage/aws-ebs-csi-driver/base/values.yaml
+    -f storage/aws-ebs-csi-driver/helm/values.yaml
 ```
 
 ## StorageClass

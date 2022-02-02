@@ -76,7 +76,7 @@ helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-d
 ```
 
 ```shell
-mkdir -p storage/aws-efs-csi-driver/{base,static,dynamic}
+mkdir -p storage/aws-efs-csi-driver/{dynamic,helm,static}
 ```
 
 ```shell
@@ -86,12 +86,12 @@ helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
 ```shell
 helm show values aws-efs-csi-driver/aws-efs-csi-driver \
     --version 2.2.3 \
-    > storage/aws-efs-csi-driver/base/values.yaml
+    > storage/aws-efs-csi-driver/helm/values.yaml
 ```
 
 [이미지 주소](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/add-ons-images.html)를 참고하여 아래 옵션을 수정합니다.
 
-```yaml title="storage/aws-efs-csi-driver/base/values.yaml"
+```yaml title="storage/aws-efs-csi-driver/helm/values.yaml"
 image:
   repository: 602401143452.dkr.ecr.us-west-2.amazonaws.com/eks/aws-efs-csi-driver
 
@@ -109,7 +109,7 @@ helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --version 2.2.3 \
     -n kube-system \
     --create-namespace \
-    -f storage/aws-efs-csi-driver/base/values.yaml
+    -f storage/aws-efs-csi-driver/helm/values.yaml
 ```
 
 ## StorageClass
