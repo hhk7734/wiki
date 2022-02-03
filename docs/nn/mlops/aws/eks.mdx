@@ -7,91 +7,162 @@ keywords:
   - EKS
 ---
 
-## Installation
-
-```shell
-curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
-```
-
-```shell
-sudo mv /tmp/eksctl /usr/local/bin
-```
-
-```shell
-eksctl version
-```
-
 ## Create
 
-```shell
-aws ec2 create-key-pair \
-    --key-name <key-name> \
-    --query 'KeyMaterial' \
-    --output text > cluster.pem
-```
+### Cluster
 
-[Config file Schema](https://eksctl.io/usage/schema/)
+```python {36,43}
+_tags = {"Name": f"{common.cluster_name}-cluster-role"}
+_tags.update(common.tags)
+cluster_role = aws.iam.Role(
+    _tags["Name"],
+    assume_role_policy=Path("iam/eks_assume_role_policy.json").read_text(
+        encoding="utf-8"
+    ),
+    tags=_tags,
+)
 
-```yaml title="cluster.yaml"
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
+cluster_policy_arns = ["arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"]
 
-metadata:
-  name: <cluster-name>
-  region: <region>
-  version: <kubernetes-version>
+cluster_rpas = []
+for i, arn in enumerate(cluster_policy_arns):
+    _tags = {"Name": f"{common.cluster_name}-cluster-rpa-{i}"}
+    cluster_rpas.append(
+        aws.iam.RolePolicyAttachment(
+            _tags["Name"],
+            policy_arn=arn,
+            role=cluster_role.name,
+            opts=pulumi.ResourceOptions(parent=cluster_role),
+        )
+    )
 
-iam:
-  withOIDC: true
+subnet_ids = []
+for subnet in network.public_subnet:
+    subnet_ids.append(subnet.id)
+for subnet in network.private_subnet:
+    subnet_ids.append(subnet.id)
 
-vpc:
-  cidr: <cidr>
-# vpc:
-#   id: <vpc-id>
-#   subnets:
-#     private:
-#       private1:
-#         id: <subnet-id>
-#       private2:
-#         id: <subnet-id>
-#     public:
-#       public1:
-#         id: <subnet-id>
-#       public2:
-#         id: <subnet-id>
-
-managedNodeGroups:
-  - name: worker-m5-large-ng
-    instanceType: m5.large
-    minSize: 1
-    maxSize: 10
-    desiredCapacity: 1
-    volumeSize: 50
-    labels:
-      role: worker
-    tags:
-      nodegroup-role: worker
-    ssh:
-      publicKeyName: <key-name>
-    # subnets:
-    #   - <subnet-id>
-```
-
-```shell
-eksctl create cluster -f cluster.yaml
+_tags = {"Name": common.cluster_name}
+_tags.update(common.tags)
+cluster = aws.eks.Cluster(
+    _tags["Name"],
+    name=_tags["Name"],
+    version="1.21",
+    role_arn=cluster_role.arn,
+    vpc_config=aws.eks.ClusterVpcConfigArgs(
+        subnet_ids=subnet_ids,
+        endpoint_public_access=True,
+    ),
+    kubernetes_network_config=aws.eks.ClusterKubernetesNetworkConfigArgs(
+        service_ipv4_cidr="10.96.0.0/16"
+    ),
+    enabled_cluster_log_types=[
+        "api",
+        "audit",
+        "authenticator",
+        "controllerManager",
+        "scheduler",
+    ],
+    tags=_tags,
+    opts=pulumi.ResourceOptions(depends_on=cluster_rpas),
+)
 ```
 
 ```shell
 aws eks update-kubeconfig --name <cluster-name>
 ```
 
-## Delete
+### OIDC
+
+```python {7}
+_tags = {"Name": f"{common.cluster_name}-oidc"}
+_tags.update(common.tags)
+cluster_oidc = aws.iam.OpenIdConnectProvider(
+    _tags["Name"],
+    url=cluster.identities[0].oidcs[0].issuer,
+    client_id_lists=["sts.amazonaws.com"],
+    thumbprint_lists=["xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"],
+    tags=_tags,
+)
+```
+
+### VPC CNI increases pods per node limits
 
 ```shell
-eksctl delete cluster -f cluster.yaml
+kubectl set env daemonset aws-node -n kube-system \
+    ENABLE_PREFIX_DELEGATION=true
+```
+
+```shell
+kubectl set env daemonset aws-node -n kube-system \
+    WARM_PREFIX_TARGET=1
+```
+
+:::warning
+`pulumi`를 사용할 때, NodeGroup을 생성하기 전에 이 작업을 진행해야 UserData의 `--kubelet-extra-args`가 자동으로 설정됩니다.
+:::
+
+### NodeGroup
+
+```python {41-51}
+_tags = {"Name": f"{common.cluster_name}-default-ng-0-role"}
+_tags.update(common.tags)
+default_ng_0_role = aws.iam.Role(
+    _tags["Name"],
+    assume_role_policy=Path("iam/ec2_assume_role_policy.json").read_text(
+        encoding="utf-8"
+    ),
+    tags=_tags,
+    opts=pulumi.ResourceOptions(parent=cluster),
+)
+
+node_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+]
+
+default_ng_0_rpas = []
+for i, arn in enumerate(node_policy_arns):
+    _tags = {"Name": f"{common.cluster_name}-default-ng-0-rpa-{i}"}
+    default_ng_0_rpas.append(
+        aws.iam.RolePolicyAttachment(
+            _tags["Name"],
+            policy_arn=arn,
+            role=default_ng_0_role.name,
+            opts=pulumi.ResourceOptions(parent=default_ng_0_role),
+        )
+    )
+
+# Node Group
+
+_tags = {"Name": f"{common.cluster_name}-default-ng-0"}
+_tags.update(common.tags)
+_depends_on = [cluster]
+_depends_on.extend(default_ng_0_rpas)
+default_ng_0 = aws.eks.NodeGroup(
+    _tags["Name"],
+    node_group_name=_tags["Name"],
+    cluster_name=cluster.name,
+    node_role_arn=default_ng_0_role.arn,
+    instance_types=["t3.medium"],
+    disk_size=50,
+    scaling_config=aws.eks.NodeGroupScalingConfigArgs(
+        min_size=1,
+        desired_size=2,
+        max_size=2,
+    ),
+    subnet_ids=[network.public_subnet[0].id],
+    remote_access=aws.eks.NodeGroupRemoteAccessArgs(
+        ec2_ssh_key=user.hhk7734_key.key_name,
+    ),
+    tags=_tags,
+    opts=pulumi.ResourceOptions(depends_on=_depends_on, parent=cluster),
+)
 ```
 
 ## Reference
 
-- [https://eksctl.io/](https://eksctl.io/)
-- [https://eksctl.io/usage/schema/](https://eksctl.io/usage/schema/)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
+- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/cni-increase-ip-addresses.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/cni-increase-ip-addresses.html)
+- [https://aws.amazon.com/ko/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/](https://aws.amazon.com/ko/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/)

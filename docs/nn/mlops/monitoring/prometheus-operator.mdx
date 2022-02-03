@@ -7,7 +7,7 @@ keywords:
   - prometheus-operator
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import Image from "@theme/IdealImage";
 
 ## prometheus-operator
 
@@ -17,7 +17,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 ```
 
 ```shell
-mkdir -p monitoring/prometheus-operator/base
+mkdir -p monitoring/prometheus-operator/helm
 ```
 
 ```shell
@@ -27,39 +27,25 @@ helm search repo prometheus-community/kube-prometheus-stack -l | head -n 10
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
     --version 30.2.0 \
-    > monitoring/prometheus-operator/base/values.yaml
+    > monitoring/prometheus-operator/helm/values.yaml
 ```
 
-```yaml title="monitoring/prometheus-operator/base/values.yaml"
-# ...
-
+```yaml title="monitoring/prometheus-operator/helm/values.yaml"
 namespaceOverride: monitoring
 
-# ...
-
 fullnameOverride: prometheus-operator
-
-# ...
 
 defaultRules:
   create: false
 
-# ...
-
 kubeControllerManager:
   enabled: false
-
-# ...
 
 kubeEtcd:
   enabled: false
 
-# ...
-
 kubeScheduler:
   enabled: false
-
-# ...
 
 prometheusOperator:
   enabled: true
@@ -74,36 +60,24 @@ prometheusOperator:
     patch:
       enabled: false
 
-  # ...
-
-  hostNetwork: true
-
-# ...
-
 prometheus: # prometheus 설치
-  # ...
-
   prometheusSpec:
-    # ...
+    # ruleSelector에 대한 추가 설정이 없으면 모든 rule이 적용됩니다.
+    ruleSelectorNilUsesHelmValues: false
 
-    ruleSelectorNilUsesHelmValues: false # ruleSelector에 대한 추가 설정이 없으면 모든 rule이 적용됩니다.
-
-    # ...
-
-    serviceMonitorSelectorNilUsesHelmValues: false # serviceMonitorSelector에 대한 설정이 없으면 모든 serviceMonitor가 적용됩니다.
+    # serviceMonitorSelector에 대한 설정이 없으면 모든 serviceMonitor가 적용됩니다.
+    serviceMonitorSelectorNilUsesHelmValues: false
 
     # namespace에 prometheus: enabled 라는 라벨이 있으면 해당 ServiceMonitor를 수집합니다.
     serviceMonitorNamespaceSelector:
       matchLabels:
         prometheus: enabled
 
-    podMonitorSelectorNilUsesHelmValues: false # podMonitorSelector에 대한 설정이 없으면 모든 podMonitor가 적용됩니다.
+    # podMonitorSelector에 대한 설정이 없으면 모든 podMonitor가 적용됩니다.
+    podMonitorSelectorNilUsesHelmValues: false
 
-    # ...
-
-    probeSelectorNilUsesHelmValues: false # probeSelector에 대한 설정이 없으면 모든 probe가 적용됩니다.
-
-    # ...
+    # probeSelector에 대한 설정이 없으면 모든 probe가 적용됩니다.
+    probeSelectorNilUsesHelmValues: false
 
     storageSpec:
       volumeClaimTemplate:
@@ -119,15 +93,10 @@ prometheus: # prometheus 설치
 ```shell
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
-    --version 20.0.1 \
+    --version 30.2.0 \
     -n monitoring \
     --create-namespace \
-    -f monitoring/prometheus-operator/base/values.yaml
-```
-
-```shell
-helm get manifest -n monitoring prometheus-operator \
-    > monitoring/prometheus-operator/base/manifest.yaml
+    -f monitoring/prometheus-operator/helm/values.yaml
 ```
 
 삭제할 때는 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
@@ -146,10 +115,9 @@ kubectl delete crd thanosrulers.monitoring.coreos.com
 ## CRDs
 
 <center>
-  <img
-    src={useBaseUrl(
-      "img/nn/mlops/monitoring/prometheus-operator-architecture.png"
-    )}
+  <Image
+    img={require("@site/static/img/nn/mlops/monitoring/prometheus-operator-architecture.png")}
+    width={750}
   />
 </center>
 
