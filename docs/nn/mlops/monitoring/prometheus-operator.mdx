@@ -112,6 +112,24 @@ kubectl delete crd servicemonitors.monitoring.coreos.com
 kubectl delete crd thanosrulers.monitoring.coreos.com
 ```
 
+## Service
+
+### Prometheus
+
+```shell
+kubectl port-forward -n monitoring service/prometheus-operator-prometheus 8003:9090
+```
+
+[http://localhost:8003](http://localhost:8003)
+
+### Grafana
+
+```shell
+kubectl port-forward -n monitoring service/prometheus-operator-grafana 8004:80
+```
+
+[http://localhost:8004](http://localhost:8004)
+
 ## CRDs
 
 <center>
