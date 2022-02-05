@@ -9,7 +9,7 @@ keywords:
 
 import Image from "@theme/IdealImage";
 
-## prometheus-operator
+## Installation
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts \
@@ -38,7 +38,27 @@ fullnameOverride: prometheus-operator
 defaultRules:
   create: false
 
+alertmanager:
+  # -alertmanager 설치
+  enabled: true
+
+grafana:
+  # -grafana 설치, 시각화 대시보드
+  enabled: true
+
+kubeApiServer:
+  enabled: false
+
+kubelet:
+  enabled: false
+
 kubeControllerManager:
+  enabled: false
+
+coreDns:
+  enabled: false
+
+kubeDns:
   enabled: false
 
 kubeEtcd:
@@ -47,7 +67,18 @@ kubeEtcd:
 kubeScheduler:
   enabled: false
 
+kubeProxy:
+  enabled: false
+
+kubeStateMetrics:
+  enabled: false
+
+nodeExporter:
+  # -node-exporter 설치, Node의 Hardware, kernel 관련 정보
+  enabled: true
+
 prometheusOperator:
+  # -operator 설치
   enabled: true
   tls:
     enabled: false
@@ -60,7 +91,10 @@ prometheusOperator:
     patch:
       enabled: false
 
-prometheus: # prometheus 설치
+prometheus:
+  # -prometheus 설치
+  enabled: true
+
   prometheusSpec:
     # ruleSelector에 대한 추가 설정이 없으면 모든 rule이 적용됩니다.
     ruleSelectorNilUsesHelmValues: false

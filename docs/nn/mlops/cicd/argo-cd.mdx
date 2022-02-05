@@ -22,17 +22,17 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/cd
+mkdir -p cicd/argo/cd/helm
 ```
 
 ```shell
-helm search repo argo/argo-cd -l
+helm search repo argo/argo-cd -l | head -n 10
 ```
 
 ```shell
 helm show values argo/argo-cd \
-    --version 3.29.4 \
-    > cicd/argo/cd/values.yaml
+    --version 3.33.3 \
+    > cicd/argo/cd/helm/values.yaml
 ```
 
 ```yaml title="cicd/argo/cd/values.yaml"
@@ -44,9 +44,44 @@ server:
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 3.29.4 \
+    --version 3.33.3 \
     -n cicd \
-    --values cicd/argo/cd/values.yaml
+    --create-namespace \
+    --values cicd/argo/cd/helm/values.yaml
+```
+
+## Service
+
+### Port forward
+
+```shell
+kubectl port-forward -n cicd service/argo-cd-argocd-server 8005:80
+```
+
+[http://localhost:8005](http://localhost:8005)
+
+### VirtualService
+
+```yaml title="cicd/argo/cd/base/virtual-service.yaml" {8,10}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: argo-cd
+  namespace: cicd
+spec:
+  hosts:
+    - <host>
+  gateways:
+    - <gateway>
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      route:
+        - destination:
+            host: argo-cd-argocd-server.cicd.svc.cluster.local
+            port:
+              number: 80
 ```
 
 ## `argocd` command
@@ -76,7 +111,7 @@ argocd account update-password [--account <user>]
 암호 업데이트 후 `argocd-initial-admin-secret`은 삭제해 줍니다.
 
 :::warning
-적절한 RBAC가 적용된 유저를 생성한 경우 admin을 비활성화 하는 것이 좋습니다. `argocd-cm` ConfigMap의 data에 `admin.enabled: "false"`를 추가하면 됩니다.
+적절한 RBAC가 적용된 유저를 생성한 경우 admin을 비활성화 하는 것이 좋습니다. `cicd/argo/cd/helm/values.yaml`의 `.server.config`(argocd-cm ConfigMap의 `.data`)에 `admin.enabled: "false"`를 추가하면 됩니다.
 :::
 
 #### Kubectl
@@ -97,22 +132,17 @@ argocd login --core
 
 ### ConfigMap
 
-```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-cm
-  namespace: argocd
-  labels:
-    app.kubernetes.io/name: argocd-cm
-    app.kubernetes.io/part-of: argocd
-data:
-  # add an additional local user with apiKey and login capabilities
-  #   apiKey - allows generating API keys
-  #   login - allows to login using UI
-  accounts.<user>: apiKey, login
-  # disables user. User is enabled by default
-  accounts.<user>.enabled: "false"
+```yaml title="cicd/argo/cd/helm/values.yaml"
+server:
+  # ConfigMap.data, name: argocd-cm
+  config:
+    # add an additional local user with apiKey and login capabilities
+    #   apiKey - allows generating API keys
+    #   login - allows to login using UI
+    accounts.<user>: apiKey, login
+    # disables user. User is enabled by default
+    admin.enabled: "false"
+    accounts.<user>.enabled: "true"
 ```
 
 ```shell
@@ -125,18 +155,18 @@ argocd account list
 
 `redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
-```yaml title="cicd/argo/cd/values.yaml"
+```yaml title="cicd/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
-    url: https://argo-cd.example.com
+    url: <uri>
 ```
 
 #### Github
 
 argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
 
-```yaml title="cicd/argo/cd/values.yaml"
+```yaml title="cicd/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
@@ -158,7 +188,7 @@ server:
 ```
 
 :::info
-다른 Secret을 쓰고 싶으면 아래와 같이 추가하고, config에 `$github-client-secret:dex.gtihub.clientSecret: <base64 encoded>`를 사용하면 됩니다.
+다른 Secret을 쓰고 싶으면 아래와 같이 추가하고, config에 `$github-client-secret:dex.gtihub.clientSecret`를 사용하면 됩니다.
 
 ```yaml
 apiVersion: v1
@@ -177,24 +207,27 @@ data:
 
 ### RBAC
 
-```yaml title="cicd/argo/cd/values.yaml"
+```yaml title="cicd/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-rbac-cm
   rbacConfig:
-    # role:readonly, role:admin
-    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-    policy.default: ""
     # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
     policy.csv: |
       g, <role/user/group>, role:<role>
-      g, <orgName>:<teamName>, role:<role>
-```
 
-:::info
-JWT의 `sub`가 `user`로 인식됩니다.
-:::
+    # role:readonly, role:admin
+    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+    policy.default: ""
+
+    # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
+    scopes: "[groups, preferred_username, email]"
+
+    # glob or regex
+    policy.matchMode: "glob"
+```
 
 ## Reference
 
 - [https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 - [https://argo-cd.readthedocs.io/en/stable/](https://argo-cd.readthedocs.io/en/stable/)
+- [https://github.com/argoproj/argo-cd/tree/master/docs/operator-manual](https://github.com/argoproj/argo-cd/tree/master/docs/operator-manual)

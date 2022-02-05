@@ -18,26 +18,26 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/events/{eventbus,eventsource,sensor}
+mkdir -p cicd/argo/events/{helm,eventbus,eventsource}
 ```
 
 ```shell
-helm search repo argo/argo-events -l
+helm search repo argo/argo-events -l | head -n  10
 ```
 
 ```shell
 helm show values argo/argo-events \
-    --version 1.10.0 \
-    > cicd/argo/events/values.yaml
+    --version 1.10.2 \
+    > cicd/argo/events/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-events argo/argo-events \
     --install \
-    --version 1.10.0 \
+    --version 1.10.2 \
     -n cicd \
     --create-namespace \
-    --values cicd/argo/events/values.yaml
+    --values cicd/argo/events/helm/values.yaml
 ```
 
 <center>
@@ -80,7 +80,7 @@ data:
   secret: <base64-secret>
 ```
 
-```yaml title="cicd/argo/events/eventsource/github/eventsource.yaml"
+```yaml title="cicd/argo/events/eventsource/github.yaml"
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:

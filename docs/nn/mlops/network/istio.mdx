@@ -25,10 +25,10 @@ export PATH=/opt/istio-$ISTIO_VERSION/bin:$PATH
 ```
 
 ```shell
-mkdir -p istio/istio-operator/base
+mkdir -p network/istio/{base,istioctl}
 ```
 
-```yaml title="istio/istio-operator/base/istio-operator.yaml"
+```yaml title="network/istio/istioctl/istio-operator.yaml"
 apiVersion: install.istio.io/v1alpha1
 kind: IstioOperator
 metadata:
@@ -48,7 +48,7 @@ spec:
 ```
 
 ```shell
-istioctl install -f istio/istio-operator/base/istio-operator.yaml
+istioctl install -f network/istio/istioctl/istio-operator.yaml
 ```
 
 ```shell

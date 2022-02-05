@@ -48,6 +48,10 @@ resources:
   - admin-user.yaml
 ```
 
+:::info
+kubernetes-dashboard Deployment의 `spec.template.containers[0].args`에 `--token-ttl=<sec>`옵션을 추가해서 자동 로그아웃 시간을 조절할 수 있습니다.
+:::
+
 ```shell
 monitoring
 └── kubernetes-dashboard
