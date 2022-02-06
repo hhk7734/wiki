@@ -36,6 +36,8 @@ namespaceOverride: monitoring
 fullnameOverride: prometheus-operator
 
 defaultRules:
+  # Chart가 제공하는 기본 alert and record rules의 집합
+  # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack/templates/prometheus/rules-1.14
   create: false
 
 alertmanager:
@@ -50,7 +52,8 @@ kubeApiServer:
   enabled: false
 
 kubelet:
-  enabled: false
+  # -kubelet 설치, cAdvisor: 실행중인 컨테이너의 정보
+  enabled: true
 
 kubeControllerManager:
   enabled: false
@@ -71,10 +74,13 @@ kubeProxy:
   enabled: false
 
 kubeStateMetrics:
-  enabled: false
+  # -kube-state-metrics 설치, k8s Resource의 metadata, spec 등의 정보
+  # https://github.com/kubernetes/kube-state-metrics/tree/master/docs
+  enabled: true
 
 nodeExporter:
   # -node-exporter 설치, Node의 Hardware, kernel 관련 정보
+  # https://grafana.com/grafana/dashboards/1860
   enabled: true
 
 prometheusOperator:
