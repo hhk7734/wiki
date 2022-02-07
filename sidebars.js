@@ -477,6 +477,7 @@ module.exports = {
             "lang/python/package/pybind11/type",
           ],
         },
+        "lang/python/package/conda",
         "lang/python/package/python-package-sphinx",
       ],
     },

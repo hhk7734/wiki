@@ -41,33 +41,35 @@ conda deactivate
 ## Develop mode
 
 ```shell
+cnoda activate <name>
+```
+
+```shell
 conda install conda-build
 ```
 
 개발중인 경로를 site-package에 추가해서 설치하지 않아도 모듈로 인식 시킬 수 있습니다.
 
 ```shell
-conda build <path>
+conda develop <path>
 ```
 
 :::info
-`cat <path>/miniconda3/envs/<env>/lib/python<version>/site-packages/conda.pth`를 확인하면 추가된 경로를 알 수 있습니다.
+`cat <path>/miniconda3/envs/<name>/lib/python<version>/site-packages/conda.pth`를 확인하면 추가된 경로를 알 수 있습니다.
 :::
 
 ## Sync
 
-아래 명령어로 현재 activate되어 있는 환경의 패키지 리스트를 `conda-env.txt` 파일에 저장합니다.
-
 ```shell
-conda list --explicit > conda-env.txt
+cnoda activate <name>
 ```
 
-- `--name <name>`: conda 환경 이름 지정
-
-아래 명령어로 `conda-env.txt`에 정의된 내용대로 환경을 생성합니다.
+```shell
+conda env export > environment.yaml
+```
 
 ```shell
-conda create --name <name> --file conda-env.txt
+conda env create --file environment.yaml
 ```
 
 ## Remove
