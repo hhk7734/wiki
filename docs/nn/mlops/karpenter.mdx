@@ -153,6 +153,108 @@ helm upgrade karpenter karpenter/karpenter \
 
 ## Provisioner
 
+Provisioner는 **Provisioner에 명시된 제약사항**과 **Workload에 명시된 제약사항 중 처리 가능한 제약사항**을 고려하여 프로비저닝을 수행합니다. 옵션이 다양한 만큼 여러 제약사항의 조합을 만들 수 있도록 하여 유언성을 제공합니다.
+
+또한 kube-scheduler나 Node가 준비 상태가 되기 전에 Pod가 배치되기 위한 작업을 미리 수행해서 노드 시작 대기 시간을 줄여 줍니다.
+
+```yaml
+apiVersion: karpenter.sh/v1alpha5
+kind: Provisioner
+metadata:
+  name: <name>
+  taints:
+    - key: <string>
+      value: <string>
+      effect: <NoSchedule|PreferNoSchedule|NoExecute>
+```
+
+### kubeletConfiguration
+
+```yaml
+spec:
+  kubeletConfiguration:
+    clusterDNS:
+      - "<ip|url>"
+```
+
+### labels
+
+```yaml
+spec:
+  labels: # 모든 Node에 적용될 label
+    <key>: <value>
+```
+
+### limits
+
+```yaml
+spec:
+  limits:
+    resources:
+      # 관리하는 리소스의 총 합이 아래 설정 값을 넘어가면 더이상 노드를 생성하지 않음
+      # cpu: 10으로 설정되더라도 72 코어 인스턴스가 생성될 수 있음
+      cpu: <DecimalSI> # m | "" | k | M | G | T | P | E
+      memory: <BinarySI> # Ki | Mi | Gi | Ti | Pi | Ei
+```
+
+### provider
+
+```yaml
+spec:
+  provider:
+```
+
+### requirements
+
+[https://kubernetes.io/docs/reference/labels-annotations-taints/](https://kubernetes.io/docs/reference/labels-annotations-taints/), 잘 알려진 label을 key로 하는 조건을 설정 할 수 있습니다.
+
+```yaml
+spec:
+  requirements:
+    - key: <string>
+      operator: <In|NotIn>
+      values:
+        - <string>
+    # - key: "node.kubernetes.io/instance-type"
+    #   operator: In
+    #   values: ["m5.large", "m5.2xlarge"]
+    # - key: "topology.kubernetes.io/zone"
+    #   operator: In
+    #   values: ["us-west-2a", "us-west-2b"]
+    # - key: "kubernetes.io/arch"
+    #   operator: In
+    #   values: ["arm64", "amd64"]
+    # - key: "karpenter.sh/capacity-type"
+    #   operator: In
+    #   values: ["spot", "on-demand"]
+```
+
+### taints
+
+```yaml
+spec:
+  taints:
+    - key: <string>
+      value: <string>
+      effect: <NoSchedule|PreferNoSchedule|NoExecute>
+```
+
+### ttlSeconds\*
+
+Karpenter는 각 Node에 `Finalizer`를 설정하여 Node 삭제 프로세스를 개선해줍니다.
+
+```yaml
+spec:
+  # ttlSecondsAfterEmpty를 설정하면 Daemonset을 제외한 Pod가 없을 때,
+  # 설정 된 시간내에 새로운 Pod이 스케줄 되지 않으면 Node를 정리합니다.
+  ttlSecondsAfterEmpty: <int>
+  # ttlSecondsUntilExpired를 설정하면 Node가 시작된 후, 설정 된 시간이 지났을 때,
+  # Node를 정리합니다.
+  ttlSecondsUntilExpired: <int>
+```
+
+`kubectl delete node <node>` 또는 `kubectl delete node -l <key>[=<value>]`로 Node를 제거할 때에도 Karpenter가 관리하는 Node는 미리 Finalizer를 설정해놨기 때문에 Node 삭제에 의해 생길 수 있는 문제를 최소화 해줍니다.
+
 ## Reference
 
 - [https://github.com/aws/karpenter](https://github.com/aws/karpenter)
