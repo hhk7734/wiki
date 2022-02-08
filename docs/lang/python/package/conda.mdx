@@ -10,6 +10,23 @@ keywords:
 ## Installation
 
 ```shell
+conda activate root
+```
+
+```shell
+conda upgrade conda
+```
+
+```shell
+conda config --add channels conda-forge \
+&& conda config --set channel_priority strict
+```
+
+:::info
+`conda-forge` 패키지 설치시 conda-forge에서 설치하는 경우가 많기 때문에 conda-forge의 우선순위를 default보다 높여 주는 것이 의존 성 충돌을 막기 쉽습니다.
+:::
+
+```shell
 conda install conda-build
 ```
 
@@ -21,12 +38,89 @@ conda upgrade conda-build
 
 ```shell
 <package>
+├── recipe
+│   ├── build.sh
+│   └── meta.yaml
 ```
 
 ## meta.yaml
 
-```yaml title
+```yaml title="recipe/meta.yaml"
 package:
   name: <package_name>
   version: <version>
+
+source:
+  path: ../
+  # git clone으로 시작할 수 있음
+  # git_url: <git_url>
+  # git_rev: <git_rev>
+  # git_depth: 1 # (Defaults to -1/not shallow)
+  #
+  # tarball, hg, svn 등 지원
+
+build:
+  number: <int> # Defaults to 0, 버전이 같더라도 빌드 번호가 다르면 업로드 가능
+  script_env:
+    - <white_list> # 로컬에서 사용되는 환경 변수 중 script에서 쓸 환경 변수 선언
+    - <key>=<value> # 추가 환경 변수 설정
+
+requirements:
+  # build에 필요한 dependencies
+  build:
+    - <build_tool>
+    # - {{ compiler('c') }}
+  host:
+    - <link-dependency>
+  run:
+    - <runtime-dependency>
+
+test:
+  files:
+    - <test_file>
+  source_files:
+    - <test_file>
+  reqires:
+    # requirements.run은 자동으로 추가
+    - <package>
+  command:
+    - <test_command>
+
+about:
+  home: <homepage>
+  license: <license>
+  license_file: <license_file>
+  summary: <summary>
 ```
+
+## build.sh
+
+```shell title="recipe/build.sh"
+#!/bin/sh
+```
+
+## Build
+
+```shell
+conda build <path>/<package>
+```
+
+- `-c <channel>`: dependency를 설치할 채널 설정
+
+## Upload
+
+```shell
+conda install anaconda-client
+```
+
+```shell
+anaconda login
+```
+
+```shell
+anaconda upload <path>/miniconda3/conda-bld/<platform>/<package_name>-<version>-<build>.tar.bz2
+```
+
+## Reference
+
+- [https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html](https://docs.conda.io/projects/conda-build/en/latest/resources/define-metadata.html)

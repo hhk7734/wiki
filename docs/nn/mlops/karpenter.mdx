@@ -125,7 +125,7 @@ helm search repo karpenter/karpenter -l | head -n 10
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.6.0 \
+    --version 0.6.1 \
     > karpenter/helm/values.yaml
 ```
 
@@ -145,7 +145,7 @@ aws:
 ```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.6.0 \
+    --version 0.6.1 \
     -n karpenter \
     --create-namespace \
     -f karpenter/helm/values.yaml
@@ -192,7 +192,7 @@ spec:
   limits:
     resources:
       # 관리하는 리소스의 총 합이 아래 설정 값을 넘어가면 더이상 노드를 생성하지 않음
-      # cpu: 10으로 설정되더라도 72 코어 인스턴스가 생성될 수 있음
+      # cpu: "10" 으로 설정되더라도 72 코어 인스턴스가 생성될 수 있음
       cpu: <DecimalSI> # m | "" | k | M | G | T | P | E
       memory: <BinarySI> # Ki | Mi | Gi | Ti | Pi | Ei
 ```
@@ -258,5 +258,5 @@ spec:
 ## Reference
 
 - [https://github.com/aws/karpenter](https://github.com/aws/karpenter)
-- [https://karpenter.sh/v0.6.0/getting-started-with-terraform/](https://karpenter.sh/v0.6.0/getting-started-with-terraform/)
+- [https://karpenter.sh/v0.6.1/getting-started-with-terraform/](https://karpenter.sh/v0.6.1/getting-started-with-terraform/)
 - [https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html](https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html)
