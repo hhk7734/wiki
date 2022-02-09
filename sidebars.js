@@ -304,6 +304,11 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Node",
+      items: ["nn/mlops/node/karpenter", "nn/mlops/node/nvidia-gpu-operator"],
+    },
+    {
+      type: "category",
       label: "Network",
       items: [
         "nn/mlops/network/cni-calico",
@@ -320,13 +325,8 @@ module.exports = {
         "nn/mlops/monitoring/metrics-server",
         "nn/mlops/monitoring/kubernetes-dashboard",
         "nn/mlops/monitoring/prometheus-operator",
+        "nn/mlops/monitoring/dcgm-exporter",
       ],
-    },
-    "nn/mlops/karpenter",
-    {
-      type: "category",
-      label: "GPU",
-      items: ["nn/mlops/gpu/nvidia-gpu-operator"],
     },
     "nn/mlops/knative",
     {

@@ -116,7 +116,7 @@ helm repo add karpenter https://charts.karpenter.sh \
 ```
 
 ```shell
-mkdir -p karpenter/helm
+mkdir -p node/karpenter/helm
 ```
 
 ```shell
@@ -126,10 +126,10 @@ helm search repo karpenter/karpenter -l | head -n 10
 ```shell
 helm show values karpenter/karpenter \
     --version 0.6.1 \
-    > karpenter/helm/values.yaml
+    > node/karpenter/helm/values.yaml
 ```
 
-```yaml tilte="karpenter/helm/values.yaml"
+```yaml tilte="node/karpenter/helm/values.yaml"
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
@@ -148,7 +148,7 @@ helm upgrade karpenter karpenter/karpenter \
     --version 0.6.1 \
     -n karpenter \
     --create-namespace \
-    -f karpenter/helm/values.yaml
+    -f node/karpenter/helm/values.yaml
 ```
 
 ## Provisioner
@@ -162,10 +162,6 @@ apiVersion: karpenter.sh/v1alpha5
 kind: Provisioner
 metadata:
   name: <name>
-  taints:
-    - key: <string>
-      value: <string>
-      effect: <NoSchedule|PreferNoSchedule|NoExecute>
 ```
 
 ### kubeletConfiguration

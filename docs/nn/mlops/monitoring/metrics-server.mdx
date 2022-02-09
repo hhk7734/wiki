@@ -15,11 +15,11 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
 ```
 
 ```shell
-mkdir -p monitoring/metrics-server/helm
+helm search repo metrics-server -l
 ```
 
 ```shell
-helm search repo metrics-server -l
+mkdir -p monitoring/metrics-server/helm
 ```
 
 ```shell
@@ -29,8 +29,6 @@ helm show values metrics-server/metrics-server \
 ```
 
 ```yaml title="monitoring/metrics-server/helm/values.yaml"
-# ...
-
 defaultArgs:
   - --cert-dir=/tmp
   - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
@@ -38,7 +36,6 @@ defaultArgs:
   - --metric-resolution=15s
   # - --kubelet-insecure-tls
   # - --v=2
-# ...
 ```
 
 :::info

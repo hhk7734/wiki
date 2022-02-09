@@ -1,0 +1,60 @@
+---
+id: dcgm-exporter
+title: dcgm-exporter
+sidebar_label: dcgm-exporter
+description: dcgm-exporter
+keywords:
+  - dcgm-exporter
+---
+
+## Installation
+
+```shell
+helm repo add dcgm-exporter https://nvidia.github.io/gpu-monitoring-tools/helm-charts \
+&& helm repo update
+```
+
+```shell
+helm search repo dcgm-exporter -l | head -n 10
+```
+
+```shell
+mkdir -p monitoring/dcgm-exporter/helm
+```
+
+```shell
+helm show values dcgm-exporter/dcgm-exporter \
+    --version 2.4.0 \
+    > monitoring/dcgm-exporter/helm/values.yaml
+```
+
+```yaml title="monitoring/dcgm-exporter/helm/values.yaml"
+affinity:
+  nodeAffinity:
+    # 스케줄링 할 땐 필요, 이미 생성된 경우 무시하는 조건
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            # node label에 key값으로 nvidia.com/gpu가 있으면 스케줄링
+            - key: nvidia.com/gpu
+              operator: Exists
+```
+
+```shell
+helm upgrade dcgm-exporter dcgm-exporter/dcgm-exporter \
+    --install \
+    --version 2.4.0 \
+    -n monitoring \
+    --create-namespace \
+    -f monitoring/dcgm-exporter/helm/values.yaml
+```
+
+## Removal
+
+```shell
+helm uninstall dcgm-exporter -n monitoring
+```
+
+## Reference
+
+- [https://github.com/NVIDIA/gpu-monitoring-tools](https://github.com/NVIDIA/gpu-monitoring-tools)
