@@ -132,14 +132,14 @@ helm show values karpenter/karpenter \
 ```yaml tilte="node/karpenter/helm/values.yaml"
 serviceAccount:
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
+    eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
 
 controller:
-  clusterName: <cluster-name>
-  clusterEndpoint: <cluster-endpoint>
+  clusterName: <cluster_name>
+  clusterEndpoint: <cluster_endpoint>
 
 aws:
-  defaultInstanceProfile: <instance-profile>
+  defaultInstanceProfile: <instance_profile>
 ```
 
 ```shell
@@ -193,11 +193,37 @@ spec:
       memory: <BinarySI> # Ki | Mi | Gi | Ti | Pi | Ei
 ```
 
-### provider
+### AWS provider
 
 ```yaml
 spec:
   provider:
+    # 설치했을 때 설정한 defaultInstanceProfile 이 기본값으로 사용 됨
+    InstanceProfile: <instance_profile>
+    # 설정하지 않으면 자동으로 생성함
+    launchTemplate: <launch_template>
+    subnetSelector:
+      # AWS 태그
+      <key>: <value>
+      # Name: subnet-xxxx
+      # kubernetes.io/cluster/<cluster_name>: '*'
+    securityGroupSelector:
+      # AWS 태그
+      <key>: <value>
+      # Name: sg-xxxx
+      # kubernetes.io/cluster/<cluster_name>: '*'
+    tags:
+      <key>: <value>
+      # 아래 태그가 생성된 EC2 인스턴스에 기본으로 적용됨
+      # Name: karpenter.sh/cluster/<cluster_name>/provisioner/<provisioner_name>
+      # karpenter.sh/provisioner-name: <name>
+      # kubernetes.io/cluster/<cluster_name>: owned
+    metadataOptions:
+      # 설정하지 않으면 아래 값이 설정 됨
+      # httpEndpoint: enabled
+      # httpProtocolIPv6: disabled
+      # httpPutResponseHopLimit: 2
+      # httpTokens: required
 ```
 
 ### requirements

@@ -328,7 +328,6 @@ module.exports = {
         "nn/mlops/monitoring/dcgm-exporter",
       ],
     },
-    "nn/mlops/knative",
     {
       type: "category",
       label: "CI/CD",
