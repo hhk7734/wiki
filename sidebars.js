@@ -394,6 +394,7 @@ module.exports = {
     },
     "lang/python/exception",
     "lang/python/logging",
+    "lang/python/pytest",
     {
       type: "category",
       label: "Libraries",

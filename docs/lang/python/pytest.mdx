@@ -1,0 +1,45 @@
+---
+id: pytest
+title: pytest
+sidebar_label: pytest
+description: pytest
+keywords:
+  - pytest
+---
+
+## pytest
+
+```shell
+pytest [options] [file_or_dir ...]
+```
+
+## Configuration
+
+`pytest.ini`, `tox.ini`, `pyproject.toml` 등 파일에 아래 와 같은 설정을 추가할 수 있습니다.
+
+```ini
+[pytest]
+testpaths = py_src
+```
+
+## pytest 검색 규칙
+
+- 정해진 디렉토리나 파일이 없는 경우 `testpaths` 또는 현재 디렉토리 검면
+- `norecursedirs`을 제외한 디렉토리는 재귀적으로 검색
+- 디렉토리 안의 `test_*.py` 또는 `*_test.py` 파일 테스트(`python_files = test_*.py *_test.py`)
+- 테스트 되는 파일 안에 있는 `test*` 메서드(`python_functions = test*`)
+- 테스트 되는 파일 안에 있는 `Test*` 클래스의 `test*` 메서드(`python_classes = Test*`)
+- unittest.TestCase
+
+## Fixture
+
+- 한 test 당 fixture는 한 번 실행됩니다. (`scope="function"`)
+- 한 test를 위해 여러 번 호출되는 fixture는 한 번만 실행되기 때문에, 캐싱 되어 의도와 다른 결과가 나올 수 있습니다.
+- `autouse=True`를 사용하면 fixture를 지정하지 않더라도 모든 test에 적용됩니다.
+- `scope=<option>`, "function", "class", "module", "package" or "session" 을 사용하여 캐싱 되는 스코프를 정할 수 있습니다.
+- yield를 사용하면 fixture에서 생성된 것을 test에서 사용한 후 정리하는 코드를 작성하기 쉽습니다.
+- ...
+
+## Reference
+
+- [https://docs.pytest.org/](https://docs.pytest.org/)
