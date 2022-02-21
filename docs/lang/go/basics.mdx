@@ -10,20 +10,28 @@ keywords:
 ## Installation
 
 ```shell
-wget https://go.dev/dl/go1.17.5.linux-amd64.tar.gz
+export GO_VERSION="1.17.7"
 ```
 
 ```shell
-sudo mkdir -p /opt/go/1.17.5
+wget https://go.dev/dl/go"$GO_VERSION".linux-amd64.tar.gz
 ```
 
 ```shell
-pv -ptrb go1.17.5.linux-amd64.tar.gz | sudo tar -xzp -C /opt/go/1.17.5
+sudo mkdir -p /opt/go/"$GO_VERSION"
 ```
 
 ```shell
-export PATH=/opt/go/1.17.5/go/bin:$PATH
+pv -ptrb go"$GO_VERSION".linux-amd64.tar.gz | sudo tar -xzp -C /opt/go/"$GO_VERSION"
 ```
+
+```shell
+export PATH=/opt/go/"$GO_VERSION"/go/bin:$PATH
+```
+
+:::info
+`.zshrc` 등에 등록해서 사용할 경우에는 PATH에 버전을 명시해 주어야 합니다.
+:::
 
 ## Setup
 

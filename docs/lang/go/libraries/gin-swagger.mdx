@@ -1,0 +1,90 @@
+---
+id: gin-swagger
+title: gin-swagger
+sidebar_label: gin-swagger
+description: gin-swagger
+keywords:
+  - gin-swagger
+---
+
+## Installation
+
+```shell
+go get -u github.com/swaggo/swag/cmd/swag
+```
+
+```shell
+cd <project>
+```
+
+아래 명령어는 docs.go를 생성하는 명령어 입니다.
+
+```shell
+swag init
+```
+
+```shell
+go get -u github.com/swaggo/gin-swagger
+```
+
+```shell
+go get -u github.com/swaggo/files
+```
+
+## Canonical example
+
+```go title="main.go"
+package main
+
+import (
+	"net/http"
+
+	docs "github.com/HITS-AI/one_scenario_submit_api/docs"
+	"github.com/gin-gonic/gin"
+	swaggerfiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+)
+
+// @BasePath /api/v1
+
+// PingExample godoc
+// @Summary ping example
+// @Schemes
+// @Description do ping
+// @Tags example
+// @Accept json
+// @Produce json
+// @Success 200 {string} Helloworld
+// @Router /example/helloworld [get]
+func Helloworld(g *gin.Context) {
+	g.JSON(http.StatusOK, "helloworld")
+}
+
+func main() {
+	r := gin.Default()
+	docs.SwaggerInfo_swagger.BasePath = "/api/v1"
+	v1 := r.Group("/api/v1")
+	{
+		eg := v1.Group("/example")
+		{
+			eg.GET("/helloworld", Helloworld)
+		}
+	}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerfiles.Handler))
+	r.Run(":8080")
+}
+```
+
+```shell
+swag init
+```
+
+```shell
+go run .
+```
+
+[http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
+
+## Reference
+
+- [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
