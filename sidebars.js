@@ -155,6 +155,7 @@ module.exports = {
   go: [
     "lang/go/basics",
     "lang/go/restful-api",
+    "lang/go/testify",
     {
       type: "category",
       label: "Libraries",
