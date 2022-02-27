@@ -34,19 +34,30 @@ keywords:
   - Ex) `/products/candy`
 - Controller
   - 특정 동작을 실행하는 리소스
-  - `CRUD(Create, Read, Update, Delete)` 기능에 매핑 할 수 없는 경우에만 구현
+  - `CRUD(Create, Read, Update, Delete)`(HTTP Verb) 기능에 매핑 할 수 없는 경우에만 구현
   - 하위 리소스를 가질 수 없음
   - 동사를 사용
 - Store
-  - Collection과 유사하지만 클라이언트가 관리
+  - `Collection`과 유사하지만 클라이언트가 관리
+  - 복수 명사를 사용
 
 ## URI query
 
 ## HTTP Verb
 
-- `POST`(Create): 새로운 리소스 생성 또는 컨트롤러 실행
+- `POST`(Create): 새로운 리소스 생성 또는 `Controller` 실행
+  - 비멱등성
 - `GET`(Read): 리소스 조회
 - `PUT`(Put): 리소스 전체 업데이트
+  - 멱등성
 - `DELETE`(Delete): 리소스 삭제
 
 ## HTTP status codes
+
+### 5xx Server Error
+
+서버가 요청을 처리하지 못한 경우
+
+:::info
+에러 메시지에는 너무 자세한 정보를 포함시키지 않는 것이 권장됩니다.
+:::

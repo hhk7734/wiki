@@ -1,0 +1,29 @@
+---
+id: encoding-json
+title: encoding/json
+sidebar_label: encoding/json
+description: encoding/json
+keywords:
+  - encoding/json
+---
+
+## Field tags
+
+```go
+Field <type> `json:"<name>[,<option>]"`
+```
+
+태그에 따라 인코딩/디코딩 시에 적용되는 내용입니다.
+
+- `<name>`: "Field" 대신 사용될 이름입니다.
+  - `-`를 사용할 경우 인코딩/디코딩에서 제외됩니다.
+  - `-,`를 사용하면 `-`이 이름으로 사용됩니다.
+  - `,<option>`을 사용하면 "Field"를 이름으로 사용하면서 옵션만 추가할 수 있습니다.
+- `<option>`
+  - `omitempty`: 필드가 empty인 경우 제외됩니다.
+    - empty: `false`, `0`, `a nil pointer`, `a nil interface value`, and `any empty array, slice, map, or string`.
+  - `string`: `floating point`, `integer`, or `boolean`인 경우 문자열로 인코딩 됩니다.
+
+## Reference
+
+- [https://pkg.go.dev/encoding/json](https://pkg.go.dev/encoding/json)

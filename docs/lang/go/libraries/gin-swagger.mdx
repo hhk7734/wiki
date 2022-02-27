@@ -48,14 +48,14 @@ import (
 // @BasePath /api/v1
 
 // PingExample godoc
-// @Summary ping example
+// @Summary  ping example
 // @Schemes
-// @Description do ping
-// @Tags example
-// @Accept json
-// @Produce json
-// @Success 200 {string} Helloworld
-// @Router /example/helloworld [get]
+// @Description  do ping
+// @Tags         example
+// @Accept       json
+// @Produce      json
+// @Success      200  {string}  Helloworld
+// @Router       /example/helloworld [get]
 func Helloworld(g *gin.Context) {
 	g.JSON(http.StatusOK, "helloworld")
 }
@@ -76,7 +76,7 @@ func main() {
 ```
 
 ```shell
-swag init
+swag fmt && swag init
 ```
 
 ```shell
@@ -84,6 +84,55 @@ go run .
 ```
 
 [http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
+
+## Comments 형식
+
+[https://github.com/swaggo/swag#declarative-comments-format](https://github.com/swaggo/swag#declarative-comments-format)
+
+### API Operation
+
+#### @Param
+
+```go
+// @Param <param_name> <param_type> <data_type> <mandatory> <comment> [<attribute>]
+```
+
+Ex) `// @Param user_id path int true "User ID"`
+
+- `<param_type>`
+  - query
+  - path
+  - header
+  - body
+  - fromData
+- `<data_type>`
+  - string
+  - integer
+  - number
+  - boolean
+  - 사용자가 정의한 struct
+
+#### @Router
+
+```go
+// @Router /<path> [<httpMethod>]
+```
+
+Ex) `// @Router /examples/user/{user_id}/address [put]`
+
+## Struct tags
+
+### `example`
+
+### `swaggertype`
+
+### `format`
+
+### `swaggerignore`
+
+### `extensions`
+
+### `enums`
 
 ## Reference
 

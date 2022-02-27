@@ -100,7 +100,7 @@ go install
   - OpenAPI/Swagger 스펙, JSON schemas, 프로토콜 정의 등
 - `/web`
   - static assets, server side templates, SPA 등
-- `/config`
+- `/configs`
 - `/init`
   - 시스템 init (systemd, upstart, sysv) 과 프로세스 매니저/슈퍼바이저 (runit, supervisord) 설정 등
 - `/scripts`
@@ -136,10 +136,10 @@ go install
 - 축약어는 모두 대문자로 씁니다.
 - 중복 될 수 있는 이름은 피합니다. `server.ServerRun` -\> `server.Run`
 - func
-  - 파라미터의 타입만으로 추측이 가능하다면 가능한 짧게, 추측이 어렵다면 충분히 설명할 수 있도록 합니다.
-  - 리턴이 타입이나 함수명으로 추측이 안되는 경우에만 이름을 씁니다.
-  - Receiver는 한 개 또는 두 개의 문자로 이름을 짓고, 한 번 사용한 이름을 일관되게 사용해야 합니다.
-  - `Must`로 시작하는
+  - 파라미터: 타입만으로 추측이 가능하다면 가능한 짧게, 추측이 어렵다면 충분히 설명할 수 있도록 합니다.
+  - 리턴: 타입이나 함수명으로 추측이 안되는 경우에만 이름을 씁니다.
+  - Receiver: 한 개 또는 두 개의 문자로 이름을 짓고, 한 번 사용한 이름을 일관되게 사용해야 합니다.
+  - `Must`로 시작하는 함수의 경우 실행에 문제가 있을 때, `panic`을 발생시킵니다.
 - interface
   - 하나의 메서드만 가지는 interface는 일반적으로 `er`을 마지막에 붙입니다. 말이 안되는 단어가 되더라도 붙입니다.
   - 여러 메서드를 가지는 interface는 목적을 정확하게 설명하는 이름을 붙입니다.

@@ -156,6 +156,7 @@ module.exports = {
     "lang/go/basics",
     "lang/go/restful-api",
     "lang/go/testify",
+    "lang/go/context",
     {
       type: "category",
       label: "Libraries",
@@ -163,6 +164,8 @@ module.exports = {
         "lang/go/libraries/gin",
         "lang/go/libraries/gin-swagger",
         "lang/go/libraries/go-redis",
+        "lang/go/libraries/encoding-json",
+        "lang/go/libraries/go-yaml",
       ],
     },
   ],
