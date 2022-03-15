@@ -127,6 +127,12 @@ module.exports = {
       items: ["lang/db/s3/basics"],
     },
   ],
+  design: [
+    "lang/design/ddd",
+    // "lang/design/tdd",
+    "lang/design/solid",
+    "lang/design/repository-pattern",
+  ],
   espressif: ["mcu/espressif/esp8266-esp-01-module"],
   flutter: [
     {
@@ -478,6 +484,11 @@ module.exports = {
           type: "category",
           label: "MPI4PY",
           items: ["lang/python/libraries/mpi4py/basics"],
+        },
+        {
+          type: "category",
+          label: "Django Rest Framework",
+          items: ["lang/python/libraries/django-rest-framework/basics"],
         },
       ],
     },

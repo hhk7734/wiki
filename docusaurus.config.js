@@ -72,6 +72,7 @@ module.exports = {
           lang: "Programming",
           cpp: "C++",
           db: "Database",
+          design: "Design",
           flutter: "Flutter",
           go: "Go",
           labview: "LabVIEW",

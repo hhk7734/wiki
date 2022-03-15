@@ -1,0 +1,125 @@
+---
+id: solid
+title: SOLID
+sidebar_label: SOLID
+description: SOLID
+keywords:
+  - solid
+---
+
+:::info
+꼭 따라야하는 원칙은 아니지만, 이 원칙들을 따랐을 때, 코드 변경에 따른 리소스 소모를 줄일 수 있습니다. 변경사항이 적은 작은 애플리케이션을 만들 때는 이런 원칙을 따르지 않는 것이 생산성이나 가독성에 더 좋을 수 있습니다.
+:::
+
+## Single Responsibility Principle(SRP)
+
+> 하나의 모듈은 하나의, 오직 하나의 액터(actor)에 대해서만 책임져야 한다.
+
+의미상 각 기능이 한 모듈에 있는 것이 어색하다면 처음부터 분리하는 것이 좋습니다. 하지만 개발하다보면 하나의 모듈로 만들어야 할 것 처럼 느껴지는 상황들이 있습니다.
+
+상황 하나를 가정해보겠습니다.
+
+- 의미상 각 기능이 한 모듈에 있어도 될 것 같은 모듈이 있다.
+- 모듈에 다른 목적을 가진 A, B 액터가 의존하고 있다.
+- A 액터가 자주 사용하는 함수, 테스트 코드가 있다.
+- B 액터가 자주 사용하는 함수, 테스트 코드가 있다.
+- 두 액터에 의해 사용되는 함수를 구성하기 위한 공통 함수가 있다.
+
+이 상황에서 A 액터의 목적 변화에 따라 공통으로 사용되는 함수를 변경할 수 있습니다. 모든 테스트를 통과했지만 논리적으로 B 에게는 맞지 않는 상태가 될 수 있다는 문제를 가지고 있습니다. 그나마도 테스트 코드가 없다면, 문제가 있더라도 언어에 따라 그냥 지나갈 수도 있습니다.
+
+이 문제를 해결하기 위해 공용 데이터 클래스가 있다면 분리해내고, 각 액터에 맞는 메서드만으로 구성된 모듈을 만들면 됩니다.
+
+:::info
+의미상 한 모듈에 있는것이 좋아보였다는 것은, 사용할 때, 한 모듈에 두고 사용하는 것이 편한 상황이 있었다는 뜻일 수 있습니다. 이 때 분리된 코드는 개발자가 쉽게 추적하지 못할 수 있습니다. 이런 경우에는 Facade 패턴을 사용하여 각 객체를 생성하고 요청된 메서드를 각 객체로 위임해주거나 실행 순서에 맞춰 호출만 해주는 클래스를 만들어 주면 됩니다.
+:::
+
+또는 가장 중요한 액터를 위한 기능만 남기고 나머지 기능에 대한 퍼사드로 사용해도 됩니다. 이 때 분리되어 나온 기능은 서로 의존적이지 않도록 유지하는 것이 좋습니다.
+
+## Open-Closed Principle(OCP)
+
+> Classes should be open for extension, but closed for modification.
+
+기능 추가를 위해 기존 코드 수정을 많이 해야한다면, 기능 추가에 큰 장벽이 됩니다. 이 문제를 해결하기 위해서는
+
+- SRP를 지키면서 기능을 컴포넌트 단위로 분리한다. ex) View, Controller, ...
+  - 기능이 어떻게(how), 왜(why), 언제(when) 발생하는지에 따라 기능을 분리한다.
+- DIP를 활용하여 컴포넌트간 의존 성을 한 방향으로 흐르도록 유지한다.
+  - A 컴포넌트의 변경으로부터 B 컴포넌트를 보호하려면 A 컴포넌트가 B 컴포넌트에 의존해야한다.
+  - 도메인에서 중요한 로직, 정책 등을 담당하는 컴포넌트가 보호되도록 한다.
+  - 보호받는 컴포넌트가 상대적으로 고수준 컴포넌트이고, 의존하는 컴포넌트가 저수준 컴포넌트이다.
+  - 저수준 컴포넌트가 고수준 컴포넌트 변경에 너무 취약하지 않도록 고수준 컴포넌트의 캡슐화 또한 중요하다.
+
+:::info
+컴파일 언어에서 컴포넌트 단위는 **런타임에 플러그인 형태로 결합할 수 있는 동적 링크 파일에 대한 소스코드 묶음**으로 볼 수 있습니다. 이러한 관점에서 SOLID원칙을 바라보면 컴파일 언어에서의 중요성과 인터프리터형 언어에서의 중요성이 조금 달라질 수 있습니다.
+:::
+
+## Liskov Substitution Principle(LSP)
+
+> If S is a subtype of T, then objects of type T in program P may be replaced with objects of type S without altering any of the desirable properties of that program.
+
+프로그램 P에서 사용할 수 있는 T와 S가 다른 인터페이스를 갖는다면 P에서는 if 문을 사용하여 T를 사용할 때와 S를 사용할 때를 구분해줘야 합니다. 하지만 같은 인터페이스를 가져도 상관 없다면 P의 수정 없이 S를 사용할 수 있습니다. 마찬가지로 같은 인터페이스를 갖지만 구현이 다른 새로운 타입 S1, S2, ...를 추가하여 P에 기능을 확장할 수 있습니다.
+
+LSP에서 같은 인터페이스란 덕 타이핑을 쓴다면 같은 메서드 시그니처를 공유한다는 의미일 수도 있고, 같은 REST 인터페이스가 될 수도 있습니다.
+
+## Interface Segregation Principle(ISP)
+
+> Clients should not be forced to depend on methods that they do not use.
+
+컴파일을 하는 지 안하는 지, 컴파일 방식은 어떻게 되는 지에 따라 영향을 받을 수도 있고 아닐 수도 있는 원칙입니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction TB
+  User1 ..> OPS
+  User2 ..> OPS
+  User3 ..> OPS
+class OPS{+op1() +op2() +op3()}`}
+  />
+</center>
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction TB
+  User1 ..> U1Ops
+  User2 ..> U2Ops
+  User3 ..> U3Ops
+  U1Ops <|.. OPS
+  U2Ops <|.. OPS
+  U3Ops <|.. OPS
+class OPS {
+  +op1() +op2() +op3()
+}
+class U1Ops{
+  <<interface>>
+  +op1()
+}
+class U2Ops{
+  <<interface>>
+  +op2()
+}
+class U3Ops{
+  <<interface>>
+  +op3()
+}`}
+  />
+</center>
+
+## Dependency Inversion Principle(DIP)
+
+> High-level modules should not depend on low-level modules. Both should depend on the abstraction.
+> Abstractions should not depend on details. Details should depend on abstractions.
+
+운영체제나 플랫폼 같이 안정성이 보장된 환경에 대해서는 DIP를 적용하지 않아도 됩니다. 하지만 개발중인 코드는 언제 변경될 수 있을지 모르기 때문에 DIP를 사용하여 의존성 흐름을 관리하는 것이 좋습니다.
+
+인터페이스와 구현체를 생각해보면 당연히 구현체의 변경이 잦을 수 밖에 없습니다. 따라서 아래와 같은 사항을 지키는 것이 좋습니다.
+
+- 변동성이 큰 구현체를 참조하지말고, 추상 인터페이스를 참조한다.
+- 변동성이 큰 구현체 클래스를 최대한 상속받지 않는다.
+- 상속받더라도 구현체 함수를 오버라이드 하지 않는다. 필요하면 차라리 인터페이스를 공유하는 각각의 구현체를 만든다.
+- 변동성이 크다면 어떻게 해서든 직접 사용을 피한다.
+
+## Reference
+
+- Robert C. Martin, Clean Architecture

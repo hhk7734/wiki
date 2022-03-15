@@ -1,0 +1,110 @@
+---
+id: repository-pattern
+title: Repository pattern
+sidebar_label: Repository pattern
+description: Repository pattern
+keywords:
+  - repository
+  - pattern
+---
+
+## Repository pattern
+
+도메인 모델 객체의 영속성을 위해 해당 모델에 대한 CRUD 기능을 구현해야 할 수 있습니다. 이 때, 도메인 객체 자체에 이를 구현하면 아래와 같은 의존성을 갖게 됩니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction LR
+  Service --> DomainObject
+  DomainObject --> DB`}
+  />
+</center>
+
+DB관련 코드를 수정하고 싶다면 도메인 객체를 수정해야하고 이 과정에서 도메인 객체에 의존하고 있는 코드들이 영향을 받을 수 있습니다. 테스트를 할 때도 DB를 가지고 테스트를 해야하다보니 테스트 자체가 번거롭고 느려질 수 있습니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction LR
+  Service --> DomainObject
+  Repository ..> DomainObject
+  Service --> Repository
+  DBRepository ..|> Repository
+  DBRepository --> DB
+  class Repository{
+    <<interface>>
+  }`}
+  />
+</center>
+
+하지만 위와같이 수정하게 되면 도메인 객체의 DB에 대한 의존성이 사라지기 때문에 DB에 의한 도메인 객체 수정을 없앨 수 있습니다. 또한 서비스가 인터페이스를 의존하게 되면서 DB 레포지토리 대신 인메모리 레포지토리로 변경하여 테스트를 좀 더 수월하게 할 수 있습니다.
+
+추가적으로 DB 자체를 변경하고 싶을 때도, 쉽게 변경할 수 있습니다.
+
+레포지토리 인터페이스를 만들 때, 아래와 같은 사항을 따르는 것이 좋습니다.
+
+- 데이터 저장소에 데이터를 삽입하거나 제거하는 연산을 캡슐화하는 메서드를 만든다.
+- 특정 기준으로 선택하거나, 속성 값에 대한 기준으로 객체들을 조회하는 방법을 캡슐화하는 메서드를 만든다.
+- 실질적으로 직접 접근해야하는 애그리거트 루트에 대해서만 레포지토리를 제공한다.
+- `findOrCreate`같은 팩토리와 레포지토리의 결합된 형태의 메서드를 만드는 것은 피하는 것이 좋다.
+- 타입을 추상화 할 수 있다면 추상화 하는 것이 좋다.
+- 트랜잭션 제어를 클라이언트가 할 수 있도록 한다.
+
+## ORM(Object Relational Mapping)
+
+데이터베이스에서 객체를 가져오기 위한 변환과 변경 후에 다시 데이터베이스에 저장하기 위한 변환이 필요합니다. 이러한 매핑을 ORM이라고 합니다.
+
+> Object–relational mapping (ORM, O/RM, and O/R mapping tool) in computer science is a programming technique for converting data between incompatible type systems using object-oriented programming languages. - Wikipedia
+
+ORM이 다양한 데이터베이스를 지원하는 경우 ORM을 사용하는 것 만으로 특정 데이터베이스 기술에 도메인이 직접 의존하지 않게 되는 효과를 얻을 수 있습니다.(Persistence ignorance)
+
+ORM이 `Active Record` 패턴으로 구현되어 있는경우 객체는 ORM에 의존하게 됩니다. 도메인 로직의 복잡성이 증가하면 이러한 의존은 변경 비용을 증가시키는 요인이 될 수 있습니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction LR
+  Service --> DomainObjectWithORM
+  DomainObjectWithORM --> SQLite
+  DomainObjectWithORM --> MySQL
+  DomainObjectWithORM --> PostgreSQL`}
+  />
+</center>
+
+`Data Mapper` 패턴은 도메인 모델과 스키마 사이의 `Mapper`를 사용자가 정의하고, ORM의 데이터베이스 기술 추상화만 이용하는 것입니다. Mapper와 행위에 대한 구현을 Repository로 구현해서 의존성을 역전시킬 수 있습니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction LR
+  Service --> DomainObject
+  MapperWithORM ..> DomainObject
+  Service --> MapperWithORM
+  MapperWithORM --> DB`}
+  />
+</center>
+
+`Active Record` -> `Data Mapper`로의 변환이 가능하기 때문에 복잡하지 않은 개발이라고 판단되는 경우 우선 `Active Record` 패턴의 ORM을 사용하다가 요구 사항 변경이 많아진다고 판단될 때 리팩토링을 통해 `Data Mapper`로 변경하는 방법도 있습니다.
+
+여기에 레포지토리 패턴을 추가하면 패턴 자체의 장점과 ORM을 사용하므로써 얻는 장점 모두를 가질 수 있습니다.
+
+<center>
+  <Mermaid
+    chart={`classDiagram
+  direction LR
+  Service --> DomainObject
+  Repository ..> DomainObject
+  Service --> Repository
+  MapperWithORMRepository ..|> Repository
+  MapperWithORMRepository --> DB
+  class Repository{
+    <<interface>>
+  }`}
+  />
+</center>
+
+## Reference
+
+- Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software
+- Harry Percival and Bob Gregory, Architecture Patterns with Python
