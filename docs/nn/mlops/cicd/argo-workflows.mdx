@@ -32,14 +32,14 @@ helm search repo argo/argo-workflows -l | head -n 10
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.10.0 \
+    --version 0.13.0 \
     > cicd/argo/workflows/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
-    --version 0.10.0 \
+    --version 0.13.0 \
     -n cicd \
     --create-namespace \
     --values cicd/argo/workflows/helm/values.yaml

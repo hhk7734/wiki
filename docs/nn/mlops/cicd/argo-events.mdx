@@ -27,14 +27,14 @@ helm search repo argo/argo-events -l | head -n  10
 
 ```shell
 helm show values argo/argo-events \
-    --version 1.10.2 \
+    --version 1.12.0 \
     > cicd/argo/events/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-events argo/argo-events \
     --install \
-    --version 1.10.2 \
+    --version 1.12.0 \
     -n cicd \
     --create-namespace \
     --values cicd/argo/events/helm/values.yaml

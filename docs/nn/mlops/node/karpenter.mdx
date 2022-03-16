@@ -19,7 +19,34 @@ _tags.update(common.tags)
 karpenter_controller_policy = aws.iam.Policy(
     _tags["Name"],
     name=_tags["Name"],
-    policy=Path("iam/karpenter-controller-policy.json").read_text(),
+    policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": [
+                        "ec2:CreateLaunchTemplate",
+                        "ec2:CreateFleet",
+                        "ec2:RunInstances",
+                        "ec2:CreateTags",
+                        "iam:PassRole",
+                        "ec2:TerminateInstances",
+                        "ec2:DescribeLaunchTemplates",
+                        "ec2:DeleteLaunchTemplate",
+                        "ec2:DescribeInstances",
+                        "ec2:DescribeSecurityGroups",
+                        "ec2:DescribeSubnets",
+                        "ec2:DescribeInstanceTypes",
+                        "ec2:DescribeInstanceTypeOfferings",
+                        "ec2:DescribeAvailabilityZones",
+                        "ssm:GetParameter",
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*",
+                }
+            ],
+            "Version": "2012-10-17",
+        }
+    ),
     tags=_tags,
 )
 
@@ -125,7 +152,7 @@ helm search repo karpenter/karpenter -l | head -n 10
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.6.1 \
+    --version 0.7.1 \
     > node/karpenter/helm/values.yaml
 ```
 
@@ -134,9 +161,9 @@ serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
 
-controller:
-  clusterName: <cluster_name>
-  clusterEndpoint: <cluster_endpoint>
+clusterName: <cluster_name>
+
+clusterEndpoint: <cluster_endpoint>
 
 aws:
   defaultInstanceProfile: <instance_profile>
@@ -145,7 +172,7 @@ aws:
 ```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.6.1 \
+    --version 0.7.1 \
     -n karpenter \
     --create-namespace \
     -f node/karpenter/helm/values.yaml
