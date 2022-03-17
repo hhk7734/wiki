@@ -296,7 +296,7 @@ module.exports = {
       label: "Container",
       items: [
         "nn/mlops/container/cri-containerd",
-        "nn/mlops/container/singularity",
+        "nn/mlops/container/apptainer",
         "nn/mlops/container/buildah-skopeo",
         "nn/mlops/container/podman",
       ],

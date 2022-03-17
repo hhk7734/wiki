@@ -1,0 +1,196 @@
+---
+id: apptainer
+title: Apptainer for HPC
+sidebar_label: Apptainer for HPC
+description: Apptainer for HPC
+keywords:
+  - HPC
+  - apptainer
+---
+
+## Installation
+
+### Prerequisites
+
+```shell
+sudo yum update -y \
+&& sudo yum groupinstall -y 'Development Tools' \
+&& sudo yum install -y \
+    openssl-devel \
+    libuuid-devel \
+    libseccomp-devel \
+    wget \
+    squashfs-tools \
+    cryptsetup
+```
+
+or
+
+```shell
+sudo apt-get update -y \
+&& sudo apt-get install -y \
+    build-essential \
+    uuid-dev \
+    libgpgme-dev \
+    squashfs-tools \
+    libseccomp-dev \
+    wget \
+    pkg-config \
+    git \
+    cryptsetup-bin
+```
+
+Golang is required to build the apptainer.
+
+### Apptainer
+
+```shell
+export APPTAINER_VERSION=1.0.1
+```
+
+```shell
+sudo mkdir -p /opt/apptainer/$APPTAINER_VERSION
+```
+
+```shell
+git clone https://github.com/apptainer/apptainer.git -b v$APPTAINER_VERSION --depth 1 \
+&& cd apptainer
+```
+
+```shell
+./mconfig --prefix=/opt/apptainer/$APPTAINER_VERSION \
+&& make -C builddir \
+&& sudo make -C builddir install
+```
+
+:::info
+`--without-suid신 옵션을 사용하여 설치하면 setuid 권한이 처음부터 없는 대신 `/opt/apptainer/$APPTAINER_VERSION` 폴더 전체를 다른 곳으로 옮기더라도 실행에 문제가 없습니다.`libexec/apptainer/bin/starter-suid`가 setuid 관련 파일입니다.
+:::
+
+`./mconfig --help`
+
+```shell
+export PATH=/opt/apptainer/$APPTAINER_VERSION/bin:$PATH
+```
+
+:::warning
+가능하면 컴퓨트 노드의 로컬 디스크에 설치하는 것이 좋으나 네트워크 위치에 설치되는 경우 `--localstatedir` 옵션을 통해 컨테이너 실행시 필요한 루트 파일 시스템, 오버레이, 바인딩 마운트 등으로 사용될 수 있는 로컬 스토리지를 잡아주는 것이 좋습니다.
+:::
+
+## Uninstall
+
+```shell
+sudo rm -r /opt/apptainer/$APPTAINER_VERSION
+```
+
+## apptainer.conf
+
+### Bind Paths and Mounts
+
+Apptainer의 특징 중 하나는 `apptainer run`, `apptainer exec`, `apptainer shell` `apptainer instance start` 명령어를 사용할 때, Host와 Container가 기본적으로 공유하는 경로가 존재한다는 것입니다.
+
+```conf title="apptainer.conf"
+mount <system path> = yes|no
+```
+
+기본 설정에서 바인딩 되는 시스템 경로는 아래와 같습니다.
+
+- `$HOME`
+- `/sys:/sys`
+- `/proc:/proc`
+- `/tmp:/tmp`
+- `/var/tmp:/var/tmp`
+- `/etc/resolv.conf:/etc/resolv.conf`
+- `/etc/passwd:/etc/passwd`
+- `$PWD`
+
+사용자 정의에 의한 바인딩은 아래와 같은 방법으로 추가될 수 있습니다.
+
+```conf title="apptainer.conf"
+bind path = <path1>
+bind path = <path2>
+```
+
+- `--bind Host[:Container[:Option]]`
+- `APPTAINER_BIND=Host[:Container[:Option]]`
+- 옵션을 여러 번 쓰거나, `,`를 사용하여 여러 개의 규칙을 지정할 수 있습니다.
+- Container가 정해져 있지 않은 경우 Host와 같은 경로를 사용한다고 가정합니다.
+- `Option`으로는 `ro`(read only)와 `rw`(read write, default)를 지정할 수 있습니다.
+
+## Build Test
+
+```shell
+apptainer pull docker://ubuntu:20.04
+```
+
+```shell
+apptainer build --sandbox ubuntu ubuntu_20.04.sif
+```
+
+```shell
+sudo `which apptainer` shell --writable ubuntu
+```
+
+:::warning
+`apptainer shell` 명령으로 컨테이너에 접속해서 작업을 할 때, Host와 Container간 공유되는 경로에 주의해야합니다.
+:::
+
+## Definition file
+
+```shell
+Bootstrap: localimage
+From: ubuntu_20.04.sif
+Stage: build
+
+%setup
+    touch /file1
+    touch ${APPTAINER_ROOTFS}/file2
+
+%files
+    /file1
+    /file1 /opt
+
+%environment
+    export LISTEN_PORT=12345
+    export LC_ALL=C
+
+%post
+    apt-get update && apt-get install -y netcat
+    NOW=`date`
+    echo "export NOW=\"${NOW}\"" >> $APPTAINER_ENVIRONMENT
+
+%runscript
+    echo "Container was created $NOW"
+    echo "Arguments received: $*"
+    exec echo "$@"
+
+%startscript
+    nc -lp $LISTEN_PORT
+
+%test
+    grep -q NAME=\"Ubuntu\" /etc/os-release
+    if [ $? -eq 0 ]; then
+        echo "Container base is Ubuntu as expected."
+    else
+        echo "Container base is not Ubuntu."
+        exit 1
+    fi
+
+%labels
+    Author hyeonki
+    Version v0.0.1
+
+%help
+    This is a demo container used to illustrate a def file that uses all
+    supported sections.
+```
+
+```shell
+sudo `which apptainer` build <sif> <def>
+```
+
+## Reference
+
+- https://github.com/apptainer/apptainer
+- https://apptainer.org/docs/admin/main/index.html
+- https://apptainer.org/docs/user/main/
