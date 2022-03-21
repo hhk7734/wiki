@@ -152,7 +152,7 @@ helm search repo karpenter/karpenter -l | head -n 10
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.7.1 \
+    --version 0.7.2 \
     > node/karpenter/helm/values.yaml
 ```
 
@@ -172,7 +172,7 @@ aws:
 ```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.7.1 \
+    --version 0.7.2 \
     -n karpenter \
     --create-namespace \
     -f node/karpenter/helm/values.yaml

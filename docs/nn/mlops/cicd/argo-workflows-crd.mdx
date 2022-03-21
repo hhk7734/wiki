@@ -1,0 +1,52 @@
+---
+id: argo-workflows-crd
+title: Argo Workflows CRD
+sidebar_label: Argo Workflows CRD
+description: Argo Workflows CRD
+keywords:
+  - argo
+  - workflows
+  - CRD
+---
+
+## Workflow
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: hello-world-
+spec:
+  entrypoint: whalesay # 처음 시작되어야 할 템플릿 이름
+  templates:
+    - <template>
+```
+
+### template
+
+```yaml
+spec:
+  templates:
+    - name: container-test
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["hello world"]
+```
+
+```yaml
+spec:
+  templates:
+    - name: gen-random-int
+      script:
+        image: python:alpine3.6
+        command: [python]
+        source: |
+          import random
+          i = random.randint(1, 100)
+          print(i)
+```
+
+## Reference
+
+- https://argoproj.github.io/argo-workflows/workflow-concepts/
