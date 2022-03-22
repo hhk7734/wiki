@@ -17,15 +17,20 @@ kind: Workflow
 metadata:
   generateName: hello-world-
 spec:
-  entrypoint: whalesay # 처음 시작되어야 할 템플릿 이름
+  entrypoint: container-test # 처음 시작되어야 할 템플릿 이름
   templates:
     - <template>
 ```
 
-### template
+### `templates` 선언
+
+#### `container`
+
+쿠버네티스의 container spec을 그대로 사용하시면 됩니다.
 
 ```yaml
 spec:
+  entrypoint: container-test
   templates:
     - name: container-test
       container:
@@ -34,10 +39,13 @@ spec:
         args: ["hello world"]
 ```
 
+#### `script`
+
 ```yaml
 spec:
+  entrypoint: script-test
   templates:
-    - name: gen-random-int
+    - name: script-test
       script:
         image: python:alpine3.6
         command: [python]
@@ -47,6 +55,132 @@ spec:
           print(i)
 ```
 
+#### `resource`
+
+쿠버네티스 resource를 직접 선언할 수 있습니다.
+
+```yaml
+spec:
+  entrypoint: resource-test
+  serviceAccountName: argo-workflow
+  templates:
+    - name: resource-test
+      steps:
+        - - name: submit-resource
+            template: create-pod
+
+        - - name: delete-resource
+            arguments:
+              parameters:
+                - name: selector
+                  value: cleanup=true
+            template: delete-resource
+
+    - name: create-pod
+      resource:
+        action: create
+        manifest: |
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            generateName: hello-world-
+            labels:
+              cleanup: "true"
+          spec:
+            containers:
+            - name: hello-world
+              image: docker/whalesay
+              command: [cowsay]
+              args: ["hello world"]
+
+    - name: delete-resource
+      inputs:
+        parameters:
+          - name: selector
+      resource:
+        action: delete
+        flags: ["pod", "--selector", "{{inputs.parameters.selector}}"]
+```
+
+#### `suspend`
+
+```yaml
+spec:
+  entrypoint: suspend-test
+  templates:
+    - name: suspend-test
+      suspend:
+        duration: "20s"
+```
+
+### `templates` 호출
+
+#### `steps`
+
+`steps`는 연속적인 작업의 실행 순서를 정의할 수 있는 방법 중 하나입니다. 리스트 안의 리스트로 구성됩니다.
+
+```yaml
+spec:
+  entrypoint: steps-test
+  templates:
+    - name: steps-test
+      steps:
+        - - name: a1
+            template: work1
+          - name: a2
+            template: work2
+        - - name: b1
+            template: work3
+          - name: b2
+            template: work4
+            when: "{{steps.b1.outputs.result}} == success"
+```
+
+위와 같이 정의한 경우 아래와 같은 순서로 진행됩니다. `a1`, `a2`는 병렬로 실행되고, `b2`는 `b1`의 결과에 따라 실행됩니다.
+
+<center>
+  <Mermaid
+    chart={`flowchart LR
+    A[A Start] --> a1 & a2
+    a1 & a2 --> B[B Start]
+    B --> b1
+    b1 --> S{Success?}
+    S -- yes --> b2
+    b2 --> C[End]
+    S -- no --> C
+`}
+  />
+</center>
+
+#### `dag`
+
+`dag`는 연속적인 작업의 실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.
+
+```yaml
+spec:
+  entrypoint: dag-test
+  templates:
+    - name: dag-test
+      dag:
+        tasks:
+          - name: a1
+            template: work1
+          - name: a2
+            template: work2
+          - name: b1
+            dependencies: [a1, a2]
+            template: work3
+          - name: b2
+            dependencies: [b1]
+            template: work4
+            when: "{{tasks.b1.outputs.result}} == success"
+```
+
+## Variables
+
+- https://argoproj.github.io/argo-workflows/variables/
+
 ## Reference
 
 - https://argoproj.github.io/argo-workflows/workflow-concepts/
+- https://argoproj.github.io/argo-workflows/fields/

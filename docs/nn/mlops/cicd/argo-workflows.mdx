@@ -126,6 +126,8 @@ Dex는 클라이언트(`aud(audience)`)대신 다른 클라이언트(`azp(author
 server:
   extraArgs:
     - --auth-mode=sso
+    - --auth-mode=client
+    - --access-control-allow-origin=true
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:

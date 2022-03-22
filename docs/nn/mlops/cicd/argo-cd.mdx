@@ -164,6 +164,10 @@ server:
 
 #### Github
 
+- (User or Organization)Settings - Developer settings - OAuth Apps - New Oauth App
+- Homepage URL:
+- Authorization callback URL: `https://<host>/api/dex/callback`
+
 argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
 
 ```yaml title="cicd/argo/cd/helm/values.yaml"
