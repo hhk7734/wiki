@@ -412,6 +412,7 @@ module.exports = {
       items: [
         "lang/python/env/pyenv",
         "lang/python/env/pipenv",
+        "lang/python/env/poetry",
         "lang/python/env/conda",
       ],
     },

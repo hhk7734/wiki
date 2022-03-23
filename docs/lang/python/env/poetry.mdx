@@ -1,0 +1,65 @@
+---
+id: poetry
+title: poetry
+sidebar_label: poetry
+description: poetry
+keywords:
+  - poetry
+---
+
+## Installation
+
+```shell
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+```
+
+```shell
+source $HOME/.poetry/env
+```
+
+## Virtualenv
+
+```shell
+poetry init
+```
+
+```shell
+poetry shell
+```
+
+가상환경이 활성화된 shell에 접속합니다.
+
+```shell
+poetry env remove python
+```
+
+가상환경을 삭제합니다.
+
+## Package
+
+```shell
+poetry add <package|git|path>
+```
+
+- `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.
+- `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>@<branch_or_tag>#<package_name>`
+  - `<vcs_type>`: `git`
+  - `<scheme>`: `http`, `https`, `ssh`
+
+```shell
+poetry remove <package>
+```
+
+## Sync
+
+```shell
+poetry install
+```
+
+- `--no-dev`: dev 의존성을 제외하고 설치합니다.
+- `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
+- `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
+
+## Reference
+
+- https://python-poetry.org/docs/cli/
