@@ -47,9 +47,18 @@ mkdir test && cd test
 pulumi new aws-python
 ```
 
+```shell title="pulumi_config_passphrase"
+<암호>
+```
+
+```shell
+export PULUMI_CONFIG_PASSPHRASE_FILE=pulumi_config_passphrase
+```
+
 ```shell
 test
 ├── __main__.py
+├── pulumi_config_passphrase
 ├── Pulumi.dev.yaml
 ├── Pulumi.yaml
 ├── requirements.txt
@@ -75,12 +84,13 @@ config:
 import pulumi
 import pulumi_aws as aws
 
+name = "app_server"
 aws_instance = aws.ec2.Instance(
-    "app_server",
+    name,
     ami="ami-090717c950a5c34d3",
     instance_type="t3.micro",
     tags={
-        "Name": "HelloWorld",
+        "Name": name,
     },
 )
 

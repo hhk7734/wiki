@@ -23,11 +23,13 @@ pulumi refresh [flags]
 pulumi import [type] [name] [id] [flags]
 ```
 
-직접 생성하거나 다른 프로그램에 의해 생성된 리소스를 현재 스택에 추가합니다. 추가된 리소스를 코드로 추가할 수 있도록 예시 코드를 출력해줍니다.
+- https://www.pulumi.com/registry/packages/aws/api-docs/
+
+직접 생성하거나 다른 프로그램에 의해 생성된 리소스를 현재 프로젝트에 추가합니다. 추가된 리소스를 코드로 추가할 수 있도록 예시 코드를 출력해줍니다.
 외부에서 가져오 리소스는 기본적으로 프로텍팅 되어 있어서 프로텍트를 풀어주지 않는 한 변경이 안됩니다.
 
 ```shell {1,44}
-$ pulumi import aws:ec2/subnet:Subnet public_subnet subnet-xxxxxxxxx
+$ pulumi import aws:ec2/subnet:Subnet <name> subnet-xxxxxxxxx
 
 Previewing import (dev):
      Type                 Name           Plan

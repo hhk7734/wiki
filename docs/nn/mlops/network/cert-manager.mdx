@@ -24,7 +24,7 @@ helm search repo jetstack/cert-manager -l | head -n 10
 
 ```shell
 helm show values jetstack/cert-manager \
-    --version v1.6.2 \
+    --version v1.7.2 \
     > network/cert-manager/helm/values.yaml
 ```
 
@@ -35,7 +35,7 @@ installCRDs: true
 ```shell
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
-    --version v1.6.2 \
+    --version v1.7.2 \
     -f network/cert-manager/helm/values.yaml
 ```
 

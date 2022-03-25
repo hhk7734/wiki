@@ -11,46 +11,52 @@ keywords:
 
 ### Cluster
 
-```python {36,43}
-_tags = {"Name": f"{common.cluster_name}-cluster-role"}
-_tags.update(common.tags)
+```python {38,49}
+name = "eks-cluster-role"
 cluster_role = aws.iam.Role(
-    _tags["Name"],
-    assume_role_policy=Path("iam/eks_assume_role_policy.json").read_text(
-        encoding="utf-8"
+    name,
+    assume_role_policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole",
+                    "Effect": "Allow",
+                    "Principal": {"Service": "eks.amazonaws.com"},
+                }
+            ],
+            "Version": "2012-10-17",
+        }
     ),
-    tags=_tags,
+    tags={
+        "Name": name,
+    },
 )
 
 cluster_policy_arns = ["arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"]
 
 cluster_rpas = []
 for i, arn in enumerate(cluster_policy_arns):
-    _tags = {"Name": f"{common.cluster_name}-cluster-rpa-{i}"}
     cluster_rpas.append(
         aws.iam.RolePolicyAttachment(
-            _tags["Name"],
+            "cluster-rpa-{i}",
             policy_arn=arn,
             role=cluster_role.name,
             opts=pulumi.ResourceOptions(parent=cluster_role),
         )
     )
 
-subnet_ids = []
-for subnet in network.public_subnet:
-    subnet_ids.append(subnet.id)
-for subnet in network.private_subnet:
-    subnet_ids.append(subnet.id)
-
-_tags = {"Name": common.cluster_name}
-_tags.update(common.tags)
+name = "eks-cluster"
 cluster = aws.eks.Cluster(
-    _tags["Name"],
-    name=_tags["Name"],
+    name,
+    name=name,
     version="1.21",
     role_arn=cluster_role.arn,
     vpc_config=aws.eks.ClusterVpcConfigArgs(
-        subnet_ids=subnet_ids,
+        subnet_ids=[
+            vpc.public_subnet[0],
+            vpc.private_subnet[0],
+            vpc.private_subnet[1],
+        ],
         endpoint_public_access=True,
     ),
     kubernetes_network_config=aws.eks.ClusterKubernetesNetworkConfigArgs(
@@ -63,26 +69,43 @@ cluster = aws.eks.Cluster(
         "controllerManager",
         "scheduler",
     ],
-    tags=_tags,
     opts=pulumi.ResourceOptions(depends_on=cluster_rpas),
+    tags={
+        "Name": name,
+    },
 )
+
+# Export
+
+pulumi.export("eks_cluster_name", cluster.name)
+pulumi.export("eks_cluster_endpoint", cluster.endpoint)
+pulumi.export("eks_oidc_provider_url", cluster.identities[0].oidcs[0].issuer)
 ```
 
 ```shell
-aws eks update-kubeconfig --name <cluster-name>
+aws eks update-kubeconfig --name $(pulumi stack output eks_cluster_name)
 ```
 
 ### OIDC
 
+IAM - 액세스 관리(Access management) - 자격 증명 공급자(Identity Providers) - 공급자 추가
+
+```shell
+pulumi stack output eks_oidc_provider_url
+```
+
 ```python {7}
-_tags = {"Name": f"{common.cluster_name}-oidc"}
-_tags.update(common.tags)
-cluster_oidc = aws.iam.OpenIdConnectProvider(
-    _tags["Name"],
+name = f"{const.CLUSTER_NAME}-eks-oidc-provider"
+oidc_provider = aws.iam.OpenIdConnectProvider(
+    name,
     url=cluster.identities[0].oidcs[0].issuer,
     client_id_lists=["sts.amazonaws.com"],
-    thumbprint_lists=["xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"],
-    tags=_tags,
+    thumbprint_lists=["xxxxxxxxxxxxxxx"],
+    opts=pulumi.ResourceOptions(parent=cluster),
+    tags={
+        "Name": name,
+        "Github": const.GITHUB,
+    },
 )
 ```
 
@@ -104,16 +127,26 @@ kubectl set env daemonset aws-node -n kube-system \
 
 ### NodeGroup
 
-```python {41-51}
-_tags = {"Name": f"{common.cluster_name}-default-ng-0-role"}
-_tags.update(common.tags)
-default_ng_0_role = aws.iam.Role(
-    _tags["Name"],
-    assume_role_policy=Path("iam/ec2_assume_role_policy.json").read_text(
-        encoding="utf-8"
+```python
+name = f"{const.CLUSTER_NAME}-eks-ng-role"
+ng_role = aws.iam.Role(
+    name,
+    assume_role_policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole",
+                    "Effect": "Allow",
+                    "Principal": {"Service": "ec2.amazonaws.com"},
+                }
+            ],
+            "Version": "2012-10-17",
+        }
     ),
-    tags=_tags,
     opts=pulumi.ResourceOptions(parent=cluster),
+    tags={
+        "Name": name,
+    },
 )
 
 node_policy_arns = [
@@ -122,42 +155,40 @@ node_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
 ]
 
-default_ng_0_rpas = []
+ng_rpas = []
 for i, arn in enumerate(node_policy_arns):
-    _tags = {"Name": f"{common.cluster_name}-default-ng-0-rpa-{i}"}
-    default_ng_0_rpas.append(
+    ng_rpas.append(
         aws.iam.RolePolicyAttachment(
-            _tags["Name"],
+            f"{const.CLUSTER_NAME}-eks-ng-rpa-{i}",
             policy_arn=arn,
-            role=default_ng_0_role.name,
-            opts=pulumi.ResourceOptions(parent=default_ng_0_role),
+            role=ng_role.name,
+            opts=pulumi.ResourceOptions(parent=ng_role),
         )
     )
 
 # Node Group
 
-_tags = {"Name": f"{common.cluster_name}-default-ng-0"}
-_tags.update(common.tags)
-_depends_on = [cluster]
-_depends_on.extend(default_ng_0_rpas)
-default_ng_0 = aws.eks.NodeGroup(
-    _tags["Name"],
-    node_group_name=_tags["Name"],
+name = f"{const.CLUSTER_NAME}-eks-ng"
+ng = aws.eks.NodeGroup(
+    name,
+    node_group_name=name,
     cluster_name=cluster.name,
-    node_role_arn=default_ng_0_role.arn,
-    instance_types=["t3.medium"],
+    node_role_arn=ng_role.arn,
+    instance_types=["m6a.large"],
     disk_size=50,
     scaling_config=aws.eks.NodeGroupScalingConfigArgs(
         min_size=1,
         desired_size=2,
-        max_size=2,
+        max_size=4,
     ),
-    subnet_ids=[network.public_subnet[0].id],
+    subnet_ids=[vpc.public_subnet[0].id],
     remote_access=aws.eks.NodeGroupRemoteAccessArgs(
-        ec2_ssh_key=user.hhk7734_key.key_name,
+        ec2_ssh_key=iam.master_key.key_name,
     ),
-    tags=_tags,
-    opts=pulumi.ResourceOptions(depends_on=_depends_on, parent=cluster),
+    opts=pulumi.ResourceOptions(depends_on=[cluster, *ng_rpas], parent=cluster),
+    tags={
+        "Name": name,
+    },
 )
 ```
 

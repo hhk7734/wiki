@@ -22,7 +22,7 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/cd/helm
+mkdir -p cicd/argo/cd/{base,helm}
 ```
 
 ```shell
@@ -31,7 +31,7 @@ helm search repo argo/argo-cd -l | head -n 10
 
 ```shell
 helm show values argo/argo-cd \
-    --version 3.35.4 \
+    --version 4.2.2 \
     > cicd/argo/cd/helm/values.yaml
 ```
 
@@ -44,7 +44,7 @@ server:
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 3.35.4 \
+    --version 4.2.2 \
     -n cicd \
     --create-namespace \
     --values cicd/argo/cd/helm/values.yaml

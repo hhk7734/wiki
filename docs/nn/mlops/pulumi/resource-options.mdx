@@ -13,8 +13,6 @@ keywords:
 
 ## aliases
 
-- 리소스의 이름을 바꿀 때 활용할 수 있음
-
 ## customTimeouts
 
 ## deleteBeforeReplace
@@ -24,11 +22,10 @@ keywords:
 Pulumi가 여러 리소스를 생성하거나 제거할 때, 자동으로 종속성을 추적합니다. 하지만, 어떤 상황에 따라 자동으로 추적하지 못할 수 있는데, 그런 경우 `depends_on` 옵션을 사용하여 명시적으로 종속성을 지정할 수 있습니다.
 
 ```python {23}
-_tags = {"Name": common.cluster_name}
-_tags.update(common.tags)
+name = "eks-cluster"
 cluster = aws.eks.Cluster(
-    _tags["Name"],
-    name=_tags["Name"],
+    name,
+    name=name,
     version="1.21",
     role_arn=cluster_role.arn,
     vpc_config=aws.eks.ClusterVpcConfigArgs(
@@ -45,8 +42,10 @@ cluster = aws.eks.Cluster(
         "controllerManager",
         "scheduler",
     ],
-    tags=_tags,
     opts=pulumi.ResourceOptions(depends_on=cluster_rpas),
+    tags={
+        "Name": name
+    },
 )
 ```
 
@@ -74,21 +73,25 @@ elb_sg = aws.ec2.SecurityGroup(
 리소스의 상위 항목을 지정할 수 있습니다.
 
 ```python {15}
-_tags = {"Name": f"{cluster}-vpc"}
-_tags.update(common_tags)
+name = f"kubernetes-vpc"
 vpc = aws.ec2.Vpc(
-    _tags["Name"],
-    cidr_block="10.234.0.0/16",
-    tags=_tags,
+    name,
+    enable_dns_support=True,
+    instance_tenancy="default",
+    cidr_block="172.16.0.0/16",
+    tags={
+        "Name": name,
+    },
 )
 
-_tags = {"Name": f"{cluster}-igw"}
-_tags.update(common_tags)
+name = "kubernetes-igw"
 igw = aws.ec2.InternetGateway(
-    _tags["Name"],
+    name,
     vpc_id=vpc.id,
-    tags=_tags,
     opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": name,
+    },
 )
 ```
 

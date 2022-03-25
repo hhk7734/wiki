@@ -24,7 +24,7 @@ mkdir -p monitoring/metrics-server/helm
 
 ```shell
 helm show values metrics-server/metrics-server \
-    --version 3.7.0 \
+    --version 3.8.2 \
     > monitoring/metrics-server/helm/values.yaml
 ```
 
@@ -45,7 +45,7 @@ defaultArgs:
 ```shell
 helm upgrade metrics-server metrics-server/metrics-server \
     --install \
-    --version 3.7.0 \
+    --version 3.8.2 \
     -n monitoring \
     --create-namespace \
     -f monitoring/metrics-server/helm/values.yaml

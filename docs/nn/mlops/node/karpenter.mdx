@@ -14,11 +14,10 @@ EKS cluster tag에 `"karpenter.sh/discovery": <cluster_name>`을 추가합니다
 [https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html](https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html)
 
 ```python
-_tags = {"Name": f"{common.cluster_name}-karpenter-controller-policy"}
-_tags.update(common.tags)
+name = f"{const.CLUSTER_NAME}-eks-karpenter-controller-policy"
 karpenter_controller_policy = aws.iam.Policy(
-    _tags["Name"],
-    name=_tags["Name"],
+    name,
+    name=name,
     policy=json.dumps(
         {
             "Statement": [
@@ -47,91 +46,107 @@ karpenter_controller_policy = aws.iam.Policy(
             "Version": "2012-10-17",
         }
     ),
-    tags=_tags,
+    opts=pulumi.ResourceOptions(parent=cluster),
+    tags={
+        "Name": name,
+    },
 )
 
-_assume_role_policy = pulumi.Output.all(
-    account_id=common.account_id,
-    oidc_url=cluster_oidc.url,
-).apply(
-    lambda args: json.dumps(
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
-                    },
-                    "Action": "sts:AssumeRoleWithWebIdentity",
-                    "Condition": {
-                        "StringEquals": {
-                            f"{args['oidc_url']}:sub": "system:serviceaccount:karpenter:karpenter"
-                        }
-                    },
-                }
-            ],
-        }
-    )
-)
-_tags = {"Name": f"{common.cluster_name}-karpenter-controller-role"}
-_tags.update(common.tags)
+name = f"{const.CLUSTER_NAME}-eks-karpenter-controller-role"
 karpenter_controller_role = aws.iam.Role(
-    _tags["Name"],
-    name=_tags["Name"],
-    assume_role_policy=_assume_role_policy,
-    tags=_tags,
+    name,
+    name=name,
+    assume_role_policy=pulumi.Output.all(
+        account_id=const.AWS_ACCOUNT_ID,
+        oidc_url=oidc_provider.url,
+    ).apply(
+        lambda args: json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
+                        },
+                        "Action": "sts:AssumeRoleWithWebIdentity",
+                        "Condition": {
+                            "StringEquals": {
+                                f"{args['oidc_url']}:sub": "system:serviceaccount:karpenter:karpenter"
+                            }
+                        },
+                    }
+                ],
+            }
+        )
+    ),
+    opts=pulumi.ResourceOptions(parent=cluster),
+    tags={
+        "Name": name,
+    },
 )
 
-_tags = {"Name": f"{common.cluster_name}-karpenter-controller-rpa"}
-karpenter_controller_rpa = aws.iam.RolePolicyAttachment(
-    _tags["Name"],
+aws.iam.RolePolicyAttachment(
+    f"{const.CLUSTER_NAME}-eks-karpenter-rpa",
     policy_arn=karpenter_controller_policy.arn,
     role=karpenter_controller_role.name,
+    opts=pulumi.ResourceOptions(parent=karpenter_controller_role),
 )
 
-pulumi.export("karpenter_controller_role_arn", karpenter_controller_role.arn)
+# Export
+
+pulumi.export("eks_karpenter_controller_role_arn", karpenter_controller_role.arn)
 ```
 
 ```python
-_tags = {"Name": f"{common.cluster_name}-default-ng-role"}
-_tags.update(common.tags)
-default_ng_role = aws.iam.Role(
-    _tags["Name"],
-    assume_role_policy=Path("iam/ec2_assume_role_policy.json").read_text(
-        encoding="utf-8"
+name = f"{const.CLUSTER_NAME}-eks-ng-role"
+ng_role = aws.iam.Role(
+    name,
+    assume_role_policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": "sts:AssumeRole",
+                    "Effect": "Allow",
+                    "Principal": {"Service": "ec2.amazonaws.com"},
+                }
+            ],
+            "Version": "2012-10-17",
+        }
     ),
-    tags=_tags,
     opts=pulumi.ResourceOptions(parent=cluster),
+    tags={
+        "Name": name,
+    },
 )
 
 node_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
     "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
     "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",  # Karpenter
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", # Karpenter
 ]
 
-default_ng_rpas = []
+ng_rpas = []
 for i, arn in enumerate(node_policy_arns):
-    _tags = {"Name": f"{common.cluster_name}-default-ng-rpa-{i}"}
-    default_ng_rpas.append(
+    ng_rpas.append(
         aws.iam.RolePolicyAttachment(
-            _tags["Name"],
+            f"{const.CLUSTER_NAME}-eks-ng-rpa-{i}",
             policy_arn=arn,
-            role=default_ng_role.name,
-            opts=pulumi.ResourceOptions(parent=default_ng_role),
+            role=ng_role.name,
+            opts=pulumi.ResourceOptions(parent=ng_role),
         )
     )
 
-_tags = {"Name": f"{common.cluster_name}-default-ng-profile"}
-_tags.update(common.tags)
+name = f"{const.CLUSTER_NAME}-eks-ng-profile"
 default_ng_profile = aws.iam.InstanceProfile(
-    _tags["Name"],
-    name=_tags["Name"],
-    role=default_ng_role.name,
-    tags=_tags,
-    opts=pulumi.ResourceOptions(parent=default_ng_role),
+    name,
+    name=name,
+    role=ng_role.name,
+    opts=pulumi.ResourceOptions(parent=ng_role),
+    tags={
+        "Name": name,
+    },
 )
 ```
 

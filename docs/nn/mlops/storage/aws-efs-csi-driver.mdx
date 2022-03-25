@@ -11,59 +11,93 @@ AWS EFS Container Storage Interface Driver
 
 ## Prerequisites
 
-```shell
-wget https://raw.githubusercontent.com/kubernetes-sigs/aws-efs-csi-driver/release-1.3/docs/iam-policy-example.json -O iam/efs-csi-driver-policy.json
-```
-
 ```python
-_tags = {"Name": f"{common.cluster_name}-efs-csi-driver-policy"}
-_tags.update(common.tags)
-efs_csi_driver_policy = aws.iam.Policy(
-    _tags["Name"],
-    name=_tags["Name"],
-    policy=Path("iam/efs-csi-driver-policy.json").read_text(),
-    tags=_tags,
-)
+# CSI
 
-_assume_role_policy = pulumi.Output.all(
-    account_id=common.account_id,
-    oidc_url=eks.cluster_oidc.url,
-).apply(
-    lambda args: json.dumps(
+name = f"{const.CLUSTER_NAME}-efs-csi-driver-policy"
+efs_csi_driver_policy = aws.iam.Policy(
+    name,
+    name=name,
+    policy=json.dumps(
         {
-            "Version": "2012-10-17",
             "Statement": [
                 {
+                    "Action": [
+                        "elasticfilesystem:DescribeAccessPoints",
+                        "elasticfilesystem:DescribeFileSystems",
+                    ],
                     "Effect": "Allow",
-                    "Principal": {
-                        "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
-                    },
-                    "Action": "sts:AssumeRoleWithWebIdentity",
+                    "Resource": "*",
+                },
+                {
+                    "Action": ["elasticfilesystem:CreateAccessPoint"],
                     "Condition": {
-                        "StringEquals": {
-                            f"{args['oidc_url']}:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                        "StringLike": {
+                            "aws:RequestTag/efs.csi.aws.com/cluster": "true"
                         }
                     },
-                }
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+                {
+                    "Action": "elasticfilesystem:DeleteAccessPoint",
+                    "Condition": {
+                        "StringEquals": {
+                            "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
+                        }
+                    },
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
             ],
+            "Version": "2012-10-17",
         }
-    )
-)
-_tags = {"Name": f"{common.cluster_name}-efs-csi-driver-role"}
-_tags.update(common.tags)
-efs_csi_driver_role = aws.iam.Role(
-    _tags["Name"],
-    name=_tags["Name"],
-    assume_role_policy=_assume_role_policy,
-    tags=_tags,
+    ),
+    tags={
+        "Name": name,
+    },
 )
 
-_tags = {"Name": f"{common.cluster_name}-efs-csi-driver-rpa"}
-efs_csi_driver_rpa = aws.iam.RolePolicyAttachment(
-    _tags["Name"],
-    policy_arn=efs_csi_driver_policy.arn,
-    role=efs_csi_driver_role.name,
+name = f"{const.CLUSTER_NAME}-efs-csi-driver-role"
+efs_csi_driver_role = aws.iam.Role(
+    name,
+    name=name,
+    assume_role_policy=pulumi.Output.all(
+        account_id=const.AWS_ACCOUNT_ID,
+        oidc_url=eks.oidc_provider.url,
+    ).apply(
+        lambda args: json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
+                        },
+                        "Action": "sts:AssumeRoleWithWebIdentity",
+                        "Condition": {
+                            "StringEquals": {
+                                f"{args['oidc_url']}:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                            }
+                        },
+                    }
+                ],
+            }
+        )
+    ),
+    tags={
+        "Name": name,
+    },
 )
+
+efs_csi_driver_rpa = aws.iam.RolePolicyAttachment(
+    f"{const.CLUSTER_NAME}-efs-csi-driver-rpa-0",
+    role=efs_csi_driver_role.name,
+    policy_arn=efs_csi_driver_policy.arn,
+)
+
+# Export
 
 pulumi.export("efs_csi_driver_role_arn", efs_csi_driver_role.arn)
 ```
@@ -85,11 +119,15 @@ helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
 
 ```shell
 helm show values aws-efs-csi-driver/aws-efs-csi-driver \
-    --version 2.2.3 \
+    --version 2.2.4 \
     > storage/aws-efs-csi-driver/helm/values.yaml
 ```
 
 [이미지 주소](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/add-ons-images.html)를 참고하여 아래 옵션을 수정합니다.
+
+```shell
+pulumi stack output efs_csi_driver_role_arn
+```
 
 ```yaml title="storage/aws-efs-csi-driver/helm/values.yaml"
 image:
@@ -106,7 +144,7 @@ controller:
 ```shell
 helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --install \
-    --version 2.2.3 \
+    --version 2.2.4 \
     -n kube-system \
     --create-namespace \
     -f storage/aws-efs-csi-driver/helm/values.yaml
@@ -130,6 +168,10 @@ kind: StorageClass
 metadata:
   name: efs-sp-sc
 provisioner: efs.csi.aws.com
+```
+
+```shell
+pulumi stack output efs_id
 ```
 
 ```yaml title="storage/aws-efs-csi-driver/static/efs-sp-pvc.yaml" {15}
