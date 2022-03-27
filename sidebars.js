@@ -277,6 +277,7 @@ module.exports = {
       label: "Pulumi",
       items: [
         "nn/mlops/pulumi/basics",
+        "nn/mlops/pulumi/config",
         "nn/mlops/pulumi/import-export",
         "nn/mlops/pulumi/resource-options",
         "nn/mlops/pulumi/dynamic",
@@ -369,6 +370,7 @@ module.exports = {
         "nn/mlops/aws/eks",
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
+        "nn/mlops/aws/parallel-cluster",
       ],
     },
   ],

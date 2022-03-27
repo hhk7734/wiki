@@ -11,6 +11,70 @@ AWS EFS Container Storage Interface Driver
 
 ## Prerequisites
 
+### EFS
+
+```python
+# EFS
+
+name = f"{const.CLUSTER_NAME}-efs"
+efs = aws.efs.FileSystem(
+    name,
+    availability_zone_name=vpc.AZs.names[0],
+    performance_mode="generalPurpose",
+    throughput_mode="bursting",
+    lifecycle_policies=[
+        aws.efs.FileSystemLifecyclePolicyArgs(
+            transition_to_ia="AFTER_14_DAYS",
+            transition_to_primary_storage_class=None,
+        )
+    ],
+    encrypted=True,
+    tags={
+        "Name": name,
+    },
+)
+
+name = f"{const.CLUSTER_NAME}-efs-sg"
+efs_sg = aws.ec2.SecurityGroup(
+    name,
+    vpc_id=vpc.vpc.id,
+    ingress=[
+        aws.ec2.SecurityGroupIngressArgs(
+            from_port=2049,
+            to_port=2049,
+            protocol="tcp",
+            cidr_blocks=[vpc.vpc.cidr_block],
+        ),
+    ],
+    egress=[
+        aws.ec2.SecurityGroupEgressArgs(
+            from_port=0,
+            to_port=0,
+            protocol="all",
+            cidr_blocks=["0.0.0.0/0"],
+        ),
+    ],
+    opts=pulumi.ResourceOptions(parent=vpc.vpc),
+    tags={
+        "Name": name,
+    },
+)
+
+aws.efs.MountTarget(
+    f"{const.CLUSTER_NAME}-efs-mount-target",
+    file_system_id=efs.id,
+    security_groups=[efs_sg.id],
+    subnet_id=vpc.private_subnet[0].id,
+    opts=pulumi.ResourceOptions(parent=efs),
+)
+
+# Export
+
+pulumi.export("efs_id", efs.id)
+```
+
+### CSI role
+
 ```python
 # CSI
 
@@ -102,6 +166,37 @@ efs_csi_driver_rpa = aws.iam.RolePolicyAttachment(
 pulumi.export("efs_csi_driver_role_arn", efs_csi_driver_role.arn)
 ```
 
+:::warning
+subnet이 다르거나 다른 availability zone에 있을 때(?), `elasticfilesystem:DescribeMountTargets`와 `ec2:DescribeAvailabilityZones` 관련 권한이 없다는 에러가 발생할 수 있습니다.
+
+```python
+name = f"{const.CLUSTER_NAME}-efs-ng-policy"
+efs_ng_policy = aws.iam.Policy(
+    name,
+    name=name,
+    policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": [
+                        "elasticfilesystem:DescribeMountTargets",
+                        "ec2:DescribeAvailabilityZones",
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+            ],
+            "Version": "2012-10-17",
+        }
+    ),
+    tags={
+        "Name": name,
+    },
+)
+```
+
+:::
+
 ## Installation
 
 ```shell
@@ -151,10 +246,6 @@ helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
 ```
 
 ## StorageClass
-
-:::warning
-EFS에 접근 가능한 SecurityGroup을 NodeGroup에 추가해줘야 합니다.
-:::
 
 :::info
 Provisioning 시에 선언되는 storage 크기는 더미 값입니다. 실제 사용 시에는 제한이 없습니다.

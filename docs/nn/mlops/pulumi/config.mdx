@@ -1,0 +1,43 @@
+---
+id: config
+title: Pulumi Configuration
+sidebar_label: Configuration
+description: Pulumi Configuration
+keywords:
+  - pulumi
+  - configuration
+---
+
+## Config
+
+```shell
+pulumi config set <key> [value]
+```
+
+`[value]`를 입력하지 않으면 STDIN으로 값을 입력 받습니다.
+
+- `--path`: key가 객체가 될 수 있습니다. Ex) `pulumi config set 'data.foo' 'bar'`
+- `--secret`: 값이 암호화 되어 저장됩니다. # TODO: secrets-provider
+
+```shell
+pulumi config get <key>
+```
+
+```shell
+pulumi config --json
+```
+
+```python
+config = pulumi.Config()
+test_value = config.get('test_key') # 없으면 None
+test_value = config.require('test_key') # 없으면 Error
+```
+
+:::info
+기본으로 현재 프로젝트 명을 네임스페이스로 사용합니다. 따라서 기본적으로 `<key>`, `<value>`는 Pulumi.yaml에 `<project>:<key>: <value>`로 저장됩니다. 다른 네임스페이스를 사용하는 경우 값을 가져올 때 네임스페이스를 명시해줘야 합니다. Ex) `aws:region`
+:::
+
+## Reference
+
+- https://www.pulumi.com/docs/intro/concepts/config/
+- https://www.pulumi.com/docs/intro/concepts/secrets/

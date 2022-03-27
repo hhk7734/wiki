@@ -52,6 +52,8 @@ poetry remove <package>
 
 ## Sync
 
+### poetry.lock
+
 ```shell
 poetry install
 ```
@@ -59,6 +61,16 @@ poetry install
 - `--no-dev`: dev 의존성을 제외하고 설치합니다.
 - `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
 - `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
+
+### requirements.txt
+
+```shell
+poetry export -f requirements.txt --output requirements.txt
+```
+
+```shell
+pip install -r requirements.txt
+```
 
 ## Reference
 
