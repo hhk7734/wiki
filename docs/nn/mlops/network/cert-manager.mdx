@@ -88,7 +88,7 @@ spec:
     email: # email
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-prod
+      name: letsencrypt-prod-secret
     solvers:
       - selector:
           dnsZones:
@@ -108,7 +108,7 @@ metadata:
   name: ingress-cert
   namespace: istio-system
 spec:
-  secretName: ingress-cert
+  secretName: ingress-cert-tls
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   dnsNames:

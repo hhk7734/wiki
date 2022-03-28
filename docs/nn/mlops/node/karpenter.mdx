@@ -13,6 +13,8 @@ EKS cluster tag에 `"karpenter.sh/discovery": <cluster_name>`을 추가합니다
 
 [https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html](https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html)
 
+### Karpenter Role
+
 ```python
 name = f"{const.CLUSTER_NAME}-eks-karpenter-controller-policy"
 karpenter_controller_policy = aws.iam.Policy(
@@ -97,6 +99,8 @@ aws.iam.RolePolicyAttachment(
 
 pulumi.export("eks_karpenter_controller_role_arn", karpenter_controller_role.arn)
 ```
+
+### NodeGroup Role
 
 ```python
 name = f"{const.CLUSTER_NAME}-eks-ng-role"
