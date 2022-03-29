@@ -67,6 +67,22 @@ kubectl apply -k monitoring/kubernetes-dashboard/base
 
 ## Service
 
+### Token
+
+```shell
+kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+```
+
+토큰을 출력해서 사용하는 경우 위 명령어를 매번 실행하고, config파일에 저장해놓고 사용하려는 경우 아래 명령어를 통해 config파일에 토큰을 저장해두면 됩니다.
+
+```shell
+kubectl config set-credentials $(kubectl config current-context) --token=$(kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")
+```
+
+:::warning
+한 config 파일에 여러 context가 있는 경우 config파일로 로그인할 수 없습니다. 한 context에 한 config 파일로 만들고 `KUBECONFIG` 환경변수로 여러 config 파일을 묶어서 사용하는 것이 좋습니다.
+:::
+
 ### Proxy
 
 ```shell
@@ -82,12 +98,6 @@ kubectl port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8002:4
 ```
 
 [https://localhost:8002](https://localhost:8002)
-
-### Token
-
-```shell
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
-```
 
 ## Reference
 

@@ -86,6 +86,14 @@ pulumi.export("eks_oidc_provider_url", cluster.identities[0].oidcs[0].issuer)
 aws eks update-kubeconfig --name $(pulumi stack output eks_cluster_name)
 ```
 
+```shell
+mv $HOME/.kube/config $HOME/.kube/$(pulumi stack output eks_cluster_name)_config
+```
+
+```shell
+export KUBECONFIG=<config-path>[:<config-path>]
+```
+
 ### OIDC
 
 IAM - 액세스 관리(Access management) - 자격 증명 공급자(Identity Providers) - 공급자 추가

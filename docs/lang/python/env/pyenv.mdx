@@ -24,11 +24,7 @@ eval "$(pyenv init --path)"
 ```
 
 ```shell title=".zshrc"
-# ...
-
 eval "$(pyenv init -)"
-
-# ...
 ```
 
 ## Commands
@@ -39,6 +35,26 @@ eval "$(pyenv init -)"
 - `pyenv version`: 현재 기본 python 버전
 - `pyenv versions`: 설치된 python 버전
 - `pyenv install --list`: 설치 가능한 python 버전
+
+### Installation and version switching
+
+```shell
+pyenv install --list
+```
+
+```shell
+pyenv install <version>
+```
+
+```shell
+pyenv global <version>
+```
+
+```shell
+pyenv local <version>
+```
+
+`.python-version` 파일이 생성되고 해당 디렉토리로 이동하면 자동으로 python 버전이 설정된 값으로 변경됩니다.
 
 ## Reference
 

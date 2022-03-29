@@ -368,6 +368,7 @@ module.exports = {
       label: "AWS",
       items: [
         "nn/mlops/aws/eks",
+        "nn/mlops/aws/eks-rbac",
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
         "nn/mlops/aws/parallel-cluster",
