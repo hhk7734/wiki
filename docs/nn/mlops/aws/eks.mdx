@@ -83,11 +83,13 @@ pulumi.export("eks_oidc_provider_url", cluster.identities[0].oidcs[0].issuer)
 ```
 
 ```shell
-aws eks update-kubeconfig --name $(pulumi stack output eks_cluster_name)
+export EKS_CLUSTER_NAME=$(pulumi stack output eks_cluster_name)
 ```
 
 ```shell
-mv $HOME/.kube/config $HOME/.kube/$(pulumi stack output eks_cluster_name)_config
+aws eks update-kubeconfig \
+    --name ${EKS_CLUSTER_NAME} \
+    --kubeconfig ~/.kube/${EKS_CLUSTER_NAME}_config
 ```
 
 ```shell

@@ -11,7 +11,13 @@ keywords:
 ## Installation
 
 ```shell
-python3 -m pip install sphinx sphinxcontrib-napoleon sphinx-rtd-theme myst-parser
+python3 -m pip install \
+    sphinx \
+    sphinxcontrib-napoleon \
+    sphinx-rtd-theme \
+    myst-parser \
+    sphinxcontrib-mermaid \
+    rinohtype
 ```
 
 ## Configuration
@@ -71,10 +77,13 @@ release = "0.0.1"
 # https://myst-parser.readthedocs.io/
 # https://www.sphinx-doc.org/en/master/usage/extensions/autodoc.html
 # https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
+# http://www.mos6581.org/rinohtype/master/index.html
+# https://mermaid-js.github.io/mermaid/
 extensions = [
     "myst_parser",
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "sphinxcontrib.mermaid",
 ]
 
 autodoc_class_signature = "separated"
@@ -96,6 +105,25 @@ napoleon_preprocess_types = False
 napoleon_type_aliases = None
 napoleon_attr_annotations = True
 
+rinoh_documents = [
+    {
+        "doc": "index",
+        "target": f"{project}",
+        # "logo": None,
+        "toctree_only": False,
+    }
+]
+
+# https://github.com/mgaitan/sphinxcontrib-mermaid
+mermaid_output_format = "raw"
+mermaid_params = [
+    "--theme",
+    "forest",
+    "--width",
+    "600",
+    "--backgroundColor",
+    "transparent",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = []

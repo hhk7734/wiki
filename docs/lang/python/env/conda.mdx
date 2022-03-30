@@ -20,9 +20,21 @@ init을 자동으로 하는 경우 기본 shell이 bash로 설정되있기 때�
 <path>/miniconda3/bin/conda init <shell-name>
 ```
 
-```shell
-conda config --set auto_activate_base false
+```yaml title="$HOME/.condarc"
+auto_activate_base: false
+envs_dirs:
+  - /workdir_efs/root/miniconda3/envs
+pkgs_dirs:
+  - /workdir_efs/root/miniconda3/pkgs
+channels:
+  - conda-forge
+  - defaults
+channel_priority: strict
 ```
+
+:::info
+`conda-forge` 패키지 설치시 conda-forge에서 설치하는 경우가 많기 때문에 conda-forge의 우선순위를 default보다 높여 주는 것이 의존성 충돌을 막기 쉽습니다.
+:::
 
 ```shell
 conda activate root
@@ -33,13 +45,8 @@ conda upgrade conda
 ```
 
 ```shell
-conda config --add channels conda-forge \
-&& conda config --set channel_priority strict
+conda info
 ```
-
-:::info
-`conda-forge` 패키지 설치시 conda-forge에서 설치하는 경우가 많기 때문에 conda-forge의 우선순위를 default보다 높여 주는 것이 의존성 충돌을 막기 쉽습니다.
-:::
 
 ## Virtualenv
 

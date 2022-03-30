@@ -145,7 +145,13 @@ aws eks list-clusters
 ```
 
 ```shell
-aws eks update-kubeconfig --name <cluster-name>
+aws eks update-kubeconfig \
+    --name <cluster-name> \
+    --kubeconfig ~/.kube/<cluster-name>_config
+```
+
+```shell
+export KUBECONFIG=<config-path>[:<config-path>]
 ```
 
 ```shell

@@ -139,7 +139,11 @@ helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     -f monitoring/prometheus-operator/helm/values.yaml
 ```
 
-삭제할 때는 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
+```shell
+helm uninstall -n monitoring prometheus-operator
+```
+
+helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
 
 ```shell
 kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
