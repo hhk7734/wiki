@@ -285,6 +285,11 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Terraform",
+      items: ["nn/mlops/terraform/basics"],
+    },
+    {
+      type: "category",
       label: "Ansible",
       items: [
         "nn/mlops/ansible/basics",

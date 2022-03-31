@@ -20,7 +20,7 @@ sudo ./aws/install
 - `AWS Access Key ID and Access Key`: IAM -> 사용자 -> <user\> -> 보안 자격 증명 -> 액세스 키 만들기
 
 ```shell
-aws configure
+aws configure --profile <profile>
 ```
 
 ### Pulumi
@@ -43,42 +43,35 @@ pulumi login [<url>]
 mkdir test && cd test
 ```
 
-```shell
-pulumi new aws-python
-```
-
 ```shell title="pulumi_config_passphrase"
 <암호>
 ```
 
 ```shell
-export PULUMI_CONFIG_PASSPHRASE_FILE=pulumi_config_passphrase
-```
-
-```shell
-test
-├── __main__.py
-├── pulumi_config_passphrase
-├── Pulumi.dev.yaml
-├── Pulumi.yaml
-├── requirements.txt
-└── venv/
+export PULUMI_CONFIG_PASSPHRASE_FILE=<path>/pulumi_config_passphrase
 ```
 
 ```yaml title="Pulumi.yaml"
-name: test
+name: <project>
 runtime:
   name: python
-  options:
-    virtualenv: venv
-description: A minimal AWS Python Pulumi program
+backend:
+  url: s3://pulumi_iac/<project>
+template:
+  config:
+    aws:region:
+      value: us-west-2
+    aws:profile:
+      value: <profile>
 ```
 
-```yaml title="Pulumi.dev.yaml"
-encryptionsalt: ***
-config:
-  aws:region: us-west-2
+```shell
+pulumi stack init test.dev
 ```
+
+:::info
+backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.
+:::
 
 ```python titile="__main__.py"
 import pulumi
@@ -111,10 +104,10 @@ pulumi destroy --skip-preview
 ```
 
 ```shell
-pulumi stack rm dev
+pulumi stack rm test.dev
 ```
 
 ## Reference
 
-- [https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- [https://www.pulumi.com/docs/intro/concepts/state/](https://www.pulumi.com/docs/intro/concepts/state/)
+- https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+- https://www.pulumi.com/docs/intro/concepts/state/

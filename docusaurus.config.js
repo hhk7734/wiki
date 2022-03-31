@@ -160,6 +160,7 @@ module.exports = {
         "cmake",
         "dart",
         "docker",
+        "hcl",
         "ini",
         "nginx",
         "sql",

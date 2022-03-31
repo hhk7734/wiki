@@ -1,0 +1,101 @@
+---
+id: basics
+title: Terraform basics
+sidebar_label: Basics
+description: Terraform basics
+keywords:
+  - terraform
+---
+
+## Installation
+
+### AWS
+
+```shell
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+- `AWS Access Key ID and Access Key`: IAM -> 사용자 -> <user\> -> 보안 자격 증명 -> 액세스 키 만들기
+
+```shell
+aws configure --profile <profile>
+```
+
+### Terraform
+
+```shell
+terraform -install-autocomplete
+```
+
+## Tutorial
+
+```shell
+mkdir test && cd test
+```
+
+```hcl title="main.tf"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">= 4.8.0"
+    }
+  }
+
+  required_version = ">= 1.0.0" # `terraform version`
+
+  backend "s3" {
+    bucket         = "<terraform-bucket>"
+    key            = "<path>/terraform.tfstate"
+    region         = "us-west-2"
+    dynamodb_table = "<terraform-table>-locks" # LockID: <bucket>/<key>-md5
+    encrypt        = true
+  }
+}
+
+provider "aws" {
+  region  = "us-west-2"
+  profile = "<profile>"
+}
+```
+
+```shell
+terraform init
+```
+
+```hcl title="ec2.tf"
+resource "aws_instance" "app_server" {
+  ami           = "ami-090717c950a5c34d3"
+  instance_type = "t3.micro"
+  tags = {
+    "Name" = "app_server"
+  }
+}
+
+output "instance_id" {
+    value = aws_instance.app_server.id
+}
+
+output "instance_public_ip" {
+    value = aws_instance.app_server.public_ip
+}
+```
+
+```shell
+terraform refresh
+```
+
+```shell
+terraform apply
+```
+
+```shell
+terraform destroy
+```
+
+## Reference
+
+- https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
+- https://learn.hashicorp.com/tutorials/terraform/aws-build?in=terraform/aws-get-started

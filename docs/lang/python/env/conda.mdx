@@ -55,11 +55,41 @@ conda create --name <name> python=<version>
 ```
 
 ```shell
+conda env list
+```
+
+```shell
 conda activate <name>
 ```
 
 ```shell
 conda deactivate
+```
+
+## Package
+
+```shell
+conda activate <name>
+```
+
+```shell
+conda install [-c <channel>] <package>
+```
+
+```shell
+conda clean --all
+```
+
+```shell
+conda list
+```
+
+```shell
+conda update <package>
+```
+
+```shell
+conda remove <package>
 ```
 
 ## Develop mode
@@ -95,6 +125,16 @@ conda env export > environment.yaml
 ```shell
 conda env create --file environment.yaml
 ```
+
+환경을 복사하는 거라면 아래와 같은 명령어로 복사할 수 있습니다.
+
+```shell
+conda create --clone <env-name> <new>
+```
+
+- `<new>`
+  - `--name <new-env-name>`
+  - `--prefix <path>/envs/<new-env-name>`
 
 ## Remove
 
