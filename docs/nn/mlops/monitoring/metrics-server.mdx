@@ -11,7 +11,7 @@ keywords:
 
 ```shell
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
-&& helm repo update
+&& helm repo update metrics-server
 ```
 
 ```shell
@@ -19,21 +19,18 @@ helm search repo metrics-server -l
 ```
 
 ```shell
-mkdir -p monitoring/metrics-server/helm
+mkdir -p monitoring/metrics_server/helm
 ```
 
 ```shell
 helm show values metrics-server/metrics-server \
     --version 3.8.2 \
-    > monitoring/metrics-server/helm/values.yaml
+    > monitoring/metrics_server/helm/values.yaml
 ```
 
-```yaml title="monitoring/metrics-server/helm/values.yaml"
-defaultArgs:
-  - --cert-dir=/tmp
-  - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
-  - --kubelet-use-node-status-port
-  - --metric-resolution=15s
+```yaml title="monitoring/metrics_server/helm/values.yaml"
+args:
+  []
   # - --kubelet-insecure-tls
   # - --v=2
 ```
@@ -48,7 +45,13 @@ helm upgrade metrics-server metrics-server/metrics-server \
     --version 3.8.2 \
     -n monitoring \
     --create-namespace \
-    -f monitoring/metrics-server/helm/values.yaml
+    -f monitoring/metrics_server/helm/values.yaml
+```
+
+## Removal
+
+```shell
+helm uninstall -n monitoring metrics-server
 ```
 
 ## Troubleshooting

@@ -12,15 +12,17 @@ keywords:
 ### VPC
 
 ```python
-name = f"{const.CLUSTER_NAME}-vpc"
+name = "vpc"
 vpc = aws.ec2.Vpc(
     name,
     enable_dns_hostnames=True,
     enable_dns_support=True,
     instance_tenancy="default",
     cidr_block="172.16.0.0/16",
+    opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 ```

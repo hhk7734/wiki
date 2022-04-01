@@ -85,10 +85,10 @@ roleRef:
 ### Policy
 
 ```python
-name = f"{const.CLUSTER_NAME}-eks-read-only-policy"
-eks_read_only_policy = aws.iam.Policy(
+name = "read-eks-policy"
+read_eks_policy = aws.iam.Policy(
     name,
-    name=name,
+    name_prefix=name,
     policy=json.dumps(
         {
             "Version": "2012-10-17",
@@ -106,7 +106,8 @@ eks_read_only_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 ```

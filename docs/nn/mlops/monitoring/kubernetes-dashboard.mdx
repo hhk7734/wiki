@@ -10,59 +10,75 @@ keywords:
 ## Installation
 
 ```shell
-mkdir -p monitoring/kubernetes-dashboard/base
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \
+&& helm repo update kubernetes-dashboard
 ```
 
 ```shell
-wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.4.0/aio/deploy/recommended.yaml \
-    -O monitoring/kubernetes-dashboard/base/kubernetes-dashboard.yaml
+helm search repo kubernetes-dashboard -l | head -n 10
 ```
 
-:::info
-kubernetes-dashboard Deployment의 `spec.template.containers[0].args`에 `--token-ttl=<sec>`옵션을 추가해서 자동 로그아웃 시간을 조절할 수 있습니다.
-:::
+```shell
+mkdir -p monitoring/kubernetes_dashboard/helm
+```
 
-```yaml title="monitoring/kubernetes-dashboard/base/admin-user.yaml"
+```shell
+helm show values kubernetes-dashboard/kubernetes-dashboard \
+    --version 5.3.1 \
+    > monitoring/kubernetes_dashboard/helm/values.yaml
+```
+
+```yaml title="monitoring/kubernetes_dashboard/helm/values.yaml"
+extraArgs:
+  - --token-ttl=86400
+
+metricsScraper:
+  enabled: true
+```
+
+```shell
+helm upgrade kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard \
+    --install \
+    --version 5.3.1 \
+    -n monitoring \
+    --create-namespace \
+    -f monitoring/kubernetes_dashboard/helm/values.yaml
+```
+
+```yaml title="rbac/admin-sa.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: admin-user
-  namespace: kubernetes-dashboard
+  name: admin-sa
+  namespace: monitoring
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: admin-user
+  name: admin-crb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
   name: cluster-admin
 subjects:
   - kind: ServiceAccount
-    name: admin-user
-    namespace: kubernetes-dashboard
-```
-
-```yaml title="monitoring/kubernetes-dashboard/base/kustomization.yaml"
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - kubernetes-dashboard.yaml
-  - admin-user.yaml
+    name: admin-sa
+    namespace: monitoring
 ```
 
 ```shell
-monitoring
-└── kubernetes-dashboard
-    └── base/
-        ├── admin-user.yaml
-        ├── kubernetes-dashboard.yaml
-        └── kustomization.yaml
+kubectl apply -f rbac/admin-sa.yaml
+```
+
+## Removal
+
+```shell
+kubectl delete -f rbac/admin-sa.yaml
 ```
 
 ```shell
-kubectl apply -k monitoring/kubernetes-dashboard/base
+helm uninstall -n monitoring kubernetes-dashboard
 ```
 
 ## Service
@@ -70,13 +86,13 @@ kubectl apply -k monitoring/kubernetes-dashboard/base
 ### Token
 
 ```shell
-kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+kubectl -n monitoring get secret $(kubectl -n monitoring get sa/admin-sa -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
 ```
 
 토큰을 출력해서 사용하는 경우 위 명령어를 매번 실행하고, config파일에 저장해놓고 사용하려는 경우 아래 명령어를 통해 config파일에 토큰을 저장해두면 됩니다.
 
 ```shell
-kubectl config set-credentials $(kubectl config current-context) --token=$(kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")
+kubectl config set-credentials $(kubectl config current-context) --token=$(kubectl -n monitoring get secret $(kubectl -n monitoring get sa/admin-sa -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}")
 ```
 
 :::warning
@@ -94,7 +110,7 @@ kubectl proxy
 ### Port forward
 
 ```shell
-kubectl port-forward -n kubernetes-dashboard service/kubernetes-dashboard 8002:443
+kubectl port-forward -n monitoring svc/$(kubectl get svc -n monitoring -l app.kubernetes.io/name=kubernetes-dashboard -o jsonpath="{.items[0].metadata.name}") 8002:443
 ```
 
 [https://localhost:8002](https://localhost:8002)

@@ -8,7 +8,7 @@ keywords:
   - Ceph
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ```shell
 helm repo add rook-release https://charts.rook.io/release \
-&& helm repo update
+&& helm repo update rook-release
 ```
 
 ```shell
@@ -75,7 +75,7 @@ helm upgrade rook-ceph-cluster rook-release/rook-ceph-cluster \
 ## Design
 
 <center>
-  <img src={useBaseUrl('img/nn/mlops/storage/rook-ceph.png')} />
+  <img src={useBaseUrl("img/nn/mlops/storage/rook-ceph.png")} />
 </center>
 
 - `Operator`:

@@ -16,10 +16,10 @@ EKS cluster tag에 `"karpenter.sh/discovery": <cluster_name>`을 추가합니다
 ### Karpenter Role
 
 ```python
-name = f"{const.CLUSTER_NAME}-eks-karpenter-controller-policy"
+name = "eks-karpenter-controller-policy"
 karpenter_controller_policy = aws.iam.Policy(
     name,
-    name=name,
+    name_prefix=name,
     policy=json.dumps(
         {
             "Statement": [
@@ -48,20 +48,18 @@ karpenter_controller_policy = aws.iam.Policy(
             "Version": "2012-10-17",
         }
     ),
-    opts=pulumi.ResourceOptions(parent=cluster),
+    opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-name = f"{const.CLUSTER_NAME}-eks-karpenter-controller-role"
+name = "eks-karpenter-controller-role"
 karpenter_controller_role = aws.iam.Role(
     name,
-    name=name,
-    assume_role_policy=pulumi.Output.all(
-        account_id=const.AWS_ACCOUNT_ID,
-        oidc_url=oidc_provider.url,
-    ).apply(
+    name_prefix=name,
+    assume_role_policy=pulumi.Output.all(oidc_url=oidc_provider.url,).apply(
         lambda args: json.dumps(
             {
                 "Version": "2012-10-17",
@@ -69,7 +67,7 @@ karpenter_controller_role = aws.iam.Role(
                     {
                         "Effect": "Allow",
                         "Principal": {
-                            "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
+                            "Federated": f"arn:aws:iam::{account_id}:oidc-provider/{args['oidc_url']}"
                         },
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
@@ -82,30 +80,28 @@ karpenter_controller_role = aws.iam.Role(
             }
         )
     ),
-    opts=pulumi.ResourceOptions(parent=cluster),
+    opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
 aws.iam.RolePolicyAttachment(
-    f"{const.CLUSTER_NAME}-eks-karpenter-rpa",
+    "eks-karpenter-rpa-0",
     policy_arn=karpenter_controller_policy.arn,
     role=karpenter_controller_role.name,
     opts=pulumi.ResourceOptions(parent=karpenter_controller_role),
 )
-
-# Export
-
-pulumi.export("eks_karpenter_controller_role_arn", karpenter_controller_role.arn)
 ```
 
 ### NodeGroup Role
 
 ```python
-name = f"{const.CLUSTER_NAME}-eks-ng-role"
+name = "eks-karpenter-ng-role"
 ng_role = aws.iam.Role(
     name,
+    name_prefix=name,
     assume_role_policy=json.dumps(
         {
             "Statement": [
@@ -118,38 +114,40 @@ ng_role = aws.iam.Role(
             "Version": "2012-10-17",
         }
     ),
-    opts=pulumi.ResourceOptions(parent=cluster),
+    opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-node_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", # Karpenter
-]
+node_policy_arns = {
+    "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", # Karpenter
+}
 
 ng_rpas = []
-for i, arn in enumerate(node_policy_arns):
+for i, arn in node_policy_arns.items():
     ng_rpas.append(
         aws.iam.RolePolicyAttachment(
-            f"{const.CLUSTER_NAME}-eks-ng-rpa-{i}",
+            f"eks-karpenter-ng-rpa-{i}",
             policy_arn=arn,
             role=ng_role.name,
             opts=pulumi.ResourceOptions(parent=ng_role),
         )
     )
 
-name = f"{const.CLUSTER_NAME}-eks-ng-profile"
+name = "eks-karpenter-ng-profile"
 default_ng_profile = aws.iam.InstanceProfile(
     name,
-    name=name,
+    name_prefix=name,
     role=ng_role.name,
     opts=pulumi.ResourceOptions(parent=ng_role),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 ```
@@ -158,7 +156,7 @@ default_ng_profile = aws.iam.InstanceProfile(
 
 ```shell
 helm repo add karpenter https://charts.karpenter.sh \
-&& helm repo update
+&& helm repo update karpenter
 ```
 
 ```shell

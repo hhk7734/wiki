@@ -23,19 +23,18 @@ sudo ./aws/install
 aws configure --profile <profile>
 ```
 
+### S3
+
+- ACL 비활성화됨
+- 모든 퍼블릭 액세스 차단
+- 버킷 버전 관리 활성화
+- 기본 암호화 활성화
+
 ### Pulumi
 
 ```shell
 curl -fsSL https://get.pulumi.com | sh
 ```
-
-```shell
-pulumi login [<url>]
-```
-
-- `url`
-  - `s3://<pulumi-stack-bucket>`
-  - `file://<pulumi-stack-path>`
 
 ## Tutorial
 
@@ -51,26 +50,30 @@ mkdir test && cd test
 export PULUMI_CONFIG_PASSPHRASE_FILE=<path>/pulumi_config_passphrase
 ```
 
+- https://www.pulumi.com/docs/reference/pulumi-yaml/
+- https://www.pulumi.com/registry/packages/aws/installation-configuration/#configuration-options
+
 ```yaml title="Pulumi.yaml"
 name: <project>
 runtime:
   name: python
 backend:
-  url: s3://pulumi_iac/<project>
-template:
-  config:
-    aws:region:
-      value: us-west-2
-    aws:profile:
-      value: <profile>
+  url: s3://<bucket>
 ```
 
 ```shell
 pulumi stack init test.dev
 ```
 
+```yaml title="Pulumi.test.dev.yaml"
+encryptionsalt: "*****"
+config:
+  aws:region: <region>
+  aws:profile: <profile>
+```
+
 :::info
-backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.
+backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<project>.<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.(s3를 backend로 할 때 아직 `<organization>/<project>/<stack>`을 지원하지 않는 것 같습니다.)
 :::
 
 ```python titile="__main__.py"

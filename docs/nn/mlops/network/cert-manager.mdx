@@ -11,11 +11,11 @@ keywords:
 
 ```shell
 helm repo add jetstack https://charts.jetstack.io \
-&& helm repo update
+&& helm repo update jetstack
 ```
 
 ```shell
-mkdir -p network/cert-manager/{base,helm}
+mkdir -p network/cert_manager/{base,helm}
 ```
 
 ```shell
@@ -25,10 +25,10 @@ helm search repo jetstack/cert-manager -l | head -n 10
 ```shell
 helm show values jetstack/cert-manager \
     --version v1.7.2 \
-    > network/cert-manager/helm/values.yaml
+    > network/cert_manager/helm/values.yaml
 ```
 
-```yaml title="network/cert-manager/helm/values.yaml"
+```yaml title="network/cert_manager/helm/values.yaml"
 installCRDs: true
 ```
 
@@ -36,11 +36,29 @@ installCRDs: true
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
     --version v1.7.2 \
-    -f network/cert-manager/helm/values.yaml
+    -n network \
+    --create-namespace \
+    -f network/cert_manager/helm/values.yaml
 ```
 
 ```shell
 kubectl get pod -l app.kubernetes.io/instance=cert-manager -w
+```
+
+## Removal
+
+사용된 CRD가 있는지 확인합니다.
+
+```shell
+kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -A
+```
+
+```shell
+helm uninstall -n network cert-manager
+```
+
+```shell
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.2/cert-manager.crds.yaml
 ```
 
 ## selfSigned
@@ -167,6 +185,7 @@ kubectl logs cert-manager-
 
 ## Reference
 
-- [https://github.com/jetstack/cert-manager](https://github.com/jetstack/cert-manager)
-- [https://istio.io/latest/docs/ops/integrations/certmanager/](https://istio.io/latest/docs/ops/integrations/certmanager/)
-- [https://cert-manager.io/docs/faq/acme/](https://cert-manager.io/docs/faq/acme/)
+- https://cert-manager.io/docs/installation/helm/
+- https://github.com/jetstack/cert-manager
+- https://istio.io/latest/docs/ops/integrations/certmanager/
+- https://cert-manager.io/docs/faq/acme/

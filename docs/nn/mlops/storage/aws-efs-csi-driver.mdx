@@ -16,10 +16,11 @@ AWS EFS Container Storage Interface Driver
 ```python
 # EFS
 
-name = f"{const.CLUSTER_NAME}-efs"
+name = "efs"
 efs = aws.efs.FileSystem(
     name,
     availability_zone_name=vpc.AZs.names[0],
+    creation_token="oneplatform-efs-8c0e576",
     performance_mode="generalPurpose",
     throughput_mode="bursting",
     lifecycle_policies=[
@@ -29,14 +30,17 @@ efs = aws.efs.FileSystem(
         )
     ],
     encrypted=True,
+    opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-name = f"{const.CLUSTER_NAME}-efs-sg"
+name = "efs-sg"
 efs_sg = aws.ec2.SecurityGroup(
     name,
+    name_prefix=name,
     vpc_id=vpc.vpc.id,
     ingress=[
         aws.ec2.SecurityGroupIngressArgs(
@@ -54,23 +58,20 @@ efs_sg = aws.ec2.SecurityGroup(
             cidr_blocks=["0.0.0.0/0"],
         ),
     ],
-    opts=pulumi.ResourceOptions(parent=vpc.vpc),
+    opts=pulumi.ResourceOptions(parent=efs),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
 aws.efs.MountTarget(
-    f"{const.CLUSTER_NAME}-efs-mount-target",
+    "efs-mount-target",
     file_system_id=efs.id,
     security_groups=[efs_sg.id],
-    subnet_id=vpc.private_subnet[0].id,
+    subnet_id=vpc.private_subnet["0"].id,
     opts=pulumi.ResourceOptions(parent=efs),
 )
-
-# Export
-
-pulumi.export("efs_id", efs.id)
 ```
 
 ### CSI role
@@ -78,10 +79,10 @@ pulumi.export("efs_id", efs.id)
 ```python
 # CSI
 
-name = f"{const.CLUSTER_NAME}-efs-csi-driver-policy"
+name = "efs-csi-driver-policy"
 efs_csi_driver_policy = aws.iam.Policy(
     name,
-    name=name,
+    name_prefix=name,
     policy=json.dumps(
         {
             "Statement": [
@@ -118,18 +119,16 @@ efs_csi_driver_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-name = f"{const.CLUSTER_NAME}-efs-csi-driver-role"
+name = "efs-csi-driver-role"
 efs_csi_driver_role = aws.iam.Role(
     name,
-    name=name,
-    assume_role_policy=pulumi.Output.all(
-        account_id=const.AWS_ACCOUNT_ID,
-        oidc_url=eks.oidc_provider.url,
-    ).apply(
+    name_prefix=name,
+    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
         lambda args: json.dumps(
             {
                 "Version": "2012-10-17",
@@ -137,7 +136,7 @@ efs_csi_driver_role = aws.iam.Role(
                     {
                         "Effect": "Allow",
                         "Principal": {
-                            "Federated": f"arn:aws:iam::{args['account_id']}:oidc-provider/{args['oidc_url']}"
+                            "Federated": f"arn:aws:iam::{account_id}:oidc-provider/{args['oidc_url']}"
                         },
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
@@ -151,29 +150,29 @@ efs_csi_driver_role = aws.iam.Role(
         )
     ),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-efs_csi_driver_rpa = aws.iam.RolePolicyAttachment(
-    f"{const.CLUSTER_NAME}-efs-csi-driver-rpa-0",
+aws.iam.RolePolicyAttachment(
+    "efs-csi-driver-rpa-0",
     role=efs_csi_driver_role.name,
     policy_arn=efs_csi_driver_policy.arn,
+    opts=pulumi.ResourceOptions(parent=efs_csi_driver_role),
 )
-
-# Export
-
-pulumi.export("efs_csi_driver_role_arn", efs_csi_driver_role.arn)
 ```
 
 :::warning
 subnet이 다르거나 다른 availability zone에 있을 때(?), `elasticfilesystem:DescribeMountTargets`와 `ec2:DescribeAvailabilityZones` 관련 권한이 없다는 에러가 발생할 수 있습니다.
 
 ```python
-name = f"{const.CLUSTER_NAME}-efs-ng-policy"
-efs_ng_policy = aws.iam.Policy(
+# EKS Node find EFS
+
+name = "eks-ng-find-efs-policy"
+efs_csi_driver_policy = aws.iam.Policy(
     name,
-    name=name,
+    name_prefix=name,
     policy=json.dumps(
         {
             "Statement": [
@@ -190,7 +189,8 @@ efs_ng_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 ```
@@ -201,7 +201,7 @@ efs_ng_policy = aws.iam.Policy(
 
 ```shell
 helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver \
-&& helm repo update
+&& helm repo update aws-efs-csi-driver
 ```
 
 ```shell
