@@ -16,43 +16,136 @@ export ISTIO_VERSION=1.13.2
 ```
 
 ```shell
-curl -L https://istio.io/downloadIstio | sh - \
-&& sudo mv istio-$ISTIO_VERSION/ /opt/
+helm repo add istio https://istio-release.storage.googleapis.com/charts \
+&& helm repo update istio
 ```
 
 ```shell
-export PATH=/opt/istio-$ISTIO_VERSION/bin:$PATH
+mkdir -p network/istio/helm
 ```
 
 ```shell
-mkdir -p network/istio/{base,istioctl}
+helm search repo istio/ -l
 ```
 
-```yaml title="network/istio/istioctl/istio-operator.yaml"
-apiVersion: install.istio.io/v1alpha1
-kind: IstioOperator
-metadata:
-  namespace: istio-system
-  name: istio-operator
-spec:
-  profile: default
-  components:
-    ingressGateways:
-      - name: istio-ingressgateway
-        enabled: true
-        k8s:
-          service:
-            type: NodePort # or LoadBalancer
-          # serviceAnnotations:
-          #   service.beta.kubernetes.io/aws-load-balancer-type: 'nlb' # AWS
+### base
+
+```shell
+helm show values istio/base \
+    --version $ISTIO_VERSION \
+    > network/istio/helm/base-values.yaml
 ```
 
 ```shell
-istioctl install -f network/istio/istioctl/istio-operator.yaml
+helm upgrade istio-base istio/base \
+    --install \
+    --version $ISTIO_VERSION \
+    -n istio-system \
+    --create-namespace \
+    -f network/istio/helm/base-values.yaml
+```
+
+### istiod
+
+```shell
+helm show values istio/istiod \
+    --version $ISTIO_VERSION \
+    > network/istio/helm/istiod-values.yaml
 ```
 
 ```shell
-istioctl x uninstall --purge
+helm upgrade istiod istio/istiod \
+    --install \
+    --version $ISTIO_VERSION \
+    -n istio-system \
+    --create-namespace \
+    -f network/istio/helm/istiod-values.yaml
+```
+
+### ingressgateway
+
+```shell
+helm show values istio/gateway \
+    --version $ISTIO_VERSION \
+    > network/istio/helm/ingress-values.yaml
+```
+
+```yaml title="network/istio/helm/ingress-values.yaml"
+service:
+  ports:
+    - port: 15021
+      targetPort: 15021
+      name: status-port
+      protocol: TCP
+      nodePort: 30649
+    - port: 80
+      targetPort: 8080
+      name: http2
+      protocol: TCP
+      nodePort: 30667
+    - port: 443
+      targetPort: 8443
+      name: https
+      protocol: TCP
+      nodePort: 32699
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - istio-ingress
+          topologyKey: "kubernetes.io/hostname"
+        weight: 50
+```
+
+```shell
+kubectl create namespace istio-ingress
+```
+
+```shell
+kubectl label namespace istio-ingress istio-injection=enabled
+```
+
+```shell
+helm upgrade istio-ingress istio/gateway \
+    --install \
+    --version $ISTIO_VERSION \
+    -n istio-system \
+    --create-namespace \
+    -f network/istio/helm/ingress-values.yaml
+```
+
+## Removal
+
+```shell
+helm uninstall -n istio-system istio-ingress
+```
+
+```shell
+kubectl delete namespace istio-ingress
+```
+
+```shell
+helm uninstall -n istio-system istiod
+```
+
+```shell
+helm uninstall -n istio-system istio-base
 ```
 
 ```shell
@@ -60,7 +153,7 @@ kubectl delete namespace istio-system
 ```
 
 ```shell
-kubectl label namespace default istio-injection-
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 ```
 
 ## Proxy & Service mesh

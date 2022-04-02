@@ -92,7 +92,10 @@ My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 �
 생성하면 토큰과 함께 테스트 코드를 줍니다.
 
 ```shell
-kubectl create secret generic cloudflare-api-token-secret \
+kubectl create secret \
+    generic \
+    -n network \
+    cloudflare-api-token-secret \
     --from-literal=api-token=<token>
 ```
 
@@ -124,7 +127,7 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert
-  namespace: istio-system
+  namespace: istio-ingress # 이를 사용할 ingress gateway의 namespace를 지정합니다.
 spec:
   secretName: ingress-cert-tls
   duration: 2160h # 90d
@@ -164,7 +167,7 @@ kubectl describe clusterissuers.cert-manager.io letsencrypt-prod
 ```
 
 ```shell
-kubectl get certificates.cert-manager.io -n istio-system ingress-cert
+kubectl get certificates.cert-manager.io -n istio-ingress ingress-cert
 ```
 
 :::warning
@@ -172,11 +175,11 @@ kubectl get certificates.cert-manager.io -n istio-system ingress-cert
 :::
 
 ```shell
-kubectl describe certificates.cert-manager.io -n istio-system ingress-cert
+kubectl describe certificates.cert-manager.io -n istio-ingress ingress-cert
 ```
 
 ```shell
-kubectl describe certificaterequests.cert-manager.io -n istio-system <name>
+kubectl describe certificaterequests.cert-manager.io -n istio-ingress <name>
 ```
 
 ```shell

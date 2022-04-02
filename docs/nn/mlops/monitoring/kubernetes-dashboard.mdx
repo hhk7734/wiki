@@ -110,7 +110,7 @@ kubectl proxy
 ### Port forward
 
 ```shell
-kubectl port-forward -n monitoring svc/$(kubectl get svc -n monitoring -l app.kubernetes.io/name=kubernetes-dashboard -o jsonpath="{.items[0].metadata.name}") 8002:443
+kubectl port-forward -n monitoring svc/kubernetes-dashboard 8002:443
 ```
 
 [https://localhost:8002](https://localhost:8002)

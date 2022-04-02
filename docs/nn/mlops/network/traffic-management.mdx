@@ -9,7 +9,7 @@ keywords:
 
 ## Gateway
 
-독립적으로 실행되는 Envoy proxy를 통해 Mesh의 edge에서 특정 in/outbound 트래픽을 관리할 수 있습니다. **default** 프로필로 설치한 경우 `istio-ingressgateway`가 inbound 트래픽을 관리하는 Envoy proxy입니다.
+독립적으로 실행되는 Envoy proxy를 통해 Mesh의 edge에서 특정 in/outbound 트래픽을 관리할 수 있습니다. **default** 프로필로 설치한 경우 `istio-ingress`가 inbound 트래픽을 관리하는 Envoy proxy입니다.
 
 `Gateway`는 어떤 트래픽을 허용할 지 설정하는 CRD입니다.
 
@@ -21,7 +21,7 @@ metadata:
   namespace: <namespace>
 spec:
   selector: # 규칙이 적용될 Pod 가 가지고 있어야 할 labels 목록입니다.
-    istio: ingressgateway # istio-ingressgateway에 설정되어 있는 기본 label
+    istio: ingress # istio-ingress에 설정되어 있는 label을 확인하세요.
   servers:
     - name: <name> # 모든 server에서 고유해야하며, 설정할 경우 디버깅 등에 사용됩니다.
       port:
@@ -29,7 +29,7 @@ spec:
         name: <name>
         protocol: <protocol> # HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS
       hosts:
-        - '*'
+        - "*"
       tls:
         httpsRedirect: <bool>
         mode: <mode> # PASSTHROUGH|SIMPLE|MUTUAL|AUTO_PASSTHROUGH|ISTIO_MUTUAL
