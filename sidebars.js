@@ -13,21 +13,6 @@ module.exports = {
     "mcu/avr/avr-eeprom",
     "mcu/avr/avr-i2c",
   ],
-  basics: [
-    "nn/basics/nn-basics",
-    "nn/basics/nn-cpu-gpu-npu",
-    "nn/basics/nn-derivative",
-    {
-      type: "category",
-      label: "CNN",
-      items: ["nn/basics/cnn/nn-cnn-conv2d"],
-    },
-    {
-      type: "category",
-      label: "RNN",
-      items: ["nn/basics/rnn/nn-rnn"],
-    },
-  ],
   biochemistry: ["etc/biochemistry/biochemistry-receptor-ligand"],
   circuit: [
     {
@@ -378,6 +363,21 @@ module.exports = {
         "nn/mlops/aws/cluster-autoscaler",
         "nn/mlops/aws/parallel-cluster",
       ],
+    },
+  ],
+  nn: [
+    "nn/basics/nn-basics",
+    "nn/basics/nn-cpu-gpu-npu",
+    "nn/basics/nn-derivative",
+    {
+      type: "category",
+      label: "CNN",
+      items: ["nn/basics/cnn/nn-cnn-conv2d"],
+    },
+    {
+      type: "category",
+      label: "RNN",
+      items: ["nn/basics/rnn/nn-rnn"],
     },
   ],
   nodejs: [
