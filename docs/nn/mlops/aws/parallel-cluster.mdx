@@ -32,46 +32,41 @@ TODO: subnet, route
 ### Scripts
 
 ```python
-name = f"{const.CLUSTER_NAME}-head-node-on-node-configured"
+name = f"head-node-on-node-configured-{env}"
 head_node_on_node_configured = aws.s3.BucketObjectv2(
     name,
-    bucket=s3.bucket.id,
+    bucket=bucket_name,
     key=f"parallel/{name}.sh",
-    source=pulumi.FileAsset("parallel/head-node-on-node-configured.sh"),
-    opts=pulumi.ResourceOptions(parent=s3.bucket),
+    source=pulumi.FileAsset(str(BASE_DIR / "head-node-on-node-configured.sh")),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-name = f"{const.CLUSTER_NAME}-compute-node-on-node-configured"
+head_node_on_node_configured_uri = pulumi.Output.all(
+    bucket=head_node_on_node_configured.bucket,
+    key=head_node_on_node_configured.key,
+).apply(lambda args: f"""s3://{args["bucket"]}/{args["key"]}""")
+
+name = f"compute-node-on-node-configured-{env}"
 compute_node_on_node_configured = aws.s3.BucketObjectv2(
     name,
-    bucket=s3.bucket.id,
+    bucket=bucket_name,
     key=f"parallel/{name}.sh",
-    source=pulumi.FileAsset("parallel/compute-node-on-node-configured.sh"),
-    opts=pulumi.ResourceOptions(parent=s3.bucket),
+    source=pulumi.FileAsset(
+        str(BASE_DIR / "compute-node-on-node-configured.sh")
+    ),
     tags={
-        "Name": name,
+        "Name": f"{stack}.{name}",
+        "Github": github,
     },
 )
 
-# Export
-
-pulumi.export(
-    "head_node_on_node_configured",
-    pulumi.Output.all(
-        bucket=head_node_on_node_configured.bucket,
-        key=head_node_on_node_configured.key,
-    ).apply(lambda args: f"s3://{args['bucket']}/{args['key']}"),
-)
-pulumi.export(
-    "compute_node_on_node_configured",
-    pulumi.Output.all(
-        bucket=compute_node_on_node_configured.bucket,
-        key=compute_node_on_node_configured.key,
-    ).apply(lambda args: f"s3://{args['bucket']}/{args['key']}"),
-)
+compute_node_on_node_configured_uri = pulumi.Output.all(
+    bucket=compute_node_on_node_configured.bucket,
+    key=compute_node_on_node_configured.key,
+).apply(lambda args: f"""s3://{args["bucket"]}/{args["key"]}""")
 ```
 
 ### cluster-config.yaml
