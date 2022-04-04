@@ -290,6 +290,7 @@ module.exports = {
         "nn/mlops/container/apptainer",
         "nn/mlops/container/buildah-skopeo",
         "nn/mlops/container/podman",
+        "nn/mlops/container/image-pull-secrets",
       ],
     },
     "nn/mlops/kubeadm",
