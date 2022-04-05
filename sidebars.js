@@ -363,6 +363,8 @@ module.exports = {
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
         "nn/mlops/aws/parallel-cluster",
+        "nn/mlops/aws/ecr",
+        "nn/mlops/aws/ses",
       ],
     },
   ],

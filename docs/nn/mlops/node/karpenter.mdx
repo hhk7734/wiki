@@ -50,8 +50,8 @@ karpenter_controller_policy = aws.iam.Policy(
     ),
     opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -82,8 +82,8 @@ karpenter_controller_role = aws.iam.Role(
     ),
     opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -116,8 +116,8 @@ ng_role = aws.iam.Role(
     ),
     opts=pulumi.ResourceOptions(parent=eks),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -146,8 +146,8 @@ default_ng_profile = aws.iam.InstanceProfile(
     role=ng_role.name,
     opts=pulumi.ResourceOptions(parent=ng_role),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```

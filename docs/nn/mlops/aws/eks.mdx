@@ -31,8 +31,8 @@ role = aws.iam.Role(
         }
     ),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -75,8 +75,8 @@ cluster = aws.eks.Cluster(
     ],
     opts=pulumi.ResourceOptions(depends_on=rpas),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```
@@ -109,8 +109,8 @@ oidc_provider = aws.iam.OpenIdConnectProvider(
     thumbprint_lists=["******"],
     opts=pulumi.ResourceOptions(parent=cluster),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```
@@ -154,8 +154,8 @@ ng_role = aws.iam.Role(
     ),
     opts=pulumi.ResourceOptions(parent=cluster),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -183,8 +183,8 @@ default_ng_profile = aws.iam.InstanceProfile(
     role=ng_role.name,
     opts=pulumi.ResourceOptions(parent=ng_role),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -207,8 +207,8 @@ ng = aws.eks.NodeGroup(
     ),
     opts=pulumi.ResourceOptions(depends_on=[cluster, *ng_rpas], parent=cluster),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```

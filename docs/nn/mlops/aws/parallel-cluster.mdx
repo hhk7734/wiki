@@ -21,8 +21,8 @@ vpc = aws.ec2.Vpc(
     cidr_block="172.16.0.0/16",
     opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```
@@ -39,8 +39,8 @@ head_node_on_node_configured = aws.s3.BucketObjectv2(
     key=f"parallel/{name}.sh",
     source=pulumi.FileAsset(str(BASE_DIR / "head-node-on-node-configured.sh")),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 
@@ -58,8 +58,8 @@ compute_node_on_node_configured = aws.s3.BucketObjectv2(
         str(BASE_DIR / "compute-node-on-node-configured.sh")
     ),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 

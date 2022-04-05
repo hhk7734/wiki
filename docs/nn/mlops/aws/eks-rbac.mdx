@@ -106,8 +106,8 @@ read_eks_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": f"{stack}.{name}",
-        "Github": github,
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
     },
 )
 ```
