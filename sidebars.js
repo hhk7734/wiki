@@ -348,6 +348,7 @@ module.exports = {
       items: [
         "nn/mlops/cicd/harbor",
         "nn/mlops/cicd/argo-cd",
+        "nn/mlops/cicd/argo-cd-crd",
         "nn/mlops/cicd/argo-workflows",
         "nn/mlops/cicd/argo-workflows-crd",
         "nn/mlops/cicd/argo-events",

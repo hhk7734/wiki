@@ -31,7 +31,7 @@ helm search repo argo/argo-cd -l | head -n 10
 
 ```shell
 helm show values argo/argo-cd \
-    --version 4.2.2 \
+    --version 4.5.0 \
     > cicd/argo/cd/helm/values.yaml
 ```
 
@@ -44,7 +44,7 @@ server:
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 4.2.2 \
+    --version 4.5.0 \
     -n cicd \
     --create-namespace \
     --values cicd/argo/cd/helm/values.yaml
@@ -221,7 +221,7 @@ server:
 
     # role:readonly, role:admin
     # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-    policy.default: ""
+    policy.default: "role:readonly"
 
     # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
     scopes: "[groups, preferred_username, email]"
@@ -235,3 +235,4 @@ server:
 - [https://argo-cd.readthedocs.io/en/stable/cli_installation/](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
 - [https://argo-cd.readthedocs.io/en/stable/](https://argo-cd.readthedocs.io/en/stable/)
 - [https://github.com/argoproj/argo-cd/tree/master/docs/operator-manual](https://github.com/argoproj/argo-cd/tree/master/docs/operator-manual)
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/

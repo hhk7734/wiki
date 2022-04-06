@@ -1,0 +1,106 @@
+---
+id: argo-cd-crd
+title: Argo CD CRD
+sidebar_label: Argo CD CRD
+description: Argo CD CRD
+keywords:
+  - argo
+  - CD
+  - CRD
+---
+
+## Repository
+
+### SSH
+
+```shell
+ssh-keygen -t ed25519 -N "" -C "your_email@example.com" -f argocd
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-<user>-creds
+  namespace: cicd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+type: Opaque
+stringData:
+  type: git
+  url: git@github.com:<user>
+  sshPrivateKey: |
+    -----BEGIN OPENSSH PRIVATE KEY-----
+    ...
+    -----END OPENSSH PRIVATE KEY-----
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-<user>-<repository>-repo
+  namespace: cicd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+type: Opaque
+stringData:
+  type: git
+  url: git@github.com:<user>/<repository>.git
+```
+
+## Cluster
+
+## AppProject
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: <project>
+  namespace: cicd
+  # Application이 이 프로젝트를 참조하고 있다면 삭제되지 않도록 해주는 옵션입니다.
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: ""
+  sourceRepos:
+    - git@github.com:<user>/<repository>.git
+  destinations:
+    - name: in-cluster # optional
+      namespace: default # 배포할 네임스페이스
+      server: https://kubernetes.default.svc # 배포할 클러스터
+```
+
+## Application
+
+### Helm
+
+argo-cd는 차트의 apiVersion이 v2더라도 v3를 사용합니다. v2를 사용하려면 `.spec.source.helm.version`을 v2라고 명시해야 합니다.
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: <application>-<env>
+  namespace: cicd
+spec:
+  project: <project>
+  source:
+    repoURL: git@github.com:<user>/<repository>.git
+    path: <path>
+    targetRevision: <branch|tag>
+    helm:
+      valueFiles:
+        - <relative_path>/<values>.yaml
+  destination:
+    namespace: <namespace>
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+```
+
+## Reference
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/
