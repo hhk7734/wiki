@@ -50,6 +50,89 @@ stringData:
 
 ## Cluster
 
+### External
+
+원격으로 제어하고 싶은 클러스터에 아래와 같이 ServiceAccount를 생성해주세요. 예시는 Admin 권한이 부여된 상태이기 때문에 보안을 위해 권한을 제한해서 부여해주세요.
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argocd-manager
+  namespace: kube-system
+```
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argocd-manager-role
+rules:
+  - apiGroups:
+      - "*"
+    resources:
+      - "*"
+    verbs:
+      - "*"
+  - nonResourceURLs:
+      - "*"
+    verbs:
+      - "*"
+```
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argocd-manager-role-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argocd-manager-role
+subjects:
+  - kind: ServiceAccount
+    name: argocd-manager
+    namespace: kube-system
+```
+
+서버 URL, 토큰, 인증서를 가져옵니다.
+
+```shell
+kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
+```
+
+```shell
+kubectl -n kube-system get secret $(kubectl -n kube-system get sa/argocd-manager -o jsonpath="{.secrets[0].name}") -o go-template="{{.data.token | base64decode}}"
+```
+
+```shell
+kubectl -n kube-system get secret $(kubectl -n kube-system get sa/argocd-manager -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data['ca\.crt']}"
+```
+
+Argo CD가 설치된 클러스터에 아래와 같이 제어하고싶은 클러스터 정보를 추가해주세요.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <cluster-name>-cluster
+  namespace: cicd
+  labels:
+    argocd.argoproj.io/secret-type: cluster
+type: Opaque
+stringData:
+  name: <cluster-name>
+  server: <url>
+  config: |
+    {
+      "bearerToken": "<token>",
+      "tlsClientConfig": {
+        "insecure": false,
+        "caData": "<base64 encoded certificate>"
+      }
+    }
+```
+
 ## AppProject
 
 ```yaml
@@ -66,9 +149,8 @@ spec:
   sourceRepos:
     - git@github.com:<user>/<repository>.git
   destinations:
-    - name: in-cluster # optional
-      namespace: default # 배포할 네임스페이스
-      server: https://kubernetes.default.svc # 배포할 클러스터
+    - name: <cluster-name>
+      namespace: <namespace>
 ```
 
 ## Application
@@ -93,8 +175,9 @@ spec:
       valueFiles:
         - <relative_path>/<values>.yaml
   destination:
+    name: <cluster-name>
     namespace: <namespace>
-    server: https://kubernetes.default.svc
+  revisionHistoryLimit: <limit>
   syncPolicy:
     automated:
       prune: true
