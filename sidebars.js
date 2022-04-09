@@ -148,6 +148,7 @@ module.exports = {
     "lang/go/restful-api",
     "lang/go/testify",
     "lang/go/context",
+    "lang/go/goroutine",
     {
       type: "category",
       label: "Libraries",
