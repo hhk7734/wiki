@@ -146,6 +146,7 @@ module.exports = {
   go: [
     "lang/go/basics",
     "lang/go/restful-api",
+    "lang/go/logging",
     "lang/go/testify",
     "lang/go/context",
     "lang/go/goroutine",
@@ -328,9 +329,16 @@ module.exports = {
       items: [
         "nn/mlops/network/cni-calico",
         "nn/mlops/network/cert-manager",
-        "nn/mlops/network/istio",
-        "nn/mlops/network/kiali",
-        "nn/mlops/network/trafic-management",
+        {
+          type: "category",
+          label: "Istio",
+          items: [
+            "nn/mlops/network/istio/basics",
+            "nn/mlops/network/istio/gateway-virtual-service",
+            "nn/mlops/network/istio/kiali",
+            "nn/mlops/network/istio/jwt",
+          ],
+        },
       ],
     },
     {
