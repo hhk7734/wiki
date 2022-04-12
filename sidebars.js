@@ -377,6 +377,11 @@ module.exports = {
         "nn/mlops/aws/ses",
       ],
     },
+    {
+      type: "category",
+      label: "Firebase",
+      items: ["nn/mlops/firebase/authentication"],
+    },
   ],
   nn: [
     "nn/basics/nn-basics",

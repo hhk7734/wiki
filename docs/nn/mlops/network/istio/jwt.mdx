@@ -7,7 +7,84 @@ keywords:
   - jwt
 ---
 
+## Algorithm
+
+### RS256
+
+```shell
+ssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N ""
+```
+
+```shell
+openssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub
+```
+
+## Token
+
+`<header>.<payload>.<signature>`
+
+### Payload
+
+- 등록된 Claim
+  - `iss`: Issuer
+  - `sub`: Subject, 발행자 컨텍스트 내에서 고유한 값을 가지는 것이 좋습니다.
+  - `aud`: Audience
+  - `exp`: Expiration Time
+  - `nbf`: Not Before
+  - `iat`: Issued At
+  - `jti`: JWT ID
+
+## RequestAuthentication
+
+- https://istio.io/latest/docs/reference/config/security/request_authentication/
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: <name>
+  namespace: <namespace for selector>
+spec:
+  selector:
+    matchLabels:
+      <key>: <value>
+  jwtRules:
+    - issuer: <issuer>
+      jwksUri: <jwksUri>
+      forwardOriginalToken: false
+      outputPayloadToHeader: x-authorization-payload
+```
+
+## AuthorizationPolicy
+
+- https://istio.io/latest/docs/reference/config/security/authorization-policy/
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: <name>
+  namespace: <namespace for selector>
+spec:
+  selector:
+    matchLabels:
+      <key>: <value>
+  action: ALLOW
+  rules:
+    - from:
+        - source:
+            namespaces:
+              - default
+        - source:
+            requestPrincipals: ["<iss>/<sub>"]
+```
+
+:::info
+`rules`에서 사용되는 값은 `abc`(일치), `abc*`(앞부분 일치), `*abc`(뒷부분 일치), `*`(빈 문자 제외)를 사용할 수 있습니다.
+:::
+
 ## Reference
 
+- https://jwt.io/
 - https://istio.io/latest/docs/tasks/security/authentication/authn-policy/#end-user-authentication
 - https://istio.io/latest/docs/tasks/security/authorization/authz-jwt/

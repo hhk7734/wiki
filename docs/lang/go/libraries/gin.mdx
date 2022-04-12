@@ -13,6 +13,143 @@ keywords:
 go get -u github.com/gin-gonic/gin
 ```
 
+## Logger(zap)
+
+```go
+package logger
+
+import (
+	"net"
+	"net/http"
+	"net/http/httputil"
+	"os"
+	"runtime/debug"
+	"strings"
+	"time"
+
+	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+)
+
+type Config struct {
+	SkipPaths []string
+}
+
+func Init(debug bool) {
+	var l *zap.Logger
+	if debug {
+		l, _ = zap.NewDevelopment()
+	} else {
+		l, _ = zap.NewProduction()
+	}
+	defer l.Sync()
+	zap.ReplaceGlobals(l)
+}
+
+func Ginzap(skipPaths []string) gin.HandlerFunc {
+	skip := make(map[string]bool, len(skipPaths))
+	for _, path := range skipPaths {
+		skip[path] = true
+	}
+
+	return func(c *gin.Context) {
+		start := time.Now()
+		// some evil middlewares modify this values
+		path := c.Request.URL.Path
+		c.Next()
+
+		if _, ok := skip[path]; !ok {
+			end := time.Now()
+			latency := end.Sub(start)
+
+			if len(c.Errors) > 0 {
+				// Append error field if this is an erroneous request.
+				for _, e := range c.Errors {
+					fields := []zapcore.Field{
+						zap.String("method", c.Request.Method),
+						zap.String("url", path),
+						zap.Int("status", c.Writer.Status()),
+						zap.String("remoteAddress", c.Request.Header.Get("x-envoy-external-address")),
+						zap.String("user-agent", c.Request.UserAgent()),
+						zap.Error(e),
+						zap.Duration("latency", latency),
+					}
+					zap.L().Info(path, fields...)
+				}
+			} else {
+				fields := []zapcore.Field{
+					zap.String("method", c.Request.Method),
+					zap.String("url", path),
+					zap.Int("status", c.Writer.Status()),
+					zap.String("remoteAddress", c.Request.Header.Get("x-envoy-external-address")),
+					zap.String("user-agent", c.Request.UserAgent()),
+					zap.Uint("user_id", userID.(uint)),
+					zap.Duration("latency", latency),
+				}
+				zap.L().Info(path, fields...)
+			}
+		}
+	}
+}
+
+func RecoveryWithZap(stack bool) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				// Check for a broken connection, as it is not really a
+				// condition that warrants a panic stack trace.
+				var brokenPipe bool
+				if ne, ok := err.(*net.OpError); ok {
+					if se, ok := ne.Err.(*os.SyscallError); ok {
+						if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+							brokenPipe = true
+						}
+					}
+				}
+
+				httpRequest, _ := httputil.DumpRequest(c.Request, false)
+				if brokenPipe {
+					zap.L().Error(c.Request.URL.Path,
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+					// If the connection is dead, we can't write a status to it.
+					c.Error(err.(error)) // nolint: errcheck
+					c.Abort()
+					return
+				}
+
+				if stack {
+					zap.L().Error("[Recovery from panic]",
+						zap.Time("time", time.Now()),
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+						zap.String("stack", string(debug.Stack())),
+					)
+				} else {
+					zap.L().Error("[Recovery from panic]",
+						zap.Time("time", time.Now()),
+						zap.Any("error", err),
+						zap.String("request", string(httpRequest)),
+					)
+				}
+				c.AbortWithStatus(http.StatusInternalServerError)
+			}
+		}()
+		c.Next()
+	}
+}
+```
+
+```go title="main.go"
+	logger.Init(os.Getenv("GIN_MODE") == "debug")
+
+	r := gin.New()
+	r.Use(logger.Ginzap([]string{}))
+	r.Use(logger.RecoveryWithZap(true))
+```
+
 ## Reference
 
 - [https://github.com/gin-gonic/gin](https://github.com/gin-gonic/gin)

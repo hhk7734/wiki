@@ -66,6 +66,7 @@ spec:
     - <gateway>
     - <namespace>/<gateway>
   http: # HTTP 라우팅 규칙입니다.
+    # 먼저 설정한 규칙의 우선순위가 높습니다.
     - name: <name> # 디버깅에 사용되는 이름
       match:
         # 이 규칙을 적용할 트래픽을 선택합니다. uri, schema, method, headers 등
