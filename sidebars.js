@@ -337,6 +337,7 @@ module.exports = {
             "nn/mlops/network/istio/gateway-virtual-service",
             "nn/mlops/network/istio/kiali",
             "nn/mlops/network/istio/jwt",
+            "nn/mlops/network/istio/cors",
           ],
         },
       ],

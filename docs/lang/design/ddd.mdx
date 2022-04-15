@@ -55,7 +55,11 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 
 엔티티나 값 객체에 속하지는 않지만 이들을 조합하여 수행되어야 하는 도메인 논리들을 **도메인 서비스(Domain Service)**라고 합니다.
 
-- 도메인 서비스 자체로는 많은 일을 하지 않으며, 내부에서 사용되는 객체가 대부분의 일을 수행합니다.
+- 상태를 갖지 않습니다.
+- 어떤 도메인 객체에 포함시키기 어렵습니다.
+- 다음의 경우 사용할 수 있습니다.
+  - 중요한 비지니스 프로세스를 수행하는 경우(예를 들어 둘 이상의 도메인 객체에서 필요로하는 입력 값을 계산)
+  - 어떤 컴포지션(조합)에서 다른 컴포지션(조합)으로 도메인 객체를 변경하는 경우
 
 #### Aggregate
 
@@ -72,11 +76,15 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 - 리포지터리(Repository)를 만들 때 애그리거트 루트를 반환하도록 만듭니다.
 - 삭제 연산 시 애그리거트의 모든 객체를 제거해야 합니다.
 
+#### Factory
+
+#### Repository
+
 ## Application layer
 
 ### Application Service
 
-도메인 객체를 사용하여 특정 시나리오를 수행하거나 도메인 객체와 상관없이 애플리케이션의 편의를 위해 제공되는 기능들, 즉 애플리케이션에 특화된 논리들을 **애플리케이션 서비스(Application Service)**라고 합니다.
+도메인 객체를 사용하여 **특정 시나리오**를 수행하거나 도메인 객체와 상관없이 **애플리케이션의 편의**를 위해 제공되는 기능들, 즉 애플리케이션에 특화된 논리들을 **애플리케이션 서비스(Application Service)**라고 합니다.
 
 - 애플리케이션 서비스의 인터페이스는 도메인 모델의 외적 요소의 측면에서 정의되어야 합니다.
 - 매개변수와 반환 타입은 도메인 객체로 구성되어야 합니다.
@@ -104,8 +112,31 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 
 #### Secondary/Driven Adapter
 
+## Directory Structure
+
+```shell
+├── domain/
+│   ├── factory/
+│   │   ├── entity_1.go
+│   │   └── ...
+│   ├── repository/
+│   │   ├── entity_1.go # 인터페이스
+│   │   └── ...
+│   ├── service/
+│   │   ├── service_1.go
+│   │   └── ...
+│   ├── valueobject/
+│   │   ├── valueobject_1.go
+│   │   ├── valueobject_2.go
+│   │   └── ...
+│   ├── entity_1.go # 애그리거트 루트
+│   ├── entity_2.go
+│   └── ...
+```
+
 ## Reference
 
 - [https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
 - Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software
+- Vaughn Vernon, Implementing Domain-Driven Design
 - Robert C. Martin, Clean Architecture
