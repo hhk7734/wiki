@@ -369,6 +369,14 @@ module.exports = {
       type: "category",
       label: "AWS",
       items: [
+        {
+          type: "category",
+          label: "IAM",
+          items: [
+            "nn/mlops/aws/iam/basics",
+            "nn/mlops/aws/iam/cross-accounts-access",
+          ],
+        },
         "nn/mlops/aws/eks",
         "nn/mlops/aws/eks-rbac",
         "nn/mlops/aws/aws-cloud-controller-manager​",
