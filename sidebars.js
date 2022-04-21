@@ -328,6 +328,7 @@ module.exports = {
       label: "Network",
       items: [
         "nn/mlops/network/cni-calico",
+        "nn/mlops/network/coredns",
         "nn/mlops/network/cert-manager",
         {
           type: "category",
@@ -377,6 +378,7 @@ module.exports = {
             "nn/mlops/aws/iam/cross-accounts-access",
           ],
         },
+        "nn/mlops/aws/vpc",
         "nn/mlops/aws/eks",
         "nn/mlops/aws/eks-rbac",
         "nn/mlops/aws/aws-cloud-controller-manager​",

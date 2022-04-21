@@ -169,7 +169,7 @@ helm search repo karpenter/karpenter -l | head -n 10
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.7.2 \
+    --version 0.8.2 \
     > node/karpenter/helm/values.yaml
 ```
 
@@ -187,11 +187,14 @@ aws:
 ```
 
 ```shell
+kubectl create namespace karpenter
+```
+
+```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.7.2 \
+    --version 0.8.2 \
     -n karpenter \
-    --create-namespace \
     -f node/karpenter/helm/values.yaml
 ```
 
@@ -313,9 +316,11 @@ Karpenter는 각 Node에 `Finalizer`를 설정하여 Node 삭제 프로세스를
 spec:
   # ttlSecondsAfterEmpty를 설정하면 Daemonset을 제외한 Pod가 없을 때,
   # 설정 된 시간내에 새로운 Pod이 스케줄 되지 않으면 Node를 정리합니다.
+  # In seconds
   ttlSecondsAfterEmpty: <int>
   # ttlSecondsUntilExpired를 설정하면 Node가 시작된 후, 설정 된 시간이 지났을 때,
   # Node를 정리합니다.
+  # In seconds
   ttlSecondsUntilExpired: <int>
 ```
 

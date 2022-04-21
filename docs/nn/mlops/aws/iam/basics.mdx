@@ -9,10 +9,31 @@ keywords:
 
 ## Group
 
-그룹에 권한을 부여하고 유저를 그룹에 추가
+그룹에 권한을 부여하고 유저를 그룹에 추가하는 방식으로 사용됩니다. 예를 들어 EC2를 관리하는 ec2-manager 그룹을 만들고, A, B, C 유저를 그룹에 추가하는 방식입니다.
 
 ## User
 
+- Root User(`arn:aws:iam::<account-id>:root`): 해당 계정의 모든 권한을 가진 사용자 계정입니다.
+- User는 사람이 될 수도 있고, 서비스가 될 수도 있습니다.
+- AWS CLI, boto3 등을 위해 사용됩니다.
+- `arn:aws:iam::<account-id>:user/[<path>/]<user-name>`로 관리됩니다.
+- 권한을 부여하는 방법은
+  - 직접 Policy 연결
+  - 원하는 Policy가 있는 그룹에 연결
+  - Role에 권한을 부여하고 `"Action": "sts:AssumeRole"` + `"Principal": {"AWS": "<user-arn>"}`을 추가하여 연결
+
+:::info
+Role을 사용하는 경우 `aws sts assume-role`을 사용하여 임시 AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN을 발급 받아서 사용하게 되는데, 여러 계정과 여러 권한을 행사해야 하는 경우 스위칭해가며 작업하는 것이 불편했습니다.
+:::
+
 ## Role
 
+- 사람이 아닌 경우, 예를 들어 EC2, EKS 내의 POD 등에 권한을 부여할 때, 사용됩니다.
+- `arn:aws:iam::<account-id>:role/[<path>/]<role-name>`로 관리됩니다.
+- Role에 직접 Policy를 연결하여 권한을 부여합니다.
+
 ## Policy
+
+## Reference
+
+- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html

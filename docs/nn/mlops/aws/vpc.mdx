@@ -1,0 +1,122 @@
+---
+id: vpc
+title: VPC
+sidebar_label: VPC
+description: VPC
+keywords:
+  - VPC
+---
+
+## VPC & Subnet
+
+## RouteTable
+
+- VPC에는 암시적 라우터가 있습니다.
+- RouteTable은 Subnet에 대한 라우팅 정의입니다.
+- Subnet에 명시적으로 RouteTable을 연결하지 않으면 기본 RouteTable에 연결됩니다.
+- Subnet은 하나의 RouteTable에만 연결됩니다.
+- RouteTable에는 여러개의 Subnet을 연결할 수 있습니다.
+- RouteTable에는 기본적으로 VPC 내부 통신을 위한 로컬 라우팅이 포함됩니다.
+
+```python
+name = "public-rtb"
+public_rtb = aws.ec2.RouteTable(
+    name,
+    vpc_id=vpc.id,
+    routes=[
+        aws.ec2.RouteTableRouteArgs(
+            cidr_block="0.0.0.0/0", # 모든 IPv4 타겟에 대한 요청
+            gateway_id=igw.id, # Internet Gateway
+        )
+    ],
+    opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
+    },
+)
+
+public_subnet = {}
+
+name = "public-subnet-0"
+public_subnet["0"] = aws.ec2.Subnet(
+    name,
+    vpc_id=vpc.id,
+    cidr_block="172.16.1.0/24",
+    availability_zone=AZs.names[0],
+    map_public_ip_on_launch=True,
+    opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
+    },
+)
+
+aws.ec2.RouteTableAssociation(
+    "public-rtb-assoc-0",
+    subnet_id=public_subnet["0"].id,
+    route_table_id=public_rtb.id,
+    opts=pulumi.ResourceOptions(parent=public_rtb),
+)
+```
+
+```python
+name = "ngw"
+ngw = aws.ec2.NatGateway(
+    name,
+    allocation_id=aws.ec2.Eip(
+        f"{name}-eip",
+        opts=pulumi.ResourceOptions(parent=public_subnet["0"]),
+        tags={
+            "Name": f"{variable.stack_name}.{name}-eip",
+            "Github": variable.github,
+        },
+    ).id,
+    subnet_id=public_subnet["0"].id,
+    opts=pulumi.ResourceOptions(parent=public_subnet["0"]),
+    tags={
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
+    },
+)
+
+name = "private-rtb"
+private_rtb = aws.ec2.RouteTable(
+    name,
+    vpc_id=vpc.id,
+    routes=[
+        aws.ec2.RouteTableRouteArgs(
+            cidr_block="0.0.0.0/0", # 모든 IPv4 타겟에 대한 요청
+            nat_gateway_id=ngw.id, # NAT(Network Address Translation) Gateway
+        ),
+    ],
+    opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
+    },
+)
+
+private_subnet = {}
+
+name = "private-subnet-0"
+private_subnet["0"] = aws.ec2.Subnet(
+    name,
+    vpc_id=vpc.id,
+    cidr_block="172.16.2.0/24",
+    availability_zone=AZs.names[0],
+    map_public_ip_on_launch=False,
+    opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": f"{variable.stack_name}.{name}",
+        "Github": variable.github,
+    },
+)
+
+aws.ec2.RouteTableAssociation(
+    "private-rtb-assoc-0",
+    subnet_id=private_subnet["0"].id,
+    route_table_id=private_rtb.id,
+    opts=pulumi.ResourceOptions(parent=private_rtb),
+)
+```
