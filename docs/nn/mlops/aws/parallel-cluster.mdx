@@ -21,7 +21,8 @@ vpc = aws.ec2.Vpc(
     cidr_block="172.16.0.0/16",
     opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -39,7 +40,8 @@ head_node_on_node_configured = aws.s3.BucketObjectv2(
     key=f"parallel/{name}.sh",
     source=pulumi.FileAsset(str(BASE_DIR / "head-node-on-node-configured.sh")),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -58,7 +60,8 @@ compute_node_on_node_configured = aws.s3.BucketObjectv2(
         str(BASE_DIR / "compute-node-on-node-configured.sh")
     ),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -80,17 +83,11 @@ compute_node_on_node_configured_uri = pulumi.Output.all(
 
 ## pcluster
 
-```shell
-export PARALLEL_CLUSTER_NAME=<cluster-name>
-```
-
 ### create-cluster
 
 ```shell
-pcluster configure --config cluster-config.yaml
+export PARALLEL_CLUSTER_NAME=<cluster-name>
 ```
-
-대화형으로 클러스터를 생성합니다.
 
 ```shell
 pcluster create-cluster \
@@ -100,7 +97,21 @@ pcluster create-cluster \
 
 config 파일을 사용하여 클러스터를 생성합니다.
 
+```shell
+pcluster describe-cluster \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+| jq '.cloudFormationStackStatus'
+```
+
+:::info
+`pcluster configure --config cluster-config.yaml` 명령어를 통해 대화형으로 클러스터를 생성합니다.
+:::
+
 ### update-cluster
+
+```shell
+export PARALLEL_CLUSTER_NAME=<cluster-name>
+```
 
 ```shell
 pcluster update-compute-fleet \
@@ -127,6 +138,10 @@ pcluster update-compute-fleet \
 ```
 
 ### delete-cluster
+
+```shell
+export PARALLEL_CLUSTER_NAME=<cluster-name>
+```
 
 ```shell
 pcluster delete-cluster \

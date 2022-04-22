@@ -1,0 +1,65 @@
+---
+id: spot-role
+title: Spot Role
+sidebar_label: Spot Role
+description: Spot Role
+keywords:
+  - Spot Role
+---
+
+## AmazonEC2SpotFleetTaggingRole
+
+```python
+import json
+
+import pulumi
+import pulumi_aws as aws
+
+from .. import variable
+
+name = "AmazonEC2SpotFleetTaggingRole"
+spot_fleet_tagging = aws.iam.Role(
+    name,
+    name=name,
+    assume_role_policy=json.dumps(
+        {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Principal": {
+                        "Service": "spotfleet.amazonaws.com",
+                    },
+                    "Action": "sts:AssumeRole",
+                }
+            ],
+        }
+    ),
+    opts=pulumi.ResourceOptions(protect=True),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+
+name = "spot-fleet-tagging-rpa-0"
+aws.iam.RolePolicyAttachment(
+    name,
+    policy_arn="arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
+    role=spot_fleet_tagging.name,
+    opts=pulumi.ResourceOptions(parent=spot_fleet_tagging, protect=True),
+)
+```
+
+## AWSServiceRoleForEC2Spot
+
+```shell
+aws iam create-service-linked-role --aws-service-name spot.amazonaws.com
+```
+
+## AWSServiceRoleForEC2SpotFleet
+
+```shell
+aws iam create-service-linked-role --aws-service-name spotfleet.amazonaws.com
+```

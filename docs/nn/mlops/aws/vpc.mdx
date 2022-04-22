@@ -9,6 +9,98 @@ keywords:
 
 ## VPC & Subnet
 
+```python
+name = "vpc"
+vpc = aws.ec2.Vpc(
+    name,
+    enable_dns_hostnames=True,
+    enable_dns_support=True,
+    instance_tenancy="default",
+    cidr_block="172.16.0.0/16",
+    opts=pulumi.ResourceOptions(protect=True),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+
+name = "igw"
+igw = aws.ec2.InternetGateway(
+    name,
+    vpc_id=vpc.id,
+    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+
+AZs = aws.get_availability_zones(state="available")
+
+name = "default-public-subnet"
+default_public_subnet = aws.ec2.Subnet(
+    name,
+    vpc_id=vpc.id,
+    cidr_block="172.16.0.0/24",
+    availability_zone=AZs.names[0],
+    map_public_ip_on_launch=True,
+    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+
+name = "default-public-rtb"
+default_public_rtb = aws.ec2.RouteTable(
+    name,
+    vpc_id=vpc.id,
+    routes=[
+        aws.ec2.RouteTableRouteArgs(
+            cidr_block="0.0.0.0/0",
+            gateway_id=igw.id,
+        )
+    ],
+    opts=pulumi.ResourceOptions(parent=vpc),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+
+aws.ec2.RouteTableAssociation(
+    "default-public-subnet-rtb-assoc-0",
+    subnet_id=default_public_subnet.id,
+    route_table_id=default_public_rtb.id,
+    opts=pulumi.ResourceOptions(parent=default_public_rtb),
+)
+
+name = "ngw"
+ngw = aws.ec2.NatGateway(
+    name,
+    allocation_id=aws.ec2.Eip(
+        f"{name}-eip",
+        opts=pulumi.ResourceOptions(parent=default_public_subnet),
+        tags={
+            "Name": f"{name}-eip",
+            "Stack": variable.stack_name,
+            "Github": variable.github,
+        },
+    ).id,
+    subnet_id=default_public_subnet.id,
+    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+```
+
 ## RouteTable
 
 - VPC에는 암시적 라우터가 있습니다.
@@ -31,23 +123,8 @@ public_rtb = aws.ec2.RouteTable(
     ],
     opts=pulumi.ResourceOptions(parent=vpc),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
-        "Github": variable.github,
-    },
-)
-
-public_subnet = {}
-
-name = "public-subnet-0"
-public_subnet["0"] = aws.ec2.Subnet(
-    name,
-    vpc_id=vpc.id,
-    cidr_block="172.16.1.0/24",
-    availability_zone=AZs.names[0],
-    map_public_ip_on_launch=True,
-    opts=pulumi.ResourceOptions(parent=vpc),
-    tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -57,66 +134,5 @@ aws.ec2.RouteTableAssociation(
     subnet_id=public_subnet["0"].id,
     route_table_id=public_rtb.id,
     opts=pulumi.ResourceOptions(parent=public_rtb),
-)
-```
-
-```python
-name = "ngw"
-ngw = aws.ec2.NatGateway(
-    name,
-    allocation_id=aws.ec2.Eip(
-        f"{name}-eip",
-        opts=pulumi.ResourceOptions(parent=public_subnet["0"]),
-        tags={
-            "Name": f"{variable.stack_name}.{name}-eip",
-            "Github": variable.github,
-        },
-    ).id,
-    subnet_id=public_subnet["0"].id,
-    opts=pulumi.ResourceOptions(parent=public_subnet["0"]),
-    tags={
-        "Name": f"{variable.stack_name}.{name}",
-        "Github": variable.github,
-    },
-)
-
-name = "private-rtb"
-private_rtb = aws.ec2.RouteTable(
-    name,
-    vpc_id=vpc.id,
-    routes=[
-        aws.ec2.RouteTableRouteArgs(
-            cidr_block="0.0.0.0/0", # 모든 IPv4 타겟에 대한 요청
-            nat_gateway_id=ngw.id, # NAT(Network Address Translation) Gateway
-        ),
-    ],
-    opts=pulumi.ResourceOptions(parent=vpc),
-    tags={
-        "Name": f"{variable.stack_name}.{name}",
-        "Github": variable.github,
-    },
-)
-
-private_subnet = {}
-
-name = "private-subnet-0"
-private_subnet["0"] = aws.ec2.Subnet(
-    name,
-    vpc_id=vpc.id,
-    cidr_block="172.16.2.0/24",
-    availability_zone=AZs.names[0],
-    map_public_ip_on_launch=False,
-    opts=pulumi.ResourceOptions(parent=vpc),
-    tags={
-        "Name": f"{variable.stack_name}.{name}",
-        "Github": variable.github,
-    },
-)
-
-aws.ec2.RouteTableAssociation(
-    "private-rtb-assoc-0",
-    subnet_id=private_subnet["0"].id,
-    route_table_id=private_rtb.id,
-    opts=pulumi.ResourceOptions(parent=private_rtb),
 )
 ```

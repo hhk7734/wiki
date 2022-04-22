@@ -39,6 +39,21 @@ curl -fsSL https://get.pulumi.com | sh
 ## Tutorial
 
 ```shell
+test
+├── __init__.py
+├── __main__.py
+├── Pulumi.test.dev.yaml
+├── Pulumi.yaml
+└── src
+    ├── __init__.py
+    ├── variable.py
+    └── ec2
+        ├── __init__.py
+        ├── output.py
+        └── ec2.py
+```
+
+```shell
 mkdir test && cd test
 ```
 
@@ -48,6 +63,12 @@ mkdir test && cd test
 
 ```shell
 export PULUMI_CONFIG_PASSPHRASE_FILE=<path>/pulumi_config_passphrase
+```
+
+또는
+
+```shell
+export PULUMI_CONFIG_PASSPHRASE=<암호>
 ```
 
 - https://www.pulumi.com/docs/reference/pulumi-yaml/
@@ -70,15 +91,27 @@ encryptionsalt: "*****"
 config:
   aws:region: <region>
   aws:profile: <profile>
+  <project>:github: <repo>
 ```
 
 :::info
 backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<project>.<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.(s3를 backend로 할 때 아직 `<organization>/<project>/<stack>`을 지원하지 않는 것 같습니다.)
 :::
 
-```python titile="__main__.py"
+```python title="src/variable.py"
+import pulumi
+
+stack_name = pulumi.get_stack()
+
+config = pulumi.Config()
+github = config.require("github")
+```
+
+```python title="src/ec2/ec2.py"
 import pulumi
 import pulumi_aws as aws
+
+from .. import variable
 
 name = "app_server"
 aws_instance = aws.ec2.Instance(
@@ -87,11 +120,27 @@ aws_instance = aws.ec2.Instance(
     instance_type="t3.micro",
     tags={
         "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
     },
 )
+```
 
-pulumi.export("instance_id", aws_instance.id)
-pulumi.export("instance_public_ip", aws_instance.public_ip)
+```python title="src/ec2/output.py"
+import pulumi
+
+from . import ec2
+
+pulumi.export("instance_id", ec2.aws_instance.id)
+pulumi.export("instance_public_ip", ec2.aws_instance.public_ip)
+```
+
+```python title="src/ec2/__init__.py"
+from . import ec2, output
+```
+
+```python title="__main__.py"
+from src import ec2
 ```
 
 ```shell

@@ -165,6 +165,8 @@ kind: Application
 metadata:
   name: <application>-<env>
   namespace: cicd
+  finalizers: # Application이 삭제되면 해당하는 리소스를 삭제합니다.
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: <project>
   source:

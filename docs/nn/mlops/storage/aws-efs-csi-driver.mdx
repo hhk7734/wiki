@@ -32,7 +32,8 @@ efs = aws.efs.FileSystem(
     encrypted=True,
     opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -60,7 +61,8 @@ efs_sg = aws.ec2.SecurityGroup(
     ],
     opts=pulumi.ResourceOptions(parent=efs),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -119,7 +121,8 @@ efs_csi_driver_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -150,7 +153,8 @@ efs_csi_driver_role = aws.iam.Role(
         )
     ),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
@@ -189,7 +193,8 @@ efs_csi_driver_policy = aws.iam.Policy(
         }
     ),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )

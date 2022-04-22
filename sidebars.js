@@ -376,11 +376,15 @@ module.exports = {
           items: [
             "nn/mlops/aws/iam/basics",
             "nn/mlops/aws/iam/cross-accounts-access",
+            "nn/mlops/aws/iam/spot-role",
           ],
         },
         "nn/mlops/aws/vpc",
-        "nn/mlops/aws/eks",
-        "nn/mlops/aws/eks-rbac",
+        {
+          type: "category",
+          label: "EKS",
+          items: ["nn/mlops/aws/eks/basics", "nn/mlops/aws/eks/eks-rbac"],
+        },
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
         "nn/mlops/aws/parallel-cluster",

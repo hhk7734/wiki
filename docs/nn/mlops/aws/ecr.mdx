@@ -10,16 +10,18 @@ keywords:
 ## Registry
 
 ```python
+name = "test"
 test_registry = aws.ecr.Repository(
-    "test-registry",
+    f"{name}-ecr",
+    name=name,
     encryption_configurations=[aws.ecr.RepositoryEncryptionConfigurationArgs()],
     image_scanning_configuration=aws.ecr.RepositoryImageScanningConfigurationArgs(
         scan_on_push=False,
     ),
-    name="test",
     opts=pulumi.ResourceOptions(protect=True),
     tags={
-        "Name": f"{variable.stack_name}.{name}",
+        "Name": name,
+        "Stack": variable.stack_name,
         "Github": variable.github,
     },
 )
