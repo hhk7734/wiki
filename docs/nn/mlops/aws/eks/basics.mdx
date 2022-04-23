@@ -59,6 +59,7 @@ cluster = aws.eks.Cluster(
     vpc_config=aws.eks.ClusterVpcConfigArgs(
         subnet_ids=[
             vpc.public_subnet["0"],
+            vpc.public_subnet["1"],
             vpc.private_subnet["0"],
             vpc.private_subnet["1"],
         ],

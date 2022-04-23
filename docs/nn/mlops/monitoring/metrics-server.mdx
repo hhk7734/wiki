@@ -40,11 +40,14 @@ args:
 :::
 
 ```shell
+kubectl create namespace monitoring
+```
+
+```shell
 helm upgrade metrics-server metrics-server/metrics-server \
     --install \
     --version 3.8.2 \
     -n monitoring \
-    --create-namespace \
     -f monitoring/metrics_server/helm/values.yaml
 ```
 

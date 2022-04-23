@@ -28,6 +28,10 @@ mkdir -p network/istio/helm
 helm search repo istio/ -l
 ```
 
+```shell
+kubectl create namespace istio-system
+```
+
 ### base
 
 ```shell
@@ -41,7 +45,6 @@ helm upgrade istio-base istio/base \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    --create-namespace \
     -f network/istio/helm/base-values.yaml
 ```
 
@@ -58,7 +61,6 @@ helm upgrade istiod istio/istiod \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    --create-namespace \
     -f network/istio/helm/istiod-values.yaml
 ```
 
@@ -114,19 +116,10 @@ affinity:
 ```
 
 ```shell
-kubectl create namespace istio-ingress
-```
-
-```shell
-kubectl label namespace istio-ingress istio-injection=enabled
-```
-
-```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    --create-namespace \
     -f network/istio/helm/ingress-values.yaml
 ```
 
@@ -134,10 +127,6 @@ helm upgrade istio-ingress istio/gateway \
 
 ```shell
 helm uninstall -n istio-system istio-ingress
-```
-
-```shell
-kubectl delete namespace istio-ingress
 ```
 
 ```shell

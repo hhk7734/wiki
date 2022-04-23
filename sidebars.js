@@ -329,7 +329,6 @@ module.exports = {
       items: [
         "nn/mlops/network/cni-calico",
         "nn/mlops/network/coredns",
-        "nn/mlops/network/cert-manager",
         {
           type: "category",
           label: "Istio",
@@ -341,6 +340,7 @@ module.exports = {
             "nn/mlops/network/istio/cors",
           ],
         },
+        "nn/mlops/network/cert-manager",
       ],
     },
     {

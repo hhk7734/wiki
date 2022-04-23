@@ -9,9 +9,178 @@ keywords:
 
 AWS EFS Container Storage Interface Driver
 
-## Prerequisites
+## Installation
 
-### EFS
+### CSI role
+
+```python
+name = "efs-csi-driver-policy"
+efs_csi_driver_policy = aws.iam.Policy(
+    name,
+    name_prefix=name,
+    policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": [
+                        "elasticfilesystem:DescribeAccessPoints",
+                        "elasticfilesystem:DescribeFileSystems",
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+                {
+                    "Action": ["elasticfilesystem:CreateAccessPoint"],
+                    "Condition": {
+                        "StringLike": {
+                            "aws:RequestTag/efs.csi.aws.com/cluster": "true"
+                        }
+                    },
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+                {
+                    "Action": "elasticfilesystem:DeleteAccessPoint",
+                    "Condition": {
+                        "StringEquals": {
+                            "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
+                        }
+                    },
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+            ],
+            "Version": "2012-10-17",
+        }
+    ),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
+)
+
+name = "efs-csi-driver-role"
+efs_csi_driver_role = aws.iam.Role(
+    name,
+    name_prefix=name,
+    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
+        lambda args: json.dumps(
+            {
+                "Version": "2012-10-17",
+                "Statement": [
+                    {
+                        "Effect": "Allow",
+                        "Principal": {
+                            "Federated": f"arn:aws:iam::{variable.account_id}:oidc-provider/{args['oidc_url']}"
+                        },
+                        "Action": "sts:AssumeRoleWithWebIdentity",
+                        "Condition": {
+                            "StringEquals": {
+                                f"{args['oidc_url']}:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
+                            }
+                        },
+                    }
+                ],
+            }
+        )
+    ),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
+)
+
+aws.iam.RolePolicyAttachment(
+    "efs-csi-driver-rpa-0",
+    role=efs_csi_driver_role.name,
+    policy_arn=efs_csi_driver_policy.arn,
+    opts=pulumi.ResourceOptions(parent=efs_csi_driver_role),
+)
+```
+
+:::warning
+subnet이 다르거나 다른 availability zone에 있을 때(?), `elasticfilesystem:DescribeMountTargets`와 `ec2:DescribeAvailabilityZones` 관련 권한이 없다는 에러가 발생할 수 있습니다.
+
+```python
+# EKS Node find EFS
+
+name = "eks-ng-find-efs-policy"
+efs_csi_driver_policy = aws.iam.Policy(
+    name,
+    name_prefix=name,
+    policy=json.dumps(
+        {
+            "Statement": [
+                {
+                    "Action": [
+                        "elasticfilesystem:DescribeMountTargets",
+                        "ec2:DescribeAvailabilityZones",
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*",
+                },
+            ],
+            "Version": "2012-10-17",
+        }
+    ),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
+)
+```
+
+:::
+
+### Helm
+
+```shell
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver \
+&& helm repo update aws-efs-csi-driver
+```
+
+```shell
+mkdir -p storage/aws-efs-csi-driver/{dynamic,helm,static}
+```
+
+```shell
+helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
+```
+
+```shell
+helm show values aws-efs-csi-driver/aws-efs-csi-driver \
+    --version 2.2.5 \
+    > storage/aws-efs-csi-driver/helm/values.yaml
+```
+
+```shell
+pulumi stack output efs_csi_driver_role_arn
+```
+
+```yaml title="storage/aws-efs-csi-driver/helm/values.yaml"
+controller:
+  serviceAccount:
+    create: true
+    name: efs-csi-controller-sa
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
+```
+
+```shell
+helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+    --install \
+    --version 2.2.5 \
+    -n kube-system \
+    -f storage/aws-efs-csi-driver/helm/values.yaml
+```
+
+## EFS
 
 ```python
 # EFS
@@ -74,177 +243,6 @@ aws.efs.MountTarget(
     subnet_id=vpc.private_subnet["0"].id,
     opts=pulumi.ResourceOptions(parent=efs),
 )
-```
-
-### CSI role
-
-```python
-# CSI
-
-name = "efs-csi-driver-policy"
-efs_csi_driver_policy = aws.iam.Policy(
-    name,
-    name_prefix=name,
-    policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "elasticfilesystem:DescribeAccessPoints",
-                        "elasticfilesystem:DescribeFileSystems",
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-                {
-                    "Action": ["elasticfilesystem:CreateAccessPoint"],
-                    "Condition": {
-                        "StringLike": {
-                            "aws:RequestTag/efs.csi.aws.com/cluster": "true"
-                        }
-                    },
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-                {
-                    "Action": "elasticfilesystem:DeleteAccessPoint",
-                    "Condition": {
-                        "StringEquals": {
-                            "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
-                        }
-                    },
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-name = "efs-csi-driver-role"
-efs_csi_driver_role = aws.iam.Role(
-    name,
-    name_prefix=name,
-    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
-        lambda args: json.dumps(
-            {
-                "Version": "2012-10-17",
-                "Statement": [
-                    {
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Federated": f"arn:aws:iam::{account_id}:oidc-provider/{args['oidc_url']}"
-                        },
-                        "Action": "sts:AssumeRoleWithWebIdentity",
-                        "Condition": {
-                            "StringEquals": {
-                                f"{args['oidc_url']}:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
-                            }
-                        },
-                    }
-                ],
-            }
-        )
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-aws.iam.RolePolicyAttachment(
-    "efs-csi-driver-rpa-0",
-    role=efs_csi_driver_role.name,
-    policy_arn=efs_csi_driver_policy.arn,
-    opts=pulumi.ResourceOptions(parent=efs_csi_driver_role),
-)
-```
-
-:::warning
-subnet이 다르거나 다른 availability zone에 있을 때(?), `elasticfilesystem:DescribeMountTargets`와 `ec2:DescribeAvailabilityZones` 관련 권한이 없다는 에러가 발생할 수 있습니다.
-
-```python
-# EKS Node find EFS
-
-name = "eks-ng-find-efs-policy"
-efs_csi_driver_policy = aws.iam.Policy(
-    name,
-    name_prefix=name,
-    policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "elasticfilesystem:DescribeMountTargets",
-                        "ec2:DescribeAvailabilityZones",
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-```
-
-:::
-
-## Installation
-
-```shell
-helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver \
-&& helm repo update aws-efs-csi-driver
-```
-
-```shell
-mkdir -p storage/aws-efs-csi-driver/{dynamic,helm,static}
-```
-
-```shell
-helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
-```
-
-```shell
-helm show values aws-efs-csi-driver/aws-efs-csi-driver \
-    --version 2.2.4 \
-    > storage/aws-efs-csi-driver/helm/values.yaml
-```
-
-[이미지 주소](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/add-ons-images.html)를 참고하여 아래 옵션을 수정합니다.
-
-```shell
-pulumi stack output efs_csi_driver_role_arn
-```
-
-```yaml title="storage/aws-efs-csi-driver/helm/values.yaml"
-controller:
-  serviceAccount:
-    create: true
-    name: efs-csi-controller-sa
-    annotations:
-      eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
-```
-
-```shell
-helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
-    --install \
-    --version 2.2.4 \
-    -n kube-system \
-    --create-namespace \
-    -f storage/aws-efs-csi-driver/helm/values.yaml
 ```
 
 ## StorageClass

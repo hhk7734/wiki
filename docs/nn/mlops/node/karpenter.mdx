@@ -9,9 +9,7 @@ keywords:
 
 ## Prerequisites
 
-EKS cluster tag에 `"karpenter.sh/discovery": <cluster_name>`을 추가합니다.
-
-[https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html](https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html)
+진행 전 Spot Role에 대한 설정을 먼저 해주세요.
 
 ### Karpenter Role
 
@@ -48,7 +46,7 @@ karpenter_controller_policy = aws.iam.Policy(
             "Version": "2012-10-17",
         }
     ),
-    opts=pulumi.ResourceOptions(parent=eks),
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
     tags={
         "Name": name,
         "Stack": variable.stack_name,
@@ -60,7 +58,7 @@ name = "eks-karpenter-controller-role"
 karpenter_controller_role = aws.iam.Role(
     name,
     name_prefix=name,
-    assume_role_policy=pulumi.Output.all(oidc_url=oidc_provider.url,).apply(
+    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
         lambda args: json.dumps(
             {
                 "Version": "2012-10-17",
@@ -68,7 +66,7 @@ karpenter_controller_role = aws.iam.Role(
                     {
                         "Effect": "Allow",
                         "Principal": {
-                            "Federated": f"arn:aws:iam::{account_id}:oidc-provider/{args['oidc_url']}"
+                            "Federated": f"arn:aws:iam::{variable.account_id}:oidc-provider/{args['oidc_url']}"
                         },
                         "Action": "sts:AssumeRoleWithWebIdentity",
                         "Condition": {
@@ -81,7 +79,7 @@ karpenter_controller_role = aws.iam.Role(
             }
         )
     ),
-    opts=pulumi.ResourceOptions(parent=eks),
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
     tags={
         "Name": name,
         "Stack": variable.stack_name,
@@ -116,7 +114,7 @@ ng_role = aws.iam.Role(
             "Version": "2012-10-17",
         }
     ),
-    opts=pulumi.ResourceOptions(parent=eks),
+    opts=pulumi.ResourceOptions(parent=eks.cluster),
     tags={
         "Name": name,
         "Stack": variable.stack_name,
@@ -204,6 +202,8 @@ helm upgrade karpenter karpenter/karpenter \
 
 ## Provisioner
 
+- https://karpenter.sh/v0.8.2/provisioner/
+
 Provisioner는 **Provisioner에 명시된 제약사항**과 **Workload에 명시된 제약사항 중 처리 가능한 제약사항**을 고려하여 프로비저닝을 수행합니다. 옵션이 다양한 만큼 여러 제약사항의 조합을 만들 수 있도록 하여 유언성을 제공합니다.
 
 또한 kube-scheduler나 Node가 준비 상태가 되기 전에 Pod가 배치되기 위한 작업을 미리 수행해서 노드 시작 대기 시간을 줄여 줍니다.
@@ -245,6 +245,8 @@ spec:
 ```
 
 ### AWS provider
+
+- https://karpenter.sh/v0.8.2/aws/provisioning/
 
 ```yaml
 spec:
@@ -332,6 +334,5 @@ spec:
 
 ## Reference
 
-- [https://github.com/aws/karpenter](https://github.com/aws/karpenter)
-- [https://karpenter.sh/v0.6.1/getting-started-with-terraform/](https://karpenter.sh/v0.6.1/getting-started-with-terraform/)
-- [https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html](https://docs.aws.amazon.com/ko_kr/batch/latest/userguide/spot_fleet_IAM_role.html)
+- https://github.com/aws/karpenter
+- https://karpenter.sh/v0.8.2/getting-started/getting-started-with-terraform/

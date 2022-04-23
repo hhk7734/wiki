@@ -31,7 +31,7 @@ helm search repo argo/argo-cd -l | head -n 10
 
 ```shell
 helm show values argo/argo-cd \
-    --version 4.5.0 \
+    --version 4.5.7 \
     > cicd/argo/cd/helm/values.yaml
 ```
 
@@ -42,11 +42,14 @@ server:
 ```
 
 ```shell
+kubectl create namespace cicd
+```
+
+```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 4.5.0 \
+    --version 4.5.7 \
     -n cicd \
-    --create-namespace \
     --values cicd/argo/cd/helm/values.yaml
 ```
 

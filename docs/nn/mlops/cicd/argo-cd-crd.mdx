@@ -141,7 +141,8 @@ kind: AppProject
 metadata:
   name: <project>
   namespace: cicd
-  # Application이 이 프로젝트를 참조하고 있다면 삭제되지 않도록 해주는 옵션입니다.
+  # Application이 이 프로젝트를 참조하고 있다면 이 프로젝트를 삭제하려고 시도할 때,
+  # 삭제되지 않도록 해주는 옵션입니다.
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
@@ -165,6 +166,8 @@ kind: Application
 metadata:
   name: <application>-<env>
   namespace: cicd
+  labels:
+    "<example.com/project-env>": <env> # 웹 UI에서 필터링을 위해 사용할 수 있습니다.
   finalizers: # Application이 삭제되면 해당하는 리소스를 삭제합니다.
     - resources-finalizer.argocd.argoproj.io
 spec:

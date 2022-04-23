@@ -24,7 +24,7 @@ helm search repo jetstack/cert-manager -l | head -n 10
 
 ```shell
 helm show values jetstack/cert-manager \
-    --version v1.7.2 \
+    --version v1.8.0 \
     > network/cert_manager/helm/values.yaml
 ```
 
@@ -35,9 +35,8 @@ installCRDs: true
 ```shell
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
-    --version v1.7.2 \
+    --version v1.8.0 \
     -n network \
-    --create-namespace \
     -f network/cert_manager/helm/values.yaml
 ```
 
@@ -106,17 +105,17 @@ metadata:
   name: letsencrypt-prod
 spec:
   acme:
-    email: # email
+    email: "" # email
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt-prod-secret
     solvers:
       - selector:
           dnsZones:
-            -  # "domain"
+            - "" # "domain"
         dns01:
           cloudflare:
-            email: # cloudflare email
+            email: "" # cloudflare email
             apiTokenSecretRef:
               name: cloudflare-api-token-secret
               key: api-token
@@ -127,14 +126,14 @@ apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
   name: ingress-cert
-  namespace: istio-ingress # 이를 사용할 ingress gateway의 namespace를 지정합니다.
+  namespace: istio-system # 이를 사용할 ingress gateway의 namespace를 지정합니다.
 spec:
   secretName: ingress-cert-tls
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   dnsNames:
-    -  # "*.sub.domain"
-    -  # "sub.domain"
+    - "" # "*.sub.domain"
+    - "" # "sub.domain"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-prod
