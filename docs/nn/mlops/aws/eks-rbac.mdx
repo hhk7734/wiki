@@ -72,8 +72,8 @@ metadata:
   namespace: default
 subjects:
   - apiGroup: rbac.authorization.k8s.io
-    kind: Group
-    name: guest
+    kind: Group # 그룹에 대한 리소스는 따로 없습니다.
+    name: guest-group
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -129,7 +129,7 @@ data:
     - userarn: arn:aws:iam::<account-id>:user/<username>
       username: <username>
       groups:
-        - guest
+        - guest-group
 ```
 
 :::info
@@ -154,6 +154,14 @@ aws eks update-kubeconfig \
 
 ```shell
 export KUBECONFIG=<config-path>[:<config-path>]
+```
+
+```shell
+kubectl config get-contexts
+```
+
+```shell
+kubectl config use-context <context-name>
 ```
 
 ```shell
