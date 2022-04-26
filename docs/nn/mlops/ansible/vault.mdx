@@ -7,3 +7,17 @@ keywords:
   - Ansible
   - Vault
 ---
+
+## Variable
+
+```shell
+ansible-vault encrypt_string --vault-id <user>@prompt --name <key> [value]
+```
+
+```shell
+ansible all -m ping --vault-id <user>@prompt -i <inventory>
+```
+
+```shell
+ansible-playbook --vault-id <user>@prompt -i <inventory> <playbook>
+```

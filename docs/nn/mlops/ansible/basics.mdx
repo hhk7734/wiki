@@ -33,6 +33,8 @@ ssh-copy-id -i<path>/<id file>.pub [-p<port>] <managed user>@<managed ip>
 
 ## Inventory
 
+- https://docs.ansible.com/ansible-core/devel/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
+
 기본 인벤토리 파일은 `/etc/ansible/hosts` 파일입니다.
 
 ```yaml
@@ -59,7 +61,7 @@ ansible all -m ping
 ```shell
 ansible/
 ├── inventories/
-│   ├── production/
+│   ├── production/
 │   │   ├── hosts # production 서버용 inventory
 │   │   ├── group_vars/
 │   │   │   ├── <group 1>.yaml # 특정 그룹에 대한 변수
@@ -69,7 +71,7 @@ ansible/
 │   │       ├── <hostname 1>.yaml # 특정 호스트에 대한 변수
 │   │       ├── <hostname 2>.yaml
 │   │       └── ...
-│   └── dev/
+│   └── dev/
 │       ├── hosts
 │       ├── group_vars/
 │       │   ├── <group 1>.yaml
@@ -87,23 +89,23 @@ ansible/
 ├── ...
 └── roles/
     ├── <role 1>/
-    │   ├── tasks/
-    │   │   └── main.yaml
-    │   ├── files/
-    │   │   ├── <shell script>
-    │   │   └── <file>
-    │   ├── vars/
-    │   │   └── main.yaml
-    │   └── ...
+    │   ├── tasks/
+    │   │   └── main.yaml
+    │   ├── files/
+    │   │   ├── <shell script>
+    │   │   └── <file>
+    │   ├── vars/
+    │   │   └── main.yaml
+    │   └── ...
     ├── <role 2>/
-    │   ├── tasks/
-    │   │   └── main.yaml
-    │   ├── files/
-    │   │   ├── <shell script>
-    │   │   └── <file>
-    │   ├── vars/
-    │   │   └── main.yaml
-    │   └── ...
+    │   ├── tasks/
+    │   │   └── main.yaml
+    │   ├── files/
+    │   │   ├── <shell script>
+    │   │   └── <file>
+    │   ├── vars/
+    │   │   └── main.yaml
+    │   └── ...
     └── ...
 ```
 
@@ -115,3 +117,10 @@ ansible-playbook <playbook>
 
 - `-i|--inventory`
 - `-K|--ask-become-pass`
+
+```shell title="example.yaml"
+- hosts: all
+  tasks:
+  - name: "example"
+    command: "echo hello"
+```
