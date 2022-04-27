@@ -1,0 +1,78 @@
+---
+id: postgresql
+title: postgresql
+sidebar_label: postgresql
+description: postgresql
+keywords:
+  - postgresql
+---
+
+## Installation
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <secret-name>
+  namespace: storage
+type: Opaque
+stringData:
+  postgres-password: <password>
+```
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <pvc-name>
+  namespace: storage
+spec:
+  storageClassName: <storage-class>
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami \
+&& helm repo update bitnami
+```
+
+```shell
+helm search repo bitnami/postgresql -l | head -n 10
+```
+
+```shell
+helm show values bitnami/postgresql \
+    --version 11.1.25 \
+    > values.yaml
+```
+
+```yaml
+primary:
+  persistence:
+    existingClaim: <pvc-name>
+auth:
+  enablePostgresUser: true
+    existingSecret: <secret-name>
+```
+
+```shell
+helm upgrade postgresql bitnami/postgresql \
+    --install \
+    --version 11.1.25 \
+    -n storage \
+    --values values.yaml
+```
+
+## Test
+
+```shell
+kubectl run tmp-psql --rm -it --image docker.io/bitnami/postgresql -- /bin/bash
+```
+
+```shell
+psql --host postgresql.storage -U postgres
+```

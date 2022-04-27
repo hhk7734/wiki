@@ -1,0 +1,69 @@
+---
+id: keycloak
+title: keycloak
+sidebar_label: keycloak
+description: keycloak
+keywords:
+  - keycloak
+---
+
+## Installation
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <secret-name>
+  namespace: auth
+type: Opaque
+stringData:
+  admin-password: <password>
+  management-password: <password>
+  db-password: <password>
+```
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami \
+&& helm repo update bitnami
+```
+
+```shell
+helm search repo bitnami/keycloak -l | head -n 10
+```
+
+```shell
+helm show values bitnami/keycloak \
+    --version 7.1.17 \
+    > values.yaml
+```
+
+```yaml
+auth:
+  createAdminUser: true
+  adminUser: <user>
+  managementUser: <user>
+  existingSecret: <secret-name>
+service:
+  type: ClusterIP
+postgresql:
+  enabled: false
+externalDatabase:
+  host: <host>
+  port: <port>
+  user: <user>
+  database: <database>
+  existingSecret: <secret-name>
+  existingSecretPasswordKey: db-password
+```
+
+```shell
+kubectl create namespace auth
+```
+
+```shell
+helm upgrade keycloak bitnami/keycloak \
+    --install \
+    --version 7.1.17 \
+    -n auth \
+    --values values.yaml
+```
