@@ -79,17 +79,17 @@ service:
       targetPort: 15021
       name: status-port
       protocol: TCP
-      nodePort: 30649
+      nodePort: <nodePort>
     - port: 80
       targetPort: 8080
       name: http2
       protocol: TCP
-      nodePort: 30667
+      nodePort: <nodePort>
     - port: 443
       targetPort: 8443
       name: https
       protocol: TCP
-      nodePort: 32699
+      nodePort: <nodePort>
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
