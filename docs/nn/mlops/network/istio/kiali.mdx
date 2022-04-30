@@ -65,50 +65,13 @@ helm upgrade kiali kiali/kiali-server \
 
 ## Keycloak
 
-:::warning
-아직 로그인에 성공하지 못한 내용입니다.
-:::
-
-- Client
-  - `kiali` client 추가
-    - Settings
-      - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
-      - Root URL: `<kiali-url>`
-      - Valid Redirect URIs: ``
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<kiali-client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `kiali` client
-    - Client Scopes
-      - Default Client scopes
-        - `groups` 추가
-- Groups
-  - `kiali-admin` 추가
-  - `kiali-dev` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
+Kubernetes api-server과 OIDC를 연결합니다.
 
 ```yaml title="istio/kiali/helm/values.yaml"
 auth:
   strategy: "openid"
   openid:
-    client_id: "kiali"
-    disable_rbac: true
+    client_id: <k8s>
     issuer_uri: <oidc-issuer-uri>
     scopes:
       - "openid"
@@ -132,6 +95,32 @@ metadata:
 type: Opaque
 stringData:
   oidc-secret: <oidc-secret>
+```
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kiali-vscv
+  namespace: istio-system
+spec:
+  hosts:
+    - <kiali-host>
+  gateways:
+    - <gateway>
+  http:
+    - match:
+        - uri:
+            prefix: "/"
+      headers:
+        request:
+          set:
+            X-Forwarded-Port: "443"
+      route:
+        - destination:
+            host: kiali.istio-system.svc.cluster.local
+            port:
+              number: 20001
 ```
 
 ## Service

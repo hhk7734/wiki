@@ -358,7 +358,7 @@ module.exports = {
     {
       type: "category",
       label: "Auth",
-      items: ["nn/mlops/auth/keycloak"],
+      items: ["nn/mlops/auth/keycloak", "nn/mlops/auth/oauth2-proxy"],
     },
     {
       type: "category",
