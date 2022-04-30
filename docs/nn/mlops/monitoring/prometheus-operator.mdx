@@ -26,7 +26,7 @@ helm search repo prometheus-community/kube-prometheus-stack -l | head -n 10
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 30.2.0 \
+    --version 35.0.3 \
     > monitoring/prometheus-operator/helm/values.yaml
 ```
 
@@ -133,10 +133,13 @@ prometheus:
 ```shell
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
-    --version 30.2.0 \
+    --version 35.0.3 \
     -n monitoring \
-    --create-namespace \
     -f monitoring/prometheus-operator/helm/values.yaml
+```
+
+```shell
+kubectl label namespace monitoring prometheus=enabled
 ```
 
 ```shell
@@ -174,6 +177,74 @@ kubectl port-forward -n monitoring service/prometheus-operator-grafana 8004:80
 
 [http://localhost:8004](http://localhost:8004)
 
+#### Keycloak
+
+- Client
+  - `grafana` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Root URL: `<grafana-url>`
+      - Valid Redirect URIs: `<grafana-url>/login/generic_oauth`
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<grafana-client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `grafana` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+- Groups
+  - `grafana-admin` 추가
+  - `grafana-dev` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+```yaml title="monitoring/prometheus-operator/helm/values.yaml"
+# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
+# https://grafana.com/docs/grafana/latest/auth/generic-oauth/#generic-oauth-authentication
+grafana:
+  grafana.ini:
+    server:
+      root_url: <grafana-url>
+    auth.generic_oauth:
+      enabled: true
+      name: Keycloak
+      allow_sign_up: false
+      client_id: grafana
+      client_secret: <grafana-client-secret>
+      scopes: openid profile email groups
+      auth_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/auth
+      token_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/token
+      api_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/userinfo
+      role_attribute_path: contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-dev') && 'Editor' || 'Viewer'
+    database:
+      type: mysql|postgres|sqlite3
+      host: <host>:<port>
+      name: <database>
+      user: grafana
+      password: <grafana-password>
+    security:
+      disable_initial_admin_creation: true
+```
+
+:::warning
+초기에 생성된 admin 계정은 꼭 삭제해주세요.
+:::
+
 ## CRDs
 
 <center>
@@ -194,13 +265,9 @@ metadata:
   name: istiod
   namespace: monitoring
 spec:
-  # ...
-
   serviceMonitorNamespaceSelector: # 감시할 ServiceMonitor의 namespace를 선택합니다.
     matchLabels:
       prometheus: enabled
-
-  # ...
 ```
 
 - `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.
@@ -279,6 +346,6 @@ spec:
 
 ## Reference
 
-- [https://github.com/prometheus-community/helm-charts](https://github.com/prometheus-community/helm-charts)
+- https://github.com/prometheus-community/helm-charts
 - [https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md)
 - [https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md](https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md)

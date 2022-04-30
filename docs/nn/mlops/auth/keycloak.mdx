@@ -32,21 +32,30 @@ helm search repo bitnami/keycloak -l | head -n 10
 ```
 
 ```shell
-helm show values bitnami/keycloak \
-    --version 7.1.17 \
-    > values.yaml
+mkdir -p atuh/keycloak/helm
 ```
 
-```yaml
+```shell
+helm show values bitnami/keycloak \
+    --version 7.1.17 \
+    > atuh/keycloak/helm/values.yaml
+```
+
+```yaml title="atuh/keycloak/helm/values.yaml"
 auth:
-  createAdminUser: true
+  createAdminUser: true # 설치 성공 후, admin 역할의 유저를 생성하고, 이 값을 false로 해주세요.
   adminUser: <user>
   managementUser: <user>
   existingSecret: <secret-name>
+
+proxyAddressForwarding: true
+
 service:
   type: ClusterIP
+
 postgresql:
   enabled: false
+
 externalDatabase:
   host: <host>
   port: <port>
@@ -72,6 +81,25 @@ helm upgrade keycloak bitnami/keycloak \
 
 - Master Realm: 처음 시작할 때 생성되어 있는 realm으로 관리자 계정이 포함되어 있습니다. 다른 realm을 생성할 때만 사용하세요.
 - Other Realm: 사용자와 필요한 응용 프로그램을 관리합니다.
+
+## Authentication
+
+- Authentication
+  - Flows
+    - Forms
+      - Browser - Conditional OTP
+        - REQUIRED
+  - Required Actions
+    - Configure OTP: enabled, default action
+    - Update Password: enabled, default action
+  - Password Policy
+    - Minimum Length: 8
+    - Lowercase Characters: 1
+    - Digits: 1
+    - Special Characters: 1
+  - OTP Policy
+    - OTP Type: Time Based
+    - OTP Token Period: 30
 
 ## Client
 

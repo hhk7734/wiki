@@ -7,6 +7,8 @@ keywords:
   - multi-cluster
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 ## Configure Trust
 
 - https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/
@@ -54,6 +56,161 @@ kubectl create secret generic cacerts -n istio-system \
 ```
 
 ## Multi-Primary on different networks
+
+<center>
+  <img src={useBaseUrl("img/nn/mlops/istio/istio-multi-primary-diff.svg")} />
+</center>
+
+<center>
+  <strong>Multiple primary clusters on separate networks</strong>
+</center>
+<br />
+
+### Cross gateway
+
+각 클러스터 별로 아래 과정을 동일하게 수행해주세요.
+
+```shell
+kubectl config use-context <context>
+```
+
+```shell
+kubectl label namespace istio-system topology.istio.io/network=<network>
+```
+
+:::warning
+`meshID`를 제외한 다른 값들은 클러스터별로 다른 값을 설정해주세요.
+:::
+
+```yaml title="network/istio/helm/istiod-values.yaml"
+meshConfig:
+  enablePrometheusMerge: true
+  rootNamespace: istio-system
+  trustDomain: "cluster.local"
+
+global:
+  meshID: <mesh-id> # 이 값은 공통으로 사용됩니다.
+  multiCluster:
+    enabled: true
+    clusterName: <cluster-name>
+  network: <network>
+```
+
+```shell
+helm upgrade istiod istio/istiod \
+    --install \
+    --version $ISTIO_VERSION \
+    -n istio-system \
+    -f network/istio/helm/istiod-values.yaml
+```
+
+```shell
+helm show values istio/gateway \
+    --version $ISTIO_VERSION \
+    > network/istio/helm/cross-ingress-values.yaml
+```
+
+```yaml title="network/istio/helm/cross-ingress-values.yaml"
+service:
+  ports:
+    - name: status-port
+      port: 15021
+      targetPort: 15021
+      protocol: TCP
+      nodePort: <node-port-1>
+    - name: tls
+      port: 15443
+      targetPort: 15443
+      protocol: TCP
+      nodePort: <node-port-2>
+    - name: tls-istiod
+      port: 15012
+      targetPort: 15012
+      protocol: TCP
+      nodePort: <node-port-3>
+    - name: tls-webhook
+      port: 15017
+      targetPort: 15017
+      protocol: TCP
+      nodePort: <node-port-4>
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+
+labels:
+  topology.istio.io/network: <network>
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - cross-ingress
+          topologyKey: "kubernetes.io/hostname"
+        weight: 50
+
+networkGateway: <network>
+```
+
+```shell
+helm upgrade cross-ingress istio/gateway \
+    --install \
+    --version $ISTIO_VERSION \
+    -n istio-system \
+    -f network/istio/helm/cross-ingress-values.yaml
+```
+
+```yaml title="network/istio/cross-gateway.yaml"
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: cross-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: cross-ingress
+  servers:
+    - port:
+        number: 15443
+        name: tls
+        protocol: TLS
+      tls:
+        mode: AUTO_PASSTHROUGH
+      hosts:
+        - "*.local"
+```
+
+```shell
+kubectl apply -f network/istio/cross-gateway.yaml
+```
+
+### Endpoint Discovery
+
+각 클러스터가 api-server에 접근할 수 있도록 설정해주세요.
+
+```shell
+istioctl x create-remote-secret \
+  --context=<A-cluster-context> \
+  --name=<A-cluster-name> | \
+  kubectl apply -f - --context=<B-cluster-context>
+```
+
+## Test
+
+```shell
+kubectl run tmp-shell --rm -it --image nicolaka/netshoot --labels sidecar.istio.io/inject="true" -- /bin/bash
+```
 
 ## Reference
 

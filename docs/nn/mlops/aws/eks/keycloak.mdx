@@ -1,0 +1,88 @@
+---
+id: keycloak
+title: keycloak
+sidebar_label: keycloak
+description: keycloak
+keywords:
+  - keycloak
+---
+
+## Keycloak
+
+- Client
+  - `eks` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Valid Redirect URIs: `*`
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<eks-client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `eks` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+- Groups
+  - `cluster-admin` 추가
+  - `cluster-dev` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+## EKS
+
+### Associate Identity Provider
+
+EKS -> Cluster -> `<cluster>` -> Configuration -> Authentication -> Associate Identity Provider
+
+- Name: `<name>`
+- Issuer URL: `<keycloak-url>/auth/realms/<realm>`
+- Client ID: eks
+- Username claim: `email|prefferd_username`
+- Groups claim: groups
+
+:::warning
+email로 설정할 경우 Token에서 `email_verified: true`를 확인합니다.
+:::
+
+### kubectl
+
+```shell
+kubectl krew install oidc-login
+```
+
+```yaml
+users:
+  - name: <name>
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=<keycloak-url>/auth/realms/<realm>
+          - --oidc-client-id=eks
+          - --oidc-client-secret=<eks-client-secret>
+```
+
+:::info
+인증이 안되면 ClowdWatch에서 EKS의 kube-apiserver의 로그를 확인해 주세요.
+:::
+
+## Reference
+
+- https://docs.aws.amazon.com/eks/latest/userguide/authenticate-oidc-identity-provider.html

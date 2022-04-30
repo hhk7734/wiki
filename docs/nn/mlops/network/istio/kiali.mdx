@@ -25,28 +25,22 @@ helm repo add kiali https://kiali.org/helm-charts \
 Istio 버전에 따라 호환되는 Kiali 버전을 선택해야합니다.
 
 ```shell
-helm search repo kiali -l
+helm search repo kiali -l | head -n 10
 ```
 
 ```shell
-mkdir -p istio/kiali/base
+mkdir -p istio/kiali/{base,helm}
 ```
 
 ```shell
 helm show values kiali/kiali-server \
-    --version 1.33.1 \
-    > istio/kiali/base/values.yaml
+    --version 1.50.0 \
+    > istio/kiali/helm/values.yaml
 ```
 
-```yaml title="istio/kiali/base/values.yaml"
-# ...
-
+```yaml title="istio/kiali/helm/values.yaml"
 auth:
-  openid: {}
-  openshift: {}
   strategy: anonymous
-
-# ...
 
 external_services:
   custom_dashboards:
@@ -55,7 +49,6 @@ external_services:
     url: http://prometheus-operator-prometheus.monitoring:9090 # 프로메테우스 서비스 주소
   grafana:
     url: http://prometheus-operator-grafana.monitoring # 그라파나 서비스 주소
-# ...
 ```
 
 :::warning
@@ -65,25 +58,91 @@ Grafana는 아직 테스트 되지 않았습니다.
 ```shell
 helm upgrade kiali kiali/kiali-server \
     --install \
-    --version 1.33.1 \
+    --version 1.50.0 \
     -n istio-system \
-    -f istio/kiali/base/values.yaml
+    -f istio/kiali/helm/values.yaml
 ```
 
-```shell
-helm get manifest -n istio-system kiali \
-    > istio/kiali/base/manifest.yaml
+## Keycloak
+
+:::warning
+아직 로그인에 성공하지 못한 내용입니다.
+:::
+
+- Client
+  - `kiali` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Root URL: `<kiali-url>`
+      - Valid Redirect URIs: ``
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<kiali-client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `kiali` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+- Groups
+  - `kiali-admin` 추가
+  - `kiali-dev` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+```yaml title="istio/kiali/helm/values.yaml"
+auth:
+  strategy: "openid"
+  openid:
+    client_id: "kiali"
+    disable_rbac: true
+    issuer_uri: <oidc-issuer-uri>
+    scopes:
+      - "openid"
+      - "profile"
+      - "email"
+      - "groups"
+    username_claim: "email"
+
+deployment:
+  secret_name: "kiali"
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: istio-system
+  labels:
+    app: kiali
+type: Opaque
+stringData:
+  oidc-secret: <oidc-secret>
 ```
 
 ## Service
 
 ```shell
-kubectl proxy
+kubectl port-forward -n istio-system service/kiali 8007:20001
 ```
 
-[http://localhost:8001/api/v1/namespaces/istio-system/services/http:kiali:20001/proxy/#](http://localhost:8001/api/v1/namespaces/istio-system/services/http:kiali:20001/proxy/#)
+- http://localhost:8007
 
 ## Reference
 
-- [https://kiali.io/docs/architecture/architecture/](https://kiali.io/docs/architecture/architecture/)
-- [https://kiali.io/docs/configuration/](https://kiali.io/docs/configuration/)
+- https://kiali.io/docs/architecture/architecture/
+- https://kiali.io/docs/configuration/

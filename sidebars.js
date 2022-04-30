@@ -316,6 +316,7 @@ module.exports = {
         "nn/mlops/storage/aws-ebs-csi-driver",
         "nn/mlops/storage/aws-efs-csi-driver",
         "nn/mlops/storage/rook-ceph",
+        "nn/mlops/storage/postgresql",
       ],
     },
     {
@@ -338,6 +339,7 @@ module.exports = {
             "nn/mlops/network/istio/kiali",
             "nn/mlops/network/istio/jwt",
             "nn/mlops/network/istio/cors",
+            "nn/mlops/network/istio/multi-cluster",
           ],
         },
         "nn/mlops/network/cert-manager",
@@ -352,6 +354,11 @@ module.exports = {
         "nn/mlops/monitoring/prometheus-operator",
         "nn/mlops/monitoring/dcgm-exporter",
       ],
+    },
+    {
+      type: "category",
+      label: "Auth",
+      items: ["nn/mlops/auth/keycloak"],
     },
     {
       type: "category",
@@ -383,7 +390,11 @@ module.exports = {
         {
           type: "category",
           label: "EKS",
-          items: ["nn/mlops/aws/eks/basics", "nn/mlops/aws/eks/eks-rbac"],
+          items: [
+            "nn/mlops/aws/eks/basics",
+            "nn/mlops/aws/eks/eks-rbac",
+            "nn/mlops/aws/eks/keycloak",
+          ],
         },
         "nn/mlops/aws/aws-cloud-controller-manager​",
         "nn/mlops/aws/cluster-autoscaler",
