@@ -302,7 +302,6 @@ module.exports = {
       items: [
         "nn/mlops/kubernetes/deployment",
         "nn/mlops/kubernetes/service",
-        "nn/mlops/kubernetes/rbac",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
       ],
     },
@@ -358,7 +357,12 @@ module.exports = {
     {
       type: "category",
       label: "Auth",
-      items: ["nn/mlops/auth/keycloak", "nn/mlops/auth/oauth2-proxy"],
+      items: [
+        "nn/mlops/auth/kubeconfig",
+        "nn/mlops/auth/rbac",
+        "nn/mlops/auth/keycloak",
+        "nn/mlops/auth/oauth2-proxy",
+      ],
     },
     {
       type: "category",
@@ -424,24 +428,24 @@ module.exports = {
       items: ["nn/basics/rnn/nn-rnn"],
     },
   ],
-  nodejs: [
+  javascript: [
     {
       type: "category",
       label: "ENV",
-      items: ["lang/nodejs/env/nvm"],
+      items: ["lang/javascript/env/nvm"],
     },
     {
       type: "category",
       label: "node-addon-api",
       items: [
-        "lang/nodejs/node-addon-api/basics",
-        "lang/nodejs/node-addon-api/class-binding",
+        "lang/javascript/node-addon-api/basics",
+        "lang/javascript/node-addon-api/class-binding",
       ],
     },
     {
       type: "category",
       label: "emscripten",
-      items: ["lang/nodejs/emscripten/basics"],
+      items: ["lang/javascript/emscripten/basics"],
     },
   ],
   nordic: ["mcu/nordic/nrf-development-environment"],

@@ -68,7 +68,7 @@ module.exports = {
             Go: "go",
             Python: "python",
             Database: "db",
-            "Node.js": "nodejs",
+            JavaScript: "javascript",
             Flutter: "flutter",
             LabVIEW: "labview",
           },

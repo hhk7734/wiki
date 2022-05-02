@@ -152,7 +152,7 @@ server:
 argocd account list
 ```
 
-### SSO-Dex
+### Dex
 
 [Example connectors](https://github.com/dexidp/website/tree/main/content/docs/connectors)
 
@@ -206,11 +206,75 @@ metadata:
   labels:
     app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
 type: Opaque
-data:
-  dex.github.clientSecret: <base64 encoded>
+stringData:
+  dex.github.clientSecret: <secret>
 ```
 
 :::
+
+### OIDC
+
+```yaml title="cicd/argo/cd/helm/values.yaml"
+dex:
+  enabled: false
+
+server:
+  # ConfigMap.data, name: argocd-cm
+  config:
+    url: <uri>
+```
+
+#### Keycloak
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+
+- Client
+  - `argo` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Valid Redirect URIs
+        - `<url>/auth/callback`
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<argo-client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `argo` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+- Groups
+  - `argo-admin` 추가
+  - `argo-dev` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+argocd-secret `.data`에 `oidc.keycloak.clientSecret: <base64 encoded>`를 추가 합니다.
+
+```yaml title="cicd/argo/cd/helm/values.yaml"
+server:
+  # ConfigMap.data, name: argocd-cm
+  config:
+    oidc.config: |
+      name: Keycloak
+      issuer: <keycloak-url>/auth/realms/<realm>
+      clientID: argo
+      clientSecret: $oidc.keycloak.clientSecret # or `$<secret-name>:oidc.keycloak.clientSecret`
+      requestedScopes: ["openid", "profile", "email", "groups"]
+```
 
 ### RBAC
 
