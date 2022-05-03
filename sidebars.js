@@ -352,6 +352,11 @@ module.exports = {
         "nn/mlops/monitoring/kubernetes-dashboard",
         "nn/mlops/monitoring/prometheus-operator",
         "nn/mlops/monitoring/dcgm-exporter",
+        {
+          type: "category",
+          label: "OpenSearch",
+          items: ["nn/mlops/monitoring/opensearch/basics"],
+        },
       ],
     },
     {
