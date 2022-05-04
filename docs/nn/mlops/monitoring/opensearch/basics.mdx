@@ -1,10 +1,10 @@
 ---
 id: basics
-title: ECK Basics
+title: OpenSearch Basics
 sidebar_label: Basics
-description: ECK Basics
+description: OpenSearch Basics
 keywords:
-  - ECK Basics
+  - OpenSearch Basics
 ---
 
 ## Installation
@@ -31,18 +31,55 @@ helm show values opensearch/opensearch \
 ```
 
 ```yaml title="monitoring/opensearch/helm/opensearch-values.yaml"
+replicas: 1
+
 config:
   opensearch.yml: |
+    cluster.name: opensearch-cluster
+
     plugins:
       security:
-        allow_unsafe_democertificates: false
+        ssl:
+          transport:
+            enforce_hostname_verification: false
+          http:
+            enabled: false
+        allow_unsafe_democertificates: true
 
-extraEnvs:
-  - name: DISABLE_INSTALL_DEMO_CONFIG
-    value: "true"
+opensearchJavaOpts: "-Xmx2g -Xms2g"
+
+resources:
+  requests:
+    cpu: "500m"
+    memory: "4Gi"
+  limits:
+    cpu: "2000m"
+    memory: "4Gi"
+
+networkHost: "0.0.0.0"
+```
+
+```shell
+helm upgrade opensearch opensearch/opensearch \
+    --install \
+    --version 1.10.2 \
+    -n monitoring \
+    -f monitoring/opensearch/helm/opensearch-values.yaml
 ```
 
 ### OpenSearch Dashboards
+
+```yaml title="monitoring/opensearch/opensearch-dashboards-account.yaml"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: opensearch-dashboards-account
+  namespace: monitoring
+stringData:
+  username: <username>
+  password: <password>
+  cookie: <cookie>
+```
 
 ```shell
 helm search repo opensearch/opensearch-dashboards -l | head -n 10
@@ -55,15 +92,50 @@ helm show values opensearch/opensearch-dashboards \
 ```
 
 ```yaml title="monitoring/opensearch/helm/opensearch-dashboards-values.yaml"
-opensearchHosts: <url> # http://opensearch-cluster-master:9200
+opensearchHosts: http://opensearch-cluster-master:9200
+replicaCount: 1
+
+config:
+  opensearch_dashboards.yml: |
+    server:
+      name: dashboards
+      host: 0.0.0.0
+    server.ssl.enabled: false
+    opensearch.ssl.verificationMode: none
+
+    # 테스트할 때 true
+    logging.verbose: false
+
+opensearchAccount:
+  secret: "opensearch-dashboards-account"
+  keyPassphrase:
+    enabled: false
 
 resources:
-  limits:
-    memory: 2Gi
-    cpu: 1000m
   requests:
-    memory: 1Gi
     cpu: 200m
+    memory: 1Gi
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+```
+
+```shell
+helm upgrade opensearch-dashboards opensearch/opensearch-dashboards \
+    --install \
+    --version 1.4.1 \
+    -n monitoring \
+    -f monitoring/opensearch/helm/opensearch-dashboards-values.yaml
+```
+
+## Removal
+
+```shell
+helm uninstall -n monitoring opensearch
+```
+
+```shell
+helm uninstall -n monitoring opensearch-dashboards
 ```
 
 ## Reference
