@@ -1,0 +1,117 @@
+---
+id: basics
+title: ECK Basics
+sidebar_label: Basics
+description: ECK Basics
+keywords:
+  - ECK Basics
+---
+
+## Installation
+
+```shell
+mkdir -p monitoring/eck
+```
+
+### Operator
+
+```shell
+wget https://download.elastic.co/downloads/eck/2.1.0/crds.yaml -O monitoring/eck/eck-crds.yaml \
+&& wget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O monitoring/eck/eck-operator.yaml
+```
+
+:::info
+`istio`: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-service-mesh-istio.html
+:::
+
+### Elasticsearch
+
+```yaml title="monitoring/eck/elasticsearch.yaml"
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  namespace: elastic-system
+spec:
+  version: 8.2.0
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  updateStrategy:
+    changeBudget:
+      maxSurge: 3
+      maxUnavailable: 1
+  nodeSets:
+    - name: master
+      config:
+        node.roles:
+          - master
+          - data
+          - ingest
+          - transform
+        node.store.allow_mmap: false
+      count: 1
+      podTemplate:
+        metadata:
+          labels:
+            app: elasticsearch
+            version: v1
+        spec:
+          containers:
+            - name: elasticsearch
+              env:
+                - name: ES_JAVA_OPTS
+                  value: "-Xms2g -Xmx2g"
+              resources:
+                limits:
+                  cpu: "2"
+                  memory: 4Gi
+                requests:
+                  cpu: 500m
+                  memory: 4Gi
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 20Gi
+```
+
+### Kibana
+
+```yaml title="monitoring/eck/kibana.yaml"
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana
+  namespace: elastic-system
+spec:
+  version: 8.2.0
+  count: 1
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  elasticsearchRef:
+    name: elasticsearch
+    namespace: elastic-system
+  podTemplate:
+    metadata:
+      labels:
+        app: kibana
+        version: v1
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1Gi
+            limits:
+              cpu: "1"
+              memory: 2Gi
+```

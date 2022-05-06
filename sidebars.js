@@ -354,6 +354,14 @@ module.exports = {
         "nn/mlops/monitoring/dcgm-exporter",
         {
           type: "category",
+          label: "ECK",
+          items: [
+            "nn/mlops/monitoring/eck/basics",
+            "nn/mlops/monitoring/eck/fluentd",
+          ],
+        },
+        {
+          type: "category",
           label: "OpenSearch",
           items: ["nn/mlops/monitoring/opensearch/basics"],
         },
@@ -365,6 +373,7 @@ module.exports = {
       items: [
         "nn/mlops/auth/kubeconfig",
         "nn/mlops/auth/rbac",
+        "nn/mlops/auth/x509",
         "nn/mlops/auth/keycloak",
         "nn/mlops/auth/oauth2-proxy",
       ],

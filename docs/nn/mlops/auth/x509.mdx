@@ -1,0 +1,136 @@
+---
+id: x509
+title: x509
+sidebar_label: x509
+description: x509
+keywords:
+  - x509
+---
+
+## Root CA
+
+### root-key.pem
+
+```shell
+openssl genrsa -out root-key.pem 3072
+```
+
+### root-ca.conf
+
+```ini
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+
+[ req_dn ]
+commonName = *.loliot.net
+organizationName = loliot
+organizationalUnitName = devops
+countryName = KR
+```
+
+- commonName -\> CN
+- organizationName -\> O, 쿠버네티스에서 Group으로 인식
+- organizationalUnitName -\> OU
+- localityName -\> L
+- stateOrProvinceName -\> ST
+- countryName -\> C
+- emailAddress -\> EMAIL
+
+### root-cert.csr
+
+```shell
+openssl req -new -key root-key.pem -config root-ca.conf -out root-cert.csr
+```
+
+### root-cert.pem
+
+```shell
+openssl x509 -req -days 3650 -signkey root-key.pem \
+    -extensions req_ext -extfile root-ca.conf \
+    -in root-cert.csr -out root-cert.pem
+```
+
+```shell
+openssl x509 -in root-cert.pem -text -noout
+```
+
+## Intermediate CA
+
+### ca-key.pem
+
+```shell
+openssl genrsa -out ca-key.pem 3072
+```
+
+### ca-cert.conf
+
+```ini
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+subjectAltName=@san
+
+[ san ]
+DNS.1 = loliot.net
+
+[ req_dn ]
+commonName = *.loliot.net
+organizationName = loliot
+organizationalUnitName = devops
+countryName = KR
+localityName = Seoul
+```
+
+### ca-cert.csr
+
+```shell
+openssl req -new -config ca-cert.conf -key ca-key.pem -out ca-cert.csr
+```
+
+### ca-cert.pem
+
+```shell
+openssl x509 -req -days 730 \
+    -CA root-cert.pem -CAkey root-key.pem -CAcreateserial\
+    -extensions req_ext -extfile ca-cert.conf \
+    -in ca-cert.csr -out ca-cert.pem
+```
+
+```shell
+openssl x509 -in ca-cert.pem -text -noout
+```
+
+### cert-chain.pem
+
+```shell
+cat ca-cert.pem root-cert.pem > cert-chain.pem
+```

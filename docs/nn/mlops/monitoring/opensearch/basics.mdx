@@ -7,6 +7,10 @@ keywords:
   - OpenSearch Basics
 ---
 
+:::warning
+OIDC 관련 설정에 실패한 내용입니다. 추후 성공하면 수정하도록 하겠습니다.
+:::
+
 ## Installation
 
 ```shell
@@ -20,6 +24,28 @@ mkdir -p monitoring/opensearch/helm
 
 ### OpenSearch
 
+```ini title="monitoring/opensearch/opensearch-cert.conf"
+[ req_ext ]
+subjectAltName=@san
+
+[ san ]
+DNS.1 = opensearch-cluster-master
+```
+
+```shell
+openssl genrsa -out opensearch.key 3072 \
+&& openssl pkcs8 -inform PEM -in opensearch.key \
+    -topk8 -nocrypt -v1 PBE-SHA1-3DES \
+    -outform PEM -out opensearch-key.pem \
+&& rm opensearch.key \
+&& openssl req -new -config opensearch-cert.conf -key opensearch-key.pem -out opensearch.csr \
+&& openssl x509 -req -days 730 \
+    -CA root-cert.pem -CAkey root-key.pem -CAcreateserial\
+    -extensions req_ext -extfile opensearch-cert.conf \
+    -in opensearch.csr -out opensearch-cert.pem \
+&& rm opensearch.csr
+```
+
 ```shell
 helm search repo opensearch/opensearch -l | head -n 10
 ```
@@ -31,20 +57,41 @@ helm show values opensearch/opensearch \
 ```
 
 ```yaml title="monitoring/opensearch/helm/opensearch-values.yaml"
+masterService: "opensearch-cluster-master"
+
 replicas: 1
 
+# /usr/share/opensearch/config를 기준으로 합니다.
 config:
-  opensearch.yml: |
+  # /usr/share/opensearch/config/opensearch.yml
+  opensearch.yml: |-
     cluster.name: opensearch-cluster
+    network.host: 0.0.0.0
 
-    plugins:
-      security:
-        ssl:
-          transport:
-            enforce_hostname_verification: false
-          http:
-            enabled: false
-        allow_unsafe_democertificates: true
+    # https://opensearch.org/docs/latest/security-plugin/configuration/tls
+    plugins.security.allow_unsafe_democertificates: true
+
+    plugins.security.ssl.transport.enabled: true
+    plugins.security.ssl.transport.pemcert_filepath: /usr/share/opensearch/config/opensearch-cert.pem
+    plugins.security.ssl.transport.pemkey_filepath: /usr/share/opensearch/config/opensearch-key.pem
+    plugins.security.ssl.transport.pemtrustedcas_filepath: /usr/share/opensearch/config/root-cert.pem
+
+    plugins.security.ssl.transport.enforce_hostname_verification: false
+
+    plugins.security.ssl.http.enabled: true
+    plugins.security.ssl.http.pemcert_filepath: /usr/share/opensearch/config/opensearch-cert.pem
+    plugins.security.ssl.http.pemkey_filepath: /usr/share/opensearch/config/opensearch-key.pem
+    plugins.security.ssl.http.pemtrustedcas_filepath: /usr/share/opensearch/config/root-cert.pem
+
+    plugins.security.restapi.roles_enabled: ["all_access"]
+
+    # 정규식 사용 불가
+    plugins.security.authcz.admin_dn:
+      - "CN=....." # 수정해야함
+
+    # 정규식 사용 가능
+    plugins.security.nodes_dn:
+      - "CN=....." # 수정해야함
 
 opensearchJavaOpts: "-Xmx2g -Xms2g"
 
@@ -69,6 +116,20 @@ helm upgrade opensearch opensearch/opensearch \
 
 ### OpenSearch Dashboards
 
+```shell
+openssl genrsa -out opensearch-dashboards.key 3072 \
+&& openssl pkcs8 -inform PEM -in opensearch-dashboards.key \
+    -topk8 -nocrypt -v1 PBE-SHA1-3DES \
+    -outform PEM -out opensearch-dashboards-key.pem \
+&& rm opensearch-dashboards.key \
+&& openssl req -new -config opensearch-dashboards-cert.conf -key opensearch-dashboards-key.pem -out opensearch-dashboards.csr \
+&& openssl x509 -req -days 730 \
+    -CA root-cert.pem -CAkey root-key.pem -CAcreateserial\
+    -extensions req_ext -extfile opensearch-dashboards-cert.conf \
+    -in opensearch-dashboards.csr -out opensearch-dashboards-cert.pem \
+&& rm opensearch-dashboards.csr
+```
+
 ```yaml title="monitoring/opensearch/opensearch-dashboards-account.yaml"
 apiVersion: v1
 kind: Secret
@@ -92,16 +153,36 @@ helm show values opensearch/opensearch-dashboards \
 ```
 
 ```yaml title="monitoring/opensearch/helm/opensearch-dashboards-values.yaml"
-opensearchHosts: http://opensearch-cluster-master:9200
+opensearchHosts: https://opensearch-cluster-master:9200
 replicaCount: 1
 
 config:
-  opensearch_dashboards.yml: |
-    server:
-      name: dashboards
-      host: 0.0.0.0
+  # /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+  # https://github.com/opensearch-project/OpenSearch-Dashboards/blob/main/config/opensearch_dashboards.yml
+  opensearch_dashboards.yml: |-
+    server.name: dashboards
+    server.host: 0.0.0.0
+
+    opensearch.hosts: ["https://opensearch-cluster-master:9200"]
+    opensearch.username: kibanaserver
+    opensearch.password: kibanaserver
+
+    opensearch.ssl.verificationMode: full
+    opensearch.ssl.certificateAuthorities: ["/usr/share/opensearch-dashboards/config/root-cert.pem"]
+
+    # browser <-> dashboard
     server.ssl.enabled: false
-    opensearch.ssl.verificationMode: none
+    server.ssl.certificate: /usr/share/opensearch-dashboards/config/opensearch-dashboards-cert.pem
+    server.ssl.key: /usr/share/opensearch-dashboards/config/opensearch-dashboards-key.pem
+
+    opensearch_security.cookie.secure: false
+
+    opensearch.requestHeadersWhitelist: ["securitytenant", "authorization"]
+    opensearch_security.multitenancy.enabled: true
+    opensearch_security.multitenancy.tenants.enable_global: true
+    opensearch_security.multitenancy.tenants.enable_private: true
+    opensearch_security.multitenancy.tenants.preferred: ["Private", "Global"]
+    opensearch_security.multitenancy.enable_filter: false
 
     # 테스트할 때 true
     logging.verbose: false
@@ -126,6 +207,71 @@ helm upgrade opensearch-dashboards opensearch/opensearch-dashboards \
     --version 1.4.1 \
     -n monitoring \
     -f monitoring/opensearch/helm/opensearch-dashboards-values.yaml
+```
+
+### Keycloak
+
+#### OpenSearch
+
+```yaml title="monitoring/opensearch/opensearch-security-config.yaml"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: opensearch-security-config
+  namespace: monitoring
+stringData:
+  config.yaml: |-
+    _meta:
+      type: "config"
+      config_version: 2
+    config:
+      dynamic:
+        authc:
+          basic_internal_auth_domain:
+            http_enabled: true
+            transport_enabled: true
+            order: 0
+            http_authenticator:
+              type: basic
+              challenge: false
+            authentication_backend:
+              type: internal
+
+          openid_auth_domain:
+            http_enabled: true
+            transport_enabled: true
+            order: 1
+            http_authenticator:
+              type: openid
+              challenge: false
+              config:
+                subject_key: email
+                roles_key: groups
+                openid_connect_url: <keycloak-url>/auth/realms/<realm>/.well-known/openid-configuration
+            authentication_backend:
+              type: noop
+```
+
+```yaml title="monitoring/opensearch/helm/opensearch-values.yaml"
+securityConfig:
+  config:
+    securityConfigSecret: "opensearch-security-config"
+```
+
+#### OpenSearch Dashboards
+
+```yaml title="monitoring/opensearch/helm/opensearch-dashboards-values.yaml"
+config:
+  # /usr/share/opensearch-dashboards/config/opensearch_dashboards.yml
+  # https://github.com/opensearch-project/OpenSearch-Dashboards/blob/main/config/opensearch_dashboards.yml
+  opensearch_dashboards.yml: |-
+    opensearch_security.auth.type: openid
+    opensearch_security.openid.connect_url: <keycloak-url>/auth/realms/<realm>/.well-known/openid-configuration
+    opensearch_security.openid.base_redirect_url: <dashboards-url>
+    opensearch_security.openid.client_id: <client-id>
+    opensearch_security.openid.client_secret: <client-secrret>
+    opensearch_security.openid.scope: openid profile email groups
+    opensearch_security.openid.verify_hostnames: "false"
 ```
 
 ## Removal

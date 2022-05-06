@@ -20,7 +20,7 @@ mkdir certs \
 
 ```shell
 wget https://raw.githubusercontent.com/istio/istio/master/tools/certs/common.mk \
-&& wget https://raw.githubusercontent.com/istio/istio/master/tools/certs/Makefile.selfsigned.mk \
+&& wget https://raw.githubusercontent.com/istio/istio/master/tools/certs/Makefile.selfsigned.mk
 ```
 
 ```shell
@@ -39,6 +39,10 @@ export CLUSTER_NAME=<cluster-name>
 ```shell
 make -f Makefile.selfsigned.mk ${CLUSTER_NAME}-cacerts
 ```
+
+:::info
+`CLUSTER_NAME`이 CSR의 `localityName`으로 설정됩니다.
+:::
 
 클러스터 수 만큼 인증서를 생성해주세요.
 
