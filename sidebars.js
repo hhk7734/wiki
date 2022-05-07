@@ -105,7 +105,11 @@ module.exports = {
     },
     "lang/db/mongodb",
     "lang/db/influxdb",
-    "lang/db/postgresql",
+    {
+      type: "category",
+      label: "SQL",
+      items: ["lang/db/sql/postgresql", "lang/db/sql/sqlalchemy"],
+    },
     {
       type: "category",
       label: "S3",

@@ -7,6 +7,22 @@ keywords:
   - fluentd
 ---
 
+## Configuration
+
+- https://docs.fluentd.org/configuration
+
+```shell
+Input -> filter 1 -> ... -> filter N -> Output
+```
+
+- `<source>`: 어떤 정보를 입력받을지 설정
+  - `tag`: `^[a-z0-9_]+$`
+- `<match>`: 처리된 값을 어떻게 사용할지 설정
+- `<filter>`: 발생한 이벤트를 어떻게 처리할지 설정
+- `<system>`: 시스템 설정
+- `<label>`: 내부 라우팅을 위해 필터와 출력 그룹 설정
+- `@include path|glob|url`: 다른 설정파일 호출
+
 ## Installation
 
 ```yaml title="monitoring/eck/fluentd/fluentd-config.yaml"
@@ -18,6 +34,49 @@ metadata:
   labels:
     app: logging
 data:
+  kubernetes.conf: |-
+    <label @FLUENT_LOG>
+      <match fluent.**>
+        @type null
+        @id ignore_fluent_logs
+      </match>
+    </label>
+
+    # https://github.com/fluent/fluent-plugin-parser-cri
+    <source>
+      @type tail
+      @id app.test
+      path /var/log/containers/<pod-name>_<pod-namespace>_<container-name>.log
+      pos_file /var/log/<pod-name>_<pod-namespace>_<container-name>.log.pos
+      <parse>
+        @type cri
+        merge_cri_fields false
+        <parse>
+          @type json
+          time_key time
+          time_format %Y-%m-%dT%H:%M:%S.%L%z
+        </parse>
+      </parse>
+    </source>
+
+    <filter backend.**>
+      @type parser
+      key_name message
+      reserve_data true
+      replace_invalid_sequence true
+      remove_key_name_field true
+      reserve_time true
+      <parse>
+        @type multi_format
+        <pattern>
+          format json
+        </pattern>
+        <pattern>
+          format none
+        </pattern>
+      </parse>
+    </filter>
+
   fluent.conf: |-
     @include "#{ENV['FLUENTD_SYSTEMD_CONF'] || 'systemd'}.conf"
     @include "#{ENV['FLUENTD_PROMETHEUS_CONF'] || 'prometheus'}.conf"
@@ -67,8 +126,6 @@ data:
         retry_forever true
       </buffer>
     </match>
-  kubernetes.conf: |-
-    ...
 ```
 
 ```yaml title="monitoring/eck/fluentd/fluentd-sa.yaml"
@@ -197,5 +254,3 @@ spec:
           configMap:
             name: fluentd-config
 ```
-
-## Configuration
