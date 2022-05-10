@@ -1,0 +1,86 @@
+---
+id: redis
+title: redis
+sidebar_label: redis
+description: redis
+keywords:
+  - redis
+---
+
+## Installation
+
+:::info
+사용할 `StorageClass`의 `allowVolumeExpansion`가 `true`인 지 확인 후 진행해주세요.
+:::
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <pvc-name>
+  namespace: storage
+spec:
+  storageClassName: <storage-class>
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+```
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami \
+&& helm repo update bitnami
+```
+
+```shell
+helm search repo bitnami/redis -l | head -n 10
+```
+
+```shell
+helm show values bitnami/redis \
+    --version 16.9.1 \
+    > values.yaml
+```
+
+```yaml
+architecture: standalone
+auth:
+  enabled: false
+  sentinel: false
+commonConfiguration: |-
+  #
+  activedefrag yes
+  #
+  lazyfree-lazy-eviction yes
+  lazyfree-lazy-expire yes
+  lazyfree-lazy-server-del yes
+  lazyfree-lazy-user-del yes
+  replica-lazy-flush yes
+  #
+  maxmemory 2gb
+  maxmemory-policy allkeys-lru
+  # Enable AOF https://redis.io/topics/persistence#append-only-file
+  appendonly no
+  # Disable RDB persistence, AOF persistence already enabled.
+  save ""
+master:
+  podLabels: {}
+  persistence:
+    enabled: true
+    existingClaim: <pvc-name>
+```
+
+```shell
+helm upgrade redis bitnami/redis \
+    --install \
+    --version 16.9.1 \
+    -n storage \
+    --values values.yaml
+```
+
+## Test
+
+```shell
+kubectl run tmp-redis --rm -it --image redis -- redis-cli -h redis-master.storage
+```

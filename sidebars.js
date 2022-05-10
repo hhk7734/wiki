@@ -320,6 +320,7 @@ module.exports = {
         "nn/mlops/storage/aws-efs-csi-driver",
         "nn/mlops/storage/rook-ceph",
         "nn/mlops/storage/postgresql",
+        "nn/mlops/storage/redis",
       ],
     },
     {

@@ -74,9 +74,5 @@ helm upgrade postgresql bitnami/postgresql \
 ## Test
 
 ```shell
-kubectl run tmp-psql --rm -it --image docker.io/bitnami/postgresql -- /bin/bash
-```
-
-```shell
-psql --host postgresql.storage -U postgres
+kubectl run tmp-psql --rm -it --image postgres -- psql -h postgresql.storage -U postgres -W
 ```
