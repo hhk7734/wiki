@@ -42,7 +42,7 @@ module.exports = {
       apiKey: "882821d106ded887254b7b5ec5690c5b",
       indexName: "liliot_wiki",
     },
-    autoCollapseSidebarCategories: true,
+    autoCollapseCategories: true,
     colorMode: {
       defaultMode: "light",
       respectPrefersColorScheme: true,
