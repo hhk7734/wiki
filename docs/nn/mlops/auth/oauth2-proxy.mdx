@@ -6,3 +6,130 @@ description: oauth2-proxy
 keywords:
   - oauth2-proxy
 ---
+
+## oauth2-proxy
+
+### Configuration
+
+- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options
+
+옵션을 전달하는 방식은 3가지가 있습니다.
+
+- `args`으로 옵션을 전달
+- 파일
+  - `args: ["--config=<config-path>"]`
+  - 옵션의 `-`를 `_`로 변경
+  - 여러번 사용할 수 있는 옵션의 경우 마지막에 s를 붙이고 `[]` 리스트로 변경
+- `env`
+  - 옵션의 소문자를 대문자로, `-`를 `_`로 변경
+  - `OAUTH2_PROXY_`을 앞에 붙임
+
+## Keycloak
+
+- Client
+  - `<client-id>` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Valid Redirect URIs
+        - `<client-url>/oauth2/callback`
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `<client-id>` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+    - Mappers
+      - `audience` mapper 추가
+        - Mapper Type: Audience
+        - Included Client Audience: `<client-id>`
+        - Included Custom Audience: `<client-id>`
+        - Add to access token: on
+- Groups
+  - `<group>` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+<br />
+
+- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/#keycloak-oidc-auth-provider
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: oauth2-proxy-keycloak-secret
+type: Opaque
+stringData:
+  OAUTH2_PROXY_CLIENT_ID: `<client-id>`
+  OAUTH2_PROXY_CLIENT_SECRET: `<client-secret>`
+  OAUTH2_PROXY_REDIRECT_URL: `<client-url>/oauth2/callback`
+  OAUTH2_PROXY_OIDC_ISSUER_URL: https://<keycloak-url>/auth/realms/<realm>
+  OAUTH2_PROXY_ALLOWED_GROUPS: `<group>`
+  # https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret
+  OAUTH2_PROXY_COOKIE_SECRET: `<cookie-secret>`
+```
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: oauth2-proxy-test
+spec:
+  type: ClusterIP
+  selector:
+    app: oauth2-proxy-test
+  ports:
+    - name: http
+      port: 4180
+      targetPort: http
+      protocol: TCP
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oauth2-proxy-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oauth2-proxy-test
+  template:
+    metadata:
+      labels:
+        app: oauth2-proxy-test
+    spec:
+      containers:
+        - image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
+          name: oauth2-proxy
+          ports:
+            - name: http
+              containerPort: 4180
+              protocol: TCP
+          args:
+            - --provider=keycloak-oidc
+            - --email-domain=*
+            - --http-address=0.0.0.0:4180
+            - --upstream=http://<name>.<namespace>.svc.cluster.local:<port>
+            - --skip-provider-button=true
+          envFrom:
+            - secretRef:
+                name: oauth2-proxy-keycloak-secret
+```

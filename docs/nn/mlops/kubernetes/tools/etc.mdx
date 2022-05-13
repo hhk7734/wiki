@@ -1,0 +1,72 @@
+---
+id: etc
+title: etc
+sidebar_label: etc
+description: etc
+keywords:
+  - etc
+---
+
+## kubectl
+
+- https://kubernetes.io/docs/tasks/tools/included/
+
+## krew
+
+- https://krew.sigs.k8s.io/docs/user-guide/quickstart/
+
+### ctx
+
+- https://github.com/ahmetb/kubectx#installation
+
+```shell
+kubectl krew install ctx
+```
+
+```shell
+kubectl ctx
+```
+
+### ns
+
+- https://github.com/ahmetb/kubectx#installation
+
+```shell
+kubectl krew install ns
+```
+
+```shell
+kubectl ns
+```
+
+### oidc-login
+
+- https://github.com/int128/kubelogin#getting-started
+
+```shell
+kubectl krew install oidc-login
+```
+
+```yaml title="~/.kube/config"
+apiVersion: v1
+kind: Config
+preferences: {}
+users:
+  - name: <name>
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=<issuer-url>
+          - --oidc-client-id=<client-id>
+          - --oidc-client-secret=<client-secret>
+```
+
+## k9s
+
+- https://k9scli.io/topics/install/
+- https://k9scli.io/topics/commands/
+- https://k9scli.io/topics/rbac/

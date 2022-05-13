@@ -137,7 +137,7 @@ helm upgrade keycloak bitnami/keycloak \
 - https://www.keycloak.org/docs/latest/server_development/#examples-of-using-curl
 
 ```shell
-curl -k -X POST <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/token" \
+curl -k -X POST <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
     -d "client_id=<client-id>" \
     -d "client_secret=<client-secret>" \

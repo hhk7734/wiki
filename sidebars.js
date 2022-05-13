@@ -299,18 +299,25 @@ module.exports = {
         "nn/mlops/container/image-pull-secrets",
       ],
     },
-    "nn/mlops/kubeadm",
     {
       type: "category",
       label: "Kubernetes",
       items: [
+        {
+          type: "category",
+          label: "Tools",
+          items: [
+            "nn/mlops/kubernetes/tools/kubeadm",
+            "nn/mlops/kubernetes/tools/kustomize",
+            "nn/mlops/kubernetes/tools/helm",
+            "nn/mlops/kubernetes/tools/etc",
+          ],
+        },
         "nn/mlops/kubernetes/deployment",
         "nn/mlops/kubernetes/service",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
       ],
     },
-    "nn/mlops/kustomize",
-    "nn/mlops/helm",
     {
       type: "category",
       label: "Storage",
@@ -346,7 +353,6 @@ module.exports = {
             "nn/mlops/network/istio/multi-cluster",
           ],
         },
-        "nn/mlops/network/cert-manager",
       ],
     },
     {
@@ -379,6 +385,7 @@ module.exports = {
         "nn/mlops/auth/kubeconfig",
         "nn/mlops/auth/rbac",
         "nn/mlops/auth/x509",
+        "nn/mlops/auth/cert-manager",
         "nn/mlops/auth/keycloak",
         "nn/mlops/auth/oauth2-proxy",
       ],
