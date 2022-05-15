@@ -1,10 +1,10 @@
 ---
-id: gin
-title: gin
-sidebar_label: gin
-description: gin
+id: basics
+title: Basics
+sidebar_label: Basics
+description: basics
 keywords:
-  - gin
+  - basics
 ---
 
 ## Installation
@@ -15,7 +15,7 @@ go get -u github.com/gin-gonic/gin
 
 ## Logger(zap)
 
-```go
+```go title="internal/logger/logger.go"
 package logger
 
 import (
@@ -27,18 +27,16 @@ import (
 	"strings"
 	"time"
 
+	"github.com/HITS-AI/oneplatform-auth/internal/config"
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 )
 
-type Config struct {
-	SkipPaths []string
-}
-
-func Init(debug bool) {
+func Init() {
 	var l *zap.Logger
-	if debug {
+	c := config.Config()
+	if c.Debug {
 		l, _ = zap.NewDevelopment()
 	} else {
 		l, _ = zap.NewProduction()
@@ -70,8 +68,8 @@ func Ginzap(skipPaths []string) gin.HandlerFunc {
 						zap.String("method", c.Request.Method),
 						zap.String("url", path),
 						zap.Int("status", c.Writer.Status()),
-						zap.String("remoteAddress", c.Request.Header.Get("x-envoy-external-address")),
-						zap.String("user-agent", c.Request.UserAgent()),
+						zap.String("remoteAddress", c.ClientIP()),
+						zap.String("userAgent", c.Request.UserAgent()),
 						zap.Error(e),
 						zap.Duration("latency", latency),
 					}
@@ -82,9 +80,8 @@ func Ginzap(skipPaths []string) gin.HandlerFunc {
 					zap.String("method", c.Request.Method),
 					zap.String("url", path),
 					zap.Int("status", c.Writer.Status()),
-					zap.String("remoteAddress", c.Request.Header.Get("x-envoy-external-address")),
-					zap.String("user-agent", c.Request.UserAgent()),
-					zap.Uint("user_id", userID.(uint)),
+					zap.String("remoteAddress", c.ClientIP()),
+					zap.String("userAgent", c.Request.UserAgent()),
 					zap.Duration("latency", latency),
 				}
 				zap.L().Info(path, fields...)
@@ -143,7 +140,9 @@ func RecoveryWithZap(stack bool) gin.HandlerFunc {
 ```
 
 ```go title="main.go"
-	logger.Init(os.Getenv("GIN_MODE") == "debug")
+	config.Init()
+
+	logger.Init()
 
 	r := gin.New()
 	r.Use(logger.Ginzap([]string{}))

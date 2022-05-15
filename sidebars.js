@@ -158,8 +158,15 @@ module.exports = {
       type: "category",
       label: "Libraries",
       items: [
-        "lang/go/libraries/gin",
-        "lang/go/libraries/gin-swagger",
+        {
+          type: "category",
+          label: "Gin",
+          items: [
+            "lang/go/libraries/gin/basics",
+            "lang/go/libraries/gin/swagger",
+            "lang/go/libraries/gin/middleware",
+          ],
+        },
         "lang/go/libraries/go-redis",
         "lang/go/libraries/encoding-json",
         "lang/go/libraries/go-yaml",

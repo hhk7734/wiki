@@ -1,10 +1,10 @@
 ---
-id: gin-swagger
-title: gin-swagger
-sidebar_label: gin-swagger
-description: gin-swagger
+id: swagger
+title: swagger
+sidebar_label: swagger
+description: swagger
 keywords:
-  - gin-swagger
+  - swagger
 ---
 
 ## Installation
@@ -83,13 +83,17 @@ swag fmt && swag init
 go run .
 ```
 
-[http://localhost:8080/swagger/index.html](http://localhost:8080/swagger/index.html)
+- http://localhost:8080/swagger/index.html
 
 ## Comments 형식
 
-[https://github.com/swaggo/swag#declarative-comments-format](https://github.com/swaggo/swag#declarative-comments-format)
+### General API Info
+
+- https://github.com/swaggo/swag#general-api-info
 
 ### API Operation
+
+- https://github.com/swaggo/swag#api-operation
 
 #### @Param
 
@@ -111,6 +115,12 @@ Ex) `// @Param user_id path int true "User ID"`
   - number
   - boolean
   - 사용자가 정의한 struct
+- `<attirbute>`
+  - https://github.com/swaggo/swag#attribute
+
+:::info
+data_type으로 사용자 정의 struct를 사용할 때, attribute를 struct의 태그로 사용할 수 있습니다.
+:::
 
 #### @Router
 
@@ -120,20 +130,6 @@ Ex) `// @Param user_id path int true "User ID"`
 
 Ex) `// @Router /examples/user/{user_id}/address [put]`
 
-## Struct tags
-
-### `example`
-
-### `swaggertype`
-
-### `format`
-
-### `swaggerignore`
-
-### `extensions`
-
-### `enums`
-
 ## Reference
 
-- [https://github.com/swaggo/gin-swagger](https://github.com/swaggo/gin-swagger)
+- https://github.com/swaggo/gin-swagger
