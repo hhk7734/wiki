@@ -10,11 +10,12 @@ keywords:
 ## Installation
 
 ```shell
-export GO_VERSION="1.17.7"
+export GO_VERSION="1.18.1"
+export CURRENT_SYSTEM=`uname -s | awk '{print tolower($0)}'`
 ```
 
 ```shell
-wget https://go.dev/dl/go"$GO_VERSION".linux-amd64.tar.gz
+wget https://go.dev/dl/go"$GO_VERSION"."$CURRENT_SYSTEM"-amd64.tar.gz
 ```
 
 ```shell
@@ -22,7 +23,7 @@ sudo mkdir -p /opt/go/"$GO_VERSION"
 ```
 
 ```shell
-pv -ptrb go"$GO_VERSION".linux-amd64.tar.gz | sudo tar -xzp -C /opt/go/"$GO_VERSION"
+pv -ptrb go"$GO_VERSION"."$CURRENT_SYSTEM"-amd64.tar.gz | sudo tar -xzp -C /opt/go/"$GO_VERSION"
 ```
 
 ```shell
