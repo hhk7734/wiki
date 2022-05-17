@@ -1,0 +1,94 @@
+---
+id: smtp
+title: SMTP
+sidebar_label: SMTP
+description: smtp
+keywords:
+  - smtp
+---
+
+## SMTP
+
+- https://www.cdnfonts.com/
+- https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css
+
+```html title="template/smtp.html" {12}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+    </style>
+    <title>Title</title>
+  </head>
+  <body>
+    {{.Something}}
+  </body>
+</html>
+```
+
+```go
+package smtp
+
+import (
+	"bytes"
+	"net/smtp"
+	"text/template"
+)
+
+var (
+	auth    smtp.Auth
+	address string
+	from    string
+)
+
+func Init() {
+	c := config.Config()
+
+	auth = smtp.PlainAuth("", c.SMTP.Username, c.SMTP.Password, c.SMTP.Host)
+	address = c.SMTP.Host + ":" + c.SMTP.Port
+	from = c.SMTP.Username
+}
+
+func Send(to, something string) error {
+	var body bytes.Buffer
+	t, _ := template.ParseFiles("template/smtp.html")
+	t.Execute(&body, struct {
+		Something string
+	}{
+		Something: something,
+	})
+	subject := []byte("Subject: 제목\nMIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n")
+
+	return smtp.SendMail(
+		address,
+		auth,
+		from,
+		[]string{to},
+		append(subject, body.Bytes()...),
+	)
+}
+```
+
+:::info
+SMTP 프로토콜은 RFC2921에 정의되어 있습니다. SMTP는 라인 단위로 커맨드, 데이터 등을 보내는 데, 라인을 구분하는 기호는 `<CRLF>`입니다. html로 내용을 보낼 때, 줄바꿈은 `<br />`을 사용하는 것이 원칙이지만 `<LF>`를 인식하는 경우도 있는 것 같습니다. 전송 또는 전송 내용에 오류가 있다면 줄바꿈을 바꿔가면서 테스트 해보시기 바랍니다.
+:::
+
+### Gmail
+
+- Google 계정 관리 -\> 보안 -\> Google에 로그인
+  - 2 단계 인증
+  - 앱 비밀번호
+    - 앱 선택: 메일
+    - 기기 선택: 기타
+- Realm Settings
+  - Email
+    - Host: smtp.gmail.com
+    - Port: 587
+    - From: `<email>`
+    - Enable StartTLS: on
+    - Enable Authentication: on
+      - Username: `<username>`
+      - Password: `<password>` # 앱 비밀번호를 입력하세요.

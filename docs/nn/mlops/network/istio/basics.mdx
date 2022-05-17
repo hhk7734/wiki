@@ -94,6 +94,7 @@ service:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
     proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+  externalTrafficPolicy: "Local"
 
 autoscaling:
   enabled: true
@@ -114,6 +115,10 @@ affinity:
           topologyKey: "kubernetes.io/hostname"
         weight: 50
 ```
+
+:::info
+https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-ip-address-of-the-original-client
+:::
 
 ```shell
 helm upgrade istio-ingress istio/gateway \

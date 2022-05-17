@@ -170,6 +170,7 @@ module.exports = {
         "lang/go/libraries/go-redis",
         "lang/go/libraries/encoding-json",
         "lang/go/libraries/go-yaml",
+        "lang/go/libraries/smtp",
       ],
     },
   ],
