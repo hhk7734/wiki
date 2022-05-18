@@ -1,4 +1,4 @@
-FROM node:14.15.5
+FROM node:16.15.0
 
 WORKDIR /wiki
 RUN sed -i "s/deb http:\/\/security.debian.org\/debian-security.*//g" /etc/apt/sources.list
