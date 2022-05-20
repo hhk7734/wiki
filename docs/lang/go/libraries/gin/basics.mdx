@@ -53,9 +53,12 @@ func Ginzap(skipPaths []string) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		start := time.Now()
-		// some evil middlewares modify this values
+		// 일부 미들웨어는 이 값을 변경합니다.
 		path := c.Request.URL.Path
+
+		// 다음 미들웨어를 실행합니다.
 		c.Next()
+		// 미들웨어들이 실행 된 후 로깅이 실행됩니다.
 
 		if _, ok := skip[path]; !ok {
 			end := time.Now()
@@ -135,6 +138,7 @@ func RecoveryWithZap(stack bool) gin.HandlerFunc {
 			}
 		}()
 		c.Next()
+		// 사이에 실행된 미들웨어에서 panic이 발생한 경우 recovery 됩니다.
 	}
 }
 ```
@@ -144,6 +148,8 @@ func RecoveryWithZap(stack bool) gin.HandlerFunc {
 
 	logger.Init()
 
+	// 미들웨어 선언 순서는 아래와 같아야 합니다.
+	// 다른 미들웨어는 RecoveryWithZap 이후에 실행해 주세요.
 	r := gin.New()
 	r.Use(logger.Ginzap([]string{}))
 	r.Use(logger.RecoveryWithZap(true))
