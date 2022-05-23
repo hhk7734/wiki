@@ -485,6 +485,11 @@ module.exports = {
       label: "emscripten",
       items: ["lang/javascript/emscripten/basics"],
     },
+    {
+      type: "category",
+      label: "React",
+      items: ["lang/javascript/react/basics", "lang/javascript/react/nextjs"],
+    },
   ],
   nordic: ["mcu/nordic/nrf-development-environment"],
   project: [
