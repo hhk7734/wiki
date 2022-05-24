@@ -16,12 +16,43 @@ Input -> filter 1 -> ... -> filter N -> Output
 ```
 
 - `<source>`: 어떤 정보를 입력받을지 설정
-  - `tag`: `^[a-z0-9_]+$`
-- `<match>`: 처리된 값을 어떻게 사용할지 설정
-- `<filter>`: 발생한 이벤트를 어떻게 처리할지 설정
+  - `@type`이 필수 입니다.
+- `<filter <tag pattern>>`: 발생한 이벤트를 어떻게 처리할지 설정
+- `<match <tag pattern>>`: 처리된 값을 어떻게 사용할지 설정
 - `<system>`: 시스템 설정
 - `<label>`: 내부 라우팅을 위해 필터와 출력 그룹 설정
 - `@include path|glob|url`: 다른 설정파일 호출
+
+:::warning
+filter와 match는 선언 순서가 중요합니다. 먼저 선언된 지시문의 패턴에 걸린 경우 그 다음 선언된 지시문은 실행되지 않습니다.
+:::
+
+### Tag pattern
+
+- tag는 `.`으로 구분 됩니다.
+- `*`: 태그 한 파트에 대한 glob입니다.
+  - `a.*`는 `a.b`, `a.c`와 매치되지만 `a`, `a.b.c`는 매치되지 않습니다.
+- `**`: 태그 0 개 이상 파트에 대한 glob입니다.
+  - `a.**`는 `a`, `a.b`, `a.b.c` 등과 매치됩니다.
+- `{X, Y}`: X 또는 Y입니다.
+  - `a.{b, c}` `{a, b.*}` 등으로 사용할 수 있습니다.
+- `/regex/`
+- `#{...}`: ruby 표현식으로 문자열을 나타낼 수 있습니다.
+
+### Common Parameters
+
+- https://docs.fluentd.org/configuration/plugin-common-parameters
+
+<br />
+
+- `@type`: 사용할 플러그인
+- `@id`: 식별자
+- `@log_level`
+- `@label`
+
+:::warning
+conf 파일을 수정하면 fluentd를 재시작 해주세요.
+:::
 
 ## Installation
 
@@ -45,9 +76,10 @@ data:
     # https://github.com/fluent/fluent-plugin-parser-cri
     <source>
       @type tail
-      @id app.test
-      path /var/log/containers/<pod-name>_<pod-namespace>_<container-name>.log
+      @id app_test
+      path /var/log/containers/<pod-name>_<pod-namespace>_<container-name>-<hash>.log
       pos_file /var/log/<pod-name>_<pod-namespace>_<container-name>.log.pos
+      tag app.test
       <parse>
         @type cri
         merge_cri_fields false
@@ -59,7 +91,7 @@ data:
       </parse>
     </source>
 
-    <filter backend.**>
+    <filter app.**>
       @type parser
       key_name message
       reserve_data true

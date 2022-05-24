@@ -154,7 +154,7 @@ module.exports = {
   go: [
     "lang/go/basics",
     "lang/go/restful-api",
-    "lang/go/logging",
+    "lang/go/error",
     "lang/go/testify",
     "lang/go/context",
     "lang/go/goroutine",
