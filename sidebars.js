@@ -141,7 +141,7 @@ module.exports = {
       label: "Bloc",
       items: [
         "lang/flutter/bloc/flutter-bloc-widgets",
-        "lang/flutter/bloc/flutter-bloc-event-state",
+        "lang/flutter/bloc/event-state",
         "lang/flutter/bloc/flutter-bloc-observer",
       ],
     },
@@ -488,7 +488,16 @@ module.exports = {
     {
       type: "category",
       label: "React",
-      items: ["lang/javascript/react/basics", "lang/javascript/react/nextjs"],
+      items: [
+        "lang/javascript/react/basics",
+        {
+          type: "category",
+          label: "Redux",
+          items: ["lang/javascript/react/redux/action-state"],
+        },
+        ,
+        "lang/javascript/react/nextjs",
+      ],
     },
   ],
   nordic: ["mcu/nordic/nrf-development-environment"],
