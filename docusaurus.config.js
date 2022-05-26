@@ -42,7 +42,6 @@ module.exports = {
       apiKey: "882821d106ded887254b7b5ec5690c5b",
       indexName: "liliot_wiki",
     },
-    autoCollapseCategories: true,
     colorMode: {
       defaultMode: "light",
       respectPrefersColorScheme: true,
@@ -131,6 +130,7 @@ module.exports = {
         "dart",
         "docker",
         "hcl",
+        "http",
         "ini",
         "nginx",
         "sql",
@@ -142,6 +142,11 @@ module.exports = {
     tableOfContents: {
       minHeadingLevel: 2,
       maxHeadingLevel: 5,
+    },
+    docs: {
+      sidebar: {
+        autoCollapseCategories: true,
+      },
     },
   },
   presets: [

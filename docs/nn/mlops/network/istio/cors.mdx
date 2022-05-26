@@ -6,3 +6,103 @@ description: CORS
 keywords:
   - CORS
 ---
+
+## Cross-Origin Resource Sharing(CORS)
+
+URI scheme에서 scheme(protocol), host, port가 같은 경우를 Same, 다른 경우를 Cross라고 하는데, 예를 들어 `https://domain-a.com`의 프론트엔드 자바스크립트 코드가 `XMLHttpRequest`를 사용하여 `https://domain-a.com`의 백엔드에 요청을 하는 경우 `Same-Origin Request`가 되고, `https://domain-b.com`에 요청을 하는 경우 `Cross-Origin Request`가 됩니다.
+
+### Simple Request
+
+### Preflight Request
+
+본 요청 전에 `OPTIONS` 메서드를 통해 다른 요청을 하더라도 문제가 없는 지 미리 요청을 해보는 방법입니다.
+
+`https://domain-b.com/path`으로 `POST` 요청을 한다고 가정하면 아래 순서로 요청과 응답이 진행됩니다.
+
+우선 OPTIONS로 어떤 요청을 앞으로 하고싶은 지 정의해서 요청을 합니다.
+
+```http
+OPTIONS /path HTTP/1.1
+Origin: https://domain-a.com
+Access-Control-Request-Method: POST
+Access-Control-Request-Headers: Content-type
+...
+```
+
+`https://domain-b.com` 서버에서 해당 Origin에 대해 어떠한 요청이 허락되는 지 응답해 줍니다.
+
+```http
+HTTP/1.1 204 No Content
+Access-Control-Allow-Origin: https://domain-a.com
+Access-Control-Allow-Methods: POST,GET,PUT,DELETE,OPTIONS,PATCH
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Headers: Authorization,Content-Type
+Access-Control-Max-Age: 86400
+...
+```
+
+허락된 응답이라고 오면 원래 요청을 진행합니다.
+
+```http
+POST /path HTTP/1.1
+Content-Type: application/json
+Origin: https://domain-a.com
+...
+```
+
+```http
+HTTP/1.1 200 OK
+Access-Control-Allow-Origin: https://domain-a.com
+Content-Type: application/json; charset=utf-8
+Content-Length: 15
+Server: istio-envoy
+...
+```
+
+:::info
+CORS 요청에 대해 접근 권한 설정은 서버에 있지만 접근 권한에 따라 요청할지 말지는 브라우저에서 해당 기능을 지원해야합니다. 따라서 터미널에서 curl을 사용한 요청은 CORS의 적용을 받지 않습니다.
+:::
+
+## corsPolicy
+
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
+
+```yaml {19-33}
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "backend-vs"
+spec:
+  hosts:
+    - domain-b.com
+  gateways:
+    - <namespace>/<gateway>
+  http:
+    - match:
+        - uri:
+            prefix: "/v1/"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: backend.default.svc.cluster.local
+      corsPolicy:
+        allowOrigins:
+          - https://domain-a.com
+        allowMethods:
+          - POST
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+          - PATCH
+        allowCredentials: true
+        allowHeaders:
+          - Authorization
+          - Content-Type
+        maxAge: "24h"
+```
+
+## Reference
+
+- https://developer.mozilla.org/ko/docs/Web/HTTP/CORS
