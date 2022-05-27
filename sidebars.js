@@ -597,8 +597,11 @@ module.exports = {
         },
         {
           type: "category",
-          label: "Django Rest Framework",
-          items: ["lang/python/libraries/django-rest-framework/basics"],
+          label: "FastAPI",
+          items: [
+            "lang/python/libraries/fastapi/basics",
+            "lang/python/libraries/fastapi/middleware",
+          ],
         },
       ],
     },
