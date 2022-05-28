@@ -495,8 +495,11 @@ module.exports = {
           label: "Redux",
           items: ["lang/javascript/react/redux/action-state"],
         },
-        ,
-        "lang/javascript/react/nextjs",
+        {
+          type: "category",
+          label: "Next.js",
+          items: ["lang/javascript/react/nextjs/basics"],
+        },
       ],
     },
   ],
