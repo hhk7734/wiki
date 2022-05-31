@@ -9,6 +9,23 @@ keywords:
 
 ## kubectl
 
+```shell
+sudo mkdir -p /opt/kubectl/1.21.13 \
+&& curl -LO https://dl.k8s.io/release/v1.21.13/bin/linux/amd64/kubectl \
+&& chmod +x kubectl \
+&& sudo mv kubectl /opt/kubectl/1.21.13/
+```
+
+```shell title="~/.zshrc"
+export PATH="/opt/kubectl/1.21.13:$PATH"
+
+source <(kubectl completion zsh)
+autoload -Uz compinit
+compinit
+alias k=kubectl
+complete -F __start_kubectl k
+```
+
 - https://kubernetes.io/docs/tasks/tools/included/
 
 ## krew
@@ -70,3 +87,14 @@ users:
 - https://k9scli.io/topics/install/
 - https://k9scli.io/topics/commands/
 - https://k9scli.io/topics/rbac/
+
+```shell
+sudo mkdir -p /opt/k9s/0.25.18 \
+&& wget https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_x86_64.tar.gz \
+&& tar xzf k9s_Linux_x86_64.tar.gz \
+sudo mv k9s /opt/k9s/0.25.18/
+```
+
+```shell title="~/.zshrc"
+export PATH=/opt/k9s/0.25.18:$PATH
+```
