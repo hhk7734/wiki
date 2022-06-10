@@ -168,7 +168,11 @@ module.exports = {
           items: [
             "lang/go/libraries/gin/basics",
             "lang/go/libraries/gin/swagger",
-            "lang/go/libraries/gin/middleware",
+            {
+              type: "category",
+              label: "Middleware",
+              items: ["lang/go/libraries/gin/middleware/logger"],
+            },
           ],
         },
         "lang/go/libraries/go-redis",

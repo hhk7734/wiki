@@ -1,0 +1,140 @@
+---
+id: logger
+title: Logger(zap)
+sidebar_label: Logger(zap)
+description: logger
+keywords:
+  - logger
+---
+
+## Installation
+
+```shell
+go get -u go.uber.org/zap
+```
+
+## Middleware
+
+```go
+func LogWithZap(skipPaths []string) gin.HandlerFunc {
+	skip := make(map[string]bool, len(skipPaths))
+	for _, path := range skipPaths {
+		skip[path] = true
+	}
+
+	return func(c *gin.Context) {
+		start := time.Now()
+		// 일부 미들웨어는 경로를 중간에 바꾸는 경우가 있음
+		path := c.Request.URL.Path
+		c.Next()
+
+		if _, ok := skip[path]; !ok {
+			end := time.Now()
+			latency := end.Sub(start)
+			userID := func() int64 {
+				if userID, ok := c.Get(UserIDKey); ok {
+					return int64(userID.(float64))
+				} else {
+					return -1
+				}
+			}()
+
+			if len(c.Errors) > 0 {
+				httpRequest, _ := httputil.DumpRequest(c.Request, false)
+				c.Error(fmt.Errorf("%s", httpRequest))
+
+				// 컨텍스트에 저장된 에러
+				for i, e := range c.Errors {
+					fields := []zapcore.Field{
+						zap.String("method", c.Request.Method),
+						zap.String("url", path),
+						zap.Int("status", c.Writer.Status()),
+						zap.Int64("userID", userID),
+						zap.String("remoteAddress", c.ClientIP()),
+						zap.String("userAgent", c.Request.UserAgent()),
+						zap.Error(e),
+						zap.Duration("latency", latency),
+					}
+					zap.L().Error(strconv.Itoa(i), fields...)
+				}
+			} else {
+				// 정상 처리
+				fields := []zapcore.Field{
+					zap.String("method", c.Request.Method),
+					zap.String("url", path),
+					zap.Int("status", c.Writer.Status()),
+					zap.Int64("userID", userID),
+					zap.String("remoteAddress", c.ClientIP()),
+					zap.String("userAgent", c.Request.UserAgent()),
+					zap.Duration("latency", latency),
+				}
+				zap.L().Info(path, fields...)
+			}
+		}
+	}
+}
+
+func RecoveryWithZap() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				// 연결이 끊겼는지 확인
+				var brokenPipe bool
+				if ne, ok := err.(*net.OpError); ok {
+					if se, ok := ne.Err.(*os.SyscallError); ok {
+						if strings.Contains(strings.ToLower(se.Error()), "broken pipe") || strings.Contains(strings.ToLower(se.Error()), "connection reset by peer") {
+							brokenPipe = true
+						}
+					}
+				}
+
+				if brokenPipe {
+					// 연결이 끊겼다면 Status를 설정할 수 없음
+					c.Error(err.(error))
+					c.Abort()
+					return
+				}
+
+				c.AbortWithError(http.StatusInternalServerError, fmt.Errorf("%v\n%s", err, string(debug.Stack())))
+			}
+		}()
+		c.Next()
+	}
+}
+```
+
+## Usage
+
+```go
+func initLogger() {
+	c := config.Config()
+
+	var l *zap.Logger
+	if c.Debug {
+		cfg := zap.NewDevelopmentConfig()
+		cfg.DisableStacktrace = true
+		l, _ = cfg.Build()
+	} else {
+		cfg := zap.NewProductionConfig()
+		cfg.EncoderConfig.TimeKey = "time"
+		cfg.DisableStacktrace = true
+		l, _ = cfg.Build()
+	}
+	defer l.Sync()
+	zap.ReplaceGlobals(l)
+}
+```
+
+```go
+	r := gin.New()
+	r.Use(middleware.LogWithZap([]string{}))
+	r.Use(middleware.RecoveryWithZap(true))
+```
+
+:::warning
+첫번째 미들웨어로 `LogWithZap`, 두번째 미들웨어로 `RecoveryWithZap`을 사용해야합니다.
+:::
+
+## Reference
+
+- https://github.com/gin-contrib/zap
