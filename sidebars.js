@@ -171,7 +171,10 @@ module.exports = {
             {
               type: "category",
               label: "Middleware",
-              items: ["lang/go/libraries/gin/middleware/logger"],
+              items: [
+                "lang/go/libraries/gin/middleware/logger",
+                "lang/go/libraries/gin/middleware/rate-limit",
+              ],
             },
           ],
         },

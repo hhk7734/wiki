@@ -53,6 +53,10 @@ func Init() {
 }
 
 func Send(to, something string) error {
+	header := "To: " + to + "\r\n" +
+		"Subject: 제목\n" +
+		"MIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n"
+
 	var body bytes.Buffer
 	t, _ := template.ParseFiles("template/smtp.html")
 	t.Execute(&body, struct {
@@ -60,14 +64,13 @@ func Send(to, something string) error {
 	}{
 		Something: something,
 	})
-	subject := []byte("Subject: 제목\nMIME-version: 1.0;\nContent-Type: text/html; charset=\"UTF-8\";\n\n")
 
 	return smtp.SendMail(
 		address,
 		auth,
 		from,
 		[]string{to},
-		append(subject, body.Bytes()...),
+		append(header, body.Bytes()...),
 	)
 }
 ```
