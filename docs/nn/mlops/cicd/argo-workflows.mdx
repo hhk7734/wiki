@@ -32,16 +32,15 @@ helm search repo argo/argo-workflows -l | head -n 10
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.13.0 \
+    --version 0.16.3 \
     > cicd/argo/workflows/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
-    --version 0.13.0 \
+    --version 0.16.3 \
     -n cicd \
-    --create-namespace \
     --values cicd/argo/workflows/helm/values.yaml
 ```
 
@@ -83,7 +82,7 @@ spec:
 
 ### SSO-Dex with Argo CD
 
-```yaml
+```shell
 cat << EOF | kubectl apply -f -
 apiVersion: v1
 kind: Secret
@@ -132,7 +131,78 @@ server:
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
     issuer: <argo-cd-server-uri>/api/dex
-    sessionExpiry: 120h
+    sessionExpiry: 12h
+    clientId:
+      name: argo-workflows-sso
+      key: client-id
+    clientSecret:
+      name: argo-workflows-sso
+      key: client-secret
+    redirectUrl: <workflow-server-url>/oauth2/callback
+```
+
+### OIDC
+
+#### Keycloak
+
+- Client
+  - `workflows` client 추가
+    - Settings
+      - Enabled: on
+      - Client Protocol: openid-connect
+      - Access Type: confidential
+      - Valid Redirect URIs
+        - `<url>/auth/callback`
+    - Credentials
+      - Client Authenticator: Client ID and Secret
+      - Secret: `<workflows-client-secret>`
+- Client Scopes
+  - `groups` client scope 추가
+    - Settings
+      - Protocol: openid-connect
+      - Include in Token Scope: on
+    - Mappers
+      - `groups` mapper 추가
+        - Mapper Type: Group Membership
+        - Token Claim Name: groups
+        - Full group path: off
+- Client
+  - `argo` client
+    - Client Scopes
+      - Default Client scopes
+        - `groups` 추가
+- Groups
+  - `workflows-admin` 추가
+  - `workflows-dev` 추가
+- Users
+  - 유저 추가
+    - Email: `<email>`
+    - Groups: `<group>`
+
+```shell
+cat << EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-workflows-sso
+  namespace: cicd
+stringData:
+  client-id: workflows
+  client-secret: <workflow-client-secret>
+EOF
+```
+
+```yaml title="cicd/argo/workflows/helm/values.yaml"
+server:
+  extraArgs:
+    - --auth-mode=sso
+    - --auth-mode=client
+    - --access-control-allow-origin=true
+
+  # ConfigMap.data.sso |, name: workflow-controller-configmap
+  sso:
+    issuer: <keycloak-url>/auth/realms/<realm>
+    sessionExpiry: 12h
     clientId:
       name: argo-workflows-sso
       key: client-id
@@ -148,9 +218,11 @@ server:
 server:
   # ConfigMap.data.config: |, name: workflow-controller-configmap
   sso:
+    # openid는 기본으로 추가됩니다.
     scopes:
       - groups
       - email
+      - profile
     rbac:
       enabled: true
 ```
@@ -182,21 +254,11 @@ metadata:
     workflows.argoproj.io/rbac-rule: "'<group>' in groups"
     # 값이 클 수록 우선순위가 높아짐
     workflows.argoproj.io/rbac-rule-precedence: "1"
-
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: argo-workflows-admin-binding
-subjects:
-  - kind: ServiceAccount
-    name: admin-sa
-    namespace: cicd
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: argo-workflows-admin
 ```
+
+:::info
+ServiceAccount에 원하는 목적에 맞는 Role과 ClusterRole을 생성 후 바인딩 시켜주세요.
+:::
 
 ## Reference
 
