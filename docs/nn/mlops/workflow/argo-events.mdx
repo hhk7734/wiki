@@ -18,7 +18,7 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/events/{helm,eventbus,eventsource}
+mkdir -p workflow/argo/events/{helm,eventbus,eventsource}
 ```
 
 ```shell
@@ -28,33 +28,32 @@ helm search repo argo/argo-events -l | head -n  10
 ```shell
 helm show values argo/argo-events \
     --version 1.12.0 \
-    > cicd/argo/events/helm/values.yaml
+    > workflow/argo/events/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-events argo/argo-events \
     --install \
     --version 1.12.0 \
-    -n cicd \
-    --create-namespace \
-    --values cicd/argo/events/helm/values.yaml
+    -n workflow \
+    --values workflow/argo/events/helm/values.yaml
 ```
 
 <center>
   <Image
-    img={require("@site/static/img/nn/mlops/cicd/argo-events-architecture.jpg")}
+    img={require("@site/static/img/nn/mlops/workflow/argo-events-architecture.jpg")}
     width={750}
   />
 </center>
 
 ## EventBus
 
-```yaml title="cicd/argo/events/eventbus/default.yaml"
+```yaml title="workflow/argo/events/eventbus/default.yaml"
 apiVersion: argoproj.io/v1alpha1
 kind: EventBus
 metadata:
   name: default
-  namespace: cicd
+  namespace: workflow
 spec:
   nats:
     native: {}
@@ -73,19 +72,19 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: <name>
-  namespace: cicd
+  namespace: workflow
 type: Opaque
 data:
   token: <base64-token>
   secret: <base64-secret>
 ```
 
-```yaml title="cicd/argo/events/eventsource/github.yaml"
+```yaml title="workflow/argo/events/eventsource/github.yaml"
 apiVersion: argoproj.io/v1alpha1
 kind: EventSource
 metadata:
   name: github
-  namespace: cicd
+  namespace: workflow
 spec:
   eventBusName: default
   service:
@@ -124,7 +123,7 @@ spec:
   - Enable SSL verification
   - Send me everything.
   - Active
-- `github-eventsource-svc.cicd` Service가 자동 생성됩니다.
+- `github-eventsource-svc.workflow` Service가 자동 생성됩니다.
 - `https://<eventsource-url>/<endpoint>`가 외부로 노출 될 수 있도록 네트워크를 구성합니다.
 
 ### SQS

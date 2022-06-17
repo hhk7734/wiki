@@ -23,7 +23,7 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/workflows/helm
+mkdir -p workflow/argo/workflows/helm
 ```
 
 ```shell
@@ -33,15 +33,15 @@ helm search repo argo/argo-workflows -l | head -n 10
 ```shell
 helm show values argo/argo-workflows \
     --version 0.16.3 \
-    > cicd/argo/workflows/helm/values.yaml
+    > workflow/argo/workflows/helm/values.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
     --version 0.16.3 \
-    -n cicd \
-    --values cicd/argo/workflows/helm/values.yaml
+    -n workflow \
+    --values workflow/argo/workflows/helm/values.yaml
 ```
 
 ## Service
@@ -49,19 +49,19 @@ helm upgrade argo-workflows argo/argo-workflows \
 ### Port forward
 
 ```shell
-kubectl port-forward -n cicd service/argo-workflows-server 8006:2746
+kubectl port-forward -n workflow service/argo-workflows-server 8006:2746
 ```
 
 [http://localhost:8006](http://localhost:8006)
 
 ### VirtualService
 
-```yaml title="cicd/argo/workflows/base/virtual-service.yaml" {8,10}
+```yaml title="workflow/argo/workflows/base/virtual-service.yaml" {8,10}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: argo-workflows
-  namespace: cicd
+  namespace: workflow
 spec:
   hosts:
     - <host-url>
@@ -73,7 +73,7 @@ spec:
             prefix: "/"
       route:
         - destination:
-            host: argo-workflows-server.cicd.svc.cluster.local
+            host: argo-workflows-server.workflow.svc.cluster.local
             port:
               number: 2746
 ```
@@ -88,7 +88,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: cicd
+  namespace: workflow
 data:
   # `echo -n argo-workflows-sso | base64`
   client-id: YXJnby13b3JrZmxvd3Mtc3Nv
@@ -97,7 +97,7 @@ data:
 EOF
 ```
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 dex:
   env:
     - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
@@ -121,7 +121,7 @@ server:
 Dex는 클라이언트(`aud(audience)`)대신 다른 클라이언트(`azp(authorized party)`)에게 ID 토큰 발행을 맞길 수 있는 기능이 있습니다. `staticClients.trustedPeers: []`에 azp가 될 클라이언트의 id를 추가하면 됩니다.
 :::
 
-```yaml title="cicd/argo/workflows/helm/values.yaml"
+```yaml title="workflow/argo/workflows/helm/values.yaml"
 server:
   extraArgs:
     - --auth-mode=sso
@@ -185,14 +185,14 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: cicd
+  namespace: workflow
 stringData:
   client-id: workflows
   client-secret: <workflow-client-secret>
 EOF
 ```
 
-```yaml title="cicd/argo/workflows/helm/values.yaml"
+```yaml title="workflow/argo/workflows/helm/values.yaml"
 server:
   extraArgs:
     - --auth-mode=sso
@@ -214,7 +214,7 @@ server:
 
 ### RBAC
 
-```yaml title="cicd/argo/workflows/helm/values.yaml"
+```yaml title="workflow/argo/workflows/helm/values.yaml"
 server:
   # ConfigMap.data.config: |, name: workflow-controller-configmap
   sso:
@@ -227,12 +227,12 @@ server:
       enabled: true
 ```
 
-```yaml title="cicd/argo/workflows/base/guest-sa.yaml"
+```yaml title="workflow/argo/workflows/base/guest-sa.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: guest-sa
-  namespace: cicd
+  namespace: workflow
   annotations:
     workflows.argoproj.io/rbac-rule: "true"
     # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
@@ -240,12 +240,12 @@ metadata:
     workflows.argoproj.io/rbac-rule-precedence: "0"
 ```
 
-```yaml title="cicd/argo/workflows/base/admin-sa.yaml"
+```yaml title="workflow/argo/workflows/base/admin-sa.yaml"
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-sa
-  namespace: cicd
+  namespace: workflow
   annotations:
     # * `groups` - an array of the OIDC groups
     # * `iss` - the issuer ("argo-server")

@@ -22,7 +22,7 @@ helm repo add argo https://argoproj.github.io/argo-helm \
 ```
 
 ```shell
-mkdir -p cicd/argo/cd/{base,helm}
+mkdir -p workflow/argo/cd/{base,helm}
 ```
 
 ```shell
@@ -32,25 +32,25 @@ helm search repo argo/argo-cd -l | head -n 10
 ```shell
 helm show values argo/argo-cd \
     --version 4.5.7 \
-    > cicd/argo/cd/helm/values.yaml
+    > workflow/argo/cd/helm/values.yaml
 ```
 
-```yaml title="cicd/argo/cd/values.yaml"
+```yaml title="workflow/argo/cd/values.yaml"
 server:
   extraArgs:
     - --insecure # https://github.com/argoproj/argo-cd/issues/2953
 ```
 
 ```shell
-kubectl create namespace cicd
+kubectl create namespace workflow
 ```
 
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
     --version 4.5.7 \
-    -n cicd \
-    --values cicd/argo/cd/helm/values.yaml
+    -n workflow \
+    --values workflow/argo/cd/helm/values.yaml
 ```
 
 ## Service
@@ -58,19 +58,19 @@ helm upgrade argo-cd argo/argo-cd \
 ### Port forward
 
 ```shell
-kubectl port-forward -n cicd service/argo-cd-argocd-server 8005:80
+kubectl port-forward -n workflow service/argo-cd-argocd-server 8005:80
 ```
 
 [http://localhost:8005](http://localhost:8005)
 
 ### VirtualService
 
-```yaml title="cicd/argo/cd/base/virtual-service.yaml" {8,10}
+```yaml title="workflow/argo/cd/base/virtual-service.yaml" {8,10}
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   name: argo-cd
-  namespace: cicd
+  namespace: workflow
 spec:
   hosts:
     - <host>
@@ -82,7 +82,7 @@ spec:
             prefix: "/"
       route:
         - destination:
-            host: argo-cd-argocd-server.cicd.svc.cluster.local
+            host: argo-cd-argocd-server.workflow.svc.cluster.local
             port:
               number: 80
 ```
@@ -98,7 +98,7 @@ argocd context
 #### ID
 
 ```shell
-kubectl -n cicd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
+kubectl -n workflow get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d; echo
 ```
 
 admin의 초기 암호를 알 수 있습니다.
@@ -114,13 +114,13 @@ argocd account update-password [--account <user>]
 암호 업데이트 후 `argocd-initial-admin-secret`은 삭제해 줍니다.
 
 :::warning
-적절한 RBAC가 적용된 유저를 생성한 경우 admin을 비활성화 하는 것이 좋습니다. `cicd/argo/cd/helm/values.yaml`의 `.server.config`(argocd-cm ConfigMap의 `.data`)에 `admin.enabled: "false"`를 추가하면 됩니다.
+적절한 RBAC가 적용된 유저를 생성한 경우 admin을 비활성화 하는 것이 좋습니다. `workflow/argo/cd/helm/values.yaml`의 `.server.config`(argocd-cm ConfigMap의 `.data`)에 `admin.enabled: "false"`를 추가하면 됩니다.
 :::
 
 #### Kubectl
 
 ```shell
-kubectl config set-context --current --namespace cicd
+kubectl config set-context --current --namespace workflow
 ```
 
 ```shell
@@ -135,7 +135,7 @@ argocd login --core
 
 ### ConfigMap
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
@@ -158,7 +158,7 @@ argocd account list
 
 `redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
@@ -173,7 +173,7 @@ server:
 
 argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
@@ -202,7 +202,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: github-client-secret
-  namespace: cicd
+  namespace: workflow
   labels:
     app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
 type: Opaque
@@ -214,7 +214,7 @@ stringData:
 
 ### OIDC
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 dex:
   enabled: false
 
@@ -266,7 +266,7 @@ server:
 
 argocd-secret `.data`에 `oidc.keycloak.clientSecret: <base64 encoded>`를 추가 합니다.
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-cm
   config:
@@ -280,7 +280,7 @@ server:
 
 ### RBAC
 
-```yaml title="cicd/argo/cd/helm/values.yaml"
+```yaml title="workflow/argo/cd/helm/values.yaml"
 server:
   # ConfigMap.data, name: argocd-rbac-cm
   rbacConfig:

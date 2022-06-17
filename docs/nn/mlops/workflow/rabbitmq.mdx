@@ -1,0 +1,178 @@
+---
+id: rabbitmq
+title: RabbitMQ
+sidebar_label: RabbitMQ
+description: RabbitMQ
+keywords:
+  - rabbitmq
+---
+
+## Installation
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami \
+&& helm repo update bitnami
+```
+
+```shell
+helm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10
+```
+
+```shell
+helm show values bitnami/rabbitmq-cluster-operator \
+    --version 2.6.6 \
+    > values.yaml
+```
+
+```shell
+helm upgrade rabbitmq-operator bitnami/rabbitmq-cluster-operator \
+    --install \
+    --version 2.6.6 \
+    -n workflow \
+    -f values.yaml
+```
+
+## CRDs
+
+### RabbitmqCluster
+
+- https://www.rabbitmq.com/kubernetes/operator/using-operator.html
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: RabbitmqCluster
+metadata:
+  name: rabbitmq
+  namespace: workflow
+spec:
+  replicas: 1
+  rabbitmq:
+    additionalConfig: |
+      cluster_partition_handling = pause_minority
+      vm_memory_high_watermark_paging_ratio = 0.99
+      disk_free_limit.relative = 2.0
+      collect_statistics_interval = 30000
+  resources:
+    requests:
+      cpu: 1
+      memory: 2Gi
+    limits:
+      cpu: 2
+      memory: 2Gi
+  persistence:
+    storage: "10Gi"
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchExpressions:
+              - key: app.kubernetes.io/name
+                operator: In
+                values:
+                  - rabbitmq
+          topologyKey: kubernetes.io/hostname
+  override:
+    statefulSet:
+      spec:
+        template:
+          spec:
+            containers: []
+            topologySpreadConstraints:
+              - maxSkew: 1
+                topologyKey: "topology.kubernetes.io/zone"
+                whenUnsatisfiable: DoNotSchedule
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: rabbitmq
+```
+
+### Queue
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/queue_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: Queue
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  name: <queue-name>
+  type: quorum # classic | quorum | stream
+  durable: true # false면 server가 재시작될 때, 큐 내용이 삭제됨
+  autoDelete: false # true면 모든 Subscriber가 구독을 취소할 때, 큐가 삭제됨
+  rabbitmqClusterReference:
+    name: rabbitmq
+    namespace: workflow
+```
+
+:::info
+`Queue`, `Exchange`에서 `arguments` 대신 `Policy`를 사용하면 생성 후에도 옵션 변경을 할 수 있습니다.
+:::
+
+### Exchange
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/exchange_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  name: <exchange-name>
+  type: direct # direct | fanout | headers | topic
+  durable: true
+  autoDelete: false
+  rabbitmqClusterReference:
+    name: rabbitmq
+    namespace: workflow
+```
+
+### Binding
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/binding_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: Exchange
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  source: <source-name> # Exchange의 이름
+  destination: <destination-name>
+  destinationType: queue # queue | exchange
+  routingKey:
+  rabbitmqClusterReference:
+    name: rabbitmq
+    namespace: workflow
+```
+
+### Policy
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/policy_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: Policy
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  name: <policy-name>
+  vhost: /
+  pattern: <pattern> # 이 Policy를 적용할 Queue 또는 Exchange의 이름 패턴
+  applyTo: all # queues | exchanges | all
+  priority: 0
+  definition:
+    <key>: <value>
+  rabbitmqClusterReference: # Policy가 등록될 클러스터
+    name: rabbitmq
+    namespace: workflow
+```
+
+:::info
+사용될 `definition`의 경우 management 웹에서 `Queue`또는 `Exchange`를 GUI로 생성해보면 쉽게 알 수 있습니다.
+:::
