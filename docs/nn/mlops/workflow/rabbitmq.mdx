@@ -86,6 +86,59 @@ spec:
                     app.kubernetes.io/name: rabbitmq
 ```
 
+### User && Permission
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <secret-name>
+  namespace: workflow
+type: Opaque
+stringData:
+  username: <username>
+  password: <password>
+```
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/user_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: User
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  tags:
+    - <tag> # management | policymaker | monitoring | administrator
+  importCredentialsSecret:
+    name: <secret-name>
+  rabbitmqClusterReference:
+    name: rabbitmq
+    namespace: workflow
+```
+
+- https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/permission_types.go
+
+```yaml
+apiVersion: rabbitmq.com/v1beta1
+kind: Permission
+metadata:
+  name: <crd-name>
+  namespace: workflow
+spec:
+  userReference:
+    name: <user-crd-name>
+  vhost: "/"
+  permissions:
+    configure: ".*"
+    read: ".*"
+    write: ".*"
+  rabbitmqClusterReference:
+    name: rabbitmq
+    namespace: workflow
+```
+
 ### Queue
 
 - https://github.com/rabbitmq/messaging-topology-operator/blob/main/api/v1beta1/queue_types.go
