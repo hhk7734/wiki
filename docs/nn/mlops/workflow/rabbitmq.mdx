@@ -60,7 +60,7 @@ spec:
       cpu: 2
       memory: 2Gi
   persistence:
-    storage: "10Gi"
+    storage: 10Gi
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
@@ -189,7 +189,7 @@ spec:
 
 ```yaml
 apiVersion: rabbitmq.com/v1beta1
-kind: Exchange
+kind: Binding
 metadata:
   name: <crd-name>
   namespace: workflow
@@ -197,7 +197,12 @@ spec:
   source: <source-name> # Exchange의 이름
   destination: <destination-name>
   destinationType: queue # queue | exchange
-  routingKey:
+  # `.`으로 구분되는 tag의 나열
+  # `*`: 임의의 tag 하나
+  # `#`: 임의의 tag 0 개 이상
+  # a.* -> a.a, a.b, ...
+  # a.# -> a, a.a, a.a.a, ...
+  routingKey: <routing-key>
   rabbitmqClusterReference:
     name: rabbitmq
     namespace: workflow
