@@ -1,0 +1,28 @@
+---
+id: ratelimit
+title: RateLimit
+sidebar_label: RateLimit
+description: RateLimit
+keywords:
+  - ratelimit
+---
+
+## Algorithm
+
+- Leaky Bucket
+- Token Bucket
+- Fixed Window Counter
+- Sliding Window Log
+- Sliding Window Counter
+
+## Header
+
+- https://tools.ietf.org/id/draft-polli-ratelimit-headers-00.html
+
+<br />
+
+- `RateLimit-Limit`: 정해진 시간당 요청 가능 횟수, 윈도우 크기, 알고리즘 종류 등을 추가적으로 적을 수 있습니다.
+- `RateLimit-Remaining`: 남은 요청 가능 횟수
+- `RateLimit-Reset`: 초기화 되기까지 남은 시간
+
+## Sliding Window Log

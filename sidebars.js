@@ -173,7 +173,7 @@ module.exports = {
               label: "Middleware",
               items: [
                 "lang/go/libraries/gin/middleware/logger",
-                "lang/go/libraries/gin/middleware/rate-limit",
+                "lang/go/libraries/gin/middleware/ratelimit",
               ],
             },
           ],
