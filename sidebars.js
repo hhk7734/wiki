@@ -611,7 +611,11 @@ module.exports = {
           label: "FastAPI",
           items: [
             "lang/python/libraries/fastapi/basics",
-            "lang/python/libraries/fastapi/middleware",
+            {
+              type: "category",
+              label: "Middleware",
+              items: ["lang/python/libraries/fastapi/middleware/logger"],
+            },
           ],
         },
       ],
