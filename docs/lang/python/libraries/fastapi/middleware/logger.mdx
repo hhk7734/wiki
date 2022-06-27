@@ -25,8 +25,7 @@ from fastapi import Request
 from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
 from starlette.responses import Response
 
-L = logging.getLogger(__file__)
-L.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 
 class Logger(BaseHTTPMiddleware):
@@ -49,7 +48,7 @@ class Logger(BaseHTTPMiddleware):
             # TODO: request body
 
             for error in errors:
-                L.error(
+                logger.error(
                     path,
                     extra={
                         "method": request.method,
@@ -63,7 +62,7 @@ class Logger(BaseHTTPMiddleware):
                     },
                 )
         else:
-            L.info(
+            logger.info(
                 path,
                 extra={
                     "method": request.method,
@@ -92,7 +91,73 @@ class Recovery(BaseHTTPMiddleware):
 ## Usage
 
 ```python
+class JsonFormatter(Formatter):
+    # https://docs.python.org/3/library/logging.html#logrecord-attributes
+    DEFAULT_KEYS = (
+        "args",
+        "asctime",
+        "created",
+        "exc_info",
+        "exc_text",
+        "filename",
+        "funcName",
+        "levelname",
+        "levelno",
+        "lineno",
+        "module",
+        "msecs",
+        "message",
+        "msg",
+        "name",
+        "pathname",
+        "process",
+        "processName",
+        "relativeCreated",
+        "stack_info",
+        "thread",
+        "threadName",
+    )
 
+    def __init__(
+        self, fmt=None, datefmt=None, style="%", validate=True, *, defaults=None
+    ):
+        super().__init__(
+            fmt=fmt, datefmt=datefmt, style=style, validate=validate, defaults=defaults
+        )
+
+        self._defined_keys: list[str] = self._keys_from_fmt()
+        for k in ("asctime", "created", "levelname", "pathname", "lineno", "message"):
+            if k in self._defined_keys:
+                self._defined_keys.remove(k)
+
+    def _keys_from_fmt(self):
+        standard_formatters = re.compile(r"\((.+?)\)", re.IGNORECASE)
+        return standard_formatters.findall(self._fmt)
+
+    def format(self, record: LogRecord):
+        msg_dict = {
+            "level": record.levelname.lower() if record.levelno != 30 else "warn",
+            "time": record.created
+            if self.datefmt is None
+            else self.formatTime(record=record, datefmt=self.datefmt),
+            "caller": "/".join(record.pathname.split("/")[-2:]) + f":{record.lineno}",
+            "msg": record.msg,
+        }
+
+        for k in self._defined_keys:
+            msg_dict[k] = record.__dict__[k]
+
+        # extra
+        for k, v in record.__dict__.items():
+            if k not in self.DEFAULT_KEYS:
+                msg_dict[k] = v
+
+        return json.dumps(msg_dict)
+
+
+handler = logging.StreamHandler()
+handler.formatter = JsonFormatter()
+logging.basicConfig(handlers=[handler], level=logging.INFO)
 ```
 
 ```python
