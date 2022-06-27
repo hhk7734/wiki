@@ -7,12 +7,6 @@ keywords:
   - logger
 ---
 
-## Installation
-
-```shell
-python3 -m pip install python-json-logger
-```
-
 ## Middleware
 
 ```python
@@ -44,12 +38,12 @@ class Logger(BaseHTTPMiddleware):
 
         errors = request.state.errors
         if len(errors) > 0:
-            errors.append({key: value for key, value in request.headers.items()})
+            errors.append({k: v for k, v in request.headers.items()})
             # TODO: request body
 
-            for error in errors:
+            for i, error in enumerate(errors):
                 logger.error(
-                    path,
+                    str(i),
                     extra={
                         "method": request.method,
                         "url": path,
@@ -91,9 +85,15 @@ class Recovery(BaseHTTPMiddleware):
 ## Usage
 
 ```python
+import json
+import logging
+import time
+from logging import Formatter, LogRecord
+
+
 class JsonFormatter(Formatter):
     # https://docs.python.org/3/library/logging.html#logrecord-attributes
-    DEFAULT_KEYS = (
+    _DEFAULT_KEYS = (
         "args",
         "asctime",
         "created",
@@ -118,45 +118,59 @@ class JsonFormatter(Formatter):
         "threadName",
     )
 
-    def __init__(
-        self, fmt=None, datefmt=None, style="%", validate=True, *, defaults=None
-    ):
-        super().__init__(
-            fmt=fmt, datefmt=datefmt, style=style, validate=validate, defaults=defaults
+    _LEVEL_TO_UPPER_NAME = {
+        logging.CRITICAL: "FATAL",
+        logging.ERROR: "ERROR",
+        logging.WARNING: "WARN",
+        logging.INFO: "INFO",
+        logging.DEBUG: "DEBUG",
+    }
+
+    _LEVEL_TO_LOWER_NAME = {
+        logging.CRITICAL: "fatal",
+        logging.ERROR: "error",
+        logging.WARNING: "warn",
+        logging.INFO: "info",
+        logging.DEBUG: "debug",
+    }
+
+    def __init__(self, time_format: str = "seconds"):
+        super().__init__()
+
+        if time_format == "seconds":
+            self._convert_time = self._seconds
+        else:
+            self._convert_time = self._iso8601
+
+    def _seconds(self, record: LogRecord) -> float:
+        return record.created
+
+    def _iso8601(self, record: LogRecord) -> str:
+        return (
+            time.strftime("%Y-%m-%dT%H:%M:%S.%%03d%z", time.localtime(record.created))
+            % record.msecs
         )
-
-        self._defined_keys: list[str] = self._keys_from_fmt()
-        for k in ("asctime", "created", "levelname", "pathname", "lineno", "message"):
-            if k in self._defined_keys:
-                self._defined_keys.remove(k)
-
-    def _keys_from_fmt(self):
-        standard_formatters = re.compile(r"\((.+?)\)", re.IGNORECASE)
-        return standard_formatters.findall(self._fmt)
 
     def format(self, record: LogRecord):
         msg_dict = {
-            "level": record.levelname.lower() if record.levelno != 30 else "warn",
-            "time": record.created
-            if self.datefmt is None
-            else self.formatTime(record=record, datefmt=self.datefmt),
+            "level": self._LEVEL_TO_LOWER_NAME[record.levelno],
+            "time": self._convert_time(record),
             "caller": "/".join(record.pathname.split("/")[-2:]) + f":{record.lineno}",
             "msg": record.msg,
         }
 
-        for k in self._defined_keys:
-            msg_dict[k] = record.__dict__[k]
-
         # extra
         for k, v in record.__dict__.items():
-            if k not in self.DEFAULT_KEYS:
+            if k not in self._DEFAULT_KEYS:
                 msg_dict[k] = v
 
         return json.dumps(msg_dict)
 
 
+logging.logThreads = False
+logging.logMultiprocessing = False
 handler = logging.StreamHandler()
-handler.formatter = JsonFormatter()
+handler.setFormatter(JsonFormatter())
 logging.basicConfig(handlers=[handler], level=logging.INFO)
 ```
 
