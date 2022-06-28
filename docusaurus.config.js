@@ -39,7 +39,7 @@ module.exports = {
   themeConfig: {
     algolia: {
       appId: "F91YRZWXMW",
-      apiKey: "882821d106ded887254b7b5ec5690c5b",
+      apiKey: "1531ea4b9a0f7187475dcdab1839fb21",
       indexName: "liliot_wiki",
     },
     colorMode: {
