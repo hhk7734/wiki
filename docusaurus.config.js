@@ -133,6 +133,7 @@ module.exports = {
         "http",
         "ini",
         "nginx",
+        "protobuf",
         "sql",
         "yaml",
       ],

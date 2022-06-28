@@ -31,7 +31,7 @@ helm search repo argo/argo-cd -l | head -n 10
 
 ```shell
 helm show values argo/argo-cd \
-    --version 4.5.7 \
+    --version 4.8.3 \
     > workflow/argo/cd/helm/values.yaml
 ```
 
@@ -48,7 +48,7 @@ kubectl create namespace workflow
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 4.5.7 \
+    --version 4.8.3 \
     -n workflow \
     --values workflow/argo/cd/helm/values.yaml
 ```

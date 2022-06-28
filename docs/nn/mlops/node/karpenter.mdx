@@ -171,7 +171,7 @@ helm search repo karpenter/karpenter -l | head -n 10
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.9.0 \
+    --version 0.12.1 \
     > node/karpenter/helm/values.yaml
 ```
 
@@ -179,6 +179,16 @@ helm show values karpenter/karpenter \
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
+
+controller:
+  # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
+  # 새 Pending Pod가 생기고 batchIdleDuration 시간 만큼 대기
+  # 그 안에 새로운 Pending Pod가 생기면 batch에 포함 시키고 다시 batchIdleDuration 시간 대기
+  # 이 과정이 반복되다가 마지막 Pending Pod가 생긴 후 batchIdleDuration을 넘기거나
+  # 첫 Pending Pod가 생긴 후 batchMaxDuration을 넘기면 batch만들기 종료
+  # https://github.com/aws/karpenter/blob/main/pkg/controllers/provisioning/batcher.go
+  batchMaxDuration: 10s
+  batchIdleDuration: 1s
 
 clusterName: <cluster_name>
 
@@ -195,14 +205,14 @@ kubectl create namespace karpenter
 ```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.9.0 \
+    --version 0.12.1 \
     -n karpenter \
     -f node/karpenter/helm/values.yaml
 ```
 
 ## Provisioner
 
-- https://karpenter.sh/v0.9.0/provisioner/
+- https://karpenter.sh/v0.12.1/provisioner/
 
 Provisioner는 **Provisioner에 명시된 제약사항**과 **Workload에 명시된 제약사항 중 처리 가능한 제약사항**을 고려하여 프로비저닝을 수행합니다. 옵션이 다양한 만큼 여러 제약사항의 조합을 만들 수 있도록 하여 유언성을 제공합니다.
 
@@ -222,6 +232,7 @@ spec:
   kubeletConfiguration:
     clusterDNS:
       - "<ip|url>"
+    containerRuntime: containerd # dockerd | containerd
 ```
 
 ### labels
@@ -246,7 +257,7 @@ spec:
 
 ### AWS provider
 
-- https://karpenter.sh/v0.9.0/aws/provisioning/
+- https://karpenter.sh/v0.12.1/aws/provisioning/
 
 ```yaml
 spec:
@@ -335,4 +346,4 @@ spec:
 ## Reference
 
 - https://github.com/aws/karpenter
-- https://karpenter.sh/v0.9.0/getting-started/getting-started-with-terraform/
+- https://karpenter.sh/v0.12.1/getting-started/getting-started-with-terraform/
