@@ -420,6 +420,7 @@ module.exports = {
         "nn/mlops/workflow/argo-events",
         "nn/mlops/workflow/rabbitmq",
         "nn/mlops/workflow/rabbitmq-flow",
+        "nn/mlops/workflow/nats",
         "nn/mlops/workflow/protobuf",
       ],
     },

@@ -38,6 +38,7 @@ func LogWithZap(skipPaths []string) gin.HandlerFunc {
 					return -1
 				}
 			}()
+			xRequestID := c.Request.Header.Get("X-Request-Id")
 
 			if len(c.Errors) > 0 {
 				httpRequest, _ := httputil.DumpRequest(c.Request, false)
@@ -49,9 +50,10 @@ func LogWithZap(skipPaths []string) gin.HandlerFunc {
 						zap.String("method", c.Request.Method),
 						zap.String("url", path),
 						zap.Int("status", c.Writer.Status()),
-						zap.Int64("userID", userID),
-						zap.String("remoteAddress", c.ClientIP()),
-						zap.String("userAgent", c.Request.UserAgent()),
+						zap.Int64("user_id", userID),
+						zap.String("request_id", xRequestID),
+						zap.String("remote_address", c.ClientIP()),
+						zap.String("user_agent", c.Request.UserAgent()),
 						zap.Error(e),
 						zap.Duration("latency", latency),
 					}
@@ -63,9 +65,10 @@ func LogWithZap(skipPaths []string) gin.HandlerFunc {
 					zap.String("method", c.Request.Method),
 					zap.String("url", path),
 					zap.Int("status", c.Writer.Status()),
-					zap.Int64("userID", userID),
-					zap.String("remoteAddress", c.ClientIP()),
-					zap.String("userAgent", c.Request.UserAgent()),
+					zap.Int64("user_id", userID),
+					zap.String("request_id", xRequestID),
+					zap.String("remote_address", c.ClientIP()),
+					zap.String("user_agent", c.Request.UserAgent()),
 					zap.Duration("latency", latency),
 				}
 				zap.L().Info(path, fields...)

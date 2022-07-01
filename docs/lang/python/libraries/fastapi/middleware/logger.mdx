@@ -23,6 +23,20 @@ logger = logging.getLogger(__name__)
 
 
 class Logger(BaseHTTPMiddleware):
+    @staticmethod
+    async def _dump_request(request: Request, body: bool = False) -> str:
+        headers = {k: v for k, v in request.headers.items()}
+        dump = f"{request.method} {request.url.path} HTTP/{request.scope.get('http_version')}\r\n"
+        dump += f"Host: {headers.pop('host', '')}\r\n"
+        for k, v in headers.items():
+            dump += f"{k.title()}: {v}\r\n"
+
+        if body:
+            dump += (await request.body()).decode()
+            dump += "\r\n"
+
+        return dump
+
     async def dispatch(
         self, request: Request, call_next: RequestResponseEndpoint
     ) -> Response:
@@ -38,8 +52,7 @@ class Logger(BaseHTTPMiddleware):
 
         errors = request.state.errors
         if len(errors) > 0:
-            errors.append({k: v for k, v in request.headers.items()})
-            # TODO: request body
+            errors.append(await self._dump_request(request))
 
             for i, error in enumerate(errors):
                 logger.error(
@@ -48,9 +61,10 @@ class Logger(BaseHTTPMiddleware):
                         "method": request.method,
                         "url": path,
                         "status": res.status_code,
-                        "userID": user_id,
-                        "remoteAddress": client_ip,
-                        "userAgent": request.headers.get("user-agent"),
+                        "user_id": user_id,
+                        "request_id": request.headers.get("x-request-id", ""),
+                        "remote_address": client_ip,
+                        "user_agent": request.headers.get("user-agent", ""),
                         "error": str(error),
                         "latency": latency,
                     },
@@ -62,9 +76,10 @@ class Logger(BaseHTTPMiddleware):
                     "method": request.method,
                     "url": path,
                     "status": res.status_code,
-                    "userID": user_id,
-                    "remoteAddress": client_ip,
-                    "userAgent": request.headers.get("user-agent"),
+                    "user_id": user_id,
+                    "request_id": request.headers.get("x-request-id", ""),
+                    "remote_address": client_ip,
+                    "user_agent": request.headers.get("user-agent", ""),
                     "latency": latency,
                 },
             )
