@@ -104,6 +104,7 @@ import json
 import logging
 import time
 from logging import Formatter, LogRecord
+from typing import Optional
 
 
 class JsonFormatter(Formatter):
@@ -149,13 +150,15 @@ class JsonFormatter(Formatter):
         logging.DEBUG: "debug",
     }
 
-    def __init__(self, time_format: str = "seconds"):
+    def __init__(self, time_format: str = "seconds", indent: Optional[int] = None):
         super().__init__()
 
         if time_format == "seconds":
             self._convert_time = self._seconds
         else:
             self._convert_time = self._iso8601
+
+        self._indent = indent
 
     def _seconds(self, record: LogRecord) -> float:
         return record.created
@@ -176,10 +179,10 @@ class JsonFormatter(Formatter):
 
         # extra
         for k, v in record.__dict__.items():
-            if k not in self._DEFAULT_KEYS:
+            if k not in self._DEFAULT_KEYS and not k.startswith("_"):
                 msg_dict[k] = v
 
-        return json.dumps(msg_dict)
+        return json.dumps(msg_dict, indent=self._indent)
 
 
 logging.logThreads = False

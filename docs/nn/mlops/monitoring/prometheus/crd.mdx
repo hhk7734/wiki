@@ -1,0 +1,116 @@
+---
+id: crd
+title: prometheus-operator CRD
+sidebar_label: Operator CRD
+description: prometheus-operator CRD
+keywords:
+  - prometheus-operator
+  - CRD
+---
+
+import Image from "@theme/IdealImage";
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/monitoring/prometheus-operator-architecture.png")}
+    width={750}
+  />
+</center>
+<center>
+  <strong>Prometheus Operator Architecture</strong>
+</center>
+
+## Prometheus
+
+spec에 맞는 prometheus StatefulSets을 생성합니다.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  serviceMonitorNamespaceSelector: # 감시할 ServiceMonitor의 namespace를 선택합니다.
+    matchLabels:
+      prometheus: enabled
+```
+
+- `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.
+
+## ServiceMonitor
+
+모니터링 하고싶은 Service 정보를 입력합니다.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: istiod
+  namespace: monitoring
+  labels:
+    app: istiod
+spec:
+  jobLabel: istio
+  selector:
+    matchExpressions: # labels에 `istio: pilot`이 있는 Service를 감시합니다.
+      - { key: istio, operator: In, values: [pilot] }
+  namespaceSelector: # Service namespace selector
+    any: true
+    # matchNames:
+    #   - istio-system
+  endpoints:
+    - port: http-monitoring # Service에서 prometheus를 위해 노출한 port
+      path: /metrics
+      interval: 15s
+```
+
+## PodMonitor
+
+모니터링 하고싶은 Pod 정보를 입력합니다.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: envoy-stats
+  namespace: monitoring
+  labels:
+    app: istio-proxy
+spec:
+  jobLabel: envoy-stats
+  selector:
+    matchExpressions: # labels에 istio-prometheus-ignore 가 없는 모든 Pod를 감시합니다.
+      - { key: istio-prometheus-ignore, operator: DoesNotExist }
+  namespaceSelector:
+    any: true
+  podMetricsEndpoints:
+    - path: /stats/prometheus
+      interval: 15s
+      relabelings:
+        - action: keep
+          sourceLabels: [__meta_kubernetes_pod_container_name]
+          regex: "istio-proxy"
+        - action: keep
+          sourceLabels:
+            [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
+        - sourceLabels:
+            [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          targetLabel: __address__
+        - action: labeldrop
+          regex: "__meta_kubernetes_pod_label_(.+)"
+        - sourceLabels: [__meta_kubernetes_namespace]
+          action: replace
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          action: replace
+          targetLabel: pod_name
+```
+
+## Reference
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md

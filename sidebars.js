@@ -121,10 +121,11 @@ module.exports = {
     },
   ],
   design: [
+    "lang/design/tdd",
     "lang/design/ddd",
-    // "lang/design/tdd",
     "lang/design/solid",
     "lang/design/repository-pattern",
+    "lang/design/eda",
   ],
   espressif: ["mcu/espressif/esp8266-esp-01-module"],
   flutter: [
@@ -380,7 +381,14 @@ module.exports = {
       items: [
         "nn/mlops/monitoring/metrics-server",
         "nn/mlops/monitoring/kubernetes-dashboard",
-        "nn/mlops/monitoring/prometheus-operator",
+        {
+          type: "category",
+          label: "Prometheus",
+          items: [
+            "nn/mlops/monitoring/prometheus/operator",
+            "nn/mlops/monitoring/prometheus/crd",
+          ],
+        },
         "nn/mlops/monitoring/dcgm-exporter",
         {
           type: "category",
