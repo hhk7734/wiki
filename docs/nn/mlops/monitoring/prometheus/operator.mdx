@@ -97,40 +97,7 @@ prometheusOperator:
       enabled: false
 
 prometheus:
-  # -prometheus 설치
-  enabled: true
-
-  prometheusSpec:
-    # ruleSelector에 대한 추가 설정이 없으면 모든 rule이 적용됩니다.
-    ruleSelectorNilUsesHelmValues: false
-
-    # serviceMonitorSelector에 대한 설정이 없으면 모든 serviceMonitor가 적용됩니다.
-    serviceMonitorSelectorNilUsesHelmValues: false
-
-    # namespace에 prometheus: enabled 라는 라벨이 있으면 해당 ServiceMonitor를 수집합니다.
-    serviceMonitorNamespaceSelector:
-      matchLabels:
-        prometheus: enabled
-
-    # podMonitorSelector에 대한 설정이 없으면 모든 podMonitor가 적용됩니다.
-    podMonitorSelectorNilUsesHelmValues: false
-
-    # probeSelector에 대한 설정이 없으면 모든 probe가 적용됩니다.
-    probeSelectorNilUsesHelmValues: false
-
-    podMetadata:
-      labels:
-        sidecar.istio.io/inject: "true"
-
-    storageSpec:
-      volumeClaimTemplate:
-        spec:
-          storageClassName: gp2
-          accessModes:
-            - "ReadWriteOnce"
-          resources:
-            requests:
-              storage: 30Gi
+  enabled: false
 ```
 
 ```shell
@@ -162,17 +129,7 @@ kubectl delete crd servicemonitors.monitoring.coreos.com
 kubectl delete crd thanosrulers.monitoring.coreos.com
 ```
 
-## Service
-
-### Prometheus
-
-```shell
-kubectl port-forward -n monitoring service/prometheus-operator-prometheus 8003:9090
-```
-
-[http://localhost:8003](http://localhost:8003)
-
-### Grafana
+## Grafana
 
 ```shell
 kubectl port-forward -n monitoring service/prometheus-operator-grafana 8004:80
@@ -180,7 +137,7 @@ kubectl port-forward -n monitoring service/prometheus-operator-grafana 8004:80
 
 [http://localhost:8004](http://localhost:8004)
 
-#### Keycloak
+### Keycloak
 
 - Client
   - `grafana` client 추가

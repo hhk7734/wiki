@@ -22,6 +22,64 @@ import Image from "@theme/IdealImage";
 
 ## Prometheus
 
+### ServiceAccount
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#enable-rbac-rules-for-prometheus-pods
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: monitoring
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+  namespace: monitoring
+rules:
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - nodes/metrics
+      - services
+      - endpoints
+      - pods
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs: ["get"]
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs: ["get", "list", "watch"]
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+  namespace: monitoring
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+  - kind: ServiceAccount
+    name: prometheus
+    namespace: monitoring
+```
+
+### Prometheus
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheus
+
 spec에 맞는 prometheus StatefulSets을 생성합니다.
 
 ```yaml
@@ -31,16 +89,63 @@ metadata:
   name: prometheus
   namespace: monitoring
 spec:
-  serviceMonitorNamespaceSelector: # 감시할 ServiceMonitor의 namespace를 선택합니다.
+  serviceAccountName: prometheus
+
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector: {}
+
+  serviceMonitorNamespaceSelector:
     matchLabels:
       prometheus: enabled
+  serviceMonitorSelector: {}
+
+  retention: 10d
+
+  podMetadata:
+    labels:
+      sidecar.istio.io/inject: "true"
+  resources:
+    requests:
+      memory: 400Mi
+    limits:
+      memory: 1500Mi
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gp2
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 30Gi
 ```
 
 - `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.
 
+### Service
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  type: ClusterIP
+  ports:
+    - name: http-web
+      port: 9090
+      protocol: TCP
+      target_port: 9090
+  selector:
+    prometheus: prometheus
+```
+
 ## ServiceMonitor
 
-모니터링 하고싶은 Service 정보를 입력합니다.
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+
+수집하고 싶은 `Service` 정보 등록
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -67,7 +172,13 @@ spec:
 
 ## PodMonitor
 
-모니터링 하고싶은 Pod 정보를 입력합니다.
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmonitor
+
+수집하고 싶은 `Pod` 정보 등록
+
+:::info
+Service가 없는 Pod나, Service가 있지만 그 중 특정 Label이 있는 Pod를 모니터링할 때만 사용하고, 그 외에는 ServiceMonitor를 사용하시는 것이 좋습니다.
+:::
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1

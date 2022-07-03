@@ -336,6 +336,7 @@ module.exports = {
         "nn/mlops/kubernetes/deployment",
         "nn/mlops/kubernetes/service",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
+        "nn/mlops/kubernetes/label",
       ],
     },
     {
