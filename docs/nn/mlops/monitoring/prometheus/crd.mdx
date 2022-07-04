@@ -122,6 +122,42 @@ spec:
 
 - `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.
 
+:::info
+
+Scrape 설정 추가를 아래와 같은 방법으로 직접 작성해 넣을 수 있습니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: additional-scrape-configs
+  namespace: monitoring
+stringData:
+  prometheus-additional.yaml: |
+    - job_name: 'prometheus-other-cluster'
+      scrape_interval: 30s
+      scrape_timeout: 20s
+      honor_labels: true
+      metrics_path: '/federate'
+
+      params:
+        'match[]':
+          - '{job!=""}'
+
+      static_configs:
+        - targets:
+          - 'prometheus-other-cluster.monitoring:9090'
+```
+
+```yaml
+spec:
+  additionalScrapeConfigs:
+    name: additional-scrape-configs
+    key: prometheus-additional.yaml
+```
+
+:::
+
 ### Service
 
 ```yaml

@@ -430,6 +430,7 @@ module.exports = {
         "nn/mlops/workflow/rabbitmq",
         "nn/mlops/workflow/rabbitmq-flow",
         "nn/mlops/workflow/nats",
+        "nn/mlops/workflow/nats-flow",
         "nn/mlops/workflow/protobuf",
       ],
     },
