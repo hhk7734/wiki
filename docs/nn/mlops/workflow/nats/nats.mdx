@@ -1,0 +1,108 @@
+---
+id: nats
+title: NATS
+sidebar_label: NATS
+description: NATS
+keywords:
+  - nats
+---
+
+## Installation
+
+```shell
+helm repo add nats https://nats-io.github.io/k8s/helm/charts
+```
+
+### NATS
+
+```shell
+helm repo update nats \
+&& helm search repo nats/nats -l | head -n 10
+```
+
+```shell
+helm show values nats/nats \
+    --version 0.17.1 \
+    > values.yaml
+```
+
+```yaml
+nats:
+  resources:
+    requests:
+      cpu: 1
+      memory: 2Gi
+    limits:
+      cpu: 2
+      memory: 2Gi
+
+  jetstream:
+    enabled: true
+
+    memStorage:
+      enabled: false
+      size: 1Gi
+
+    fileStorage:
+      enabled: true
+      storageDirectory: /data
+      size: 10Gi
+      accessModes:
+        - ReadWriteOnce
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: nats
+              app.kubernetes.io/instance: nats
+          topologyKey: kubernetes.io/hostname
+        weight: 100
+
+cluster:
+  enabled: true
+  replicas: 3
+```
+
+```shell
+helm upgrade nats nats/ntas \
+    --install \
+    --version 0.17.1 \
+    -n event \
+    -f values.yaml
+```
+
+### NACK
+
+CRD로 정의된 `Account`, `Stream`, `StreamTemplate`, `Consumer`를 쿠버네티스에 등록하면 자동으로 NATS 서버에 생성해주는 컨트롤러 입니다.
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/nats-io/nack/v0.6.1/deploy/crds.yml
+```
+
+```shell
+helm repo update nats \
+&& helm search repo nats/nack -l | head -n 10
+```
+
+```shell
+helm show values nats/nack \
+    --version 0.13.0 \
+    > values.yaml
+```
+
+```yaml
+jetstream:
+  nats:
+    url: nats://nats.event:4222
+```
+
+```shell
+helm upgrade nack nats/nack \
+    --install \
+    --version 0.13.0 \
+    -n event \
+    -f values.yaml
+```

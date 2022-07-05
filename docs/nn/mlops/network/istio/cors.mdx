@@ -37,6 +37,7 @@ Access-Control-Allow-Origin: https://domain-a.com
 Access-Control-Allow-Methods: POST,GET,PUT,DELETE,OPTIONS,PATCH
 Access-Control-Allow-Credentials: true
 Access-Control-Allow-Headers: Authorization,Content-Type
+Access-Control-Expose-Headers: Ratelimit-Limit,Ratelimit-Remaining
 Access-Control-Max-Age: 86400
 ...
 ```
@@ -97,9 +98,12 @@ spec:
           - OPTIONS
           - PATCH
         allowCredentials: true
-        allowHeaders:
+        allowHeaders: # Request
           - Authorization
           - Content-Type
+        exposeHeaders: # Response
+          - Ratelimit-Limit
+          - Ratelimit-Remaining
         maxAge: "24h"
 ```
 

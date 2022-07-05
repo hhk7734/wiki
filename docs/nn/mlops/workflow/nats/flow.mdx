@@ -1,0 +1,109 @@
+---
+id: flow
+title: NATS Flow
+sidebar_label: Flow
+description: NATS Flow
+keywords:
+  - nats
+  - flow
+---
+
+## Publish-Subscribe
+
+<center>
+  <Mermaid
+    chart={`flowchart LR
+    P1(<div align=left>Publisher1<br/>Subject: a</div>)
+    P2(<div align=left>Publisher2<br/>Subject: a.a</div>)
+    P3(<div align=left>Publisher3<br/>Subject: a.b</div>)
+    P4(<div align=left>Publisher4<br/>Subject: a.b.c</div>)
+    NATS[NATS<br/>Server]
+    S1([<div align=left>Subscriber1<br/>Subject: a.*</div>])
+    S2([<div align=left>Subscriber2<br/>Subject: a.></div>])
+    S3([<div align=left>Subscriber3<br/>Subject: a.b</div>])
+    P1 -- a --> NATS
+    P2 -- a.a --> NATS
+    P3 -- a.b --> NATS
+    P4 -- a.b.c --> NATS
+    NATS -- a.a, a.b --> S1
+    NATS -- a.a, a.b, a.b.c--> S2
+    NATS -- a.b --> S3
+`}
+  />
+</center>
+
+- 1:N(fanout)
+- fire-and-forget, `Subject: a` 인 메시지는 전달되지 않고 사라짐
+
+## Queue Group
+
+<center>
+  <Mermaid
+    chart={`flowchart LR
+    P1(<div align=left>Publisher1<br/>Subject: a.a</div>)
+    P2(<div align=left>Publisher2<br/>Subject: a.b</div>)
+    P3(<div align=left>Publisher3<br/>Subject: a.b.c</div>)
+    NATS[NATS<br/>Server]
+    S1([<div align=left>Subscriber1<br/>Subject: a.></div>])
+    C1{{<div align=left>Consumer1<br/>Subject: a.*<br/>QueueGroup: q</div>}}
+    C2{{<div align=left>Consumer2<br/>Subject: a.><br/>QueueGroup: q</div>}}
+    C3{{<div align=left>Consumer3<br/>Subject: a.b<br/>QueueGroup: q</div>}}
+    P1 -- a.a --> NATS
+    P2 -- a.b --> NATS
+    P3 -- a.b.c --> NATS
+    NATS -- a.a, a.b, a.b.c --> S1
+    NATS -- a.a, a.b --> C1
+    NATS -- a.a, a.b, a.b.c --> C2
+    NATS -- a.b --> C3
+`}
+  />
+</center>
+
+- Subscriber1은 모든 메시지를 전달 받음
+- `QueueGroup: q`로 묶여 있는 경우 Subject에 맞춰 랜덤하게 한 Consumer만 메시지를 전달 받음
+- `Subject: a.a`인 메시지는 Subscriber1 and ( Consumer1 or Consumer2 )에게 전달 됨
+
+## Request-Reply
+
+## JetStream
+
+### Push
+
+:::warning
+Test 중
+:::
+
+<center>
+  <Mermaid
+    chart={`flowchart LR
+    P1(<div align=left>Publisher1<br/>Subject: a.a</div>)
+    P2(<div align=left>Publisher2<br/>Subject: a.b</div>)
+    P3(<div align=left>Publisher3<br/>Subject: a.b.c</div>)
+    NATS[NATS<br/>Server]
+    S[(<div align=left>Stream: s<br/>Subjects: a.*<br/>Storage: file</div>)]
+    C1[<div align=left>Consumer: c1<br/>Mode: Push<br/>FilterSubject: a.*<br/>DeliverSubject: s.c1</div>]
+    C2[<div align=left>Consumer: c2<br/>Mode: Push<br/>FilterSubject: a.><br/>DeliverSubject: s.c2</div>]
+    C4[[<div align=left>Consumer: Ccon1<br/>Mode: Push<br/>FilterSubject: a.sub3<br/>DeliverSubject: Sa.Ccon1<br/>DeliverGroup: consume</div>]]
+    S1([<div align=left>Subscriber1<br/>Subject: s.*</div>])
+    S2([<div align=left>Subscriber2<br/>Subject: s.c2</div>])
+    c1{{<div align=left>Consumer1<br/>Subject: Sa.Ccon1<br/>QueueGroup: consume</div>}}
+    c2{{<div align=left>Consumer2<br/>Subject: Sa.Ccon1<br/>QueueGroup: consume</div>}}
+    P1 -- a.a --> NATS
+    P2 -- a.b --> NATS
+    P3 -- a.b.c --> NATS
+    subgraph JetStream
+    NATS --> S
+    S -- a.a, a.b --> C1
+    S -- a.a, a.b, a.b.c --> C2
+    S -- a.sub3 --> C4
+    end
+    C1 -- a.a, a.b --> S1
+    C2 -- a.a, a.b, a.b.c --> S1
+    C2 -- a.a, a.b, a.b.c --> S2
+    C4 -. Sa.Ccon1 .-> c1
+    C4 -. Sa.Ccon1 .-> c2
+`}
+  />
+</center>
+
+### Pull
