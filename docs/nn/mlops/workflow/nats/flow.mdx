@@ -52,9 +52,9 @@ keywords:
     P2 -- a.b --> NATS
     P3 -- a.b.c --> NATS
     NATS -- a.a, a.b, a.b.c --> S1
-    NATS -- a.a, a.b --> C1
-    NATS -- a.a, a.b, a.b.c --> C2
-    NATS -- a.b --> C3
+    NATS -. a.a, a.b .-> C1
+    NATS -. a.a, a.b, a.b.c .-> C2
+    NATS -. a.b .-> C3
 `}
   />
 </center>
@@ -81,27 +81,24 @@ Test 중
     P3(<div align=left>Publisher3<br/>Subject: a.b.c</div>)
     NATS[NATS<br/>Server]
     S[(<div align=left>Stream: s<br/>Subjects: a.*<br/>Storage: file</div>)]
-    C1[<div align=left>Consumer: c1<br/>Mode: Push<br/>FilterSubject: a.*<br/>DeliverSubject: s.c1</div>]
-    C2[<div align=left>Consumer: c2<br/>Mode: Push<br/>FilterSubject: a.><br/>DeliverSubject: s.c2</div>]
-    C4[[<div align=left>Consumer: Ccon1<br/>Mode: Push<br/>FilterSubject: a.sub3<br/>DeliverSubject: Sa.Ccon1<br/>DeliverGroup: consume</div>]]
-    S1([<div align=left>Subscriber1<br/>Subject: s.*</div>])
-    S2([<div align=left>Subscriber2<br/>Subject: s.c2</div>])
-    c1{{<div align=left>Consumer1<br/>Subject: Sa.Ccon1<br/>QueueGroup: consume</div>}}
-    c2{{<div align=left>Consumer2<br/>Subject: Sa.Ccon1<br/>QueueGroup: consume</div>}}
+    C1[<div align=left>Consumer: c1<br/>Mode: Push<br/>FilterSubject: a.><br/>DeliverSubject: s.c1</div>]
+    C2[[<div align=left>Consumer: c2<br/>Mode: Push<br/>FilterSubject: a.*<br/>DeliverSubject: s.c2<br/>DeliverGroup: c2</div>]]
+    S1([<div align=left>Subscriber1<br/>Stream: s<br/>Durable: c1</div>])
+    S2([<div align=left>Subscriber2<br/>Stream: s<br/>Durable: c1</div>])
+    c1{{<div align=left>Consumer1<br/>Stream: s<br/>Queue: c2</div>}}
+    c2{{<div align=left>Consumer2<br/>Stream: s<br/>Queue: c2</div>}}
     P1 -- a.a --> NATS
     P2 -- a.b --> NATS
     P3 -- a.b.c --> NATS
     subgraph JetStream
     NATS --> S
-    S -- a.a, a.b --> C1
-    S -- a.a, a.b, a.b.c --> C2
-    S -- a.sub3 --> C4
+    S -- a.a, a.b, a.b.c --> C1
+    S -- a.a, a.b --> C2
     end
-    C1 -- a.a, a.b --> S1
-    C2 -- a.a, a.b, a.b.c --> S1
-    C2 -- a.a, a.b, a.b.c --> S2
-    C4 -. Sa.Ccon1 .-> c1
-    C4 -. Sa.Ccon1 .-> c2
+    C1 -- a.a, a.b, a.b.c --> S1
+    C1 -- a.a, a.b, a.b.c --> S2
+    C2 -. a.a, a.b .-> c1
+    C2 -. a.a, a.b .-> c2
 `}
   />
 </center>
