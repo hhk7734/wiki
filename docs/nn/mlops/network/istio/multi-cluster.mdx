@@ -61,6 +61,8 @@ kubectl create secret generic cacerts -n istio-system \
 
 ## Multi-Primary on different networks
 
+- https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/
+
 <center>
   <img src={useBaseUrl("img/nn/mlops/istio/istio-multi-primary-diff.svg")} />
 </center>
@@ -216,6 +218,7 @@ istioctl x create-remote-secret \
 kubectl run tmp-shell --rm -it --image nicolaka/netshoot --labels sidecar.istio.io/inject="true" -- /bin/bash
 ```
 
-## Reference
+## 운영 시 주의사항
 
-- https://istio.io/latest/docs/setup/install/multicluster/
+- Resource의 labels에 `cluster: <cluster>`를 추가해서 클러스터 식별을 할 수 있게 만들면 좋습니다.
+- Service name을 정할 때, 멀티 클러스터 에서 접근하는 경우와 각 클러스터에서만 접근하는 경우를 고려해서 정하는 게 좋습니다.

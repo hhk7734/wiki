@@ -14,10 +14,10 @@ keywords:
 
 | Key               | Type              | Required | Description                                                                  | Example                                |
 | ----------------- | ----------------- | :------: | ---------------------------------------------------------------------------- | -------------------------------------- |
-| `specversion`     | String            |   ✅️    | CloudEvents spec 버전                                                        | `1.0`                                  |
-| `type`            | String            |    ✅    | 이벤트 타입으로 domain, subdomain, event, command, event_version 등으로 구성 | `domain.subdomain.event.v2`            |
-| `source`          | URI Reference     |    ✅    | 이벤트 발생 위치                                                             | `https://<domain>/v2/<resource>`       |
-| `id`              | String            |    ✅    | 이벤트 ID로 UUID, Counter 등을 이용하여 정의                                 | `2c04c116-19c2-4b59-857e-2f0396ad0e98` |
+| `specversion`     | String            |    O     | CloudEvents spec 버전                                                        | `1.0`                                  |
+| `type`            | String            |    O     | 이벤트 타입으로 domain, subdomain, event, command, event_version 등으로 구성 | `domain.subdomain.event.v2`            |
+| `source`          | URI Reference     |    O     | 이벤트 발생 위치                                                             | `https://<domain>/v2/<resource>`       |
+| `id`              | String            |    O     | 이벤트 ID로 UUID, Counter 등을 이용하여 정의                                 | `2c04c116-19c2-4b59-857e-2f0396ad0e98` |
 | `time`            | Timestamp         |          | 이벤트 발생 시간                                                             | `2022-07-02T21:59:07.975+0900`         |
 | `datacontenttype` | RFC2046           |          | attribute/value                                                              | `application/protobuf`                 |
 | `data`            | `datacontenttype` |          | 이벤트 payload                                                               |                                        |
@@ -32,3 +32,18 @@ keywords:
 :::info
 `source` + `id` 조합은 동일 `type` 내에서 고유해야합니다.
 :::
+
+## Events and Commands
+
+Events and Commands는
+
+- JSON 포멧을 쓰기보다 가능하면 protobuf, avro 등을 쓰는 것이 좋습니다.
+- 단일 진실 공급원(Single Source of Truth)이 되야합니다.
+- 특수한 상황이 아니면 각각 Stream을 하나씩 갖는 것이 좋습니다.
+- 데이터를 나타낼 수 있는 가장 좁은 범위의 데이터 타입을 사용합니다.
+- 하나의 목적을 위한 최소한의 데이터로 구성하는 것이 좋습니다.
+- 세마포어나 시그널로 사용하지 않는 것이 좋습니다.
+
+## Reference
+
+- Adam Bellemare, Building Event-Driven Microservices: Leveraging Organizational Data at Scale
