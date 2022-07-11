@@ -156,9 +156,12 @@ default_ng_profile = aws.iam.InstanceProfile(
 
 ## Installation
 
+:::warning
+설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
+:::
+
 ```shell
-helm repo add karpenter https://charts.karpenter.sh \
-&& helm repo update karpenter
+helm repo add karpenter https://charts.karpenter.sh
 ```
 
 ```shell
@@ -166,7 +169,8 @@ mkdir -p node/karpenter/helm
 ```
 
 ```shell
-helm search repo karpenter/karpenter -l | head -n 10
+helm repo update karpenter \
+&& helm search repo karpenter/karpenter -l | head -n 10
 ```
 
 ```shell
@@ -179,6 +183,21 @@ helm show values karpenter/karpenter \
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: karpenter.sh/provisioner-name
+              operator: DoesNotExist
+            - key: eks-ng
+              operator: Exists
+
+tolerations:
+  - key: eks-ng
+    operator: Exists
+    effect: NoSchedule
 
 controller:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함

@@ -460,7 +460,7 @@ module.exports = {
           type: "category",
           label: "EKS",
           items: [
-            "nn/mlops/aws/eks/basics",
+            "nn/mlops/aws/eks/eks",
             "nn/mlops/aws/eks/eks-rbac",
             "nn/mlops/aws/eks/keycloak",
           ],

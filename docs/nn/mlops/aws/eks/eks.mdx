@@ -1,10 +1,10 @@
 ---
-id: basics
-title: EKS Basics
-sidebar_label: Basics
-description: EKS Basics
+id: eks
+title: EKS
+sidebar_label: EKS
+description: EKS
 keywords:
-  - EKS Basics
+  - EKS
 ---
 
 ## Create
@@ -215,6 +215,16 @@ ng = aws.eks.NodeGroup(
     remote_access=aws.eks.NodeGroupRemoteAccessArgs(
         ec2_ssh_key=user.master_key.key_name,
     ),
+    labels={
+        "eks-ng": "true",
+    },
+    taints=[
+        aws.eks.NodeGroupTaintArgs(
+            key="eks-ng",
+            value="true",
+            effect="NO_SCHEDULE",
+        ),
+    ],
     opts=pulumi.ResourceOptions(depends_on=[cluster, *ng_rpas], parent=cluster),
     tags={
         "Name": name,
