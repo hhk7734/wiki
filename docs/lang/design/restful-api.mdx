@@ -11,6 +11,10 @@ keywords:
 
 > The REST architectural style emphasises the scalability of interactions between components, uniform interfaces, independent deployment of components, and the creation of a layered architecture to facilitate caching components to reduce user-perceived latency, enforce security, and encapsulate legacy systems.
 
+:::info
+모든 API를 RESTful하게 정의하고 개발할 수 있는 부분은 그렇게 하면 좋겠지만, 잘 모르겠거나 애매한 부분이 있어서 어려운 것 같습니다.
+:::
+
 ## URI(Uniform Resource Identifiers)
 
 `<schema>://<authority>/<path>[?<query>][#<fragment>]`
@@ -48,7 +52,7 @@ keywords:
 - `POST`(Create): 새로운 리소스 생성 또는 `Controller` 실행
   - 비멱등성
 - `GET`(Read): 리소스 조회
-- `PUT`(Put): 리소스 전체 업데이트
+- `PUT`(Update): 리소스 전체 업데이트
   - 멱등성
 - `DELETE`(Delete): 리소스 삭제
 
@@ -58,17 +62,37 @@ keywords:
 
 ### 2xx Success
 
-- `204 No Content`: 요청은 성공했으나 클라이언트가 현재 페이지에서 벗어나지 않아도 됨
+- `200 OK`
+- `201 Created`: 리소스 생성
+- `202 Accepted`: 요청은 성공했지만 지금 당장 결과를 알려줄 수 없음
+- `204 No Content`: 본문 없음
 
 ### 4xx Client Error
 
 - `401 Unauthorized`: 인증(Authentication) 실패
 - `403 Forbidden`: 인가(Authorization)되지 않은 요청
+- `409 Conflict`: 서버의 현재 상태와 충돌한 경우
+
+:::info
+
+- 인증(Authentication): 사용자 신원 확인
+- 인가(Authorization): 리소스에 대한 접근 권한 획득
+
+:::
 
 ### 5xx Server Error
 
-서버가 요청을 처리하지 못한 경우
+서버가 요청을 처리하지 못한 경우이며 해당 에러는 모두 로그로 남겨서 트래킹 할 수 있어야 합니다.
 
-:::info
-에러 메시지에는 너무 자세한 정보를 포함시키지 않는 것이 권장됩니다.
-:::
+- `500 Internal Server Error`
+
+## Example
+
+- `POST /accounts/signup`
+- `POST /accounts/signin`
+- `POST /accounts/refresh`
+- `POST /accounts/signout`
+- `POST /accounts/delete`
+- `POST /accounts/reset-password`
+- `POST /accounts/mfa/send`
+- `POST /accounts/mfa/verify`

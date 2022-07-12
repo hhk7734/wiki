@@ -110,7 +110,16 @@ module.exports = {
       label: "SQL",
       items: [
         "lang/db/sql/type",
-        "lang/db/sql/postgresql",
+        {
+          type: "category",
+          label: "MySQL",
+          items: ["lang/db/sql/mysql/mysql"],
+        },
+        {
+          type: "category",
+          label: "PostgresSQL",
+          items: ["lang/db/sql/postgresql/postgresql"],
+        },
         "lang/db/sql/sqlalchemy",
       ],
     },
@@ -126,6 +135,7 @@ module.exports = {
     "lang/design/solid",
     "lang/design/repository-pattern",
     "lang/design/eda",
+    "lang/design/restful-api",
   ],
   espressif: ["mcu/espressif/esp8266-esp-01-module"],
   flutter: [
@@ -154,7 +164,6 @@ module.exports = {
   ],
   go: [
     "lang/go/basics",
-    "lang/go/restful-api",
     "lang/go/error",
     "lang/go/testify",
     "lang/go/context",
