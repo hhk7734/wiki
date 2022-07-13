@@ -64,11 +64,24 @@ keywords:
 
 - `200 OK`
 - `201 Created`: 리소스 생성
-- `202 Accepted`: 요청은 성공했지만 지금 당장 결과를 알려줄 수 없음
-- `204 No Content`: 본문 없음
+- `202 Accepted`: 요청은 성공했지만 지금 당장 결과를 알려줄 수 없음(Async)
+- `204 No Content`: 본문 없음, 클라이언트가 다른 페이지로 이동할 필요 없음
 
 ### 4xx Client Error
 
+:::info
+상태 코드로 표현하기 어려운 경우가 있습니다. 그런 경우 400, 401, 403 등과 함께 본문에 커스텀 코드와 메시지로 다른 에러를 표현할 수 있습니다.
+
+```json
+{
+  "code": -21,
+  "msg": "xxxx"
+}
+```
+
+:::
+
+- `400 Bad Request`: API 스펙에 맞지 않는 요청
 - `401 Unauthorized`: 인증(Authentication) 실패
 - `403 Forbidden`: 인가(Authorization)되지 않은 요청
 - `409 Conflict`: 서버의 현재 상태와 충돌한 경우
