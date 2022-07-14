@@ -1,0 +1,86 @@
+---
+id: swagger
+title: Swagger
+sidebar_label: Swagger
+description: Swagger
+keywords:
+  - swagger
+---
+
+## Installation
+
+```shell
+go install github.com/swaggo/swag/cmd/swag@v1.8.3
+```
+
+## Usage
+
+```shell
+cd <project>
+```
+
+```shell
+swag init && swag fmt
+```
+
+```shell
+docs/
+├── docs.go
+├── swagger.json
+└── swagger.yaml
+```
+
+## Comments 형식
+
+### General API Info
+
+- https://github.com/swaggo/swag#general-api-info
+
+### API Operation
+
+- https://github.com/swaggo/swag#api-operation
+
+#### @Param
+
+```go
+// @Param <param_name> <param_type> <data_type> <mandatory> "<comment>" [<attribute>]
+```
+
+Ex) `// @Param user_id path int true "User ID"`
+
+- `<param_type>`
+  - query
+  - path
+  - header
+  - body
+  - fromData
+- `<data_type>`
+  - string
+  - integer
+  - number
+  - boolean
+  - 사용자가 정의한 struct
+- `<attirbute>`
+  - https://github.com/swaggo/swag#attribute
+
+:::info
+data_type으로 사용자 정의 struct를 사용할 때, attribute를 struct의 태그로 사용할 수 있습니다.
+:::
+
+#### @Router
+
+```go
+// @Router /<path> [<httpMethod>]
+```
+
+Ex) `// @Router /examples/user/{user_id}/address [put]`
+
+#### @Success, @Failure, @Response
+
+```go
+// @Success <status> {<param type>} <data type> "<comment>"
+```
+
+```go
+// @Success <status> "<comment>"
+```

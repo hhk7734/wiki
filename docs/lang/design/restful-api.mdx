@@ -50,9 +50,11 @@ keywords:
 ## HTTP Verb
 
 - `POST`(Create): 새로운 리소스 생성 또는 `Controller` 실행
+  - RequestBody 존재 가능
   - 비멱등성
 - `GET`(Read): 리소스 조회
 - `PUT`(Update): 리소스 전체 업데이트
+  - RequestBody 존재 가능
   - 멱등성
 - `DELETE`(Delete): 리소스 삭제
 
@@ -101,11 +103,16 @@ keywords:
 
 ## Example
 
-- `POST /accounts/signup`
-- `POST /accounts/signin`
-- `POST /accounts/refresh`
-- `POST /accounts/signout`
-- `POST /accounts/delete`
-- `POST /accounts/reset-password`
-- `POST /accounts/mfa/send`
-- `POST /accounts/mfa/verify`
+- `POST /auth/create`
+- `POST /auth/create-with-oauth`
+- `POST /auth/reset-password`
+- `POST /auth/delete`
+- `POST /auth/delete-with-oauth`
+- `POST /auth/signin`
+- `POST /auth/signin-with-oauth`
+- `POST /auth/refresh`
+- `POST /auth/signout`
+- `GET /auth/account`
+- `PUT /auth/account`
+- `POST /auth/mfa/send`
+- `POST /auth/mfa/verify`

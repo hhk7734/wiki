@@ -171,7 +171,10 @@ wget https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.d
 ```
 
 ```shell
-alias ls='lsd --icon never'
+if is_installed lsd; then
+    alias ls='lsd --icon never -F'
+    alias tree='lsd --icon never --tree -F'
+fi
 ```
 
 ### pet

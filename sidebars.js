@@ -177,7 +177,6 @@ module.exports = {
           label: "Gin",
           items: [
             "lang/go/libraries/gin/basics",
-            "lang/go/libraries/gin/swagger",
             {
               type: "category",
               label: "Middleware",
@@ -188,6 +187,7 @@ module.exports = {
             },
           ],
         },
+        "lang/go/libraries/swagger",
         "lang/go/libraries/go-redis",
         "lang/go/libraries/encoding-json",
         "lang/go/libraries/go-yaml",
