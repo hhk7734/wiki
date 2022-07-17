@@ -1,0 +1,47 @@
+---
+id: event-storming
+title: Event Storming
+sidebar_label: Event Storming
+description: Event Storming
+keywords:
+  - Event Storming
+---
+
+## Bounded Context
+
+### Domain Event(주황색)
+
+- 비지니스 로직을 수행하기 위해 발생하는 이벤트입니다
+- 개발에 필요한 기술보다는 비지니스 로직에 최대한 초점을 맞춥니다
+- 과거형 동사로 정의합니다
+- 유비쿼터스 언어로 작성합니다
+- 시간 순서에 맞춰 배치합니다
+- `Policy`, `Command` 등을 정의할 때 세분화 되거나 새롭게 정의될 수 있습니다
+
+:::warning
+`Domain Event`를 만드는 중에 `Question`이 생기면 진한 보라색 포스트잇에 우선 적어두기만 하고 `Policy`로 넘어가기 전에 논의해봅니다. 중간에 갑자기 논의하게 되면 자유로운 사고를 방해할 수 있습니다.
+:::
+
+### Policy(연보라색)
+
+- `Domain Event` 오른쪽 하단에 배치합니다
+- `Policy`가 연속되는 경우 오른쪽 하단으로 이어나가면 됩니다
+
+### Command(파란색)
+
+- 명령형으로 정의합니다
+- 관련된 `Domain Event` 옆에 배치합니다
+
+### Actor(노란색, 작은 크기)
+
+- `Command` 왼쪽 상단에 배치합니다
+
+### Aggregate(노란색)
+
+- `Command`와 `Domain Event` 사이 상단이면서 뒷쪽에 배치합니다
+
+### Invariant(노란색, 중간 크기)
+
+- `Command`와 `Domain Event` 사이 하단에 배치합니다.
+
+## Context Mapping

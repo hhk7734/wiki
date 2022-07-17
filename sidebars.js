@@ -132,9 +132,10 @@ module.exports = {
   design: [
     "lang/design/tdd",
     "lang/design/ddd",
+    "lang/design/eda",
+    "lang/design/event-storming",
     "lang/design/solid",
     "lang/design/repository-pattern",
-    "lang/design/eda",
     "lang/design/restful-api",
   ],
   espressif: ["mcu/espressif/esp8266-esp-01-module"],
