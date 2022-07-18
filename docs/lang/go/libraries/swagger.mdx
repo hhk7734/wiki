@@ -78,9 +78,17 @@ Ex) `// @Router /examples/user/{user_id}/address [put]`
 #### @Success, @Failure, @Response
 
 ```go
-// @Success <status> {<param type>} <data type> "<comment>"
+// @Success <status> {<schema_type>} <data_type> "<comment>"
 ```
 
 ```go
 // @Success <status> "<comment>"
 ```
+
+#### @Header
+
+```go
+// @Header <status> {<schema_type>} <data_type> "<comment>"
+```
+
+- `<status>`: `,`로 구분하여 여러 status를 표시할 수 있습니다. `default`와 `all` 키워드도 있습니다.

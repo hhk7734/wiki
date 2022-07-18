@@ -9,10 +9,44 @@ keywords:
 
 ## Table
 
+### CREATE TABLE
+
 - https://dev.mysql.com/doc/refman/8.0/en/create-table.html
 
 ```sql
 SHOW CREATE TABLE `<table>`
 ```
 
+## Data
+
+### INSERT
+
 - https://dev.mysql.com/doc/refman/8.0/en/insert.html
+
+### LOAD DATA
+
+- https://dev.mysql.com/doc/refman/8.0/en/load-data.html
+
+```sql
+LOAD DATA
+  [LOCAL]
+  INFILE <path>
+  INTO TABLE <table>
+  [FIELDS
+    [TERMINATED BY '<string>']
+    [ENCLOSED BY '<char>']
+  ]
+  [LINES
+    [STARTING BY '<string>']
+    [TERMINATED BY '<string>']
+  ]
+  [IGNORE <number> ROWS]
+  [(<col_name_or_user_var>[,<col_name_or_user_var>])]
+  [SET col_name=<expr>]
+```
+
+- `LOCAL`: 파일이 Client에 있는 경우
+
+:::info
+`SELECT ... INTO OUTFILE ...`명령어로 옵션에 따라 파일이 어떻게 출력되는지 확인한 후 `LOAD DATA` 명령어를 사용할 수도 있습니다.
+:::
