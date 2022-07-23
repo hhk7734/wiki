@@ -31,7 +31,7 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 
 - Core SubDomain: 핵심 영역
 - Supporting SubDomain: 비지니스에 특화되어 있지만 핵심은 아닌 영역
-- Generic Domain: 이메일 전송, OAuth, 결제 등 도메인에 특화되지 않은 영역
+- Generic SubDomain: 이메일 전송, OAuth, 결제 등 도메인에 특화되지 않은 영역
 
 ### Domain model
 
@@ -82,19 +82,21 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 
 #### Domain Event
 
-#### Factory
+### Bounded Context
 
-#### Repository
+### Context Map
 
 ## Application layer
 
-### Application Service
+### Usecase & Application Service
 
-도메인 객체를 사용하여 **특정 시나리오**를 수행하거나 도메인 객체와 상관없이 **애플리케이션의 편의**를 위해 제공되는 기능들, 즉 애플리케이션에 특화된 논리들을 **애플리케이션 서비스(Application Service)**라고 합니다.
+도메인 객체를 사용하여 **특정 시나리오**를 수행하는 것을 사용자 시나리오(Usecase), 도메인 객체와 상관없이 **애플리케이션의 편의**를 위해 제공되는 기능들을 애플리케이션 서비스(Application Service)라고 합니다.
 
-- 애플리케이션 서비스의 인터페이스는 도메인 모델의 외적 요소의 측면에서 정의되어야 합니다.
-- 매개변수와 반환 타입은 도메인 객체로 구성되어야 합니다.
-- 서비스 자체의 상태는 갖지 않습니다.
+- 시그니처의 구성은 아래 세 경우로 나뉩니다
+  - 도메인 객체를 포함하는 경우
+  - 원시 타입, String, DTO만 을 사용하는 경우
+  - Command 객체를 사용하는 경우
+- 서비스 자체의 상태는 갖지 않습니다
 
 애플리케이션 서비스에서 자주 등장하는 형식은 아래와 같습니다.
 
@@ -123,7 +125,7 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 디렉토리, 파일 명은 의미에 맞게 변경될 수 있습니다.
 
 ```shell
-context/
+bounded_context/
 ├── domain/
 │   ├── event/
 │   │   ├── event_1.go
@@ -131,6 +133,8 @@ context/
 │   ├── factory/
 │   │   ├── entity_1.go
 │   │   └── ...
+│   ├── publisher/ # 인터페이스
+│   │   └── publisher.go
 │   ├── repository/ # 인터페이스
 │   │   ├── entity_1.go
 │   │   └── ...
