@@ -131,7 +131,11 @@ module.exports = {
   ],
   design: [
     "lang/design/tdd",
-    "lang/design/ddd",
+    {
+      type: "category",
+      label: "Domain-Driven",
+      items: ["lang/design/ddd/domain", "lang/design/ddd/hexagonal"],
+    },
     "lang/design/eda",
     "lang/design/event-storming",
     "lang/design/solid",

@@ -1,0 +1,126 @@
+---
+id: hexagonal
+title: Hexagonal
+sidebar_label: Hexagonal
+description: Hexagonal Architecture
+keywords:
+  - ddd
+  - hexagonal
+---
+
+import Image from "@theme/IdealImage";
+
+<center>
+  <Image
+    img={require("@site/static/img/lang/design/DDD-Architecture.jpg")}
+    width={900}
+  />
+</center>
+
+:::warning
+DDD를 적용하는 것이 항상 좋은것은 아닙니다.
+
+CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 변경 및 기능 추가, 팀원 모두 생소한 도메인 등 여러 조건에 따라 필요한 곳에 부분적으로 적용하는 것이 좋습니다.
+:::
+
+## Domain Layer
+
+## Application Layer
+
+- 시그니처의 구성은 아래 세 경우로 나뉩니다
+  - 도메인 객체를 포함하는 경우
+  - 원시 타입, String, DTO만 을 사용하는 경우
+  - Command 객체를 사용하는 경우
+- 영속성 트랜잭션 제어를 할 수 있습니다
+- 인증, 인가 제어를 할 수 있습니다.
+- Noti, Publish, Email 전송 등을 할 수 있습니다
+- 서비스 자체의 상태는 갖지 않습니다
+
+:::warning
+흐름 제어와 편의 기능을 제공하는 계층이므로 매우 얇게 유지해야합니다. 애플리케이션 계층이 복잡해진다는 것은 도메인 논리가 포함됬을 수 있다는 신호입니다.
+:::
+
+### Usecase
+
+도메인 객체를 사용하여 **특정 시나리오**를 수행하는 것을 사용자 시나리오(Usecase)라고 합니다.
+
+자주 등장하는 흐름 아래와 같습니다.
+
+1. 리포지터리에서 엔티티 또는 애그리거트를 얻어옵니다.
+1. 도메인 서비스, 애그리거트, 엔티티 등을 사용하여 일련의 도메인 논리를 수행합니다.
+1. 리포지터리를 사용하여 변경사항을 저장합니다.
+
+### Application Service
+
+도메인 객체와 상관없이 **애플리케이션의 편의**를 위해 제공되는 기능들을 애플리케이션 서비스(Application Service)라고 합니다.
+
+## User Interface Layer(Primary/Driving Adapter)
+
+1차 어댑터의 시그니처는 HTTP, gRPC, CLI 등 외부 요청에 맞춰 작성되어야 합니다.
+
+:::warning
+어댑터의 시그니처에 파라미터와 리턴 타입을 도메인 객체로하면 클라이언트 들이 도메인 객체에 대한 의존성을 갖게 될 수있습니다.
+:::
+
+## Infrastructure Layer(Secondary/Driven Adapter)
+
+## Directory Structure
+
+디렉토리, 파일 명은 의미에 맞게 변경될 수 있습니다.
+
+```shell
+bounded_context/
+├── domain/
+│   ├── event/
+│   │   ├── event_1.go
+│   │   └── ...
+│   ├── factory/
+│   │   ├── entity_1.go
+│   │   └── ...
+│   ├── publisher/ # 인터페이스
+│   │   └── publisher.go
+│   ├── repository/ # 인터페이스
+│   │   ├── entity_1.go
+│   │   └── ...
+│   ├── service/
+│   │   ├── service_1.go
+│   │   └── ...
+│   ├── valueobject/
+│   │   ├── valueobject_1.go
+│   │   ├── valueobject_2.go
+│   │   └── ...
+│   ├── entity_1.go # 애그리거트 루트
+│   ├── entity_2.go
+│   └── ...
+├── application/
+│   ├── service/ # service, notification 등의 인터페이스
+│   └── usecase/ # domain과 application의 인터페이스를 사용하여 usecase 구현
+│       ├── usecase_1.go
+│       └── ...
+└──  adapter/
+    ├── orm/ # orm, postgresql 등의 구현
+    │   ├── model/
+    │   │   ├── entity_1.go
+    │   │   └── ...
+    │   └── client.go # 클라이언트 사용을 위한 초기화와 싱글톤 객체를 생성합니다.
+    ├── repository/ # 구현
+    │   ├── entity_1.go
+    │   └── ...
+    ├── service/ # 구현
+    └── controller.go
+```
+
+:::warning
+
+- `domain` 디렉토리 내의 코드는 `domain` 내에서만 의존성을 가져야합니다.
+- `application` 디렉토리 내의 코드는 `domain`, `application` 내에서만 의존성을 가져야합니다.
+- `adapter` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있지만 `repository`를 제외한 곳에서는 `domain`에 대한 의존성을 최소화해야합니다.
+
+:::
+
+## Reference
+
+- [https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
+- Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software(번역본)
+- Vaughn Vernon, Implementing Domain-Driven Design(번역본)
+- Robert C. Martin, Clean Architecture(번역본)

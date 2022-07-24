@@ -14,6 +14,8 @@ keywords:
 
 `Gateway`는 어떤 트래픽을 허용할 지 설정하는 CRD입니다.
 
+- https://istio.io/latest/docs/reference/config/networking/gateway/
+
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
@@ -37,8 +39,6 @@ spec:
         credentialName: <secret name> # CA, TLS 인증서를 가지고 있는 Secret의 name
 ```
 
-이 외 설정은 [Gateway](https://istio.io/latest/docs/reference/config/networking/gateway/)를 참고하세요.
-
 :::info
 기본적으로 모든 namespace에 적용됩니다. 동일 namespace로 제한 하려면 `PILOT_SCOPE_GATEWAY_TO_NAMESPACE` 관련 설정을 확인하세요.
 :::
@@ -50,6 +50,8 @@ spec:
 ## VirtualService
 
 `VirtualService`는 트래픽의 라우팅을 설정하는 CRD입니다.
+
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/
 
 ### HTTP route
 
@@ -83,7 +85,30 @@ spec:
 
 ### HTTP rewrite
 
-## Reference
+### TCP route
 
-- [https://istio.io/latest/docs/reference/config/networking/gateway/](https://istio.io/latest/docs/reference/config/networking/gateway/)
-- [https://istio.io/latest/docs/reference/config/networking/virtual-service/](https://istio.io/latest/docs/reference/config/networking/virtual-service/)
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  hosts:
+    - <host>
+  gateways:
+    - <gateway>
+    - <namespace>/<gateway>
+  tcp: # TCP 라우팅 규칙입니다.
+    # 먼저 설정한 규칙의 우선순위가 높습니다.
+    - name: <name> # 디버깅에 사용되는 이름
+      match:
+        # 이 규칙을 적용할 트래픽을 선택합니다. port 등
+      route:
+        - destination:
+            host: <host>
+            subset: <subset>
+            port:
+              number: <port>
+          weight: <0-100>
+```
