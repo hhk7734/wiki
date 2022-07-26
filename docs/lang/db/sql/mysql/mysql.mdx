@@ -7,6 +7,16 @@ keywords:
   - mysql
 ---
 
+## CMD
+
+### Execute .sql
+
+- https://dev.mysql.com/doc/refman/8.0/en/mysql-batch-commands.html
+
+```shell
+mysql <db_name> < </path/sql_file>
+```
+
 ## Table
 
 ### CREATE TABLE
@@ -15,6 +25,18 @@ keywords:
 
 ```sql
 SHOW CREATE TABLE `<table>`
+```
+
+### ALTER TABLE
+
+- https://dev.mysql.com/doc/refman/8.0/en/alter-table.html
+
+#### ALTER TABLE MODIFY
+
+```sql
+ALTER TABLE `<table>`
+  MODIFY [COLUMN] `<column>` <col_definition>
+    [FIRST | AFTER `<column>`]
 ```
 
 ## Data

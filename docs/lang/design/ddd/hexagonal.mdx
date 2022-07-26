@@ -82,7 +82,7 @@ bounded_context/
 │   ├── repository/ # 인터페이스
 │   │   ├── entity_1.go
 │   │   └── ...
-│   ├── service/
+│   ├── service/ # 인터페이스 or 구현
 │   │   ├── service_1.go
 │   │   └── ...
 │   ├── valueobject/
@@ -93,28 +93,33 @@ bounded_context/
 │   ├── entity_2.go
 │   └── ...
 ├── application/
-│   ├── service/ # service, notification 등의 인터페이스
+│   ├── service/ # 인터페이스
 │   └── usecase/ # domain과 application의 인터페이스를 사용하여 usecase 구현
 │       ├── usecase_1.go
 │       └── ...
-└──  adapter/
-    ├── orm/ # orm, postgresql 등의 구현
-    │   ├── model/
-    │   │   ├── entity_1.go
-    │   │   └── ...
-    │   └── client.go # 클라이언트 사용을 위한 초기화와 싱글톤 객체를 생성합니다.
-    ├── repository/ # 구현
-    │   ├── entity_1.go
-    │   └── ...
-    ├── service/ # 구현
-    └── controller.go
+├── infrastructure/
+│   ├── service/ # 구현
+│   ├── orm/ # orm, postgresql 등의 구현
+│   │   ├── model/
+│   │   │   ├── entity_1.go
+│   │   │   └── ...
+│   │   └── client.go # 클라이언트 사용을 위한 초기화와 싱글톤 객체를 생성합니다.
+│   ├── repository/ # 구현
+│   │   ├── entity_1.go
+│   │   └── ...
+│   └── ...
+└──  user_interface/
+    ├── rest/ # 구현
+    ├── cli/ # 구현
+    └── ...
 ```
 
 :::warning
 
-- `domain` 디렉토리 내의 코드는 `domain` 내에서만 의존성을 가져야합니다.
-- `application` 디렉토리 내의 코드는 `domain`, `application` 내에서만 의존성을 가져야합니다.
-- `adapter` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있지만 `repository`를 제외한 곳에서는 `domain`에 대한 의존성을 최소화해야합니다.
+- `domain` 디렉토리 내의 코드는 `domain` 내에서만 의존성을 가질 수 있습니다
+- `application` 디렉토리 내의 코드는 `domain`, `application` 내에서만 의존성을 가질 수 있습니다
+- `infrastructure` 디렉토리 내의 코드는 인터페이스에 대한 구현이므로 `domain`, `application`에 의존성을 갖습니다
+- `user_interface` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있지만 `repository`를 제외한 곳에서는 `domain`에 대한 의존성을 최소화해야합니다
 
 :::
 
