@@ -77,19 +77,18 @@ bounded_context/
 │   ├── factory/
 │   │   ├── entity_1.go
 │   │   └── ...
-│   ├── publisher/ # 인터페이스
-│   │   └── publisher.go
 │   ├── repository/ # 인터페이스
 │   │   ├── entity_1.go
 │   │   └── ...
-│   ├── service/ # 인터페이스 or 구현
+│   ├── service/ # 비지니스 로직 구현 or 외부 서비스에 대한 인터페이스
 │   │   ├── service_1.go
+│   │   ├── publisher_1.go
 │   │   └── ...
 │   ├── valueobject/
 │   │   ├── valueobject_1.go
 │   │   ├── valueobject_2.go
 │   │   └── ...
-│   ├── entity_1.go # 애그리거트 루트
+│   ├── entity_1.go # 애그리거트 루트도 여기에 위치
 │   ├── entity_2.go
 │   └── ...
 ├── application/
@@ -99,18 +98,23 @@ bounded_context/
 │       └── ...
 ├── infrastructure/
 │   ├── service/ # 구현
-│   ├── orm/ # orm, postgresql 등의 구현
-│   │   ├── model/
-│   │   │   ├── entity_1.go
+│   ├── orm/
+│   │   ├── dao/
+│   │   │   ├── dao_1.go
 │   │   │   └── ...
-│   │   └── client.go # 클라이언트 사용을 위한 초기화와 싱글톤 객체를 생성합니다.
+│   │   └── client.go # 클라이언트 사용을 위한 싱글톤 객체를 생성합니다
 │   ├── repository/ # 구현
 │   │   ├── entity_1.go
 │   │   └── ...
 │   └── ...
-└──  user_interface/
-    ├── rest/ # 구현
-    ├── cli/ # 구현
+└── user_interface/
+    ├── rest/
+    │   ├── dto/
+    │   │   ├── dto_1.go
+    │   │   └── ...
+    │   ├── controller.go
+    │   └── ...
+    ├── cli/
     └── ...
 ```
 
