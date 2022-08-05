@@ -566,6 +566,7 @@ module.exports = {
         "lang/python/env/pipenv",
         "lang/python/env/poetry",
         "lang/python/env/conda",
+        "lang/python/env/linting-formatting",
       ],
     },
     "lang/python/exception",

@@ -1,0 +1,43 @@
+---
+id: linting-formatting
+title: Linting & Formatting
+sidebar_label: Linting & Formatting
+description: Linting & Formatting
+keywords:
+  - linting
+  - formatting
+---
+
+## pylint
+
+```shell
+python3 -m pip install pylint
+```
+
+```shell
+pylint --generate-toml-config >> pyproject.toml
+```
+
+```shell
+pylint **/*.py
+```
+
+## black
+
+```shell
+python3 -m pip install black
+```
+
+```shell
+black **/*.py
+```
+
+## isort
+
+```shell
+python3 -m pip install isort
+```
+
+```shell
+isort --profile black **/*.py
+```
