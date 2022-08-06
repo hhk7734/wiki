@@ -72,9 +72,6 @@ auth:
     users:
       - user: <user>
         password: <password>
-
-  nkeys:
-    users:
       - nkey: <nkey-user>
 ```
 
@@ -91,7 +88,7 @@ helm upgrade nats nats/ntas \
 CRD로 정의된 `Account`, `Stream`, `StreamTemplate`, `Consumer`를 쿠버네티스에 등록하면 자동으로 NATS 서버에 생성해주는 컨트롤러 입니다.
 
 ```shell
-kubectl apply -f https://raw.githubusercontent.com/nats-io/nack/v0.6.1/deploy/crds.yml
+kubectl apply -f https://raw.githubusercontent.com/nats-io/nack/v0.7.2/deploy/crds.yml
 ```
 
 ```shell
@@ -101,7 +98,7 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nack \
-    --version 0.13.0 \
+    --version 0.17.4 \
     > values.yaml
 ```
 
@@ -114,7 +111,7 @@ jetstream:
 ```shell
 helm upgrade nack nats/nack \
     --install \
-    --version 0.13.0 \
+    --version 0.17.4 \
     -n event \
     -f values.yaml
 ```
