@@ -368,7 +368,17 @@ module.exports = {
     {
       type: "category",
       label: "Node",
-      items: ["nn/mlops/node/karpenter", "nn/mlops/node/nvidia-gpu-operator"],
+      items: [
+        {
+          type: "category",
+          label: "Karpenter",
+          items: [
+            "nn/mlops/node/karpenter/karpenter",
+            "nn/mlops/node/karpenter/crd",
+          ],
+        },
+        "nn/mlops/node/nvidia-gpu-operator",
+      ],
     },
     {
       type: "category",
@@ -436,8 +446,14 @@ module.exports = {
       type: "category",
       label: "Workflow",
       items: [
-        "nn/mlops/workflow/argo-cd",
-        "nn/mlops/workflow/argo-cd-crd",
+        {
+          type: "category",
+          label: "Argo CD",
+          items: [
+            "nn/mlops/workflow/argo-cd/argo-cd",
+            "nn/mlops/workflow/argo-cd/crd",
+          ],
+        },
         "nn/mlops/workflow/argo-workflows",
         "nn/mlops/workflow/argo-workflows-crd",
         "nn/mlops/workflow/argo-events",

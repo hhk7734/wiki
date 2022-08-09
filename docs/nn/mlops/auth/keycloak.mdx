@@ -24,11 +24,11 @@ stringData:
 
 ```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami \
-&& helm repo update bitnami
 ```
 
 ```shell
-helm search repo bitnami/keycloak -l | head -n 10
+helm repo update bitnami \
+&& helm search repo bitnami/keycloak -l | head -n 10
 ```
 
 ```shell
@@ -37,18 +37,17 @@ mkdir -p atuh/keycloak/helm
 
 ```shell
 helm show values bitnami/keycloak \
-    --version 7.1.17 \
+    --version 9.6.8 \
     > atuh/keycloak/helm/values.yaml
 ```
 
 ```yaml title="atuh/keycloak/helm/values.yaml"
 auth:
-  createAdminUser: true # 설치 성공 후, admin 역할의 유저를 생성하고, 이 값을 false로 해주세요.
   adminUser: <user>
-  managementUser: <user>
   existingSecret: <secret-name>
 
-proxyAddressForwarding: true
+# 신규 설치라면 "/"를 사용하셔도 됩니다.
+httpRelativePath: "/auth/"
 
 service:
   type: ClusterIP
@@ -72,7 +71,7 @@ kubectl create namespace auth
 ```shell
 helm upgrade keycloak bitnami/keycloak \
     --install \
-    --version 7.1.17 \
+    --version 9.6.8 \
     -n auth \
     --values values.yaml
 ```
