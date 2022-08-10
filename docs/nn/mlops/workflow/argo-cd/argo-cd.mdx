@@ -45,6 +45,9 @@ server:
 
 applicationSet:
   enabled: false
+
+notifications:
+  enabled: false
 ```
 
 ```shell
@@ -295,34 +298,6 @@ server:
 
     # glob or regex
     policy.matchMode: "glob"
-```
-
-## Notification
-
-```yaml title="values.yaml"
-notifications:
-  enabled: true
-
-  secret:
-    items:
-      slack-token: <auth-token>
-
-  notifiers:
-    service.slack: |
-      token: <auth-token>
-
-  resources:
-    limits:
-      cpu: 100m
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 128Mi
-
-  subscriptions:
-
-templates:
-  triggers:
 ```
 
 ## Reference

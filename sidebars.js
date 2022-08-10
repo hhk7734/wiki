@@ -457,6 +457,7 @@ module.exports = {
         "nn/mlops/workflow/argo-workflows",
         "nn/mlops/workflow/argo-workflows-crd",
         "nn/mlops/workflow/argo-events",
+        "nn/mlops/workflow/probot",
         {
           type: "category",
           label: "NATS",
