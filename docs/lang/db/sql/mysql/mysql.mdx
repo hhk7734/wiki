@@ -17,6 +17,12 @@ keywords:
 mysql <db_name> < </path/sql_file>
 ```
 
+or
+
+```sql
+SOURCE </path/sql_file>
+```
+
 ## Table
 
 ### CREATE TABLE
@@ -34,16 +40,20 @@ SHOW CREATE TABLE `<table>`
 #### ALTER TABLE ADD
 
 ```sql
-ALTER TABLE `<table>`
-  ADD [COLUMN] `<column>` <col_definition>
+ALTER TABLE
+    `<table>`
+ADD
+    [COLUMN] `<column>` <col_definition>
     [FIRST | AFTER `<column>`]
 ```
 
 #### ALTER TABLE MODIFY
 
 ```sql
-ALTER TABLE `<table>`
-  MODIFY [COLUMN] `<column>` <col_definition>
+ALTER TABLE
+    `<table>`
+MODIFY
+    [COLUMN] `<column>` <col_definition>
     [FIRST | AFTER `<column>`]
 ```
 
@@ -54,9 +64,10 @@ ALTER TABLE `<table>`
 - https://dev.mysql.com/doc/refman/8.0/en/insert.html
 
 ```sql
-INSERT INTO `<table>`
-  [(<col_name>[,<col_name>])]
-  VALUES (<value>[,<value>])
+INSERT INTO
+    `<table>` [(<col_name>[,<col_name>])]
+VALUES
+    (<value>[,<value>])
 ```
 
 ### LOAD DATA
@@ -64,21 +75,13 @@ INSERT INTO `<table>`
 - https://dev.mysql.com/doc/refman/8.0/en/load-data.html
 
 ```sql
-LOAD DATA
-  [LOCAL]
-  INFILE <path>
-  INTO TABLE <table>
-  [FIELDS
-    [TERMINATED BY '<string>']
-    [ENCLOSED BY '<char>']
-  ]
-  [LINES
-    [STARTING BY '<string>']
-    [TERMINATED BY '<string>']
-  ]
-  [IGNORE <number> ROWS]
-  [(<col_name_or_user_var>[,<col_name_or_user_var>])]
-  [SET col_name=<expr>]
+LOAD DATA [LOCAL] INFILE <path> INTO TABLE `<table>`
+    [FIELDS [TERMINATED BY '<string>'] [ENCLOSED BY '<char>']]
+    [LINES [STARTING BY '<string>'] [TERMINATED BY '<string>']]
+    [IGNORE <number> ROWS]
+    [(<col_name_or_user_var>[,<col_name_or_user_var>])]
+[SET
+    col_name=<expr>]
 ```
 
 - `LOCAL`: 파일이 Client에 있는 경우
@@ -92,9 +95,12 @@ LOAD DATA
 - https://dev.mysql.com/doc/refman/8.0/en/update.html
 
 ```sql
-UPDATE `<table>`
-  SET <assignment_list>
-  [WHERE <where_condition>]
+UPDATE
+    `<table>`
+SET
+    <assignment_list>
+[WHERE
+    <where_condition>]
 ```
 
 ### SELECT
@@ -104,10 +110,13 @@ UPDATE `<table>`
 
 ```sql
 SELECT
-  <select_expr>
-  [FROM <table_references>]
-  [WHERE <where_condition>]
-  [LIMIT [<offset>,] <row_count>]
+    <select_expr>
+[FROM
+    <table_references>]
+[WHERE
+    <where_condition>]
+[LIMIT
+    [<offset>,] <row_count>]
 ```
 
 ### DELETE
@@ -115,6 +124,8 @@ SELECT
 - https://dev.mysql.com/doc/refman/8.0/en/delete.html
 
 ```sql
-DELETE FROM `<table>`
-  [WHERE <where_condition>]
+DELETE FROM
+    `<table>`
+[WHERE
+    <where_condition>]
 ```

@@ -1,0 +1,54 @@
+---
+id: explain
+title: EXPLAIN
+sidebar_label: EXPLAIN
+description: explain
+keywords:
+  - explain
+  - mysql
+---
+
+## EXPLAIN(DESCRIBE)
+
+- https://dev.mysql.com/doc/refman/8.0/en/explain.html
+
+`EXPLAIN`과 `DESCRIBE`는 같은 명령어지만, `EXPLAIN`은 주로 쿼리 실행 계획을 확인하기 위해 쓰고 `DESCRIBE`는 주로 테이블 구조를 확인하기 위해 사용합니다.
+
+### DESCRIBE
+
+```sql
+DESCRIBE `<table>`
+```
+
+### EXPLAIN
+
+- https://dev.mysql.com/doc/refman/8.0/en/explain-output.html
+
+```sql
+EXPLAIN [FORMAT = TREE]
+<explainable_stmt>
+```
+
+- `id`
+- `select_type`
+- `table`
+- `partitions`
+- `type`
+- `possible_keys`
+- `key`
+- `key_len`
+- `ref`
+- `rows`: 검사해야할 것으로 예측되는 레코드 수
+- `filtered`: 조건에 의해 찾은 레코드 수에 대한 백분율(결과/`rows`\*100)
+- `Extra`
+
+### EXPLAIN ANALYZE
+
+```sql
+EXPLAIN ANALYZE
+<select_statement>
+```
+
+- `actual time`: 첫 번째와 마지막 레코드를 가져오는 데 걸린 평균 시간(ms)
+- `rows`: 조건에 맞는 평균 레코드 수
+- `loops`: 반복 횟수
