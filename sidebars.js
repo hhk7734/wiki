@@ -113,7 +113,11 @@ module.exports = {
         {
           type: "category",
           label: "MySQL",
-          items: ["lang/db/sql/mysql/mysql"],
+          items: [
+            "lang/db/sql/mysql/mysql",
+            "lang/db/sql/mysql/aggregate",
+            "lang/db/sql/mysql/window",
+          ],
         },
         {
           type: "category",

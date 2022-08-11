@@ -1,0 +1,62 @@
+---
+id: window
+title: Window
+sidebar_label: Window
+description: window
+keywords:
+  - window
+  - mysql
+---
+
+## OVER
+
+- https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html
+
+window를 사용하는 또는 할 수 있는 함수에 OVER를 사용하여 window를 넘겨줄 수 있습니다.
+
+```sql
+OVER(
+    [<window_name>]
+    [PARTITION BY <expr>[, <expr>]]
+    [ORDER BY <expr> [ASC|DESC] [, <expr> [ASC|DESC]]]
+    [<frame_clause>]
+)
+```
+
+## RANK, DENSE_RANK, ROW_NUMBER
+
+- https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_rank
+
+- RANK
+  - ORDER BY에 따라 순위 선정, 없으면 모두 같은 순위
+  - 동일한 값은 같은 순위
+- DENSE_RANK
+  - RANK와 동일하지만 같은 순위가 있더라도 다음 순위와 간격이 없음
+- ROW_NUMBER
+  - 주어진 행에 번호를 붙임
+
+```sql
+SELECT
+  val,
+  ROW_NUMBER() OVER w AS 'row_number',
+  RANK()       OVER w AS 'rank',
+  DENSE_RANK() OVER w AS 'dense_rank'
+FROM numbers
+WINDOW w AS (ORDER BY val)
+```
+
+```
++------+------------+------+------------+
+| val  | row_number | rank | dense_rank |
++------+------------+------+------------+
+|    1 |          1 |    1 |          1 |
+|    1 |          2 |    1 |          1 |
+|    2 |          3 |    3 |          2 |
+|    3 |          4 |    4 |          3 |
+|    3 |          5 |    4 |          3 |
+|    3 |          6 |    4 |          3 |
+|    4 |          7 |    7 |          4 |
+|    4 |          8 |    7 |          4 |
+|    5 |          9 |    9 |          5 |
++------+------------+------+------------+
+```
