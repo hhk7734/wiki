@@ -10,4 +10,21 @@ keywords:
 
 ## Github App
 
+Settings -> Developer settings -> Github Apps -> New Github App
+
+- `GitHub App name`
+- `Homepage URL`
+- `Webhook URL`: Probot이 실행 되는 서버의 URL
+- `Webhook secret`: Github에서 Probot으로 웹훅을 보낼 때 생성되는 해시 서명을 위한 시크릿
+  - `X-Hub-Signature-256`: 해시 서명 헤더 (`sha256=<hexdigest>`)
+
+:::info
+아래 명령어를 통해 `<hexdigest>`를 구해볼 수 있습니다.
+
+```shell
+openssl dgst -sha256 -hmac <secret> -hex <body file>
+```
+
+:::
+
 ## Probot

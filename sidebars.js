@@ -427,6 +427,7 @@ module.exports = {
           items: [
             "nn/mlops/monitoring/eck/basics",
             "nn/mlops/monitoring/eck/fluentd",
+            "nn/mlops/monitoring/eck/fluentbit",
           ],
         },
         {
