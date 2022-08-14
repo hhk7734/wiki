@@ -43,9 +43,7 @@ yarn create next-app --typescript
 
 ```js title="next.config.js"
 module.exports = {
-  experimental: {
-    outputStandalone: true,
-  },
+  output: "standalone",
 };
 ```
 
@@ -84,6 +82,8 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
+# RUN ln -s /config/.env .env
+
 USER nextjs
 
 EXPOSE 3000
@@ -92,3 +92,7 @@ ENV PORT 3000
 
 CMD ["node", "server.js"]
 ```
+
+:::info
+`.env` 파일을 인식하기 때문에 환경 변수 대신 볼륨 마운트를 사용하여 환경 변수를 전달해야 합니다.
+:::
