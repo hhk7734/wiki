@@ -16,3 +16,68 @@ python3 -m pip install fastapi
 ```shell
 python3 -m pip install hypercorn
 ```
+
+## Config
+
+- https://pydantic-docs.helpmanual.io/usage/settings/
+
+```shell
+python3 -m pip install python-dotenv
+```
+
+```shell title=".env"
+DEBUG=true
+K8S_POD_NAME=fastapi-test
+K8S_POD_NAMESPACE=localhost
+```
+
+```python title="app/config.py"
+from dotenv import load_dotenv
+from pydantic import BaseSettings
+
+load_dotenv()
+
+
+class K8sConfig(BaseSettings):
+    pod_name: str
+    pod_namespace: str
+
+    class Config:
+        env_prefix = "k8s_"
+
+
+class Config(BaseSettings):
+    debug: bool = False
+    k8s = K8sConfig()
+
+
+config = Config()
+```
+
+## Dockerfile
+
+```shell title=".dockerignore"
+.env
+```
+
+```dockerfile title="Dockerfile"
+FROM python:3.10-alpine as requirements-stage
+
+WORKDIR /app
+
+RUN pip install poetry
+COPY pyproject.toml poetry.lock* /app/
+RUN poetry export -f requirements.txt  --output /app/requirements.txt --without-hashes
+
+FROM python:3.10-alpine as runtime
+
+WORKDIR /app
+
+COPY ./app /app/app
+COPY --from=requirements-stage /app/requirements.txt /app/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
+
+ENV PORT 8000
+
+CMD ["sh", "-c", "hypercorn app.main:app --bind 0.0.0.0:${PORT}"]
+```

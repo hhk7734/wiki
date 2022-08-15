@@ -16,7 +16,7 @@ go get -u go.uber.org/zap
 ## Middleware
 
 ```go
-func LogWithZap(skipPaths []string) gin.HandlerFunc {
+func LoggerWithZap(skipPaths []string) gin.HandlerFunc {
 	skip := make(map[string]bool, len(skipPaths))
 	for _, path := range skipPaths {
 		skip[path] = true
@@ -130,12 +130,12 @@ func initLogger() {
 
 ```go
 	r := gin.New()
-	r.Use(middleware.LogWithZap([]string{}))
+	r.Use(middleware.LoggerWithZap([]string{}))
 	r.Use(middleware.RecoveryWithZap(true))
 ```
 
 :::warning
-첫번째 미들웨어로 `LogWithZap`, 두번째 미들웨어로 `RecoveryWithZap`을 사용해야합니다.
+첫번째 미들웨어로 `LoggerWithZap`, 두번째 미들웨어로 `RecoveryWithZap`을 사용해야합니다.
 :::
 
 ## Reference
