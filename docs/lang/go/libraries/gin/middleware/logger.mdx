@@ -16,6 +16,8 @@ go get -u go.uber.org/zap
 ## Middleware
 
 ```go
+const UserIDKey = "user_id"
+
 func LoggerWithZap(skipPaths []string) gin.HandlerFunc {
 	skip := make(map[string]bool, len(skipPaths))
 	for _, path := range skipPaths {
@@ -131,7 +133,7 @@ func initLogger() {
 ```go
 	r := gin.New()
 	r.Use(middleware.LoggerWithZap([]string{}))
-	r.Use(middleware.RecoveryWithZap(true))
+	r.Use(middleware.RecoveryWithZap())
 ```
 
 :::warning

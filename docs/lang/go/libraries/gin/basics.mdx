@@ -9,14 +9,99 @@ keywords:
 
 ## Installation
 
+- https://github.com/gin-gonic/gin
+- https://github.com/cosmtrek/air
+
 ```shell
 go get -u github.com/gin-gonic/gin
 ```
 
+```shell
+go install github.com/cosmtrek/air@latest
+```
+
+```shell
+air init
+```
+
 ## Config
+
+- https://github.com/caarlos0/env
+- https://github.com/joho/godotenv
+
+```shell
+go get -u github.com/caarlos0/env/v6
+```
+
+```shell
+go get -u github.com/joho/godotenv
+```
+
+```shell title=".env"
+DEBUG=true
+PORT=8080
+K8S_POD_NAME=gin-test
+K8S_POD_NAMESPACE=localhost
+```
+
+```go title="internal/config/config.go
+package config
+
+import (
+	"fmt"
+
+	"github.com/caarlos0/env/v6"
+	"github.com/joho/godotenv"
+)
+
+type config struct {
+	Debug bool      `env:"DEBUG" envDefault:"false"`
+	Port  int       `env:"PORT" envDefault:"8080"`
+	K8s   k8sConfig `envPrefix:"K8S_"`
+}
+
+type k8sConfig struct {
+	PodName      string `env:"POD_NAME,required"`
+	PodNamespace string `env:"POD_NAMESPACE,required"`
+}
+
+var c config
+
+func Init() {
+	var err error
+	err = godotenv.Load()
+	if err != nil {
+		fmt.Println("failed to load .env", err)
+	}
+
+	err = env.Parse(&c)
+	if err != nil {
+		fmt.Println("failed to parse env", err)
+	}
+}
+
+func Config() config {
+	return c
+}
+```
 
 ## Dockerfile
 
-## Reference
+```shell title=".dockerignore"
+.env
+```
 
-- https://github.com/gin-gonic/gin
+```dockerfile title="Dockerfile"
+FROM golang:1.18.1-alpine AS build
+COPY . /app
+WORKDIR /app
+RUN apk --update add ca-certificates
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -tags=go_json,nomsgpack -buildvcs=false -o app
+
+FROM scratch AS runtime
+WORKDIR /app
+COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=build /app/app /usr/bin/
+CMD ["app"]
+```
