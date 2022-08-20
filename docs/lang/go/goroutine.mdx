@@ -10,3 +10,56 @@ keywords:
 ## Goroutine
 
 ## Channel
+
+- `ch := make(chan string)`: 버퍼 없는 string 타입의 채널을 생성합니다
+- `ch := make(chan int, 10)`: 버퍼 크기가 10인 int 타입의 채널을 생성합니다
+- `a := <-ch`: 채널에서 데이터를 받아 a에 할당합니다
+- `ch <- b`: 채널에 b를 보냅니다
+- 채널의 데이터는 한 번만 받을 수 있습니다(Producer-Consumer)
+- 파라미터로 사용될 때 수신 전용과 송신 전용을 표현할 수 있습니다
+  - `in <-chan string`: 수신 전용
+  - `out chan<- string`: 송신 전용
+- 버퍼가 없는 채널이나 버퍼가 다 찬 채널에 데이터를 보내면 다른 고루틴에서 해당 채널에서 데이터를 받을 때까지 블로킹 됩니다
+- 데이터가 없는 채널에서 데이터를 받으려고 하면 채널에 데이터가 들어올 때까지 블로킹 됩니다
+- `close(ch)`
+  - 채널을 닫는 책임은 채널에 데이터를 보내는 고루틴에 있습니다
+  - 채널이 닫히길 기다리는 고루틴이 있는 경우에만 닫기가 필요합니다
+  - 닫힌 채널에서 값을 받으면 버퍼에 있는 값을 반환하고, 모든 버퍼가 비면 제로 값을 반환합니다
+  - `v, ok := <-ch` , ok 관용구를 통해 닫힌 채널인지 확인할 수 있습니다
+
+### for-range
+
+```go
+// 채널이 닫히거나 break가 호출 될 때까지 루프가 반복됨
+for v := range ch {
+}
+```
+
+### select
+
+```go
+// 블로킹 없이 실행 될 수 있는 case 중 하나를 랜덤하게 실행합니다
+// 해당 case가 없고 default가 선언되어 있는 경우 default를 실행합니다
+select {
+case a := <-ch1:
+case ch2 <- b:
+case <-ch3:
+default:
+}
+```
+
+```go
+// for-select 루프를 사용하는 경우 종료시킬 수 있는 방법을 포함해야합니다
+for {
+  select {
+  case a := <-ch:
+  case b, ok := <-ch2:
+    if !ok {
+      ch2 = nil // 채널이 닫힌 경우 제로 값을 계속 반환할 수 있으므로 nil 채널로 설정
+      continue
+    }
+  case <-done:
+    return
+  }
+}
+```
