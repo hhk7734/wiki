@@ -119,6 +119,7 @@ module.exports = {
             "lang/db/sql/mysql/window",
             "lang/db/sql/mysql/join",
             "lang/db/sql/mysql/explain",
+            "lang/db/sql/mysql/stored-program",
           ],
         },
         {

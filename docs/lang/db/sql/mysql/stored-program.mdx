@@ -1,0 +1,79 @@
+---
+id: stored-program
+title: Stored Program
+sidebar_label: Stored Program
+description: stored-program
+keywords:
+  - stored-program
+  - mysql
+---
+
+:::warning
+`;` 은 mysql 에서 명령을 구분하는 기호로 인식하는 데, Stored Program에서 프로그램을 정의하기 위해서도 `;`을 사용하므로 일시적으로 `DELIMITER $$` 명령을 통해 구분자를 `;`에서 `$$`로 변경해야 합니다.
+
+프로그램 정의가 끝난 후엔 다시 `;`로 변경해야 합니다.
+:::
+
+## PROCEDURE
+
+- https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html
+
+### CREATE PROCEDURE
+
+```sql
+DELIMITER $$
+CREATE PROCEDURE <func>(
+    [<param> <type>[,<param> <type>]]
+)
+BEGIN
+    <statement>;
+    [<statement>;]
+END
+$$
+DELIMITER ;
+```
+
+### DROP PROCEDURE
+
+```sql
+DROP PROCEDURE <func>
+```
+
+### CALL PROCEDURE
+
+```sql
+CALL <func>([<arg>[,<arg>]])
+```
+
+## DECLARE
+
+### DECLARE Local variable
+
+- https://dev.mysql.com/doc/refman/8.0/en/declare-local-variable.html
+
+```sql
+DECLARE <var>[,<var>] ... <type> [DEFAULT <value>]
+```
+
+### DECLARE CURSOR
+
+- https://dev.mysql.com/doc/refman/8.0/en/cursors.html
+
+```sql
+DECLARE <cursor> CURSOR FOR <select_statement>
+```
+
+```sql
+OPEN <cursor>;
+FETCH <cursor> INTO <var>[,<var>];
+CLOSE <cursor>;
+```
+
+### DECLARE HANDLER
+
+- https://dev.mysql.com/doc/refman/8.0/en/declare-handler.html
+
+```sql
+DECLARE <action> HANDLER FOR <condition>[,<condition>]
+<statement>
+```
