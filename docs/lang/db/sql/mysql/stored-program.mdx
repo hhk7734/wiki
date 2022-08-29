@@ -47,6 +47,10 @@ CALL <func>([<arg>[,<arg>]])
 
 ## DECLARE
 
+:::warning
+`Local variable` -> `CURSOR` -> `HANDLER` 순으로 선언해야 합니다.
+:::
+
 ### DECLARE Local variable
 
 - https://dev.mysql.com/doc/refman/8.0/en/declare-local-variable.html
@@ -76,4 +80,30 @@ CLOSE <cursor>;
 ```sql
 DECLARE <action> HANDLER FOR <condition>[,<condition>]
 <statement>
+```
+
+## LOOP
+
+```sql
+CREATE PROCEDURE test()
+BEGIN
+    DECLARE tn, ts VARCHAR(50);
+    DECLARE done INT DEFAULT FALSE;
+
+    DECLARE cur CURSOR FOR SELECT table_name, table_schema FROM information_schema.tables;
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+
+    OPEN cur;
+
+    read_loop: LOOP
+        FETCH cur INTO tn, ts;
+        SELECT tn, ts;
+        IF done THEN
+            LEAVE read_loop;
+        END IF;
+    END LOOP;
+
+    CLOSE cur;
+END
 ```
