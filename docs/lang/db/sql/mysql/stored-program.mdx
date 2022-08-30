@@ -93,15 +93,15 @@ BEGIN
     DECLARE cur CURSOR FOR SELECT table_name, table_schema FROM information_schema.tables;
     DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
 
-
     OPEN cur;
 
     read_loop: LOOP
         FETCH cur INTO tn, ts;
-        SELECT tn, ts;
         IF done THEN
             LEAVE read_loop;
         END IF;
+
+        SELECT tn, ts;
     END LOOP;
 
     CLOSE cur;
