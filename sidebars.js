@@ -188,7 +188,7 @@ module.exports = {
           type: "category",
           label: "Gin",
           items: [
-            "lang/go/libraries/gin/basics",
+            "lang/go/libraries/gin/gin",
             {
               type: "category",
               label: "Middleware",
@@ -197,6 +197,7 @@ module.exports = {
                 "lang/go/libraries/gin/middleware/ratelimit",
               ],
             },
+            "lang/go/libraries/gin/validator",
           ],
         },
         "lang/go/libraries/swagger",
@@ -306,27 +307,33 @@ module.exports = {
   mlops: [
     {
       type: "category",
-      label: "Pulumi",
+      label: "IaC",
       items: [
-        "nn/mlops/pulumi/basics",
-        "nn/mlops/pulumi/config",
-        "nn/mlops/pulumi/import-export",
-        "nn/mlops/pulumi/resource-options",
-        "nn/mlops/pulumi/dynamic",
-      ],
-    },
-    {
-      type: "category",
-      label: "Terraform",
-      items: ["nn/mlops/terraform/basics"],
-    },
-    {
-      type: "category",
-      label: "Ansible",
-      items: [
-        "nn/mlops/ansible/basics",
-        "nn/mlops/ansible/vault",
-        "nn/mlops/ansible/roles",
+        {
+          type: "category",
+          label: "Pulumi",
+          items: [
+            "nn/mlops/pulumi/basics",
+            "nn/mlops/pulumi/config",
+            "nn/mlops/pulumi/import-export",
+            "nn/mlops/pulumi/resource-options",
+            "nn/mlops/pulumi/dynamic",
+          ],
+        },
+        {
+          type: "category",
+          label: "Terraform",
+          items: ["nn/mlops/terraform/basics"],
+        },
+        {
+          type: "category",
+          label: "Ansible",
+          items: [
+            "nn/mlops/ansible/basics",
+            "nn/mlops/ansible/vault",
+            "nn/mlops/ansible/roles",
+          ],
+        },
       ],
     },
     {
@@ -452,32 +459,53 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Workflow",
+      label: "Event",
       items: [
         {
           type: "category",
           label: "Argo CD",
           items: [
-            "nn/mlops/workflow/argo-cd/argo-cd",
-            "nn/mlops/workflow/argo-cd/crd",
+            "nn/mlops/event/argo-cd/argo-cd",
+            "nn/mlops/event/argo-cd/crd",
           ],
         },
-        "nn/mlops/workflow/argo-workflows",
-        "nn/mlops/workflow/argo-workflows-crd",
-        "nn/mlops/workflow/argo-events",
-        "nn/mlops/workflow/probot",
+        "nn/mlops/event/argo-workflows",
+        "nn/mlops/event/argo-workflows-crd",
+        "nn/mlops/event/argo-events",
+        "nn/mlops/event/probot",
         {
           type: "category",
           label: "NATS",
           items: [
-            "nn/mlops/workflow/nats/nats",
-            "nn/mlops/workflow/nats/crd",
-            "nn/mlops/workflow/nats/flow",
+            "nn/mlops/event/nats/nats",
+            "nn/mlops/event/nats/crd",
+            "nn/mlops/event/nats/flow",
           ],
         },
-        "nn/mlops/workflow/rabbitmq",
-        "nn/mlops/workflow/rabbitmq-flow",
-        "nn/mlops/workflow/protobuf",
+        {
+          type: "category",
+          label: "Severless",
+          items: [
+            {
+              type: "category",
+              label: "Fission",
+              items: ["nn/mlops/event/serverless/fission/fission"],
+            },
+            {
+              type: "category",
+              label: "Knative",
+              items: ["nn/mlops/event/serverless/knative/knative"],
+            },
+          ],
+        },
+        {
+          type: "category",
+          label: "KEDA",
+          items: ["nn/mlops/event/keda/keda"],
+        },
+        "nn/mlops/event/rabbitmq",
+        "nn/mlops/event/rabbitmq-flow",
+        "nn/mlops/event/protobuf",
       ],
     },
     "nn/mlops/mlops-kubeflow",

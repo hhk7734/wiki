@@ -1,0 +1,23 @@
+---
+id: validator
+title: Validator
+sidebar_label: Validator
+description: Validator
+keywords:
+  - validator
+---
+
+## Deafult Validator
+
+- https://github.com/go-playground/validator
+
+```go
+type TestRequest struct {
+    Email string `json:"email" binding:"required,email"`
+    Name  string `json:"name"`
+}
+```
+
+## Custom Validator
+
+- https://github.com/gin-gonic/gin#custom-validators
