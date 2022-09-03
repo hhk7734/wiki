@@ -14,7 +14,7 @@ keywords:
 ```go
 type TestRequest struct {
     Email string `json:"email" binding:"required,email"`
-    Name  string `json:"name"`
+    Name  string `json:"name" binding:"-"`
 }
 ```
 
