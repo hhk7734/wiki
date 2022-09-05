@@ -1,0 +1,62 @@
+---
+id: refactoring
+title: Refactoring
+sidebar_label: Refactoring
+description: Refactoring
+keywords:
+  - ddd
+  - refactoring
+---
+
+## 개발 시작
+
+초기 단계에 `user_interface`가 `cli` 또는 `rest` 등 하나만 존재하면
+
+- 단순 CRUD 는 `repository`를 바로 `user_interface`에서 사용합니다
+- 하나의 함수만 있으면 되는 `application/service`는 바로 `user_interface`에 구현합니다
+- `application/service`나 `infrastructure`의 기능을 가져와서 흐름만 제어하면 되는 상황이라면 `user_interface`에 바로 구현합나다
+
+:::info
+`application/usecase`는 서비스 제공이나 흐름 제어를 하는 함수를 구현하는 것에서 끝나지 않고,
+
+- `user_interface`에서 원하는 `infrastructure`를 고를 수 있도록 추상화 해야합니다
+- 에러가 발생 했을 때, `user_interface`가 처리할 수 있도록 적절한 방법을 노출시켜야 합니다
+
+따라서 초기에 개발 속도를 지연시키는 요소가 될 수 있습니다.
+:::
+
+`dto`가 `domain` 객체 또는 `dao`와 동일할 때, 새로 선언해야하는 경우가 아니라면 `domain` 객체 또는 `dao`를 그대로 사용합니다.
+
+```shell
+bounded_context/
+├── domain/
+│   └── ...
+├── infrastructure/
+│   ├── service/
+│   ├── orm/
+│   │   ├── dao/
+│   │   │   ├── dao_1.go
+│   │   │   └── ...
+│   │   └── client.go
+│   ├── repository/
+│   │   ├── entity_1.go
+│   │   └── ...
+│   └── ...
+└── user_interface/
+    ├── rest/
+    │   ├── dto/
+    │   │   ├── dto_1.go
+    │   │   └── ...
+    │   ├── controller/
+    │   │   ├── controller_1.go
+    │   │   └── ...
+    │   └── ...
+    ├── cli/
+    └── ...
+```
+
+## 리팩토링
+
+부분적으로라도 `user_interface`가 여러개가 되는 부분이 생기면, 해당 부분을 `application/usecase`로 옮깁니다. 흐름을 제어하는 경우 단계별로 `user_interface`가 처리할 수 있도록 퍼블릭 에러나 에러 핸들러를 노출 시킵니다.
+
+클라이언트 요구사항에 따라 `domain` 객체 또는 `dao`를 그대로 사용하지 못하는 경우가 발생하면 `dto`를 만들어 사용합니다.

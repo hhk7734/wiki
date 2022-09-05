@@ -21,6 +21,8 @@ import Image from "@theme/IdealImage";
 DDD를 적용하는 것이 항상 좋은것은 아닙니다.
 
 CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 변경 및 기능 추가, 팀원 모두 생소한 도메인 등 여러 조건에 따라 필요한 곳에 부분적으로 적용하는 것이 좋습니다.
+
+자세한 내용은 Refactoring에서 다룹니다.
 :::
 
 ## Domain Layer
@@ -32,13 +34,9 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
   - 원시 타입, String, DTO만 을 사용하는 경우
   - Command 객체를 사용하는 경우
 - 영속성 트랜잭션 제어를 할 수 있습니다
-- 인증, 인가 제어를 할 수 있습니다.
+- 인증, 인가 제어를 할 수 있습니다
 - Noti, Publish, Email 전송 등을 할 수 있습니다
 - 서비스 자체의 상태는 갖지 않습니다
-
-:::warning
-흐름 제어와 편의 기능을 제공하는 계층이므로 매우 얇게 유지해야합니다. 애플리케이션 계층이 복잡해진다는 것은 도메인 논리가 포함됬을 수 있다는 신호입니다.
-:::
 
 ### Usecase
 
@@ -49,6 +47,7 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 1. 리포지터리에서 엔티티 또는 애그리거트를 얻어옵니다.
 1. 도메인 서비스, 애그리거트, 엔티티 등을 사용하여 일련의 도메인 논리를 수행합니다.
 1. 리포지터리를 사용하여 변경사항을 저장합니다.
+1. 에러가 발생한 경우 User Interface에서 처리할 수 있는 방법을 노출시켜줍니다.
 
 ### Application Service
 
@@ -58,15 +57,11 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 
 1차 어댑터의 시그니처는 HTTP, gRPC, CLI 등 외부 요청에 맞춰 작성되어야 합니다.
 
-:::warning
-어댑터의 시그니처에 파라미터와 리턴 타입을 도메인 객체로하면 클라이언트 들이 도메인 객체에 대한 의존성을 갖게 될 수있습니다.
-:::
-
 ## Infrastructure Layer(Secondary/Driven Adapter)
 
 ## Directory Structure
 
-디렉토리, 파일 명은 의미에 맞게 변경될 수 있습니다.
+디렉토리, 파일 명은 의미에 맞게 변경될 수 있습니다. 중요한 점은 처음부터 아래와 같은 구성을 갖는 것이 아닙니다. 프로그램이 커지고 복잡해질 때, 리팩토링 과정을 거치게 되면서 아래와 같은 구조가 됩니다.
 
 ```shell
 bounded_context/
@@ -92,18 +87,18 @@ bounded_context/
 │   ├── entity_2.go
 │   └── ...
 ├── application/
-│   ├── service/ # 인터페이스
-│   └── usecase/ # domain과 application의 인터페이스를 사용하여 usecase 구현
+│   ├── service/
+│   └── usecase/
 │       ├── usecase_1.go
 │       └── ...
 ├── infrastructure/
-│   ├── service/ # 구현
+│   ├── service/
 │   ├── orm/
 │   │   ├── dao/
 │   │   │   ├── dao_1.go
 │   │   │   └── ...
-│   │   └── client.go # 클라이언트 사용을 위한 싱글톤 객체를 생성합니다
-│   ├── repository/ # 구현
+│   │   └── client.go
+│   ├── repository/
 │   │   ├── entity_1.go
 │   │   └── ...
 │   └── ...
@@ -112,20 +107,18 @@ bounded_context/
     │   ├── dto/
     │   │   ├── dto_1.go
     │   │   └── ...
-    │   ├── controller.go
+    │   ├── controller/
+    │   │   ├── controller_1.go
+    │   │   └── ...
     │   └── ...
     ├── cli/
     └── ...
 ```
 
-:::warning
-
 - `domain` 디렉토리 내의 코드는 `domain` 내에서만 의존성을 가질 수 있습니다
 - `application` 디렉토리 내의 코드는 `domain`, `application` 내에서만 의존성을 가질 수 있습니다
 - `infrastructure` 디렉토리 내의 코드는 인터페이스에 대한 구현이므로 `domain`, `application`에 의존성을 갖습니다
-- `user_interface` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있지만 `repository`를 제외한 곳에서는 `domain`에 대한 의존성을 최소화해야합니다
-
-:::
+- `user_interface` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있습니다
 
 ## Reference
 
