@@ -587,16 +587,16 @@ module.exports = {
       type: "category",
       label: "React",
       items: [
-        "lang/javascript/react/basics",
+        "lang/javascript/react/react",
         {
           type: "category",
           label: "Redux",
-          items: ["lang/javascript/react/redux/action-state"],
+          items: ["lang/javascript/react/redux/redux-toolkit"],
         },
         {
           type: "category",
           label: "Next.js",
-          items: ["lang/javascript/react/nextjs/basics"],
+          items: ["lang/javascript/react/nextjs/nextjs"],
         },
       ],
     },

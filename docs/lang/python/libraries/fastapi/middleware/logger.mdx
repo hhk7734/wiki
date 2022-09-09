@@ -104,7 +104,8 @@ import json
 import logging
 import time
 from logging import Formatter, LogRecord
-from typing import Optional
+
+from app.config import config
 
 
 class JsonFormatter(Formatter):
@@ -150,7 +151,7 @@ class JsonFormatter(Formatter):
         logging.DEBUG: "debug",
     }
 
-    def __init__(self, time_format: str = "seconds", indent: Optional[int] = None):
+    def __init__(self, time_format: str = "seconds", indent: int | None = None):
         super().__init__()
 
         if time_format == "seconds":
@@ -188,11 +189,22 @@ class JsonFormatter(Formatter):
 logging.logThreads = False
 logging.logMultiprocessing = False
 handler = logging.StreamHandler()
-handler.setFormatter(JsonFormatter())
-logging.basicConfig(handlers=[handler], level=logging.INFO)
+handler.setFormatter(
+    JsonFormatter(
+        time_format="iso8601" if config.debug else "seconds",
+        indent=2 if config.debug else None,
+    )
+)
+logging.basicConfig(
+    handlers=[handler], level=logging.DEBUG if config.debug else logging.INFO
+)
 ```
 
 ```python
+from fastapi import FastAPI
+from fastapi.middleware import Middleware
+
+
 app = FastAPI(
     middleware=[
         Middleware(Logger),
