@@ -29,3 +29,110 @@ import Image from "@theme/IdealImage";
 ## createSlice()
 
 - https://redux-toolkit.js.org/api/createSlice
+
+```typescript
+export interface CreateSliceOptions<
+  State = any,
+  CR extends SliceCaseReducers<State> = SliceCaseReducers<State>,
+  Name extends string = string
+> {
+  // action.type의 namespace로 사용됩니다.
+  name: Name;
+  // 초기 state를 설정합니다.
+  // 콜백으로 선언하고 콜백 안에서 localStorage 등으로 부터 데이터를 가져와서 초기 state를 완성할 수
+  // 있습니다.
+  initialState: State | (() => State);
+  // actionToStateMap을 설정합니다.
+  reducers: ValidateSliceCaseReducers<State, CR>;
+  // createAction(), createAsyncThunk() 등 에 의해 선언된 action을 추가합니다.
+  // 다른 slice의 action을 추가할 수도 있습니다. ASlice의 action을 BSlice에 등록한 경우 두 slice에
+  // 의해 관리되는 state 모두 변경됩니다.
+  // builder.addCase, builder.addMatcher, builder.addDefaultCase를 사용하는 것이 편합니다.
+  extraReducers?:
+    | CaseReducers<NoInfer<State>, any>
+    | ((builder: ActionReducerMapBuilder<NoInfer<State>>) => void);
+}
+
+export declare function createSlice<
+  State,
+  CaseReducers extends SliceCaseReducers<State>,
+  Name extends string = string
+>(
+  options: CreateSliceOptions<State, CaseReducers, Name>
+): Slice<State, CaseReducers, Name>;
+```
+
+```typescript
+export interface Slice<
+  State = any,
+  CaseReducers extends SliceCaseReducers<State> = SliceCaseReducers<State>,
+  Name extends string = string
+> {
+  name: Name;
+  reducer: Reducer<State>;
+  actions: CaseReducerActions<CaseReducers>;
+  caseReducers: SliceDefinedCaseReducers<CaseReducers>;
+  getInitialState: () => State;
+}
+```
+
+### `reducers`
+
+```typescript
+createSlice({
+  reducers: {
+    // dispatch(action1());
+    action1: (state: S): S | void => {
+      // state를 변경합니다.
+      // state가 객체일 경우 state 멤버를 변경하고 return하지 않아도 됩니다.
+      return state;
+    },
+    // dispatch(action2(payload));
+    action2: (state: S, action: PayloadAction<T>): S | void => {
+      // action.payload를 받아서 state를 변경합니다.
+      return state;
+    },
+    // dispatch(action3(args));
+    action3: {
+      prepare: (...args): { payload: T } => {
+        // args를 사용하여 action.payload를 설정합니다.
+        return { payload: {} };
+      },
+      reducer: (state: S, action: PayloadAction<T>): S | void => {
+        // action.payload를 받아서 state를 변경합니다.
+        console.log(action.payload);
+        return state;
+      },
+    },
+  },
+});
+```
+
+### `extraReducers`
+
+- https://redux-toolkit.js.org/api/createReducer#builder-methods
+
+```typescript
+createSlice({
+  extraReducers: (builder) => {
+    // addCase -> addMatcher -> addDefaultCase 순으로 선언해야 합니다.
+    // builder는 여러 번 사용될 수 있습니다.
+    // 여러 case, matcher를 만족하는 action에 대하여, 이를 만족하는 reducer는 선언된 순서로 모두 호출
+    // 됩니다.
+    builder
+      .addCase(extraAction1, (state: S, action: AnyAction): S | void => {})
+      .addMatcher(
+        (action: AnyAction): action is ExtraAction2 => {
+          // 설정된 reducer를 실행시킬 수 있는 action인지 확인합니다.
+          return action.type.endsWith("extraAction2");
+        },
+        (state: S, action: ExtraAction2): S | void => {}
+      )
+      .addMatcher<ExtraAction3>(
+        (action: AnyAction) => action.type.endsWith("extraAction3"),
+        (state: S, action: ExtraAction3): S | void => {}
+      )
+      .addDefaultCase((state: S, action: AnyAction): S | void => {});
+  },
+});
+```

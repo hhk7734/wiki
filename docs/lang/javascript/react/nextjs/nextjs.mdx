@@ -23,12 +23,12 @@ yarn create next-app --typescript
 ├── next-env.d.ts
 ├── node_modules/
 ├── package.json
-├── pages/ # 디렉토리 구조를 통한 API 라우팅
-│   ├── api/
+├── pages/ # <domain>/*로 매핑되는 디렉토리입니다.
+│   ├── api/ # <domain>/api/*로 매핑되며 클라이언트 번들에 포함되지 않습니다.
 │   │   └── hello.ts # <domain>/api/hello
 │   ├── _app.tsx # 모든 페이지에 공통으로 적용될 Warpper
-│   └── index.tsx # <domain>/
-├── public/ # static files
+│   └── index.tsx # <domain>/, index 파일은 상위 디렉토리의 기본 페이지로 매핑됩니다.
+├── public/ # static files, 런타임에만 제공하면 되는 파일의 경우 CDN을 활용할 수 있습니다.
 │   ├── favicon.ico # <domain>/favicon.ico
 │   └── vercel.svg
 ├── README.md
