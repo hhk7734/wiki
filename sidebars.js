@@ -205,6 +205,7 @@ module.exports = {
           ],
         },
         "lang/go/libraries/swagger",
+        "lang/go/libraries/gorm",
         "lang/go/libraries/go-redis",
         "lang/go/libraries/encoding-json",
         "lang/go/libraries/go-yaml",

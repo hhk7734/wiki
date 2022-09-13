@@ -1,0 +1,52 @@
+---
+id: gorm
+title: gorm
+sidebar_label: gorm
+description: gorm
+keywords:
+  - gorm
+---
+
+## Installation
+
+- https://github.com/go-gorm
+
+```shell
+go get -u gorm.io/gorm
+```
+
+```shell
+go get -u gorm.io/driver/mysql
+```
+
+## Schema
+
+- https://gorm.io/docs/models.html#Fields-Tags
+
+```go
+type User struct {
+	ID          int64     `gorm:"primaryKey"`
+	UUID        uuid.UUID `gorm:"not null"`
+	CreatedAt   time.Time `gorm:"not null"`
+	UpdatedAt   time.Time `gorm:"not null"`
+	Email       string    `gorm:"unique;size:128;not null"`
+	OTPSecret   string    `gorm:"size:32;not null"`
+	PhoneNumber *string   `gorm:"size:20"`
+	AuthMask    uint16    `gorm:"default:1;not null"`
+}
+```
+
+```sql
+CREATE TABLE `users` (
+    `id` bigint NOT NULL AUTO_INCREMENT,
+    `uuid` binary(16) NOT NULL,
+    `created_at` datetime(3) NOT NULL,
+    `updated_at` datetime(3) NOT NULL,
+    `email` varchar(128) NOT NULL,
+    `otp_secret` varchar(32) NOT NULL,
+    `phone_number` varchar(20) DEFAULT NULL,
+    `auth_mask` smallint unsigned NOT NULL DEFAULT '1',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `email` (`email`)
+) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci
+```
