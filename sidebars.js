@@ -152,6 +152,7 @@ module.exports = {
     "lang/design/solid",
     "lang/design/repository-pattern",
     "lang/design/restful-api",
+    "lang/design/scrum",
   ],
   espressif: ["mcu/espressif/esp8266-esp-01-module"],
   flutter: [
