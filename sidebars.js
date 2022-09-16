@@ -270,6 +270,7 @@ module.exports = {
         "linux/linux-tools/git/git-tag",
         "linux/linux-tools/git/git-create-apply-patch",
         "linux/linux-tools/git/git-github-issue",
+        "linux/linux-tools/git/pre-commit",
       ],
     },
     {
