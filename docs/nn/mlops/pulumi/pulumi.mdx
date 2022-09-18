@@ -1,8 +1,8 @@
 ---
-id: basics
-title: Pulumi basics
-sidebar_label: Basics
-description: Pulumi basics
+id: pulumi
+title: Pulumi
+sidebar_label: Pulumi
+description: Pulumi
 keywords:
   - pulumi
 ---
@@ -134,6 +134,10 @@ from . import ec2
 pulumi.export("instance_id", ec2.aws_instance.id)
 pulumi.export("instance_public_ip", ec2.aws_instance.public_ip)
 ```
+
+:::info
+`output`은 `pulumi stack output` 명령어를 통해 확인할 수 있고, 다른 stack에서 `pulumi.StackReference`를 통해 접근할 수 있습니다.
+:::
 
 ```python title="src/ec2/__init__.py"
 from . import ec2, output

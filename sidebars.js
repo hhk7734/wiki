@@ -320,11 +320,12 @@ module.exports = {
           type: "category",
           label: "Pulumi",
           items: [
-            "nn/mlops/pulumi/basics",
+            "nn/mlops/pulumi/pulumi",
             "nn/mlops/pulumi/config",
             "nn/mlops/pulumi/import-export",
             "nn/mlops/pulumi/resource-options",
             "nn/mlops/pulumi/dynamic",
+            "nn/mlops/pulumi/stack-reference",
           ],
         },
         {
