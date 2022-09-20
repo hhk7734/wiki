@@ -31,10 +31,11 @@ karpenter_controller_policy = aws.iam.Policy(
                         "ec2:TerminateInstances",
                         "ec2:DescribeLaunchTemplates",
                         "ec2:DeleteLaunchTemplate",
-                        "ec2:DescribeInstances",
                         "ec2:DescribeSecurityGroups",
                         "ec2:DescribeSpotPriceHistory",
                         "ec2:DescribeSubnets",
+                        "ec2:DescribeImages",
+                        "ec2:DescribeInstances",
                         "ec2:DescribeInstanceTypes",
                         "ec2:DescribeInstanceTypeOfferings",
                         "ec2:DescribeAvailabilityZones",
@@ -177,7 +178,7 @@ helm repo update karpenter \
 
 ```shell
 helm show values karpenter/karpenter \
-    --version 0.13.2 \
+    --version 0.16.1 \
     > node/karpenter/helm/values.yaml
 ```
 
@@ -226,7 +227,7 @@ kubectl create namespace karpenter
 ```shell
 helm upgrade karpenter karpenter/karpenter \
     --install \
-    --version 0.13.2 \
+    --version 0.16.1 \
     -n karpenter \
     -f node/karpenter/helm/values.yaml
 ```
