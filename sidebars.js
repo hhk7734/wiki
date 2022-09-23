@@ -100,13 +100,6 @@ module.exports = {
   db: [
     {
       type: "category",
-      label: "DynamoDB",
-      items: ["lang/db/dynamodb/basics", "lang/db/dynamodb/update-item"],
-    },
-    "lang/db/mongodb",
-    "lang/db/influxdb",
-    {
-      type: "category",
       label: "SQL",
       items: [
         "lang/db/sql/type",
@@ -134,6 +127,12 @@ module.exports = {
       type: "category",
       label: "S3",
       items: ["lang/db/s3/basics"],
+    },
+    "lang/db/elasticsearch",
+    {
+      type: "category",
+      label: "DynamoDB",
+      items: ["lang/db/dynamodb/basics", "lang/db/dynamodb/update-item"],
     },
   ],
   design: [

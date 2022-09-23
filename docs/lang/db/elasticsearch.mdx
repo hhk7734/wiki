@@ -1,0 +1,133 @@
+---
+id: elasticsearch
+title: Elasticsearch
+sidebar_label: Elasticsearch
+description: Elasticsearch
+keywords:
+  - elasticsearch
+---
+
+## Query DSL
+
+### match_all
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-match-all-query.html
+
+```json
+GET /<index>/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+```
+
+### match
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-match-query.html
+
+```json
+GET /<index>/_search
+{
+  "query": {
+    "match": {
+      "<field>": {
+        "query": "<value>",
+        "operator": "and"
+      }
+    }
+  }
+}
+```
+
+기본적으로 단어 사이의 띄어쓰기는 `"operator": "or"`로 처리됩니다.
+
+### bool
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-bool-query.html
+
+```json
+GET /<index>/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "match": {
+            "<field>": {
+              "query": "<value>",
+              "operator": "and"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+## Aggregations
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/search-aggregations.html
+
+```json
+POST /<index>/_search
+{
+  "query": { // 검색 조건을 추가하여 범위를 줄일 수 있습니다.
+    // ...
+  },
+  "size": 0, // 검색 결과는 반환하지 않고, 집계 결과만 반환합니다.
+  "aggs": {
+    "<aggregation_name>": {
+      "<aggregation_type>": {
+        "<aggregation_option>": "<aggregation_option_value>"
+      }
+    },
+  }
+}
+```
+
+### Date histogram
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/search-aggregations-bucket-datehistogram-aggregation.html
+
+```json
+POST /<index>/_search
+{
+  "aggs": {
+    "<aggregation_name>": {
+      "date_histogram": {
+        "field": "<date_field>",
+        "calendar_interval": "1d"
+      }
+    }
+  }
+}
+```
+
+### Pipeline
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/search-aggregations-pipeline.html
+
+아래와 같이 날짜 기준으로 집계한 결과를 다시 집계할 수 있습니다.
+
+```json
+POST /<index>/_search
+{
+  "aggs": {
+    "<aggregation_name>": {
+      "date_histogram": {
+        "field": "<date_field>",
+        "calendar_interval": "day"
+      },
+      "aggs": {
+        "<aggregation_name>": {
+          "<aggregation_type>": {
+            "<aggregation_option>": "<aggregation_option_value>"
+          }
+        }
+      }
+    }
+  }
+}
+```
