@@ -42,6 +42,24 @@ GET /<index>/_search
 
 기본적으로 단어 사이의 띄어쓰기는 `"operator": "or"`로 처리됩니다.
 
+### range
+
+- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/search-aggregations-bucket-range-aggregation.html
+
+```json
+GET /<index>/_search
+{
+  "query": {
+    "range": {
+      "<field>": {
+        "gte": "<value>",
+        "lte": "<value>"
+      }
+    }
+  }
+}
+```
+
 ### bool
 
 - https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-bool-query.html
