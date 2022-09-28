@@ -102,6 +102,10 @@ LOAD DATA [LOCAL] INFILE <path> INTO TABLE `<table>`
 
 - `LOCAL`: 파일이 Client에 있는 경우
 
+:::warning
+`LOCAL` 옵션을 사용할 때, `ERROR 2068 (HY000)`에러가 발생할 수 있습니다. `mysql --local-infile=1 ...` 명령어로 클라이언트를 실행하면 해결 될 수 있습니다.
+:::
+
 :::info
 `SELECT ... INTO OUTFILE ...`명령어로 옵션에 따라 파일이 어떻게 출력되는지 확인한 후 `LOAD DATA` 명령어를 사용할 수도 있습니다.
 :::
@@ -123,6 +127,7 @@ SET
 
 - https://dev.mysql.com/doc/refman/8.0/en/select.html
 - https://dev.mysql.com/doc/refman/8.0/en/join.html
+- https://dev.mysql.com/doc/refman/8.0/en/select-into.html
 
 ```sql
 SELECT
@@ -133,7 +138,13 @@ SELECT
     <where_condition>]
 [LIMIT
     [<offset>,] <row_count>]
+[INTO
+    <into_option>]
 ```
+
+:::warning
+`SELECT ... INTO OUTFILE ...` 명령어는 서버에 파일을 생성합니다. 따라서 클라이언트에 파일을 생성하려면 `mysql ... -e "SELECT ..." > <path>` 명령어를 사용해야 합니다.
+:::
 
 ### DELETE
 
