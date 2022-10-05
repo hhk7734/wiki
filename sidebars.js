@@ -179,7 +179,7 @@ module.exports = {
     },
   ],
   go: [
-    "lang/go/basics",
+    "lang/go/go",
     "lang/go/error",
     "lang/go/testify",
     "lang/go/context",
@@ -211,6 +211,7 @@ module.exports = {
         "lang/go/libraries/go-yaml",
         "lang/go/libraries/smtp",
         "lang/go/libraries/session",
+        // "lang/go/libraries/google-wire",
       ],
     },
   ],

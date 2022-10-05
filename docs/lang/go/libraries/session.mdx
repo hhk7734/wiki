@@ -19,7 +19,7 @@ keywords:
 
 - 쿠키 만료 시간 == 세션 만료 시간
 - 만료 시간 짧음
-- 로그인 -> `session.Create` -> `store.Set`
+- 로그인 -> `session.Create` -> `store.Set` -> `store.Save`
   - 쿠키 생성
   - 세션 생성
 - 기타 API -> `session.GetStore` -> `store.Get`
@@ -33,7 +33,7 @@ keywords:
 ## 서버에서 세션 자동 갱신
 
 - 쿠키 만료 시간 > 세션 만료 시간
-- 로그인 -> `session.Create` -> `store.Set`
+- 로그인 -> `session.Create` -> `store.Set` -> `store.Save`
   - 쿠키 생성
   - 세션 생성
 - 기타 API -> `session.Update` -> `store.Get`
