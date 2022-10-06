@@ -10,28 +10,31 @@ keywords:
 ## Installation
 
 ```shell
-export GO_VERSION="1.18.1"
-export CURRENT_SYSTEM=`uname -s | awk '{print tolower($0)}'`
+asdf plugin add golang
 ```
 
 ```shell
-wget https://go.dev/dl/go"$GO_VERSION"."$CURRENT_SYSTEM"-amd64.tar.gz
+asdf list all golang
 ```
 
 ```shell
-sudo mkdir -p /opt/go/"$GO_VERSION"
+asdf install golang 1.18.7
 ```
 
 ```shell
-pv -ptrb go"$GO_VERSION"."$CURRENT_SYSTEM"-amd64.tar.gz | sudo tar -xzp -C /opt/go/"$GO_VERSION"
+asdf global golang 1.18.7
 ```
 
 ```shell
-export PATH=/opt/go/"$GO_VERSION"/go/bin:$PATH
+asdf local golang 1.18.7
+```
+
+```shell
+asdf current golang
 ```
 
 :::info
-`.zshrc` 등에 등록해서 사용할 경우에는 PATH에 버전을 명시해 주어야 합니다.
+`go get`이나 `go install`을 사용한 후에는 `asdf reshim golang` 명령어를 실행해야 합니다.
 :::
 
 ## Setup

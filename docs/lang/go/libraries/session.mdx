@@ -9,24 +9,24 @@ keywords:
 
 ## Store
 
-어떤 데이터베이스를 사용하는지에 따라 세션을 저장하는 방식이 달라질 수 있습니다.
-
-- `session:sessions:<sid>`: `{<key>: <value>}`
-- `session:accounts:<aid>`: `{<sid>}`
-- `session:expirations:<timestamp>`: `{<sid>}`
+- `<prefix>`: 기본 값은 `session` 입니다.
+- `<prefix>:sessions:<sid>`: `{<key>: <value>}`
+- 데이터 베이스에 따라 만료된 세션을 자동으로 삭제 할 수 없다면 아래 값이 필요할 수 있습니다.
+  - `<prefix>:sessions:<sid>:expiration`: `<timestamp>`
+  - `<prefix>:expirations:<timestamp>`: `{<sid>}`
 
 ## 클라이언트에서 세션&쿠키 갱신 요청
 
 - 쿠키 만료 시간 == 세션 만료 시간
 - 만료 시간 짧음
-- 로그인 -> `session.Create` -> `store.Set` -> `store.Save`
+- 로그인 -> `session.Create` -> `session.SetHttpSID` -> `store.Set` -> `store.Save`
   - 쿠키 생성
   - 세션 생성
-- 기타 API -> `session.GetStore` -> `store.Get`
-- 갱신 -> `session.Refresh`
+- 기타 API -> `session.HttpSID` -> `session.Store` -> `store.Get`
+- 갱신 -> `session.Refresh` -> `session.SetHttpSID`
   - 세션 키 변경 및 만료 시간 갱신
   - 쿠키 값 변경 및 만료 시간 갱신
-- 로그아웃 -> `session.GetStore` -> `store.Delete` -> `session.Delete`
+- 로그아웃 -> `session.HttpSID` -> `session.Delete` -> `session.Delete`
   - 쿠키 삭제
   - 세션 삭제
 
@@ -36,11 +36,11 @@ keywords:
 - 로그인 -> `session.Create` -> `store.Set` -> `store.Save`
   - 쿠키 생성
   - 세션 생성
-- 기타 API -> `session.Update` -> `store.Get`
+- 기타 API -> `session.Sotre` -> `store.UpdateExpiration` -> `store.Get`
   - **세션 만료 시간 갱신**
 - 갱신 -> `session.Refresh`
   - 세션 키 변경 및 만료 시간 갱신
   - 쿠키 값 변경 및 만료 시간 갱신
-- 로그아웃 -> `session.GetStore` -> `store.Delete` -> `session.Delete`
+- 로그아웃 -> `session.Store` -> `store.Delete` -> `session.Delete`
   - 쿠키 삭제
   - 세션 삭제

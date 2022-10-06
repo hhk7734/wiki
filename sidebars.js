@@ -211,7 +211,7 @@ module.exports = {
         "lang/go/libraries/go-yaml",
         "lang/go/libraries/smtp",
         "lang/go/libraries/session",
-        // "lang/go/libraries/google-wire",
+        "lang/go/libraries/google-wire",
       ],
     },
   ],
@@ -570,11 +570,7 @@ module.exports = {
     },
   ],
   javascript: [
-    {
-      type: "category",
-      label: "ENV",
-      items: ["lang/javascript/env/nvm"],
-    },
+    "lang/javascript/javascript",
     {
       type: "category",
       label: "node-addon-api",
