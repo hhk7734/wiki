@@ -7,40 +7,58 @@ keywords:
   - session
 ---
 
-## Store
-
-- `<prefix>`: 기본 값은 `session` 입니다.
-- `<prefix>:sessions:<sid>`: `{<key>: <value>}`
-- 데이터 베이스에 따라 만료된 세션을 자동으로 삭제 할 수 없다면 아래 값이 필요할 수 있습니다.
-  - `<prefix>:sessions:<sid>:expiration`: `<timestamp>`
-  - `<prefix>:expirations:<timestamp>`: `{<sid>}`
-
 ## 클라이언트에서 세션&쿠키 갱신 요청
 
 - 쿠키 만료 시간 == 세션 만료 시간
 - 만료 시간 짧음
-- 로그인 -> `session.Create` -> `session.SetHttpSID` -> `store.Set` -> `store.Save`
+- 로그인
   - 쿠키 생성
+    - `session.Manager.NewSessionID` -> `session.Manager.SetCookie`
   - 세션 생성
-- 기타 API -> `session.HttpSID` -> `session.Store` -> `store.Get`
-- 갱신 -> `session.Refresh` -> `session.SetHttpSID`
-  - 세션 키 변경 및 만료 시간 갱신
-  - 쿠키 값 변경 및 만료 시간 갱신
-- 로그아웃 -> `session.HttpSID` -> `session.Delete` -> `session.Delete`
+- 기타 API
+  - 쿠키에서 세션 ID 가져오기
+    - `session.Manager.SessionIDFromCookie`
+  - 세션 가져오기
+- 갱신
+  - 쿠키에서 세션 ID 가져오기
+    - `session.Manager.SessionIDFromCookie`
+  - 쿠키에 새 세션 ID 저장
+    - `session.Manager.NewSessionID` -> `session.Manager.SetCookie`
+  - 세션 ID 변경 및 만료 시간 갱신
+- 로그아웃
+  - 쿠키에서 세션 ID 가져오기
+    - `session.Manager.SessionIDFromCookie`
   - 쿠키 삭제
+    - `session.Manager.DeleteCookie`
   - 세션 삭제
 
 ## 서버에서 세션 자동 갱신
 
 - 쿠키 만료 시간 > 세션 만료 시간
-- 로그인 -> `session.Create` -> `store.Set` -> `store.Save`
+- 로그인
   - 쿠키 생성
+    - `session.Manager.NewSessionID` -> `session.Manager.SetCookie`
   - 세션 생성
-- 기타 API -> `session.Sotre` -> `store.UpdateExpiration` -> `store.Get`
-  - **세션 만료 시간 갱신**
-- 갱신 -> `session.Refresh`
-  - 세션 키 변경 및 만료 시간 갱신
-  - 쿠키 값 변경 및 만료 시간 갱신
-- 로그아웃 -> `session.Store` -> `store.Delete` -> `session.Delete`
+- 기타 API
+  - 쿠키에서 세션 ID 확인 및 쿠키 만료 시간 갱신
+    - `session.Manager.SessionIDFromCookie` -> `session.SetCookie`
+  - DB에서 세션 정보 가져오기
+- 갱신
+  - 쿠키에서 세션 ID 가져오기
+    - `session.Manager.SessionIDFromCookie`
+  - 쿠키에 새 세션 ID 저장
+    - `session.Manager.NewSessionID` -> `session.Manager.SetCookie`
+  - 세션 ID 변경 및 만료 시간 갱신
+- 로그아웃
+  - 쿠키에서 세션 ID 가져오기
+    - `session.Manager.SessionIDFromCookie`
   - 쿠키 삭제
+    - `session.Manager.DeleteCookie`
   - 세션 삭제
+
+## DB
+
+- `session:sessions:<sid>`: `{<key>: <value>}`
+- 데이터 베이스에 따라 만료된 세션을 자동으로 삭제 할 수 없다면 아래 값이 필요할 수 있습니다.
+  - `session:sessions:<sid>:expiration`: `<timestamp>`
+  - `session:expirations:<timestamp>`: `{<sid>}`

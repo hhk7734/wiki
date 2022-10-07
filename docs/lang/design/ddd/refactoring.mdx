@@ -10,7 +10,7 @@ keywords:
 
 ## 개발 시작
 
-초기 단계에 `user_interface`가 `cli` 또는 `rest` 등 하나만 존재하면
+초기 단계에 `user_interface`가 `cli` 또는 `restapi` 등 하나만 존재하면
 
 - 단순 CRUD 는 `repository`를 바로 `user_interface`에서 사용합니다
 - 하나의 함수만 있으면 되는 `application/service`는 바로 `user_interface`에 구현합니다
@@ -43,7 +43,7 @@ bounded_context/
 │   │   └── ...
 │   └── ...
 └── user_interface/
-    ├── rest/
+    ├── restapi/
     │   ├── dto/
     │   │   ├── dto_1.go
     │   │   └── ...
@@ -59,4 +59,4 @@ bounded_context/
 
 부분적으로라도 `user_interface`가 여러개가 되는 부분이 생기면, 해당 부분을 `application/usecase`로 옮깁니다. 흐름을 제어하는 경우 단계별로 `user_interface`가 처리할 수 있도록 퍼블릭 에러나 에러 핸들러를 노출 시킵니다.
 
-클라이언트 요구사항에 따라 `domain` 객체 또는 `dao`를 그대로 사용하지 못하는 경우가 발생하면 `dto`를 만들어 사용합니다.
+클라이언트 요구사항에 따라 `domain` 객체를 그대로 사용하지 못하는 경우가 발생하면 `dto`를 만들어 사용합니다.

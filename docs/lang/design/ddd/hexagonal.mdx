@@ -66,18 +66,11 @@ CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 
 ```shell
 bounded_context/
 ├── domain/
-│   ├── event/
-│   │   ├── event_1.go
-│   │   └── ...
 │   ├── factory/
 │   │   ├── entity_1.go
 │   │   └── ...
 │   ├── repository/ # 인터페이스
 │   │   ├── entity_1.go
-│   │   └── ...
-│   ├── service/ # 비지니스 로직 구현 or 외부 서비스에 대한 인터페이스
-│   │   ├── service_1.go
-│   │   ├── publisher_1.go
 │   │   └── ...
 │   ├── valueobject/
 │   │   ├── valueobject_1.go
@@ -87,7 +80,12 @@ bounded_context/
 │   ├── entity_2.go
 │   └── ...
 ├── application/
-│   ├── service/
+│   ├── event/
+│   │   ├── event_1.go
+│   │   └── ...
+│   ├── service/ # 외부 서비스에 대한 인터페이스
+│   │   ├── service_1.go
+│   │   └── ...
 │   └── usecase/
 │       ├── usecase_1.go
 │       └── ...
@@ -103,7 +101,7 @@ bounded_context/
 │   │   └── ...
 │   └── ...
 └── user_interface/
-    ├── rest/
+    ├── restapi/
     │   ├── dto/
     │   │   ├── dto_1.go
     │   │   └── ...
