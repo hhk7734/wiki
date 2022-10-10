@@ -1,4 +1,4 @@
-FROM node:16.15.0
+FROM node:16.17.1
 
 WORKDIR /wiki
 RUN sed -i "s/deb http:\/\/security.debian.org\/debian-security.*//g" /etc/apt/sources.list
@@ -11,7 +11,7 @@ RUN yarn install
 
 RUN yarn build
 
-FROM nginx:latest
+FROM nginx:stable-alpine
 WORKDIR /usr/share/nginx/html
 COPY --from=0 /wiki/build/ .
 
