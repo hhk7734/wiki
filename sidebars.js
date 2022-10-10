@@ -31,12 +31,6 @@ module.exports = {
       items: ["etc/circuit/kicad/kicad-basics"],
     },
   ],
-  "debian-package": [
-    "linux/debian-package/debian-package-basics",
-    "linux/debian-package/debian-package-makefile",
-    "linux/debian-package/debian-package-advanced",
-    "linux/debian-package/debian-launchpad-ppa",
-  ],
   cpp: [
     {
       type: "category",
@@ -250,6 +244,18 @@ module.exports = {
       ],
     },
   ],
+  "linux-package": [
+    {
+      type: "category",
+      label: "Debian",
+      items: [
+        "linux/package/debian/basics",
+        "linux/package/debian/makefile",
+        "linux/package/debian/advanced",
+        "linux/package/debian/launchpad-ppa",
+      ],
+    },
+  ],
   "linux-tools": [
     "linux/linux-tools/zsh-and-utility",
     {
@@ -272,15 +278,6 @@ module.exports = {
         "linux/linux-tools/git/git-create-apply-patch",
         "linux/linux-tools/git/git-github-issue",
         "linux/linux-tools/git/pre-commit",
-      ],
-    },
-    {
-      type: "category",
-      label: "Shell script",
-      items: [
-        "linux/linux-tools/shell-script/shell-script-basics",
-        "linux/linux-tools/shell-script/shell-script-text-color",
-        "linux/linux-tools/shell-script/shell-script-getopt",
       ],
     },
     "linux/linux-tools/progress-bar",
@@ -737,6 +734,11 @@ module.exports = {
     "mcu/sam/sam-sam4s2a-time",
     "mcu/sam/sam-sam4s2a-ioport",
     "mcu/sam/sam-sam4s2a-adc",
+  ],
+  shellscript: [
+    "lang/shellscript/shellscript",
+    "lang/shellscript/text-color",
+    "lang/shellscript/getopt",
   ],
   stm32: [
     "mcu/stm32/stm32-create-project-stm32cubeide",

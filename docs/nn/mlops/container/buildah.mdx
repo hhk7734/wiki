@@ -8,6 +8,18 @@ keywords:
   - skopeo
 ---
 
+## Installation
+
+- https://github.com/containers/buildah/blob/main/install.md
+
+```shell
+sudo pacman -S buildah skopeo
+```
+
+```ini title="/etc/containers/registries.conf"
+unqualified-search-registries = ['docker.io', 'quay.io', 'registry.fedoraproject.org']
+```
+
 ## Build
 
 ```shell
@@ -37,7 +49,7 @@ func main() {
 }
 ```
 
-### shell script
+### ShellScript
 
 ```shell title="containerize.sh"
 #!/usr/bin/env bash

@@ -69,6 +69,7 @@ module.exports = {
             Database: "db",
             JavaScript: "javascript",
             Flutter: "flutter",
+            ShellScript: "shellscript",
             LabVIEW: "labview",
           },
           MLOps: {
@@ -76,9 +77,9 @@ module.exports = {
             NueralNetwork: "nn",
           },
           Linux: {
-            "Debian package": "debian-package",
-            "Linux kernel": "linux-kernel",
-            "Linux tools": "linux-tools",
+            Package: "linux-package",
+            Kernel: "linux-kernel",
+            Tools: "linux-tools",
             "u-boot": "linux-uboot",
           },
           MCU: {

@@ -14,22 +14,25 @@ import Image from "@theme/IdealImage";
 
 ```shell
 sudo apt install -y git zsh curl \
-&& chsh -s $(which zsh) \
-&& sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
 ```shell
-git clone https://github.com/zsh-users/zsh-completions \
-    ${ZSH_CUSTOM:=~/.oh-my-zsh/custom}/plugins/zsh-completions \
+chsh -s $(which zsh) \
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+```shell
+git clone https://github.com/zsh-users/zsh-completions.git \
+  ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions
 && git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 && git clone https://github.com/zsh-users/zsh-autosuggestions \
-    ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 ```
 
 ```shell
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
-    ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+  ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 ```shell title=".zshrc"
@@ -45,15 +48,15 @@ DISABLE_UNTRACKED_FILES_DIRTY="true"
 
 plugins=(
     git
-    zsh-completions
     zsh-syntax-highlighting
     zsh-autosuggestions
     aws
     fzf
+    asdf
 )
 
+fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
 source $ZSH/oh-my-zsh.sh
-autoload -U compinit && compinit
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -64,15 +67,7 @@ is_installed() {
 
 # User configuration
 
-# export
-
 export PATH=$PATH:$HOME/.local/bin
-
-# alias
-
-if is_installed rsync; then
-    alias cp="rsync -h --info=progress2"
-fi
 ```
 
 ```shell
@@ -87,23 +82,15 @@ p10k configure
 
 ## Utility
 
-### tldr
-
-[https://github.com/tldr-pages/tldr](https://github.com/tldr-pages/tldr)
+### asdf
 
 ```shell
-python3 -m pip install tldr
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 ```
-
-```shell
-tldr <command>
-```
-
-`<command>` 의 몇 가지 사용 예제를 볼 수 있습니다.
 
 ### fzf
 
-[https://github.com/junegunn/fzf](https://github.com/junegunn/fzf)
+- https://github.com/junegunn/fzf
 
 ```shell
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
@@ -111,8 +98,8 @@ git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
 ```
 
 ```shell title=".zshrc"
+# fzf
 export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
-
 # fdfind를 사용하는 경우
 export FZF_DEFAULT_COMMAND='fd --type f --follow' # --hidden --exclude .git
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -129,7 +116,11 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 ### bat
 
-[https://github.com/sharkdp/bat](https://github.com/sharkdp/bat)
+- https://github.com/sharkdp/bat
+
+```shell
+sudo pacman -S bat
+```
 
 ```shell
 sudo apt install bat \
@@ -137,12 +128,17 @@ sudo apt install bat \
 ```
 
 ```shell title=".zshrc"
+# bat
 alias cat="bat -p --paging=never"
 ```
 
 ### fd
 
-[https://github.com/sharkdp/fd](https://github.com/sharkdp/fd)
+- https://github.com/sharkdp/fd
+
+```shell
+sudo pacman -S fd
+```
 
 ```shell
 sudo apt-get install fd-find \
@@ -151,7 +147,11 @@ sudo apt-get install fd-find \
 
 ### ripgrep(rg)
 
-[https://github.com/BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep)
+- https://github.com/BurntSushi/ripgrep
+
+```shell
+sudo pacman -S ripgrep
+```
 
 ```shell
 sudo apt-get install ripgrep
@@ -163,23 +163,26 @@ sudo apt-get install ripgrep
 
 ### lsd
 
-[https://github.com/Peltoche/lsd](https://github.com/Peltoche/lsd)
+- https://github.com/Peltoche/lsd
 
 ```shell
-wget https://github.com/Peltoche/lsd/releases/download/0.21.0/lsd_0.21.0_amd64.deb \
-&& sudo dpkg -i lsd_0.21.0_amd64.deb
+sudo pacman -S lsd
 ```
 
 ```shell
-if is_installed lsd; then
-    alias ls='lsd --icon never -F'
-    alias tree='lsd --icon never --tree -F'
-fi
+wget https://github.com/Peltoche/lsd/releases/download/0.23.1/lsd_0.23.1_amd64.deb \
+&& sudo dpkg -i lsd_0.23.1_amd64.deb
+```
+
+```shell
+# lsd
+alias ls='lsd --icon never -F'
+alias tree='lsd --icon never --tree -F'
 ```
 
 ### pet
 
-[https://github.com/knqyf263/pet](https://github.com/knqyf263/pet)
+- https://github.com/knqyf263/pet
 
 ```shell
 wget https://github.com/knqyf263/pet/releases/download/v0.4.0/pet_0.4.0_linux_amd64.deb \
@@ -201,6 +204,5 @@ bindkey '^s' pet-select
 ### bpytop
 
 ```shell
-python3 -m pip install bpytop \
-&& sudo update-alternatives --install /usr/local/bin/btop btop `which bpytop` 1
+python3 -m pip install bpytop
 ```
