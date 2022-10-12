@@ -9,28 +9,57 @@ keywords:
 
 ## kubectl
 
+- https://github.com/asdf-community/asdf-kubectl
+
 ```shell
-sudo mkdir -p /opt/kubectl/1.21.13 \
-&& curl -LO https://dl.k8s.io/release/v1.21.13/bin/linux/amd64/kubectl \
-&& chmod +x kubectl \
-&& sudo mv kubectl /opt/kubectl/1.21.13/
+asdf plugin add kubectl
 ```
 
-```shell title="~/.zshrc"
-export PATH="/opt/kubectl/1.21.13:$PATH"
+```shell
+asdf list all kubectl
+```
 
+```Shell
+asdf install kubectl 1.21.14
+```
+
+```shell
+asdf global kubectl 1.21.14
+```
+
+```shell
+asdf local kubectl 1.21.14
+```
+
+```shell
+asdf current kubectl
+```
+
+```shell title=".zshrc"
 source <(kubectl completion zsh)
-autoload -Uz compinit
-compinit
 alias k=kubectl
 complete -F __start_kubectl k
 ```
 
-- https://kubernetes.io/docs/tasks/tools/included/
-
 ## krew
 
 - https://krew.sigs.k8s.io/docs/user-guide/quickstart/
+
+```shell
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+```
+
+```shell title=".zshrc"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+```
 
 ### ctx
 
@@ -64,7 +93,7 @@ kubectl ns
 kubectl krew install oidc-login
 ```
 
-```yaml title="~/.kube/config"
+```yaml title=".kube/config"
 apiVersion: v1
 kind: Config
 preferences: {}
@@ -95,6 +124,6 @@ sudo mkdir -p /opt/k9s/0.26.3 \
 && sudo mv k9s /opt/k9s/0.26.3/
 ```
 
-```shell title="~/.zshrc"
+```shell title=".zshrc"
 export PATH=/opt/k9s/0.26.3:$PATH
 ```
