@@ -11,6 +11,8 @@ keywords:
 
 - https://github.com/go-playground/validator
 
+`binding:"<condition>[,<condition>]"` 형식으로 태그를 달면 `gin.Context.*Bind*` 메서드를 사용할 때 해당 조건을 검사합니다.
+
 ```go
 type TestRequest struct {
     Email string `json:"email" binding:"required,email"`
