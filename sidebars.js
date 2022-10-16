@@ -563,7 +563,12 @@ module.exports = {
     {
       type: "category",
       label: "RNN",
-      items: ["nn/basics/rnn/nn-rnn"],
+      items: ["nn/basics/rnn/rnn"],
+    },
+    {
+      type: "category",
+      label: "GNN",
+      items: ["nn/basics/gnn/gnn"],
     },
   ],
   javascript: [

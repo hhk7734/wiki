@@ -29,11 +29,45 @@ podman system migrate
 podman run [options] <image> [command [arg ...]]
 ```
 
+새로운 컨테이너에 명령어를 실행합니다.
+
 - options
   - `-d|--detach`: 컨테이너를 백그라운드에서 실행하고 컨테이너 ID를 프린트
   - `-it`: STDIN를 열고 컨테이너에 가상 터미널 할당
-  - `-p|--publish <hostport>:<containerport>[/<protocol>]`: 포트 포워딩
+  - `-p|--publish <hostPort>:<containerPort>[/<protocol>]`: 포트 포워딩
   - `--network "host"`: 호스트 네트워크 사용
-  - `--name <name>`: 컨테이너 이름
+  - `-v|--volume <hostDir>:<containerDir>[:<options>]`: 호스트 디렉토리를 컨테이너 디렉토리에 마운트
+  - `--name <containerName>`: 컨테이너 이름
   - `--rm`: 종료 시 컨테이너 삭제
   - `--env-file <path>`: `.env` 처럼 환경 변수 값이 있는 파일로 환경 변수 설정
+
+## ps
+
+```shell
+podman ps [options]
+```
+
+- options
+  - `-a|--all`: 모든 컨테이너 출력
+  - `-l|--latest`: 마지막 컨테이너 출력
+
+## exec
+
+실행중인 컨테이너에 명령어를 실행합니다.
+
+```shell
+podman exec [options] <containerID|containerName> <command> [arg ...]
+```
+
+- options
+  - `-it`: STDIN을 열고 컨테이너에 가상 터미널 할당
+
+## rm
+
+```shell
+podman rm [options] <containerID|containerName>
+```
+
+- options
+  - `-f|--force`: running 또는 unstable 상태의 컨테이너도 삭제
+  - `-a|--all`: 모든 컨테이너 삭제
