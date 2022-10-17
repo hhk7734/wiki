@@ -164,28 +164,17 @@ default_ng_profile = aws.iam.InstanceProfile(
 :::
 
 ```shell
-helm repo add karpenter https://charts.karpenter.sh
+helm show values oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.18.0 \
+    > values.yaml
 ```
 
-```shell
-mkdir -p node/karpenter/helm
-```
-
-```shell
-helm repo update karpenter \
-&& helm search repo karpenter/karpenter -l | head -n 10
-```
-
-```shell
-helm show values karpenter/karpenter \
-    --version 0.16.1 \
-    > node/karpenter/helm/values.yaml
-```
-
-```yaml tilte="node/karpenter/helm/values.yaml"
+```yaml tilte="values.yaml"
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
+
+replicas: 1
 
 affinity:
   nodeAffinity:
@@ -225,11 +214,11 @@ kubectl create namespace karpenter
 ```
 
 ```shell
-helm upgrade karpenter karpenter/karpenter \
+helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version 0.16.1 \
+    --version v0.18.0 \
     -n karpenter \
-    -f node/karpenter/helm/values.yaml
+    -f values.yaml
 ```
 
 ## Reference

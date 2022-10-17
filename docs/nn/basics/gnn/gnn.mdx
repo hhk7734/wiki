@@ -10,7 +10,9 @@ keywords:
 
 import Image from "@theme/IdealImage";
 
-## GNN(Graph Neural Network)
+## GCN(Graph Convolutional Network)
+
+- https://arxiv.org/pdf/1609.02907.pdf
 
 <center>
   <Image img={require("@site/static/img/nn/basics/gnn/gcn.png")} width={750} />
@@ -18,6 +20,30 @@ import Image from "@theme/IdealImage";
 <center>
   <strong>http://tkipf.github.io/graph-convolutional-networks/</strong>
 </center>
+
+- 그래프: $\mathcal{G} = \left( \mathcal{V}, \mathcal{E} \right)$
+- N 개 노드: $\mathcal{V} = \left\{ v_1, v_2, \cdots, v_N \right\}$
+- 노드 피쳐: $X \in \mathbb{R}^{N \times F}$
+- 엣지: $\left( \upsilon_i, \upsilon_j \right) \in \mathcal{E}$
+- 인접(adjacency) 행렬
+  - $A \in \left\{ 0, 1 \right\}^{N \times N}$ (연결되어 있으면 1, 아니면 0), 또는 가중치 행렬 $A \in \mathbb{R}^{N \times N}$
+  - self-connection이 있는 undirected graph의 인접 행렬: $\widetilde{A} = A + I_N$
+- 대각 차수(diagonal degree) 행렬
+  - $D_{ii} = \sum_j{A_{ij}}$
+  - $\widetilde{D}_{ii} = \sum_j{\widetilde{A}_{ij}}$
+- 특징(feature) 행렬
+  - $H^l \in \mathbb{R}^{N \times D}$, $H^0 = X$
+  - $H^{l+1} = \sigma \left( \widetilde{D}^{-\frac{1}{2}} \widetilde{A} \widetilde{D}^{-\frac{1}{2}} H^l W^l \right)$
+
+## GAT(Graph Attention Network)
+
+- https://arxiv.org/pdf/1710.10903.pdf
+
+## GIN(Graph Isomorphism Network)
+
+- https://arxiv.org/pdf/1810.00826.pdf
+
+## ...
 
 <center>
   <Image img={require("@site/static/img/nn/basics/gnn/gnn.png")} width={750} />

@@ -88,7 +88,7 @@ kubectl label namespace istio-system topology.istio.io/network=<network>
 `meshID`를 제외한 다른 값들은 클러스터별로 다른 값을 설정해주세요.
 :::
 
-```yaml title="network/istio/helm/istiod-values.yaml"
+```yaml title="istiod-values.yaml"
 meshConfig:
   enablePrometheusMerge: true
   rootNamespace: istio-system
@@ -107,16 +107,16 @@ helm upgrade istiod istio/istiod \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    -f network/istio/helm/istiod-values.yaml
+    -f istiod-values.yaml
 ```
 
 ```shell
 helm show values istio/gateway \
     --version $ISTIO_VERSION \
-    > network/istio/helm/cross-ingress-values.yaml
+    > cross-ingress-values.yaml
 ```
 
-```yaml title="network/istio/helm/cross-ingress-values.yaml"
+```yaml title="cross-ingress-values.yaml"
 service:
   ports:
     - name: status-port
@@ -174,7 +174,7 @@ helm upgrade cross-ingress istio/gateway \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    -f network/istio/helm/cross-ingress-values.yaml
+    -f cross-ingress-values.yaml
 ```
 
 ```yaml title="network/istio/cross-gateway.yaml"

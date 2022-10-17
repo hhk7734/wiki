@@ -1,0 +1,116 @@
+---
+id: upgrade
+title: Upgrade
+sidebar_label: Upgrade
+description: Upgrade
+keywords:
+  - upgrade
+---
+
+## Canary 업그레이드
+
+- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended
+
+### 사전 체크
+
+```shell
+istioctl x precheck
+```
+
+### CRD 업그레이드
+
+- https://github.com/istio/istio/tree/master/manifests/charts/base/crds
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/1.14.5/manifests/charts/base/crds/crd-all.gen.yaml
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/1.14.5/manifests/charts/base/crds/crd-operator.yaml
+```
+
+### istiod 새 버전 추가
+
+```shell
+helm show values istio/istiod \
+    --version 1.14.5 \
+    > istiod-1-14-5-values.yaml
+```
+
+```yaml title="istiod-1-14-5-values.yaml"
+revision: 1-14-5
+```
+
+:::warning
+multi-cluster 등을 위한 istiod 추가적인 설정이 있으면 revision 외의 설정도 수정해줘야 합니다.
+:::
+
+```shell
+helm upgrade istiod-1-14-5 istio/istiod \
+    --install \
+    --version 1.14.5 \
+    -n istio-system \
+    -f istiod-1-14-5-values.yaml
+```
+
+### re-injection Envoy sidecar
+
+`istio-injection=enabled` 레이블이 있는 네임스페이스는 `istio-injection` 레이블을 삭제하고 명시적으로 revision을 설정해줍니다.
+
+```shell
+kubectl label namespace -l istio-injection=enabled istio-injection- istio.io/rev=1-14-5
+```
+
+이전 버전이 명시되어 있는 경우 새로운 버전으로 변경합니다.
+
+```shell
+kubectl label namespace -l istio.io/rev=1-13-2 istio.io/rev=1-14-5
+```
+
+변경된 레이블을 확인합니다.
+
+```shell
+kubectl get namespace -L istio.io/rev -L istio-injection
+```
+
+변경된 레이블에 따라 새로운 Envoy sidecar가 추가될 수 있도록 Deployment를 rollout합니다.
+
+```shell
+for ns in $(kubectl get namespace -l istio.io/rev=1-14-5 -o name); do
+    kubectl rollout restart deployment -n $(echo $ns | cut -d'/' -f2)
+done
+```
+
+아래 명령어를 통해 새로운 istiod를 사용하는지 확인합니다.
+
+```shell
+istioctl proxy-status --revision 1-13-2
+```
+
+```shell
+istioctl proxy-status --revision 1-14-5
+```
+
+### 기존 istiod 삭제
+
+```shell
+helm delete istiod-1-13-2 -n istio-system
+```
+
+### istio-base 업그레이드
+
+```shell
+helm show values istio/base \
+    --version 1.14.5 \
+    > istio-base-values.yaml
+```
+
+```yaml title="istio-base-values.yaml"
+defaultRevision: 1-14-5
+```
+
+```shell
+helm upgrade istio-base istio/base \
+    --install \
+    --version 1.14.5 \
+    -n istio-system \
+    --skip-crds \
+    -f istio-base-values.yaml
+```

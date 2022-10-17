@@ -1,8 +1,8 @@
 ---
-id: basics
-title: Istio Basics
-sidebar_label: Basics
-description: Istio Basics
+id: istio
+title: Istio
+sidebar_label: Istio
+description: Istio
 keywords:
   - Istio
 ---
@@ -12,20 +12,40 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ## Installation
 
 ```shell
+asdf plugin add istioctl
+```
+
+```shell
+asdf list all istioctl
+```
+
+```shell
+asdf install istioctl 1.13.2
+```
+
+```shell
+asdf global istioctl 1.13.2
+```
+
+```shell
+asdf local istioctl 1.13.2
+```
+
+```shell
+asdf current istioctl
+```
+
+```shell
 export ISTIO_VERSION=1.13.2
 ```
 
 ```shell
-helm repo add istio https://istio-release.storage.googleapis.com/charts \
-&& helm repo update istio
+helm repo add istio https://istio-release.storage.googleapis.com/charts
 ```
 
 ```shell
-mkdir -p network/istio/helm
-```
-
-```shell
-helm search repo istio/ -l
+helm repo update istio \
+&& helm search repo istio -l
 ```
 
 ```shell
@@ -36,43 +56,51 @@ kubectl create namespace istio-system
 
 ```shell
 helm show values istio/base \
-    --version $ISTIO_VERSION \
-    > network/istio/helm/base-values.yaml
+    --version 1.13.2 \
+    > istio-base-values.yaml
+```
+
+```yaml title="istio-base-values.yaml"
+defaultRevision: 1-13-2
 ```
 
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --version $ISTIO_VERSION \
+    --version 1.13.2 \
     -n istio-system \
-    -f network/istio/helm/base-values.yaml
+    -f istio-base-values.yaml
 ```
 
 ### istiod
 
 ```shell
 helm show values istio/istiod \
-    --version $ISTIO_VERSION \
-    > network/istio/helm/istiod-values.yaml
+    --version 1.13.2 \
+    > istiod-1-13-2-values.yaml
+```
+
+```yaml title="istiod-1-13-2-values.yaml"
+revision: 1-13-2
 ```
 
 ```shell
 helm upgrade istiod istio/istiod \
     --install \
-    --version $ISTIO_VERSION \
+    --version 1.13.2 \
     -n istio-system \
-    -f network/istio/helm/istiod-values.yaml
+    -f istiod-values.yaml
 ```
 
 ### ingressgateway
 
 ```shell
 helm show values istio/gateway \
-    --version $ISTIO_VERSION \
-    > network/istio/helm/ingress-values.yaml
+    --version 1.13.2 \
+    > ingress-values.yaml
 ```
 
-```yaml title="network/istio/helm/ingress-values.yaml"
+```yaml title="ingress-values.yaml"
 service:
   ports:
     - port: 15021
@@ -123,9 +151,9 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 ```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
-    --version $ISTIO_VERSION \
+    --version 1.13.2 \
     -n istio-system \
-    -f network/istio/helm/ingress-values.yaml
+    -f ingress-values.yaml
 ```
 
 ## Removal
@@ -212,6 +240,18 @@ Control Plane
 `Envoy`는 L7 프록시로 Istio에서는 수정된 Envoy가 사용됩니다.
 
 사이드카(sidecar)란 Pod에 기능을 추가하기 위해 추가된 컨테이너를 말하는 데, Istio는 Pod가 생성될 때 Injection rules에 따라 Envoy를 사이드카로 추가합니다.
+
+| Resource  | Label                   | Enabled value | Disabled value |
+| --------- | ----------------------- | ------------- | -------------- |
+| Namespace | istio-injection         | enabled       | disabled       |
+| Pod       | sidecar.istio.io/inject | true          | false          |
+
+revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활성을 설정할 수 있습니다.
+
+| Resource  | Enabled label       | Disabled label                  |
+| --------- | ------------------- | ------------------------------- |
+| Namespace | istio.io/rev=1-14-5 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-14-5 | sidecar.istio.io/inject="false" |
 
 ### Injection rule examples
 
