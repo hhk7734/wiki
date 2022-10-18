@@ -88,6 +88,10 @@ istioctl proxy-status --revision 1-13-2
 istioctl proxy-status --revision 1-14-5
 ```
 
+:::warning
+`service “istiod” not found` 에러가 발생하면 `MutatingWebhookConfiguration` 또는 `Validatingwebhookconfigurations`를 확인해보시기 바랍니다.
+:::
+
 ### 기존 istiod 삭제
 
 ```shell

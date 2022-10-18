@@ -1,0 +1,80 @@
+---
+id: loki
+title: Loki
+sidebar_label: Loki
+description: Loki
+keywords:
+  - Loki
+---
+
+import Image from "@theme/IdealImage";
+
+## 배포 Mode
+
+- https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/
+
+<br />
+
+- Monolithic
+  - 모든 컴포넌트를 하나의 인스턴스에 배포
+  - 하루에 100GB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+- Simple scalable
+  - 읽기 컴포넌트들과 쓰기 컴포넌트들로 분리하여 배포
+  - 하루에 100GB ~ 10TB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+- Microservices
+  - 모든 컴포넌트를 분리하여 배포, 가장 자유도가 높지만 유지보수도 어려움
+
+## 컴포넌트
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/monitoring/plg/loki_architecture_components.png")}
+    width={750}
+  />
+</center>
+<center>
+  <strong>
+    https://grafana.com/docs/loki/latest/fundamentals/architecture/components/
+  </strong>
+</center>
+<br />
+
+<center>
+  <Image
+    img={require("@site/static/img/nn/mlops/monitoring/plg/simple-scalable-test-environment.png")}
+    width={750}
+  />
+</center>
+<center>
+  <strong>https://grafana.com/docs/loki/latest/getting-started/</strong>
+</center>
+<br />
+
+## Installation
+
+```shell
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+
+```shell
+helm repo update grafana \
+&& helm search repo grafana/loki-distributed -l | head -n 10
+```
+
+```shell
+helm show values grafana/loki-distributed \
+    --version 0.63.1 \
+    > loki-distributed-values.yaml
+```
+
+```shell
+helm upgrade loki grafana/loki-distributed \
+    --install \
+    --version 0.63.1  \
+    -n monitoring \
+    -f loki-distributed-values.yaml
+```
+
+```shell
+helm uninstall -n monitoring loki
+```

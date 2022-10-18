@@ -20,15 +20,15 @@ asdf list all istioctl
 ```
 
 ```shell
-asdf install istioctl 1.13.2
+asdf install istioctl 1.14.5
 ```
 
 ```shell
-asdf global istioctl 1.13.2
+asdf global istioctl 1.14.5
 ```
 
 ```shell
-asdf local istioctl 1.13.2
+asdf local istioctl 1.14.5
 ```
 
 ```shell
@@ -36,7 +36,7 @@ asdf current istioctl
 ```
 
 ```shell
-export ISTIO_VERSION=1.13.2
+export ISTIO_VERSION=1.14.5
 ```
 
 ```shell
@@ -45,7 +45,7 @@ helm repo add istio https://istio-release.storage.googleapis.com/charts
 
 ```shell
 helm repo update istio \
-&& helm search repo istio -l
+&& helm search repo istio/ -l
 ```
 
 ```shell
@@ -56,18 +56,18 @@ kubectl create namespace istio-system
 
 ```shell
 helm show values istio/base \
-    --version 1.13.2 \
+    --version 1.14.5 \
     > istio-base-values.yaml
 ```
 
 ```yaml title="istio-base-values.yaml"
-defaultRevision: 1-13-2
+defaultRevision: 1-14-5
 ```
 
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --version 1.13.2 \
+    --version 1.14.5 \
     -n istio-system \
     -f istio-base-values.yaml
 ```
@@ -76,18 +76,18 @@ helm upgrade istio-base istio/base \
 
 ```shell
 helm show values istio/istiod \
-    --version 1.13.2 \
-    > istiod-1-13-2-values.yaml
+    --version 1.14.5 \
+    > istiod-1-14-5-values.yaml
 ```
 
-```yaml title="istiod-1-13-2-values.yaml"
-revision: 1-13-2
+```yaml title="istiod-1-14-5-values.yaml"
+revision: 1-14-5
 ```
 
 ```shell
 helm upgrade istiod istio/istiod \
     --install \
-    --version 1.13.2 \
+    --version 1.14.5 \
     -n istio-system \
     -f istiod-values.yaml
 ```
@@ -96,7 +96,7 @@ helm upgrade istiod istio/istiod \
 
 ```shell
 helm show values istio/gateway \
-    --version 1.13.2 \
+    --version 1.14.5 \
     > ingress-values.yaml
 ```
 
@@ -151,7 +151,7 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 ```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
-    --version 1.13.2 \
+    --version 1.14.5 \
     -n istio-system \
     -f ingress-values.yaml
 ```

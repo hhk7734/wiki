@@ -371,6 +371,13 @@ module.exports = {
         "nn/mlops/kubernetes/service",
         "nn/mlops/kubernetes/mlops-k8s-persistent-volume",
         "nn/mlops/kubernetes/label",
+        {
+          type: "category",
+          label: "API Access Control",
+          items: [
+            "nn/mlops/kubernetes/api-access-control/admission-controller",
+          ],
+        },
       ],
     },
     {
@@ -444,6 +451,11 @@ module.exports = {
             "nn/mlops/monitoring/eck/fluentd",
             "nn/mlops/monitoring/eck/fluentbit",
           ],
+        },
+        {
+          type: "category",
+          label: "PLG",
+          items: ["nn/mlops/monitoring/plg/loki"],
         },
         {
           type: "category",

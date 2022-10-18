@@ -15,7 +15,7 @@ keywords:
 
 ### Cluster
 
-```python {42,53}
+```python
 # EKS
 
 name = "eks-role"
@@ -204,12 +204,12 @@ ng = aws.eks.NodeGroup(
     node_group_name=name,
     cluster_name=cluster.name,
     node_role_arn=ng_role.arn,
-    instance_types=["m6a.large"],
+    instance_types=["m6a.xlarge"],
     disk_size=50,
     scaling_config=aws.eks.NodeGroupScalingConfigArgs(
         min_size=1,
-        desired_size=2,
-        max_size=4,
+        desired_size=1,
+        max_size=1,
     ),
     subnet_ids=[vpc.public_subnet["0"].id],
     remote_access=aws.eks.NodeGroupRemoteAccessArgs(
