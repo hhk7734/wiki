@@ -443,13 +443,13 @@ module.exports = {
           ],
         },
         "nn/mlops/monitoring/dcgm-exporter",
+        "nn/mlops/monitoring/fluent-bit",
         {
           type: "category",
           label: "ECK",
           items: [
             "nn/mlops/monitoring/eck/basics",
             "nn/mlops/monitoring/eck/fluentd",
-            "nn/mlops/monitoring/eck/fluentbit",
           ],
         },
         {

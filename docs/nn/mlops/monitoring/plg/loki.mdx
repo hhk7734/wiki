@@ -67,6 +67,36 @@ helm show values grafana/loki-distributed \
     > loki-distributed-values.yaml
 ```
 
+```yaml title="loki-distributed-values.yaml"
+loki:
+  # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
+  # for more info on how to configure schemas
+  schemaConfig:
+    configs:
+      - # 인덱스 생성 시작일, 스키마가 변경되면 변경이 시작되는 날짜
+        from: 2022-10-19
+        store: boltdb-shipper
+        # chunks가 저장되는 저장소로 기본값으로 store 값을 씁니다. aws, azure, gcp,
+        # bigtable, gcs, cassandra, swift or filesystem
+        object_store: aws
+        schema: v11
+        index:
+          prefix: loki_index_
+          period: 24h
+
+  # -- Check https://grafana.com/docs/loki/latest/configuration/#storage_config
+  # for more info on how to configure storages
+  storageConfig:
+    aws:
+      s3: s3://<bucket>
+
+    boltdb_shipper:
+      shared_store: aws
+      active_index_directory: /var/loki/index
+      cache_location: /var/loki/cache
+      cache_ttl: 168h
+```
+
 ```shell
 helm upgrade loki grafana/loki-distributed \
     --install \
@@ -78,3 +108,42 @@ helm upgrade loki grafana/loki-distributed \
 ```shell
 helm uninstall -n monitoring loki
 ```
+
+## Fluent Bit
+
+```yaml title="fluent-bit-values.yaml"
+image:
+  repository: grafana/fluent-bit-plugin-loki
+  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
+  tag: "2.6.1-amd64"
+  pullPolicy: Always
+
+env:
+  - name: LOKI_HOST
+    value: <loki>-gateway.monitoring.svc
+  - name: LOKI_PORT
+    value: "80"
+
+config:
+  # indent를 4칸으로 맞춰야 합니다.
+  outputs: |
+    [OUTPUT]
+        # https://grafana.com/docs/loki/latest/clients/fluentbit/#configuration-options
+        Name grafana-loki
+        Match *
+        Url http://${LOKI_HOST}:${LOKI_PORT}/loki/api/v1/push
+        Labels {job="fluent-bit"}
+        BatchWait 1s
+        BatchSize 30720
+```
+
+## Grafana
+
+- Configuration -\> Data sources -\> Add data source -\> Loki
+  - HTTP
+    - URL: `http://<loki>-gateway.monitoring.svc`
+- Explore -\> Loki
+  - Log browser
+    - `{job="fluent-bit"}`: 전체 로그 가져오기
+    - Log query: https://grafana.com/docs/loki/latest/logql/log_queries/
+    - LogQL Analyzer: https://grafana.com/docs/loki/latest/logql/analyzer/

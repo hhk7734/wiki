@@ -1,0 +1,103 @@
+---
+id: fluent-bit
+title: Fluent Bit
+sidebar_label: Fluent Bit
+description: Fluent Bit
+keywords:
+  - fluentbit
+  - Fluent Bit
+---
+
+## Installation
+
+```shell
+helm repo add fluent https://fluent.github.io/helm-charts
+```
+
+```shell
+helm repo update fluent \
+&& helm search repo fluent/fluent-bit -l | head -n 10
+```
+
+```shell
+helm show values fluent/fluent-bit \
+  --version 0.20.9 \
+  > fluent-bit-values.yaml
+```
+
+```yaml title="fluent-bit-values.yaml"
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+luaScripts:
+  tag.lua: |
+    function add_tag(tag, timestamp, record)
+      new_record = record
+      new_record["tag"] = tag
+      return 2, timestamp, new_record
+    end
+
+config:
+  # https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section
+  # https://docs.fluentbit.io/manual/administration/buffering-and-storage
+  service: |
+    [SERVICE]
+        Daemon Off
+        Flush {{ .Values.flush }}
+        Log_Level {{ .Values.logLevel }}
+        Parsers_File parsers.conf
+        Parsers_File custom_parsers.conf
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port {{ .Values.metricsPort }}
+        Health_Check On
+        storage.path /var/log/flb-storage/
+        storage.metrics On
+
+  filters: |
+    [FILTER]
+        Name lua
+        Match *
+        script /fluent-bit/scripts/tag.lua
+        call add_tag
+```
+
+```shell
+helm upgrade fluent-bit fluent/fluent-bit \
+  --install \
+  --version 0.20.9 \
+  -n monitoring \
+  -f fluent-bit-values.yaml
+```
+
+:::info
+Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.
+:::
+
+## INPUT
+
+### Tail
+
+- https://docs.fluentbit.io/manual/pipeline/inputs/tail
+
+```ini
+[INPUT]
+    Name tail
+    multiline.parser docker, cri
+    # /var/log/containers/<pod-name>_<pod-namespace>_<container-name>-<hash>.log
+    # * wildcard 사용 가능
+    Path /var/log/containers/xxx*.log
+    Exclude_Path /var/log/containers/xxx*istio*.log
+    # 파일의 이름에 정규표현식을 사용하여 패턴 매칭
+    Tag_Regex \/(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
+    Tag <project>.<env>
+    Mem_Buf_Limit 5MB
+    storage.type filesystem
+```
+
+(?<pod*name>[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)\*)*(?<namespace*name>[^*]+)\_(?<container_name>.+)-
