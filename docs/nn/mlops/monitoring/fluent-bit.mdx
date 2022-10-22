@@ -35,6 +35,7 @@ resources:
     memory: 128Mi
 
 luaScripts:
+  # https://docs.fluentbit.io/manual/pipeline/filters/lua
   tag.lua: |
     function add_tag(tag, timestamp, record)
       new_record = record
@@ -44,7 +45,6 @@ luaScripts:
 
 config:
   # https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section
-  # https://docs.fluentbit.io/manual/administration/buffering-and-storage
   service: |
     [SERVICE]
         Daemon Off
@@ -56,6 +56,7 @@ config:
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
+        # https://docs.fluentbit.io/manual/administration/buffering-and-storage
         storage.path /var/log/flb-storage/
         storage.metrics On
 
@@ -93,11 +94,9 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
     # * wildcard 사용 가능
     Path /var/log/containers/xxx*.log
     Exclude_Path /var/log/containers/xxx*istio*.log
-    # 파일의 이름에 정규표현식을 사용하여 패턴 매칭
+    # 파일의 이름(절대 경로)에 정규표현식을 사용하여 패턴 매칭
     Tag_Regex \/(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
     Tag <project>.<env>
     Mem_Buf_Limit 5MB
     storage.type filesystem
 ```
-
-(?<pod*name>[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)\*)*(?<namespace*name>[^*]+)\_(?<container_name>.+)-

@@ -14,10 +14,6 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 ```
 
 ```shell
-mkdir -p monitoring/prometheus-operator/helm
-```
-
-```shell
 helm repo update prometheus-community \
 && helm search repo prometheus-community/kube-prometheus-stack -l | head -n 10
 ```
@@ -25,10 +21,10 @@ helm repo update prometheus-community \
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
     --version 35.6.2 \
-    > monitoring/prometheus-operator/helm/values.yaml
+    > values.yaml
 ```
 
-```yaml title="monitoring/prometheus-operator/helm/values.yaml"
+```yaml title="values.yaml"
 namespaceOverride: monitoring
 
 commonLabels:
@@ -44,8 +40,7 @@ alertmanager:
   enabled: true
 
 grafana:
-  # -grafana 설치, 시각화 대시보드
-  enabled: true
+  enabled: false
 
 kubeApiServer:
   enabled: false
@@ -79,7 +74,6 @@ kubeStateMetrics:
 
 nodeExporter:
   # -node-exporter 설치, Node의 Hardware, kernel 관련 정보
-  # https://grafana.com/grafana/dashboards/1860
   enabled: true
 
 prometheusOperator:
@@ -105,7 +99,7 @@ helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
     --version 35.6.2 \
     -n monitoring \
-    -f monitoring/prometheus-operator/helm/values.yaml
+    -f values.yaml
 ```
 
 ```shell
@@ -129,81 +123,7 @@ kubectl delete crd servicemonitors.monitoring.coreos.com
 kubectl delete crd thanosrulers.monitoring.coreos.com
 ```
 
-## Grafana
-
-```shell
-kubectl port-forward -n monitoring service/prometheus-operator-grafana 8004:80
-```
-
 [http://localhost:8004](http://localhost:8004)
-
-### Keycloak
-
-- Client
-  - `grafana` client 추가
-    - Settings
-      - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
-      - Root URL: `<grafana-url>`
-      - Valid Redirect URIs: `<grafana-url>/login/generic_oauth`
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<grafana-client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `grafana` client
-    - Client Scopes
-      - Default Client scopes
-        - `groups` 추가
-- Groups
-  - `grafana-admin` 추가
-  - `grafana-dev` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
-
-```yaml title="monitoring/prometheus-operator/helm/values.yaml"
-# https://github.com/grafana/helm-charts/blob/main/charts/grafana/values.yaml
-# https://grafana.com/docs/grafana/latest/auth/generic-oauth/#generic-oauth-authentication
-grafana:
-  grafana.ini:
-    server:
-      root_url: <grafana-url>
-    auth.generic_oauth:
-      enabled: true
-      name: Keycloak
-      allow_sign_up: false
-      client_id: grafana
-      client_secret: <grafana-client-secret>
-      scopes: openid profile email groups
-      auth_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/auth
-      token_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/token
-      api_url: <keycloak-url>/auth/realms/<realm>/protocol/openid-connect/userinfo
-      role_attribute_path: contains(groups[*], 'grafana-admin') && 'Admin' || contains(groups[*], 'grafana-dev') && 'Editor' || 'Viewer'
-    database:
-      type: mysql|postgres|sqlite3
-      host: <host>:<port>
-      name: <database>
-      user: grafana
-      password: <grafana-password>
-    security:
-      disable_initial_admin_creation: true
-```
-
-:::warning
-초기에 생성된 admin 계정은 꼭 삭제해주세요.
-:::
 
 ## Reference
 

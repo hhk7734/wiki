@@ -448,14 +448,17 @@ module.exports = {
           type: "category",
           label: "ECK",
           items: [
-            "nn/mlops/monitoring/eck/basics",
+            "nn/mlops/monitoring/eck/operator",
             "nn/mlops/monitoring/eck/fluentd",
           ],
         },
         {
           type: "category",
           label: "PLG",
-          items: ["nn/mlops/monitoring/plg/loki"],
+          items: [
+            "nn/mlops/monitoring/plg/loki",
+            "nn/mlops/monitoring/plg/grafana",
+          ],
         },
         {
           type: "category",

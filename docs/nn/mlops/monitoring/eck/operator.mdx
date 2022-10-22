@@ -1,32 +1,35 @@
 ---
-id: basics
-title: ECK Basics
-sidebar_label: Basics
-description: ECK Basics
+id: operator
+title: ECK Operator
+sidebar_label: Operator
+description: ECK Operator
 keywords:
-  - ECK Basics
+  - ECK Operator
 ---
 
 ## Installation
 
 ```shell
-mkdir -p monitoring/eck
+wget https://download.elastic.co/downloads/eck/2.1.0/crds.yaml -O eck-crds.yaml
 ```
 
-### Operator
+```shell
+kubectl apply -f eck-crds.yaml
+```
 
 ```shell
-wget https://download.elastic.co/downloads/eck/2.1.0/crds.yaml -O monitoring/eck/eck-crds.yaml \
-&& wget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O monitoring/eck/eck-operator.yaml
+wget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O eck-operator.yaml
+```
+
+```shell
+kubectl apply -f eck-operator.yaml
 ```
 
 :::info
 `istio`: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-service-mesh-istio.html
 :::
 
-### Elasticsearch
-
-```yaml title="monitoring/eck/elasticsearch.yaml"
+```yaml title="elasticsearch.yaml"
 apiVersion: elasticsearch.k8s.elastic.co/v1
 kind: Elasticsearch
 metadata:
@@ -81,9 +84,11 @@ spec:
                 storage: 20Gi
 ```
 
-### Kibana
+```shell
+kubectl apply -f elasticsearch.yaml
+```
 
-```yaml title="monitoring/eck/kibana.yaml"
+```yaml title="kibana.yaml"
 apiVersion: kibana.k8s.elastic.co/v1
 kind: Kibana
 metadata:
@@ -114,4 +119,44 @@ spec:
             limits:
               cpu: "1"
               memory: 2Gi
+```
+
+```shell
+kubectl apply -f kibana.yaml
+```
+
+## Fluent Bit
+
+```yaml title="fluent-bit-values.yaml"
+env:
+  - name: ES_HOST
+    value: elasticsearch-es-http.elastic-system.svc.cluster.local
+  - name: ES_PORT
+    value: "9200"
+  - name: ES_USER
+    value: "elastic"
+  - name: ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-es-elastic-user
+        key: elastic
+
+config:
+  # indent를 4칸으로 맞춰야 합니다.
+  outputs: |
+    [OUTPUT]
+        # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
+        Name es
+        Match *
+        Host ${ES_HOST}
+        Port ${ES_PORT}
+        HTTP_User ${ES_USER}
+        HTTP_Passwd ${ES_PASSWORD}
+        Trace_Error On
+        Buffer_Size 64K
+        Logstash_Format On
+        Logstash_DateFormat %Y.%m
+        Logstash_Prefix_Key tag
+        Suppress_Type_Name On
+        Retry_Limit False
 ```
