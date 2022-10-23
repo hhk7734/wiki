@@ -62,6 +62,14 @@ config:
 
   filters: |
     [FILTER]
+        # log키에 있는 json 텍스트를 파싱하여 키/값으로 분리
+        Name         parser
+        Parser       docker
+        Match        *
+        Key_Name     log
+
+    [FILTER]
+        # fluent-bit tag를 tag키의 값으로 추가
         Name lua
         Match *
         script /fluent-bit/scripts/tag.lua

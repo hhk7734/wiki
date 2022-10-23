@@ -68,7 +68,7 @@ helm show values grafana/loki-distributed \
 ```
 
 ```yaml title="loki-distributed-values.yaml"
-nameOverride: ""
+fullnameOverride: "loki"
 
 loki:
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
@@ -80,7 +80,7 @@ loki:
         store: boltdb-shipper
         # chunks가 저장되는 저장소로 기본값으로 store 값을 씁니다. aws, azure, gcp,
         # bigtable, gcs, cassandra, swift or filesystem
-        object_store: aws
+        object_store: s3
         schema: v11
         index:
           prefix: loki_index_
@@ -90,13 +90,16 @@ loki:
   # for more info on how to configure storages
   storageConfig:
     aws:
-      s3: s3://<bucket>
+      s3: s3://<region>/<bucket>
 
     boltdb_shipper:
-      shared_store: aws
+      shared_store: s3
       active_index_directory: /var/loki/index
       cache_location: /var/loki/cache
       cache_ttl: 168h
+
+gateway:
+  podLabels: {}
 ```
 
 ```shell
@@ -122,7 +125,7 @@ image:
 
 env:
   - name: LOKI_HOST
-    value: <loki>-gateway.monitoring.svc
+    value: loki-gateway.monitoring.svc
   - name: LOKI_PORT
     value: "80"
 
@@ -143,9 +146,12 @@ config:
 
 - Configuration -\> Data sources -\> Add data source -\> Loki
   - HTTP
-    - URL: `http://<loki>-gateway.monitoring.svc`
-- Explore -\> Loki
-  - Log browser
-    - `{job="fluent-bit"}`: 전체 로그 가져오기
+    - URL: `http://loki-gateway.monitoring.svc`
+- Explore -\> Loki -\> Add query
+  - Builder
+    - Label filters
+      - `{job="fluent-bit"}`
+  - Code
+    - Log browser: `{job="fluent-bit"}`
     - Log query: https://grafana.com/docs/loki/latest/logql/log_queries/
     - LogQL Analyzer: https://grafana.com/docs/loki/latest/logql/analyzer/

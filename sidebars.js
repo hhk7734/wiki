@@ -440,6 +440,7 @@ module.exports = {
           items: [
             "nn/mlops/monitoring/prometheus/operator",
             "nn/mlops/monitoring/prometheus/crd",
+            "nn/mlops/monitoring/prometheus/kube-state-metrics",
           ],
         },
         "nn/mlops/monitoring/dcgm-exporter",
