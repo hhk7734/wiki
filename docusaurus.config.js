@@ -29,6 +29,7 @@ module.exports = {
         size: 750,
       },
     ],
+    ["@easyops-cn/docusaurus-search-local", { hashed: true }],
   ],
   stylesheets: [
     {
@@ -37,11 +38,6 @@ module.exports = {
     },
   ],
   themeConfig: {
-    algolia: {
-      appId: "F91YRZWXMW",
-      apiKey: "1531ea4b9a0f7187475dcdab1839fb21",
-      indexName: "liliot_wiki",
-    },
     colorMode: {
       defaultMode: "light",
       respectPrefersColorScheme: true,
