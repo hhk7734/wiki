@@ -1,0 +1,35 @@
+---
+id: transformer
+title: Transformer
+sidebar_label: Transformer
+description: Transformer
+keywords:
+  - Neural Network
+  - Transformer
+---
+
+import Image from "@theme/IdealImage";
+
+## Transformer
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/nn/transformer/transformer-architecture.png")}
+    width={600}
+  />
+</center>
+<center>https://arxiv.org/pdf/1706.03762.pdf</center>
+
+## Self-Attention
+
+- Input: $X = \left\{ x_1, x_2, \cdots, x_n \right\} \in \mathbb{R}^{n \times d}$
+- Query: $q_i=W_q x_i \in \mathbb{R}^{d_k}$
+- Key: $k_i=W_k x_i \in \mathbb{R}^{d_k}$
+- Value: $v_i=W_v x_i \in \mathbb{R}^{d_v}$
+- Attention: $a_{ij} = \text{softmax}(\frac{q_i^T k_j}{\sqrt{d_k}}) = \frac{exp(\frac{q_i^T k_j}{\sqrt{d_k}})}{\sum_{j=1}^n exp(\frac{q_i^T k_j}{\sqrt{d_k}})}$
+- Output: $y_i = \sum_{j=1}^n a_{ij} v_j$
+- Positional Encoding: $p_i = \left\{ sin\left(\frac{i}{10000^{2*1/d}}\right), cos\left(\frac{i}{10000^{2*1/d}}\right), sin\left(\frac{i}{10000^{2*2/d}}\right), cos\left(\frac{i}{10000^{2*2/d}}\right), \cdots \right\} \in \mathbb{R}^{d}$
+
+##
+
+- https://data-science-blog.com/blog/2021/04/07/multi-head-attention-mechanism/

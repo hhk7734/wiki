@@ -584,6 +584,11 @@ module.exports = {
     },
     {
       type: "category",
+      label: "Transformer",
+      items: ["mlops/nn/transformer/transformer"],
+    },
+    {
+      type: "category",
       label: "GNN",
       items: ["mlops/nn/gnn/gnn"],
     },
