@@ -10,7 +10,7 @@ keywords:
 
 ## Provisioner
 
-- https://karpenter.sh/v0.16.1/provisioner/
+- https://karpenter.sh/v0.18.1/provisioner/
 
 Provisioner는 **Provisioner에 명시된 제약사항**과 **Workload에 명시된 제약사항 중 처리 가능한 제약사항**을 고려하여 프로비저닝을 수행합니다. 옵션이 다양한 만큼 여러 제약사항의 조합을 만들 수 있도록 하여 유언성을 제공합니다.
 
@@ -27,11 +27,16 @@ metadata:
   name: <name>
 ```
 
+```shell
+kubectl explain provisioner.spec
+```
+
 ### kubeletConfiguration
 
 ```yaml
 spec:
   kubeletConfiguration:
+    # 기타 다양한 설정이 있지만 꼭 필요한 경우에만 사용하는 것이 좋습니다.
     clusterDNS:
       - "<ip|url>"
     containerRuntime: containerd # dockerd | containerd
@@ -77,6 +82,7 @@ spec:
     # - key: "kubernetes.io/arch"
     #   operator: In
     #   values: ["arm64", "amd64"]
+    # spot과 on-demand 둘 다 허용되는 경우 spot을 우선 순위로 시도합니다.
     # - key: "karpenter.sh/capacity-type"
     #   operator: In
     #   values: ["spot", "on-demand"]
@@ -121,6 +127,10 @@ spec:
 ## AWSNodeTemplate
 
 - https://karpenter.sh/v0.16.1/aws/provisioning/#awsnodetemplate
+
+```shell
+kubectl explain awsnodetemplate.spec
+```
 
 ```yaml
 apiVersion: karpenter.k8s.aws/v1alpha1
