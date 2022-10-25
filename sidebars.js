@@ -373,6 +373,11 @@ module.exports = {
         "mlops/mlops/kubernetes/label",
         {
           type: "category",
+          label: "Policy",
+          items: ["mlops/mlops/kubernetes/policy/limit-range"],
+        },
+        {
+          type: "category",
           label: "API Access Control",
           items: [
             "mlops/mlops/kubernetes/api-access-control/admission-controller",

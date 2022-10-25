@@ -7,6 +7,8 @@ keywords:
   - Grafana
 ---
 
+import Image from "@theme/IdealImage";
+
 ## Installation
 
 ```shell
@@ -24,7 +26,7 @@ helm show values grafana/grafana \
     > grafana-values.yaml
 ```
 
-```yaml
+```yaml title="grafana-values.yaml"
 extraLabels: {}
 
 podLabels: {}
@@ -83,7 +85,7 @@ grafana.ini:
     - Email: `<email>`
     - Groups: `<group>`
 
-```yaml title="monitoring/prometheus-operator/helm/values.yaml"
+```yaml title="grafana-values.yaml"
 # https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/
 grafana.ini:
   server:
@@ -107,3 +109,82 @@ grafana.ini:
 :::warning
 초기에 생성된 admin 계정은 꼭 삭제해주세요.
 :::
+
+## Alert
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/monitoring/plg/alerting.png")}
+    width={750}
+  />
+</center>
+<center>https://grafana.com/docs/grafana/latest/alerting/</center>
+
+### Alert rules
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#rules
+- Alerting -\> Alert rules -\> New alert rule
+
+```yaml
+alerting:
+  rules.yaml:
+    apiVersion: 1
+    groups:
+      - orgId: 1
+        name: <groupName>
+        folder: <folderName>
+        # data를 확인하는 interval
+        interval: 60s
+        rules:
+          - uid: <uid>
+            title: <title>
+            labels:
+              <key>: <value>
+            # 알림을 보내기 위해 조건이 유지되어야 하는 시간
+            for: 120s
+            condition: <data.refId>
+            data:
+              - refId: <refId>
+                # ...
+            noDataState: NoData # NoData(default), Alerting, OK
+```
+
+### Contact points
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#contact-points
+- Alerting -\> Contact points -\> New contact point
+
+```yaml
+alerting:
+  contactpoints.yaml:
+    apiVersion: 1
+    contactPoints:
+      - orgId: 1
+        name: <name>
+        receivers:
+          - uid: <uid>
+            type: slack
+            settings:
+              recipient: <channelID|channelName>
+              token: xoxb-<token>
+          - uid: <uid>
+            type: email
+            settings:
+              addresses: <email>[;<email>]
+```
+
+### Notification policies
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#notification-policies
+- Alerting -\> Notification policies -\> New specific policy
+
+```yaml
+alerting:
+  notificationpolicy.yaml:
+    apiVersion: 1
+    policies:
+      - orgId: 1
+        matchers:
+          - <key> = <value>
+        receiver: <contactPointName>
+```
