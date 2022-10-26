@@ -18,64 +18,26 @@ wget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-li
 ```
 
 ```shell
-helm repo add argo https://argoproj.github.io/argo-helm \
-&& helm repo update argo
+helm repo add argo https://argoproj.github.io/argo-helm
 ```
 
 ```shell
-mkdir -p workflow/argo/workflows/helm
-```
-
-```shell
-helm search repo argo/argo-workflows -l | head -n 10
+helm repo update argo \
+&& helm search repo argo/argo-workflows -l | head -n 10
 ```
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.16.3 \
-    > workflow/argo/workflows/helm/values.yaml
+    --version 0.20.4 \
+    > argo-workflows-values.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
-    --version 0.16.3 \
+    --version 0.20.4 \
     -n workflow \
-    --values workflow/argo/workflows/helm/values.yaml
-```
-
-## Service
-
-### Port forward
-
-```shell
-kubectl port-forward -n workflow service/argo-workflows-server 8006:2746
-```
-
-[http://localhost:8006](http://localhost:8006)
-
-### VirtualService
-
-```yaml title="workflow/argo/workflows/base/virtual-service.yaml" {8,10}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: argo-workflows
-  namespace: workflow
-spec:
-  hosts:
-    - <host-url>
-  gateways:
-    - <gateway>
-  http:
-    - match:
-        - uri:
-            prefix: "/"
-      route:
-        - destination:
-            host: argo-workflows-server.workflow.svc.cluster.local
-            port:
-              number: 2746
+    --values argo-workflows-values.yaml
 ```
 
 ## User
@@ -97,7 +59,7 @@ data:
 EOF
 ```
 
-```yaml title="workflow/argo/cd/helm/values.yaml"
+```yaml title="argo-cd-values.yaml"
 dex:
   env:
     - name: ARGO_WORKFLOWS_SSO_CLIENT_SECRET
@@ -106,8 +68,8 @@ dex:
           name: argo-workflows-sso
           key: client-secret
 
-server:
-  config:
+configs:
+  cm:
     dex.config: |
       staticClients:
         - id: argo-workflows-sso
@@ -121,7 +83,7 @@ server:
 Dex는 클라이언트(`aud(audience)`)대신 다른 클라이언트(`azp(authorized party)`)에게 ID 토큰 발행을 맞길 수 있는 기능이 있습니다. `staticClients.trustedPeers: []`에 azp가 될 클라이언트의 id를 추가하면 됩니다.
 :::
 
-```yaml title="workflow/argo/workflows/helm/values.yaml"
+```yaml title="argo-workflows-values.yaml"
 server:
   extraArgs:
     - --auth-mode=sso
@@ -192,7 +154,7 @@ stringData:
 EOF
 ```
 
-```yaml title="workflow/argo/workflows/helm/values.yaml"
+```yaml title="argo-workflows-values.yaml"
 server:
   extraArgs:
     - --auth-mode=sso
@@ -214,7 +176,7 @@ server:
 
 ### RBAC
 
-```yaml title="workflow/argo/workflows/helm/values.yaml"
+```yaml title="argo-workflows-values.yaml"
 server:
   # ConfigMap.data.config: |, name: workflow-controller-configmap
   sso:
@@ -262,6 +224,6 @@ ServiceAccount에 원하는 목적에 맞는 Role과 ClusterRole을 생성 후 �
 
 ## Reference
 
-- [https://argoproj.github.io/argo-workflows](https://argoproj.github.io/argo-workflows)
-- [https://dexidp.io/docs/custom-scopes-claims-clients/](https://dexidp.io/docs/custom-scopes-claims-clients/)
-- [https://argoproj.github.io/argo-workflows/argo-server-sso/](https://argoproj.github.io/argo-workflows/argo-server-sso/)
+- https://argoproj.github.io/argo-workflows
+- https://dexidp.io/docs/custom-scopes-claims-clients/
+- https://argoproj.github.io/argo-workflows/argo-server-sso/

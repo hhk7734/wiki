@@ -499,8 +499,14 @@ module.exports = {
             "mlops/mlops/event/argo-cd/crd",
           ],
         },
-        "mlops/mlops/event/argo-workflows",
-        "mlops/mlops/event/argo-workflows-crd",
+        {
+          type: "category",
+          label: "Argo Workflows",
+          items: [
+            "mlops/mlops/event/argo-workflows/argo-workflows",
+            "mlops/mlops/event/argo-workflows/crd",
+          ],
+        },
         "mlops/mlops/event/argo-events",
         "mlops/mlops/event/probot",
         {

@@ -9,6 +9,8 @@ keywords:
 
 ## Installation
 
+- https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 ```
@@ -20,7 +22,7 @@ helm repo update prometheus-community \
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 35.6.2 \
+    --version 41.6.1 \
     > values.yaml
 ```
 
@@ -36,8 +38,7 @@ defaultRules:
   create: false
 
 alertmanager:
-  # -alertmanager 설치
-  enabled: true
+  enabled: false
 
 grafana:
   enabled: false
@@ -87,9 +88,6 @@ prometheusOperator:
     # 접근할 수 있어야하는 문제가 있습니다.
     enabled: false
 
-    patch:
-      enabled: false
-
 prometheus:
   enabled: false
 ```
@@ -97,7 +95,7 @@ prometheus:
 ```shell
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
-    --version 35.6.2 \
+    --version 41.6.1 \
     -n monitoring \
     -f values.yaml
 ```
@@ -122,9 +120,3 @@ kubectl delete crd prometheusrules.monitoring.coreos.com
 kubectl delete crd servicemonitors.monitoring.coreos.com
 kubectl delete crd thanosrulers.monitoring.coreos.com
 ```
-
-[http://localhost:8004](http://localhost:8004)
-
-## Reference
-
-- https://github.com/prometheus-community/helm-charts
