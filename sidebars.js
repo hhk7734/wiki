@@ -445,6 +445,7 @@ module.exports = {
           items: [
             "mlops/mlops/monitoring/prometheus/operator",
             "mlops/mlops/monitoring/prometheus/crd",
+            "mlops/mlops/monitoring/prometheus/promql",
             "mlops/mlops/monitoring/prometheus/kube-state-metrics",
             "mlops/mlops/monitoring/prometheus/node-exporter",
             "mlops/mlops/monitoring/prometheus/kubelet",
