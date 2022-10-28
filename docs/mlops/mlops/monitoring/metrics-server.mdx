@@ -25,25 +25,21 @@ import Image from "@theme/IdealImage";
 ## Installation
 
 ```shell
-helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/ \
-&& helm repo update metrics-server
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 ```
 
 ```shell
-helm search repo metrics-server -l
-```
-
-```shell
-mkdir -p monitoring/metrics_server/helm
+helm repo update metrics-server \
+&& helm search repo metrics-server -l | head -n 10
 ```
 
 ```shell
 helm show values metrics-server/metrics-server \
     --version 3.8.2 \
-    > monitoring/metrics_server/helm/values.yaml
+    > metrics-server-values.yaml
 ```
 
-```yaml title="monitoring/metrics_server/helm/values.yaml"
+```yaml title="metrics-server-values.yaml"
 args:
   []
   # - --kubelet-insecure-tls
@@ -63,7 +59,7 @@ helm upgrade metrics-server metrics-server/metrics-server \
     --install \
     --version 3.8.2 \
     -n monitoring \
-    -f monitoring/metrics_server/helm/values.yaml
+    -f metrics-server-values.yaml
 ```
 
 ## Removal

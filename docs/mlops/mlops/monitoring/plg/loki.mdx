@@ -113,12 +113,6 @@ helm uninstall -n monitoring loki
 ## Fluent Bit
 
 ```yaml title="fluent-bit-values.yaml"
-image:
-  repository: grafana/fluent-bit-plugin-loki
-  # Overrides the image tag whose default is {{ .Chart.AppVersion }}
-  tag: "2.6.1-amd64"
-  pullPolicy: Always
-
 env:
   - name: LOKI_HOST
     value: loki-gateway.monitoring.svc
@@ -129,13 +123,11 @@ config:
   # indent를 4칸으로 맞춰야 합니다.
   outputs: |
     [OUTPUT]
-        # https://grafana.com/docs/loki/latest/clients/fluentbit/#configuration-options
-        Name grafana-loki
-        Match *
-        Url http://${LOKI_HOST}:${LOKI_PORT}/loki/api/v1/push
-        Labels {job="fluent-bit"}
-        BatchWait 1s
-        BatchSize 30720
+        name   loki
+        match  *
+        host   ${LOKI_HOST}
+        port   ${LOKI_PORT}
+        labels job=fluent-bit
 ```
 
 ## Grafana

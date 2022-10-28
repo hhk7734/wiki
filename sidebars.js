@@ -438,7 +438,15 @@ module.exports = {
       label: "Monitoring",
       items: [
         "mlops/mlops/monitoring/metrics-server",
-        "mlops/mlops/monitoring/kubernetes-dashboard",
+        "mlops/mlops/monitoring/fluent-bit",
+        {
+          type: "category",
+          label: "ECK",
+          items: [
+            "mlops/mlops/monitoring/eck/operator",
+            "mlops/mlops/monitoring/eck/fluentd",
+          ],
+        },
         {
           type: "category",
           label: "Prometheus",
@@ -449,16 +457,7 @@ module.exports = {
             "mlops/mlops/monitoring/prometheus/kube-state-metrics",
             "mlops/mlops/monitoring/prometheus/node-exporter",
             "mlops/mlops/monitoring/prometheus/kubelet",
-          ],
-        },
-        "mlops/mlops/monitoring/dcgm-exporter",
-        "mlops/mlops/monitoring/fluent-bit",
-        {
-          type: "category",
-          label: "ECK",
-          items: [
-            "mlops/mlops/monitoring/eck/operator",
-            "mlops/mlops/monitoring/eck/fluentd",
+            "mlops/mlops/monitoring/prometheus/thanos",
           ],
         },
         {
@@ -474,6 +473,8 @@ module.exports = {
           label: "OpenSearch",
           items: ["mlops/mlops/monitoring/opensearch/basics"],
         },
+        "mlops/mlops/monitoring/dcgm-exporter",
+        "mlops/mlops/monitoring/kubernetes-dashboard",
       ],
     },
     {

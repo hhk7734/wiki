@@ -192,6 +192,8 @@ metadata:
   labels:
     app: istiod
 spec:
+  # Service.metadata.labels에 매칭되는 label의 키값을 job의 값으로 사용합니다.
+  # 선언하지 않으면 Service.metadata.name의 값을 사용합니다.
   jobLabel: istio
   selector:
     matchExpressions: # labels에 `istio: pilot`이 있는 Service를 감시합니다.

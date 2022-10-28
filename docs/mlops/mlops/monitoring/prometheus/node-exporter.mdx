@@ -6,3 +6,71 @@ description: node-exporter
 keywords:
   - node-exporter
 ---
+
+## Fluent Bit
+
+- https://docs.fluentbit.io/manual/pipeline/inputs/node-exporter-metrics
+- https://docs.fluentbit.io/manual/pipeline/outputs/prometheus-exporter
+
+```yaml title="fluent-bit-values.yaml"
+# host 네트워크를 사용하면 container의 IP가 host의 IP로 설정됩니다.
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+
+extraPorts:
+  - name: http-metrics
+    containerPort: 9100
+    protocol: TCP
+    port: 9100 # Service port
+
+extraVolumes:
+  - name: proc
+    hostPath:
+      path: /proc
+  - name: sys
+    hostPath:
+      path: /sys
+
+extraVolumeMounts:
+  - name: proc
+    mountPath: /host/proc
+    readOnly: true
+  - name: sys
+    mountPath: /host/sys
+    readOnly: true
+```
+
+```ini
+[INPUT]
+    name            node_exporter_metrics
+    tag             node_metrics
+    scrape_interval 5
+    path.procfs     /host/proc
+    path.sysfs      /host/sys
+
+[OUTPUT]
+    name      prometheus_exporter
+    match     node_metrics
+    host      0.0.0.0
+    port      9100
+    add_label app fluent-bit
+```
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: fluent-bit-node-exporter
+  namespace: monitoring
+spec:
+  # jobLable을 선언하지 않았기 때문에 매칭되는 Service의 이름인 fluent-bit이 사용됩니다.
+  endpoints:
+    - port: http-metrics
+      path: /metrics
+      scheme: http
+      interval: 15s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fluent-bit
+      app.kubernetes.io/name: fluent-bit
+```
