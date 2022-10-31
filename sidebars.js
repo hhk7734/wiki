@@ -438,7 +438,14 @@ module.exports = {
       label: "Monitoring",
       items: [
         "mlops/mlops/monitoring/metrics-server",
-        "mlops/mlops/monitoring/fluent-bit",
+        {
+          type: "category",
+          label: "Collector",
+          items: [
+            "mlops/mlops/monitoring/collector/fluent-bit",
+            "mlops/mlops/monitoring/collector/fluentd",
+          ],
+        },
         {
           type: "category",
           label: "ECK",

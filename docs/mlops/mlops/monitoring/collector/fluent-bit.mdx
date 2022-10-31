@@ -81,12 +81,21 @@ helm upgrade fluent-bit fluent/fluent-bit \
   --install \
   --version 0.20.9 \
   -n monitoring \
+  --history-max 3 \
   -f fluent-bit-values.yaml
 ```
 
 :::info
 Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.
 :::
+
+## Format
+
+`Format`은 기본적으로 `out_file`으로 데이터는 아래와 같은 포맷을 갖게됩니다.
+
+```shell
+<tag>: [<time>, {"key1": "value1", "key2": "value2"}]
+```
 
 ## INPUT
 
@@ -107,4 +116,35 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
     Tag <project>.<env>
     Mem_Buf_Limit 5MB
     storage.type filesystem
+```
+
+## FILTER
+
+FILTER는 선언된 순서대로 적용됩니다.
+
+### Validating data
+
+- https://docs.fluentbit.io/manual/local-testing/validating-your-data-and-structure
+
+## OUTPUT
+
+### Forward
+
+- https://docs.fluentbit.io/manual/pipeline/outputs/forward
+
+```yaml
+env:
+  - name: FLUENTD_HOST
+    value: "fluentd-forwarder.monitoring.svc"
+  - name: FLUENTD_PORT
+    value: "24224"
+```
+
+```ini
+[OUTPUT]
+    Name        forward
+    Match       *
+    Host        ${FLUENTD_HOST}
+    Port        ${FLUENTD_PORT}
+    Retry_Limit 5
 ```

@@ -246,7 +246,7 @@ Control Plane
 | Resource  | Label                   | Enabled value | Disabled value |
 | --------- | ----------------------- | ------------- | -------------- |
 | Namespace | istio-injection         | enabled       | disabled       |
-| Pod       | sidecar.istio.io/inject | true          | false          |
+| Pod       | sidecar.istio.io/inject | "true"        | "false"        |
 
 revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활성을 설정할 수 있습니다.
 
@@ -254,6 +254,13 @@ revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활�
 | --------- | ------------------- | ------------------------------- |
 | Namespace | istio.io/rev=1-14-5 | istio-injection=disabled        |
 | Pod       | istio.io/rev=1-14-5 | sidecar.istio.io/inject="false" |
+
+:::warning
+
+- `kube-system`, `kube-public` 네임스페이스는 자동 주입이 되지 않습니다.
+- `hostNetwork: true`인 Pod는 자동 주입이 되지 않습니다.
+
+:::
 
 ### Injection rule examples
 

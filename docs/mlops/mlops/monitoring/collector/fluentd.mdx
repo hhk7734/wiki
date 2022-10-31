@@ -1,0 +1,143 @@
+---
+id: fluentd
+title: Fluentd
+sidebar_label: Fluentd
+description: Fluentd
+keywords:
+  - fluentd
+---
+
+import Image from "@theme/IdealImage";
+
+## Installation
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/monitoring/collector/forward-to-fluent.png")}
+    width={750}
+  />
+</center>
+<center>https://kubesphere.io/blogs/deep-dive-into-kubernetes-logging/</center>
+
+```shell
+helm repo add fluent https://fluent.github.io/helm-charts
+```
+
+```shell
+helm repo update fluent \
+&& helm search repo fluent/fluentd -l | head -n 10
+```
+
+```shell
+helm show values fluent/fluentd \
+  --version 0.3.9 \
+  > fluentd-values.yaml
+```
+
+```yaml title="fluentd-values.yaml"
+kind: "Deployment"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    cpu: 100m
+    memory: 512Mi
+
+podLabels: {}
+
+env:
+  - # /fluentd/etc/../../etc/fluent/fluent.conf
+    # /etc/fluent/fluent.conf
+    name: "FLUENTD_CONF"
+    value: "../../etc/fluent/fluent.conf"
+
+service:
+  ports:
+    - name: "forwarder"
+      protocol: TCP
+      containerPort: 24224
+
+dashboards:
+  enabled: "false"
+
+plugins: []
+
+configMapConfigs: []
+
+fileConfigs:
+  01_sources.conf: ""
+  02_filters.conf: ""
+  03_dispatch.conf: ""
+  04_outputs.conf: ""
+  # https://docs.fluentd.org/input/forward
+  forward.conf: |
+    <source>
+      @type forward
+      port 24224
+      bind 0.0.0.0
+    </source>
+
+  # output-es.conf: |
+  #   ...
+
+  # output-loki.conf: |
+  #   ...
+```
+
+```shell
+helm upgrade fluentd fluent/fluentd \
+  --install \
+  --version 0.3.9 \
+  -n monitoring \
+  --history-max 3 \
+  -f fluentd-values.yaml
+```
+
+## Configuration
+
+- https://docs.fluentd.org/configuration
+
+```shell
+Input -> filter 1 -> ... -> filter N -> Output
+```
+
+- `<source>`: 어떤 정보를 입력받을지 설정
+  - `@type`이 필수 입니다.
+- `<filter <tag pattern>>`: 발생한 이벤트를 어떻게 처리할지 설정
+- `<match <tag pattern>>`: 처리된 값을 어떻게 사용할지 설정
+- `<system>`: 시스템 설정
+- `<label>`: 내부 라우팅을 위해 필터와 출력 그룹 설정
+- `@include path|glob|url`: 다른 설정파일 호출
+
+:::warning
+filter와 match는 선언 순서가 중요합니다. 먼저 선언된 지시문의 패턴에 걸린 경우 그 다음 선언된 지시문은 실행되지 않습니다.
+:::
+
+### Tag pattern
+
+- tag는 `.`으로 구분 됩니다.
+- `*`: 태그 한 파트에 대한 glob입니다.
+  - `a.*`는 `a.b`, `a.c`와 매치되지만 `a`, `a.b.c`는 매치되지 않습니다.
+- `**`: 태그 0 개 이상 파트에 대한 glob입니다.
+  - `a.**`는 `a`, `a.b`, `a.b.c` 등과 매치됩니다.
+- `{X, Y}`: X 또는 Y입니다.
+  - `a.{b, c}` `{a, b.*}` 등으로 사용할 수 있습니다.
+- `/regex/`
+- `#{...}`: ruby 표현식으로 문자열을 나타낼 수 있습니다.
+
+### Common Parameters
+
+- https://docs.fluentd.org/configuration/plugin-common-parameters
+
+<br />
+
+- `@type`: 사용할 플러그인
+- `@id`: 식별자
+- `@log_level`
+- `@label`
+
+:::warning
+conf 파일을 수정하면 fluentd를 재시작 해주세요.
+:::

@@ -37,6 +37,11 @@ import Image from "@theme/IdealImage";
 </center>
 <br />
 
+- Distributor: 클라이언트에서 들어오는 로그를 검증 후 Ingester로 전달
+- Ingester: Distributor로부터 받은 로그를 임시 또는 장기 저장
+- Query Frontend: 쿼리를 조정, 쿼리 대기열 관리 등을 수행
+- Querier: Ingester 또는 장기 저장소에서 로그를 쿼리
+
 <center>
   <Image
     img={require("@site/static/img/mlops/mlops/monitoring/plg/simple-scalable-test-environment.png")}
@@ -67,6 +72,14 @@ helm show values grafana/loki-distributed \
 fullnameOverride: "loki"
 
 loki:
+  config: |
+    # ...
+    server:
+      http_listen_port: 3100
+      grpc_server_max_recv_msg_size: 10485760
+      grpc_server_max_send_msg_size: 10485760
+    # ...
+
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
   # for more info on how to configure schemas
   schemaConfig:
@@ -94,8 +107,33 @@ loki:
       cache_location: /var/loki/cache
       cache_ttl: 168h
 
+ingester:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+querier:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 1Gi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
 gateway:
   podLabels: {}
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: 250m
+      memory: 512Mi
 ```
 
 ```shell
@@ -128,6 +166,34 @@ config:
         host   ${LOKI_HOST}
         port   ${LOKI_PORT}
         labels job=fluent-bit
+```
+
+## Fluentd
+
+- https://grafana.com/docs/loki/latest/clients/fluentd/
+
+```yaml title="fluentd-values.yaml"
+plugins:
+  - fluent-plugin-grafana-loki
+
+env:
+  - name: LOKI_HOST
+    value: loki-gateway.monitoring.svc
+  - name: LOKI_PORT
+    value: "80"
+
+fileConfigs:
+  output-loki.conf: |
+    <match **>
+      @type loki
+      url "http://#{ENV['LOKI_HOST']}:#{ENV['LOKI_PORT']}"
+      insecure_tls true
+      extra_labels {"job":"fluent-bit"}
+      line_format json
+      flush_interval 10s
+      flush_at_shutdown true
+      buffer_chunk_limit 1m
+    </match>
 ```
 
 ## Grafana
