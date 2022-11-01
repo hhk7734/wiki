@@ -449,10 +449,7 @@ module.exports = {
         {
           type: "category",
           label: "ECK",
-          items: [
-            "mlops/mlops/monitoring/eck/operator",
-            "mlops/mlops/monitoring/eck/fluentd",
-          ],
+          items: ["mlops/mlops/monitoring/eck/operator"],
         },
         {
           type: "category",

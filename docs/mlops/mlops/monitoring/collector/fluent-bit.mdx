@@ -85,11 +85,13 @@ helm upgrade fluent-bit fluent/fluent-bit \
   -f fluent-bit-values.yaml
 ```
 
+## Configuration
+
 :::info
 Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.
 :::
 
-## Format
+### Format
 
 `Format`은 기본적으로 `out_file`으로 데이터는 아래와 같은 포맷을 갖게됩니다.
 
@@ -97,9 +99,9 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
 <tag>: [<time>, {"key1": "value1", "key2": "value2"}]
 ```
 
-## INPUT
+### INPUT
 
-### Tail
+#### Tail
 
 - https://docs.fluentbit.io/manual/pipeline/inputs/tail
 
@@ -118,17 +120,17 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
     storage.type filesystem
 ```
 
-## FILTER
+### FILTER
 
 FILTER는 선언된 순서대로 적용됩니다.
 
-### Validating data
+#### Validating data
 
 - https://docs.fluentbit.io/manual/local-testing/validating-your-data-and-structure
 
-## OUTPUT
+### OUTPUT
 
-### Forward
+#### Forward
 
 - https://docs.fluentbit.io/manual/pipeline/outputs/forward
 

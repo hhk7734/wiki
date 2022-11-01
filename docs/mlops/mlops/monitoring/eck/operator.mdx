@@ -144,8 +144,8 @@ env:
 config:
   # indent를 4칸으로 맞춰야 합니다.
   outputs: |
+    # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
     [OUTPUT]
-        # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
         Name es
         Match *
         Host ${ES_HOST}
@@ -157,6 +157,54 @@ config:
         Logstash_Format On
         Logstash_DateFormat %Y.%m
         Logstash_Prefix_Key tag
+        Current_Time_Index On
         Suppress_Type_Name On
         Retry_Limit False
+```
+
+## Fluentd
+
+```yaml title="fluentd-values.yaml"
+env:
+  - name: ES_HOST
+    value: elasticsearch-es-http.elastic-system.svc.cluster.local
+  - name: ES_PORT
+    value: "9200"
+  - name: ES_USER
+    value: "elastic"
+  - name: ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-es-elastic-user
+        key: elastic
+
+fileConfigs:
+  output-es.conf: |
+    # https://github.com/uken/fluent-plugin-elasticsearch
+    <match **>
+      @type elasticsearch
+      @id out_es
+      @log_level info
+      include_tag_key true
+      scheme http
+      host "#{ENV['ES_HOST']}"
+      port "#{ENV['ES_PORT']}"
+      user "#{ENV['ES_USER']}"
+      password "#{ENV['ES_PASSWORD']}"
+      reload_connections false
+      reconnect_on_error true
+      reload_on_failure true
+      request_timeout 30s
+      logstash_format true
+      logstash_prefix ${tag}
+      logstash_dateformat %Y.%m
+      sniffer_class_name Fluent::Plugin::ElasticsearchSimpleSniffer
+      suppress_type_name true
+      <buffer>
+        flush_at_shutdown true
+        flush_interval 10s
+        flush_thread_count 4
+        retry_max_interval 30s
+      </buffer>
+    </match>
 ```

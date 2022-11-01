@@ -1,0 +1,41 @@
+---
+id: pod-lifecycle
+title: Pod 수명 주기
+sidebar_label: Pod 수명 주기
+description: kubernetes Pod 수명 주기
+keywords:
+  - kubernetes
+  - pod
+  - lifecycle
+---
+
+## Probe
+
+- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
+
+```yaml
+spec:
+  restartPolicy: Always # Always|OnFailure|Never
+  containers:
+    - # ...
+      # startupProbe|livenessProbe|readinessProbe
+      livenessProbe:
+        # exec|httpGet|tcpSocket|grpc
+        httpGet:
+          path: /healthz
+          port: 8080
+        initialDelaySeconds: 0 # 처음 probe를 시작하기 전 대기 시간
+        periodSeconds: 10 # probe를 실행하는 주기
+        successThreshold: 1 # Success로 판단하기 위한 최소 성공 횟수
+        failureThreshold: 3 # Failure로 판단하기 위한 최소 실패 횟수
+        timeoutSeconds: 1 # probe를 실행하는 시간 제한
+```
+
+- `startupProbe`: 컨테이너 내의 애플리케이션이 시작되었는지 확인합니다
+  - Failure 상태가 되면 컨테이너는 `restartPolicy`에 따라 처리됩니다
+  - Success 상태가 된 후에 `livenessProbe`, `readinessProbe`가 시작됩니다
+- `livenessProbe`: 컨테이너가 정상적으로 작동 중인지 확인합니다
+  - Failure 상태가 되면 컨테이너는 `restartPolicy`에 따라 처리됩니다
+- `readinessProbe`: 컨테이너가 요청을 처리할 준비가 되었는지 확인합니다
+  - Failure 상태가 되면 Pod의 `Ready` 상태가 `False`로 변경됩니다
+  - 연결된 Service의 Endpoint에서 제거됩니다

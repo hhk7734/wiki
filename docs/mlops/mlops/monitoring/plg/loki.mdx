@@ -161,11 +161,12 @@ config:
   # indent를 4칸으로 맞춰야 합니다.
   outputs: |
     [OUTPUT]
-        name   loki
-        match  *
-        host   ${LOKI_HOST}
-        port   ${LOKI_PORT}
-        labels job=fluent-bit
+        name        loki
+        match       *
+        host        ${LOKI_HOST}
+        port        ${LOKI_PORT}
+        labels      job=fluent-bit
+        Retry_Limit 5
 ```
 
 ## Fluentd
@@ -190,9 +191,12 @@ fileConfigs:
       insecure_tls true
       extra_labels {"job":"fluent-bit"}
       line_format json
-      flush_interval 10s
-      flush_at_shutdown true
-      buffer_chunk_limit 1m
+      <buffer>
+        flush_at_shutdown true
+        flush_interval 10s
+        flush_thread_count 4
+        retry_max_interval 30s
+      </buffer>
     </match>
 ```
 

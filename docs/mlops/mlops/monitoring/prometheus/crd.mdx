@@ -134,19 +134,35 @@ metadata:
   namespace: monitoring
 stringData:
   prometheus-additional.yaml: |
-    - job_name: 'prometheus-other-cluster'
-      scrape_interval: 30s
-      scrape_timeout: 20s
+    - job_name: 'prometheus-other-cluster-1'
+      scheme: http
+      scrape_interval: 23s
+      scrape_timeout: 23s
       honor_labels: true
       metrics_path: '/federate'
 
       params:
         'match[]':
-          - '{job!=""}'
+          - '{job=~".+", job!="kublet"}'
 
       static_configs:
         - targets:
-          - 'prometheus-other-cluster.monitoring:9090'
+          - 'prometheus-eks-666160999821.monitoring:9090'
+
+    - job_name: 'prometheus-other-cluster-2'
+      scheme: http
+      scrape_interval: 21s
+      scrape_timeout: 21s
+      honor_labels: true
+      metrics_path: '/federate'
+
+      params:
+        'match[]':
+          - '{job="kublet"}'
+
+      static_configs:
+        - targets:
+          - 'prometheus-eks-666160999821.monitoring:9090'
 ```
 
 ```yaml
