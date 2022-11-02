@@ -7,6 +7,9 @@ keywords:
   - pulumi
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## Installation
 
 ### AWS
@@ -36,27 +39,6 @@ aws configure --profile <profile>
 curl -fsSL https://get.pulumi.com | sh
 ```
 
-## Tutorial
-
-```shell
-test
-├── __init__.py
-├── __main__.py
-├── Pulumi.test.dev.yaml
-├── Pulumi.yaml
-└── src
-    ├── __init__.py
-    ├── variable.py
-    └── ec2
-        ├── __init__.py
-        ├── output.py
-        └── ec2.py
-```
-
-```shell
-mkdir test && cd test
-```
-
 ```shell title="pulumi_config_passphrase"
 <암호>
 ```
@@ -71,8 +53,72 @@ export PULUMI_CONFIG_PASSPHRASE_FILE=<path>/pulumi_config_passphrase
 export PULUMI_CONFIG_PASSPHRASE=<암호>
 ```
 
+## Tutorial
+
+### Directory structure
+
+<Tabs
+    groupId="pulumi-lang"
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'TypeScript', value: 'typescript',},
+    ]}
+>
+
+<TabItem value="python">
+
+```shell
+test/
+├── __init__.py
+├── __main__.py
+├── pyproject.toml
+├── Pulumi.yaml
+├── Pulumi.test.dev.yaml
+└── src/
+    ├── __init__.py
+    ├── variable.py
+    └── ec2/
+        ├── __init__.py
+        └── ec2.py
+```
+
+</TabItem>
+
+<TabItem value="typescript">
+
+```shell
+test/
+├── package.json
+├── tsconfig.json
+├── Pulumi.yaml
+├── Pulumi.test.dev.yaml
+└── src/
+    ├── index.ts
+    ├── variable.ts
+    └── ec2/
+        ├── index.ts
+        └── ec2.ts
+```
+
+</TabItem>
+
+</Tabs>
+
+### Project file(Pulumi.yaml)
+
 - https://www.pulumi.com/docs/reference/pulumi-yaml/
-- https://www.pulumi.com/registry/packages/aws/installation-configuration/#configuration-options
+
+<Tabs
+    groupId="pulumi-lang"
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'TypeScript', value: 'typescript',},
+    ]}
+>
+
+<TabItem value="python">
 
 ```yaml title="Pulumi.yaml"
 name: <project>
@@ -82,6 +128,106 @@ backend:
   url: s3://<bucket>
 ```
 
+</TabItem>
+
+<TabItem value="typescript">
+
+```yaml title="Pulumi.yaml"
+name: <project>
+runtime: nodejs
+backend:
+  url: s3://<bucket>
+```
+
+</TabItem>
+
+</Tabs>
+
+### Package file
+
+<Tabs
+    groupId="pulumi-lang"
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'TypeScript', value: 'typescript',},
+    ]}
+>
+
+<TabItem value="python">
+
+```toml title="pyproject.toml"
+[tool.poetry]
+name = "<project>"
+version = "0.1.0"
+description = ""
+authors = ["Hyeonki Hong <hhk7734@hits.ai>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pulumi = "^3.45.0"
+pulumi-aws = "^5.19.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+isort = "^5.10.1"
+pylint = "^2.15.5"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+```
+
+</TabItem>
+
+<TabItem value="typescript">
+
+```json title="package.json"
+{
+  "name": "<project>",
+  "main": "src/index.ts",
+  "devDependencies": {
+    "@types/node": "^14"
+  },
+  "dependencies": {
+    "@pulumi/aws": "^5.19.0",
+    "@pulumi/pulumi": "^3.45.0",
+    "tsconfig-paths": "^4.1.0"
+  }
+}
+```
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "strict": true,
+    "outDir": "bin",
+    "target": "es2016",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "pretty": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["./*"]
+    }
+  },
+  "files": ["index.ts"]
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+### Stack Configuration file
+
+- https://www.pulumi.com/registry/packages/aws/installation-configuration/#configuration-options
+
 ```shell
 pulumi stack init test.dev
 ```
@@ -89,14 +235,30 @@ pulumi stack init test.dev
 ```yaml title="Pulumi.test.dev.yaml"
 encryptionsalt: "*****"
 config:
+  # pulumi.Config("aws")
   aws:region: <region>
   aws:profile: <profile>
+
+  # pulumi.Config()
   <project>:github: <repo>
 ```
 
 :::info
-backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<project>.<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.(s3를 backend로 할 때 아직 `<organization>/<project>/<stack>`을 지원하지 않는 것 같습니다.)
+S3를 사용할 때, backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<project>.<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.(S3를 backend로 할 때 아직 `<organization>/<project>/<stack>`을 지원하지 않는 것 같습니다.)
 :::
+
+### IAC code
+
+<Tabs
+    groupId="pulumi-lang"
+    defaultValue="python"
+    values={[
+        {label: 'Python', value: 'python',},
+        {label: 'TypeScript', value: 'typescript',},
+    ]}
+>
+
+<TabItem value="python">
 
 ```python title="src/variable.py"
 import pulumi
@@ -113,20 +275,23 @@ import pulumi_aws as aws
 
 from .. import variable
 
-name = "app_server"
-aws_instance = aws.ec2.Instance(
-    name,
-    ami="ami-090717c950a5c34d3",
-    instance_type="t3.micro",
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
+
+def create_ec2(name: str) -> aws.ec2.Instace:
+    return aws.ec2.Instance(
+        name,
+        ami="ami-090717c950a5c34d3",
+        instance_type="t3.micro",
+        tags={
+            "Name": name,
+            "Stack": variable.stack_name,
+            "Github": variable.github,
+        },
+    )
+
+aws_instance = create_ec2("app-server")
 ```
 
-```python title="src/ec2/output.py"
+```python title="src/ec2/__init__.py"
 import pulumi
 
 from . import ec2
@@ -135,24 +300,84 @@ pulumi.export("instance_id", ec2.aws_instance.id)
 pulumi.export("instance_public_ip", ec2.aws_instance.public_ip)
 ```
 
-:::info
-`output`은 `pulumi stack output` 명령어를 통해 확인할 수 있고, 다른 stack에서 `pulumi.StackReference`를 통해 접근할 수 있습니다.
-:::
-
-```python title="src/ec2/__init__.py"
-from . import ec2, output
-```
-
 ```python title="__main__.py"
 from src import ec2
 ```
 
+</TabItem>
+
+<TabItem value="typescript">
+
+```typescript title="src/variable.ts"
+import * as pulumi from "@pulumi/pulumi";
+
+const stackName = pulumi.getStack();
+
+const config = new pulumi.Config();
+const github = config.require("github");
+```
+
+```typescript title="src/ec2/ec2.ts"
+import * as aws from "@pulumi/aws";
+
+import * as variable from "@src/variable";
+
+function createEC2(name: string): aws.ec2.Instance {
+  return new aws.ec2.Instance(name, {
+    ami: "ami-090717c950a5c34d3",
+    instanceType: "t3.micro",
+    tags: {
+      Name: name,
+      Stack: variable.stackName,
+      Github: variable.github,
+    },
+  });
+}
+
+const _appServer = createEC2("app-server");
+
+export const appServer = {
+  id: _appServer.id,
+  publicIp: _appServer.publicIp,
+};
+```
+
+```typescript title="src/ec2/index.ts"
+export * as ec2 from "./ec2";
+```
+
+```typescript title="src/index.ts"
+import { loadConfig, register } from "tsconfig-paths";
+
+const tsConfig = loadConfig(".");
+if (tsConfig.resultType === "failed") {
+  console.log("Could not load tsconfig to map paths, aborting.");
+  process.exit(1);
+}
+register({
+  baseUrl: tsConfig.absoluteBaseUrl,
+  paths: tsConfig.paths,
+});
+
+export * as ec2 from "./ec2";
+```
+
+</TabItem>
+
+</Tabs>
+
+### Execution
+
 ```shell
-pulumi refresh --yes --skip-preview
+pulumi refresh --skip-preview --yes
 ```
 
 ```shell
 pulumi up
+```
+
+```shell
+pulumi stack output
 ```
 
 ```shell
@@ -162,8 +387,3 @@ pulumi destroy --skip-preview
 ```shell
 pulumi stack rm test.dev
 ```
-
-## Reference
-
-- https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html
-- https://www.pulumi.com/docs/intro/concepts/state/

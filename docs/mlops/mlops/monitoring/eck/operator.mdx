@@ -146,20 +146,20 @@ config:
   outputs: |
     # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
     [OUTPUT]
-        Name es
-        Match *
-        Host ${ES_HOST}
-        Port ${ES_PORT}
-        HTTP_User ${ES_USER}
-        HTTP_Passwd ${ES_PASSWORD}
-        Trace_Error On
-        Buffer_Size 64K
-        Logstash_Format On
+        Name                es
+        Match               *
+        Host                ${ES_HOST}
+        Port                ${ES_PORT}
+        HTTP_User           ${ES_USER}
+        HTTP_Passwd         ${ES_PASSWORD}
+        Trace_Error         On
+        Buffer_Size         64K
+        Logstash_Format     On
         Logstash_DateFormat %Y.%m
         Logstash_Prefix_Key tag
-        Current_Time_Index On
-        Suppress_Type_Name On
-        Retry_Limit False
+        Current_Time_Index  On
+        Suppress_Type_Name  On
+        Retry_Limit         5
 ```
 
 ## Fluentd

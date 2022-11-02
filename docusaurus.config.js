@@ -133,6 +133,7 @@ module.exports = {
         "promql",
         "protobuf",
         "sql",
+        "toml",
         "yaml",
       ],
       theme: require("prism-react-renderer/themes/nightOwlLight"),

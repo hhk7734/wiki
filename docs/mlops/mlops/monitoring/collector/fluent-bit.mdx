@@ -47,17 +47,17 @@ config:
   # https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/classic-mode/configuration-file#config_section
   service: |
     [SERVICE]
-        Daemon Off
-        Flush {{ .Values.flush }}
-        Log_Level {{ .Values.logLevel }}
-        Parsers_File parsers.conf
-        Parsers_File custom_parsers.conf
-        HTTP_Server On
-        HTTP_Listen 0.0.0.0
-        HTTP_Port {{ .Values.metricsPort }}
-        Health_Check On
+        Daemon          Off
+        Flush           {{ .Values.flush }}
+        Log_Level       {{ .Values.logLevel }}
+        Parsers_File    parsers.conf
+        Parsers_File    custom_parsers.conf
+        HTTP_Server     On
+        HTTP_Listen     0.0.0.0
+        HTTP_Port       {{ .Values.metricsPort }}
+        Health_Check    On
         # https://docs.fluentbit.io/manual/administration/buffering-and-storage
-        storage.path /var/log/flb-storage/
+        storage.path    /var/log/flb-storage/
         storage.metrics On
 
   filters: |
@@ -107,17 +107,18 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
 
 ```ini
 [INPUT]
-    Name tail
+    Name             tail
+    # <tag>: [<time>, {"log": "<message>"}]
     multiline.parser docker, cri
     # /var/log/containers/<pod-name>_<pod-namespace>_<container-name>-<hash>.log
     # * wildcard 사용 가능
-    Path /var/log/containers/xxx*.log
-    Exclude_Path /var/log/containers/xxx*istio*.log
+    Path             /var/log/containers/xxx*.log
+    Exclude_Path     /var/log/containers/xxx*istio*.log
     # 파일의 이름(절대 경로)에 정규표현식을 사용하여 패턴 매칭
-    Tag_Regex \/(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
-    Tag <project>.<env>
-    Mem_Buf_Limit 5MB
-    storage.type filesystem
+    Tag_Regex        \/(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
+    Tag              <project>.<env>
+    Mem_Buf_Limit    5MB
+    storage.type     filesystem
 ```
 
 ### FILTER
