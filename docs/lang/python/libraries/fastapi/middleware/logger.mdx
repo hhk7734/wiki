@@ -48,7 +48,9 @@ class Logger(BaseHTTPMiddleware):
 
         latency = time.time() - start_time
         user_id = getattr(request.state, "user_id", -1)
-        client_ip = request.client.host if request.client is not None else ""
+        client_ip = request.headers.get(
+            "x-forwarded-for", request.client.host if request.client else "0.0.0.0"
+        ).split(",")[0]
 
         errors = request.state.errors
         if len(errors) > 0:

@@ -150,6 +150,8 @@ helm uninstall -n monitoring loki
 
 ## Fluent Bit
 
+- https://docs.fluentbit.io/manual/pipeline/outputs/loki
+
 ```yaml title="fluent-bit-values.yaml"
 env:
   - name: LOKI_HOST
@@ -166,6 +168,7 @@ config:
         host        ${LOKI_HOST}
         port        ${LOKI_PORT}
         labels      job=fluent-bit
+        label_keys  $tag, $level
         Retry_Limit 5
 ```
 
@@ -189,11 +192,15 @@ fileConfigs:
       @type loki
       url "http://#{ENV['LOKI_HOST']}:#{ENV['LOKI_PORT']}"
       insecure_tls true
-      extra_labels {"job":"fluent-bit"}
       line_format json
+      extra_labels {"job":"fluent-bit"}
+      <label>
+        tag $.tag
+        level $.level
+      </label>
       <buffer>
         flush_at_shutdown true
-        flush_interval 10s
+        flush_interval 5s
         flush_thread_count 4
         retry_max_interval 30s
       </buffer>
