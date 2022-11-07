@@ -1,0 +1,93 @@
+---
+id: alert
+title: Alert
+sidebar_label: Alert
+description: Alert
+keywords:
+  - Alert
+---
+
+import Image from "@theme/IdealImage";
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/monitoring/plg/alerting.png")}
+    width={750}
+  />
+</center>
+<center>https://grafana.com/docs/grafana/latest/alerting/</center>
+
+## Alert rules
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#rules
+- Alerting -\> Alert rules -\> New alert rule
+
+```yaml
+alerting:
+  rules.yaml:
+    apiVersion: 1
+    groups:
+      - orgId: 1
+        name: <groupName>
+        folder: <folderName>
+        # data를 확인하는 interval
+        interval: 60s
+        rules:
+          - uid: <uid>
+            title: <title>
+            labels:
+              <key>: <value>
+            # 알림을 보내기 위해 조건이 유지되어야 하는 시간
+            for: 120s
+            condition: <data.refId>
+            data:
+              - refId: <refId>
+                # ...
+            noDataState: NoData # NoData(default), Alerting, OK
+```
+
+## Contact points
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#contact-points
+- Alerting -\> Contact points -\> New contact point
+
+```yaml
+alerting:
+  contactpoints.yaml:
+    apiVersion: 1
+    contactPoints:
+      - orgId: 1
+        name: <name>
+        receivers:
+          - uid: <uid>
+            type: slack
+            settings:
+              recipient: <channelID|channelName>
+              token: xoxb-<token>
+          - uid: <uid>
+            type: email
+            settings:
+              addresses: <email>[;<email>]
+```
+
+### Template
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#templates
+- https://grafana.com/docs/grafana/latest/alerting/contact-points/message-templating/example-template/
+- Alerting -\> Contact points -\> New template
+
+## Notification policies
+
+- https://grafana.com/docs/grafana/latest/administration/provisioning/#notification-policies
+- Alerting -\> Notification policies -\> New specific policy
+
+```yaml
+alerting:
+  notificationpolicy.yaml:
+    apiVersion: 1
+    policies:
+      - orgId: 1
+        matchers:
+          - <key> = <value>
+        receiver: <contactPointName>
+```
