@@ -168,7 +168,7 @@ config:
         host        ${LOKI_HOST}
         port        ${LOKI_PORT}
         labels      job=fluent-bit
-        label_keys  $tag, $level
+        label_keys  $tag
         Retry_Limit 5
 ```
 
@@ -196,7 +196,6 @@ fileConfigs:
       extra_labels {"job":"fluent-bit"}
       <label>
         tag $.tag
-        level $.level
       </label>
       <buffer>
         flush_at_shutdown true
