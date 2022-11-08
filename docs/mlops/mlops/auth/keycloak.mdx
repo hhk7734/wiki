@@ -23,7 +23,7 @@ stringData:
 ```
 
 ```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami \
+helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
 ```shell
@@ -32,22 +32,30 @@ helm repo update bitnami \
 ```
 
 ```shell
-mkdir -p atuh/keycloak/helm
-```
-
-```shell
 helm show values bitnami/keycloak \
     --version 9.6.8 \
-    > atuh/keycloak/helm/values.yaml
+    > keycloak-values.yaml
 ```
 
-```yaml title="atuh/keycloak/helm/values.yaml"
+```yaml title="keycloak-values.yaml"
+commonLabels: {}
+
 auth:
   adminUser: <user>
   existingSecret: <secret-name>
 
 # 신규 설치라면 "/"를 사용하셔도 됩니다.
 httpRelativePath: "/auth/"
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 1Gi
+  limits:
+    cpu: 250m
+    memory: 1Gi
+
+podLabels: {}
 
 service:
   type: ClusterIP

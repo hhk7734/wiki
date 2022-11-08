@@ -325,6 +325,7 @@ module.exports = {
             "mlops/mlops/pulumi/dynamic",
             "mlops/mlops/pulumi/stack-reference",
             "mlops/mlops/pulumi/micro-stacks",
+            "mlops/mlops/pulumi/crd2pulumi",
           ],
         },
         {

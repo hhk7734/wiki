@@ -240,7 +240,7 @@ config:
   aws:profile: <profile>
 
   # pulumi.Config()
-  <project>:github: <repo>
+  <project>:cluster: <repo>
 ```
 
 :::info
@@ -264,9 +264,9 @@ S3를 사용할 때, backend.url을 공유하는 여러 프로젝트는, stack�
 import pulumi
 
 stack_name = pulumi.get_stack()
+cluster_name = "eks"
 
 config = pulumi.Config()
-github = config.require("github")
 ```
 
 ```python title="src/ec2/ec2.py"
@@ -283,8 +283,8 @@ def create_ec2(name: str) -> aws.ec2.Instace:
         instance_type="t3.micro",
         tags={
             "Name": name,
-            "Stack": variable.stack_name,
-            "Github": variable.github,
+            "loliot.net/stack": variable.stack_name,
+            "loliot.net/cluster": variable.cluster_name,
         },
     )
 
@@ -312,9 +312,9 @@ from src import ec2
 import * as pulumi from "@pulumi/pulumi";
 
 const stackName = pulumi.getStack();
+const clusterName = "eks";
 
 const config = new pulumi.Config();
-const github = config.require("github");
 ```
 
 ```typescript title="src/ec2/ec2.ts"
@@ -328,18 +328,13 @@ function createEC2(name: string): aws.ec2.Instance {
     instanceType: "t3.micro",
     tags: {
       Name: name,
-      Stack: variable.stackName,
-      Github: variable.github,
+      "loliot.net/stack": variable.stackName,
+      "loliot.net/cluster": variable.clusterName,
     },
   });
 }
 
-const _appServer = createEC2("app-server");
-
-export const appServer = {
-  id: _appServer.id,
-  publicIp: _appServer.publicIp,
-};
+export const appServer = createEC2("app-server");
 ```
 
 ```typescript title="src/ec2/index.ts"
