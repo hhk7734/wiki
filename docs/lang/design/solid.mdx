@@ -73,19 +73,24 @@ LSP에서 같은 인터페이스란 덕 타이핑을 쓴다면 같은 메서드 
 컴파일을 하는 지 안하는 지, 컴파일 방식은 어떻게 되는 지에 따라 영향을 받을 수도 있고 아닐 수도 있는 원칙입니다.
 
 <center>
-  <Mermaid
-    chart={`classDiagram
+
+```mermaid
+classDiagram
   direction TB
   User1 ..> OPS
   User2 ..> OPS
   User3 ..> OPS
-class OPS{+op1() +op2() +op3()}`}
-  />
+class OPS{+op1() +op2() +op3()}
+```
+
 </center>
 
+<br />
+
 <center>
-  <Mermaid
-    chart={`classDiagram
+
+```mermaid
+classDiagram
   direction TB
   User1 ..> U1Ops
   User2 ..> U2Ops
@@ -107,8 +112,9 @@ class U2Ops{
 class U3Ops{
   <<interface>>
   +op3()
-}`}
-  />
+}
+```
+
 </center>
 
 ## Dependency Inversion Principle(DIP)

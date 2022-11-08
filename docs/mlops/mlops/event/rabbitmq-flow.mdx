@@ -11,8 +11,9 @@ keywords:
 ## Exchange & Queue
 
 <center>
-  <Mermaid
-    chart={`flowchart LR
+
+```mermaid
+flowchart LR
     subgraph RabbitMQ
     direction LR
     Z(amq.topic<br/>Topic Exchange) -- A.* --> A(A<br/>Direct Exchange)
@@ -29,8 +30,8 @@ keywords:
     Ab --> C3([Consumer3])
     B --> C4([Consumer4])
     C --> C5([Consumer5]) --> DB[(DB)]
-`}
-  />
+```
+
 </center>
 
 - Exchange는 다른 Exchange 또는 Queue와 Binding할 수 있습니다.

@@ -1,5 +1,4 @@
 const remarkMath = require("remark-math");
-const mdxMermaid = require("mdx-mermaid");
 const rehypeKatex = require("rehype-katex");
 
 // const LocaleConfigs = {
@@ -157,7 +156,7 @@ module.exports = {
         docs: {
           sidebarPath: require.resolve("./sidebars.js"),
           showLastUpdateTime: true,
-          remarkPlugins: [remarkMath, mdxMermaid],
+          remarkPlugins: [remarkMath],
           rehypePlugins: [[rehypeKatex, { strict: false }]],
         },
         theme: {

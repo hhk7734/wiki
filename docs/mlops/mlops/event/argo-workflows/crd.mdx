@@ -183,8 +183,9 @@ spec:
 위와 같이 정의한 경우 아래와 같은 순서로 진행됩니다. `a1`, `a2`는 병렬로 실행되고, `b2`는 `b1`의 결과에 따라 실행됩니다.
 
 <center>
-  <Mermaid
-    chart={`flowchart LR
+
+```mermaid
+flowchart LR
     A[A Start] --> a1 & a2
     a1 & a2 --> B[B Start]
     B --> b1
@@ -192,8 +193,8 @@ spec:
     S -- yes --> b2
     b2 --> C[End]
     S -- no --> C
-`}
-  />
+```
+
 </center>
 
 #### `dag`

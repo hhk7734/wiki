@@ -11,8 +11,9 @@ keywords:
 ## Publish-Subscribe
 
 <center>
-  <Mermaid
-    chart={`flowchart LR
+
+```mermaid
+flowchart LR
     P1(<div align=left>Publisher1<br/>Subject: a</div>)
     P2(<div align=left>Publisher2<br/>Subject: a.a</div>)
     P3(<div align=left>Publisher3<br/>Subject: a.b</div>)
@@ -28,8 +29,8 @@ keywords:
     NATS -- a.a, a.b --> S1
     NATS -- a.a, a.b, a.b.c--> S2
     NATS -- a.b --> S3
-`}
-  />
+```
+
 </center>
 
 - 1:N(fanout)
@@ -38,8 +39,9 @@ keywords:
 ## Queue Group
 
 <center>
-  <Mermaid
-    chart={`flowchart LR
+
+```mermaid
+flowchart LR
     P1(<div align=left>Publisher1<br/>Subject: a.a</div>)
     P2(<div align=left>Publisher2<br/>Subject: a.b</div>)
     P3(<div align=left>Publisher3<br/>Subject: a.b.c</div>)
@@ -55,8 +57,8 @@ keywords:
     NATS -. a.a, a.b .-> C1
     NATS -. a.a, a.b, a.b.c .-> C2
     NATS -. a.b .-> C3
-`}
-  />
+```
+
 </center>
 
 - Subscriber1은 모든 메시지를 전달 받습니다
@@ -70,8 +72,9 @@ keywords:
 ### Push
 
 <center>
-  <Mermaid
-    chart={`flowchart LR
+
+```mermaid
+flowchart LR
     P1(<div align=left>Publisher1<br/>Subject: a.a</div>)
     P2(<div align=left>Publisher2<br/>Subject: a.b</div>)
     P3(<div align=left>Publisher3<br/>Subject: a.b.c</div>)
@@ -95,8 +98,8 @@ keywords:
     C1 -- a.a, a.b, a.b.c --> S2
     C2 -. a.a, a.b .-> c1
     C2 -. a.a, a.b .-> c2
-`}
-  />
+```
+
 </center>
 
 :::warning
