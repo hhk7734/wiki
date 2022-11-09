@@ -20,7 +20,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/grafana \
-    --version 6.42.5 \
+    --version 6.43.5 \
     > grafana-values.yaml
 ```
 
@@ -45,6 +45,15 @@ grafana.ini:
     name: <database>
     user: grafana
     password: <grafana-password>
+```
+
+```shell
+helm upgrade grafana grafana/grafana \
+    --install \
+    --version 6.43.5  \
+    -n monitoring \
+    --history-max 3 \
+    -f grafana-values.yaml
 ```
 
 ## Keycloak
