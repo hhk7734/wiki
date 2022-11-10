@@ -10,12 +10,12 @@ keywords:
 ## CRDs to yaml
 
 ```shell
-for crd in $(kubectl get crd -o jsonpath='{.items[*].metadata.name}'); do
+for crd in $(kubectl get crd -o name); do
     case $crd in
         *\.istio\.io)
-            echo $crd
-            echo "---" >> istio.yaml
-            kubectl get crd $crd -o yaml >> istio.yaml
+            echo $crd | cut -d "/" -f 2
+            echo "---" >> crds.yaml
+            kubectl get $crd -o yaml >> crds.yaml
             ;;
     esac
 done
@@ -24,7 +24,7 @@ done
 ## yaml to pulumi
 
 ```shell
-crd2pulumi --nodejsPath ./crds/istio istio.yaml
+crd2pulumi --nodejsPath ./crds/istio crds.yaml
 ```
 
 ```shell

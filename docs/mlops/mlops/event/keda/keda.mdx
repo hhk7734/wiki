@@ -7,3 +7,41 @@ keywords:
   - keda
   - event
 ---
+
+## Installation
+
+```shell
+helm repo add kedacore https://kedacore.github.io/charts
+```
+
+```shell
+helm repo update kedacore \
+&& helm search repo kedacore/keda -l | head -n 10
+```
+
+```shell
+helm show values kedacore/keda \
+    --version 2.8.2 \
+    > keda-values.yaml
+```
+
+```yaml title="keda-values.yaml"
+additionalLabels: {}
+```
+
+```shell
+helm upgrade keda kedacore/keda \
+    --install \
+    --version 2.8.2 \
+    -n event \
+    --history-max 3 \
+    -f keda-values.yaml
+```
+
+```shell
+kubectl delete $(kubectl get scaledobjects,scaledjobs -oname)
+```
+
+```shell
+helm uninstall -n event keda
+```

@@ -18,7 +18,7 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ## Repository
 
 ```shell
-helm repo add <NAME> <URL> [flags]
+helm repo add <repositoryName> <URL> [flags]
 ```
 
 Ex) `helm repo add stable https://charts.helm.sh/stable`
@@ -34,7 +34,7 @@ helm search repo <keyword> [flags]
 - `-l`, `--versions`: 여러 버전을 표시합니다.
 
 ```shell
-helm repo update [REPO1 [REPO2 ...]] [flags]
+helm repo update [repositoryName1 [repositoryName2 ...]] [flags]
 ```
 
 ## Chart
@@ -42,27 +42,48 @@ helm repo update [REPO1 [REPO2 ...]] [flags]
 ### Creating Chart
 
 ```shell
-helm create <NAME> [flags]
+helm create <chartName> [flags]
+```
+
+- https://helm.sh/docs/topics/charts/
+- https://helm.sh/ko/docs/chart_template_guide/builtin_objects/
+- https://helm.sh/ko/docs/chart_template_guide/functions_and_pipelines/
+- `_<name>.tpl`: https://helm.sh/ko/docs/chart_template_guide/named_templates/
+
+```shell
+<chartName>/
+├── Chart.yaml
+├── LICENSE            # optional
+├── README.md          # optional
+├── values.yaml
+├── values.schema.json # optional
+├── charts/
+├── crds/              # optional
+├── templates/
+│   ├── NOTES.txt      # optional
+│   ├── _helpers.tpl   # optional
+│   └── ...
+└──
 ```
 
 ### Templating Chart
 
 ```shell
-helm template <NAME> <CHART> [flags] > <NAME>.yaml
+helm template <releaseName> <repositoryName/chartName|chartPath> [flags]
 ```
 
 ### Installation
 
 ```shell
-helm show values <CHART> [flags]
+helm show values <repositoryName/chartName|chartPath> [flags]
 ```
 
 ```shell
-helm install <NAME> <CHART> [flags]
+helm install <releaseName> <repositoryName/chartName|chartPath> [flags]
 ```
 
 :::info
-`helm upgrade <NAME> <CHART> --install [flags]` 을 사용해도 됩니다.
+`helm upgrade <releaseName> <repositoryName/chartName|chartPath> --install [flags]` 을 사용하면, 설치되어 있지 않은 경우 설치하고, 설치되어 있는 경우 업그레이드합니다.
 :::
 
 - `-f <path>`: 오버라이드 할 YAML 설정 파일
@@ -76,35 +97,39 @@ helm list [flags]
 - `-A | --all-namespaces`
 
 ```shell
-helm status <NAME> [flags]
+helm status <releaseName> [flags]
+```
+
+```shell
+helm test <releaseName> [flags]
 ```
 
 ### Management
 
 ```shell
-helm upgrade <NAME> <CHART> [flags]
+helm upgrade <releaseName> <repositoryName/chartName|chartPath> [flags]
 ```
 
 - `--install`: 설치가 안되어 있으면 설치합니다.
 
 ```shell
-helm get values <CHART> [flags]
+helm get values <releaseName> [flags]
 ```
 
 ```shell
-helm get manifest <NAME> [flags]
+helm get manifest <releaseName> [flags]
 ```
 
 ```shell
-helm history <NAME> [flags]
+helm history <releaseName> [flags]
 ```
 
 ```shell
-helm rollback <NAME> <REVISION> [flags]
+helm rollback <releaseName> <revision> [flags]
 ```
 
 ### Uninstallation
 
 ```shell
-helm uninstall <NAME> [...] [flags]
+helm uninstall <releaseName> [flags]
 ```
