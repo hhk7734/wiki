@@ -27,11 +27,15 @@ keywords:
 ## Keycloak
 
 - Client
-  - `<client-id>` client 추가
+  - Create client
+    - General Settings
+      - Client type: OpenID Connect
+      - Client ID: `<client-id>`
+    - Capability Config
+      - Client authentication: On
+  - `<client-id>` 선택
     - Settings
       - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
       - Valid Redirect URIs
         - `<client-url>/oauth2/callback`
     - Credentials
@@ -48,16 +52,17 @@ keywords:
         - Token Claim Name: groups
         - Full group path: off
 - Client
-  - `<client-id>` client
+  - `<client-id>` 선택
     - Client Scopes
-      - Default Client scopes
+      - Add client scope
         - `groups` 추가
-    - Mappers
-      - `audience` mapper 추가
-        - Mapper Type: Audience
-        - Included Client Audience: `<client-id>`
-        - Included Custom Audience: `<client-id>`
-        - Add to access token: on
+      - `<client_id>-dedicated` 선택
+        - Add mapper By configuration
+          - Audience 선택
+            - Name: audience
+            - Included Client Audience: `<client-id>`
+            - Included Custom Audience: `<client-id>`
+            - Add to access token: on
 - Groups
   - `<group>` 추가
 - Users
@@ -117,12 +122,8 @@ spec:
         app: oauth2-proxy-test
     spec:
       containers:
-        - image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
-          name: oauth2-proxy
-          ports:
-            - name: http
-              containerPort: 4180
-              protocol: TCP
+        - name: oauth2-proxy
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
           args:
             - --provider=keycloak-oidc
             - --email-domain=*
@@ -132,4 +133,13 @@ spec:
           envFrom:
             - secretRef:
                 name: oauth2-proxy-keycloak-secret
+          ports:
+            - name: http
+              containerPort: 4180
+              protocol: TCP
+          readinessProbe:
+            periodSeconds: 5
+            httpGet:
+              path: /ping
+              port: 4180
 ```

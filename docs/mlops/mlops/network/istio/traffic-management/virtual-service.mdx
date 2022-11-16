@@ -1,51 +1,13 @@
 ---
-id: gateway-virtual-service
-title: Gateway && VirtualService
-sidebar_label: Gateway && VirtualService
-description: Istio Gateway && VirtualService
+id: virtual-service
+title: VirtualService
+sidebar_label: VirtualService
+description: VirtualService
 keywords:
+  - istio
   - gateway
   - virtualservice
 ---
-
-## Gateway
-
-독립적으로 실행되는 Envoy proxy를 통해 Mesh의 edge에서 특정 in/outbound 트래픽을 관리할 수 있습니다. **default** 프로필로 설치한 경우 `istio-ingress`가 inbound 트래픽을 관리하는 Envoy proxy입니다.
-
-`Gateway`는 어떤 트래픽을 허용할 지 설정하는 CRD입니다.
-
-- https://istio.io/latest/docs/reference/config/networking/gateway/
-
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: <name>
-  namespace: <namespace>
-spec:
-  selector: # 규칙이 적용될 Pod 가 가지고 있어야 할 labels 목록입니다.
-    istio: ingress # istio-ingress에 설정되어 있는 label을 확인하세요.
-  servers:
-    - name: <name> # 모든 server에서 고유해야하며, 설정할 경우 디버깅 등에 사용됩니다.
-      port:
-        number: <port>
-        name: <name>
-        protocol: <protocol> # HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS
-      hosts:
-        - "*"
-      tls:
-        httpsRedirect: <bool>
-        mode: <mode> # PASSTHROUGH|SIMPLE|MUTUAL|AUTO_PASSTHROUGH|ISTIO_MUTUAL
-        credentialName: <secret name> # CA, TLS 인증서를 가지고 있는 Secret의 name
-```
-
-:::info
-기본적으로 모든 namespace에 적용됩니다. 동일 namespace로 제한 하려면 `PILOT_SCOPE_GATEWAY_TO_NAMESPACE` 관련 설정을 확인하세요.
-:::
-
-:::warning
-`TLS` 프로토콜의 경우 연결을 종료하지 않고 SNI 헤더 기반으로 라우팅이 진행됩니다.
-:::
 
 ## VirtualService
 

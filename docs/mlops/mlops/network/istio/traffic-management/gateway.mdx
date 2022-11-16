@@ -1,0 +1,83 @@
+---
+id: gateway
+title: Gateway
+sidebar_label: Gateway
+description: Gateway
+keywords:
+  - gateway
+  - istio
+---
+
+## Gateway & Envoy
+
+Istio에서 Gateway는 독립적으로 배포된 Envoy로 들어오는 트래픽을 관리하는 리소스입니다. 일반적으로 IngressGateway EgressGateway라고 부르는 Envoy Pod이 있고, 이 Pod을 바라보는 Service의 타입과 포트 설정에 따라 실재 트래픽이 들어오는 곳이 결정됩니다.
+
+<center>
+
+```mermaid
+flowchart LR
+  GS(GatewayService</br>LoadBalancer)
+  G(GatewayEnvoy</br>Gateway)
+  GS --> G
+  G -- VirtualService --> AppService
+```
+
+</center>
+
+## Gateway
+
+- https://istio.io/latest/docs/reference/config/networking/gateway/
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  selector:
+    # 이 설정을 적용하고 싶은 Gateway Pod의 Label을 설정합니다.
+    # 기본적으로 이 리소스의 namespace와 다른 namespace까지 적용됩니다. 같은 namespace에만
+    # 적용하고 싶다면 istiod의 PILOT_SCOPE_GATEWAY_TO_NAMESPACE를 설정해햐바니다.
+    <key>: <value>
+  servers:
+    - name: <name> # Optional, 설정한다면 servers 내에서 고유해야며 디버깅 등에 사용됩니다.
+      port:
+        name: <name>
+        number: <servicePort> # Service의 port 중 하나를 설정합니다.
+        # HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS
+        #
+        protocol: HTTP
+      # 해당 port로 들어오는 트래픽 중 처리할 host를 설정합니다.
+      # 가장 왼쪽 subdomain 파트에 wildcard를 사용할 수 있습니다.
+      # namespace를 설정하지 않으면 전체 네임 스페이스서 사용가능합니다.
+      hosts:
+        - <host>
+        - <namespace>/<host>
+      # TLS 설정이 필요한 경우 아래와 같이 설정합니다.
+      # https://istio.io/latest/docs/reference/config/networking/gateway/#ServerTLSSettings
+      tls:
+        # httpsRedirect: true
+        mode: <mode> # PASSTHROUGH|SIMPLE|MUTUAL|AUTO_PASSTHROUGH|ISTIO_MUTUAL
+        credentialName: <secret name> # CA, TLS 인증서를 가지고 있는 Secret의 name
+```
+
+:::warning
+`TLS` 프로토콜을 사용하는 경우 연결을 종료하지 않고 SNI 헤더를 기반으로 라우팅하므로 주의해야합니다.
+:::
+
+## Gateway간 연결
+
+Envoy는 인증을 처리하거나 트래픽 내용을 변경하는 등 다양한 작업을 할 수 있습니다. 다양한 문제 상황이 존재할 수 있지만 아래와 같이 설정하고 BridgeGateway에만 EnvoyFilter를 사용하여 트래픽을 제어하는 방식도 있습니다.
+
+```mermaid
+flowchart LR
+  IGS(IngressGatewayService</br>LoadBalancer)
+  BGS(BridgeGatewayService</br>ClusterIP)
+  IGS --> IngressGatewayEnvoy
+  IngressGatewayEnvoy -- VirtualService --> BGS
+  BGS --> BridgeGatewayEnvoy
+  IngressGatewayEnvoy -- VirtualService --> App1Service
+  BridgeGatewayEnvoy -- VirtualService --> App2Service
+  BridgeGatewayEnvoy -- VirtualService --> App3Service
+```

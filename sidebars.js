@@ -427,7 +427,15 @@ module.exports = {
 						"mlops/mlops/network/istio/istio",
 						"mlops/mlops/network/istio/multi-cluster",
 						"mlops/mlops/network/istio/upgrade",
-						"mlops/mlops/network/istio/gateway-virtual-service",
+						{
+							type: "category",
+							label: "Traffic Management",
+							items: [
+								"mlops/mlops/network/istio/traffic-management/gateway",
+								"mlops/mlops/network/istio/traffic-management/virtual-service",
+								"mlops/mlops/network/istio/traffic-management/envoy-filter",
+							],
+						},
 						"mlops/mlops/network/istio/kiali",
 						"mlops/mlops/network/istio/jwt",
 						"mlops/mlops/network/istio/cors",
@@ -589,6 +597,11 @@ module.exports = {
 			type: "category",
 			label: "Firebase",
 			items: ["mlops/mlops/firebase/authentication"],
+		},
+		{
+			type: "category",
+			label: "Kubeflow",
+			items: ["mlops/mlops/kubeflow/architecture"],
 		},
 	],
 	nn: [

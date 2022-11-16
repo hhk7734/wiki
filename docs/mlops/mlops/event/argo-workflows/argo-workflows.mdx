@@ -36,7 +36,8 @@ helm show values argo/argo-workflows \
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
     --version 0.20.4 \
-    -n workflow \
+    -n event \
+    --history-max 3 \
     --values argo-workflows-values.yaml
 ```
 
@@ -50,7 +51,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: workflow
+  namespace: event
 data:
   # `echo -n argo-workflows-sso | base64`
   client-id: YXJnby13b3JrZmxvd3Mtc3Nv
@@ -147,7 +148,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: workflow
+  namespace: event
 stringData:
   client-id: workflows
   client-secret: <workflow-client-secret>
@@ -176,6 +177,8 @@ server:
 
 ### RBAC
 
+- https://argoproj.github.io/argo-workflows/argo-server-sso/
+
 ```yaml title="argo-workflows-values.yaml"
 server:
   # ConfigMap.data.config: |, name: workflow-controller-configmap
@@ -189,12 +192,12 @@ server:
       enabled: true
 ```
 
-```yaml title="workflow/argo/workflows/base/guest-sa.yaml"
+```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: guest-sa
-  namespace: workflow
+  namespace: event
   annotations:
     workflows.argoproj.io/rbac-rule: "true"
     # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
@@ -202,12 +205,12 @@ metadata:
     workflows.argoproj.io/rbac-rule-precedence: "0"
 ```
 
-```yaml title="workflow/argo/workflows/base/admin-sa.yaml"
+```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: admin-sa
-  namespace: workflow
+  namespace: event
   annotations:
     # * `groups` - an array of the OIDC groups
     # * `iss` - the issuer ("argo-server")
@@ -221,9 +224,3 @@ metadata:
 :::info
 ServiceAccount에 원하는 목적에 맞는 Role과 ClusterRole을 생성 후 바인딩 시켜주세요.
 :::
-
-## Reference
-
-- https://argoproj.github.io/argo-workflows
-- https://dexidp.io/docs/custom-scopes-claims-clients/
-- https://argoproj.github.io/argo-workflows/argo-server-sso/
