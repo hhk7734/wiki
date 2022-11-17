@@ -28,14 +28,14 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.20.4 \
+    --version 0.20.8 \
     > argo-workflows-values.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
-    --version 0.20.4 \
+    --version 0.20.8 \
     -n event \
     --history-max 3 \
     --values argo-workflows-values.yaml
