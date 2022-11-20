@@ -12,7 +12,7 @@ keywords:
 ```shell
 for crd in $(kubectl get crd -o name); do
     case $crd in
-        *\.istio\.io)
+        *istio*)
             echo $crd | cut -d "/" -f 2
             echo "---" >> crds.yaml
             kubectl get $crd -o yaml >> crds.yaml

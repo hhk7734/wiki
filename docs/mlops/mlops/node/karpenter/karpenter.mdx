@@ -165,11 +165,13 @@ default_ng_profile = aws.iam.InstanceProfile(
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.18.0 \
-    > values.yaml
+    --version v0.19.1 \
+    > karpenter-values.yaml
 ```
 
-```yaml tilte="values.yaml"
+```yaml tilte="karpenter-values.yaml"
+additionalLabels: {}
+
 serviceAccount:
   annotations:
     eks.amazonaws.com/role-arn: arn:aws:iam::<account_id>:role/<role_name>
@@ -191,7 +193,7 @@ tolerations:
     operator: Exists
     effect: NoSchedule
 
-controller:
+settings:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
   # 새 Pending Pod가 생기고 batchIdleDuration 시간 만큼 대기
   # 그 안에 새로운 Pending Pod가 생기면 batch에 포함 시키고 다시 batchIdleDuration 시간 대기
@@ -201,12 +203,12 @@ controller:
   batchMaxDuration: 10s
   batchIdleDuration: 1s
 
-clusterName: <cluster_name>
+  aws:
+    clusterName: <cluster_name>
 
-clusterEndpoint: <cluster_endpoint>
+    clusterEndpoint: <cluster_endpoint>
 
-aws:
-  defaultInstanceProfile: <instance_profile>
+    defaultInstanceProfile: <instance_profile>
 ```
 
 ```shell
@@ -216,10 +218,13 @@ kubectl create namespace karpenter
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.18.0 \
+    --version v0.19.1 \
     -n karpenter \
-    -f values.yaml
+    --history-max 3 \
+    -f karpenter-values.yaml
 ```
+
+- https://github.com/aws/karpenter/tree/main/pkg/apis/crds
 
 ## Reference
 
