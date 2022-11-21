@@ -1,0 +1,21 @@
+---
+id: deprovisioning
+title: Karpenter Deprovisioning
+sidebar_label: Deprovisioning
+description: Karpenter Deprovisioning
+keywords:
+  - karpenter
+  - deprovisioning
+---
+
+## do-not-evict 설정된 Pod
+
+```yaml
+metadata:
+  annotations:
+    karpenter.sh/do-not-evict: "true"
+```
+
+노드에 `karpenter.sh/do-not-evict: "true"` annotation이 설정된 실행 중인 Pod이 있는 경우 해당 노드는 제거 대상에서 제외됩니다.
+
+처음부터 끝까지 종료 없이 실행되어야하는 Workload를 karpenter가 강제로 종료하지 않도록 하기 위해 사용하면 유용합니다.

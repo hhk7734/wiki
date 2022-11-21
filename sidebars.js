@@ -409,6 +409,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/node/karpenter/karpenter",
 						"mlops/mlops/node/karpenter/crd",
+						"mlops/mlops/node/karpenter/deprovisioning",
 					],
 				},
 				"mlops/mlops/node/nvidia-gpu-operator",
