@@ -13,79 +13,83 @@ keywords:
 
 `kubernetes.io/cluster/<cluster-name>: <shared|owned>` 태그를 추가해주세요.
 
+### Role
+
+```typescript
+function createEKSRole(): aws.iam.Role {
+  const name = "eks-role";
+  return new aws.iam.Role(name, {
+    namePrefix: `${name}-`,
+    assumeRolePolicy: {
+      Statement: [
+        {
+          Action: "sts:AssumeRole",
+          Effect: "Allow",
+          Principal: {
+            Service: "eks.amazonaws.com",
+          },
+        },
+      ],
+      Version: "2012-10-17",
+    },
+    tags: {
+      Name: name,
+      "loliot.net/cluster": variable.clusterName,
+      "loliot.net/stack": variable.stackName,
+    },
+  });
+}
+
+const role = createEKSRole();
+
+const clusterPolicyARNs = {
+  "0": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+};
+
+const rpas = Object.entries(clusterPolicyARNs).map(
+  ([i, arn]) =>
+    new aws.iam.RolePolicyAttachment(
+      `eks-rpa-${i}`,
+      {
+        policyArn: arn,
+        role: role.name,
+      },
+      { dependsOn: [role] }
+    )
+);
+```
+
 ### Cluster
 
-```python
-# EKS
-
-name = "eks-role"
-role = aws.iam.Role(
+```typescript
+function createEKS(): aws.eks.Cluster {
+  const name = "eks";
+  return new aws.eks.Cluster(
     name,
-    name_prefix=name,
-    assume_role_policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": "sts:AssumeRole",
-                    "Effect": "Allow",
-                    "Principal": {"Service": "eks.amazonaws.com"},
-                }
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-cluster_policy_arns = {"0": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"}
-
-rpas = []
-for i, arn in cluster_policy_arns.items():
-    rpas.append(
-        aws.iam.RolePolicyAttachment(
-            f"eks-rpa-{i}",
-            policy_arn=arn,
-            role=role.name,
-            opts=pulumi.ResourceOptions(parent=role),
-        )
-    )
-
-name = "eks"
-cluster = aws.eks.Cluster(
-    name,
-    name=name,
-    version="1.21",
-    role_arn=role.arn,
-    vpc_config=aws.eks.ClusterVpcConfigArgs(
-        subnet_ids=[
-            vpc.public_subnet["0"],
-            vpc.public_subnet["1"],
-            vpc.private_subnet["0"],
-            vpc.private_subnet["1"],
+    {
+      name: name,
+      version: "1.21",
+      roleArn: role.arn,
+      vpcConfig: {
+        endpointPublicAccess: true,
+        subnetIds: [
+          vpc.publicSubnet0.id,
+          vpc.privateSubnet0.id,
+          vpc.privateSubnet1.id,
         ],
-        endpoint_public_access=True,
-    ),
-    kubernetes_network_config=aws.eks.ClusterKubernetesNetworkConfigArgs(
-        service_ipv4_cidr="10.96.0.0/16"
-    ),
-    enabled_cluster_log_types=[
-        "api",
-        "audit",
-        "authenticator",
-        "controllerManager",
-        "scheduler",
-    ],
-    opts=pulumi.ResourceOptions(depends_on=rpas),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+      },
+      kubernetesNetworkConfig: { serviceIpv4Cidr: "10.96.0.0/16" },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-)
+    { dependsOn: [...rpas] }
+  );
+}
+
+const eks = createEKS();
 ```
 
 ```shell
@@ -107,20 +111,26 @@ export KUBECONFIG=<config-path>[:<config-path>]
 - EKS - 클러스터 - 구성 - 세부 정보 - OpenID Connect 공급자 URL
 - IAM - 액세스 관리(Access management) - 자격 증명 공급자(Identity Providers) - 공급자 추가
 
-```python
-name = "eks-oidc-provider"
-oidc_provider = aws.iam.OpenIdConnectProvider(
+```typescript
+function createOIDCProvider(): aws.iam.OpenIdConnectProvider {
+  const name = "eks-oidc-provider";
+  return new aws.iam.OpenIdConnectProvider(
     name,
-    url=cluster.identities[0].oidcs[0].issuer,
-    client_id_lists=["sts.amazonaws.com"],
-    thumbprint_lists=["******"],
-    opts=pulumi.ResourceOptions(parent=cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+    {
+      url: eks.identities[0].oidcs[0].issuer,
+      clientIdLists: ["sts.amazonaws.com"],
+      thumbprintLists: ["***"],
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-)
+    { dependsOn: [eks] }
+  );
+}
+
+export const oidcProvider = createOIDCProvider();
 ```
 
 ### VPC CNI increases pods per node limits
