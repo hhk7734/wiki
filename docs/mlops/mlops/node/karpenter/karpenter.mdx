@@ -15,89 +15,105 @@ keywords:
 
 ### Karpenter Role
 
-```python
-name = "eks-karpenter-controller-policy"
-karpenter_controller_policy = aws.iam.Policy(
+```typescript
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+function createControllerPolicy(): aws.iam.Policy {
+  const name = "eks-karpenter-controller-policy";
+  return new aws.iam.Policy(
     name,
-    name_prefix=name,
-    policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "ec2:CreateLaunchTemplate",
-                        "ec2:CreateFleet",
-                        "ec2:RunInstances",
-                        "ec2:CreateTags",
-                        "iam:PassRole",
-                        "ec2:TerminateInstances",
-                        "ec2:DescribeLaunchTemplates",
-                        "ec2:DeleteLaunchTemplate",
-                        "ec2:DescribeSecurityGroups",
-                        "ec2:DescribeSpotPriceHistory",
-                        "ec2:DescribeSubnets",
-                        "ec2:DescribeImages",
-                        "ec2:DescribeInstances",
-                        "ec2:DescribeInstanceTypes",
-                        "ec2:DescribeInstanceTypeOfferings",
-                        "ec2:DescribeAvailabilityZones",
-                        "ssm:GetParameter",
-                        "pricing:GetProducts",
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*",
-                }
+    {
+      namePrefix: `${name}-`,
+      policy: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Action: [
+              "ec2:CreateLaunchTemplate",
+              "ec2:CreateFleet",
+              "ec2:RunInstances",
+              "ec2:CreateTags",
+              "iam:PassRole",
+              "ec2:TerminateInstances",
+              "ec2:DescribeLaunchTemplates",
+              "ec2:DeleteLaunchTemplate",
+              "ec2:DescribeSecurityGroups",
+              "ec2:DescribeSpotPriceHistory",
+              "ec2:DescribeSubnets",
+              "ec2:DescribeImages",
+              "ec2:DescribeInstances",
+              "ec2:DescribeInstanceTypes",
+              "ec2:DescribeInstanceTypeOfferings",
+              "ec2:DescribeAvailabilityZones",
+              "ssm:GetParameter",
+              "pricing:GetProducts",
             ],
-            "Version": "2012-10-17",
-        }
-    ),
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+            Effect: "Allow",
+            Resource: "*",
+          },
+        ],
+      },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-)
+    { protect: true }
+  );
+}
 
-name = "eks-karpenter-controller-role"
-karpenter_controller_role = aws.iam.Role(
+const controllerPolicy = createControllerPolicy();
+
+function createControllerRole(): aws.iam.Role {
+  const name = "eks-karpenter-controller-role";
+  const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
+
+  return new aws.iam.Role(
     name,
-    name_prefix=name,
-    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
-        lambda args: json.dumps(
-            {
-                "Version": "2012-10-17",
-                "Statement": [
-                    {
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Federated": f"arn:aws:iam::{variable.account_id}:oidc-provider/{args['oidc_url']}"
-                        },
-                        "Action": "sts:AssumeRoleWithWebIdentity",
-                        "Condition": {
-                            "StringEquals": {
-                                f"{args['oidc_url']}:sub": "system:serviceaccount:karpenter:karpenter"
-                            }
-                        },
-                    }
-                ],
-            }
-        )
-    ),
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+    {
+      namePrefix: `${name}-`,
+      assumeRolePolicy: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Action: "sts:AssumeRoleWithWebIdentity",
+            Effect: "Allow",
+            Principal: {
+              Federated: oidcUrl.apply(
+                (url) =>
+                  `arn:aws:iam::${variable.awsAccountId}:oidc-provider/${url}`
+              ),
+            },
+            Condition: {
+              StringEquals: oidcUrl.apply((url) => ({
+                [`${url}:sub`]: "system:serviceaccount:karpenter:karpenter",
+              })),
+            },
+          },
+        ],
+      },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-)
+    { protect: true }
+  );
+}
 
-aws.iam.RolePolicyAttachment(
-    "eks-karpenter-rpa-0",
-    policy_arn=karpenter_controller_policy.arn,
-    role=karpenter_controller_role.name,
-    opts=pulumi.ResourceOptions(parent=karpenter_controller_role),
-)
+export const controllerRole = createControllerRole();
+
+new aws.iam.RolePolicyAttachment(
+  "eks-karpenter-rpa-0",
+  {
+    policyArn: controllerPolicy.arn,
+    role: controllerRole.name,
+  },
+  { protect: true }
+);
 ```
 
 ### NodeGroup Role
@@ -206,11 +222,11 @@ settings:
   batchIdleDuration: 1s
 
   aws:
-    clusterName: <cluster_name>
+    clusterName: <clusterName>
 
-    clusterEndpoint: <cluster_endpoint>
+    clusterEndpoint: <clusterEndpoint>
 
-    defaultInstanceProfile: <instance_profile>
+    defaultInstanceProfile: <instanceProfile>
 ```
 
 ```shell

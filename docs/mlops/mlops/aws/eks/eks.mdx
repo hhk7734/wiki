@@ -18,26 +18,32 @@ keywords:
 ```typescript
 function createEKSRole(): aws.iam.Role {
   const name = "eks-role";
-  return new aws.iam.Role(name, {
-    namePrefix: `${name}-`,
-    assumeRolePolicy: {
-      Statement: [
-        {
-          Action: "sts:AssumeRole",
-          Effect: "Allow",
-          Principal: {
-            Service: "eks.amazonaws.com",
+  return new aws.iam.Role(
+    name,
+    {
+      namePrefix: `${name}-`,
+      assumeRolePolicy: {
+        Statement: [
+          {
+            Action: "sts:AssumeRole",
+            Effect: "Allow",
+            Principal: {
+              Service: "eks.amazonaws.com",
+            },
           },
-        },
-      ],
-      Version: "2012-10-17",
+        ],
+        Version: "2012-10-17",
+      },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-    tags: {
-      Name: name,
-      "loliot.net/cluster": variable.clusterName,
-      "loliot.net/stack": variable.stackName,
-    },
-  });
+    {
+      protect: true,
+    }
+  );
 }
 
 const role = createEKSRole();
@@ -54,7 +60,7 @@ const rpas = Object.entries(clusterPolicyARNs).map(
         policyArn: arn,
         role: role.name,
       },
-      { dependsOn: [role] }
+      { dependsOn: [role], protect: true }
     )
 );
 ```
@@ -72,11 +78,7 @@ function createEKS(): aws.eks.Cluster {
       roleArn: role.arn,
       vpcConfig: {
         endpointPublicAccess: true,
-        subnetIds: [
-          vpc.publicSubnet0.id,
-          vpc.privateSubnet0.id,
-          vpc.privateSubnet1.id,
-        ],
+        subnetIds: [vpc.privateSubnet0.id, vpc.privateSubnet1.id],
       },
       kubernetesNetworkConfig: { serviceIpv4Cidr: "10.96.0.0/16" },
       tags: {
@@ -85,12 +87,16 @@ function createEKS(): aws.eks.Cluster {
         "loliot.net/stack": variable.stackName,
       },
     },
-    { dependsOn: [...rpas] }
+    { dependsOn: [...rpas], protect: true }
   );
 }
 
-const eks = createEKS();
+export const eks = createEKS();
 ```
+
+:::info
+Cluster를 생성할 때 설정하는 `subnetIds`는 EKS 마스터와 워커가 통신하기 위해 2~4 개의 ENI를 추가할 서브넷을 선택하기 위한 설정입니다. 해당 ENI의 설명은 `Amazon EKS <clusterName>`로 표시됩니다.
+:::
 
 ```shell
 aws eks list-clusters
@@ -108,8 +114,12 @@ export KUBECONFIG=<config-path>[:<config-path>]
 
 ### OIDC
 
-- EKS - 클러스터 - 구성 - 세부 정보 - OpenID Connect 공급자 URL
+- EKS - 클러스터 - 개요 - 세부 정보
+  - OpenID Connect 공급자 URL 복사
 - IAM - 액세스 관리(Access management) - 자격 증명 공급자(Identity Providers) - 공급자 추가
+  - OpenID Connect
+  - 공급자 URL 붙여넣기
+  - 지문 가져오기
 
 ```typescript
 function createOIDCProvider(): aws.iam.OpenIdConnectProvider {
@@ -119,6 +129,7 @@ function createOIDCProvider(): aws.iam.OpenIdConnectProvider {
     {
       url: eks.identities[0].oidcs[0].issuer,
       clientIdLists: ["sts.amazonaws.com"],
+      // 가져온 지문 사용
       thumbprintLists: ["***"],
       tags: {
         Name: name,
@@ -126,7 +137,7 @@ function createOIDCProvider(): aws.iam.OpenIdConnectProvider {
         "loliot.net/stack": variable.stackName,
       },
     },
-    { dependsOn: [eks] }
+    { dependsOn: [eks], protect: true }
   );
 }
 

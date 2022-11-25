@@ -371,12 +371,17 @@ module.exports = {
 				},
 				"mlops/mlops/kubernetes/deployment",
 				"mlops/mlops/kubernetes/service",
-				"mlops/mlops/kubernetes/mlops-k8s-persistent-volume",
+				"mlops/mlops/kubernetes/persistent-volume",
 				"mlops/mlops/kubernetes/label",
 				{
 					type: "category",
 					label: "Policy",
 					items: ["mlops/mlops/kubernetes/policy/limit-range"],
+				},
+				{
+					type: "category",
+					label: "Scheduling",
+					items: ["mlops/mlops/kubernetes/scheduling/taint-toleration"],
 				},
 				{
 					type: "category",

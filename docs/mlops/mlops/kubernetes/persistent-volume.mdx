@@ -1,5 +1,5 @@
 ---
-id: mlops-k8s-persistent-volume
+id: persistent-volume
 title: Persistent volume
 sidebar_label: Persistent volume
 description: kubernetes persistent volume
@@ -28,7 +28,7 @@ keywords:
 #...
 metadata:
   annotations:
-    storageclass.kubernetes.io/is-default-class: 'true'
+    storageclass.kubernetes.io/is-default-class: "true"
 #...
 ```
 
@@ -42,7 +42,7 @@ metadata:
 provisioner: kubernetes.io/aws-ebs
 parameters:
   type: gp2
-reclaimPolicy: Retain
+reclaimPolicy: Delete
 allowVolumeExpansion: true
 mountOptions:
   - debug
@@ -50,6 +50,20 @@ volumeBindingMode: Immediate
 ```
 
 ## PersistentVolume
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: <name>
+spec:
+  persistentVolumeReclaimPolicy: Retain # Retain, Delete
+```
+
+- `persistentVolumeReclaimPolicy`
+  - `Retain`: PVC를 삭제하더라도 PV는 삭제하지 않습니다
+    - PV를 삭제하더라도 물리 볼륨은 삭제되지 않습니다
+  - `Delete`: PVC를 삭제하면 PV와 물리 볼륨이 삭제됩니다
 
 ## PersistentVolumeClaim
 
