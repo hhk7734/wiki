@@ -25,6 +25,8 @@ efs_csi_driver_policy = aws.iam.Policy(
                     "Action": [
                         "elasticfilesystem:DescribeAccessPoints",
                         "elasticfilesystem:DescribeFileSystems",
+                        "elasticfilesystem:DescribeMountTargets",
+                        "ec2:DescribeAvailabilityZones"
                     ],
                     "Effect": "Allow",
                     "Resource": "*",
@@ -101,42 +103,6 @@ aws.iam.RolePolicyAttachment(
     opts=pulumi.ResourceOptions(parent=efs_csi_driver_role),
 )
 ```
-
-:::warning
-subnet이 다르거나 다른 availability zone에 있을 때(?), `elasticfilesystem:DescribeMountTargets`와 `ec2:DescribeAvailabilityZones` 관련 권한이 없다는 에러가 발생할 수 있습니다.
-
-```python
-# EKS Node find EFS
-
-name = "eks-ng-find-efs-policy"
-efs_csi_driver_policy = aws.iam.Policy(
-    name,
-    name_prefix=name,
-    policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "elasticfilesystem:DescribeMountTargets",
-                        "ec2:DescribeAvailabilityZones",
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-)
-```
-
-:::
 
 ### Helm
 

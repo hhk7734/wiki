@@ -1,0 +1,119 @@
+---
+id: node-group
+title: EKS NodeGroup
+sidebar_label: NodeGroup
+description: EKS NodeGroup
+keywords:
+  - EKS
+  - NodeGroup
+---
+
+## Role
+
+```typescript
+function createNodeRole(): aws.iam.Role {
+  const name = "eks-ng-role";
+  return new aws.iam.Role(
+    name,
+    {
+      namePrefix: `${name}-`,
+      assumeRolePolicy: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Action: "sts:AssumeRole",
+            Effect: "Allow",
+            Principal: {
+              Service: "ec2.amazonaws.com",
+            },
+          },
+        ],
+      },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
+    },
+    { protect: true }
+  );
+}
+
+const nodeRole = createNodeRole();
+
+function createInstanceProfile(): aws.iam.InstanceProfile {
+  const name = "eks-ng-profile";
+  return new aws.iam.InstanceProfile(
+    name,
+    {
+      namePrefix: `${name}-`,
+      role: nodeRole.name,
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
+    },
+    { protect: true }
+  );
+}
+
+const instanceProfile = createInstanceProfile();
+
+const nodePolicyARNs = {
+  "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+  "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+  "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+};
+
+const rpas = Object.entries(nodePolicyARNs).map(
+  ([i, arn]) =>
+    new aws.iam.RolePolicyAttachment(
+      `eks-ng-rpa-${i}`,
+      {
+        policyArn: arn,
+        role: nodeRole.name,
+      },
+      { protect: true }
+    )
+);
+```
+
+## NodeGroup
+
+```python
+name = "eks-ng"
+ng = aws.eks.NodeGroup(
+    name,
+    node_group_name=name,
+    cluster_name=cluster.name,
+    node_role_arn=ng_role.arn,
+    instance_types=["m6a.xlarge"],
+    disk_size=50,
+    scaling_config=aws.eks.NodeGroupScalingConfigArgs(
+        min_size=1,
+        desired_size=1,
+        max_size=1,
+    ),
+    subnet_ids=[vpc.public_subnet["0"].id],
+    remote_access=aws.eks.NodeGroupRemoteAccessArgs(
+        ec2_ssh_key=user.master_key.key_name,
+    ),
+    labels={
+        "eks-ng": "true",
+    },
+    taints=[
+        aws.eks.NodeGroupTaintArgs(
+            key="eks-ng",
+            value="true",
+            effect="NO_SCHEDULE",
+        ),
+    ],
+    opts=pulumi.ResourceOptions(depends_on=[cluster, *ng_rpas], parent=cluster),
+    tags={
+        "Name": name,
+        "Stack": variable.stack_name,
+        "Github": variable.github,
+    },
+)
+```

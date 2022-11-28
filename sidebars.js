@@ -507,7 +507,14 @@ module.exports = {
 				"mlops/mlops/auth/rbac",
 				"mlops/mlops/auth/x509",
 				"mlops/mlops/auth/cert-manager",
-				"mlops/mlops/auth/keycloak",
+				{
+					type: "category",
+					label: "Keycloak",
+					items: [
+						"mlops/mlops/auth/keycloak/keycloak",
+						"mlops/mlops/auth/keycloak/openid-connect",
+					],
+				},
 				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},
@@ -568,7 +575,6 @@ module.exports = {
 				"mlops/mlops/event/protobuf",
 			],
 		},
-		"mlops/mlops/mlops-kubeflow",
 		{
 			type: "category",
 			label: "AWS",
@@ -588,6 +594,7 @@ module.exports = {
 					label: "EKS",
 					items: [
 						"mlops/mlops/aws/eks/eks",
+						"mlops/mlops/aws/eks/node-group",
 						"mlops/mlops/aws/eks/eks-rbac",
 						"mlops/mlops/aws/eks/keycloak",
 					],

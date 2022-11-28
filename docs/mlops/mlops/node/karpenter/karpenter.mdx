@@ -19,6 +19,46 @@ keywords:
 import * as aws from "@pulumi/aws";
 import * as variable from "@src/variable";
 
+function createControllerRole(): aws.iam.Role {
+  const name = "eks-karpenter-controller-role";
+  const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
+
+  return new aws.iam.Role(
+    name,
+    {
+      namePrefix: `${name}-`,
+      assumeRolePolicy: {
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Action: "sts:AssumeRoleWithWebIdentity",
+            Effect: "Allow",
+            Principal: {
+              Federated: oidcUrl.apply(
+                (url) =>
+                  `arn:aws:iam::${variable.awsAccountId}:oidc-provider/${url}`
+              ),
+            },
+            Condition: {
+              StringEquals: oidcUrl.apply((url) => ({
+                [`${url}:sub`]: "system:serviceaccount:karpenter:karpenter",
+              })),
+            },
+          },
+        ],
+      },
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
+    },
+    { protect: true }
+  );
+}
+
+export const controllerRole = createControllerRole();
+
 function createControllerPolicy(): aws.iam.Policy {
   const name = "eks-karpenter-controller-policy";
   return new aws.iam.Policy(
@@ -66,10 +106,21 @@ function createControllerPolicy(): aws.iam.Policy {
 
 const controllerPolicy = createControllerPolicy();
 
-function createControllerRole(): aws.iam.Role {
-  const name = "eks-karpenter-controller-role";
-  const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
+new aws.iam.RolePolicyAttachment(
+  "eks-karpenter-rpa-0",
+  {
+    policyArn: controllerPolicy.arn,
+    role: controllerRole.name,
+  },
+  { protect: true }
+);
+```
 
+### NodeGroup Role
+
+```typescript
+function createNodeRole(): aws.iam.Role {
+  const name = "eks-karpenter-ng-role";
   return new aws.iam.Role(
     name,
     {
@@ -78,18 +129,10 @@ function createControllerRole(): aws.iam.Role {
         Version: "2012-10-17",
         Statement: [
           {
-            Action: "sts:AssumeRoleWithWebIdentity",
+            Action: "sts:AssumeRole",
             Effect: "Allow",
             Principal: {
-              Federated: oidcUrl.apply(
-                (url) =>
-                  `arn:aws:iam::${variable.awsAccountId}:oidc-provider/${url}`
-              ),
-            },
-            Condition: {
-              StringEquals: oidcUrl.apply((url) => ({
-                [`${url}:sub`]: "system:serviceaccount:karpenter:karpenter",
-              })),
+              Service: "ec2.amazonaws.com",
             },
           },
         ],
@@ -104,75 +147,45 @@ function createControllerRole(): aws.iam.Role {
   );
 }
 
-export const controllerRole = createControllerRole();
+const nodeRole = createNodeRole();
 
-new aws.iam.RolePolicyAttachment(
-  "eks-karpenter-rpa-0",
-  {
-    policyArn: controllerPolicy.arn,
-    role: controllerRole.name,
-  },
-  { protect: true }
-);
-```
-
-### NodeGroup Role
-
-```python
-name = "eks-karpenter-ng-role"
-ng_role = aws.iam.Role(
+function createInstanceProfile(): aws.iam.InstanceProfile {
+  const name = "eks-karpenter-ng-profile";
+  return new aws.iam.InstanceProfile(
     name,
-    name_prefix=name,
-    assume_role_policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": "sts:AssumeRole",
-                    "Effect": "Allow",
-                    "Principal": {"Service": "ec2.amazonaws.com"},
-                }
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+    {
+      namePrefix: `${name}-`,
+      role: nodeRole.name,
+      tags: {
+        Name: name,
+        "loliot.net/cluster": variable.clusterName,
+        "loliot.net/stack": variable.stackName,
+      },
     },
-)
-
-node_policy_arns = {
-    "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-    "3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", # Karpenter
+    { protect: true }
+  );
 }
 
-ng_rpas = []
-for i, arn in node_policy_arns.items():
-    ng_rpas.append(
-        aws.iam.RolePolicyAttachment(
-            f"eks-karpenter-ng-rpa-{i}",
-            policy_arn=arn,
-            role=ng_role.name,
-            opts=pulumi.ResourceOptions(parent=ng_role),
-        )
-    )
+const instanceProfile = createInstanceProfile();
 
-name = "eks-karpenter-ng-profile"
-default_ng_profile = aws.iam.InstanceProfile(
-    name,
-    name_prefix=name,
-    role=ng_role.name,
-    opts=pulumi.ResourceOptions(parent=ng_role),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
+const nodePolicyARNs = {
+  "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+  "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+  "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+  "3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", // Karpenter
+};
+
+const rpas = Object.entries(nodePolicyARNs).map(
+  ([i, arn]) =>
+    new aws.iam.RolePolicyAttachment(
+      `eks-karpenter-ng-rpa-${i}`,
+      {
+        policyArn: arn,
+        role: nodeRole.name,
+      },
+      { protect: true }
+    )
+);
 ```
 
 ## Installation
@@ -203,13 +216,9 @@ affinity:
         - matchExpressions:
             - key: karpenter.sh/provisioner-name
               operator: DoesNotExist
-            - key: eks-ng
-              operator: Exists
 
 tolerations:
-  - key: eks-ng
-    operator: Exists
-    effect: NoSchedule
+  - operator: Exists
 
 settings:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
@@ -218,8 +227,8 @@ settings:
   # 이 과정이 반복되다가 마지막 Pending Pod가 생긴 후 batchIdleDuration을 넘기거나
   # 첫 Pending Pod가 생긴 후 batchMaxDuration을 넘기면 batch만들기 종료
   # https://github.com/aws/karpenter/blob/main/pkg/controllers/provisioning/batcher.go
-  batchMaxDuration: 10s
-  batchIdleDuration: 1s
+  batchMaxDuration: 20s
+  batchIdleDuration: 5s
 
   aws:
     clusterName: <clusterName>

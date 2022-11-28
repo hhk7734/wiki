@@ -114,6 +114,10 @@ export KUBECONFIG=<config-path>[:<config-path>]
 
 ### OIDC
 
+- https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html
+
+<br />
+
 - EKS - 클러스터 - 개요 - 세부 정보
   - OpenID Connect 공급자 URL 복사
 - IAM - 액세스 관리(Access management) - 자격 증명 공급자(Identity Providers) - 공급자 추가
@@ -146,6 +150,9 @@ export const oidcProvider = createOIDCProvider();
 
 ### VPC CNI increases pods per node limits
 
+- https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/cni-increase-ip-addresses.html
+- https://aws.amazon.com/ko/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/
+
 ```shell
 kubectl set env daemonset aws-node -n kube-system \
     ENABLE_PREFIX_DELEGATION=true
@@ -160,104 +167,6 @@ kubectl set env daemonset aws-node -n kube-system \
 `pulumi`를 사용할 때, NodeGroup 생성 전에 이 작업을 진행해야 UserData의 `--kubelet-extra-args`가 자동으로 설정됩니다.
 :::
 
-### NodeGroup
-
-```python
-# NodeGroup
-
-name = "eks-ng-role"
-ng_role = aws.iam.Role(
-    name,
-    name_prefix=name,
-    assume_role_policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": "sts:AssumeRole",
-                    "Effect": "Allow",
-                    "Principal": {"Service": "ec2.amazonaws.com"},
-                }
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    opts=pulumi.ResourceOptions(parent=cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-node_policy_arns = {
-    "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-    "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-    "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-}
-
-ng_rpas = []
-for i, arn in node_policy_arns.items():
-    ng_rpas.append(
-        aws.iam.RolePolicyAttachment(
-            f"eks-ng-rpa-{i}",
-            policy_arn=arn,
-            role=ng_role.name,
-            opts=pulumi.ResourceOptions(parent=ng_role),
-        )
-    )
-
-name = "eks-ng-profile"
-default_ng_profile = aws.iam.InstanceProfile(
-    name,
-    name_prefix=name,
-    role=ng_role.name,
-    opts=pulumi.ResourceOptions(parent=ng_role),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-name = "eks-ng"
-ng = aws.eks.NodeGroup(
-    name,
-    node_group_name=name,
-    cluster_name=cluster.name,
-    node_role_arn=ng_role.arn,
-    instance_types=["m6a.xlarge"],
-    disk_size=50,
-    scaling_config=aws.eks.NodeGroupScalingConfigArgs(
-        min_size=1,
-        desired_size=1,
-        max_size=1,
-    ),
-    subnet_ids=[vpc.public_subnet["0"].id],
-    remote_access=aws.eks.NodeGroupRemoteAccessArgs(
-        ec2_ssh_key=user.master_key.key_name,
-    ),
-    labels={
-        "eks-ng": "true",
-    },
-    taints=[
-        aws.eks.NodeGroupTaintArgs(
-            key="eks-ng",
-            value="true",
-            effect="NO_SCHEDULE",
-        ),
-    ],
-    opts=pulumi.ResourceOptions(depends_on=[cluster, *ng_rpas], parent=cluster),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-```
-
 ## Reference
 
 - [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/getting-started-console.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/getting-started-console.html)
-- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/enable-iam-roles-for-service-accounts.html)
-- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/cni-increase-ip-addresses.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/cni-increase-ip-addresses.html)
-- [https://aws.amazon.com/ko/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/](https://aws.amazon.com/ko/blogs/containers/amazon-vpc-cni-increases-pods-per-node-limits/)

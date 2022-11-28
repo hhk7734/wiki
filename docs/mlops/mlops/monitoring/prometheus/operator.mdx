@@ -22,11 +22,11 @@ helm repo update prometheus-community \
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 41.6.1 \
-    > values.yaml
+    --version 42.1.0 \
+    > prometheus-operato-values.yaml
 ```
 
-```yaml title="values.yaml"
+```yaml title="prometheus-operato-values.yaml"
 namespaceOverride: monitoring
 
 commonLabels:
@@ -95,9 +95,9 @@ prometheus:
 ```shell
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
-    --version 41.6.1 \
+    --version 42.1.0 \
     -n monitoring \
-    -f values.yaml
+    -f prometheus-operato-values.yaml
 ```
 
 ```shell
