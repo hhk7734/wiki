@@ -33,7 +33,7 @@ make -f Makefile.selfsigned.mk root-ca
 - `root-cert.csr`: 루트 인증서에 대해 생성된 CSR
 
 ```shell
-export CLUSTER_NAME=<cluster-name>
+export CLUSTER_NAME=<clusterName>
 ```
 
 ```shell
@@ -98,7 +98,7 @@ global:
   meshID: <mesh-id> # 이 값은 공통으로 사용됩니다.
   multiCluster:
     enabled: true
-    clusterName: <cluster-name>
+    clusterName: <clusterName>
   network: <network>
 ```
 
@@ -117,6 +117,8 @@ helm show values istio/gateway \
 ```
 
 ```yaml title="cross-ingress-values.yaml"
+revision: <revision>
+
 service:
   ports:
     - name: status-port
@@ -207,9 +209,9 @@ kubectl apply -f network/istio/cross-gateway.yaml
 
 ```shell
 istioctl x create-remote-secret \
-  --context=<A-cluster-context> \
-  --name=<A-cluster-name> | \
-  kubectl apply -f - --context=<B-cluster-context>
+  --context=<A-clusterContext> \
+  --name=<A-clusterName> | \
+  kubectl apply -f - --context=<B-clusterContext>
 ```
 
 ## Test
