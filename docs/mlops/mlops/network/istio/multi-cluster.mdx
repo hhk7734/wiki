@@ -222,5 +222,6 @@ kubectl run tmp-shell --rm -it --image nicolaka/netshoot --labels sidecar.istio.
 
 ## 운영 시 주의사항
 
-- Resource의 labels에 `cluster: <cluster>`를 추가해서 클러스터 식별을 할 수 있게 만들면 좋습니다.
-- Service name을 정할 때, 멀티 클러스터 에서 접근하는 경우와 각 클러스터에서만 접근하는 경우를 고려해서 정하는 게 좋습니다.
+- labels에 가능한 아래 값들을 추가해서 Service가 어느 네트워크에 속하는지 명시해주세요
+  - `topology.istio.io/network=<network>`
+  - `topology.istio.io/cluster=<cluster>`
