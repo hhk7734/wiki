@@ -402,6 +402,7 @@ module.exports = {
 				"mlops/mlops/storage/rook-ceph",
 				"mlops/mlops/storage/postgresql",
 				"mlops/mlops/storage/redis",
+				"mlops/mlops/storage/harbor",
 			],
 		},
 		{
