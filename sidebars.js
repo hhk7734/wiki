@@ -569,7 +569,7 @@ module.exports = {
 				{
 					type: "category",
 					label: "KEDA",
-					items: ["mlops/mlops/event/keda/keda"],
+					items: ["mlops/mlops/event/keda/keda", "mlops/mlops/event/keda/crd"],
 				},
 				"mlops/mlops/event/rabbitmq",
 				"mlops/mlops/event/rabbitmq-flow",

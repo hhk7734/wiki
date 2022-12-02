@@ -1,0 +1,90 @@
+---
+id: crd
+title: KEDA CRD
+sidebar_label: CRD
+description: KEDA CRD
+keywords:
+  - keda
+  - crd
+---
+
+## ScaledObject
+
+- https://keda.sh/docs/2.8/concepts/scaling-deployments/
+- https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior
+
+```yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  scaleTargetRef:
+    apiVersion: <apiVersion> # Default: apps/v1
+    kind: <kind> # Default: Deployment
+    name: <name> # Required
+    envSourceContainerName: <containerName> # Default: .spec.template.spec.containers[0].name
+  triggers:
+    - name: <triggerName> # Optional
+      type: <triggerType> # Required
+      metricType: AverageValue # AverageValue|Value|Utilization
+      metadata: # Required, 트리거 설정 정보
+        <key>: <value>
+      # authenticationRef:
+      #   kind: TriggerAuthentication # TriggerAuthentication|ClusterTriggerAuthentication
+      #   name: <name>
+  pollingInterval: 30 # Default: 30, trigger를 확인하는 주기
+  minReplicaCount: 1 # Default: 0
+  maxReplicaCount: 100 # Default: 100
+  idleReplicaCount: 0 # Default: 0, 트리거가 없을 때 유지할 파드 개수로 minReplicaCount보다 작아야함
+  cooldownPeriod: 300 # Default: 300, 트리거가 없을 때, idle 상태가 되기까지 대기하는 시간
+  # fallback: # Optional, trigger확인에 실패했을 때, 유지할 파드 개유
+  #   failureThreshold: 3
+  #   replicas: 6
+  advanced:
+    # Default: false, ScaledObject가 삭제되었을 때, 원래 .spec.replicas 수로 복구할지 여부
+    restoreToOriginalReplicaCount: false
+    horizontalPodAutoscalerConfig: # Keda에 의해 생성될 HorizontalPodAutoscaler의 설정
+      name: <name> # Default: keda-hpa-<scaledObjectName>
+      behavior:
+        scaleUp:
+          # Max인 경우 정책 중 가장 높은 수치를 적용
+          selectPolicy: Max # Max|Min|Disabled
+          # Default:0, 0 ~ 3600 설정 가능
+          # 0인 경우 scaleUp 조건을 만족했을 때 즉시 scaleUp
+          stabilizationWindowSeconds: 0
+          policies:
+            # Percent: 현재 Pod 개수 * value / 100
+            # Pods: value
+            - type: Percent # Percent|Pods
+              value: <value>
+              periodSeconds: <period> # 정책을 적용할 주기
+        scaleDown:
+          selectPolicy: Max # Max|Min|Disabled
+          # Default: 300, 0 ~ 3600 설정 가능
+          # 300인 경우 300초 동안 scaleDown 조건을 만족했을 때 scaleDown
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent # Percent|Pods
+              value: <value>
+              periodSeconds: <period>
+```
+
+:::warning
+처리가 오래걸리는 작업에 대해, 스케일 다운이 발생하면, 처리가 완료되지 않은 작업이 중단될 수 있습니다. 이 경우 `terminationGracePeriodSeconds`을 활용하거나, `ScaledJob`을 사용해야 합니다.
+:::
+
+## ScaledJob
+
+- https://keda.sh/docs/2.8/concepts/scaling-jobs/
+
+```yaml
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  jobTargetRef:
+```
