@@ -58,39 +58,7 @@ helm upgrade grafana grafana/grafana \
 
 ## Keycloak
 
-- Client
-  - `grafana` client 추가
-    - Settings
-      - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
-      - Root URL: `<grafana-url>`
-      - Valid Redirect URIs: `<grafana-url>/login/generic_oauth`
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<grafana-client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `grafana` client
-    - Client Scopes
-      - Default Client scopes
-        - `groups` 추가
-- Groups
-  - `grafana-admin` 추가
-  - `grafana-dev` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
 
 ```yaml title="grafana-values.yaml"
 # https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/

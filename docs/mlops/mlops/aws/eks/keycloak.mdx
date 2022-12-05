@@ -9,38 +9,7 @@ keywords:
 
 ## Keycloak
 
-- Client
-  - `eks` client 추가
-    - Settings
-      - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
-      - Valid Redirect URIs: `*`
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<eks-client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `eks` client
-    - Client Scopes
-      - Default Client scopes
-        - `groups` 추가
-- Groups
-  - `cluster-admin` 추가
-  - `cluster-dev` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
 
 ## EKS
 

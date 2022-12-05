@@ -7,9 +7,7 @@ keywords:
   - oauth2-proxy
 ---
 
-## oauth2-proxy
-
-### Configuration
+## Configuration
 
 - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options
 
@@ -24,81 +22,85 @@ keywords:
   - 옵션의 소문자를 대문자로, `-`를 `_`로 변경
   - `OAUTH2_PROXY_`을 앞에 붙임
 
-## Keycloak
+### OAuth2 + Reverse Proxy
 
-- Client
-  - Create client
-    - General Settings
-      - Client type: OpenID Connect
-      - Client ID: `<client-id>`
-    - Capability Config
-      - Client authentication: On
-  - `<client-id>` 선택
-    - Settings
-      - Enabled: on
-      - Valid Redirect URIs
-        - `<client-url>/oauth2/callback`
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `<client-id>` 선택
-    - Client Scopes
-      - Add client scope
-        - `groups` 추가
-      - `<client_id>-dedicated` 선택
-        - Add mapper By configuration
-          - Audience 선택
-            - Name: audience
-            - Included Client Audience: `<client-id>`
-            - Included Custom Audience: `<client-id>`
-            - Add to access token: on
-- Groups
-  - `<group>` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
+<center>
+
+```mermaid
+flowchart LR
+  Client
+  Oauth2Proxy(oauth2-proxy)
+  OIDCProvider
+  Upstream
+
+  style Oauth2Proxy fill:#4B7,color:#fff
+
+  Client <--> Oauth2Proxy
+  Oauth2Proxy <--> OIDCProvider
+  Oauth2Proxy <--> Upstream
+```
+
+</center>
+
+<center>OAuth2Proxy가 인증 역할과 리버스 프록시 역할 모두 수행</center>
 
 <br />
 
-- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/#keycloak-oidc-auth-provider
+- `--upstream=<upstream-url>[,<upstream-url>...]`
+  - 리버스 프록시에서 사용할 upstream 서버를 설정합니다
+  - `/path`가 매핑됩니다
+
+### OAuth2
+
+<center>
+
+```mermaid
+flowchart LR
+  Client
+  Gateway
+  Oauth2Proxy(oauth2-proxy)
+  OIDCProvider
+  Upstream
+
+  style Oauth2Proxy fill:#4B7,color:#fff
+
+  Client <--> Gateway
+  Gateway -- request --> Oauth2Proxy
+  Oauth2Proxy <--> OIDCProvider
+  Oauth2Proxy -- response --> Gateway
+  Gateway <--> Upstream
+```
+
+</center>
+
+<center>OAuth2Proxy가 인증 역할만 수행</center>
+
+- `--upstream=static://202`
+  - upstream 서버를 설정하지 않고 인증이 성공한 경우 `202`, 실패한 경우 `401` 응답을 반환합니다
+
+## Deployment
 
 ```yaml
 apiVersion: v1
 kind: Secret
 metadata:
-  name: oauth2-proxy-keycloak-secret
+  name: <name>
+  namespace: <namespace>
 type: Opaque
 stringData:
-  OAUTH2_PROXY_CLIENT_ID: <client-id>
-  OAUTH2_PROXY_CLIENT_SECRET: <client-secret>
-  OAUTH2_PROXY_REDIRECT_URL: <client-url>/oauth2/callback
-  OAUTH2_PROXY_OIDC_ISSUER_URL: https://<keycloak-url>/auth/realms/<realm>
-  OAUTH2_PROXY_ALLOWED_GROUPS: <group>
-  # https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret
-  OAUTH2_PROXY_COOKIE_SECRET: <cookie-secret>
+  OAUTH2_PROXY_XXX: XXX
 ```
 
 ```yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: oauth2-proxy-test
+  name: <name>
+  namespace: <namespace>
 spec:
   type: ClusterIP
   selector:
-    app: oauth2-proxy-test
+    <key>: <value>
   ports:
     - name: http
       port: 4180
@@ -110,36 +112,49 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: oauth2-proxy-test
+  name: <name>
+  namespace: <namespace>
 spec:
-  replicas: 1
   selector:
     matchLabels:
-      app: oauth2-proxy-test
+      <key>: <value>
   template:
     metadata:
       labels:
-        app: oauth2-proxy-test
+        <key>: <value>
     spec:
       containers:
         - name: oauth2-proxy
           image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
           args:
-            - --provider=keycloak-oidc
-            - --email-domain=*
             - --http-address=0.0.0.0:4180
-            - --upstream=http://<name>.<namespace>.svc.cluster.local:<port>
-            - --skip-provider-button=true
           envFrom:
             - secretRef:
-                name: oauth2-proxy-keycloak-secret
+                name: <secretName>
           ports:
             - name: http
               containerPort: 4180
               protocol: TCP
           readinessProbe:
-            periodSeconds: 5
+            periodSeconds: 10
             httpGet:
               path: /ping
               port: 4180
 ```
+
+## Keycloak OIDC
+
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
+- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/#keycloak-oidc-auth-provider
+
+<br />
+
+- `--provider=keycloak-oidc`
+- `--client-id=<client-id>`
+- `--client-secret=<client-secret>`
+- `--redirect-url=<client-url>/oauth2/callback`
+- `--oidc-issuer-url=https://<keycloak-url>/auth/realms/<realm>`
+- `--allowed-groups=<group>`
+- `--email-domain=*`
+- `--cookie-secret=<cookie-secret>`
+  - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret

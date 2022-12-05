@@ -150,43 +150,10 @@ configs:
 
 #### Keycloak
 
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
 
 <br />
-
-- Client
-  - `argo` client 추가
-    - Settings
-      - Enabled: on
-      - Client Protocol: openid-connect
-      - Access Type: confidential
-      - Valid Redirect URIs
-        - `<url>/auth/callback`
-    - Credentials
-      - Client Authenticator: Client ID and Secret
-      - Secret: `<argo-client-secret>`
-- Client Scopes
-  - `groups` client scope 추가
-    - Settings
-      - Protocol: openid-connect
-      - Include in Token Scope: on
-    - Mappers
-      - `groups` mapper 추가
-        - Mapper Type: Group Membership
-        - Token Claim Name: groups
-        - Full group path: off
-- Client
-  - `argo` client
-    - Client Scopes
-      - Default Client scopes
-        - `groups` 추가
-- Groups
-  - `argo-admin` 추가
-  - `argo-dev` 추가
-- Users
-  - 유저 추가
-    - Email: `<email>`
-    - Groups: `<group>`
 
 argocd-secret `.data`에 `oidc.keycloak.clientSecret: <base64 encoded>`를 추가 합니다.
 
