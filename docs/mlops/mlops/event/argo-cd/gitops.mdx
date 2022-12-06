@@ -1,0 +1,211 @@
+---
+id: gitops
+title: Argo CD GitOps
+sidebar_label: GitOps
+description: Argo CD GitOps
+keywords:
+  - argo
+  - cd
+  - gitops
+---
+
+import Image from "@theme/IdealImage";
+
+## GitOps
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/event/argo-cd/argo-cd-gitops.png")}
+    width={600}
+  />
+</center>
+<center>https://nortal.com/blog/gitops-argocd/</center>
+<br />
+
+Github, Github Action, ECR, Argo-CD, Helm Chart를 이용한 GitOps 설정에 대한 예시입니다.
+
+## GitOps Repository
+
+```shell
+project/
+├── .helmignore
+├── cd/
+│   └── dev-values.yaml
+├── Chart.yaml
+├── templates/
+│   ├── _helpers.tpl
+│   ├── backend/
+│   │   └── ...
+│   └── frontend/
+│       ├── _helpers.tpl
+│       ├── deployments.yaml
+│       ├── horizontalpodautoscaler.yaml
+│       ├── service.yaml
+│       └── serviceaccount.yaml
+└── values.yaml
+```
+
+```yaml title="project/values.yaml"
+nameOverride: ""
+namespaceOverride: ""
+fullnameOverride: ""
+
+commonLabels: {}
+
+frontend:
+  image:
+    repository: "<ecr>/frontend"
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  podLabels: {}
+
+  resources: {}
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+backend:
+  image:
+    repository: "<ecr>/backend"
+    tag: ""
+    pullPolicy: IfNotPresent
+# ...
+```
+
+```yaml title= "project/templates/_helpers.tpl
+{{- define "project.name" -}}
+{{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "project.namespace" -}}
+{{- default .Release.Namespace .Values.namespaceOverride | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "project.fullname" -}}
+{{- if .Values.fullnameOverride }}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- $name := (include "project.name" . ) }}
+{{- if contains $name .Release.Name }}
+{{- .Release.Name | trunc 63 | trimSuffix "-" }}
+{{- else }}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+{{- end }}
+{{- end }}
+{{- end }}
+
+{{- define "project.chart" -}}
+{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "project.labels" -}}
+{{- range $name, $value := .Values.commonLabels -}}
+{{ $name }}: {{ tpl $value $ }}
+{{ end -}}
+helm.sh/chart: {{ include "project.chart" . }}
+app.kubernetes.io/part-of: {{ include "project.name" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+app.kubernetes.io/created-by: "hhk7734@gmail.com"
+{{- end }}
+```
+
+```yaml title="project/templates/frontend/_helpers.tpl"
+{{- define "project.frontend.labels" }}
+{{- include "project.labels" . }}
+app.kubernetes.io/name: {{ include "project.fullname" . }}-frontend
+app.kubernetes.io/version: {{ default "latest" .Values.frontend.image.tag | quote }}
+app: {{ include "project.fullname" . }}-frontend
+version: {{ default "latest" .Values.frontend.image.tag | quote }}
+{{- end }}
+```
+
+## Github Action for CD
+
+아래 예시는 프로젝트 중 프론트 엔드 dev용 CD Action 파일입니다.
+
+```yaml
+name: Frontend CD Dev
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cd:
+    name: CD
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Get TAG
+        id: tag
+        run: |
+          # Commit Hash의 앞 9자리를 잘라서 TAG로 설정합니다
+          TAG=$(echo ${{ github.sha }} | cut -c1-9)
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Build
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: frontend
+          IMAGE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          docker build --build-arg ENV_FILE=.env.development -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+      - name: Checkout argocd
+        uses: actions/checkout@v3
+        with:
+          # GitOps Repository
+          repository: hhk7734/argocd
+          ref: main
+          token: ${{ secrets.PAT }}
+          path: argocd
+
+      - name: Update frontend helm values
+        uses: mikefarah/yq@master
+        env:
+          IMAGE_TAG: ${{ steps.tag.outputs.tag }}
+        with:
+          cmd: |
+            yq -i '.frontend.image.tag = strenv(IMAGE_TAG)' argocd/project/cd/dev-values.yaml
+
+      - name: Commit files
+        env:
+          COMMIT_AUTHOR_NAME: ${{ github.event.commits[0].author.name }}
+          COMMIT_AUTHOR_EMAIL: ${{ github.event.commits[0].author.email }}
+          IMAGE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          cd argocd
+          git config --global user.name "$COMMIT_AUTHOR_NAME"
+          git config --global user.email "$COMMIT_AUTHOR_EMAIL"
+          git commit -am "chore: set project/frontend tag to $IMAGE_TAG"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          # GitOps Repository
+          repository: hhk7734/argocd
+          github_token: ${{ secrets.PAT }}
+          branch: main
+          directory: argocd
+```

@@ -529,6 +529,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/event/argo-cd/argo-cd",
 						"mlops/mlops/event/argo-cd/crd",
+						"mlops/mlops/event/argo-cd/gitops",
 					],
 				},
 				{
