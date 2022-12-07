@@ -29,21 +29,23 @@ spec:
 ```
 
 ```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami \
-&& helm repo update bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
 ```shell
-helm search repo bitnami/redis -l | head -n 10
+helm repo update bitnami \
+&& helm search repo bitnami/redis -l | head -n 10
 ```
 
 ```shell
 helm show values bitnami/redis \
-    --version 16.9.1 \
-    > values.yaml
+    --version 17.3.14 \
+    > redis-values.yaml
 ```
 
-```yaml
+```yaml title="redis-value.yaml"
+commonLabels: {}
+
 architecture: standalone
 auth:
   enabled: false
@@ -65,6 +67,9 @@ commonConfiguration: |-
   # Disable RDB persistence, AOF persistence already enabled.
   save ""
 master:
+  resources:
+    limits: {}
+    requests: {}
   podLabels: {}
   persistence:
     enabled: true
@@ -74,9 +79,10 @@ master:
 ```shell
 helm upgrade redis bitnami/redis \
     --install \
-    --version 16.9.1 \
+    --version 17.3.14 \
     -n storage \
-    --values values.yaml
+    --history-max 3 \
+    --values redis-values.yaml
 ```
 
 ## Test

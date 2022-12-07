@@ -115,12 +115,18 @@ app.kubernetes.io/created-by: "hhk7734@gmail.com"
 ```
 
 ```yaml title="project/templates/frontend/_helpers.tpl"
+{{- define "project.frontend.fullname" -}}
+{{ include "project.fullname" . }}-frontend
+{{- end }}
+
+{{- define "project.frontend.matchLabels" -}}
+app.kubernetes.io/name: {{ include "project.frontend.fullname" . }}
+app: {{ include "project.frontend.fullname" . }}
+{{- end }}
+
 {{- define "project.frontend.labels" }}
 {{- include "project.labels" . }}
-app.kubernetes.io/name: {{ include "project.fullname" . }}-frontend
-app.kubernetes.io/version: {{ default "latest" .Values.frontend.image.tag | quote }}
-app: {{ include "project.fullname" . }}-frontend
-version: {{ default "latest" .Values.frontend.image.tag | quote }}
+{{ include "project.frontend.matchLabels" . }}
 {{- end }}
 ```
 
@@ -163,7 +169,7 @@ jobs:
           echo TAG=$TAG
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
-      - name: Build
+      - name: Build and push image to Amazon ECR
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: frontend

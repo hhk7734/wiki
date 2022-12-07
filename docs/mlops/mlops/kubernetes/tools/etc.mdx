@@ -111,6 +111,18 @@ users:
           - --oidc-client-secret=<client-secret>
 ```
 
+### ksniff
+
+ksniff는 static-tcpdump 바이너리를 Pod에 주입하여 실행한 후 출력되는 로그를 wireshark에서 읽을 수 있도록 변환해주는 툴입니다. 권한 문제로 캡쳐가 안되는 경우에는 `-p` 옵션을 사용하여 같은 Node에 새로운 Pod을 추가하여 캡쳐를 수행할 수 있습니다.
+
+```shell
+kubectl krew install ksniff
+```
+
+```shell
+kubectl sniff <pod> [-n <namespace>] [-p]
+```
+
 ## k9s
 
 - https://k9scli.io/topics/install/

@@ -206,6 +206,7 @@ module.exports = {
 				"lang/go/libraries/smtp",
 				"lang/go/libraries/session",
 				"lang/go/libraries/google-wire",
+				"lang/go/libraries/websocket",
 			],
 		},
 	],

@@ -1,0 +1,31 @@
+---
+id: websocket
+title: WebSocket
+sidebar_label: WebSocket
+description: WebSocket
+keywords:
+  - websocket
+---
+
+## Server
+
+- https://pkg.go.dev/golang.org/x/net@v0.4.0/websocket#Server
+
+```go
+import (
+	"golang.org/x/net/websocket"
+)
+
+	websocket.Server{
+		Handler: func(ws *websocket.Conn) {
+			defer ws.Close()
+			for {
+				msg := ""
+				if err := websocket.Message.Receive(ws, &msg); err != nil {
+					return
+				}
+				websocket.Message.Send(ws, msg)
+			}
+		},
+	}.ServeHTTP(c.Writer, c.Request)
+```
