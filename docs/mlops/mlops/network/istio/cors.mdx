@@ -68,11 +68,11 @@ CORS 요청에 대해 접근 권한 설정은 서버에 있지만 접근 권한�
 
 - https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
 
-```yaml {19-33}
+```yaml
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: "backend-vs"
+  name: "backend"
 spec:
   hosts:
     - domain-b.com
@@ -88,8 +88,10 @@ spec:
         - destination:
             host: backend.default.svc.cluster.local
       corsPolicy:
+        # Access-Control-Allow-Origin
         allowOrigins:
           - https://domain-a.com
+        # Access-Control-Allow-Methods
         allowMethods:
           - POST
           - GET
@@ -97,14 +99,18 @@ spec:
           - DELETE
           - OPTIONS
           - PATCH
-        allowCredentials: true
+        # Access-Control-Allow-Headers
         allowHeaders: # Request
           - Authorization
           - Content-Type
+        # Access-Control-Expose-Headers
         exposeHeaders: # Response
           - Ratelimit-Limit
           - Ratelimit-Remaining
+        # Access-Control-Max-Age
         maxAge: "24h"
+        # Access-Control-Allow-Credentials
+        allowCredentials: true
 ```
 
 ## Reference

@@ -1,11 +1,11 @@
 ---
 id: persistent-volume
-title: Persistent volume
-sidebar_label: Persistent volume
-description: kubernetes persistent volume
+title: PersistentVolume
+sidebar_label: PersistentVolume
+description: kubernetes PersistentVolume
 keywords:
   - kubernetes
-  - persistent volume
+  - PersistentVolume
 ---
 
 ## Static provisioning
@@ -21,6 +21,8 @@ keywords:
   - 없으면 StorageClass의 속성에 따라 PV 생성
 
 ## StorageClass
+
+- https://kubernetes.io/ko/docs/tasks/administer-cluster/change-default-storage-class/
 
 기본 StorageClass로 등록하기 위해서는 아래 설정을 추가하면 됩니다.
 
@@ -67,6 +69,38 @@ spec:
 
 ## PersistentVolumeClaim
 
-## Reference
+## StatefulSet에서 미리 생성된 PV 사용하기
 
-- [https://kubernetes.io/ko/docs/tasks/administer-cluster/change-default-storage-class/](https://kubernetes.io/ko/docs/tasks/administer-cluster/change-default-storage-class/)
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  replicas: 3
+  template:
+    spec:
+      containers:
+        - volumeMounts:
+            - name: <PVCTemplateName>
+              mountPath: <mount-path>
+  volumeClaimTemplates:
+    - metadata:
+        name: <PVCTemplateName>
+```
+
+위와 같이 StatefulSet을 생성하면, `<PVCTemplateName>-<StatefulSetName>-<ReplicaIndex>` 형태의 PVC가 생성되므로 아래와 같은 PersistentVolume을 미리 생성하면 됩니다.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  claimRef:
+    name: <PVCTemplateName>-<StatefulSetName>-<ReplicaIndex>
+    namespace: <namespace>
+  persistentVolumeReclaimPolicy: Retain
+```

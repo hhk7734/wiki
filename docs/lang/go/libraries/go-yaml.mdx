@@ -5,14 +5,42 @@ sidebar_label: go-yaml
 description: go-yaml
 keywords:
   - go-yaml
+  - yaml
+  - golang
 ---
 
 ## Installation
 
+- https://github.com/go-yaml/yaml
+
 ```shell
-go get -u gopkg.in/yaml.v2
+go get -u gopkg.in/yaml.v3
 ```
 
-## Reference
+## Yaml 파일 읽기
 
-- [https://github.com/go-yaml/yaml](https://github.com/go-yaml/yaml)
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"gopkg.in/yaml.v3"
+)
+
+func main() {
+	text, err := os.ReadFile("test.yaml")
+	if err != nil {
+		panic(err)
+	}
+
+	var data interface{}
+	err = yaml.Unmarshal(text, &data)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println(data)
+}
+```

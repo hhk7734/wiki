@@ -353,7 +353,6 @@ module.exports = {
 				"mlops/mlops/container/apptainer",
 				"mlops/mlops/container/buildah-skopeo",
 				"mlops/mlops/container/podman",
-				"mlops/mlops/container/image-pull-secrets",
 			],
 		},
 		{
@@ -374,6 +373,14 @@ module.exports = {
 				"mlops/mlops/kubernetes/service",
 				"mlops/mlops/kubernetes/persistent-volume",
 				"mlops/mlops/kubernetes/label",
+				{
+					type: "category",
+					label: "Configuration",
+					items: [
+						"mlops/mlops/kubernetes/configuration/configmap",
+						"mlops/mlops/kubernetes/configuration/secret",
+					],
+				},
 				{
 					type: "category",
 					label: "Policy",
@@ -445,6 +452,7 @@ module.exports = {
 							],
 						},
 						"mlops/mlops/network/istio/kiali",
+						"mlops/mlops/network/istio/jaeger",
 						"mlops/mlops/network/istio/jwt",
 						"mlops/mlops/network/istio/cors",
 					],

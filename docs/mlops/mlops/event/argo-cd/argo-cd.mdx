@@ -21,12 +21,17 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-cd \
-    --version 5.8.1 \
-    > values.yaml
+    --version 5.16.2 \
+    > argo-cd-values.yaml
 ```
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 fullnameOverride: "argo-cd"
+
+global:
+  additionalLabels: {}
+
+  podLabels: {}
 
 configs:
   cm:
@@ -53,9 +58,9 @@ kubectl create namespace workflow
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 5.8.1 \
+    --version 5.16.2 \
     -n workflow \
-    --values values.yaml
+    --values argo-cd-values.yaml
 ```
 
 ## User
@@ -64,7 +69,7 @@ helm upgrade argo-cd argo/argo-cd \
 
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#local-usersaccounts-v15
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 configs:
   cm:
     # add an additional local user with apiKey and login capabilities
@@ -85,7 +90,7 @@ configs:
 
 `redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 configs:
   cm:
     url: <uri>
@@ -99,7 +104,7 @@ configs:
 
 argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 configs:
   cm:
     dex.config: |
@@ -139,7 +144,7 @@ stringData:
 
 ### OIDC
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 dex:
   enabled: false
 
@@ -157,7 +162,7 @@ configs:
 
 argocd-secret `.data`에 `oidc.keycloak.clientSecret: <base64 encoded>`를 추가 합니다.
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 configs:
   cm:
     oidc.config: |
@@ -172,7 +177,7 @@ configs:
 
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
 
-```yaml title="values.yaml"
+```yaml title="argo-cd-values.yaml"
 configs:
   rbac:
     # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
