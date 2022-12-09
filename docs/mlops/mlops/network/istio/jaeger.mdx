@@ -15,5 +15,33 @@ helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
 ```
 
 ```shell
+helm repo update jaegertracing \
+&& helm search repo jaegertracing/jaeger-operator -l | head -n 10
+```
 
+```shell
+helm show values jaegertracing/jaeger-operator \
+    --version 2.38.0 \
+    > jaeger-operator-values.yaml
+```
+
+```yaml title="jaeger-operator-values.yaml"
+
+```
+
+```shell
+helm template jaeger-operator jaegertracing/jaeger-operator \
+    --version 2.38.0 \
+    -n monitoring \
+    -f jaeger-operator-values.yaml \
+    > jaeger-operator.yaml
+```
+
+```shell
+helm upgrade jaeger-operator jaegertracing/jaeger-operator \
+    --install \
+    --version 2.38.0 \
+    -n monitoring \
+    --history-max 3 \
+    -f jaeger-operator-values.yaml
 ```

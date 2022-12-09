@@ -92,16 +92,43 @@ func Config() config {
 ```
 
 ```dockerfile title="Dockerfile"
-FROM golang:1.18.1-alpine AS build
-COPY . /app
+FROM golang:1.19.2-alpine AS build
 WORKDIR /app
+
+COPY . /app
+RUN go mod tidy
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -tags=go_json,nomsgpack -buildvcs=false -o app
+
+
+FROM alpine:3.16.3 AS runtime
+WORKDIR /app
+
+COPY --from=build /app/app /usr/bin/
+
+ENV PORT 8080
+EXPOSE 8080
+CMD ["app"]
+```
+
+```dockerfile title="Dockerfile"
+FROM golang:1.19.2-alpine AS build
+WORKDIR /app
+
+COPY . /app
 RUN apk --update add ca-certificates
 RUN go mod tidy
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -tags=go_json,nomsgpack -buildvcs=false -o app
 
+
 FROM scratch AS runtime
 WORKDIR /app
+
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
 COPY --from=build /app/app /usr/bin/
+
+ENV PORT 8080
+EXPOSE 8080
 CMD ["app"]
 ```
+
+scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.
