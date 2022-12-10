@@ -4,84 +4,105 @@ title: Git commit message
 sidebar_label: Commit Message
 description: Git commit message
 keywords:
-  - Git
+  - git
   - message
 ---
 
 ## Message
 
-- Subject
-  - Limit the line to **50 characters**.
-  - Use the **imperative mood**.
-  - Separate subject from body with a blank line.
-  - Do not end the line with a period.
-  - When dealing with issues, Use **[Action] #issue - subject** form.
-- Body
-  - Wrap the body at **72 characters**.
-  - Explain **what** and **why** vs. how.
+- https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines
 
-## Body example
+```xml
+<type>(<scope>): <subject>
 
-Ref: [https://blog.ull.im/engineering/2019/03/10/logs-on-git.html](https://blog.ull.im/engineering/2019/03/10/logs-on-git.html)
+<body>
 
-- 필요한 경우 아니면 관사 사용 안함.
-- 명령문
-- Don't 부정문
-- Add A for B
-  - Add printk for debug
-- Add A to B
-  - Add is_open to tty0uart_uart_serial
-- Allow A to B
-- Avoid A
-- Avoid A if B
-- Avoid A when B
-- Correct A(문법 오류, 타입 변경, 이름 변경)
-  - Correct variable name and type
-- Ensure A
-- Fix typo
-- Fix A
-  - Fix typo
-  - Fix incorrect run command
-- Fix A in B
-  - Fix error condition in Uart::begin
-- Fix A which B
-- Fix A that B
-  - Fix crash that occurs when removing and reinserting
-- Fix A to B
-- Fix A so that B
-- Fix A where B
-  - Fix issue where log does not match log level
-- Fix A when B
-- Implement A(Add 보다 좀더 큰 단위 코드 추가)
-  - Implement basic frame for uart_ops
-- Implement A to B
-- Improve A
-- Make A B
-- Move A (in)to B
-  - Move \*\_linux.cpp into linux directory
-- Pass A to B
-- Prevent A
-  - Prevent reopen when already open
-- Prevent A from B
-  - Prevent write() from printing KERN_ERR
-- Prevent A if B
-  - Prevent installation if libgpiodcxx v1.0 or lower
-- Refactor A (뒤엎은 경우)
-  - Refactor tty0uart_tty functions
-- Remove A
-- Remove A from B
-- Rename A to B
-- Revise A
-  - Revise log level
-- Set A to B
-- Simplify A
-- Use A for B
-- Use A to B
-  - Use throw to handle errors instead of exit()
-- Use A in B
-- Use A instead of B
-- Update A to B
-- Verify A
+<footer>
+```
+
+- `<type>`
+  - `feat`: 새로운 기능
+  - `fix`: 버그 수정
+  - `docs`: 문서만 수정
+  - `style`: 코드 의미에 영향을 주지 않는 변경사항 (코드 포맷팅, 세미콜론 누락 등의 변경)
+  - `refactor`: `feat`, `fix`가 아닌 코드 수정
+  - `perf`: 성능 개선
+  - `test`: 테스트 코드 추가, 수정
+  - `chore`: 기타 수정
+- `<scope>`: 변경된 코드 범위를 나타내는 모든 것으로 생략이 가능합니다
+- `<subject>`
+  - 명령형을 사용합니다
+  - 소문자로 시작합니다
+  - `.`(구두점)으로 끝나지 않습니다
+- `<body>`
+
+:::info
+헤더는 50자, 본문은 72자 줄 길이(line length)를 권장하는 글이 많습니다.
+:::
+
+## `<subject>` example
+
+- https://blog.ull.im/engineering/2019/03/10/logs-on-git.html
+
+<br />
+
+- 필요한 경우 아니면 관사 사용을 하지 않습니다
+- 명령형을 사용합니다
+- add A for B
+  - add printk for debug
+- add A to B
+  - add is_open to tty0uart_uart_serial
+- allow A to B
+- avoid A
+- avoid A if B
+- avoid A when B
+- correct A(문법 오류, 타입 변경, 이름 변경)
+  - correct variable name and type
+- ensure A
+- fix typo
+- fix A
+  - fix typo
+  - fix incorrect run command
+- fix A in B
+  - fix error condition in Uart::begin
+- fix A which B
+- fix A that B
+  - fix crash that occurs when removing and reinserting
+- fix A to B
+- fix A so that B
+- fix A where B
+  - fix issue where log does not match log level
+- fix A when B
+- implement A(Add 보다 좀더 큰 단위 코드 추가)
+  - implement basic frame for uart_ops
+- implement A to B
+- improve A
+- make A B
+- move A (in)to B
+  - move \*\_linux.cpp into linux directory
+- pass A to B
+- prevent A
+  - prevent reopen when already open
+- prevent A from B
+  - prevent write() from printing KERN_ERR
+- prevent A if B
+  - prevent installation if libgpiodcxx v1.0 or lower
+- refactor A (뒤엎은 경우)
+  - refactor tty0uart_tty functions
+- remove A
+- remove A from B
+- rename A to B
+- revise A
+  - revise log level
+- set A to B
+- simplify A
+- use A for B
+- use A to B
+  - use throw to handle errors instead of exit()
+- use A in B
+- use A instead of B
+- update A to B
+- verify A
 
 ## Close issue(Github)
 

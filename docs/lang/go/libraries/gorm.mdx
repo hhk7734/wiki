@@ -19,36 +19,84 @@ go get -u gorm.io/gorm
 go get -u gorm.io/driver/mysql
 ```
 
+## Database
+
+- https://gorm.io/docs/connecting_to_the_database.html
+
 ## Schema
+
+### Tag
 
 - https://gorm.io/docs/models.html#Fields-Tags
 
-```go
-type User struct {
-	ID          int64     `gorm:"primaryKey"`
-	UUID        uuid.UUID `gorm:"not null"`
-	CreatedAt   time.Time `gorm:"not null"`
-	UpdatedAt   time.Time `gorm:"not null"`
-	Email       string    `gorm:"unique;size:128;not null"`
-	OTPSecret   string    `gorm:"size:32;not null"`
-	PhoneNumber *string   `gorm:"size:20"`
-	AuthMask    uint16    `gorm:"default:1;not null"`
-}
-```
+<br />
+
+- `;`: 구분자
+- `column:<name>`
+- `type:<columnDefinition>`: Tag로 선언할 수 없는 것은 `<type>`을 사용하여 선언할 수 있습니다
+- `serializer:<serializer>`
+- `size:<size>`
+- `primaryKey` : PRIMARY KEY
+- `unique`: UNIQUE KEY
+- `default:<value>`: DEFAULT `<value>`
+- `precision:<precision>`
+- `scale:<scale>`
+- `not null`: NOT NULL
+- `autoIncrement`: AUTO_INCREMENT
+- `autoIncrementIncrement:<step>`
+- `embedded`
+- `embeddedPrefix:<prefix>`
+- `autoCreateTime:milli|nano`: CreatedAt을 unix 시간으로 저장할 때 사용합니다
+- `autoUpdateTime:milli|nano`: UpdatedAt을 unix 시간으로 저장할 때 사용합니다
+- `index[:<config>[,<config>]]`
+  - https://gorm.io/docs/indexes.html
+- `uniqueIndex`
+- `check:<condition>`
+  - https://gorm.io/docs/constraints.html
+- `<-[:create|update|false]`: 쓰기 권한
+- `->[:false]`: 읽기 권한
+- `-[:migration|all]`
+- `comment:<comment>`
+
+<br />
+
+- https://gorm.io/docs/associations.html#Association-Tags
+
+<br />
+
+- `foreignKey:<key>`
+- `references:<key>`
+- `polymorphic:<key>`
+- `polymorphicValue:<value>`
+- `many2many:<joinTable>`
+- `joinForeignKey:<key>`
+- `joinReferences:<key>`
+- `constraint:<constraint>[,<constraint>]`
+  - `OnUpdate:<action>`
+  - `OnDelete:<action>`
+
+### Example
 
 ```sql
-CREATE TABLE `users` (
-    `id` bigint NOT NULL AUTO_INCREMENT,
-    `uuid` binary(16) NOT NULL,
-    `created_at` datetime(3) NOT NULL,
-    `updated_at` datetime(3) NOT NULL,
-    `email` varchar(128) NOT NULL,
-    `otp_secret` varchar(32) NOT NULL,
-    `phone_number` varchar(20) DEFAULT NULL,
-    `auth_mask` smallint unsigned NOT NULL DEFAULT '1',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`)
-) ENGINE = InnoDB AUTO_INCREMENT = 2 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci
+CREATE TABLE accounts (
+    account_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL DEFAULT '',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY ('account_id'),
+    UNIQUE KEY 'email' ('email')
+);
+```
+
+```go
+type Account struct {
+	AccountID   uint64    `gorm:"not null;autoIncrement;primaryKey"`
+	Email       string    `gorm:"size:255;not null;unique"`
+	PhoneNumber string    `gorm:"size:20;not null;default:''"`
+	CreatedAt   time.Time `gorm:"type:TIMESTAMP;not null;default:CURRENT_TIMESTAMP"`
+	UpdatedAt   time.Time `gorm:"type:TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;not null;default:CURRENT_TIMESTAMP"`
+}
 ```
 
 ## Transaction

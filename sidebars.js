@@ -175,7 +175,7 @@ module.exports = {
 	go: [
 		"lang/go/go",
 		"lang/go/error",
-		"lang/go/testify",
+		"lang/go/test",
 		"lang/go/context",
 		"lang/go/goroutine",
 		{
