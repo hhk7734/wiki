@@ -6,3 +6,19 @@ description: context
 keywords:
   - context
 ---
+
+## context.Context
+
+- struct에 컨텍스트를 저장하지 않습니다
+- 일반적으로 `ctx context.Context`를 첫번째 파라미터로 선언합니다
+- nil 컨텍스트를 전달하지 않습니다
+- 절달해야할 컨텍스트가 없거나 확실치 않다면 `context.TODO()`를 전달합니다
+
+```go
+func DoSomething(ctx context.Context, arg Arg) error {
+	// ctx 사용
+	return nil
+}
+```
+
+## context.WithValue
