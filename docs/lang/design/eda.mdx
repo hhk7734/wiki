@@ -33,6 +33,27 @@ keywords:
 `source` + `id` 조합은 동일 `type` 내에서 고유해야합니다.
 :::
 
+## HTTP 매핑
+
+- https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/bindings/http-protocol-binding.md#3-http-message-mapping
+
+```http
+POST /someresource HTTP/1.1
+Host: wiki.loliot.net
+Ce-Specversion: 1.0
+Ce-Type: domain.subdomain.event.v2
+Ce-Source: https://<domain>/v2/<resource>
+Ce-Id: 2c04c116-19c2-4b59-857e-2f0396ad0e98
+Ce-Time: 2022-07-02T21:59:07.975+0900
+Content-Type: application/json; charset=utf-8
+{
+  ...data
+}
+```
+
+- `Ce-Datacontenttype` 대신 `Content-Type`을 사용합니다
+- `Ce-Data` 대신 본문을 사용합니다
+
 ## Events and Commands
 
 Events and Commands는
