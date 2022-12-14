@@ -136,6 +136,7 @@ module.exports = {
 			label: "Domain-Driven",
 			items: [
 				"lang/design/ddd/domain",
+				"lang/design/ddd/repository",
 				"lang/design/ddd/hexagonal",
 				"lang/design/ddd/refactoring",
 			],
