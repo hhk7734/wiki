@@ -64,7 +64,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/loki-distributed \
-    --version 0.63.2 \
+    --version 0.67.0 \
     > loki-distributed-values.yaml
 ```
 
@@ -73,12 +73,10 @@ fullnameOverride: "loki"
 
 loki:
   config: |
-    # ...
     server:
       http_listen_port: 3100
       grpc_server_max_recv_msg_size: 10485760
       grpc_server_max_send_msg_size: 10485760
-    # ...
 
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
   # for more info on how to configure schemas
@@ -137,10 +135,19 @@ gateway:
 ```
 
 ```shell
+helm template loki grafana/loki-distributed \
+    --version 0.67.0  \
+    -n monitoring \
+    -f loki-distributed-values.yaml
+    > loki.yaml
+```
+
+```shell
 helm upgrade loki grafana/loki-distributed \
     --install \
-    --version 0.63.2  \
+    --version 0.67.0  \
     -n monitoring \
+    --history-max 3 \
     -f loki-distributed-values.yaml
 ```
 

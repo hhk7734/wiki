@@ -40,18 +40,18 @@ spec:
 ```
 
 ```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami \
-&& helm repo update bitnami
+helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
 
 ```shell
-helm search repo bitnami/postgresql -l | head -n 10
+helm repo update bitnami \
+&& helm search repo bitnami/postgresql -l | head -n 10
 ```
 
 ```shell
 helm show values bitnami/postgresql \
-    --version 11.1.25 \
-    > values.yaml
+    --version 11.9.13 \
+    > postgresql-values.yaml
 ```
 
 ```yaml
@@ -64,11 +64,21 @@ auth:
 ```
 
 ```shell
+helm template postgresql bitnami/postgresql \
+    --version 11.9.13 \
+    -n storage \
+    --history-max 3 \
+    -f postgresql-values.yaml \
+    > postgresql.yaml
+```
+
+```shell
 helm upgrade postgresql bitnami/postgresql \
     --install \
-    --version 11.1.25 \
+    --version 11.9.13 \
     -n storage \
-    --values values.yaml
+    --history-max 3 \
+    -f postgresql-values.yaml
 ```
 
 ## Test
