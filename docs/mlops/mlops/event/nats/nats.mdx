@@ -24,7 +24,7 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nats \
-    --version 0.19.1 \
+    --version 0.19.3 \
     > nats-values.yaml
 ```
 
@@ -88,7 +88,7 @@ auth:
 
 ```shell
 helm template nats nats/nats \
-    --version 0.19.1 \
+    --version 0.19.3 \
     -n event \
     -f nats-values.yaml \
     > nats.yaml
@@ -97,41 +97,8 @@ helm template nats nats/nats \
 ```shell
 helm upgrade nats nats/ntas \
     --install \
-    --version 0.19.1 \
+    --version 0.19.3 \
     -n event \
     --history-max 3 \
     -f nats-values.yaml
-```
-
-### NACK
-
-CRD로 정의된 `Account`, `Stream`, `StreamTemplate`, `Consumer`를 쿠버네티스에 등록하면 자동으로 NATS 서버에 생성해주는 컨트롤러 입니다.
-
-```shell
-kubectl apply -f https://raw.githubusercontent.com/nats-io/nack/v0.7.2/deploy/crds.yml
-```
-
-```shell
-helm repo update nats \
-&& helm search repo nats/nack -l | head -n 10
-```
-
-```shell
-helm show values nats/nack \
-    --version 0.17.4 \
-    > values.yaml
-```
-
-```yaml
-jetstream:
-  nats:
-    url: nats://nats.event:4222
-```
-
-```shell
-helm upgrade nack nats/nack \
-    --install \
-    --version 0.17.4 \
-    -n event \
-    -f values.yaml
 ```

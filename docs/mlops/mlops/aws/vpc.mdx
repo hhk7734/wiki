@@ -7,6 +7,47 @@ keywords:
   - VPC
 ---
 
+<center>
+
+```mermaid
+flowchart
+  subgraph vpc
+    InternetGateway(InternetGateway)
+
+    NatGateway-1 --> InternetGateway
+    NatGateway-2 --> InternetGateway
+
+    subgraph subnet-1
+      subgraph public-1
+        NatGateway-1(NAT Gateway)
+
+      end
+      subgraph private-1
+        EC2-1-1(Private EC2-1)
+        EC2-1-2(Private EC2-2)
+
+        EC2-1-1 --> NatGateway-1
+        EC2-1-2 --> NatGateway-1
+      end
+    end
+    subgraph subnet-2
+      subgraph public-2
+        NatGateway-2(NAT Gateway)
+
+      end
+      subgraph private-2
+        EC2-2-1(Private EC2-1)
+        EC2-2-2(Private EC2-2)
+
+        EC2-2-1 --> NatGateway-2
+        EC2-2-2 --> NatGateway-2
+      end
+    end
+  end
+```
+
+</center>
+
 ## VPC & Subnet
 
 ```python

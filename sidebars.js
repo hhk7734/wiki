@@ -390,7 +390,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Scheduling",
-					items: ["mlops/mlops/kubernetes/scheduling/taint-toleration"],
+					items: [
+						"mlops/mlops/kubernetes/scheduling/affinity",
+						"mlops/mlops/kubernetes/scheduling/taint-toleration",
+					],
 				},
 				{
 					type: "category",
@@ -560,6 +563,11 @@ module.exports = {
 						"mlops/mlops/event/nats/crd",
 						"mlops/mlops/event/nats/flow",
 					],
+				},
+				{
+					type: "category",
+					label: "Kafka",
+					items: ["mlops/mlops/event/kafka/kafka"],
 				},
 				{
 					type: "category",
