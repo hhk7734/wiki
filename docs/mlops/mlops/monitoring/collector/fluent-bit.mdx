@@ -21,16 +21,16 @@ helm repo update fluent \
 
 ```shell
 helm show values fluent/fluent-bit \
-  --version 0.20.9 \
+  --version 0.21.6 \
   > fluent-bit-values.yaml
 ```
 
 ```yaml title="fluent-bit-values.yaml"
 resources:
-  limits:
-    cpu: 100m
-    memory: 128Mi
   requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
     cpu: 100m
     memory: 128Mi
 
@@ -84,9 +84,17 @@ config:
 ```
 
 ```shell
+helm template fluent-bit fluent/fluent-bit \
+    --version 0.21.6 \
+    -n monitoring \
+    -f fluent-bit-values.yaml \
+    > fluent-bit.yaml
+```
+
+```shell
 helm upgrade fluent-bit fluent/fluent-bit \
   --install \
-  --version 0.20.9 \
+  --version 0.21.6 \
   -n monitoring \
   --history-max 3 \
   -f fluent-bit-values.yaml

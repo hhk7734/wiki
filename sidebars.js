@@ -376,6 +376,11 @@ module.exports = {
 				"mlops/mlops/kubernetes/label",
 				{
 					type: "category",
+					label: "Workloads",
+					items: ["mlops/mlops/kubernetes/workloads/pod-lifecycle"],
+				},
+				{
+					type: "category",
 					label: "Configuration",
 					items: [
 						"mlops/mlops/kubernetes/configuration/configmap",
@@ -401,6 +406,11 @@ module.exports = {
 					items: [
 						"mlops/mlops/kubernetes/api-access-control/admission-controller",
 					],
+				},
+				{
+					type: "category",
+					label: "Upgrade",
+					items: ["mlops/mlops/kubernetes/upgrade/1-21-1-22"],
 				},
 			],
 		},

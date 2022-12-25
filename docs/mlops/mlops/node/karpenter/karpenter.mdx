@@ -196,7 +196,7 @@ const rpas = Object.entries(nodePolicyARNs).map(
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.19.1 \
+    --version v0.20.0 \
     > karpenter-values.yaml
 ```
 
@@ -243,9 +243,17 @@ kubectl create namespace karpenter
 ```
 
 ```shell
+helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.20.0 \
+    -n karpenter \
+    -f karpenter-values.yaml \
+    > karpenter.yaml
+```
+
+```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.19.1 \
+    --version v0.20.0 \
     -n karpenter \
     --history-max 3 \
     -f karpenter-values.yaml

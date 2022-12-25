@@ -77,42 +77,6 @@ spec:
 
 `kubectl config set-context --current --namespace <namespace>` 명령어를 통해 현재 컨텍스트의 기본 namespace를 변경할 수 있습니다.
 
-## Probe
-
-`kubelet`에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구현된 핸들러가 있습니다.
-
-- `ExecAction(exec)`: 주어진 커맨드 수행 후 `return code == 0` 이면 성공
-- `TCPSocketAction(tcpSocket)`: 지정 port가 활성화 되어 있다면 성공
-- `HTTPGetAction(httpGet)`: 지정 `<host>:<port><path>` 에 GET 요청 수행 후 `200 <= status code < 400` 이면 성공
-
-진단 성공 또는 probe가 없을 시 `Success`, 실패 시 `Failure`, 진단 자체가 실패하는 경우 `Unknown`으로 표시됩니다.
-
-### startupProbe
-
-컨테이너 내의 애플리케이션이 시작되었는지를 진단합니다. **startupProbe가 주어진 경우, 성공할 때까지 다른 나머지 프로브는 활성화되지 않습니다.** startupProbe가 실패하면, `kubelet`이 컨테이너를 죽이고, 컨테이너는 `restartPolicy`에 따라 처리됩니다.
-
-```shell
-kubectl explain pod.spec.containers.startupProbe --recursive
-```
-
-### livenessProbe
-
-컨테이너가 동작 중인지 여부를 진단합니다. livenessProbe가 실패하면, `kubelet`이 컨테이너를 죽이고, 컨테이너는 `restartPolicy`에 따라 처리됩니다.
-
-```shell
-kubectl explain pod.spec.containers.livenessProbe --recursive
-```
-
-### readinessProbe
-
-컨테이너가 요청을 처리할 준비가 되었는지 여부를 진단합니다. readinessProbe가 실패하면, Endpoints 컨트롤러는 Pod에 연관된 모든 Service들의 Endpoints에서 Pod의 IP주소를 제거합니다.
-
-문제 있는 애플리케이션에 의존성이 있는 애플리케이션의 접근을 사전에 차단해 줌으로써 문제가 전파되는 것을 방지할 수 있습니다.
-
-```shell
-kubectl explain pod.spec.containers.readinessProbe --recursive
-```
-
 ## rollout
 
 ```shell

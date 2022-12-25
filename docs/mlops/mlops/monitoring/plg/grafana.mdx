@@ -20,7 +20,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/grafana \
-    --version 6.43.5 \
+    --version 6.48.0 \
     > grafana-values.yaml
 ```
 
@@ -48,9 +48,17 @@ grafana.ini:
 ```
 
 ```shell
+helm template grafana grafana/grafana \
+    --version 6.48.0 \
+    -n monitoring \
+    -f grafana-values.yaml \
+    > grafana.yaml
+```
+
+```shell
 helm upgrade grafana grafana/grafana \
     --install \
-    --version 6.43.5  \
+    --version 6.48.0 \
     -n monitoring \
     --history-max 3 \
     -f grafana-values.yaml

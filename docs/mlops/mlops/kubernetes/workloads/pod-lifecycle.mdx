@@ -13,6 +13,8 @@ keywords:
 
 - https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes
 
+`kubelet`에 의해 주기적으로 수행되는 진단 작업을 `Probe`라고 합니다. 진단 작업 수행을 위해 미리 구현된 핸들러가 있습니다.
+
 ```yaml
 spec:
   restartPolicy: Always # Always|OnFailure|Never
@@ -31,6 +33,10 @@ spec:
         timeoutSeconds: 1 # probe를 실행하는 시간 제한
 ```
 
+```shell
+kubectl explain pod.spec.containers.startupProbe --recursive
+```
+
 - `startupProbe`: 컨테이너 내의 애플리케이션이 시작되었는지 확인합니다
   - Failure 상태가 되면 컨테이너는 `restartPolicy`에 따라 처리됩니다
   - Success 상태가 된 후에 `livenessProbe`, `readinessProbe`가 시작됩니다
@@ -39,3 +45,11 @@ spec:
 - `readinessProbe`: 컨테이너가 요청을 처리할 준비가 되었는지 확인합니다
   - Failure 상태가 되면 Pod의 `Ready` 상태가 `False`로 변경됩니다
   - 연결된 Service의 Endpoint에서 제거됩니다
+  - 문제 있는 애플리케이션에 접근을 사전에 차단해 줌으로써 문제가 전파되는 것을 방지할 수 있습니다
+
+<br />
+
+- `ExecAction(exec)`: 주어진 커맨드 수행 후 `return code == 0` 이면 성공
+- `TCPSocketAction(tcpSocket)`: 지정 port가 활성화 되어 있다면 성공
+- `HTTPGetAction(httpGet)`: 지정 `<host>:<port><path>` 에 GET 요청 수행 후 `200 <= status code < 400` 이면 성공
+- 진단 성공 또는 probe가 없을 시 `Success`, 실패 시 `Failure`, 진단 자체가 실패하는 경우 `Unknown`으로 표시됩니다.
