@@ -1,0 +1,211 @@
+---
+id: lifecycle
+title: React Lifecycle
+sidebar_label: Lifecycle
+description: React Lifecycle
+keywords:
+  - react
+  - lifecycle
+---
+
+import Image from "@theme/IdealImage";
+
+## React.Component Lifecycle
+
+<center>
+  <Image
+    img={require("@site/static/img/lang/javascript/react/react-component-lifecycle.jpg")}
+    width={750}
+  />
+</center>
+<center>https://twitter.com/dan_abramov/status/981712092611989509</center>
+
+## React Hooks Lifecycle
+
+<center>
+  <Image
+    img={require("@site/static/img/lang/javascript/react/react-hooks-lifecycle.jpg")}
+    width={750}
+  />
+</center>
+<center>https://github.com/Wavez/react-hooks-lifecycle</center>
+
+## React Hook flow
+
+<center>
+  <Image
+    img={require("@site/static/img/lang/javascript/react/react-hook-flow.png")}
+    width={750}
+  />
+</center>
+<center>https://github.com/donavon/hook-flow</center>
+
+- https://egghead.io/lessons/react-understand-the-react-hook-flow
+
+```javascript
+const Child = () => {
+  console.log("%c    Child: render 시작", "color: MediumSpringGreen");
+
+  const [count, setCount] = useState(() => {
+    console.log("%c    Child: useState callback 호출", "color: tomato");
+    return 0;
+  });
+
+  useEffect(() => {
+    console.log("%c    Child: useEffect - deps 없음", "color: LightCoral");
+    return () => {
+      console.log(
+        "%c    Child: useEffect cleanup - deps 없음",
+        "color: LightCoral"
+      );
+    };
+  });
+
+  useEffect(() => {
+    console.log("%c    Child: useEffect - deps [] ", "color: MediumTurquoise");
+    return () => {
+      console.log(
+        "%c    Child: useEffect cleanup - deps []",
+        "color: MediumTurquoise"
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("%c    Child: useEffect - deps [count]", "color: HotPink");
+    return () => {
+      console.log(
+        "%c    Child: useEffect cleanup - deps [count]",
+        "color: HotPink"
+      );
+    };
+  }, [count]);
+
+  const element = (
+    <button onClick={() => setCount((previousCount) => previousCount + 1)}>
+      {count}
+    </button>
+  );
+
+  console.log("%c    Child: render 끝", "color: MediumSpringGreen");
+
+  return element;
+};
+
+const App = () => {
+  console.log("%cApp: render 시작", "color: MediumSpringGreen");
+
+  const [showChild, setShowChild] = useState(() => {
+    console.log("%cApp: useState callback 호출", "color: tomato");
+    return false;
+  });
+
+  useEffect(() => {
+    console.log("%cApp: useEffect - deps 없음", "color: LightCoral");
+    return () => {
+      console.log("%cApp: useEffect cleanup - deps 없음", "color: LightCoral");
+    };
+  });
+
+  useEffect(() => {
+    console.log("%cApp: useEffect - deps []", "color: MediumTurquoise");
+    return () => {
+      console.log(
+        "%cApp: useEffect cleanup - deps []",
+        "color: MediumTurquoise"
+      );
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("%cApp: useEffect - deps [showChild]", "color: HotPink");
+    return () => {
+      console.log(
+        "%cApp: useEffect cleanup - deps [showChild]",
+        "color: HotPink"
+      );
+    };
+  }, [showChild]);
+
+  const element = (
+    <>
+      <label>
+        <input
+          type="checkbox"
+          checked={showChild}
+          onChange={(e) => setShowChild(e.target.checked)}
+        />{" "}
+        Child 보기
+      </label>
+      <div
+        style={{
+          padding: 10,
+          margin: 10,
+          height: 30,
+          width: 30,
+          border: "solid",
+        }}
+      >
+        {showChild ? <Child /> : null}
+      </div>
+    </>
+  );
+
+  console.log("%cApp: render 끝", "color: MediumSpringGreen");
+
+  return element;
+};
+```
+
+페이지 진입
+
+```shell
+App: render 시작
+App: useState callback 호출
+App: render 끝
+App: useEffect - deps 없음
+App: useEffect - deps []
+App: useEffect - deps [showChild]
+```
+
+Child 보기 체크박스 on
+
+```shell
+App: render 시작
+App: render 끝
+    Child: render 시작
+    Child: useState callback 호출
+    Child: render 끝
+    Child: useEffect - deps 없음
+    Child: useEffect - deps []
+    Child: useEffect - deps [count]
+App: useEffect cleanup - deps 없음
+App: useEffect cleanup - deps [showChild]
+App: useEffect - deps 없음
+App: useEffect - deps [showChild]
+```
+
+Child의 Count 버튼 클릭
+
+```shell
+    Child: render 시작
+    Child: render 끝
+    Child: useEffect cleanup - deps 없음
+    Child: useEffect cleanup - deps [count]
+    Child: useEffect - deps 없음
+    Child: useEffect - deps [count]
+```
+
+Child 보기 체크박스 off
+
+```shell
+App: render 시작
+App: render 끝
+    Child: useEffect cleanup - deps 없음
+    Child: useEffect cleanup - deps []
+    Child: useEffect cleanup - deps [count]
+App: useEffect cleanup - deps 없음
+App: useEffect cleanup - deps [showChild]
+App: useEffect - deps 없음
+App: useEffect - deps [showChild]
+```

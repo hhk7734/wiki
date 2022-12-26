@@ -9,12 +9,10 @@ keywords:
 
 ## Installation
 
-```shell
-helm repo add jetstack https://charts.jetstack.io
-```
+- https://cert-manager.io/docs/installation/helm/
 
 ```shell
-mkdir -p network/cert_manager/{base,helm}
+helm repo add jetstack https://charts.jetstack.io
 ```
 
 ```shell
@@ -24,24 +22,29 @@ helm repo update jetstack \
 
 ```shell
 helm show values jetstack/cert-manager \
-    --version v1.9.1 \
-    > network/cert_manager/helm/values.yaml
+    --version v1.10.1 \
+    > cert-manager-values.yaml
 ```
 
-```yaml title="network/cert_manager/helm/values.yaml"
+```yaml title="cert-manager-values.yaml"
 installCRDs: true
+```
+
+```shell
+helm template cert-manager jetstack/cert-manager \
+    --version v1.10.1 \
+    -n network \
+    -f cert-manager-values.yaml \
+    > cert-manager.yaml
 ```
 
 ```shell
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
-    --version v1.9.1 \
+    --version v1.10.1 \
     -n network \
-    -f network/cert_manager/helm/values.yaml
-```
-
-```shell
-kubectl get pod -l app.kubernetes.io/instance=cert-manager -w
+    --history-max 3 \
+    -f cert-manager-values.yaml
 ```
 
 ## Removal
@@ -57,7 +60,7 @@ helm uninstall -n network cert-manager
 ```
 
 ```shell
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.7.2/cert-manager.crds.yaml
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.1/cert-manager.crds.yaml
 ```
 
 ## selfSigned
@@ -187,7 +190,6 @@ kubectl logs cert-manager-
 
 ## Reference
 
-- https://cert-manager.io/docs/installation/helm/
 - https://github.com/jetstack/cert-manager
 - https://istio.io/latest/docs/ops/integrations/certmanager/
 - https://cert-manager.io/docs/faq/acme/

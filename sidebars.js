@@ -695,11 +695,16 @@ module.exports = {
 			type: "category",
 			label: "React",
 			items: [
-				"lang/javascript/react/react",
+				"lang/javascript/react/lifecycle",
 				{
 					type: "category",
 					label: "Redux",
 					items: ["lang/javascript/react/redux/redux-toolkit"],
+				},
+				{
+					type: "category",
+					label: "Jotai",
+					items: ["lang/javascript/react/jotai/jotai"],
 				},
 				{
 					type: "category",
