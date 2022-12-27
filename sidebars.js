@@ -704,7 +704,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Jotai",
-					items: ["lang/javascript/react/jotai/jotai"],
+					items: [
+						"lang/javascript/react/jotai/jotai",
+						"lang/javascript/react/jotai/provider",
+					],
 				},
 				{
 					type: "category",

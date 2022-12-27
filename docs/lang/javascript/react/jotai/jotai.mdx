@@ -5,6 +5,127 @@ sidebar_label: Jotai
 description: React 상태 관리를 위한 Jotai 라이브러리
 keywords:
   - jotai
-  - redux
+  - react
   - state
 ---
+
+## primitive Atom 사용하기
+
+```typescript
+import { atom, useAtom } from "jotai";
+
+const countAtom = atom(0);
+
+function Counter() {
+  const [count, setCount] = useAtom(countAtom);
+  return (
+    <div>
+      count: {count}
+      <br />
+      <button onClick={() => setCount((c) => c + 1)}>increment</button>
+    </div>
+  );
+}
+```
+
+## primitive Atom -> 읽기 전용 Atom
+
+```typescript
+import { atom, useAtom, useAtomValue } from "jotai";
+
+const countAtom = atom(0);
+const byAtom = atom(2);
+const resultAtom = atom((get) => get(countAtom) * get(byAtom));
+
+function Counter() {
+  const [count, setCount] = useAtom(countAtom);
+  const by = useAtomValue(byAtom);
+  const result = useAtomValue(resultAtom);
+
+  return (
+    <div>
+      {count} * {by} = {result}
+      <br />
+      <button onClick={() => setCount((c) => c + 1)}>
+        {count}
+        {"->"}
+        {count + 1}
+      </button>
+    </div>
+  );
+}
+```
+
+:::info
+
+비동기 읽기를 하는 Atom은 `Suspense`를 활용할 수 있습니다
+
+```typescript
+import { atom, useAtomValue, useSetAtom } from "jotai";
+import { Suspense } from "react";
+
+function sleep(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+const countAtom = atom(0);
+const suspenseCountAtom = atom(async (get) => {
+  await sleep(2000);
+  return get(countAtom);
+});
+
+function SuspenseCounter() {
+  const suspenseCount = useAtomValue(suspenseCountAtom);
+
+  return <div>count: {suspenseCount}</div>;
+}
+
+function Counter() {
+  const setCount = useSetAtom(countAtom);
+
+  return (
+    <div>
+      <Suspense fallback={<div>loading...</div>}>
+        <SuspenseCounter />
+        <button onClick={() => setCount((c) => c + 1)}>increment</button>
+      </Suspense>
+      <br />
+    </div>
+  );
+}
+```
+
+:::
+
+## 쓰기 전용 Atom -> primitive Atom
+
+```typescript
+import { atom, useAtomValue, useSetAtom } from "jotai";
+
+const countAtom = atom(0);
+const computeAtom = atom(null, async (get, set, url: string) => {
+  const response = await fetch(url, {
+    method: "POST",
+    body: JSON.stringify({ input: get(countAtom) }),
+  });
+  const data = await response.json();
+  set(countAtom, data.output);
+});
+
+function Counter() {
+  const count = useAtomValue(countAtom);
+  const compute = useSetAtom(computeAtom);
+
+  return (
+    <div>
+      count: {count}
+      <br />
+      <button onClick={() => compute("https://example.com/add-one")}>
+        increment
+      </button>
+    </div>
+  );
+}
+```
