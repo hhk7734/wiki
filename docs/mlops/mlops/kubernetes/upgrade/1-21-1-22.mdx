@@ -10,4 +10,44 @@ keywords:
   - 1.22
 ---
 
-## Upgrade from 1.21 to 1.22
+- https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-22
+- https://kubernetes.io/blog/2021/07/14/upcoming-changes-in-kubernetes-1-22/
+
+```shell
+kubent
+```
+
+## EKS
+
+- https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html
+
+<br />
+
+- 클러스터 버전 확인
+
+```shell
+kubectl version --short
+```
+
+- 노드 버전이 현재 클러스터 버전과 일치하는지 확인
+
+```shell
+kubectl get nodes
+```
+
+- 기본 보안 정책 존재 확인
+
+```shell
+kubectl get psp eks.privileged
+```
+
+- VPC CNI 버전 확인(v1.11.4-eksbuild.2 로 설정)
+
+```shell
+kubectl get daemonsets -n kube-system aws-node -o jsonpath='{.spec.template.spec.containers[0].image}'
+```
+
+- EKS 1.22로 업데이트
+- 워커노드 1.22로 교체
+- core-dns, kube-proxy ......................
+- kubectl 업데이트
