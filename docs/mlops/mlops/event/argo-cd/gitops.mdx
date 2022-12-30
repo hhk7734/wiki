@@ -142,6 +142,10 @@ on:
     branches:
       - main
 
+concurrency:
+  group: frontend-cd-dev
+  cancel-in-progress: true
+
 jobs:
   cd:
     name: CD
