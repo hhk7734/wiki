@@ -716,6 +716,19 @@ module.exports = {
 				},
 			],
 		},
+		{
+			type: "category",
+			label: "Components",
+			items: [
+				{
+					type: "category",
+					label: "Styled Components",
+					items: [
+						"lang/javascript/components/styled-components/styled-components",
+					],
+				},
+			],
+		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
 	project: [
