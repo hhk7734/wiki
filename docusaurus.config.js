@@ -1,7 +1,8 @@
 const remarkMath = require("remark-math");
 const rehypeKatex = require("rehype-katex");
 
-module.exports = {
+/** @type {import('@docusaurus/types').Config} */
+const config = {
 	title: "loliot",
 	tagline: "loliot",
 	url: "https://wiki.loliot.net",
@@ -31,6 +32,7 @@ module.exports = {
 			type: "text/css",
 		},
 	],
+	/** @type {import('@docusaurus/preset-classic').ThemeConfig} */
 	themeConfig: {
 		colorMode: {
 			defaultMode: "light",
@@ -150,6 +152,7 @@ module.exports = {
 	presets: [
 		[
 			"@docusaurus/preset-classic",
+			/** @type {import('@docusaurus/preset-classic').Options} */
 			{
 				docs: {
 					sidebarPath: require.resolve("./sidebars.js"),
@@ -177,3 +180,5 @@ module.exports = {
 	//   localeConfigs: LocaleConfigs,
 	// },
 };
+
+module.exports = config;
