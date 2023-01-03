@@ -18,13 +18,14 @@ apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: <name>
-  namespace: <namespace>
+  namespace: <namespace> # .spec.scaleTargetRef와 동일한 namespace로 설정
 spec:
   scaleTargetRef:
     apiVersion: <apiVersion> # Default: apps/v1
     kind: <kind> # Default: Deployment
     name: <name> # Required
-    envSourceContainerName: <containerName> # Default: .spec.template.spec.containers[0].name
+    # Default: .spec.template.spec.containers[0].name
+    envSourceContainerName: <containerName>
   triggers:
     - name: <triggerName> # Optional
       type: <triggerType> # Required
@@ -32,12 +33,14 @@ spec:
       metadata: # Required, 트리거 설정 정보
         <key>: <value>
       # authenticationRef:
-      #   kind: TriggerAuthentication # TriggerAuthentication|ClusterTriggerAuthentication
+      #   # TriggerAuthentication|ClusterTriggerAuthentication
+      #   kind: TriggerAuthentication
       #   name: <name>
   pollingInterval: 30 # Default: 30, trigger를 확인하는 주기
   minReplicaCount: 1 # Default: 0
   maxReplicaCount: 100 # Default: 100
-  idleReplicaCount: 0 # Default: 0, 트리거가 없을 때 유지할 파드 개수로 minReplicaCount보다 작아야함
+  # Default: 0, 트리거가 없을 때 유지할 파드 개수로 minReplicaCount보다 작아야함
+  idleReplicaCount: 0
   cooldownPeriod: 300 # Default: 300, 트리거가 없을 때, idle 상태가 되기까지 대기하는 시간
   # fallback: # Optional, trigger확인에 실패했을 때, 유지할 파드 개유
   #   failureThreshold: 3

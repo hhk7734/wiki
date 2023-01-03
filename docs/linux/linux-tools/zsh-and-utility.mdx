@@ -103,8 +103,7 @@ autoload -Uz compinit && compinit
 - https://github.com/junegunn/fzf
 
 ```shell
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf \
-&& ~/.fzf/install
+sudo pacman -S fzf
 ```
 
 ```shell title=".zshrc"
@@ -132,11 +131,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 sudo pacman -S bat
 ```
 
-```shell
-sudo apt install bat \
-&& sudo update-alternatives --install /usr/local/bin/bat bat `which batcat` 1
-```
-
 ```shell title=".zshrc"
 # bat
 alias cat="bat -p --paging=never"
@@ -150,11 +144,6 @@ alias cat="bat -p --paging=never"
 sudo pacman -S fd
 ```
 
-```shell
-sudo apt-get install fd-find \
-&& sudo update-alternatives --install /usr/local/bin/fd fd `which fdfind` 1
-```
-
 ### ripgrep(rg)
 
 - https://github.com/BurntSushi/ripgrep
@@ -163,25 +152,12 @@ sudo apt-get install fd-find \
 sudo pacman -S ripgrep
 ```
 
-```shell
-sudo apt-get install ripgrep
-```
-
-:::info
-`/usr/.crates2.json` 관련 에러가 나면 `sudo apt install -o Dpkg::Options::="--force-overwrite" ripgrep`로 시도해보면 됩니다.
-:::
-
 ### lsd
 
 - https://github.com/Peltoche/lsd
 
 ```shell
 sudo pacman -S lsd
-```
-
-```shell
-wget https://github.com/Peltoche/lsd/releases/download/0.23.1/lsd_0.23.1_amd64.deb \
-&& sudo dpkg -i lsd_0.23.1_amd64.deb
 ```
 
 ```shell
