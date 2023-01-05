@@ -127,7 +127,7 @@ name: <project>
 runtime:
   name: python
 backend:
-  url: s3://<bucket>
+  url: s3://<bucket>[?region=<region>&profile=<profile>]
 ```
 
 </TabItem>
@@ -138,7 +138,7 @@ backend:
 name: <project>
 runtime: nodejs
 backend:
-  url: s3://<bucket>
+  url: s3://<bucket>[?region=<region>&profile=<profile>]
 ```
 
 </TabItem>
@@ -240,9 +240,6 @@ config:
   # pulumi.Config("aws")
   aws:region: <region>
   aws:profile: <profile>
-
-  # pulumi.Config()
-  <project>:cluster: <repo>
 ```
 
 :::info
@@ -266,7 +263,6 @@ S3를 사용할 때, backend.url을 공유하는 여러 프로젝트는, stack�
 import pulumi
 
 stack_name = pulumi.get_stack()
-cluster_name = "eks"
 
 config = pulumi.Config()
 ```
@@ -286,7 +282,6 @@ def create_ec2(name: str) -> aws.ec2.Instace:
         tags={
             "Name": name,
             "loliot.net/stack": variable.stack_name,
-            "loliot.net/cluster": variable.cluster_name,
         },
     )
 
@@ -313,8 +308,7 @@ from src import ec2
 ```typescript title="src/variable.ts"
 import * as pulumi from "@pulumi/pulumi";
 
-const stackName = pulumi.getStack();
-const clusterName = "eks";
+export const stackName = pulumi.getStack();
 
 const config = new pulumi.Config();
 ```
@@ -331,7 +325,6 @@ function createEC2(name: string): aws.ec2.Instance {
     tags: {
       Name: name,
       "loliot.net/stack": variable.stackName,
-      "loliot.net/cluster": variable.clusterName,
     },
   });
 }

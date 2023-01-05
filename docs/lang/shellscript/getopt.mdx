@@ -8,7 +8,9 @@ keywords:
   - getopt
 ---
 
-Ref: [https://mug896.github.io/bash-shell/getopts.html](https://mug896.github.io/bash-shell/getopts.html)
+## getopts
+
+- https://mug896.github.io/bash-shell/getopts.html
 
 ```shell
 $ script.sh a  b  c  d
@@ -17,9 +19,7 @@ $ script.sh a  b  c  d
              $@
 ```
 
-## getopts
-
-> **The getopts command is a POSIX Shell built-in command that retrieves options and option-arguments from a list of parameters.** An option begins with a - (minus sign) followed by a character. An option that does not begin with a - ends parsing. Each time the getopts command is invoked, it places the value of the next option in Name and the index of the next argument to be processed in the shell variable OPTIND. Whenever the shell is invoked, OPTIND is initialized to 1.
+`getopts` 명령어는 옵션과 해당 인자를 파싱하는데 사용되는 POSIX 쉘 빌트인 명령어입니다.
 
 ```shell
 getopts <optString> option [parameters="$@"]
@@ -28,17 +28,17 @@ getopts <optString> option [parameters="$@"]
 ```shell
 echo $option
 echo $OPTARG
-echo $OPTIND # index of next argument
+echo $OPTIND # 다음 인자의 인덱스
 ```
 
 ## getopt
 
-The disadvantage of `getopts` is that it
+`getopts`의 단점은
 
-- only parses short option
-- can't parse options after non-option arguments
+- 짧은 옵션만 파싱 가능합니다
+- 옵션이 아닌 인자 다음에 오는 옵션을 파싱할 수 없습니다
 
-`getopt` is a command line utility that parses short and long options and rearranges options and non-option arguments.
+`getopt` 명령어는 옵션과 옵션이 아닌 인자를 재정렬하고, 짧은 옵션과 긴 옵션을 모두 파싱할 수 있습니다.
 
 ```shell
 getopt -o <shortOptString> -l <longOptString> -- <parameters>
@@ -50,7 +50,7 @@ getopt -o <shortOptString> -l <longOptString> -- <parameters>
 <option1>[:][<option2>[:]...]
 ```
 
-When parsing `-a -b`, shortOptString is `ab`. If `-a` option requires an argument, use `:` as in `a:b`. `getopt` parses `-a a_arg` and `-aa_arg` in the same way.
+`-a`, `-b`를 파싱하고 싶으면, `shortOptString`을 `ab`를 설정하면 됩니다. 만약 `-a` 옵션이 값을 받아야 하면 `:`을 사용하여 `a:b`로 설정하면 됩니다. `getopt`는 `-` 이후에 하나의 문자열만 인식하므로 `-a a_arg`와 `-aa_arg`는 같은 표현으로 간주합니다.
 
 #### Example
 
@@ -69,7 +69,7 @@ set -- -aa_arg -b asdf \
 <option1>[:][,<option2>[:],...]
 ```
 
-When parsing `--foo --bar`, longOptString is `foo,bar`. If `--foo` option requires an argument, use `:` as in `foo:,bar`. `getopt` parses `--foo=arg` and `--foo arg` in the same way.
+`--foo` `--bar`를 파싱하고 싶으면, `longOptString`에 `foo,bar`를 설정하면 됩니다. 만약 `--foo` 옵션이 값을 받아야 하면, `:`을 사용하여 `foo:,bar`로 설정하면 됩니다. `getopt`는 `--foo=arg`와 `--foo arg`를 같은 표현으로 간주합니다.
 
 #### Example
 
@@ -89,23 +89,25 @@ RED=$(tput setaf 1)
 BOLD=$(tput bold)
 DEFAULT=$(tput sgr0)
 
+COMMAND=$(basename "$0")
+
 helpMsg() {
     cat <<END
-Usage:
-    $(basename "$0") [options] [arguments]
+사용법:
+    $COMMAND [옵션] [인자]
 
-Options:
+옵션:
     -a, --aaa
-    -b, --bbb <argument>
+    -b, --bbb <값>
     -c, --ccc
 
-Examples:
+예시:
 END
 }
 
 if [ $# -eq 0 ] || ! options=$(getopt -o ab:c -l aaa,bbb:,ccc,help \
     -n $(basename "$0") -- "$@"); then
-    printf "%sTry '%s --help'\n%s" "${RED}${BOLD}" "$0" "${DEFAULT}" >&2
+    printf "%s" "${RED}${BOLD}" "${helpMsg}" "${DEFAULT}" >&2
     exit 1
 fi
 

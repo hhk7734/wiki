@@ -11,18 +11,18 @@ keywords:
 
 ```mermaid
 flowchart
-  subgraph vpc
+  subgraph VPC
     InternetGateway(InternetGateway)
 
     NatGateway-1 --> InternetGateway
     NatGateway-2 --> InternetGateway
 
-    subgraph subnet-1
-      subgraph public-1
+    subgraph ap-northeast-2a
+      subgraph public-subnet-1
         NatGateway-1(NAT Gateway)
-
       end
-      subgraph private-1
+
+      subgraph private-subnet-1
         EC2-1-1(Private EC2-1)
         EC2-1-2(Private EC2-2)
 
@@ -30,12 +30,13 @@ flowchart
         EC2-1-2 --> NatGateway-1
       end
     end
-    subgraph subnet-2
-      subgraph public-2
-        NatGateway-2(NAT Gateway)
 
+    subgraph ap-northeast-2c
+      subgraph public-subnet-2
+        NatGateway-2(NAT Gateway)
       end
-      subgraph private-2
+
+      subgraph private-subnet-2
         EC2-2-1(Private EC2-1)
         EC2-2-2(Private EC2-2)
 
@@ -48,132 +49,163 @@ flowchart
 
 </center>
 
-## VPC & Subnet
+## VPC & Internet Gateway
 
-```python
-name = "vpc"
-vpc = aws.ec2.Vpc(
-    name,
-    enable_dns_hostnames=True,
-    enable_dns_support=True,
-    instance_tenancy="default",
-    cidr_block="172.16.0.0/16",
-    opts=pulumi.ResourceOptions(protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+```typescript
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const vpcName = "vpc";
+const vpc = new aws.ec2.Vpc(
+  vpcName,
+  {
+    enableDnsHostnames: true,
+    enableDnsSupport: true,
+    instanceTenancy: "default",
+    cidrBlock: "172.16.0.0/18",
+    tags: {
+      Name: vpcName,
+      "loliot.net/stack": variable.stackName,
     },
-)
+  },
+  { protect: true }
+);
 
-name = "igw"
-igw = aws.ec2.InternetGateway(
-    name,
-    vpc_id=vpc.id,
-    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+const igwName = "igw";
+const igw = new aws.ec2.InternetGateway(
+  igwName,
+  {
+    vpcId: vpc.id,
+    tags: {
+      Name: igwName,
+      "loliot.net/stack": variable.stackName,
     },
-)
+  },
+  { protect: true }
+);
 
-AZs = aws.get_availability_zones(state="available")
-
-name = "default-public-subnet"
-default_public_subnet = aws.ec2.Subnet(
-    name,
-    vpc_id=vpc.id,
-    cidr_block="172.16.0.0/24",
-    availability_zone=AZs.names[0],
-    map_public_ip_on_launch=True,
-    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
-
-name = "default-public-rtb"
-default_public_rtb = aws.ec2.RouteTable(
-    name,
-    vpc_id=vpc.id,
-    routes=[
-        aws.ec2.RouteTableRouteArgs(
-            cidr_block="0.0.0.0/0",
-            gateway_id=igw.id,
-        )
+const igwRouteTableName = `${igwName}-rtb`;
+const igwRouteTable = new aws.ec2.RouteTable(
+  igwRouteTableName,
+  {
+    vpcId: vpc.id,
+    routes: [
+      {
+        cidrBlock: "0.0.0.0/0", // 모든 IP에 대한 요청을
+        gatewayId: igw.id, // Internet Gateway로 연결
+      },
     ],
-    opts=pulumi.ResourceOptions(parent=vpc),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+    tags: {
+      Name: igwRouteTableName,
+      "loliot.net/stack": variable.stackName,
     },
-)
-
-aws.ec2.RouteTableAssociation(
-    "default-public-subnet-rtb-assoc-0",
-    subnet_id=default_public_subnet.id,
-    route_table_id=default_public_rtb.id,
-    opts=pulumi.ResourceOptions(parent=default_public_rtb),
-)
-
-name = "ngw"
-ngw = aws.ec2.NatGateway(
-    name,
-    allocation_id=aws.ec2.Eip(
-        f"{name}-eip",
-        opts=pulumi.ResourceOptions(parent=default_public_subnet),
-        tags={
-            "Name": f"{name}-eip",
-            "Stack": variable.stack_name,
-            "Github": variable.github,
-        },
-    ).id,
-    subnet_id=default_public_subnet.id,
-    opts=pulumi.ResourceOptions(parent=vpc, protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
-    },
-)
+  },
+  { protect: true }
+);
 ```
 
-## RouteTable
+### RouteTable
 
-- VPC에는 암시적 라우터가 있습니다.
-- RouteTable은 Subnet에 대한 라우팅 정의입니다.
-- Subnet에 명시적으로 RouteTable을 연결하지 않으면 기본 RouteTable에 연결됩니다.
-- Subnet은 하나의 RouteTable에만 연결됩니다.
-- RouteTable에는 여러개의 Subnet을 연결할 수 있습니다.
-- RouteTable에는 기본적으로 VPC 내부 통신을 위한 로컬 라우팅이 포함됩니다.
+- VPC에는 암시적 라우터가 있습니다
+- RouteTable은 Subnet에 대한 라우팅 정의입니다
+- Subnet에 명시적으로 RouteTable을 연결하지 않으면 기본 RouteTable에 연결됩니다
+- Subnet은 하나의 RouteTable에만 연결됩니다
+- RouteTable에는 여러개의 Subnet을 연결할 수 있습니다
+- RouteTable에는 기본적으로 VPC 내부 통신을 위한 로컬 라우팅이 포함됩니다
 
-```python
-name = "public-rtb"
-public_rtb = aws.ec2.RouteTable(
-    name,
-    vpc_id=vpc.id,
-    routes=[
-        aws.ec2.RouteTableRouteArgs(
-            cidr_block="0.0.0.0/0", # 모든 IPv4 타겟에 대한 요청
-            gateway_id=igw.id, # Internet Gateway
-        )
-    ],
-    opts=pulumi.ResourceOptions(parent=vpc),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "Github": variable.github,
+## Public Subnet && NAT Gateway
+
+```typescript
+const publicSubnet1Name = "public-subnet-1";
+const publicSubnet1 = new aws.ec2.Subnet(
+  publicSubnet1Name,
+  {
+    vpcId: vpc.id,
+    cidrBlock: "172.16.0.0/25",
+    availabilityZone: "ap-northeast-2a",
+    tags: {
+      Name: publicSubnet1Name,
+      "loliot.net/stack": variable.stackName,
+      "kubernetes.io/cluster/eks": "shared",
     },
-)
+  },
+  { protect: true }
+);
 
-aws.ec2.RouteTableAssociation(
-    "public-rtb-assoc-0",
-    subnet_id=public_subnet["0"].id,
-    route_table_id=public_rtb.id,
-    opts=pulumi.ResourceOptions(parent=public_rtb),
-)
+new aws.ec2.RouteTableAssociation(
+  `${igwRouteTableName}-association-1`,
+  {
+    routeTableId: igwRouteTable.id,
+    subnetId: publicSubnet1.id,
+  },
+  { protect: true }
+);
+
+const ngw1Name = "ngw-1";
+const ngw1EIPName = `${ngw1Name}-eip`;
+const ngw1 = new aws.ec2.NatGateway(
+  ngw1Name,
+  {
+    allocationId: new aws.ec2.Eip(ngw1EIPName, {
+      tags: {
+        Name: ngw1EIPName,
+        "loliot.net/stack": variable.stackName,
+      },
+    }).id,
+    subnetId: publicSubnet1.id,
+    tags: {
+      Name: ngw1Name,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+
+const ngw1RouteTableName = `${ngw1Name}-rtb`;
+const ngw1RouteTable = new aws.ec2.RouteTable(
+  ngw1RouteTableName,
+  {
+    vpcId: vpc.id,
+    routes: [
+      {
+        cidrBlock: "0.0.0.0/0",
+        gatewayId: ngw1.id,
+      },
+    ],
+    tags: {
+      Name: ngw1RouteTableName,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+```
+
+## Private Subnet
+
+```typescript
+const privateSubnet1Name = "private-subnet-1";
+const privateSubnet1 = new aws.ec2.Subnet(
+  privateSubnet1Name,
+  {
+    vpcId: vpc.id,
+    cidrBlock: "172.16.60.0/22",
+    availabilityZone: "ap-northeast-2a",
+    tags: {
+      Name: privateSubnet1Name,
+      "loliot.net/stack": variable.stackName,
+      "kubernetes.io/cluster/eks": "shared",
+    },
+  },
+  { protect: true }
+);
+
+new aws.ec2.RouteTableAssociation(
+  `${ngw1RouteTableName}-association-1`,
+  {
+    routeTableId: ngw1RouteTable.id,
+    subnetId: privateSubnet1.id,
+  },
+  { protect: true }
+);
 ```

@@ -142,6 +142,7 @@ on:
     branches:
       - main
 
+# 같은 group인 경우 이전 작업은 취소되고 새로운 작업만 수행합니다
 concurrency:
   group: frontend-cd-dev
   cancel-in-progress: true
