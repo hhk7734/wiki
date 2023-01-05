@@ -429,18 +429,18 @@ module.exports = {
 		},
 		{
 			type: "category",
-			label: "Node",
+			label: "Provisioning",
 			items: [
 				{
 					type: "category",
 					label: "Karpenter",
 					items: [
-						"mlops/mlops/node/karpenter/karpenter",
-						"mlops/mlops/node/karpenter/crd",
-						"mlops/mlops/node/karpenter/deprovisioning",
+						"mlops/mlops/provisioning/karpenter/karpenter",
+						"mlops/mlops/provisioning/karpenter/crd",
+						"mlops/mlops/provisioning/karpenter/deprovisioning",
 					],
 				},
-				"mlops/mlops/node/nvidia-gpu-operator",
+				"mlops/mlops/provisioning/nvidia-gpu-operator",
 			],
 		},
 		{

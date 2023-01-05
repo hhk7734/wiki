@@ -30,16 +30,18 @@ helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 
 ```shell
 helm repo update metrics-server \
-&& helm search repo metrics-server -l | head -n 10
+&& helm search repo metrics-server/metrics-server -l | head -n 10
 ```
 
 ```shell
 helm show values metrics-server/metrics-server \
-    --version 3.8.2 \
+    --version 3.8.3 \
     > metrics-server-values.yaml
 ```
 
 ```yaml title="metrics-server-values.yaml"
+commonLabels: {}
+
 args:
   []
   # - --kubelet-insecure-tls
@@ -51,14 +53,19 @@ args:
 :::
 
 ```shell
-kubectl create namespace monitoring
+helm template metrics-server metrics-server/metrics-server \
+    --version 3.8.3 \
+    -n monitoring \
+    -f metrics-server-values.yaml \
+    > metrics-server.yaml
 ```
 
 ```shell
 helm upgrade metrics-server metrics-server/metrics-server \
     --install \
-    --version 3.8.2 \
+    --version 3.8.3 \
     -n monitoring \
+    --history-max 3 \
     -f metrics-server-values.yaml
 ```
 

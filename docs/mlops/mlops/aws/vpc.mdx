@@ -52,9 +52,6 @@ flowchart
 ## VPC & Internet Gateway
 
 ```typescript
-import * as aws from "@pulumi/aws";
-import * as variable from "@src/variable";
-
 const vpcName = "vpc";
 const vpc = new aws.ec2.Vpc(
   vpcName,
@@ -169,7 +166,7 @@ const ngw1RouteTable = new aws.ec2.RouteTable(
     routes: [
       {
         cidrBlock: "0.0.0.0/0",
-        gatewayId: ngw1.id,
+        natGatewayId: ngw1.id,
       },
     ],
     tags: {
@@ -185,7 +182,7 @@ const ngw1RouteTable = new aws.ec2.RouteTable(
 
 ```typescript
 const privateSubnet1Name = "private-subnet-1";
-const privateSubnet1 = new aws.ec2.Subnet(
+export const privateSubnet1 = new aws.ec2.Subnet(
   privateSubnet1Name,
   {
     vpcId: vpc.id,

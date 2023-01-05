@@ -20,15 +20,15 @@ asdf list all istioctl
 ```
 
 ```shell
-asdf install istioctl 1.14.5
+asdf install istioctl 1.16.1
 ```
 
 ```shell
-asdf global istioctl 1.14.5
+asdf global istioctl 1.16.1
 ```
 
 ```shell
-asdf local istioctl 1.14.5
+asdf local istioctl 1.16.1
 ```
 
 ```shell
@@ -36,7 +36,7 @@ asdf current istioctl
 ```
 
 ```shell
-export ISTIO_VERSION=1.14.5
+export ISTIO_VERSION=1.16.1
 ```
 
 - https://github.com/istio/istio/tree/master/manifests/charts
@@ -60,19 +60,28 @@ base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니�
 
 ```shell
 helm show values istio/base \
-    --version 1.14.5 \
+    --version 1.16.1 \
     > istio-base-values.yaml
 ```
 
 ```yaml title="istio-base-values.yaml"
-defaultRevision: 1-14-5
+defaultRevision: 1-16-1
+```
+
+```shell
+helm template istio-base istio/base \
+    --version 1.16.1 \
+    -n istio-system \
+    -f istio-base-values.yaml \
+    > istio-base.yaml
 ```
 
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --version 1.14.5 \
+    --version 1.16.1 \
     -n istio-system \
+    --history-max 3 \
     -f istio-base-values.yaml
 ```
 
@@ -80,19 +89,37 @@ helm upgrade istio-base istio/base \
 
 ```shell
 helm show values istio/istiod \
-    --version 1.14.5 \
-    > istiod-1-14-5-values.yaml
+    --version 1.16.1 \
+    > istiod-values.yaml
 ```
 
-```yaml title="istiod-1-14-5-values.yaml"
-revision: 1-14-5
+```yaml title="istiod-values.yaml"
+pilot:
+  resources:
+    requests:
+      cpu: 500m
+      memory: 2Gi
+    limits:
+      cpu: 1
+      memory: 4Gi
+
+revision: 1-16-1
 ```
 
 ```shell
-helm upgrade istiod istio/istiod \
-    --install \
-    --version 1.14.5 \
+helm template istiod-1-16-1 istio/istiod \
+    --version 1.16.1 \
     -n istio-system \
+    -f istiod-values.yaml \
+    > istiod.yaml
+```
+
+```shell
+helm upgrade istiod-1-16-1 istio/istiod \
+    --install \
+    --version 1.16.1 \
+    -n istio-system \
+    --history-max 3 \
     -f istiod-values.yaml
 ```
 
@@ -100,26 +127,28 @@ helm upgrade istiod istio/istiod \
 
 ```shell
 helm show values istio/gateway \
-    --version 1.14.5 \
+    --version 1.16.1 \
     > ingress-values.yaml
 ```
 
 ```yaml title="ingress-values.yaml"
+revision: 1-16-1
+
 service:
   ports:
-    - port: 15021
+    - name: status-port
+      port: 15021
       targetPort: 15021
-      name: status-port
       protocol: TCP
       nodePort: <nodePort>
-    - port: 80
+    - name: http2
+      port: 80
       targetPort: 8080
-      name: http2
       protocol: TCP
       nodePort: <nodePort>
-    - port: 443
+    - name: https
+      port: 443
       targetPort: 8443
-      name: https
       protocol: TCP
       nodePort: <nodePort>
   annotations:
@@ -133,6 +162,8 @@ autoscaling:
   minReplicas: 2
   maxReplicas: 5
   targetCPUUtilizationPercentage: 80
+
+labels: {}
 
 affinity:
   podAntiAffinity:
@@ -153,10 +184,19 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 :::
 
 ```shell
+helm template istio-ingress istio/gateway \
+    --version 1.16.1 \
+    -n istio-system \
+    -f ingress-values.yaml \
+    > ingress.yaml
+```
+
+```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
-    --version 1.14.5 \
+    --version 1.16.1 \
     -n istio-system \
+    --history-max 3 \
     -f ingress-values.yaml
 ```
 
@@ -256,8 +296,8 @@ revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활�
 
 | Resource  | Enabled label       | Disabled label                  |
 | --------- | ------------------- | ------------------------------- |
-| Namespace | istio.io/rev=1-14-5 | istio-injection=disabled        |
-| Pod       | istio.io/rev=1-14-5 | sidecar.istio.io/inject="false" |
+| Namespace | istio.io/rev=1-16-1 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-16-1 | sidecar.istio.io/inject="false" |
 
 :::warning
 
@@ -308,78 +348,3 @@ kubectl label namespace <namespace> istio-injection-
 ```shell
 kubectl get namespace -L istio-injection
 ```
-
-## Gateway & VirtualService
-
-```yaml {12}
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: ml-pipeline-ui
-  name: ml-pipeline-ui
-  namespace: kubeflow
-spec:
-  ports:
-    - name: http
-      protocol: TCP
-      port: 80
-      targetPort: 3000
-  selector:
-    app: ml-pipeline-ui
-```
-
-```yaml {14,16}
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: ml-pipeline-ui
-  namespace: istio-system
-spec:
-  hosts:
-    - "kubeflow.loliot.net"
-  gateways:
-    - istio-gateway
-  http:
-    - route:
-        - destination:
-            host: ml-pipeline-ui.kubeflow.svc.cluster.local
-            port:
-              number: 80
-```
-
-```yaml {}
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: istio-gateway
-  namespace: istio-system
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-    - port:
-        number: 80
-        name: http-kubeflow
-        protocol: HTTP
-      tls:
-        httpsRedirect: true
-      hosts:
-        - "kubeflow.loliot.net"
-    - port:
-        number: 443
-        name: https-kubeflow
-        protocol: HTTPS
-      tls:
-        mode: SIMPLE
-        credentialName: ingress-cert-tls
-      hosts:
-        - "kubeflow.loliot.net"
-```
-
-## Reference
-
-- [https://bcho.tistory.com/1293](https://bcho.tistory.com/1293)
-- [https://istio.io/latest/about/service-mesh/](https://istio.io/latest/about/service-mesh/)
-- [https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/](https://istio.io/latest/docs/reference/config/istio.operator.v1alpha1/)
-- [https://istio.io/latest/docs/examples/bookinfo/](https://istio.io/latest/docs/examples/bookinfo/)

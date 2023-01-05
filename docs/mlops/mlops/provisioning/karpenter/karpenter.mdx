@@ -1,0 +1,252 @@
+---
+id: karpenter
+title: Karpenter
+sidebar_label: Karpenter
+description: Karpenter
+keywords:
+  - karpenter
+  - pulumi
+  - helm
+---
+
+## Prerequisites
+
+진행 전 Spot Role에 대한 설정을 먼저 해주세요.
+
+### NodeGroup Role
+
+```typescript
+const nodeGroupRoleName = "karpenter-ng-role";
+const nodeGroupRole = new aws.iam.Role(
+  nodeGroupRoleName,
+  {
+    namePrefix: `${nodeGroupRoleName}-`,
+    assumeRolePolicy: {
+      Version: "2012-10-17",
+      Statement: [
+        {
+          Action: "sts:AssumeRole",
+          Effect: "Allow",
+          Principal: {
+            Service: "ec2.amazonaws.com",
+          },
+        },
+      ],
+    },
+    tags: {
+      Name: nodeGroupRoleName,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+
+const nodeGroupInstanceProfileName = "karpenter-ng-instacne-profile";
+const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
+  nodeGroupInstanceProfileName,
+  {
+    namePrefix: `${nodeGroupInstanceProfileName}-`,
+    role: nodeGroupRole.name,
+    tags: {
+      Name: nodeGroupInstanceProfileName,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+
+const nodeGroupPolicyARNs = {
+  "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+  "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+  "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+  "3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", // Karpenter
+};
+
+const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
+  ([i, arn]) =>
+    new aws.iam.RolePolicyAttachment(
+      `karpenter-ng-rpa-${i}`,
+      {
+        policyArn: arn,
+        role: nodeGroupRole.name,
+      },
+      { protect: true }
+    )
+);
+```
+
+### Karpenter Controller Role
+
+```typescript
+const controllerRoleName = "karpenter-controller-role";
+const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
+const controllerRole = new aws.iam.Role(
+  controllerRoleName,
+  {
+    namePrefix: `${controllerRoleName}-`,
+    assumeRolePolicy: {
+      Version: "2012-10-17",
+      Statement: [
+        {
+          Action: "sts:AssumeRoleWithWebIdentity",
+          Effect: "Allow",
+          Principal: {
+            Federated: oidcUrl.apply(
+              (url) => `arn:aws:iam::718951341054:oidc-provider/${url}`
+            ),
+          },
+          Condition: {
+            StringEquals: oidcUrl.apply((url) => ({
+              [`${url}:sub`]: "system:serviceaccount:provisioning:karpenter",
+            })),
+          },
+        },
+      ],
+    },
+    tags: {
+      Name: controllerRoleName,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+
+const controllerPolicyName = "karpenter-controller-policy";
+const controllerPolicy = new aws.iam.Policy(
+  controllerPolicyName,
+  {
+    namePrefix: `${controllerPolicyName}-`,
+    policy: {
+      Version: "2012-10-17",
+      Statement: [
+        {
+          Action: [
+            "ec2:CreateLaunchTemplate",
+            "ec2:CreateFleet",
+            "ec2:RunInstances",
+            "ec2:CreateTags",
+            "iam:PassRole",
+            "ec2:TerminateInstances",
+            "ec2:DescribeLaunchTemplates",
+            "ec2:DeleteLaunchTemplate",
+            "ec2:DescribeSecurityGroups",
+            "ec2:DescribeSpotPriceHistory",
+            "ec2:DescribeSubnets",
+            "ec2:DescribeImages",
+            "ec2:DescribeInstances",
+            "ec2:DescribeInstanceTypes",
+            "ec2:DescribeInstanceTypeOfferings",
+            "ec2:DescribeAvailabilityZones",
+            "ssm:GetParameter",
+            "pricing:GetProducts",
+          ],
+          Effect: "Allow",
+          Resource: "*",
+        },
+      ],
+    },
+    tags: {
+      Name: controllerPolicyName,
+      "loliot.net/stack": variable.stackName,
+    },
+  },
+  { protect: true }
+);
+
+new aws.iam.RolePolicyAttachment(
+  "karpenter-controller-rpa-0",
+  {
+    policyArn: controllerPolicy.arn,
+    role: controllerRole.name,
+  },
+  { protect: true }
+);
+```
+
+## Installation
+
+:::warning
+설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
+:::
+
+- https://karpenter.sh/v0.21.1/upgrade-guide/
+
+```shell
+helm show values oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.21.1 \
+    > karpenter-values.yaml
+```
+
+```yaml tilte="karpenter-values.yaml"
+additionalLabels: {}
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<accountId>:role/<controllerRoleName>
+
+replicas: 1
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: karpenter.sh/provisioner-name
+              operator: DoesNotExist
+
+tolerations:
+  - operator: Exists
+
+settings:
+  # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
+  # 새 Pending Pod가 생기고 batchIdleDuration 시간 만큼 대기
+  # 그 안에 새로운 Pending Pod가 생기면 batch에 포함 시키고 다시 batchIdleDuration 시간 대기
+  # 이 과정이 반복되다가 마지막 Pending Pod가 생긴 후 batchIdleDuration을 넘기거나
+  # 첫 Pending Pod가 생긴 후 batchMaxDuration을 넘기면 batch만들기 종료
+  # https://github.com/aws/karpenter/blob/main/pkg/controllers/provisioning/batcher.go
+  batchMaxDuration: 20s
+  batchIdleDuration: 5s
+
+  aws:
+    clusterName: <clusterName>
+
+    clusterEndpoint: <clusterEndpoint>
+
+    defaultInstanceProfile: <instanceProfile>
+```
+
+```shell
+helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.21.1 \
+    -n provisioning \
+    -f karpenter-values.yaml \
+    > karpenter.yaml
+```
+
+```shell
+helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
+    --install \
+    --version v0.21.1 \
+    -n provisioning \
+    --history-max 3 \
+    -f karpenter-values.yaml
+```
+
+- https://github.com/aws/karpenter/tree/main/pkg/apis/crds
+
+## aws-auth
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::<accountId>:role/karpenter-ng-role-xxxxx
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+```
