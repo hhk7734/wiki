@@ -9,36 +9,6 @@ keywords:
 
 ## Installation
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: <secret-name>
-  namespace: storage
-type: Opaque
-stringData:
-  postgres-password: <password>
-```
-
-:::info
-사용할 `StorageClass`의 `allowVolumeExpansion`가 `true`인 지 확인 후 진행해주세요.
-:::
-
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: <pvc-name>
-  namespace: storage
-spec:
-  storageClassName: <storage-class>
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-```
-
 ```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
@@ -50,24 +20,37 @@ helm repo update bitnami \
 
 ```shell
 helm show values bitnami/postgresql \
-    --version 11.9.13 \
+    --version 12.1.7 \
     > postgresql-values.yaml
 ```
 
 ```yaml
-primary:
-  persistence:
-    existingClaim: <pvc-name>
 auth:
-  enablePostgresUser: true
-    existingSecret: <secret-name>
+  postgresPassword: ""
+
+architecture: standalone
+
+primary:
+  labels: {}
+
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 250m
+      memory: 256Mi
+
+  persistence:
+    storageClass: ""
+    size: 10Gi
+    labels: {}
 ```
 
 ```shell
 helm template postgresql bitnami/postgresql \
-    --version 11.9.13 \
+    --version 12.1.7 \
     -n storage \
-    --history-max 3 \
     -f postgresql-values.yaml \
     > postgresql.yaml
 ```
@@ -75,7 +58,7 @@ helm template postgresql bitnami/postgresql \
 ```shell
 helm upgrade postgresql bitnami/postgresql \
     --install \
-    --version 11.9.13 \
+    --version 12.1.7 \
     -n storage \
     --history-max 3 \
     -f postgresql-values.yaml
