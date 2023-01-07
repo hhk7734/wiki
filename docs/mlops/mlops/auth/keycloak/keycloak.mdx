@@ -9,18 +9,6 @@ keywords:
 
 ## Installation
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: <secret-name>
-  namespace: auth
-type: Opaque
-stringData:
-  admin-password: <password>
-  db-password: <password>
-```
-
 ```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
@@ -32,7 +20,7 @@ helm repo update bitnami \
 
 ```shell
 helm show values bitnami/keycloak \
-    --version 12.1.1 \
+    --version 13.0.0 \
     > keycloak-values.yaml
 ```
 
@@ -41,11 +29,7 @@ commonLabels: {}
 
 auth:
   adminUser: <user>
-  existingSecret: <secret-name>
-  passwordSecretKey: admin-password
-
-# 신규 설치라면 "/"를 사용하셔도 됩니다.
-httpRelativePath: /auth/
+  adminPassword: <password>
 
 resources:
   requests:
@@ -67,24 +51,28 @@ externalDatabase:
   host: <host>
   port: <port>
   user: <user>
+  password: <password>
   database: <database>
-  existingSecret: <secret-name>
-  existingSecretPasswordKey: db-password
 
 cache:
   enabled: false
 ```
 
 ```shell
-kubectl create namespace auth
+helm template keycloak bitnami/keycloak \
+    --version 13.0.0 \
+    -n auth \
+    -f keycloak-values.yaml \
+    > keycloak.yaml
 ```
 
 ```shell
 helm upgrade keycloak bitnami/keycloak \
     --install \
-    --version 12.1.1 \
+    --version 13.0.0 \
     -n auth \
-    --values values.yaml
+    --history-max 3 \
+    -f keycloak-values.yaml
 ```
 
 ## Upgrade

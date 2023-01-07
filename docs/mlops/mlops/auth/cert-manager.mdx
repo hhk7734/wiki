@@ -27,13 +27,24 @@ helm show values jetstack/cert-manager \
 ```
 
 ```yaml title="cert-manager-values.yaml"
+global:
+  commonLabels: {}
+
 installCRDs: true
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 256Mi
 ```
 
 ```shell
 helm template cert-manager jetstack/cert-manager \
     --version v1.10.1 \
-    -n network \
+    -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
@@ -42,7 +53,7 @@ helm template cert-manager jetstack/cert-manager \
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
     --version v1.10.1 \
-    -n network \
+    -n auth \
     --history-max 3 \
     -f cert-manager-values.yaml
 ```
@@ -56,7 +67,7 @@ kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Chall
 ```
 
 ```shell
-helm uninstall -n network cert-manager
+helm uninstall -n auth cert-manager
 ```
 
 ```shell
@@ -96,22 +107,24 @@ My Profile -\> API Tokens -\> Create Token 에서 Edit zone DNS 템플릿 을 �
 ```shell
 kubectl create secret \
     generic \
-    -n network \
-    cloudflare-api-token-secret \
-    --from-literal=api-token=<token>
+    -n auth \
+    cloudflare-api-token \
+    --from-literal=token=<token>
 ```
 
-```yaml title="network/letsencrypt/base/letsencrypt-prod.yaml" {7,14,17}
+- https://cert-manager.io/docs/reference/api-docs/#acme.cert-manager.io/v1.ACMEIssuer
+
+```yaml
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
-  name: letsencrypt-prod
+  name: letsencrypt
 spec:
   acme:
     email: "" # email
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
-      name: letsencrypt-prod-secret
+      name: letsencrypt
     solvers:
       - selector:
           dnsZones:
@@ -120,11 +133,11 @@ spec:
           cloudflare:
             email: "" # cloudflare email
             apiTokenSecretRef:
-              name: cloudflare-api-token-secret
-              key: api-token
+              name: cloudflare-api-token
+              key: token
 ```
 
-```yaml title="network/letsencrypt/base/ingress-cert.yaml" {11-12}
+```yaml
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
@@ -139,37 +152,17 @@ spec:
     - "" # "sub.domain"
   issuerRef:
     kind: ClusterIssuer
-    name: letsencrypt-prod
-```
-
-```yaml title="network/letsencrypt/base/kustomization.yaml"
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-  - letsencrypt-prod.yaml
-  - ingress-cert.yaml
-```
-
-```shell
-letsencrypt
-└── base/
-    ├── ingress-cert.yaml
-    ├── kustomization.yaml
-    └── letsencrypt-prod.yaml
-```
-
-```shell
-kubectl apply -k network/letsencrypt/base
+    name: letsencrypt
 ```
 
 `Certificate`을 생성하는 순간 인증을 시작합니다.
 
 ```shell
-kubectl describe clusterissuers.cert-manager.io letsencrypt-prod
+kubectl describe clusterissuers.cert-manager.io letsencrypt
 ```
 
 ```shell
-kubectl get certificates.cert-manager.io -n istio-ingress ingress-cert
+kubectl get certificates.cert-manager.io -n istio-system ingress-cert
 ```
 
 :::warning
@@ -177,7 +170,7 @@ kubectl get certificates.cert-manager.io -n istio-ingress ingress-cert
 :::
 
 ```shell
-kubectl describe certificates.cert-manager.io -n istio-ingress ingress-cert
+kubectl describe certificates.cert-manager.io -n istio-system ingress-cert
 ```
 
 ```shell

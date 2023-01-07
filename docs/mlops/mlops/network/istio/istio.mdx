@@ -166,6 +166,16 @@ autoscaling:
 labels: {}
 
 affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        # LoadBalancer를 사용할 수 있는 AZ를 지정합니다.
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - ap-northeast-2a
+                - ap-northeast-2c
   podAntiAffinity:
     preferredDuringSchedulingIgnoredDuringExecution:
       - podAffinityTerm:
