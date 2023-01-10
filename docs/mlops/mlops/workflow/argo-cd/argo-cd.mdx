@@ -21,7 +21,7 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-cd \
-    --version 5.16.2 \
+    --version 5.16.15 \
     > argo-cd-values.yaml
 ```
 
@@ -36,9 +36,10 @@ global:
 configs:
   cm:
     # 2.5 버전을 위한 준비
-    server.rbac.log.enforce.enable: "false"
+    server.rbac.log.enforce.enable: "true"
     # Web UI에서 터미널 접속
-    exec.enabled: "false"
+    exec.enabled: "true"
+    admin.enabled: "false"
 
 server:
   extraArgs:
@@ -58,7 +59,7 @@ kubectl create namespace workflow
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 5.16.2 \
+    --version 5.16.15 \
     -n workflow \
     --values argo-cd-values.yaml
 ```

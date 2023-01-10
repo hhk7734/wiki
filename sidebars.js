@@ -440,6 +440,15 @@ module.exports = {
 						"mlops/mlops/provisioning/karpenter/deprovisioning",
 					],
 				},
+				{
+					type: "category",
+					label: "KEDA",
+					items: [
+						"mlops/mlops/provisioning/keda/keda",
+						"mlops/mlops/provisioning/keda/crd",
+						"mlops/mlops/provisioning/keda/external-scaler",
+					],
+				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",
 			],
 		},
@@ -536,6 +545,7 @@ module.exports = {
 					label: "Keycloak",
 					items: [
 						"mlops/mlops/auth/keycloak/keycloak",
+						"mlops/mlops/auth/keycloak/realm",
 						"mlops/mlops/auth/keycloak/openid-connect",
 					],
 				},
@@ -544,25 +554,31 @@ module.exports = {
 		},
 		{
 			type: "category",
-			label: "Event",
+			label: "Workflow",
 			items: [
 				{
 					type: "category",
 					label: "Argo CD",
 					items: [
-						"mlops/mlops/event/argo-cd/argo-cd",
-						"mlops/mlops/event/argo-cd/crd",
-						"mlops/mlops/event/argo-cd/gitops",
+						"mlops/mlops/workflow/argo-cd/argo-cd",
+						"mlops/mlops/workflow/argo-cd/crd",
+						"mlops/mlops/workflow/argo-cd/gitops",
 					],
 				},
 				{
 					type: "category",
 					label: "Argo Workflows",
 					items: [
-						"mlops/mlops/event/argo-workflows/argo-workflows",
-						"mlops/mlops/event/argo-workflows/crd",
+						"mlops/mlops/workflow/argo-workflows/argo-workflows",
+						"mlops/mlops/workflow/argo-workflows/crd",
 					],
 				},
+			],
+		},
+		{
+			type: "category",
+			label: "Event",
+			items: [
 				"mlops/mlops/event/argo-events",
 				"mlops/mlops/event/probot",
 				{
@@ -593,15 +609,6 @@ module.exports = {
 							label: "Knative",
 							items: ["mlops/mlops/event/serverless/knative/knative"],
 						},
-					],
-				},
-				{
-					type: "category",
-					label: "KEDA",
-					items: [
-						"mlops/mlops/event/keda/keda",
-						"mlops/mlops/event/keda/crd",
-						"mlops/mlops/event/keda/external-scaler",
 					],
 				},
 				"mlops/mlops/event/rabbitmq",

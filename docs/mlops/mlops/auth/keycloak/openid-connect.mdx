@@ -9,9 +9,7 @@ keywords:
   - connect
 ---
 
-## OpenID Connect
-
-### Client 생성
+## Client 생성
 
 - ## Client
   - `Create Client`
@@ -34,7 +32,7 @@ keywords:
       - Client Authenticator: `Client ID and Secret`
       - Client Secret: `<clientSecret>`
 
-### Acess Token에 groups 추가
+## Acess Token에 groups 추가
 
 - ## Client Scopes
   - `Create client scope`
@@ -43,7 +41,7 @@ keywords:
     - Include in token scope: `On`
   - `groups` 선택
     - Mappers
-      - `Add mapper`: `By configuration`
+      - `Configure a new mapper`
         - `Group Membership` 선택
           - Name: `groups`
           - Token Claim Name: `groups`
@@ -60,17 +58,22 @@ keywords:
           - `Audience` 선택
             - Name: `audience`
             - Included Client Audience: `<clientId>`
-            - Included Custom Audience: `<client-id>`
+            - Included Custom Audience: `<clientId>`
             - Add to access token: `On`
 
+## Test
+
+- https://www.keycloak.org/docs/latest/server_development/#examples-of-using-curl
+
 ```shell
-curl -k -X POST https://<keycloak-url>/auth/realms/<realm>/protocol/openid-connect/token \
+curl -k -X POST https://<keycloak-url>/realms/<realm>/protocol/openid-connect/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
-    -d "client_id=<client-id>" \
+    -d "client_id=<clientId>" \
     -d "client_secret=<client-secret>" \
     -d "scope=openid" \
     -d "grant_type=password" \
     -d "username=<user>" \
     -d "password=<password>" \
-    -d "totp=<otp>"
+    -d "totp=<otp>" \
+| jq '.'
 ```

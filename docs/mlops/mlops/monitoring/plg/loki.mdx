@@ -64,7 +64,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/loki-distributed \
-    --version 0.67.0 \
+    --version 0.67.2 \
     > loki-distributed-values.yaml
 ```
 
@@ -136,16 +136,16 @@ gateway:
 
 ```shell
 helm template loki grafana/loki-distributed \
-    --version 0.67.0  \
+    --version 0.67.2 \
     -n monitoring \
     -f loki-distributed-values.yaml \
-    > loki.yaml
+    > loki-distributed.yaml
 ```
 
 ```shell
 helm upgrade loki grafana/loki-distributed \
     --install \
-    --version 0.67.0  \
+    --version 0.67.2 \
     -n monitoring \
     --history-max 3 \
     -f loki-distributed-values.yaml

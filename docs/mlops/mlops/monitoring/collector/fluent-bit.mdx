@@ -21,7 +21,7 @@ helm repo update fluent \
 
 ```shell
 helm show values fluent/fluent-bit \
-  --version 0.21.6 \
+  --version 0.21.7 \
   > fluent-bit-values.yaml
 ```
 
@@ -33,6 +33,8 @@ resources:
   limits:
     cpu: 100m
     memory: 128Mi
+
+labels: {}
 
 luaScripts:
   # https://docs.fluentbit.io/manual/pipeline/filters/lua
@@ -85,7 +87,7 @@ config:
 
 ```shell
 helm template fluent-bit fluent/fluent-bit \
-    --version 0.21.6 \
+    --version 0.21.7 \
     -n monitoring \
     -f fluent-bit-values.yaml \
     > fluent-bit.yaml
@@ -94,7 +96,7 @@ helm template fluent-bit fluent/fluent-bit \
 ```shell
 helm upgrade fluent-bit fluent/fluent-bit \
   --install \
-  --version 0.21.6 \
+  --version 0.21.7 \
   -n monitoring \
   --history-max 3 \
   -f fluent-bit-values.yaml

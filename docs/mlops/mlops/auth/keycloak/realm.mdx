@@ -1,0 +1,76 @@
+---
+id: realm
+title: Realm
+sidebar_label: Realm
+description: Keycloak Realm
+keywords:
+  - keycloak
+  - realm
+---
+
+## Realm
+
+- Master Realm: 처음 시작할 때 생성되어 있는 realm으로 관리자 계정이 포함되어 있습니다. 다른 realm을 생성할 때만 사용하세요.
+- Other Realm: 사용자와 필요한 응용 프로그램을 관리합니다.
+
+## 생성
+
+- Create Realm
+- Realm name: `<realmName>`
+- Enabled: `on`
+
+## Settings
+
+### Tokens
+
+- https://www.keycloak.org/docs/latest/server_admin/#_timeouts
+
+<br />
+
+- SSO Session Idle: 활동이 없으면 세션이 만료되는 시간
+- SSO Session Max: 최대 세션 시간
+- Access Token Lifespan: JWT의 `ext-iat` 시간
+
+## Authentication
+
+- Authentication
+  - Flows
+    - Forms
+      - Browser - Conditional OTP
+        - REQUIRED
+  - Required Actions
+    - Configure OTP: enabled, default action
+    - Update Password: enabled, default action
+  - Password Policy
+    - Minimum Length: 8
+    - Lowercase Characters: 1
+    - Digits: 1
+    - Special Characters: 1
+  - OTP Policy
+    - OTP Type: Time Based
+    - OTP Token Period: 30
+
+## Client
+
+## Email
+
+### Gmail
+
+- Google 계정 관리 -\> 보안 -\> Google에 로그인
+  - 2 단계 인증
+  - 앱 비밀번호
+    - 앱 선택: 메일
+    - 기기 선택: 기타
+- Realm Settings
+  - Email
+    - Host: smtp.gmail.com
+    - Port: 587
+    - From: `<email>`
+    - Enable StartTLS: on
+    - Enable Authentication: on
+      - Username: `<username>`
+      - Password: `<password>` # 앱 비밀번호를 입력하세요.
+
+## Reference
+
+- https://www.keycloak.org/docs/latest/server_admin/
