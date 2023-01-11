@@ -13,21 +13,6 @@ keywords:
 사용할 `StorageClass`의 `allowVolumeExpansion`가 `true`인 지 확인 후 진행해주세요.
 :::
 
-```yaml
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: <pvc-name>
-  namespace: storage
-spec:
-  storageClassName: <storage-class>
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 10Gi
-```
-
 ```shell
 helm repo add bitnami https://charts.bitnami.com/bitnami
 ```
@@ -39,7 +24,7 @@ helm repo update bitnami \
 
 ```shell
 helm show values bitnami/redis \
-    --version 17.3.14 \
+    --version 17.4.2 \
     > redis-values.yaml
 ```
 
@@ -73,13 +58,20 @@ master:
   podLabels: {}
   persistence:
     enabled: true
-    existingClaim: <pvc-name>
+```
+
+```shell
+helm upgrade redis bitnami/redis \
+    --version 17.4.2 \
+    -n storage \
+    --values redis-values.yaml \
+    > redis.yaml
 ```
 
 ```shell
 helm upgrade redis bitnami/redis \
     --install \
-    --version 17.3.14 \
+    --version 17.4.2 \
     -n storage \
     --history-max 3 \
     --values redis-values.yaml

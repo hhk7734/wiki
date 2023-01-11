@@ -22,7 +22,7 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nats \
-    --version 0.19.3 \
+    --version 0.19.5 \
     > nats-values.yaml
 ```
 
@@ -86,7 +86,7 @@ auth:
 
 ```shell
 helm template nats nats/nats \
-    --version 0.19.3 \
+    --version 0.19.5 \
     -n event \
     -f nats-values.yaml \
     > nats.yaml
@@ -95,7 +95,7 @@ helm template nats nats/nats \
 ```shell
 helm upgrade nats nats/ntas \
     --install \
-    --version 0.19.3 \
+    --version 0.19.5 \
     -n event \
     --history-max 3 \
     -f nats-values.yaml
