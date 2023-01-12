@@ -19,9 +19,23 @@ keywords:
 - Realm name: `<realmName>`
 - Enabled: `on`
 
-## Settings
+## Realm Settings
 
-### Tokens
+### Email
+
+- From: `<email>`
+
+<br />
+
+- Host: smtp.gmail.com
+- Port: 587
+- Encryption
+  - Enable StartTLS
+- Authentication: `Enabled`
+  - Username: `<username>`
+  - Password: `<password>`
+
+### Sessions
 
 - https://www.keycloak.org/docs/latest/server_admin/#_timeouts
 
@@ -29,47 +43,34 @@ keywords:
 
 - SSO Session Idle: 활동이 없으면 세션이 만료되는 시간
 - SSO Session Max: 최대 세션 시간
-- Access Token Lifespan: JWT의 `ext-iat` 시간
+
+### Tokens
+
+- Access Token Lifespan: JWT의 `ext` - `iat` 시간
 
 ## Authentication
 
-- Authentication
-  - Flows
-    - Forms
-      - Browser - Conditional OTP
-        - REQUIRED
-  - Required Actions
-    - Configure OTP: enabled, default action
-    - Update Password: enabled, default action
-  - Password Policy
-    - Minimum Length: 8
-    - Lowercase Characters: 1
-    - Digits: 1
-    - Special Characters: 1
-  - OTP Policy
-    - OTP Type: Time Based
-    - OTP Token Period: 30
+### Flows
 
-## Client
+- browser
+  - forms
+    - `Browser - Conditional OTP`: `Required`
 
-## Email
+### Required actions
 
-### Gmail
+- Configure OTP: enabled, default action
+- Update Password: enabled, default action
 
-- Google 계정 관리 -\> 보안 -\> Google에 로그인
-  - 2 단계 인증
-  - 앱 비밀번호
-    - 앱 선택: 메일
-    - 기기 선택: 기타
-- Realm Settings
-  - Email
-    - Host: smtp.gmail.com
-    - Port: 587
-    - From: `<email>`
-    - Enable StartTLS: on
-    - Enable Authentication: on
-      - Username: `<username>`
-      - Password: `<password>` # 앱 비밀번호를 입력하세요.
+### Policies
+
+- Password Policy
+  - Minimum Length: 8
+  - Lowercase Characters: 1
+  - Digits: 1
+  - Special Characters: 1
+- OTP Policy
+  - OTP Type: Time Based
+  - OTP Token Period: 30
 
 ## Reference
 
