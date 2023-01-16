@@ -1,6 +1,6 @@
 # wiki.loliot.net
 
-## Installation
+## 설치
 
 ```shell
 yarn install

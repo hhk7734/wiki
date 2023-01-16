@@ -9,7 +9,7 @@ keywords:
   - node-addon-api
 ---
 
-## Installation
+## 설치
 
 ```shell
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash - \
@@ -115,7 +115,7 @@ npm install node-addon-api
 :::
 
 ```javascript title="index.js"
-module.exports = require('./build/Release/<target>');
+module.exports = require("./build/Release/<target>");
 ```
 
 ## Wrapper
@@ -203,9 +203,9 @@ npm run build
 ## Test
 
 ```javascript title="test/test.js"
-const addon = require('../build/Release/<target>');
+const addon = require("../build/Release/<target>");
 
-console.log('wrapper info', addon);
+console.log("wrapper info", addon);
 
 console.log(addon.hello());
 console.log(addon.add(1, 2));

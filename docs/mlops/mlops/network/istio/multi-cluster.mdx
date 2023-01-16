@@ -12,51 +12,73 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ## Configure Trust
 
 - https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/
+- [x509](/docs/mlops/mlops/auth/x509)
 
-```shell
-mkdir certs \
-&& cd certs
+### Root CA
+
+```ini title="root-ca.conf"
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+
+[ req_dn ]
+commonName = Root CA
+organizationName = loliot
 ```
 
-```shell
-wget https://raw.githubusercontent.com/istio/istio/master/tools/certs/common.mk \
-&& wget https://raw.githubusercontent.com/istio/istio/master/tools/certs/Makefile.selfsigned.mk
+### Intermediate CA
+
+```ini title="ca-cert.conf"
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+subjectAltName=@san
+
+[ san ]
+DNS.1 = <istiodService>.istio-system.svc
+
+[ req_dn ]
+commonName = Intermediate CA
+organizationName = loliot
+localityName = <clusterName>
 ```
-
-```shell
-make -f Makefile.selfsigned.mk root-ca
-```
-
-- `root-cert.pem`: 생성된 루트 인증서
-- `root-key.pem`: 생성된 루트 키
-- `root-ca.conf`: openssl루트 인증서를 생성하기 위한 구성
-- `root-cert.csr`: 루트 인증서에 대해 생성된 CSR
-
-```shell
-export CLUSTER_NAME=<clusterName>
-```
-
-```shell
-make -f Makefile.selfsigned.mk ${CLUSTER_NAME}-cacerts
-```
-
-:::info
-`CLUSTER_NAME`이 CSR의 `localityName`으로 설정됩니다.
-:::
 
 클러스터 수 만큼 인증서를 생성해주세요.
 
-- `ca-cert.pem`: 생성된 중간 인증서
-- `ca-key.pem`: 생성된 중간 키
-- `cert-chain.pem`: istiod에서 사용하는 생성된 인증서 체인
-- `root-cert.pem`: 루트 인증서
-
 ```shell
 kubectl create secret generic cacerts -n istio-system \
-    --from-file=$CLUSTER_NAME/ca-cert.pem \
-    --from-file=$CLUSTER_NAME/ca-key.pem \
-    --from-file=$CLUSTER_NAME/cert-chain.pem \
-    --from-file=$CLUSTER_NAME/root-cert.pem
+    --from-file=<clusterName>/ca-cert.pem \
+    --from-file=<clusterName>/ca-key.pem \
+    --from-file=<clusterName>/cert-chain.pem \
+    --from-file=root-cert.pem
 ```
 
 ## Multi-Primary on different networks

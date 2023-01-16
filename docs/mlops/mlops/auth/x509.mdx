@@ -119,7 +119,7 @@ openssl req -new -config ca-cert.conf -key ca-key.pem -out ca-cert.csr
 ### ca-cert.pem
 
 ```shell
-openssl x509 -req -days 730 \
+openssl x509 -req -days 1825 \
     -CA root-cert.pem -CAkey root-key.pem -CAcreateserial\
     -extensions req_ext -extfile ca-cert.conf \
     -in ca-cert.csr -out ca-cert.pem

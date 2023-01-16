@@ -18,8 +18,8 @@ keywords:
 EKS -> Cluster -> `<cluster>` -> Configuration -> Authentication -> Associate Identity Provider
 
 - Name: `<name>`
-- Issuer URL: `<keycloak-url>/auth/realms/<realm>`
-- Client ID: `eks`
+- Issuer URL: `https://<keycloakHost>/realms/<realm>`
+- Client ID: `<clientId>`
 - Username claim: `<email|prefferd_username>`
 - Groups claim: groups
 
@@ -46,9 +46,9 @@ users:
         args:
           - oidc-login
           - get-token
-          - --oidc-issuer-url=<keycloak-url>/auth/realms/<realm>
-          - --oidc-client-id=eks
-          - --oidc-client-secret=<eks-client-secret>
+          - --oidc-issuer-url=https://<keycloakHost>/realms/<realm>
+          - --oidc-client-id=<clientId>
+          - --oidc-client-secret=<clientSecret>
 ```
 
 :::info
