@@ -736,6 +736,17 @@ module.exports = {
 				},
 			],
 		},
+		{
+			type: "category",
+			label: "Libraries",
+			items: [
+				{
+					type: "category",
+					label: "Firebase",
+					items: ["lang/javascript/libraries/firebase/authentication"],
+				},
+			],
+		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
 	project: [
