@@ -1,0 +1,47 @@
+---
+id: use-mutation
+title: useMutation
+sidebar_label: useMutation
+description: React Query useMutation
+keywords:
+  - react query
+  - useMutation
+---
+
+`useMutation`은 Create/Update/Delete 처럼 서버 상태를 변경하는 작업을 수행하는데 사용됩니다.
+
+- https://react-query-v3.tanstack.com/reference/useMutation
+
+```typescript
+const mutation = useMutation({
+  mutationFn: (variables: TVariables) => Promise<TData>,
+  // mutationFn을 호출하면 onMutate -> onSuccess || onError -> onSettled 순으로 실행됩니다.
+  onMutate: (variables: TVariables) => Promise<TContext | void> | TContext | void,
+  onSuccess: (data: TData, variables: TVariables, context?: TContext) => Promise<unknown> | void,
+  onError: (err: TError, variables: TVariables, context?: TContext) => Promise<unknown> | void,
+  onSettled: (data: TData, error: TError, variables: TVariables, context?: TContext) => Promise<unknown> | void,
+  //
+  retry: boolean | number | (failureCount: number, error: TError) => boolean,
+  retryDelay: number | (retryAttempt: number, error: TError) => number,
+  useErrorBoundary: undefined | boolean | (error: TError) => boolean
+  meta: Record<string, unknown>
+});
+
+// mutate에서 정의한 콜백은 useMutation의 onSettled가 실행된 후 실행됩니다.
+// ... -> onSettled -> mutation.onSuccess || mutation.onError -> mutation.onSettled
+mutation.mutate(variables, {onSuccess, onError, onSettled})
+
+const result = mutation.mutateAsync(variables, {onSuccess, onError, onSettled})
+
+mutation.status // "idle" | "loading" | "error" | "success"
+mutation.isIdle
+mutation.isLoading
+mutation.isSuccess
+mutation.isError
+
+mutation.data
+
+mutation.error
+
+mutation.reset()
+```

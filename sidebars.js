@@ -695,7 +695,7 @@ module.exports = {
 		},
 		{
 			type: "category",
-			label: "emscripten",
+			label: "Emscripten",
 			items: ["lang/javascript/emscripten/basics"],
 		},
 		{
@@ -715,6 +715,11 @@ module.exports = {
 						"lang/javascript/react/jotai/jotai",
 						"lang/javascript/react/jotai/provider",
 					],
+				},
+				{
+					type: "category",
+					label: "React Query",
+					items: ["lang/javascript/react/react-query/use-mutation"],
 				},
 				{
 					type: "category",
