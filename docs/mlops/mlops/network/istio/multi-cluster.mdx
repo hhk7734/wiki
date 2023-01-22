@@ -75,10 +75,10 @@ localityName = <clusterName>
 
 ```shell
 kubectl create secret generic cacerts -n istio-system \
-    --from-file=<clusterName>/ca-cert.pem \
-    --from-file=<clusterName>/ca-key.pem \
-    --from-file=<clusterName>/cert-chain.pem \
-    --from-file=root-cert.pem
+    --from-file=ca-cert.pem \
+    --from-file=ca-key.pem \
+    --from-file=cert-chain.pem \
+    --from-file=../root-cert.pem
 ```
 
 ## Multi-Primary on different networks
@@ -129,6 +129,7 @@ helm upgrade istiod istio/istiod \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
+    --history-max 3 \
     -f istiod-values.yaml
 ```
 

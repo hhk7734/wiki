@@ -7,6 +7,10 @@ keywords:
   - x509
 ---
 
+```shell
+openssl version -a
+```
+
 ## Root CA
 
 ### root-key.pem
@@ -120,7 +124,7 @@ openssl req -new -config ca-cert.conf -key ca-key.pem -out ca-cert.csr
 
 ```shell
 openssl x509 -req -days 1825 \
-    -CA root-cert.pem -CAkey root-key.pem -CAcreateserial\
+    -CA ../root-cert.pem -CAkey ../root-key.pem -CAcreateserial\
     -extensions req_ext -extfile ca-cert.conf \
     -in ca-cert.csr -out ca-cert.pem
 ```
@@ -132,5 +136,5 @@ openssl x509 -in ca-cert.pem -text -noout
 ### cert-chain.pem
 
 ```shell
-cat ca-cert.pem root-cert.pem > cert-chain.pem
+cat ca-cert.pem ../root-cert.pem > cert-chain.pem
 ```

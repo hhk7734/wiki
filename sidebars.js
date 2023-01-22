@@ -449,6 +449,11 @@ module.exports = {
 						"mlops/mlops/provisioning/keda/external-scaler",
 					],
 				},
+				{
+					type: "category",
+					label: "Knative",
+					items: ["mlops/mlops/provisioning/knative/knative"],
+				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",
 			],
 		},
@@ -604,11 +609,6 @@ module.exports = {
 							label: "Fission",
 							items: ["mlops/mlops/event/serverless/fission/fission"],
 						},
-						{
-							type: "category",
-							label: "Knative",
-							items: ["mlops/mlops/event/serverless/knative/knative"],
-						},
 					],
 				},
 				"mlops/mlops/event/rabbitmq",
@@ -732,6 +732,7 @@ module.exports = {
 			type: "category",
 			label: "Components",
 			items: [
+				"lang/javascript/components/semantic-elements",
 				{
 					type: "category",
 					label: "Styled Components",
