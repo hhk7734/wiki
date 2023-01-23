@@ -71,6 +71,10 @@ organizationName = loliot
 localityName = <clusterName>
 ```
 
+:::warning
+`<clusterName>`은 `^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)$` 형식을 따라야 합니다.
+:::
+
 클러스터 수 만큼 인증서를 생성해주세요.
 
 ```shell
@@ -94,7 +98,7 @@ kubectl create secret generic cacerts -n istio-system \
 </center>
 <br />
 
-### Cross gateway
+### Istiod
 
 각 클러스터 별로 아래 과정을 동일하게 수행해주세요.
 
@@ -133,13 +137,15 @@ helm upgrade istiod istio/istiod \
     -f istiod-values.yaml
 ```
 
+### Cross gateway
+
 ```shell
 helm show values istio/gateway \
     --version $ISTIO_VERSION \
-    > cross-ingress-values.yaml
+    > ingress-cross-values.yaml
 ```
 
-```yaml title="cross-ingress-values.yaml"
+```yaml title="ingress-cross-values.yaml"
 revision: <revision>
 
 service:
@@ -166,8 +172,6 @@ service:
       nodePort: <node-port-4>
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
 
 autoscaling:
   enabled: true
@@ -187,7 +191,7 @@ affinity:
               - key: app
                 operator: In
                 values:
-                  - cross-ingress
+                  - ingress-cross
           topologyKey: "kubernetes.io/hostname"
         weight: 50
 
@@ -195,14 +199,15 @@ networkGateway: <network>
 ```
 
 ```shell
-helm upgrade cross-ingress istio/gateway \
+helm upgrade ingress-cross istio/gateway \
     --install \
     --version $ISTIO_VERSION \
     -n istio-system \
-    -f cross-ingress-values.yaml
+    --history-max 3 \
+    -f ingress-cross-values.yaml
 ```
 
-```yaml title="network/istio/cross-gateway.yaml"
+```yaml title="ingress-cross-gateway.yaml"
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
@@ -210,7 +215,7 @@ metadata:
   namespace: istio-system
 spec:
   selector:
-    istio: cross-ingress
+    istio: ingress-cross
   servers:
     - port:
         number: 15443
@@ -223,7 +228,7 @@ spec:
 ```
 
 ```shell
-kubectl apply -f network/istio/cross-gateway.yaml
+kubectl apply -f ingress-cross-gateway.yaml
 ```
 
 ### Endpoint Discovery
