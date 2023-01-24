@@ -100,3 +100,9 @@ helm upgrade nats nats/ntas \
     --history-max 3 \
     -f nats-values.yaml
 ```
+
+## Test
+
+```shell
+kubectl run -i --rm --tty nats-box --image=natsio/nats-box --restart=Never
+```
