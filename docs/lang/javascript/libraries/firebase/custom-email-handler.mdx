@@ -1,0 +1,29 @@
+---
+id: custom-email-handler
+title: Firebase 커스텀 이메일과 처리 페이지
+sidebar_label: Custom Email & Handler
+description: Firebase 커스텀 이메일과 처리 페이지
+keywords:
+  - firebase
+  - authentication
+  - custom email
+---
+
+## 작업 링크 URL 변경(Action Link URL)
+
+- Firebase Project -\> Authentication -\> Templates
+  - Email 템플릿 중 아무거나 수정
+    - 작업 URL -\> 작업 URL 직접 입력
+
+:::warning
+이메일 주소 인증, 비밀번호 재설정 등 액션에 상관 없이 작업 URL은 모두 동일하게 설정됩니다.
+:::
+
+## 처리 페이지
+
+- parameter
+  - `mode`: `resetPassword`, `recoverEmail`, `verifyEmail`
+  - `oobCode`
+  - `apiKey`
+  - `continueUrl`: 선택 사항
+  - `lang`: 선택 사항

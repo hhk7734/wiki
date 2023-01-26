@@ -44,13 +44,14 @@ spec:
 ```
 
 - `.spec.retention`
-  - limits: max 옵션에 의해 정해진 값을 넘어간 메시지가 있을 때, `discard` 옵션에 따라 삭제
-    - 다른 옵션으로 설정하더라도 항상 적용되는 제한입니다.
-  - interest: 현재 정의된 Consumer가 모두 메시지를 받고 Ack를 보냈을 때 삭제
-  - workqueue: 한 Consumer가 메시지를 받고 Ack를 보냈을 때 삭제, 한 Stream에 동일한 subject를 갖는 Consumer를 정의할 수 없음
+  - limits: max 옵션에 의해 정해진 값을 넘어간 메시지가 있을 때, `discard` 옵션에 따라 삭제합니다
+    - 다른 옵션으로 설정하더라도 항상 적용되는 제한입니다
+  - interest: 현재 정의된 Consumer가 모두 메시지를 받고 Ack를 보냈을 때 삭제합니다
+  - workqueue: 한 Consumer가 메시지를 받고 Ack를 보냈을 때 삭제합니다
+    - 한 Stream에 동일한 subject를 갖는 Consumer를 정의할 수 없습니다
 - `.spec.discard`:
-  - old: 가장 오래된 메시지를 삭제합니다.
-  - new: 새로 들어오는 메시지를 거부합니다.
+  - old: 가장 오래된 메시지를 삭제합니다
+  - new: 새로 들어오는 메시지를 거부합니다
 
 ## Consumer
 
@@ -81,7 +82,8 @@ metadata:
   namespace: event
 spec:
   streamName: <stream-name>
-  durableName: <consumer-name> # 서버가 Consumer가 어디까지 소비했는 지 확인할 때 사용됨
+  # 서버가 Consumer가 어디까지 소비했는 지 확인할 때 사용됩니다
+  durableName: <consumer-name>
   filterSubject: <subject>
   deliverSubject: <push-subject>
   # deliverGroup: <queue-group>

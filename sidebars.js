@@ -749,7 +749,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Firebase",
-					items: ["lang/javascript/libraries/firebase/authentication"],
+					items: [
+						"lang/javascript/libraries/firebase/authentication",
+						"lang/javascript/libraries/firebase/custom-email-handler",
+					],
 				},
 			],
 		},
