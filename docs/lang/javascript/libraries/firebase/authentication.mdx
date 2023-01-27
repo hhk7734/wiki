@@ -14,7 +14,7 @@ keywords:
 
 ```typescript
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { debugErrorMap, initializeAuth, prodErrorMap } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -27,11 +27,10 @@ const firebaseConfig = {
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-export const auth = getAuth(app);
+export const auth = initializeAuth(app, {
+  errorMap:
+    process.env.NODE_ENV === "development" ? debugErrorMap : prodErrorMap,
+});
 
-export {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+export * from "firebase/auth";
 ```

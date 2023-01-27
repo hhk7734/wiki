@@ -1,8 +1,8 @@
 ---
 id: custom-email-handler
-title: Firebase 커스텀 이메일과 처리 페이지
-sidebar_label: Custom Email & Handler
-description: Firebase 커스텀 이메일과 처리 페이지
+title: Firebase 이메일 처리 페이지 커스텀
+sidebar_label: Custom Email Handler
+description: Firebase 이메일 처리 페이지 커스텀
 keywords:
   - firebase
   - authentication
@@ -21,9 +21,82 @@ keywords:
 
 ## 처리 페이지
 
+- https://firebase.google.com/docs/auth/custom-email-handler
+- https://firebase.google.com/docs/reference/js/auth.autherror
+
+<br />
+
 - parameter
-  - `mode`: `resetPassword`, `recoverEmail`, `verifyEmail`
-  - `oobCode`
-  - `apiKey`
+  - `mode`: `verifyEmail`, `resetPassword`, `recoverEmail`
+  - `oobCode`: `actionCode`
+  - `apiKey`: firebase 앱 초기화 시 사용되는 apiKey와 동일한 값이 전달됩니다
   - `continueUrl`: 선택 사항
   - `lang`: 선택 사항
+
+### 이메일 인증 페이지
+
+```typescript
+import { applyActionCode, AuthError, AuthErrorCodes } from "firebase/auth";
+
+// ...
+
+applyActionCode(auth, oobCode)
+  .then(() => {
+    // 이메일 인증 성공
+  })
+  .catch((err: AuthError) => {
+    switch (err.code) {
+      case AuthErrorCodes.INVALID_OOB_CODE:
+        // 유효하지 않거나 이미 사용된 oobCode
+        break;
+      default:
+        break;
+    }
+  });
+```
+
+### 비밀번호 재설정 페이지
+
+```typescript
+import {
+  confirmPasswordReset,
+  verifyPasswordResetCode,
+  AuthError,
+  AuthErrorCodes,
+} from "firebase/auth";
+
+// ...
+
+verifyPasswordResetCode(auth, oobCode)
+  .then((email) => {
+    // oobCode가 비밀번호 재설정을 위해 전송된 것인지 확인
+  })
+  .catch((err: AuthError) => {
+    switch (err.code) {
+      case AuthErrorCodes.INVALID_OOB_CODE:
+        // 유효하지 않거나 이미 사용된 oobCode
+        break;
+      default:
+        break;
+    }
+  });
+
+// ...
+
+if (
+  isVerified &&
+  passwordValidator.status === "valid" &&
+  confirmPasswordValidator.status === "valid"
+) {
+  confirmPasswordReset(auth, oobCode, passwordValidator.value)
+    .then(() => {
+      // 비밀번호 재설정 성공
+    })
+    .catch((err: FirebaseError) => {
+      switch (err.code) {
+        default:
+          break;
+      }
+    });
+}
+```
