@@ -210,6 +210,11 @@ module.exports = {
 				"lang/go/libraries/websocket",
 			],
 		},
+		{
+			type: "category",
+			label: "HTTP",
+			items: ["lang/go/http/multipart-form-data"],
+		},
 	],
 	infineon: [
 		"mcu/infineon/tricore-development-environment",
