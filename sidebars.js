@@ -145,7 +145,18 @@ module.exports = {
 		"lang/design/event-storming",
 		"lang/design/solid",
 		"lang/design/repository-pattern",
-		"lang/design/restful-api",
+		{
+			type: "category",
+			label: "RESTful API",
+			items: [
+				"lang/design/restful-api/restful-api",
+				{
+					type: "category",
+					label: "HTTP",
+					items: ["lang/design/restful-api/http/mime-type"],
+				},
+			],
+		},
 		"lang/design/scrum",
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
@@ -209,11 +220,6 @@ module.exports = {
 				"lang/go/libraries/google-wire",
 				"lang/go/libraries/websocket",
 			],
-		},
-		{
-			type: "category",
-			label: "HTTP",
-			items: ["lang/go/http/multipart-form-data"],
 		},
 	],
 	infineon: [
