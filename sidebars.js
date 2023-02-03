@@ -434,7 +434,6 @@ module.exports = {
 				"mlops/mlops/storage/aws-efs-csi-driver",
 				"mlops/mlops/storage/rook-ceph",
 				"mlops/mlops/storage/postgresql",
-				"mlops/mlops/storage/redis",
 				"mlops/mlops/storage/harbor",
 			],
 		},
@@ -605,6 +604,11 @@ module.exports = {
 						"mlops/mlops/event/nats/crd",
 						"mlops/mlops/event/nats/flow",
 					],
+				},
+				{
+					type: "category",
+					label: "Redis",
+					items: ["mlops/mlops/event/redis/redis"],
 				},
 				{
 					type: "category",
