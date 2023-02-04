@@ -31,7 +31,8 @@ export const awsEbsCsiDriverRole = new aws.iam.Role(
           Effect: "Allow",
           Principal: {
             Federated: oidcUrl.apply(
-              (url) => `arn:aws:iam::718951341054:oidc-provider/${url}`
+              (url) =>
+                `arn:aws:iam::${variable.awsAccountId}:oidc-provider/${url}`
             ),
           },
           Condition: {
