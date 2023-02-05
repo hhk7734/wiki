@@ -132,6 +132,37 @@ app: {{ include "project.frontend.fullname" . }}
 
 ## Github Action for CD
 
+:::info
+
+- https://docs.github.com/en/actions/learn-github-actions/contexts
+
+사용할 수 있는 컨텍스트 정보를 아래 Action을 통해 확인 할 수 있습니다.
+
+```yaml
+name: Context testing
+on: push
+
+jobs:
+  dump_contexts_to_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+```
+
+:::
+
 아래 예시는 프로젝트 중 프론트 엔드 dev용 CD Action 파일입니다.
 
 ```yaml
@@ -139,8 +170,12 @@ name: Frontend CD Dev
 
 on:
   push:
+    # development
     branches:
       - main
+    # production
+    # tags:
+    #   - "v*.*.*"
 
 # 같은 group인 경우 이전 작업은 취소되고 새로운 작업만 수행합니다
 concurrency:
@@ -169,19 +204,20 @@ jobs:
       - name: Get TAG
         id: tag
         run: |
-          # Commit Hash의 앞 9자리를 잘라서 TAG로 설정합니다
+          # development, Commit Hash의 앞 9자리를 잘라서 TAG로 설정합니다
           TAG=$(echo ${{ github.sha }} | cut -c1-9)
+          # production
+          # TAG=${{ github.ref_name }}
           echo TAG=$TAG
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 
       - name: Build and push image to Amazon ECR
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: frontend
+          ECR_REPOSITORY: ${{ steps.login-ecr.outputs.registry }}/frontend
           IMAGE_TAG: ${{ steps.tag.outputs.tag }}
         run: |
-          docker build --build-arg ENV_FILE=.env.development -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker build --build-arg ENV_FILE=.env.development -t $ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REPOSITORY:$IMAGE_TAG
 
       - name: Checkout argocd
         uses: actions/checkout@v3
@@ -195,15 +231,19 @@ jobs:
       - name: Update frontend helm values
         uses: mikefarah/yq@master
         env:
+          ECR_REPOSITORY: ${{ steps.login-ecr.outputs.registry }}/frontend
           IMAGE_TAG: ${{ steps.tag.outputs.tag }}
         with:
           cmd: |
-            yq -i '.frontend.image.tag = strenv(IMAGE_TAG)' argocd/project/cd/dev-values.yaml
+            yq -i '
+              .frontend.image.repository = strenv(ECR_REPOSITORY) |
+              .frontend.image.tag = strenv(IMAGE_TAG)
+            ' argocd/project/cd/dev-values.yaml
 
       - name: Commit files
         env:
-          COMMIT_AUTHOR_NAME: ${{ github.event.commits[0].author.name }}
-          COMMIT_AUTHOR_EMAIL: ${{ github.event.commits[0].author.email }}
+          COMMIT_AUTHOR_NAME: ${{ github.event.head_commit.author.name }}
+          COMMIT_AUTHOR_EMAIL: ${{ github.event.head_commit.author.email }}
           IMAGE_TAG: ${{ steps.tag.outputs.tag }}
         run: |
           cd argocd

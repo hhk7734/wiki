@@ -153,7 +153,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "HTTP",
-					items: ["lang/design/restful-api/http/mime-type"],
+					items: [
+						"lang/design/restful-api/http/mime-type",
+						"lang/design/restful-api/http/cookie",
+					],
 				},
 			],
 		},

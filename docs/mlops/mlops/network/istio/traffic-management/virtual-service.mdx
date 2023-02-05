@@ -45,6 +45,31 @@ spec:
 
 ### HTTP redirect
 
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  hosts:
+    - <host>
+  gateways:
+    - <gateway>
+    - <namespace>/<gateway>
+  http:
+    # 먼저 설정한 규칙의 우선순위가 높습니다.
+    - name: <name> # 디버깅에 사용되는 이름
+      match:
+        # 이 규칙을 적용할 트래픽을 선택합니다. uri, schema, method, headers 등
+      redirect:
+        authority: <host> # Optional
+        uri: <path> # Optional, 설정하면 전체 path가 대체됩니다
+        redirectCode: 301 # Optional, 설정하지 않으면 301로 설정됩니다
+```
+
 ### HTTP rewrite
 
 ### TCP route

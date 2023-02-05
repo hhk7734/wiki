@@ -155,7 +155,6 @@ name = "efs"
 efs = aws.efs.FileSystem(
     name,
     availability_zone_name=vpc.AZs.names[0],
-    creation_token="oneplatform-efs-8c0e576",
     performance_mode="generalPurpose",
     throughput_mode="bursting",
     lifecycle_policies=[
