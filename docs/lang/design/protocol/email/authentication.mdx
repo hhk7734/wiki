@@ -1,0 +1,97 @@
+---
+id: authentication
+title: Email Authentication
+sidebar_label: Authentication
+description: Email Authentication
+keywords:
+  - authentication
+---
+
+:::info
+이메일의 원문을 보면 인증을 위한 정보가 있습니다.
+:::
+
+:::warning
+subdomain을 사용하는 경우 아래 글에서 `<domain>` 대신 `<subdomain>.<domain>`을 사용하세요.
+:::
+
+## Sender Policy Framework(SPF)
+
+- https://datatracker.ietf.org/doc/html/rfc7208
+
+DNS의 TXT 레코드에 해당 도메인으로 이메일을 보낼 수 있는 서버를 명시하고, 이를 활용하여 메일을 인증하는 방식입니다.
+
+1. 사용자는 메일 송신 서버로 메일을 보냅니다.
+1. 메일 송신 서버는 `Delivered-To`를 확인하여 메일 수신 서버로 메일을 보냅니다.
+1. 메일 수신 서버는 `Return-Path`에 등록된 도메인의 (v=spf1으로 시작하는) TXT 레코드에서 메일 송신 서버의 IP를 찾습니다.
+1. 확인이 되면 해당 메일은 등록된 도메인에서 인증한 메일로 간주 됩니다.
+
+```txt
+<domain> text = "v=spf1 [guest list] <redirect=<domain>|<qualifier>all>"
+```
+
+- `<qualifier>`
+  - `+`: pass
+  - `-`: fail
+  - `~`: softfail
+  - `?`: neutral
+
+```shell
+nslookup -type=txt <domain>
+```
+
+## Domain Keys Identified Mail(DKIM)
+
+- https://datatracker.ietf.org/doc/html/rfc4871
+
+DNS의 TXT 레코드에 DKIM 퍼블릭 키를 등록하고, 이를 활용하여 메일을 인증하는 방식입니다.
+
+1. 사용자는 메일 송신 서버로 메일을 보냅니다.
+1. 메일 송신 서버는 사전 등록된 DKIM 프라이빗 키를 사용하여 `DKIM-Signature`를 생성한 후 메일의 헤더에 추가합니다.
+1. 메일 송신 서버는 `Delivered-To`를 확인하여 메일 수신 서버로 메일을 보냅니다.
+1. 메일 수신 서버는 `DKIM-Signature`의 `d=<domain>`을 확인하여 (v=DKIM1으로 시작하는) TXT 레코드에서 퍼블릭키를 찾습니다.
+1. 퍼블릭키로 서명을 복호화 하여 위변조 여부를 판단합니다.
+
+```txt
+<domain> text = "v=DKIM1; k=<type>; p=<public key>"
+```
+
+:::info
+`<selector>._domainkey`와 같은 서브도메인을 주로 사용합니다.
+:::
+
+```shell
+nslookup -type=txt <domain>
+```
+
+## Domain-based Message Authentication Reporting and Conformance (DMARC)
+
+- https://datatracker.ietf.org/doc/html/rfc7489
+
+SPF, DKIM과 함께 사용되며, 앞선 인증 절차를 통과하지 못한 경우 처리 절차를 DNS TXT 레코드에 서술합니다.
+
+1. 메일 수신 서버에서 SPF, DKIM 인증을 수행합니다.
+1. 인증에 실패한 경우 `_dmarc.<domain>`을 확인하여 (v=DMARC1으로 시작하는) TXT 레코드에서 처리 절차를 확인합니다.
+
+```txt
+_dmarc.<domain> text = "v=DMARC1; p=quarantine; adkim=r; aspf=r; rua=mailto:<email>"
+```
+
+- `p`
+  - `none`: 아무런 처리를 하지 않습니다
+  - `quarantine`: 메일을 받지만, 스팸으로 분류합니다
+  - `reject`: 메일을 받지 않습니다
+- `aspf`
+  - `s`: 엄격한 정렬, 발신자 주소와 헤더의 보낸사람 주소의 도메인이 일치하는 경우만 통과합니다
+  - `r`: 완화된 정렬, 서브도메인도 통과합니다
+- `adkim`
+  - `s`: 엄격한 정렬, 헤더의 보낸사람 주소와 DKIM 서명의 도메인이 일치하는 경우만 통과합니다
+  - `r`: 완화된 정렬, 서브도메인도 통과합니다
+
+:::info
+처음부터 정책(`p`)을 `reject`로 선언하지 않는 것이 좋습니다. 설정이 잘못 되었을 경우, 비지니스 이메일을 받지 못하는 상황이 발생할 수 있습니다.
+:::
+
+```shell
+nslookup -type=txt _dmarc.<domain>
+```

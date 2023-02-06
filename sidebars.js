@@ -147,16 +147,21 @@ module.exports = {
 		"lang/design/repository-pattern",
 		{
 			type: "category",
-			label: "RESTful API",
+			label: "Protocol",
 			items: [
-				"lang/design/restful-api/restful-api",
+				"lang/design/protocol/restful-api",
 				{
 					type: "category",
 					label: "HTTP",
 					items: [
-						"lang/design/restful-api/http/mime-type",
-						"lang/design/restful-api/http/cookie",
+						"lang/design/protocol/http/mime-type",
+						"lang/design/protocol/http/cookie",
 					],
+				},
+				{
+					type: "category",
+					label: "Email",
+					items: ["lang/design/protocol/email/authentication"],
 				},
 			],
 		},

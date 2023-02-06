@@ -10,11 +10,19 @@ keywords:
 
 ## 초기화
 
+- https://firebase.google.com/docs/reference/js/auth.md#initializeauth
+
 아래 코드는 Next.js에서 Firebase Authentication을 사용하기 위한 초기화 코드입니다.
 
 ```typescript
 import { getApp, getApps, initializeApp } from "firebase/app";
-import { debugErrorMap, initializeAuth, prodErrorMap } from "firebase/auth";
+import {
+  browserLocalPersistence,
+  browserPopupRedirectResolver,
+  debugErrorMap,
+  initializeAuth,
+  prodErrorMap,
+} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -27,9 +35,12 @@ const firebaseConfig = {
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
+// initializeAuth는 getAuth에서 호출하는 로우레벨 API입니다.
 export const auth = initializeAuth(app, {
   errorMap:
     process.env.NODE_ENV === "development" ? debugErrorMap : prodErrorMap,
+  persistence: browserLocalPersistence,
+  popupRedirectResolver: browserPopupRedirectResolver,
 });
 
 export * from "firebase/auth";
