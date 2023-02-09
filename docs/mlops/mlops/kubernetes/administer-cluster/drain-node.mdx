@@ -1,0 +1,35 @@
+---
+id: drain-node
+title: Node를 비우고 제거하기
+sidebar_label: Node 제거
+description: Node를 비우고 제거하기
+keywords:
+  - kubernetes
+  - drain
+  - delete
+  - node
+---
+
+## Node 목록 확인
+
+```shell
+kubectl get nodes
+```
+
+## 스케줄 불가로 설정(SchedulingDisabled)
+
+```shell
+kubectl cordon <nodeName>
+```
+
+## Node에 있는 Pod 비우기
+
+```shell
+kubectl drain <nodeName> --ignore-daemonsets
+```
+
+## Node 제거
+
+```shell
+kubectl delete node <nodeName>
+```

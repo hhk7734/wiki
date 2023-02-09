@@ -428,6 +428,11 @@ module.exports = {
 				},
 				{
 					type: "category",
+					label: "Administer a Cluster",
+					items: ["mlops/mlops/kubernetes/administer-cluster/drain-node"],
+				},
+				{
+					type: "category",
 					label: "Upgrade",
 					items: ["mlops/mlops/kubernetes/upgrade/1-21-1-22"],
 				},
