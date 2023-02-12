@@ -9,6 +9,8 @@ keywords:
 
 ## Cross-Origin Resource Sharing(CORS)
 
+- https://developer.mozilla.org/ko/docs/Web/HTTP/CORS
+
 URI scheme에서 scheme(protocol), host, port가 같은 경우를 Same, 다른 경우를 Cross라고 하는데, 예를 들어 `https://domain-a.com`의 프론트엔드 자바스크립트 코드가 `XMLHttpRequest`를 사용하여 `https://domain-a.com`의 백엔드에 요청을 하는 경우 `Same-Origin Request`가 되고, `https://domain-b.com`에 요청을 하는 경우 `Cross-Origin Request`가 됩니다.
 
 ### Simple Request
@@ -63,56 +65,3 @@ Server: istio-envoy
 :::info
 CORS 요청에 대해 접근 권한 설정은 서버에 있지만 접근 권한에 따라 요청할지 말지는 브라우저에서 해당 기능을 지원해야합니다. 따라서 터미널에서 curl을 사용한 요청은 CORS의 적용을 받지 않습니다.
 :::
-
-## corsPolicy
-
-- https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
-
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: "backend"
-spec:
-  hosts:
-    - domain-b.com
-  gateways:
-    - <namespace>/<gateway>
-  http:
-    - match:
-        - uri:
-            prefix: "/v1/"
-      rewrite:
-        uri: "/"
-      route:
-        - destination:
-            host: backend.default.svc.cluster.local
-      corsPolicy:
-        # Access-Control-Allow-Origin
-        allowOrigins:
-          - https://domain-a.com
-        # Access-Control-Allow-Methods
-        allowMethods:
-          - POST
-          - GET
-          - PUT
-          - DELETE
-          - OPTIONS
-          - PATCH
-        # Access-Control-Allow-Headers
-        allowHeaders: # Request
-          - Authorization
-          - Content-Type
-        # Access-Control-Expose-Headers
-        exposeHeaders: # Response
-          - Ratelimit-Limit
-          - Ratelimit-Remaining
-        # Access-Control-Max-Age
-        maxAge: "24h"
-        # Access-Control-Allow-Credentials
-        allowCredentials: true
-```
-
-## Reference
-
-- https://developer.mozilla.org/ko/docs/Web/HTTP/CORS

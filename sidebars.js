@@ -106,6 +106,7 @@ module.exports = {
 						"lang/db/sql/mysql/window",
 						"lang/db/sql/mysql/join",
 						"lang/db/sql/mysql/explain",
+						"lang/db/sql/mysql/lock",
 						"lang/db/sql/mysql/stored-program",
 					],
 				},
@@ -156,6 +157,7 @@ module.exports = {
 					items: [
 						"lang/design/protocol/http/mime-type",
 						"lang/design/protocol/http/cookie",
+						"lang/design/protocol/http/cors",
 					],
 				},
 				{
@@ -505,7 +507,6 @@ module.exports = {
 						"mlops/mlops/network/istio/kiali",
 						"mlops/mlops/network/istio/jaeger",
 						"mlops/mlops/network/istio/jwt",
-						"mlops/mlops/network/istio/cors",
 					],
 				},
 			],

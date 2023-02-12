@@ -15,7 +15,7 @@ keywords:
 
 - https://istio.io/latest/docs/reference/config/networking/virtual-service/
 
-### HTTP route
+## HTTP route
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -43,7 +43,7 @@ spec:
           weight: <0-100> # 트래픽 비율, 총 합이 100이어야 합니다.
 ```
 
-### HTTP redirect
+## HTTP redirect
 
 - https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect
 
@@ -70,9 +70,9 @@ spec:
         redirectCode: 301 # Optional, 설정하지 않으면 301로 설정됩니다
 ```
 
-### HTTP rewrite
+## HTTP rewrite
 
-### TCP route
+## TCP route
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -98,4 +98,54 @@ spec:
             port:
               number: <port>
           weight: <0-100>
+```
+
+## CorsPolicy
+
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
+- [Cross-Origin Resource Sharing(CORS)](/docs/lang/design/protocol/http/cors)
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "backend"
+spec:
+  hosts:
+    - domain-b.com
+  gateways:
+    - <namespace>/<gateway>
+  http:
+    - match:
+        - uri:
+            prefix: "/v1/"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: backend.default.svc.cluster.local
+      corsPolicy:
+        # Access-Control-Allow-Origin
+        allowOrigins:
+          - https://domain-a.com
+        # Access-Control-Allow-Methods
+        allowMethods:
+          - POST
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+          - PATCH
+        # Access-Control-Allow-Headers
+        allowHeaders: # Request
+          - Authorization
+          - Content-Type
+        # Access-Control-Expose-Headers
+        exposeHeaders: # Response
+          - Ratelimit-Limit
+          - Ratelimit-Remaining
+        # Access-Control-Max-Age
+        maxAge: "24h"
+        # Access-Control-Allow-Credentials
+        allowCredentials: true
 ```
