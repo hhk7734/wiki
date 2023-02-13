@@ -479,6 +479,11 @@ module.exports = {
 					label: "Knative",
 					items: ["mlops/mlops/provisioning/knative/knative"],
 				},
+				{
+					type: "category",
+					label: "KServe",
+					items: ["mlops/mlops/provisioning/kserve/kserve"],
+				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",
 			],
 		},

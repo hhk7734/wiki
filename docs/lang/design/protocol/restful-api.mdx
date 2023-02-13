@@ -61,6 +61,7 @@ keywords:
 ## HTTP status codes
 
 - https://developer.mozilla.org/ko/docs/Web/HTTP/Status
+- https://www.rfc-editor.org/rfc/rfc9110#name-status-codes
 
 ### 2xx Success
 
@@ -88,6 +89,10 @@ keywords:
 - `400 Bad Request`: 잘못된 요청 형식 등 서버가 처리할 수 없음
 - `401 Unauthorized`: 인증(Authentication) 실패
 - `403 Forbidden`: 인가(Authorization) 실패
+  - 읽기 권한은 있지만 쓰기 권한이 없는 경우
+- `404 Not Found`: 리소스를 찾을 수 없음
+  - 리소스가 존재하지 않는 경우
+  - 존재는 하지만 읽기, 쓰기 권한이 없는 경우
 - `409 Conflict`: 서버의 현재 상태와 충돌
 - `422 Unprocessable Entity`: 요청은 올바르지만, 유효성 검사 실패 등의 이유로 처리할 수 없음
 - `429 Too Many Requests`
