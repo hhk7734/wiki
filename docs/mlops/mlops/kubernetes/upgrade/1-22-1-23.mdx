@@ -1,0 +1,51 @@
+---
+id: 1-22-1-23
+title: 1.22 to 1.23
+sidebar_label: 1.22 to 1.23
+description: upgrade from 1.22 to 1.23
+keywords:
+  - kubernetes
+  - upgrade
+  - 1.22
+  - 1.23
+---
+
+- https://kubernetes.io/blog/2021/12/07/kubernetes-1-23-release-announcement/
+
+```shell
+kubent
+```
+
+## EKS
+
+- https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html
+
+<br />
+
+- 클러스터 버전 확인
+
+```shell
+kubectl version --short
+```
+
+- 노드 버전이 현재 클러스터 버전과 일치하는지 확인
+
+```shell
+kubectl get nodes
+```
+
+- 기본 보안 정책 존재 확인
+
+```shell
+kubectl get psp eks.privileged
+```
+
+- EKS 1.23로 업데이트
+- 워커노드 1.23로 교체
+  - NodeGroup 버전 변경
+  - 노드 교체([Node 제거](/docs/mlops/mlops/kubernetes/administer-cluster/drain-node))
+- 추가 기능 업데이트
+  - kube-proxy: v1.23.15-eksbuild.1
+  - CoreDNS: v1.8.7-eksbuild.3
+  - VPC CNI: v1.12.1-eksbuild.2
+- kubectl 업데이트

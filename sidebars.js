@@ -436,7 +436,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Upgrade",
-					items: ["mlops/mlops/kubernetes/upgrade/1-21-1-22"],
+					items: [
+						"mlops/mlops/kubernetes/upgrade/1-21-1-22",
+						"mlops/mlops/kubernetes/upgrade/1-22-1-23",
+					],
 				},
 			],
 		},
