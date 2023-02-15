@@ -69,3 +69,26 @@ sudo chmod 600 ~/.ssh/*
 :::warning
 파일 접근 권한은 로컬과 원격 모두 설정되어 있어야 합니다.
 :::
+
+## SSH Tunnel
+
+```shell title="/etc/ssh/sshd_config"
+AllowTcpForwarding yes
+PermitTunnel yes
+```
+
+```shell
+ssh -f -N -L <localPort>:<host>:<port> -p <tunnelPort> <tunnelUser>@<tunnelHost>
+```
+
+```shell
+lsof -i4 -P | grep -i "listen" | grep <localPort>
+```
+
+```shell
+nc -zv 127.0.0.1 <localPort>
+```
+
+```shell
+ps -lef | grep ssh | grep "\-L \?<localPort>" | awk '{print $4}' | xargs kill -9
+```
