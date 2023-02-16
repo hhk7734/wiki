@@ -170,11 +170,11 @@ new aws.iam.RolePolicyAttachment(
 설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
 :::
 
-- https://karpenter.sh/v0.21.1/upgrade-guide/
+- https://karpenter.sh/v0.24.0/upgrade-guide/
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.21.1 \
+    --version v0.24.0 \
     > karpenter-values.yaml
 ```
 
@@ -218,7 +218,7 @@ settings:
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.21.1 \
+    --version v0.24.0 \
     -n provisioning \
     -f karpenter-values.yaml \
     > karpenter.yaml
@@ -227,9 +227,9 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.21.1 \
-    -n provisioning \
+    --version v0.24.0 \
     --history-max 3 \
+    -n provisioning \
     -f karpenter-values.yaml
 ```
 

@@ -38,7 +38,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: prometheus
-  namespace: monitoring
 rules:
   - apiGroups: [""]
     resources:
@@ -65,7 +64,6 @@ apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: prometheus
-  namespace: monitoring
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -112,12 +110,25 @@ spec:
   storage:
     volumeClaimTemplate:
       spec:
-        storageClassName: gp2
+        storageClassName: gp3
         accessModes:
           - "ReadWriteOnce"
         resources:
           requests:
             storage: 30Gi
+
+  initContainers:
+    - name: "prometheus-permission",
+      image: "busybox",
+      command: ["/bin/chmod", "-R", "777", "/prometheus"],
+      volumeMounts:
+        - name: "prometheus-prometheus-db",
+          mountPath: "/prometheus",
+
+  thanos:
+    objectStorageConfig:
+      - key: "objstore.yml",
+        name: "thanos-objstore-secret",
 ```
 
 - `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.

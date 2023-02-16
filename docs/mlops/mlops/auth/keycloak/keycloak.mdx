@@ -19,8 +19,12 @@ helm repo update bitnami \
 ```
 
 ```shell
-helm show values bitnami/keycloak \
-    --version 13.0.0 \
+helm pull bitnami/keycloak \
+    --version 13.0.5
+```
+
+```shell
+helm show values keycloak-13.0.5.tgz \
     > keycloak-values.yaml
 ```
 
@@ -59,19 +63,17 @@ cache:
 ```
 
 ```shell
-helm template keycloak bitnami/keycloak \
-    --version 13.0.0 \
+helm template keycloak keycloak-13.0.5.tgz \
     -n auth \
     -f keycloak-values.yaml \
     > keycloak.yaml
 ```
 
 ```shell
-helm upgrade keycloak bitnami/keycloak \
+helm upgrade keycloak keycloak-13.0.5.tgz \
     --install \
-    --version 13.0.0 \
-    -n auth \
     --history-max 3 \
+    -n auth \
     -f keycloak-values.yaml
 ```
 

@@ -22,15 +22,14 @@ helm repo update prometheus-community \
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 42.1.0 \
+    --version 45.1.0 \
     > prometheus-operator-values.yaml
 ```
 
 ```yaml title="prometheus-operator-values.yaml"
 namespaceOverride: monitoring
 
-commonLabels:
-  cluster: "<cluster-name>"
+commonLabels: {}
 
 defaultRules:
   # Chart가 제공하는 기본 alert and record rules의 집합
@@ -48,7 +47,7 @@ kubeApiServer:
 
 kubelet:
   # -kubelet 설치, cAdvisor: 실행중인 컨테이너의 정보
-  enabled: true
+  enabled: false
 
 kubeControllerManager:
   enabled: false
@@ -75,7 +74,7 @@ kubeStateMetrics:
 
 nodeExporter:
   # -node-exporter 설치, Node의 Hardware, kernel 관련 정보
-  enabled: true
+  enabled: false
 
 prometheusOperator:
   # -operator 설치
@@ -88,21 +87,31 @@ prometheusOperator:
     # 접근할 수 있어야하는 문제가 있습니다.
     enabled: false
 
+  thanosImage:
+    registry: quay.io
+    repository: thanos/thanos
+    tag: v0.30.2
+    sha: ""
+
 prometheus:
   enabled: false
 ```
 
 ```shell
-helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
-    --install \
-    --version 42.1.0 \
+helm template prometheus-operator prometheus-community/kube-prometheus-stack \
+    --version 45.1.0 \
     -n monitoring \
-    --history-max 3 \
-    -f prometheus-operator-values.yaml
+    -f prometheus-operator-values.yaml \
+    > prometheus-operator.yaml
 ```
 
 ```shell
-kubectl label namespace monitoring prometheus=enabled
+helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
+    --install \
+    --history-max 3 \
+    --version 45.1.0 \
+    -n monitoring \
+    -f prometheus-operator-values.yaml
 ```
 
 ```shell
