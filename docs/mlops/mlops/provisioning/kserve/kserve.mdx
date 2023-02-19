@@ -11,9 +11,53 @@ keywords:
 ## 설치
 
 ```shell
-wget https://github.com/kserve/kserve/releases/download/v0.10.0/kserve.yaml
+helm upgrade kserve-crd kserve-crd-v0.10.0.tgz \
+  --install \
+  --history-max 3
 ```
 
 ```shell
-wget https://github.com/kserve/kserve/releases/download/v0.10.0/kserve-runtimes.yaml
+helm show values kserve-v0.10.0.tgz \
+  > kserve-values.yaml
+```
+
+```yaml title="kserve-values.yaml"
+kserve:
+  modelmesh:
+    enabled: false
+```
+
+```shell
+helm template kserve kserve-v0.10.0.tgz \
+  -n kserve \
+  -f kserve-values.yaml \
+  > kserve.yaml
+```
+
+```shell
+helm upgrade kserve kserve-v0.10.0.tgz \
+  --install \
+  --history-max 3 \
+  -n kserve \
+  -f kserve-values.yaml
+```
+
+## Test
+
+```shell
+kubectl create namespace kserve-test
+```
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: sklearn-iris
+  namespace: kserve-test
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: sklearn
+      storageUri: gs://kfserving-examples/models/sklearn/1.0/model
 ```
