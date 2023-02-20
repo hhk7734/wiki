@@ -23,3 +23,26 @@ serving-core.yaml이 serving-crds.yaml의 내용을 포함하고 있습니다.
 ```shell
 wget https://github.com/knative/net-istio/releases/download/knative-v1.9.0/net-istio.yaml
 ```
+
+## Test
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TARGET
+              value: "World"
+```
+
+```shell
+curl -H "Host: hello.default.<knativeDomain>" https://<knativeDomain>
+```

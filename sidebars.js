@@ -480,7 +480,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Knative",
-					items: ["mlops/mlops/provisioning/knative/knative"],
+					items: [
+						"mlops/mlops/provisioning/knative/knative",
+						"mlops/mlops/provisioning/knative/serving-crds",
+					],
 				},
 				{
 					type: "category",
