@@ -102,6 +102,7 @@ module.exports = {
 					label: "MySQL",
 					items: [
 						"lang/db/sql/mysql/mysql",
+						"lang/db/sql/mysql/user",
 						"lang/db/sql/mysql/aggregate",
 						"lang/db/sql/mysql/window",
 						"lang/db/sql/mysql/join",

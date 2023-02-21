@@ -1,0 +1,64 @@
+---
+id: user
+title: User
+sidebar_label: User
+description: User
+keywords:
+  - user
+  - mysql
+---
+
+## CREATE USER
+
+- https://dev.mysql.com/doc/refman/8.0/en/create-user.html
+- https://dev.mysql.com/doc/refman/8.0/en/account-names.html
+
+```sql
+CREATE USER <user>@<host> [<auth_option>]
+```
+
+- `<auth_option>`
+  - `IDENTIFIED BY <password>`
+
+## CREATE ROLE
+
+- https://dev.mysql.com/doc/refman/8.0/en/create-role.html
+- https://dev.mysql.com/doc/refman/8.0/en/role-names.html
+
+```sql
+CREATE ROLE <role>
+```
+
+- `DATAACCESS`
+  - `SELECT`, `INSERT`, `UPDATE`, `DELETE`
+
+## GRANT
+
+- https://dev.mysql.com/doc/refman/8.0/en/grant.html
+
+```sql
+GRANT
+    <privilege_type> [(<column> [, <column>])]
+    , [<privilege_type> [(<column> [, <column>])]]
+    ON [TABLE | FUNCTION | PROCEDURE] <privilege_level>
+    TO <user | role>
+    [WITH GRANT OPTION]
+```
+
+- `<privilege_type>`
+  - https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html
+  - `ALL`
+- `<privilege_level>`
+- `WITH GRANT OPTION`: 다른 사용자에게 자신이 부여받은 권한을 부여 할 수 있는 권한을 부여합니다
+
+```sql
+GRANT <role>, [,<role>]
+    TO <user | role>, [,<user | role>]
+    [WITH ADMIN OPTION]
+```
+
+## REVOKE
+
+## 권한 관리
+
+- https://www.ibm.com/docs/ko/db2/11.5?topic=ownership-database-authorities
