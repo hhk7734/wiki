@@ -29,9 +29,6 @@ CREATE USER <user>@<host> [<auth_option>]
 CREATE ROLE <role>
 ```
 
-- `DATAACCESS`
-  - `SELECT`, `INSERT`, `UPDATE`, `DELETE`
-
 ## GRANT
 
 - https://dev.mysql.com/doc/refman/8.0/en/grant.html
@@ -49,6 +46,10 @@ GRANT
   - https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html
   - `ALL`
 - `<privilege_level>`
+  - `<table>`
+  - `<database>.<table>`
+  - `<database>.<routine>`
+  - 이름 대신 `*`을 사용할 수 있습니수
 - `WITH GRANT OPTION`: 다른 사용자에게 자신이 부여받은 권한을 부여 할 수 있는 권한을 부여합니다
 
 ```sql
@@ -57,8 +58,28 @@ GRANT <role>, [,<role>]
     [WITH ADMIN OPTION]
 ```
 
+```sql
+FLUSH PRIVILEGES
+```
+
 ## REVOKE
 
 ## 권한 관리
 
-- https://www.ibm.com/docs/ko/db2/11.5?topic=ownership-database-authorities
+### `<database>_admin`
+
+```sql
+GRANT ALL ON <database>.* TO <database>_admin
+```
+
+### `<database>_writer`
+
+```sql
+GRANT INSERT, UPDATE, DELETE ON <database>.* TO <database>_writer
+```
+
+### `<database>_reader`
+
+```sql
+GRANT SELECT ON <database>.* TO <database>_reader
+```

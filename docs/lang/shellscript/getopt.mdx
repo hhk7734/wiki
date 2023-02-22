@@ -107,7 +107,7 @@ END
 
 if [ $# -eq 0 ] || ! options=$(getopt -o ab:c -l aaa,bbb:,ccc,help \
     -n $(basename "$0") -- "$@"); then
-    printf "%s" "${RED}${BOLD}" "${helpMsg}" "${DEFAULT}" >&2
+    printf "%s\n" "${RED}${BOLD}${helpMsg}${DEFAULT}" >&2
     exit 1
 fi
 
