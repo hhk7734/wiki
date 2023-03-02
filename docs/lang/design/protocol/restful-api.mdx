@@ -49,6 +49,10 @@ keywords:
 
 ## HTTP Verb
 
+- https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
+
+<br />
+
 - `POST`(Create): 새로운 리소스 생성 또는 `Controller` 실행
   - RequestBody 존재 가능
   - 비멱등성
@@ -56,6 +60,8 @@ keywords:
 - `PUT`(Update): 리소스 전체 업데이트
   - RequestBody 존재 가능
   - 멱등성
+- `PATCH`(Update): 리소스 일부 업데이트
+  - RequestBody 존재 가능
 - `DELETE`(Delete): 리소스 삭제
 
 ## HTTP status codes
@@ -109,13 +115,3 @@ keywords:
 서버가 요청을 처리하지 못한 경우이며 해당 에러는 모두 로그로 남겨서 트래킹 할 수 있어야 합니다.
 
 - `500 Internal Server Error`
-
-## Example
-
-- `POST /accounts`: 계정 생성
-- `DELETE /accounts/me`: 계정 삭제
-- `POST /auth/signin`: 로그인
-- `POST /auth/refresh`: 토큰 갱신
-- `POST /auth/signout`: 로그아웃
-- `POST /auth/mfa/send`: MFA 인증 코드 전송
-- `POST /auth/mfa/verify`: MFA 인증 코드 확인

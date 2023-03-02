@@ -40,7 +40,7 @@ const config = {
 		},
 		footer: {
 			style: "dark",
-			copyright: `Copyright © ${new Date().getFullYear()} HandS. Built with Docusaurus.`,
+			copyright: `Copyright © 2020-${new Date().getFullYear()} HandS. Built with Docusaurus.`,
 		},
 		googleAdsense: {
 			dataAdClient: "ca-pub-5199357432848758",
