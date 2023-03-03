@@ -173,9 +173,12 @@ on:
     # development
     branches:
       - main
-    # production
+    ## stage
     # tags:
-    #   - "v*.*.*"
+    #   - "v[0-9]+.[0-9]+.[0-9]+-rc.[0-9]+"
+    ## production
+    # tags:
+    #   - "v[0-9]+.[0-9]+.[0-9]+"
 
 # 같은 group인 경우 이전 작업은 취소되고 새로운 작업만 수행합니다
 concurrency:
