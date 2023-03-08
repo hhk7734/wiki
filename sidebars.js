@@ -219,6 +219,7 @@ module.exports = {
 							],
 						},
 						"lang/go/libraries/gin/validator",
+						"lang/go/libraries/gin/crud",
 					],
 				},
 				"lang/go/libraries/swagger",

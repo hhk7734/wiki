@@ -1,0 +1,55 @@
+---
+id: crud
+title: CRUD
+sidebar_label: CRUD
+description: CRUD
+keywords:
+  - CRUD
+---
+
+## Entity
+
+```go
+type ToDo struct {
+	ID          uuid.UUID
+    UserID      uuid.UUID
+	Title       string
+	Category    *string
+	Description string
+	CreatedAt   time.Time
+	UpdatedAt   time.Time
+	DeletedAt   *time.Time
+}
+```
+
+```go
+type ToDoPreview struct {
+    
+}
+```
+
+## Create(POST)
+
+```go
+type CreateToDo struct {
+    UserID      uuid.UUID
+    Title       string
+    Category    *string
+    Description string
+}
+```
+
+## Read(GET)
+
+## Update(PATCH)
+
+```go
+type UpdateToDo struct {
+    ID          uuid.UUID
+    Title       optional.Optional[string]
+    Category    optional.Optional[*string]
+    Description optional.Optional[string]
+}
+```
+
+## Delete(DELETE)
