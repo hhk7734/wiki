@@ -8,3 +8,64 @@ keywords:
 ---
 
 - https://www.rfc-editor.org/rfc/rfc6455
+
+## 동작 방식
+
+```mermaid
+sequenceDiagram
+  participant Client
+  participant Server
+
+  Note right of Client: HandShake
+  Client->>Server: HTTP Upgrade 요청
+  Server-->>Client: HTTP Upgrade 응답
+
+  Note right of Client: 양방향 통신
+  par Client to Server
+    Client->>Server: message
+  and Server to Client
+    Server->>Client: message
+  end
+
+  Note right of Client: 연결 종료
+
+  alt Client가 연결 종료 요청
+    Client->>Server: 종료 요청
+    Server-->>Client: 응답
+  else Server가 연결 종료 요청
+    Server->>Client: 종료 요청
+    Client-->>Server: 응답
+  end
+```
+
+## HandShake
+
+```http
+GET /chat HTTP/1.1
+Host: api.loliot.net
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
+Origin: https://wiki.loliot.net
+Sec-WebSocket-Protocol: chat, superchat
+Sec-WebSocket-Version: 13
+```
+
+- `Sec-WebSocket-Key`: base64로 인코딩된 16바이트의 랜덤 값입니다
+- `Sec-WebSocket-Protocol`: 클라이언트가 지원하는 프로토콜 목록입니다
+- `Origin`: CORS를 위한 헤더입니다
+
+```http
+HTTP/1.1 101 Switching Protocols
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=
+Sec-WebSocket-Protocol: chat
+```
+
+- `Sec-WebSocket-Accept`: `Sec-WebSocket-Key`값에 `258EAFA5-E914-47DA-95CA-C5AB0DC85B11`를 붙여 SHA-1 해시를 취한 후 base64로 인코딩한 값입니다
+- `Sec-WebSocket-Protocol`: 서버가 선택한 프로토콜입니다
+
+## 양방향 통신
+
+클라이언트에서 서버로 데이터를 보낼 때는 마스킹 키로 마스킹되어야 합니다.
