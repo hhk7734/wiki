@@ -159,6 +159,7 @@ module.exports = {
 						"lang/design/protocol/http/mime-type",
 						"lang/design/protocol/http/cookie",
 						"lang/design/protocol/http/cors",
+						"lang/design/protocol/http/websocket",
 					],
 				},
 				{

@@ -16,16 +16,22 @@ import (
 	"golang.org/x/net/websocket"
 )
 
-	websocket.Server{
-		Handler: func(ws *websocket.Conn) {
-			defer ws.Close()
-			for {
-				msg := ""
-				if err := websocket.Message.Receive(ws, &msg); err != nil {
-					return
+func (g *GinRestAPI) routeWebsocket(r *gin.RouterGroup) {
+	r.GET("ws", func(c *gin.Context) {
+		websocket.Server{
+			Handler: func(ws *websocket.Conn) {
+				defer ws.Close()
+				for {
+					msg := ""
+					if err := websocket.Message.Receive(ws, &msg); err != nil {
+						return
+					}
+					websocket.Message.Send(ws, msg)
 				}
-				websocket.Message.Send(ws, msg)
-			}
-		},
-	}.ServeHTTP(c.Writer, c.Request)
+			},
+		}.ServeHTTP(c.Writer, c.Request)
+	})
+}
 ```
+
+## Client
