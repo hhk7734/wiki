@@ -12,6 +12,31 @@ keywords:
 
 ## Service
 
+- https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-2
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  template:
+    spec:
+      containers:
+        - name: <containerName>
+          image: <image>
+          imagePullPolicy: IfNotPresent
+          ports:
+            # ports는 하나만 선언해야 합니다
+            - name: http1 # http1|h2c
+              containerPort: <port>
+              protocol: TCP
+          resources: {}
+          env: {}
+  traffic: {}
+```
+
 ## Configuration
 
 ## Route
