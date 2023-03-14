@@ -21,7 +21,7 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-cd \
-    --version 5.21.0 \
+    --version 5.26.0 \
     > argo-cd-values.yaml
 ```
 
@@ -67,7 +67,7 @@ kubectl create namespace workflow
 
 ```shell
 helm template argo-cd argo/argo-cd \
-    --version 5.21.0 \
+    --version 5.26.0 \
     -n workflow \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
@@ -76,7 +76,7 @@ helm template argo-cd argo/argo-cd \
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 5.21.0 \
+    --version 5.26.0 \
     --history-max 3 \
     -n workflow \
     -f argo-cd-values.yaml

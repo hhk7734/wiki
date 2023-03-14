@@ -64,7 +64,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/loki-distributed \
-    --version 0.69.6 \
+    --version 0.69.8 \
     > loki-distributed-values.yaml
 ```
 
@@ -108,8 +108,8 @@ loki:
 ingester:
   resources:
     requests:
-      cpu: 500m
-      memory: 1Gi
+      cpu: 100m
+      memory: 500Mi
     limits:
       cpu: 500m
       memory: 1Gi
@@ -117,8 +117,17 @@ ingester:
 querier:
   resources:
     requests:
+      cpu: 100m
+      memory: 500Mi
+    limits:
       cpu: 500m
       memory: 1Gi
+
+queryFrontend:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 500Mi
     limits:
       cpu: 500m
       memory: 1Gi
@@ -127,8 +136,8 @@ gateway:
   podLabels: {}
   resources:
     requests:
-      cpu: 250m
-      memory: 512Mi
+      cpu: 100m
+      memory: 256Mi
     limits:
       cpu: 250m
       memory: 512Mi
@@ -136,7 +145,7 @@ gateway:
 
 ```shell
 helm template loki grafana/loki-distributed \
-    --version 0.69.6 \
+    --version 0.69.8 \
     -n monitoring \
     -f loki-distributed-values.yaml \
     > loki-distributed.yaml
@@ -145,9 +154,9 @@ helm template loki grafana/loki-distributed \
 ```shell
 helm upgrade loki grafana/loki-distributed \
     --install \
-    --version 0.69.6 \
-    --history-max 3 \
+    --version 0.69.8 \
     -n monitoring \
+    --history-max 3 \
     -f loki-distributed-values.yaml
 ```
 
@@ -217,7 +226,7 @@ fileConfigs:
 
 - Configuration -\> Data sources -\> Add data source -\> Loki
   - HTTP
-    - URL: `http://loki-gateway.monitoring.svc`
+    - URL: `http://loki-querier.monitoring.svc:3100`
 - Explore -\> Loki -\> Add query
   - Builder
     - Label filters
