@@ -8,6 +8,37 @@ keywords:
   - serverless
 ---
 
+import Image from "@theme/IdealImage";
+import Link from "@docusaurus/Link";
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/provisioning/kserve/controlplane.png")}
+    width={750}
+  />
+</center>
+<center>
+  <Link to="https://kserve.github.io/website/0.10/modelserving/control_plane/">
+    https://kserve.github.io/website/0.10/modelserving/control_plane/
+  </Link>
+</center>
+
+<br />
+
+<center>
+  <Image
+    img={require("@site/static/img/mlops/mlops/provisioning/kserve/dataplane.jpg")}
+    width={600}
+  />
+</center>
+<center>
+  <Link to="https://kserve.github.io/website/0.10/modelserving/data_plane/data_plane/">
+    https://kserve.github.io/website/0.10/modelserving/data_plane/data_plane/
+  </Link>
+</center>
+
+<br />
+
 ## 설치
 
 ```shell
@@ -23,6 +54,15 @@ helm show values kserve-v0.10.0.tgz \
 
 ```yaml title="kserve-values.yaml"
 kserve:
+  controller:
+    gateway:
+      domain: <domain>
+      localGateway:
+        gateway: <gatewayNamespace>/<gatewayName>
+        gatewayService: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
+      ingressGateway:
+        gateway: <gatewayNamespace>/<gatewayName>
+        gatewayService: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
   modelmesh:
     enabled: false
 ```
@@ -60,4 +100,12 @@ spec:
       modelFormat:
         name: sklearn
       storageUri: gs://kfserving-examples/models/sklearn/1.0/model
+      args: ["--enable_docs_url=True"]
+```
+
+```shell
+curl -v \
+  -H "Host: sklearn-iris.kserve-test.<domain>" \
+  https://<domain>/v1/models/sklearn-iris:predict \
+  -d '{"instances": [[6.8,  2.8,  4.8,  1.4],[6.0,  3.4,  4.5,  1.6]]}'
 ```

@@ -11,17 +11,56 @@ keywords:
 ## 설치
 
 ```shell
-wget https://github.com/knative/serving/releases/download/knative-v1.9.0/serving-crds.yaml
+helm show values knative-operator-0.1.0.tgz \
+  > knative-operator-values.yaml
 ```
 
 ```shell
-wget https://github.com/knative/serving/releases/download/knative-v1.9.0/serving-core.yaml
+helm template knative-operator knative-operator-0.1.0.tgz \
+  -n knative \
+  -f knative-operator-values.yaml \
+  > knative-operator.yaml
 ```
 
-serving-core.yaml이 serving-crds.yaml의 내용을 포함하고 있습니다.
-
 ```shell
-wget https://github.com/knative/net-istio/releases/download/knative-v1.9.0/net-istio.yaml
+helm upgrade knative-operator knative-operator-0.1.0.tgz \
+  --install \
+  --history-max 3 \
+  -n knative \
+  -f knative-operator-values.yaml
+```
+
+## KnativeServing
+
+```yaml
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  version: "1.9.4"
+  # Optional
+  ingress:
+    istio:
+      enabled: true
+      # Optional
+      # <namespace>에 생성되는 knative-ingress-gateway 설정입니다
+      knative-ingress-gateway:
+        # Optional
+        # istiod의 기본 설정은 namespace 전체에서 찾습니다
+        selector:
+          <key>: <value>
+      # Optional
+      # knative-local-gateway:
+  config:
+    istio:
+      # Optional
+      gateway.<namespace>.knative-ingress-gateway:
+      gateway.<ingressGatewayNamespace>.<ingressGatewayName>: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
+      # Optional
+      local-gateway.<namespace>.knative-local-gateway: knative-local-gateway.<namespace>.svc.cluster.local
+      local-gateway.<localGatewayNamespace>.<localGatewayName>: <localGatewayName>.<localGatewayNamespace>.svc.cluster.local
 ```
 
 ## Test

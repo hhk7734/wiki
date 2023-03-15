@@ -1,0 +1,53 @@
+---
+id: crds
+title: Kserve CRDs
+sidebar_label: CRDs
+description: Kserve CRDs
+keywords:
+  - kserve
+  - CRD
+---
+
+## ServingRuntimes/ClusterServingRuntimes
+
+- https://kserve.github.io/website/0.10/modelserving/servingruntimes/
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: ServingRuntimes
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  supportedModelFormats:
+    - name: <modelFormantName>
+      version: <version> # 주 버전만 지정하는 것이 좋습니다
+      autoSelect: true
+```
+
+## InferenceService
+
+- https://kserve.github.io/website/0.10/reference/api/#serving.kserve.io/v1beta1.InferenceService
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: <modelFormat>
+      runtime: <servingRuntimeName>
+      storageUri: <storageUri> # 훈련된 모델이 저장된 경로
+      # kubernetes core/v1.Container 설정값을 적을 수 있습니다
+      # args: ["--enable_docs_url=True"]
+
+  # Optional
+  transformer: <transformer>
+
+  # Optional
+  explainer: <explainer>
+```
