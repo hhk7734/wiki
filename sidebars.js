@@ -491,7 +491,11 @@ module.exports = {
 				{
 					type: "category",
 					label: "KServe",
-					items: ["mlops/mlops/provisioning/kserve/kserve"],
+					items: [
+						"mlops/mlops/provisioning/kserve/kserve",
+						"mlops/mlops/provisioning/kserve/crds",
+						"mlops/mlops/provisioning/kserve/transformer",
+					],
 				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",
 			],

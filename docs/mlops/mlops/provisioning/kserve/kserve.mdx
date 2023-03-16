@@ -42,13 +42,13 @@ import Link from "@docusaurus/Link";
 ## 설치
 
 ```shell
-helm upgrade kserve-crd kserve-crd-v0.10.0.tgz \
+helm upgrade kserve-crd kserve-crd-v0.10.1.tgz \
   --install \
   --history-max 3
 ```
 
 ```shell
-helm show values kserve-v0.10.0.tgz \
+helm show values kserve-v0.10.1.tgz \
   > kserve-values.yaml
 ```
 
@@ -58,24 +58,27 @@ kserve:
     gateway:
       domain: <domain>
       localGateway:
+        # InferenceService를 생성하면
+        # gateway로 들어오는 요청을 gatewayService:80으로 전달하는
+        # VirtualService를 생성합니다
         gateway: <gatewayNamespace>/<gatewayName>
-        gatewayService: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
+        gatewayService: <ingressGatewayServiceHost>
       ingressGateway:
         gateway: <gatewayNamespace>/<gatewayName>
-        gatewayService: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
+        gatewayService: <ingressGatewayServiceHost>
   modelmesh:
     enabled: false
 ```
 
 ```shell
-helm template kserve kserve-v0.10.0.tgz \
+helm template kserve kserve-v0.10.1.tgz \
   -n kserve \
   -f kserve-values.yaml \
   > kserve.yaml
 ```
 
 ```shell
-helm upgrade kserve kserve-v0.10.0.tgz \
+helm upgrade kserve kserve-v0.10.1.tgz \
   --install \
   --history-max 3 \
   -n kserve \
@@ -105,7 +108,7 @@ spec:
 
 ```shell
 curl -v \
-  -H "Host: sklearn-iris.kserve-test.<domain>" \
-  https://<domain>/v1/models/sklearn-iris:predict \
+  -H "Host: sklearn-iris.kserve-test.svc.cluster.local" \
+  http://localhost:8081/v1/models/sklearn-iris:predict \
   -d '{"instances": [[6.8,  2.8,  4.8,  1.4],[6.0,  3.4,  4.5,  1.6]]}'
 ```

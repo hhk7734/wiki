@@ -32,6 +32,8 @@ helm upgrade knative-operator knative-operator-0.1.0.tgz \
 
 ## KnativeServing
 
+- https://knative.dev/docs/install/operator/configuring-serving-cr/
+
 ```yaml
 apiVersion: operator.knative.dev/v1beta1
 kind: KnativeServing
@@ -39,31 +41,34 @@ metadata:
   name: <name>
   namespace: <namespace>
 spec:
-  version: "1.9.4"
+  # Optional, 설정하지 않으면 최신 버전이 설정됩니다
+  version: "1.9.0"
   # Optional
   ingress:
     istio:
       enabled: true
       # Optional
-      # <namespace>에 생성되는 knative-ingress-gateway 설정입니다
+      # Gateway: knative-ingress-gateway
       knative-ingress-gateway:
         # Optional
         # istiod의 기본 설정은 namespace 전체에서 찾습니다
         selector:
           <key>: <value>
       # Optional
+      # Gateway: knative-local-gateway
       # knative-local-gateway:
   config:
+    # ConfigMap: config-istio
     istio:
       # Optional
-      gateway.<namespace>.knative-ingress-gateway:
-      gateway.<ingressGatewayNamespace>.<ingressGatewayName>: <ingressGatewayName>.<ingressGatewayNamespace>.svc.cluster.local
+      gateway.<namespace>.knative-ingress-gateway: <ingressGatewayServiceHost>
+      gateway.<ingressGatewayNamespace>.<ingressGatewayName>: <ingressGatewayServiceHost>
       # Optional
-      local-gateway.<namespace>.knative-local-gateway: knative-local-gateway.<namespace>.svc.cluster.local
-      local-gateway.<localGatewayNamespace>.<localGatewayName>: <localGatewayName>.<localGatewayNamespace>.svc.cluster.local
+      local-gateway.<namespace>.knative-local-gateway: <ingressGatewayServiceHost>
+      local-gateway.<localGatewayNamespace>.<localGatewayName>: <ingressGatewayServiceHost>
 ```
 
-## Test
+### Test
 
 ```yaml
 apiVersion: serving.knative.dev/v1
@@ -83,5 +88,15 @@ spec:
 ```
 
 ```shell
-curl -H "Host: hello.default.<knativeDomain>" https://<knativeDomain>
+curl -H "Host: hello.default" http://localhost:8081
+```
+
+## KnativeEventing
+
+```yaml
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeEventing
+metadata:
+  name: <name>
+  namespace: <namespace>
 ```
