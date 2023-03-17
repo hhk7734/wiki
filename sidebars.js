@@ -468,6 +468,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/provisioning/karpenter/karpenter",
 						"mlops/mlops/provisioning/karpenter/crd",
+						"mlops/mlops/provisioning/karpenter/scheduling",
 						"mlops/mlops/provisioning/karpenter/deprovisioning",
 					],
 				},

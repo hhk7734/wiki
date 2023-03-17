@@ -138,6 +138,7 @@ const controllerPolicy = new aws.iam.Policy(
             "ec2:DescribeInstanceTypes",
             "ec2:DescribeInstanceTypeOfferings",
             "ec2:DescribeAvailabilityZones",
+            "eks:DescribeCluster",
             "ssm:GetParameter",
             "pricing:GetProducts",
           ],
@@ -170,11 +171,11 @@ new aws.iam.RolePolicyAttachment(
 설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
 :::
 
-- https://karpenter.sh/v0.24.0/upgrade-guide/
+- https://karpenter.sh/v0.27.0/upgrade-guide/
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.24.0 \
+    --version v0.27.0 \
     > karpenter-values.yaml
 ```
 
@@ -198,6 +199,9 @@ affinity:
 tolerations:
   - operator: Exists
 
+controller:
+  resources: {}
+
 settings:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
   # 새 Pending Pod가 생기고 batchIdleDuration 시간 만큼 대기
@@ -211,6 +215,7 @@ settings:
   aws:
     clusterName: <clusterName>
 
+    # EKS의 경우 생략 가능
     clusterEndpoint: <clusterEndpoint>
 
     defaultInstanceProfile: <instanceProfile>
@@ -218,7 +223,7 @@ settings:
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.24.0 \
+    --version v0.27.0 \
     -n provisioning \
     -f karpenter-values.yaml \
     > karpenter.yaml
@@ -227,7 +232,7 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.24.0 \
+    --version v0.27.0 \
     --history-max 3 \
     -n provisioning \
     -f karpenter-values.yaml

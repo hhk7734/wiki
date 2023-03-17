@@ -27,6 +27,8 @@ spec:
                 operator: In # In, NotIn, Exists, DoesNotExist, Gt, Lt
                 values:
                   - <labelValue>
+          # - matchLabels:
+          #     <key>: <value>
       # 선호하는 노드에 대한 규칙입니다
       preferredDuringSchedulingIgnoredDuringExecution:
         - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 노드를 선호합니다
@@ -54,11 +56,7 @@ spec:
                 operator: In # In, NotIn, Exists, DoesNotExist
                 values:
                   - <labelValue>
-          # 노드의 label key를 지정합니다
-          # kubernetes.io/hostname
-          # topology.kubernetes.io/zone
-          # topology.kubernetes.io/region
-          topologyKey: <labelKey> # 노드의 label key를 지정합니다
+          topologyKey: <labelKey>
           # 생략하면 해당 Pod의 namespace를 사용합니다
           namespaces:
             - <namespace>
@@ -72,5 +70,9 @@ spec:
                   operator: In # In, NotIn, Exists, DoesNotExist
                   values:
                     - <labelValue>
-            topologyKey: <labelKey> # 노드의 label key를 지정합니다
+            topologyKey: <labelKey>
 ```
+
+- `topologyKey`:Node의 label을 확인하여 `<topologyKey>: <topologyValue>`가 같은 Node를 기준으로 selector의 조건을 확인합니다
+  - `kubernetes.io/hostname`: 한 노드 내에서 조건을 만족해야함
+  - `topology.kubernetes.io/zone`: 같은 zone 내에서 조건을 만족해야함
