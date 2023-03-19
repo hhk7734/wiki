@@ -160,6 +160,7 @@ module.exports = {
 						"lang/design/protocol/http/cookie",
 						"lang/design/protocol/http/cors",
 						"lang/design/protocol/http/websocket",
+						"lang/design/protocol/http/webrtc",
 					],
 				},
 				{
