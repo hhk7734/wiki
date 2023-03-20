@@ -27,6 +27,7 @@ spec:
     # Default: .spec.template.spec.containers[0].name
     envSourceContainerName: <containerName>
   triggers:
+    # trigger 중 max 값으로 scale
     - name: <triggerName> # Optional
       type: <triggerType> # Required
       metricType: AverageValue # AverageValue|Value|Utilization
