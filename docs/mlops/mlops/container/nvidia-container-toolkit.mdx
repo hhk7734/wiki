@@ -1,0 +1,58 @@
+---
+id: nvidia-container-toolkit
+title: NVIDIA Container Toolkit
+sidebar_label: NVIDIA Container Toolkit
+description: NVIDIA Container Toolkit
+keywords:
+  - NVIDIA
+  - Container Toolkit
+  - nvidia-container-toolkit
+---
+
+## 설치
+
+- https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html
+
+```shell
+yay -S nvidia-container-toolkit
+```
+
+```shell
+nvidia-ctk --version
+```
+
+```shell
+sudo nvidia-ctk cdi generate --output=/etc/cdi/nvidia.yaml
+```
+
+```shell
+cat /usr/share/containers/oci/hooks.d/00-oci-nvidia-hook.json
+```
+
+```json
+{
+  "version": "1.0.0",
+  "hook": {
+    "path": "/usr/bin/nvidia-container-toolkit",
+    "args": ["nvidia-container-toolkit", "prestart"],
+    "env": ["PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"]
+  },
+  "when": {
+    "always": true,
+    "commands": [".*"]
+  },
+  "stages": ["prestart"]
+}
+```
+
+```shell
+sudo sed -i 's/^#no-cgroups = false/no-cgroups = true/;' /etc/nvidia-container-runtime/config.toml
+```
+
+```shell
+grep "  name:" /etc/cdi/nvidia.yaml
+```
+
+```shell
+podman run --rm --device nvidia.com/gpu=all ubuntu nvidia-smi
+```

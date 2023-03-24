@@ -222,6 +222,14 @@ jobs:
           docker build --build-arg ENV_FILE=.env.development -t $ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REPOSITORY:$IMAGE_TAG
 
+      ## production
+      # - name: Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     generate_release_notes: true
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.PAT }}
+
       - name: Checkout argocd
         uses: actions/checkout@v3
         with:

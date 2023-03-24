@@ -379,6 +379,7 @@ module.exports = {
 				"mlops/mlops/container/apptainer",
 				"mlops/mlops/container/buildah-skopeo",
 				"mlops/mlops/container/podman",
+				"mlops/mlops/container/nvidia-container-toolkit",
 			],
 		},
 		{
