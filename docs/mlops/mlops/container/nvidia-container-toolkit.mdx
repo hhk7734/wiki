@@ -45,8 +45,8 @@ cat /usr/share/containers/oci/hooks.d/00-oci-nvidia-hook.json
 }
 ```
 
-```shell
-sudo sed -i 's/^#no-cgroups = false/no-cgroups = true/;' /etc/nvidia-container-runtime/config.toml
+```toml title="/etc/nvidia-container-runtime/config.toml"
+no-cgroups = true
 ```
 
 ```shell

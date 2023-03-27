@@ -57,6 +57,7 @@ const config = {
 						Design: "design",
 						"C++": "cpp",
 						Go: "go",
+						Rust: "rust",
 						Python: "python",
 						Database: "db",
 						JavaScript: "javascript",

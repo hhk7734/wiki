@@ -40,6 +40,8 @@ spec:
     model:
       modelFormat:
         name: <modelFormat>
+      # runtime을 설정하지 않았을 때, autoSelect: true 이면서 <modelFormat>을
+      # 사용하는 ServingRuntime이 존재하는 해당 runtime이 자동으로 선택됩니다
       runtime: <servingRuntimeName>
       storageUri: <storageUri> # 훈련된 모델이 저장된 경로
       # kubernetes core/v1.Container 설정값을 적을 수 있습니다

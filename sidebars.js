@@ -498,6 +498,7 @@ module.exports = {
 						"mlops/mlops/provisioning/kserve/kserve",
 						"mlops/mlops/provisioning/kserve/crds",
 						"mlops/mlops/provisioning/kserve/transformer",
+						"mlops/mlops/provisioning/kserve/inference-service",
 					],
 				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",
@@ -931,6 +932,20 @@ module.exports = {
 				},
 				"lang/python/package/conda",
 				"lang/python/package/python-package-sphinx",
+			],
+		},
+	],
+	rust: [
+		"lang/rust/rust",
+		{
+			type: "category",
+			label: "Libraries",
+			items: [
+				{
+					type: "category",
+					label: "Actix Web",
+					items: ["lang/rust/libraries/actix-web/actix-web"],
+				},
 			],
 		},
 	],

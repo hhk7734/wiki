@@ -143,3 +143,41 @@ helm rollback <releaseName> <revision> [flags]
 ```shell
 helm uninstall <releaseName> [flags]
 ```
+
+## Subcharts
+
+- https://helm.sh/docs/helm/helm_dependency/
+- https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+
+```shell
+<chartName>/
+├── charts/
+│   ├── <subchartName>/
+│   │   ├── Chart.yaml
+│   │   ├── LICENSE            # optional
+│   │   ├── README.md          # optional
+│   │   ├── values.yaml
+│   │   ├── values.schema.json # optional
+│   │   ├── charts/
+│   │   ├── crds/              # optional
+│   │   ├── templates/
+│   │   │   ├── NOTES.txt      # optional
+│   │   │   ├── _helpers.tpl   # optional
+│   │   │   └── ...
+│   │   └──
+│   └── ...
+└── ...
+```
+
+```yaml title="<chartName>/Chart.yaml"
+dependencies:
+  - name: <subchartName>
+    version: <subchartVersion>
+    condition: <subchartName>.enabled
+```
+
+```yaml title="<chartName>/values.yaml"
+<subchartName>:
+  enabled: true
+  # subchart values
+```
