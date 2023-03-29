@@ -22,3 +22,74 @@ func DoSomething(ctx context.Context, arg Arg) error {
 ```
 
 ## context.WithValue
+
+```go
+type valueCtx struct {
+	Context
+	key, val any
+}
+
+func WithValue(parent Context, key, val any) Context {
+	if parent == nil {
+		panic("cannot create context from nil parent")
+	}
+	if key == nil {
+		panic("nil key")
+	}
+	if !reflectlite.TypeOf(key).Comparable() {
+		panic("key is not comparable")
+	}
+	return &valueCtx{parent, key, val}
+}
+```
+
+`context.WithValue`는 부모 컨텍스트를 멤버 변수로 갖는 컨텍스트를 생성합니다.
+
+```go
+func (c *valueCtx) Value(key any) any {
+	// 자신(n 세대)이 key에 맞는 Context인 경우 자신의 값을 반환
+	if c.key == key {
+		return c.val
+	}
+
+	// 아닌 경우 부모(n-1 세대) Context를 확인
+	return value(c.Context, key)
+}
+
+func value(c Context, key any) any {
+	for {
+		switch ctx := c.(type) {
+		case *valueCtx:
+			// 부모(n-1 세대)가 key에 맞는 Context인 경우 부모의 값을 반환
+			if key == ctx.key {
+				return ctx.val
+			}
+
+			// 아닌 경우 부모의 부모(n-2 세대) Context를 탐색하기 위해 준비
+			c = ctx.Context
+		case *cancelCtx:
+			// 내부 코드를 위한 처리
+			if key == &cancelCtxKey {
+				return c
+			}
+			c = ctx.Context
+		case *timerCtx:
+			// 내부 코드를 위한 처리
+			if key == &cancelCtxKey {
+				return ctx.cancelCtx
+			}
+			c = ctx.Context
+		case *emptyCtx:
+			// n-1 세대 == 1 세대 Context인 경우 더 이상 찾을 수 없으므로 nil 반환
+			return nil
+		default:
+			// n-2 세대 Context 확인
+			return c.Value(key)
+		}
+	}
+}
+```
+
+:::warning
+Context를 키-값 저장소로 너무 많이 사용하면 성능에 영향을 줄 수 있습니다
+:::

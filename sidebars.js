@@ -199,6 +199,7 @@ module.exports = {
 	],
 	go: [
 		"lang/go/go",
+		"lang/go/logging",
 		"lang/go/error",
 		"lang/go/test",
 		"lang/go/context",
