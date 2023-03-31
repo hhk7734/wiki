@@ -9,3 +9,30 @@ keywords:
   - external
   - trigger
 ---
+
+## Scaler 서비스 구현
+
+```shell
+wget https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalscaler/externalscaler.proto
+```
+
+```shell
+protoc --go_out=plugins=grpc:externalscaler externalscaler.proto
+```
+
+
+
+
+## triggers in CRD
+
+### external
+
+```yaml
+spec:
+  triggers:
+    - type: external
+      metadata:
+        scalerAddress: <host>:<port>
+        # 설정을 위해 사용자 정의 데이터를 전달할 수 있습니다
+        # <customKey>: <value>
+```

@@ -10,19 +10,11 @@ keywords:
 ## 설치
 
 ```shell
-sudo pacman -S vim
-```
-
-### Manually build
-
-```shell
-sudo apt install libncurses5-dev libgtk2.0-dev libatk1.0-dev \
-  libcairo2-dev libx11-dev libxpm-dev libxt-dev \
-  python3-dev ruby-dev lua5.2 liblua5.2-dev libperl-dev git
+sudo pacman -S base-devel
 ```
 
 ```shell
-git clone https://github.com/vim/vim.git -b v8.2.5047 --depth 1 \
+git clone https://github.com/vim/vim.git -b v9.0.1431 --depth 1 \
 && cd vim
 ```
 
@@ -40,30 +32,69 @@ git clone https://github.com/vim/vim.git -b v8.2.5047 --depth 1 \
 ```
 
 ```shell
-make VIMRUNTIMEDIR=/usr/local/share/vim/vim82 -j$(expr $(expr $(nproc) \* 6) \/ 5)
+make VIMRUNTIMEDIR=/usr/local/share/vim/vim90 -j$(expr $(expr $(nproc) \* 6) \/ 5)
 ```
 
 ```shell
 sudo make install
 ```
 
-```shell
-sudo update-alternatives --install /usr/bin/editor editor /usr/local/bin/vim 1
-sudo update-alternatives --set editor /usr/local/bin/vim
-sudo update-alternatives --install /usr/bin/vi vi /usr/local/bin/vim 1
-sudo update-alternatives --set vi /usr/local/bin/vim
-```
-
 ### With Vundle
 
-[https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc](https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc)
+```shell title=".vimrc"
+set nocompatible          " vim의 기능 사용(vi와 구분)
+if has("clipboard")
+    set clipboard=unnamed " copy to the system clipboard
+    if has("unnamedplus") " X11 support
+        set clipboard+=unnamedplus
+    endif
+endif
 
-```shell
-wget https://raw.githubusercontent.com/hhk7734/conf/master/.vimrc -O ~/.vimrc
+set number          " 줄 번호
+set ruler           " 우측 하단 커서 위치 표시
+set tabstop=4       " tab 4
+set shiftwidth=4    " 들여쓰기
+set expandtab       " tab을 공백으로
+set showmatch       " 괄호 짝 표시
+set title           " 상단 편집 중인 파일 표시
+set hlsearch        " 검색 강조
+set wrap            " 줄이 길어지면 다음 줄로
+set cursorline      " 커서 있는 줄 강조
+set noimd           " 한글을 쓰다가도 NORMAL에서 영어로 변경됨
+
+" UTF-8 or EUC-KR
+set encoding=utf-8
+set fileencodings=utf-8,cp949,euc-kr
+" 공백문자 화면에 표시
+set list listchars=tab:»-,trail:·,extends:»,precedes:«
+" 줄의 끝, 시작, 들여쓰기에서 이전 줄로
+set backspace=eol,start,indent
+
+if has('syntax')
+    syntax on
+endif
+
+" Set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
+    " 상태바
+    Plugin 'vim-airline/vim-airline'
+    " theme
+    Plugin 'dracula/vim'
+    " 자동완성 추천
+    Plugin 'Valloric/YouCompleteMe'
+
+call vundle#end()
+
+" 강제 저장
+cmap w!! w !sudo tee % > /dev/null
 ```
 
 ```shell
-sudo apt-get install -y git cmake python3-dev g++ \
+sudo pacman -S git cmake base-devel \
 && git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim \
 && vim +PluginInstall +qall \
 && echo -e "\ncolor dracula" >> ~/.vimrc \
@@ -71,7 +102,7 @@ sudo apt-get install -y git cmake python3-dev g++ \
 && python3 ./install.py --clang-completer
 ```
 
-[https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py](https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py)
+- [https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py](https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py)
 
 ```shell
 wget https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py -O ~/.vim/.ycm_extra_conf.py \
@@ -80,7 +111,7 @@ wget https://raw.githubusercontent.com/hhk7734/conf/master/.ycm_extra_conf.py -O
 
 ### Without Vundle
 
-[https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc](https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc)
+- [https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc](https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc)
 
 ```shell
 wget https://raw.githubusercontent.com/hhk7734/conf/master/without_vundle_vimrc/.vimrc -O ~/.vimrc

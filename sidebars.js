@@ -225,6 +225,14 @@ module.exports = {
 						"lang/go/libraries/gin/crud",
 					],
 				},
+				{
+					type: "category",
+					label: "gRPC",
+					items: [
+						"lang/go/libraries/grpc/protobuf",
+						"lang/go/libraries/grpc/grpc",
+					],
+				},
 				"lang/go/libraries/swagger",
 				"lang/go/libraries/gorm",
 				"lang/go/libraries/go-redis",
@@ -665,7 +673,6 @@ module.exports = {
 				},
 				"mlops/mlops/event/rabbitmq",
 				"mlops/mlops/event/rabbitmq-flow",
-				"mlops/mlops/event/protobuf",
 			],
 		},
 		{
