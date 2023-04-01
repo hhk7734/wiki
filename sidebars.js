@@ -268,9 +268,16 @@ module.exports = {
 	"linux-kernel": [
 		"linux/linux-kernel/build-linux-kernel",
 		"linux/linux-kernel/linux-kernel-ftrace",
-		"linux/linux-kernel/build-external-linux-module",
 		"linux/linux-kernel/linux-kernel-how-to-contribute",
 		"linux/linux-kernel/linux-kernel-tty0uart",
+		{
+			type: "category",
+			label: "Module",
+			items: [
+				"linux/linux-kernel/module/build-external-module",
+				"linux/linux-kernel/module/dkms",
+			],
+		},
 		{
 			type: "category",
 			label: "Device tree",
@@ -278,6 +285,11 @@ module.exports = {
 				"linux/linux-kernel/device-tree/device-tree-basics",
 				"linux/linux-kernel/device-tree/device-tree-overlay",
 			],
+		},
+		{
+			type: "category",
+			label: "Drivers",
+			items: ["linux/linux-kernel/driver/bluetooth"],
 		},
 	],
 	"linux-package": [

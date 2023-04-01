@@ -1,0 +1,75 @@
+---
+id: dkms
+title: DKMS
+description: Dynamic Kernel Module Support
+keywords:
+  - kernel
+  - module
+  - build
+  - dkms
+---
+
+## dkms.conf
+
+```shell
+<package>
+├── dkms.conf
+├── Makefile
+└── ...
+```
+
+```shell title="dkms.conf"
+PACKAGE_NAME="<package>"
+PACKAGE_VERSION="<version>"
+MAKE[0]="make -j$(nproc) KVERSION=$kernelver"
+CLEAN="make clean"
+BUILT_MODULE_NAME[0]="<module>"
+DEST_MODULE_LOCATION[0]="/updates/dkms"
+AUTOINSTALL="YES"
+```
+
+- `$kernelver`: `dkms` 명령어 사용시 현재 커널 버전 또는 `-k <kernelVersion>`에 의해 대체되는 변수입니다
+
+## DKMS 모듈 리스트
+
+```shell
+dkms status
+```
+
+## DKMS에 module 추가
+
+```shell
+sudo dkms add -m <package> -v <version>
+```
+
+`/var/lib/dkms/<package>/<version>/source` -\> `/usr/src/<package>-<version>` 인 심볼릭 링크가 생성됩니다.
+
+:::info
+`sudo dkms add <path/package>` 명령어로 추가하는 경우 해당 디렉토리 내의 파일들이 `/usr/src/<package>-<version>`로 복사된 후 위와 같이 `/var/lib/dkms`에 추가됩니다.
+:::
+
+```shell
+sudo dkms build -m <package> -v <version>
+```
+
+`/var/lib/dkms/<package>/<version>/<kernelVersion>/<arch>/module/<module>.ko` 파일이 생성됩니다.
+
+```shell
+sudo dkms install -m <package> -v <version>
+```
+
+빌드된 모듈 파일을 `/lib/module/<kernelVersion>/updates/dkms/` 에 복사합니다.
+
+```shell
+modinfo <module>
+```
+
+```shell
+modprobe <module>
+```
+
+## DKMS에서 module 제거
+
+```shell
+sudo dkms remove
+```
