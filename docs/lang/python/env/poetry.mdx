@@ -29,26 +29,37 @@ curl -sSL https://install.python-poetry.org | python3 - --uninstall
 
 ## Virtualenv
 
+### 생성
+
 ```shell
 poetry init
+```
+
+```shell
+poetry env use <pythonPath>
+```
+
+:::warning
+`asdf`, `pyenv` 등을 사용할 때, `python env use <pythonPath>`를 사용하지 않으면 python 버전 설정이 정상적으로 되지 않는 경우가 있습니다.
+:::
+
+```shell
+poetry env info
 ```
 
 ```shell
 poetry shell
 ```
 
-가상환경이 활성화된 shell에 접속합니다.
+### 삭제
 
 ```shell
-poetry env remove python \
-&& deactivate
+poetry env list
 ```
 
-가상환경을 삭제합니다.
-
-:::info
-poetry가 생성한 가상환경의 python 버전이 원하는 버전과 안맞는 경우, 가상환경을 삭제한 다음 `poetry env use <pythonPath>`로 python을 직접 지정하여 가상환경을 생성할 수 있습니다.
-:::
+```shell
+poetry env remove <env>
+```
 
 ## Package
 
