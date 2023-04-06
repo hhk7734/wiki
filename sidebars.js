@@ -170,6 +170,23 @@ module.exports = {
 				},
 			],
 		},
+		{
+			type: "category",
+			label: "Cache",
+			items: [
+				"lang/design/cache/cache-aside",
+			],
+		},
+		"lang/design/asynchronous-request-response",
+		{
+			type: "category",
+			label: "Limited Resources",
+			items: [
+				"lang/design/limited-resources/request-rate-limit",
+				"lang/design/limited-resources/queue-rate-limit",
+				"lang/design/limited-resources/priority-queue",
+			],
+		},
 		"lang/design/scrum",
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
