@@ -1,0 +1,38 @@
+---
+id: lifespan
+title: Lifespan
+sidebar_label: Lifespan
+description: FastAPI Lifespan
+keywords:
+  - fastapi
+  - lifespan
+---
+
+- https://fastapi.tiangolo.com/advanced/events/
+
+```python
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    yield
+    # Shutdown
+
+
+app = FastAPI(lifespan=lifespan)
+
+
+@app.get("/healthz")
+async def healthz():
+    return {"status": "ok"}
+```
+
+`Startup` -> App -> `Shutdown` 순으로 호출되므로 `Startup`과 `Shutdown`에 대한 처리 중에는 API호출이 되지 않습니다.
+
+:::warning
+`lifespan`은 최상위 앱에 등록된 것만 호출됩니다. `app.mount("/sub", subapp)`을 통해 등록된 subapp의 lifespan은 호출되지 않습니다.
+:::

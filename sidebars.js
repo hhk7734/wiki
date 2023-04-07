@@ -173,9 +173,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "Cache",
-			items: [
-				"lang/design/cache/cache-aside",
-			],
+			items: ["lang/design/cache/cache-aside"],
 		},
 		"lang/design/asynchronous-request-response",
 		{
@@ -951,6 +949,7 @@ module.exports = {
 							label: "Middleware",
 							items: ["lang/python/libraries/fastapi/middleware/logger"],
 						},
+						"lang/python/libraries/fastapi/lifespan",
 					],
 				},
 			],
