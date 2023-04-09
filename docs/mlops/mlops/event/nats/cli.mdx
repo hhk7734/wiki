@@ -17,10 +17,47 @@ yay -S nats-cli
 ## Context
 
 ```shell
-nats context add <context> <flag>
+nats context add <context> [<flags>]
 ```
 
-- `<flag>`
+- `<flags>`
   - `--server <host>:<port>`
   - `--description <description>`
-  
+
+```shell
+nats context ls
+```
+
+```shell
+nats context select [<context>]
+```
+
+```shell
+nats context rm <context>
+```
+
+## Stream
+
+```shell
+nats stream add [<stream>] [<flags>]
+```
+
+- `<flags>`
+  - `--config=<configJson>`: JSON 형식의 설정 파일 사용
+
+```shell
+nats stream ls
+```
+
+## Consumer
+
+```shell
+nats consumer add [<stream>] [<consumer>] [<flags>]
+```
+
+- `<flags>`
+  - `--config=<configJson>`: JSON 형식의 설정 파일 사용
+
+```shell
+nats consumer ls [<stream>]
+```
