@@ -61,7 +61,7 @@ poetry env list
 poetry env remove <env>
 ```
 
-## Package
+## Dependency
 
 ```shell
 poetry add <package|git|path>
@@ -71,6 +71,7 @@ poetry add <package|git|path>
 - `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>@<branch_or_tag>#<package_name>`
   - `<vcs_type>`: `git`
   - `<scheme>`: `http`, `https`, `ssh`
+- `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
 
 ```shell
 poetry update <package>
@@ -80,17 +81,38 @@ poetry update <package>
 poetry remove <package>
 ```
 
+### Source(Repository)
+
+```shell
+poetry add <source> <url> [<flags>]
+```
+
+- `<flags>`
+  - `--default`: 추가될 소스를 기본 소스로 설정하고 PyPI를 비활성화 합니다
+
+### Group
+
+```toml title="pyproject.toml"
+[tool.poetry.group.<group>]
+optional = <boolean>
+
+[tool.poetry.group.<group>.dependencies]
+<package> = <version>
+```
+
 ## Sync
 
 ### poetry.lock
 
 ```shell
-poetry install
+poetry install [<flags>]
 ```
 
-- `--no-dev`: dev 의존성을 제외하고 설치합니다.
-- `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
-- `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
+- `<flags>`
+  - `--no-dev`: dev 의존성을 제외하고 설치합니다.
+  - `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
+  - `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
+  - `--with=<group>`: `<group>`에 있는 의존성을 설치합니다.
 
 ### requirements.txt
 
