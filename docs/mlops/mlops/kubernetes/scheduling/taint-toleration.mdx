@@ -9,13 +9,13 @@ keywords:
   - tolerations
 ---
 
-## taints와 tolerations
-
 - https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/
 
 `taints`가 있는 Node에는 매칭되는 `tolerations`가 없는 Pod가 스케줄링되지 않습니다.
 
-### taints
+## taints
+
+### taints 설정
 
 ```yaml
 apiVersion: v1
@@ -29,14 +29,16 @@ spec:
       effect: NoSchedule # PreferNoSchedule|NoSchedule|NoExecute
 ```
 
-- effect
+- `effect`
   - `PreferNoSchedule`: 가능하면 매칭되지 않는 Pod을 스케줄링하지 않습니다
   - `NoSchedule`: 배치되어 있는 Pod은 허용하지만 새롭게 스케줄링되는 것은 허용하지 않습니다
   - `NoExecute`: 배치되어 있는 Pod의 경우 축출하고, 새롭게 스케줄링되는 것도 허용하지 않습니다
 
 노드 컨트롤러는 특정 조건을 만족하면 자동으로 `NoExecute` taint를 추가하여 이에 대한 toleration이 없는 Pod을 축출하려 시도합니다.
 
-### tolerations
+## tolerations
+
+### tolerations 설정
 
 ```yaml
 apiVersion: v1
@@ -45,7 +47,7 @@ metadata:
   name: <name>
 spec:
   tolerations:
-    # <key>가 존재하고 <effect>가 일치하는 경우 매칭됩니다. <key>가 없는 경우 모든 taint와 매칭됩니다.
+    # <key>가 존재하고 <effect>가 일치하는 경우 매칭됩니다.
     - operator: Exists
       key: <key>
       effect: <effect>
@@ -57,9 +59,28 @@ spec:
       # tolerationSeconds: <seconds>
 ```
 
+- `operator`: `Exists`|`Equal`
+  - `Exists`: `key`가 존재하는 경우 매칭됩니다
+  - `Equal`: `key`, `value`가 일치하는 경우 매칭됩니다
+- `key`: toleration이 적용될 taint key입니다
+  - 설정하지 않으면 모든 taint와 매칭됩니다
+- `effect`: `PreferNoSchedule`|`NoSchedule`|`NoExecute`
+  - 설정하지 않으면 모든 effect와 매칭됩니다
 - `tolerationSeconds: <seconds>`: `effect: NoExecute` 일 때 매칭된 Pod이 축출되지 않는 시간을 지정합니다
   - 설정하지 않으면 축출되지 않습니다
   - 시간을 설정하면면 해당 시간이 지난 후 Pod가 축출됩니다
+
+### 모든 taint와 매칭
+
+모든 taint와 매칭되는 toleration을 설정하기 위해서는 아래와 같이 설정합니다.
+
+```yaml
+spec:
+  tolerations:
+    - operator: Exists
+```
+
+### 일시적 장애 대응
 
 예를 들어 아래와 같은 toleration이 있는 Pod의 경우 네트워크 장애등 특정 상황으로 인해 Node가 해당 taint를 가지게 되더라도 5분간은 축출되지 않도록 설정하여, 일시적인 장애에 대한 대응을 할 수 있습니다.
 

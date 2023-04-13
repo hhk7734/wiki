@@ -371,7 +371,15 @@ module.exports = {
 		"linux/linux-uboot/uboot-custom-command",
 		"linux/linux-uboot/uboot-configuration",
 	],
-	memo: ["etc/memo/semantic-versioning-2-0-0", "etc/memo/ssl-lets-encrypt"],
+	memo: [
+		"etc/memo/semantic-versioning-2-0-0",
+		"etc/memo/ssl-lets-encrypt",
+		{
+			type: "category",
+			label: "Dev-Lead",
+			items: ["etc/memo/dev-lead/planning-to-development"],
+		},
+	],
 	mlops: [
 		{
 			type: "category",
@@ -445,6 +453,7 @@ module.exports = {
 					type: "category",
 					label: "Configuration",
 					items: [
+						"mlops/mlops/kubernetes/configuration/env",
 						"mlops/mlops/kubernetes/configuration/configmap",
 						"mlops/mlops/kubernetes/configuration/secret",
 					],

@@ -21,7 +21,7 @@ helm repo update fluent \
 
 ```shell
 helm show values fluent/fluent-bit \
-  --version 0.24.0 \
+  --version 0.27.0 \
   > fluent-bit-values.yaml
 ```
 
@@ -33,6 +33,9 @@ resources:
   limits:
     cpu: 100m
     memory: 128Mi
+
+tolerations:
+  - operator: Exists
 
 labels: {}
 
@@ -87,7 +90,7 @@ config:
 
 ```shell
 helm template fluent-bit fluent/fluent-bit \
-    --version 0.24.0 \
+    --version 0.27.0 \
     -n monitoring \
     -f fluent-bit-values.yaml \
     > fluent-bit.yaml
@@ -97,7 +100,7 @@ helm template fluent-bit fluent/fluent-bit \
 helm upgrade fluent-bit fluent/fluent-bit \
   --install \
   --history-max 3 \
-  --version 0.24.0 \
+  --version 0.27.0 \
   -n monitoring \
   -f fluent-bit-values.yaml
 ```
@@ -132,9 +135,9 @@ Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가
     Path             /var/log/containers/xxx*.log
     Exclude_Path     /var/log/containers/xxx*istio*.log
     # 파일의 이름(절대 경로)에 정규표현식을 사용하여 패턴 매칭
-    Tag_Regex        /(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
+    Tag_Regex        \/(?<project>[a-z0-9][-a-z0-9]*)-(?<env>\bdev|stag|prod\b)(.*)_(?<namespace_name>.+)_(?<container_name>.+)-
     Tag              <project>.<env>
-    Mem_Buf_Limit    5MB
+    Mem_Buf_Limit    20MB
     storage.type     filesystem
 ```
 
