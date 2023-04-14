@@ -6,6 +6,65 @@ description: Lock
 keywords:
   - lock
   - mysql
+  - 분산 락
 ---
 
-## SELECT FOR UPDATE
+## Row Lock
+
+- https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html
+
+### FOR SHARE
+
+```sql
+SELECT ... FOR SHARE
+```
+
+`FOR SHARE`는 해당 트랜잭션이 커밋되거나 롤백되기 전까지 `SELECT` 문의 결과에 해당하는 rows에 쓰기 락을 겁니다. 그 사이 다른 트랜잭션은 해당 rows를 읽는 것만 가능합니다.
+
+### FOR UPDATE
+
+```sql
+SELECT ... FOR UPDATE
+```
+
+`FOR UPDATE`는 해당 트랜잭션이 커밋되거나 롤백되기 전까지 `SELECT` 문의 결과에 해당하는 rows에 읽기, 쓰기 락을 겁니다. 그 사이 다른 트랜잭션은 해당 rows에 접근할 수 없습니다.
+
+:::warning
+서브 쿼리의 관련 rows는 잠기지 않기 때문에 서브 쿼리의 관련 rows도 잠기게 하려면 서브 쿼리에도 `FOR UPDATE`를 사용해야 합니다.
+
+```sql
+SELECT * FROM t1 WHERE c1 = (SELECT c1 FROM t2 FOR UPDATE) FOR UPDATE;
+```
+
+:::
+
+## User-Level Lock
+
+- https://dev.mysql.com/doc/refman/8.0/en/locking-functions.html
+
+### GET_LOCK
+
+```sql
+SELECT GET_LOCK('<name>', <timeout>);
+```
+
+`GET_LOCK`은 `<name>`이라는 네임드 락을 획득하려고 시도합니다. 락은 `RELEASE_LOCK`을 통해 명시적으로 해제하거나 세션 종료 시 암묵적으로 해제됩니다.
+
+- `<timeout>`: 락을 획득할 수 있을 때까지 대기할 시간(초), 음수인 경우 무한대기
+- 응답
+  - `1`: 락 획득 성공
+  - `0`: 타임아웃
+  - `null`: 에러
+
+### RELEASE_LOCK
+
+`RELEASE_LOCK`은 `<name>`이라는 네임드 락을 해제합니다.
+
+```sql
+SELECT RELEASE_LOCK('<name>');
+```
+
+- 응답
+  - `1`: 락 해제 성공
+  - `0`: 락 해제 실패(해당 스레드에서 락을 획득한 것이 아님)
+  - `null`: 해당 락이 존재하지 않음
