@@ -143,6 +143,10 @@ gateway:
       memory: 512Mi
 ```
 
+:::warning
+`querier`, `queryFrontend`, `gateway`는 쿼리되는 로그의 양에 따라 **OOMKilled**가 발생할 수 있으므로 모니터링을 통해 적절한 값을 설정해야 합니다.
+:::
+
 ```shell
 helm template loki grafana/loki-distributed \
     --version 0.69.8 \
