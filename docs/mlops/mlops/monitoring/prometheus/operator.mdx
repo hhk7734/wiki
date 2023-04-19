@@ -22,7 +22,7 @@ helm repo update prometheus-community \
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 45.1.0 \
+    --version 45.10.1 \
     > prometheus-operator-values.yaml
 ```
 
@@ -99,7 +99,7 @@ prometheus:
 
 ```shell
 helm template prometheus-operator prometheus-community/kube-prometheus-stack \
-    --version 45.1.0 \
+    --version 45.10.1 \
     -n monitoring \
     -f prometheus-operator-values.yaml \
     > prometheus-operator.yaml
@@ -109,7 +109,7 @@ helm template prometheus-operator prometheus-community/kube-prometheus-stack \
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
     --history-max 3 \
-    --version 45.1.0 \
+    --version 45.10.1 \
     -n monitoring \
     -f prometheus-operator-values.yaml
 ```
