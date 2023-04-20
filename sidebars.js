@@ -185,7 +185,6 @@ module.exports = {
 				"lang/design/limited-resources/priority-queue",
 			],
 		},
-		"lang/design/scrum",
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
 	flutter: [
@@ -377,7 +376,11 @@ module.exports = {
 		{
 			type: "category",
 			label: "Dev-Lead",
-			items: ["etc/memo/dev-lead/planning-to-development"],
+			items: [
+				"etc/memo/dev-lead/role-and-responsibility",
+				"etc/memo/dev-lead/planning-to-development",
+				"etc/memo/dev-lead/scrum",
+			],
 		},
 	],
 	mlops: [
