@@ -823,7 +823,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "Next.js",
-					items: ["lang/javascript/react/nextjs/nextjs"],
+					items: [
+						"lang/javascript/react/nextjs/nextjs",
+						"lang/javascript/react/nextjs/env",
+					],
 				},
 			],
 		},
