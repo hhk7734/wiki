@@ -1,0 +1,59 @@
+---
+id: dashboard
+title: Grafana Dashboard
+sidebar_label: Grafana Dashboard
+description: Grafana Dashboard
+keywords:
+  - Grafana
+  - Dashboard
+---
+
+## Variables
+
+- https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/
+
+<br />
+
+- Dashbaord -\> Settings -\> Variables
+- 사용할 때는 `$<name>`, `${<name>}`, `${<name>:<format>}` 형태로 사용합니다
+
+### Query
+
+```json
+{
+  "templating": {
+    "list": [
+      {
+        "type": "query",
+        "name": "<name>",
+        "label": "<label>",
+        "description": "<description>",
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<uid>"
+        },
+        "query": {
+          "query": "<query>",
+          "refId": "<refId>"
+        },
+        "regex": "<regex>",
+        "refresh": 1, // 1: on dashboard load, 2: on time range change
+        "allValue": "<allValue>"
+      }
+    ]
+  }
+}
+```
+
+- label: 대시보드에 표시될 이름, 선언하지 않으면 name이 표시됩니다
+- query
+  - query
+    - datasource가 prometheus인 경우
+      - https://grafana.com/docs/grafana/latest/datasources/prometheus/template-variables/
+      - https://prometheus.io/docs/prometheus/latest/querying/api/
+      - `label_names()`: `/api/v1/labels`
+      - `label_values(<label>)`: `/api/v1/label/<label>/values`
+      - `label_values(<metric>, <label>)`: `/api/v1/series`
+      - `metrics(<metric>)`: `/api/v1/label/__name__/values?match[]=<metric>`
+      - `query_result(<query>)`: `/api/v1/query?query=<query>`
+- allValue: `ALL`을 선택했을 때 사용될 값

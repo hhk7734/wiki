@@ -619,6 +619,7 @@ module.exports = {
 						"mlops/mlops/monitoring/plg/loki",
 						"mlops/mlops/monitoring/plg/label",
 						"mlops/mlops/monitoring/plg/grafana",
+						"mlops/mlops/monitoring/plg/dashboard",
 						"mlops/mlops/monitoring/plg/alert",
 					],
 				},
