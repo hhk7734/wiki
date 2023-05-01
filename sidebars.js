@@ -765,7 +765,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "CNN",
-			items: ["mlops/nn/cnn/conv2d"],
+			items: ["mlops/nn/cnn/conv2d", "mlops/nn/cnn/batch-normalization"],
 		},
 		{
 			type: "category",

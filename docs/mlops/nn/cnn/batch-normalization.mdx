@@ -1,0 +1,22 @@
+---
+id: batch-normalization
+title: Batch Normalization
+sidebar_label: Batch Normalization
+description: Batch Normalization
+keywords:
+  - Neural Network
+  - Batch Normalization
+  - Internal Covariate Shift
+---
+
+## Internal Covariate Shift
+
+- [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/abs/1502.03167)
+
+> We define Internal Covariate Shift as the change in the distribution of network activations due to the change in network parameters during training.
+
+학습을 통해 파라미터들이 업데이트 되면 같은 입력에 대해서도 출력이 달라지게 됩니다. 따라서 n 레이어에 훈련 전후 입력이 같다고 하더라도 출력이 달라지므로 n+1 레이어는 이전과 다른 분포의 입력을 받게 됩니다. 이를 Internal Covariate Shift라고 합니다.
+
+신경망이 깊어지면 뒤쪽 레이어일 수록 입력 분포가 크게 바뀔 수 있고, 이는 학습을 어렵게 만듭니다.
+
+## Batch Normalization
