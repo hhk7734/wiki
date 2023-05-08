@@ -12,6 +12,9 @@ keywords:
 
 ## Scaler 서비스 구현
 
+- https://keda.sh/docs/2.10/concepts/external-scalers/
+- [gRPC](/docs/lang/go/libraries/grpc)
+
 ```shell
 wget https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalscaler/externalscaler.proto
 ```
@@ -19,9 +22,6 @@ wget https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalsc
 ```shell
 protoc --go_out=plugins=grpc:externalscaler externalscaler.proto
 ```
-
-
-
 
 ## triggers in CRD
 

@@ -899,6 +899,7 @@ module.exports = {
 						"lang/python/libraries/ctypes/python-ctypes-convert-bytes-structure",
 					],
 				},
+				"lang/python/libraries/concurrent-futures",
 				{
 					type: "category",
 					label: "gpiod",

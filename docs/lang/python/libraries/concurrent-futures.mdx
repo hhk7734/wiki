@@ -1,0 +1,43 @@
+---
+id: concurrent-futures
+title: Python concurrent.futures
+sidebar_label: concurrent.futures
+description: Python concurrent.futures
+keywords:
+  - Python
+  - concurrent.futures
+---
+
+## ProcessPoolExecutor
+
+```python
+from concurrent.futures import Future, ProcessPoolExecutor, as_completed
+
+with ProcessPoolExecutor() as executor:
+    futures = [executor.submit(func, *args) for args in args_list]
+    for future in as_completed(futures):
+        try:
+            result = future.result()
+        except Exception as e:
+            # func을 실행하는 도중 발생한 예외를 처리
+            pass
+```
+
+```python
+from concurrent.futures import Future, ProcessPoolExecutor, wait
+
+def callback(fut: Future):
+    try:
+        result = fut.result()
+    except Exception as e:
+        # func을 실행하는 도중 발생한 예외를 처리
+        pass
+
+with ProcessPoolExecutor() as executor:
+    futures: list[Future] = []
+    for args in args_list:
+        future = executor.submit(func, *args)
+        future.add_done_callback(callback)
+        futures.append(future)
+    wait(futures)
+```
