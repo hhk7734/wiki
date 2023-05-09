@@ -1,0 +1,51 @@
+---
+id: queue-worker
+title: Queue and Worker
+sidebar_label: Queue and Worker
+description: Queue and Worker for long-running tasks
+keywords:
+  - async
+  - long-running
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Worker
+
+### Queue + Consumer(Worker)
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/design/asynchronous-request-response/queue-executor.jpg"
+    )}
+  />
+</center>
+
+<br />
+
+Queue에 작업 지시사항을 메시지로 넣어두면, Consumer(Executor)가 Queue에서 메시지를 가져와서 작업을 수행하는 방식입니다. 하나의 워커로 실행하고 결과를 얻을 수 있는 장기 실행 작업에 적합합니다.
+
+### Workflow orchestrator
+
+<center>
+  <img
+    src={useBaseUrl(
+      "img/lang/design/asynchronous-request-response/workflow-orchestrator.jpg"
+    )}
+  />
+</center>
+
+<br />
+
+Workflow orchestrator에 작업 지시를 보내면, Workflow orchestrator가 작업을 수행하고 결과를 반환하는 방식입니다. DAG로 표현되는 여러 워커들의 작업을 실행하고 결과를 얻을 수 있는 장기 실행 작업에 적합합니다.
+
+## ? + Worker
+
+비지니스 모델에 따른 요구사항이나 서버 자원의 제약으로 인해
+
+- 요청량에 따라 Consumer 또는 실행되는 DAG의 수를 조절
+- 과다 사용자의 자원 독점 방지(사용자별 최소 실행 보장)
+- 비지니스 모델에 따른 사용자별 최대 동시 실행 제한
+
+해야하는 등의 경우가 생깁니다.
