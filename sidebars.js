@@ -175,7 +175,13 @@ module.exports = {
 			label: "Cache",
 			items: ["lang/design/cache/cache-aside"],
 		},
-		"lang/design/asynchronous-request-response",
+		{
+			type: "category",
+			label: "Asynch Request Response",
+			items: [
+				"lang/design/asynchronous-request-response/asynchronous-request-response",
+			],
+		},
 		{
 			type: "category",
 			label: "Limited Resources",

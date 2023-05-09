@@ -8,7 +8,7 @@ keywords:
   - long-running
 ---
 
-## Long Running Task
+## 장기 실행 작업(Long Running Task)
 
 클라이언트에서 서버에 요청을 보냈을 때, 서버에서 신속하게 응답을 보내지 못하지만 클라이언트는 서버의 응답을 받아야하는 경우가 있습니다. 예를 들어 처리하는 데 1초가 걸리는 CPU 바운드 작업을 요청했을 때, 대량의 요청이 오는 경우 서버는 1초 이상 응답을 못하거나 요청 자체를 처리하지 못할 수 있습니다.
 
@@ -103,3 +103,21 @@ sequenceDiagram
   Server-->>Worker: CancelRequested
   Worker->>Server: PUT Canceled
 ```
+
+## 속도 제한
+
+- 요청 제한(Request Limit)
+  - 속도 제한(Request Rate Limit): 시간당 요청 개수 제한
+  - 개수 제한(Request Count Limit): 요청 개수 제한
+- 처리 제한(Processing Limit)
+  - 속도 제한(Processing Rate Limit): 시간당 처리 개수 제한
+  - 개수 제한(Processing Count Limit): 처리 개수 제한
+
+요청 속도 제한은 DDoS, 헤비 유저 등에 의한 서버 과부하 방지를 목적으로 한다면 요청 개수 제한, 처리 속도 제한, 처리 개수 제한은 다수의 장기 실행 작업에 의한 서버 자원 부족 방지를 목적으로 하거나 비지니스 모델에 따른 제한을 주 목적으로 합니다.
+
+각 제한은 전체 요청량이나 처리량에 의해 제한 될 수도 있고, IP, 유저 등 특정 조건에 의해 제한 될 수도 있습니다.
+
+## 처리 방식
+
+- 컨슈머가 직접처리, 컨슈머를 스케일 아웃하는 방식으로 처리량을 늘림
+- 워크플로우 엔진을
