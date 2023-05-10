@@ -146,6 +146,7 @@ module.exports = {
 		"lang/design/eda",
 		"lang/design/event-storming",
 		"lang/design/solid",
+		"lang/design/contextual-logging",
 		"lang/design/repository-pattern",
 		{
 			type: "category",
