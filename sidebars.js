@@ -898,6 +898,13 @@ module.exports = {
 		"lang/python/pytest",
 		{
 			type: "category",
+			label: "asyncio",
+			items: [
+				"lang/python/asyncio/asyncio",
+			],
+		},
+		{
+			type: "category",
 			label: "Libraries",
 			items: [
 				{
