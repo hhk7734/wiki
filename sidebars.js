@@ -894,7 +894,13 @@ module.exports = {
 			],
 		},
 		"lang/python/exception",
-		"lang/python/logging",
+		{
+			type: "category",
+			label: "Logger",
+			items: [
+				"lang/python/logger/logger",
+			],
+		},
 		"lang/python/pytest",
 		{
 			type: "category",
