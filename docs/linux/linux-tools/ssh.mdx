@@ -78,7 +78,9 @@ PermitTunnel yes
 ```
 
 ```shell
-ssh -f -N -L <localPort>:<host>:<port> -p <tunnelPort> <tunnelUser>@<tunnelHost>
+ssh -f -N \
+    -L <localPort>:<host>:<port> \
+    -p <tunnelPort> <tunnelUser>@<tunnelHost>
 ```
 
 ```shell
@@ -90,5 +92,6 @@ nc -zv 127.0.0.1 <localPort>
 ```
 
 ```shell
-ps -lef | grep ssh | grep "\-L \?<localPort>" | awk '{print $4}' | xargs kill -9
+ps -lef | grep ssh | grep "\-L \?<localPort>" \
+    | awk '{print $4}' | xargs kill -9
 ```

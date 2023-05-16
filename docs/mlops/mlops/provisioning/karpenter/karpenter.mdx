@@ -9,7 +9,7 @@ keywords:
   - helm
 ---
 
-## Prerequisites
+## 사전 요구 사항
 
 진행 전 Spot Role에 대한 설정을 먼저 해주세요.
 
@@ -171,11 +171,9 @@ new aws.iam.RolePolicyAttachment(
 설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
 :::
 
-- https://karpenter.sh/v0.27.0/upgrade-guide/
-
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.27.0 \
+    --version v0.27.3 \
     > karpenter-values.yaml
 ```
 
@@ -200,7 +198,13 @@ tolerations:
   - operator: Exists
 
 controller:
-  resources: {}
+  resources:
+    requests:
+      cpu: 50m
+      memory: 512Mi
+    limits:
+      cpu: 200m
+      memory: 512Mi
 
 settings:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
@@ -223,7 +227,7 @@ settings:
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.27.0 \
+    --version v0.27.3 \
     -n provisioning \
     -f karpenter-values.yaml \
     > karpenter.yaml
@@ -232,15 +236,13 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.27.0 \
+    --version v0.27.3 \
     --history-max 3 \
     -n provisioning \
     -f karpenter-values.yaml
 ```
 
 - https://github.com/aws/karpenter/tree/main/pkg/apis/crds
-
-## aws-auth
 
 ```yaml
 kind: ConfigMap
@@ -256,3 +258,7 @@ data:
         - system:bootstrappers
         - system:nodes
 ```
+
+## 업그레이드
+
+- https://karpenter.sh/v0.27.3/upgrade-guide/

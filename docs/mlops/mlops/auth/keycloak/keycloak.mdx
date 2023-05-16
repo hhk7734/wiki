@@ -20,11 +20,11 @@ helm repo update bitnami \
 
 ```shell
 helm pull bitnami/keycloak \
-    --version 13.3.0
+    --version 15.1.1
 ```
 
 ```shell
-helm show values keycloak-13.3.0.tgz \
+helm show values keycloak-15.1.1.tgz \
     > keycloak-values.yaml
 ```
 
@@ -37,10 +37,10 @@ auth:
 
 resources:
   requests:
-    cpu: 250m
+    cpu: 50m
     memory: 1Gi
   limits:
-    cpu: 250m
+    cpu: 500m
     memory: 1Gi
 
 podLabels: {}
@@ -63,14 +63,14 @@ cache:
 ```
 
 ```shell
-helm template keycloak keycloak-13.3.0.tgz \
+helm template keycloak keycloak-15.1.1.tgz \
     -n auth \
     -f keycloak-values.yaml \
     > keycloak.yaml
 ```
 
 ```shell
-helm upgrade keycloak keycloak-13.3.0.tgz \
+helm upgrade keycloak keycloak-15.1.1.tgz \
     --install \
     --history-max 3 \
     -n auth \

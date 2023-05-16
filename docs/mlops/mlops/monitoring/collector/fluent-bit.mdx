@@ -21,7 +21,7 @@ helm repo update fluent \
 
 ```shell
 helm show values fluent/fluent-bit \
-  --version 0.27.0 \
+  --version 0.28.0 \
   > fluent-bit-values.yaml
 ```
 
@@ -90,7 +90,7 @@ config:
 
 ```shell
 helm template fluent-bit fluent/fluent-bit \
-    --version 0.27.0 \
+    --version 0.28.0 \
     -n monitoring \
     -f fluent-bit-values.yaml \
     > fluent-bit.yaml
@@ -100,12 +100,16 @@ helm template fluent-bit fluent/fluent-bit \
 helm upgrade fluent-bit fluent/fluent-bit \
   --install \
   --history-max 3 \
-  --version 0.27.0 \
+  --version 0.28.0 \
   -n monitoring \
   -f fluent-bit-values.yaml
 ```
 
-## Configuration
+## 업그레이드
+
+- https://docs.fluentbit.io/manual/installation/upgrade-notes
+
+## 설정
 
 :::info
 Fluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.

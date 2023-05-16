@@ -21,7 +21,7 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-cd \
-    --version 5.29.0 \
+    --version 5.33.3 \
     > argo-cd-values.yaml
 ```
 
@@ -45,14 +45,39 @@ controller:
   resources:
     requests:
       cpu: 200m
-      memory: 256Mi
+      memory: 512Mi
     limits:
       cpu: 400m
       memory: 512Mi
 
+redis:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 64Mi
+    limits:
+      cpu: 50m
+      memory: 64Mi
+
 server:
   extraArgs:
     - --insecure # https://github.com/argoproj/argo-cd/issues/2953
+  resources:
+    requests:
+      cpu: 20m
+      memory: 128Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
+
+repoServer:
+  resources:
+    requests:
+      cpu: 10m
+      memory: 128Mi
+    limits:
+      cpu: 50m
+      memory: 128Mi
 
 applicationSet:
   enabled: false
@@ -67,7 +92,7 @@ kubectl create namespace workflow
 
 ```shell
 helm template argo-cd argo/argo-cd \
-    --version 5.29.0 \
+    --version 5.33.3 \
     -n workflow \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
@@ -76,7 +101,7 @@ helm template argo-cd argo/argo-cd \
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 5.29.0 \
+    --version 5.33.3 \
     --history-max 3 \
     -n workflow \
     -f argo-cd-values.yaml
