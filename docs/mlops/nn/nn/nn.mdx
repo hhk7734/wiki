@@ -1,8 +1,8 @@
 ---
-id: nn-basics
-title: Neural Network Basics
-sidebar_label: Basics
-description: Neural Network Basics
+id: nn
+title: Neural Network
+sidebar_label: Neural Network
+description: Neural Network
 keywords:
   - Neural Network
 ---
@@ -65,19 +65,22 @@ $$
   <img src={useBaseUrl("img/mlops/nn/nn-lr-loss.jpg")} />
 </center>
 
-### Stochastic gradient descent
+### Stochastic Gradient Descent(SGD)
 
 $$
 \nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x}
 $$
 
-훈련을 위한 데이터셋이 큰 경우, 시간이 많이 걸릴 수 있습니다. 전체 데이터셋에서 $m$ 만큼 데이터를 선택하여 `mini-batch`를 만들어 훈련하는 방식을 `Stochastic gradient descent`이라고 합니다.
+훈련을 위한 데이터셋이 큰 경우, 시간이 많이 걸릴 수 있습니다. 전체 데이터셋에서 랜덤으로 데이터를 선택해 만든 데이터셋 $X_1, X_2, ..., X_m$ 을 mini-batch라고 하는데, 이 mini-batch가 전체 데이터 셋의 분포와 유사하다고 가정하면 아래와 같은 식이 성립합니다.
 
 $$
 \nabla Loss = \frac{1}{n}\sum_x{\nabla Loss_x} \approx \frac{1}{m}\sum^m_{i=1}{\nabla Loss_{X_i}}
 $$
 
-전체 데이터셋에서 랜덤으로 데이터를 선택해 만든 데이터셋 $X_1, X_2, ..., X_m$ 을 `mini-batch`라고 합니다.
+- batch 크기가 줄어 한 step을 계산하는데 걸리는 시간이 줄어듭니다.
+- 수렴하는 데 필요한 step 수가 증가합니다.
+- mini-batch의 크기가 작을 수록 batch의 분포가 전체 데이터 셋의 분포와 달라질 확률이 높기 때문에 학습이 불안정해집니다.
+- `(계산 시간/step) * (수렴에 필요한 step)`을 학습 시간이라고 하면, 학습 시간이 최소가 되는 batch 크기가 존재합니다.
 
 ### Forward-propagation
 

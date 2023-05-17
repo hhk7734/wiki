@@ -767,9 +767,12 @@ module.exports = {
 		},
 	],
 	nn: [
-		"mlops/nn/nn-basics",
+		{
+			type: "category",
+			label: "Neural Network",
+			items: ["mlops/nn/nn/nn","mlops/nn/nn/derivative"],
+		},
 		"mlops/nn/nn-cpu-gpu-npu",
-		"mlops/nn/nn-derivative",
 		{
 			type: "category",
 			label: "CNN",
