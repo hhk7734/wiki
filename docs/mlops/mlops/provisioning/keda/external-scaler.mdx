@@ -10,19 +10,6 @@ keywords:
   - trigger
 ---
 
-## Scaler 서비스 구현
-
-- https://keda.sh/docs/2.10/concepts/external-scalers/
-- [gRPC](/docs/lang/go/libraries/grpc)
-
-```shell
-wget https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalscaler/externalscaler.proto
-```
-
-```shell
-protoc --go_out=plugins=grpc:externalscaler externalscaler.proto
-```
-
 ## triggers in CRD
 
 ### external
@@ -35,4 +22,136 @@ spec:
         scalerAddress: <host>:<port>
         # 설정을 위해 사용자 정의 데이터를 전달할 수 있습니다
         # <customKey>: <value>
+```
+
+## Scaler 서비스 구현
+
+- https://keda.sh/docs/2.10/concepts/external-scalers/
+- [gRPC](/docs/lang/go/libraries/grpc)
+
+구현 내용은 아래와 같은 디렉토리 구조가 나오도록 진행됩니다.
+
+```shell
+<externalscaler>
+├── cmd/
+│   └── scaler/
+│       └── main.go
+├── internal/
+│   ├── application/
+│   │   └── externalscaler.go
+│   └── pkg/
+│       └── externalscaler/
+│           ├── externalscaler.pb.go
+│           ├── externalscaler.proto
+│           └── externalscaler_grpc.pb.go
+├── go.mod
+├── go.sum
+├── Makefile
+└── README.md
+```
+
+```shell
+curl https://raw.githubusercontent.com/kedacore/keda/main/pkg/scalers/externalscaler/externalscaler.proto \
+    --create-dirs \
+    -o internal/pkg/externalscaler/externalscaler.proto
+```
+
+```shell
+protoc \
+    --go_out=. \
+    --go_opt=paths=source_relative \
+    --go-grpc_out=. \
+    --go-grpc_opt=paths=source_relative \
+    internal/pkg/externalscaler/externalscaler.proto
+```
+
+```go title="internal/application/externalscaler.go"
+package application
+
+import (
+	"context"
+
+	pb "github.com/hhk7734/externalscaler-test/internal/pkg/externalscaler"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
+)
+
+type ExternalScaler struct {
+	pb.UnimplementedExternalScalerServer
+}
+
+// IsActive는 대상이 활성화되어야 하는지 여부를 반환합니다. false를 반환하면 대상의 replicas를 0으로
+// 설정합니다.
+func (e *ExternalScaler) IsActive(ctx context.Context, scaledObject *pb.ScaledObjectRef) (*pb.IsActiveResponse, error) {
+	// value := scaledObject.ScalerMetadata["<customKey>"]
+
+	return &pb.IsActiveResponse{Result: true}, nil
+}
+
+// GetMetricSpec은 대상이 스캐일링되기 위한 메트릭의 기준값을 반환합니다.
+func (e *ExternalScaler) GetMetricSpec(ctx context.Context, scaledObject *pb.ScaledObjectRef) (*pb.GetMetricSpecResponse, error) {
+	// value := scaledObject.ScalerMetadata["<customKey>"]
+
+	return &pb.GetMetricSpecResponse{
+		MetricSpecs: []*pb.MetricSpec{
+			{
+				MetricName: "custom-metric",
+				TargetSize: 10,
+			},
+		},
+	}, nil
+}
+
+// GetMetrics은 메트릭 값을 반환합니다.
+func (e *ExternalScaler) GetMetrics(ctx context.Context, request *pb.GetMetricsRequest) (*pb.GetMetricsResponse, error) {
+	// value := request.ScaledObjectRef.ScalerMetadata["<customKey>"]
+
+	return &pb.GetMetricsResponse{
+		MetricValues: []*pb.MetricValue{
+			{
+				MetricName:  "custom-metric",
+				MetricValue: 1,
+			},
+		},
+	}, nil
+}
+
+// StreamIsActive은 spec.triggers.type: external-push인 경우에만 사용됩니다.
+func (e *ExternalScaler) StreamIsActive(scaledObject *pb.ScaledObjectRef, stream pb.ExternalScaler_StreamIsActiveServer) error {
+	// value := scaledObject.ScalerMetadata["<customKey>"]
+
+	// for {
+	// 	select {
+	// 	case <-stream.Context().Done():
+	// 		return nil
+	// 	case <-time.Tick(30 * time.Second):
+	// 		if err := stream.Send(&pb.IsActiveResponse{Result: true}); err != nil {
+	// 			return err
+	// 		}
+	// 	}
+	// }
+
+	return status.Error(codes.Unavailable, "external-push is not supported")
+}
+```
+
+```go title="cmd/scaler/main.go"
+package main
+
+import (
+	"net"
+
+	"github.com/hhk7734/externalscaler-test/internal/application"
+	pb "github.com/hhk7734/externalscaler-test/internal/pkg/externalscaler"
+	"google.golang.org/grpc"
+)
+
+func main() {
+	grpcServer := grpc.NewServer()
+	lis, _ := net.Listen("tcp", ":6000")
+	pb.RegisterExternalScalerServer(grpcServer, &application.ExternalScaler{})
+
+	if err := grpcServer.Serve(lis); err != nil {
+	}
+}
 ```
