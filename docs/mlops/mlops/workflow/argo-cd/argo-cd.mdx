@@ -97,8 +97,8 @@ helm template argo-cd argo/argo-cd \
 ```shell
 helm upgrade argo-cd argo/argo-cd \
     --install \
-    --version 5.33.3 \
     --history-max 3 \
+    --version 5.33.3 \
     -n workflow \
     -f argo-cd-values.yaml
 ```
@@ -106,6 +106,29 @@ helm upgrade argo-cd argo/argo-cd \
 ## 업그레이드
 
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/overview/
+
+## RBAC
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
+- https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  rbac:
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+    policy.csv: |
+      g, <role/user/group>, role:<role>
+
+    # role:readonly, role:admin
+    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+    policy.default: "role:readonly"
+
+    # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
+    scopes: "[groups, preferred_username, email]"
+
+    # glob or regex
+    policy.matchMode: "glob"
+```
 
 ## User
 
@@ -215,27 +238,4 @@ configs:
       clientID: argo
       clientSecret: $oidc.keycloak.clientSecret # or `$<secret-name>:oidc.keycloak.clientSecret`
       requestedScopes: ["openid", "profile", "email", "groups"]
-```
-
-### RBAC
-
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
-- https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  rbac:
-    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
-    policy.csv: |
-      g, <role/user/group>, role:<role>
-
-    # role:readonly, role:admin
-    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-    policy.default: "role:readonly"
-
-    # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
-    scopes: "[groups, preferred_username, email]"
-
-    # glob or regex
-    policy.matchMode: "glob"
 ```

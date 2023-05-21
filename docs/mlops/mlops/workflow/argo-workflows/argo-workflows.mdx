@@ -28,18 +28,116 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.20.8 \
+    --version 0.28.0 \
     > argo-workflows-values.yaml
+```
+
+```yaml title="argo-workflows-values.yaml"
+controller:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+
+server:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
+```
+
+```shell
+helm template argo-workflows argo/argo-workflows \
+    --version 0.28.0 \
+    -n workflow \
+    -f argo-cd-values.yaml \
+    > argo-cd.yaml
 ```
 
 ```shell
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
-    --version 0.20.8 \
-    -n event \
     --history-max 3 \
+    --version 0.28.0 \
+    -n workflow \
     --values argo-workflows-values.yaml
 ```
+
+## RBAC
+
+- https://argoproj.github.io/argo-workflows/argo-server-sso/
+
+```yaml title="argo-workflows-values.yaml"
+server:
+  # ConfigMap.data.config: |, name: workflow-controller-configmap
+  sso:
+    # openid는 기본으로 추가됩니다.
+    scopes:
+      - groups
+      - email
+      - profile
+    rbac:
+      enabled: true
+```
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-workflows-guest
+  namespace: workflow
+  annotations:
+    workflows.argoproj.io/rbac-rule: "true"
+    # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
+    # 이상으로 설정해주세요
+    workflows.argoproj.io/rbac-rule-precedence: "0"
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-workflows-guest.service-account-token
+  namespace: workflow
+  annotations:
+    kubernetes.io/service-account.name: argo-workflows-guest
+type: kubernetes.io/service-account-token
+```
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: argo-workflows-admin
+  namespace: workflow
+  annotations:
+    # * `groups` - an array of the OIDC groups
+    # * `iss` - the issuer ("argo-server")
+    # * `sub` - the subject (typically the username)
+    # https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md
+    workflows.argoproj.io/rbac-rule: "'<group>' in groups"
+    # 값이 클 수록 우선순위가 높아짐
+    workflows.argoproj.io/rbac-rule-precedence: "1"
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-workflows-admin.service-account-token
+  namespace: workflow
+  annotations:
+    kubernetes.io/service-account.name: argo-workflows-admin
+type: kubernetes.io/service-account-token
+```
+
+:::info
+ServiceAccount에 원하는 목적에 맞는 Role과 ClusterRole을 생성 후 바인딩 시켜주세요.
+:::
 
 ## User
 
@@ -51,7 +149,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: event
+  namespace: workflow
 data:
   # `echo -n argo-workflows-sso | base64`
   client-id: YXJnby13b3JrZmxvd3Mtc3Nv
@@ -116,9 +214,9 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: argo-workflows-sso
-  namespace: event
+  namespace: workflow
 stringData:
-  client-id: workflows
+  client-id: argo-workflows
   client-secret: <workflow-client-secret>
 EOF
 ```
@@ -132,7 +230,7 @@ server:
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
-    issuer: <keycloak-url>/auth/realms/<realm>
+    issuer: <keycloak-url>/realms/<realm>
     sessionExpiry: 12h
     clientId:
       name: argo-workflows-sso
@@ -142,53 +240,3 @@ server:
       key: client-secret
     redirectUrl: <workflow-server-url>/oauth2/callback
 ```
-
-### RBAC
-
-- https://argoproj.github.io/argo-workflows/argo-server-sso/
-
-```yaml title="argo-workflows-values.yaml"
-server:
-  # ConfigMap.data.config: |, name: workflow-controller-configmap
-  sso:
-    # openid는 기본으로 추가됩니다.
-    scopes:
-      - groups
-      - email
-      - profile
-    rbac:
-      enabled: true
-```
-
-```yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: guest-sa
-  namespace: event
-  annotations:
-    workflows.argoproj.io/rbac-rule: "true"
-    # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
-    # 이상으로 설정해주세요
-    workflows.argoproj.io/rbac-rule-precedence: "0"
-```
-
-```yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: admin-sa
-  namespace: event
-  annotations:
-    # * `groups` - an array of the OIDC groups
-    # * `iss` - the issuer ("argo-server")
-    # * `sub` - the subject (typically the username)
-    # https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md
-    workflows.argoproj.io/rbac-rule: "'<group>' in groups"
-    # 값이 클 수록 우선순위가 높아짐
-    workflows.argoproj.io/rbac-rule-precedence: "1"
-```
-
-:::info
-ServiceAccount에 원하는 목적에 맞는 Role과 ClusterRole을 생성 후 바인딩 시켜주세요.
-:::
