@@ -8,17 +8,72 @@ keywords:
   - logging
 ---
 
+## 구조화된 로깅(Structured Logging)
+
+로그는 애플리케이션이 동작하는 동안 발생하는 이벤트를 기록하는 것입니다. 로그는 다양한 방식으로 활용되는데, 애플리케이션의 동작을 확인하거나, 에러 발생 시 원인을 파악하는 등의 목적으로 사용됩니다.
+
+많은 양의 로그를 다루기 위해서는 로그를 쿼리할 수 있도록 저장하는 것이 필요합니다. 이를 위해 구조화된 로깅(Structured Logging)을 사용하는데, 여기서 구조화된 로깅이란 사람과 컴퓨터 모두 이해하기 쉽도록 사전 정의된 구조로 기록하는 방법을 말합니다. 일반적으로 `key-value 쌍으로 구성된 이벤트 데이터`가 사용되며, `json 포멧`을 사용합니다.
+
+예시는 아래와 같습니다.
+
+```json
+{
+  "level": "info",
+  "time": 1684741898.0446076,
+  "caller": "contextual-logging/test.go:12",
+  "msg": "hello world",
+  "request_id": "c5b76167-e82e-48d9-95cc-fdeb4d30dfbc",
+  "foo": "bar",
+  "nest": {
+    "foo": "bar"
+  }
+}
 ```
-|
-|||
-||||
-||||
-||VV
-VV
+
+## 문맥에 따른 로깅(Contextual Logging)
+
+문맥에 따른 로깅(Contextual Logging)은 로깅하는 시점의 컨텍스트 정보를 로그에 포함시키는 방법을 말합니다. 예를 들어, HTTP 요청을 처리하는 핸들러에서 로그를 남길 때, `request_id`, `user_id` 등을 로그에 포함시키는 것입니다.
+
+문제는 문맥 정보를 추가하는 시점과 로그를 남기는 시점이 다르다는 것입니다. 예를 들어 서버 애플리케이션에서 `request_id`는 미들웨어에서 요청을 확인하여 값을 얻고, 로그는 도메인 로직을 구현한 함수에서 남기는 경우가 있습니다. 이런 경우 정보가 여러 함수를 거쳐 전달되어야 하는데, 인자로 전달하면 함수마다 관련 인자를 추가해야하고 수정할 때 어려워질 수 있습니다.
+
+컨텍스트를 관리하기 위한 모듈을 제공하는 언어가 많기 때문에, 이를 활용하면 문맥에 따른 로깅을 쉽게 구현할 수 있습니다.
+
+```mermaid
+sequenceDiagram
+  participant F1 as Function1
+  participant F2 as Function2
+  participant F3 as Function3
+  participant F4 as Function4
+
+  F1 ->> F1: NewContext(a=1, b=2)
+  Note over F1: a=1, b=2
+  F1 ->> F2: Function2()
+    activate F2
+    Note over F2: a=1, b=2
+    F2 ->> F3: Function3()
+    deactivate F2
+      activate F3
+      Note over F3: a=1, b=2
+      F3 ->> F3: NewContext(a=2, c=3)
+      Note over F3: a=2, b=2, c=3
+      F3 ->> F4: Function4()
+      deactivate F3
+        activate F4
+        Note over F4: a=2, b=2, c=3
+        F4 ->> F4: LoggerFromContext().Info("hello world")
+        Note over F4: {"level":"info","msg":"hello world","a":2,"b":2,"c":3}
+        F4 -->> F3: return
+        deactivate F4
+      activate F3
+      F3 -->> F2: return
+      deactivate F3
+    activate F2
+    F2 ->> F2: LoggerFromContext().Debug("안녕")
+    Note over F2: {"level":"debug","msg":"안녕","a":1,"b":2}
+    F2 -->> F1: return
+    deactivate F2
 ```
 
 - NewContext: 이전 컨텍스트가 있는 경우 이전 컨텍스트를 복사해서 컨텍스트를 만들고, 없으면 새로운 컨텍스트를 만든 후에 인자로 받은 필드를 컨텍스트에 추가 또는 업데이트합니다.
-- SetFields: 컨텍스트에 필드를 추가 또는 업데이트합니다.
-- GetField: 컨텍스트에서 키에 해당하는 필드를 찾아서 반환합니다. 예를 들어 `(value, isExist)`를 반환하여 존재 유무와 값을 반환합니다.
-- GetFields
-- DeleteField: 컨텍스트에서 키에 해당하는 필드를 찾아서 삭제합니다.
+- FieldsFromContext: 컨텍스트에서 필드 리스트를 가져옵니다.
+- LoggerFromContext: 컨텍스트에서 필드 리스트가 포함된 로거를 가져옵니다.

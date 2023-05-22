@@ -85,6 +85,12 @@ with ProcessPoolExecutor(max_workers=3) as executor:
     wait(futures)
 ```
 
+:::warning
+`ProcessPoolExecutor`를 사용할 때, `timeout` 기능을 제공하는 `Future`의 메서드나, 이를 인자로 받는 함수를 사용하면 프로그램 상에서는 timeout된 것으로 보이지만 실제로는 작업이 계속 진행되는 문제가 있습니다.
+
+`timeout`이 필요한 경우, `ProcessPoolExecutor._processes`를 직접 사용하여 `Process`를 종료시키거나 `multiprocessing` 모듈로 프로그램을 작성해야합니다.
+:::
+
 ## ProcessPoolExecutor with asyncio
 
 asyncio로 프로그래밍을 하다보면 CPU-bound 작업에 의해 이벤트 루프가 블로킹되어 다른 작업이 실행되지 않는 경우가 있습니다. 이를 해결하기위해 ProcessPoolExecutor만 사용하는 경우에도 이벤트 루프가 블로킹되기 때문에, `loop.run_in_executor`를 사용하여 함수 실행을 awaitable로 변경하는 작업을 해줘야합니다.
