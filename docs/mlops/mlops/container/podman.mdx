@@ -57,11 +57,11 @@ podman ps [options]
 
 ## exec
 
-실행중인 컨테이너에 명령어를 실행합니다.
-
 ```shell
 podman exec [options] <containerID|containerName> <command> [arg ...]
 ```
+
+실행중인 컨테이너에 명령어를 실행합니다.
 
 - options
   - `-it`: STDIN을 열고 컨테이너에 가상 터미널 할당
@@ -75,3 +75,11 @@ podman rm [options] <containerID|containerName>
 - options
   - `-f|--force`: running 또는 unstable 상태의 컨테이너도 삭제
   - `-a|--all`: 모든 컨테이너 삭제
+
+## cp
+
+```shell
+podman cp [options] [<containerID|containerName>:]<srcPath> [<containerID|containerName>:]<destPath>
+```
+
+호스트와 컨테이너 또는 컨테이너와 컨테이너 사이에서 파일을 복사합니다.
