@@ -13,6 +13,8 @@ keywords:
 helm repo add nats https://nats-io.github.io/k8s/helm/charts
 ```
 
+### NATS
+
 - [PersistentVolume](/docs/mlops/mlops/kubernetes/persistent-volume)
 
 ```shell
@@ -98,6 +100,49 @@ helm upgrade nats nats/ntas \
     -n event \
     --history-max 3 \
     -f nats-values.yaml
+```
+
+### NACK
+
+```shell
+kubectl apply -f https://github.com/nats-io/nack/releases/download/v0.10.1/crds.yml
+```
+
+```shell
+helm repo update nats \
+&& helm search repo nats/nack -l | head -n 10
+```
+
+```shell
+helm show values nats/nack \
+    --version 0.21.0 \
+    > nack-values.yaml
+```
+
+```yaml title="nack-values.yaml"
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    memory: 64Mi
+```
+
+```shell
+helm template nack nats/nack \
+    --version 0.21.0 \
+    -n event \
+    -f nack-values.yaml \
+    > nack.yaml
+```
+
+```shell
+helm upgrade nack nats/nack \
+    --install \
+    --history-max 3 \
+    --version 0.21.0 \
+    -n event \
+    -f nack-values.yaml
 ```
 
 ## Test

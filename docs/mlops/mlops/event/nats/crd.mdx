@@ -12,6 +12,27 @@ keywords:
 Stream, Consumer, Account의 name은 파일 경로로 사용되기 때문에 `[a-z0-9]*` 32자 이하로 만드는 것이 좋습니다. 버전 업데이트에 따라 이 제약사항이 사라질 수 있다고 합니다.
 :::
 
+## Account
+
+```shell
+kubectl explain account.spec
+```
+
+```yaml
+apiVersion: jetstream.nats.io/v1beta2
+kind: Account
+metadata:
+  name: <name>
+  namespace: event
+spec:
+  name: <accountName>
+  servers:
+    - nats://<host>:<port>
+    - nats://<user>:<password>@<host>:<port>
+```
+
+`Stream`과 `Consumer`를 생성할 때, `.spec.account`를 설정하면 해당 Account 정보에 부합하는 NATS 서버에만 생성됩니다.
+
 ## Stream
 
 ```shell
@@ -22,10 +43,10 @@ kubectl explain streams.spec
 apiVersion: jetstream.nats.io/v1beta2
 kind: Stream
 metadata:
-  name: <resource-name>
+  name: <name>
   namespace: event
 spec:
-  name: <stream-name>
+  name: <streamName>
   subjects: # 이 Stream이 consume하는 subjects
     - <subject>
 
@@ -41,6 +62,9 @@ spec:
   maxBytes: -1 # 최대 저장 용량
 
   maxMsgSize: -1 # 메시지 하나의 최대 크기, default: 1 MB
+
+
+  # account: <accountName>
 ```
 
 - `.spec.retention`
@@ -59,56 +83,53 @@ spec:
 kubectl explain consumer.spec
 ```
 
-### Common
-
-- `.spec.ackPolicy`
-  - none
-  - all: 중간에 한 번이라도 Ack 응답을 받으면 이전에 받은 메시지는 Ack를 받은 것으로 간주
-  - explicit: 모든 메시지에 Ack 응답(Pull에서만 사용 가능)
-- `.spec.deliverPolicy`: Consumer를 생성했을 때 시작 위치
-  - all
-  - last
-  - new
-  - byStartSequence
-  - byStartTime
-
-### Push
-
 ```yaml
 apiVersion: jetstream.nats.io/v1beta2
 kind: Consumer
 metadata:
-  name: <resource-name>
+  name: <name>
   namespace: event
 spec:
-  streamName: <stream-name>
-  # 서버가 Consumer가 어디까지 소비했는 지 확인할 때 사용됩니다
-  durableName: <consumer-name>
+  streamName: <streamName>
+  durableName: <consumerName>
   filterSubject: <subject>
-  deliverSubject: <push-subject>
-  # deliverGroup: <queue-group>
   deliverPolicy: all # all | last | new | byStartSequence | byStartTime
   # optStartSeq: 0
   # optStartTime: "2022-07-05T01:32:00+09:00"
 
-  maxDeliver: 20 # Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
-  ackPolicy: explicit
+  ackPolicy: explicit # none | all | explicit
   ackWait: 30s
-  maxAckPending: 1000 # Ack 정책을 사용할 때, Ack를 받지 못한 메시지 수가 이 값을 넘어가면 일시 중지 됨
-  rateLimitBps: -1
+  maxAckPending: 100 # Ack 정책을 사용할 때, Ack를 받지 못한 메시지 수가 이 값을 넘어가면 일시 중지 됨
+  maxDeliver: 20 # Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
 
   # deliverPolicy에 따라 이전 메시지부터 메시지를 replay할 때
   # 원래 메시지를 받은 속도로 할지 아니면 가능한 빠른 속도로 할지 결정
   replayPolicy: instant # instant | original
+
+  # account: <accountName>
+
+  ########
+  # pull #
+  ########
+  maxWaiting: 512 # pull 응답을 받기 위해 대기하고 있는 최대 요청 수
+
+  ########
+  # push #
+  ########
+  # 클라이언트가 deliverSubject를 subscribe하면 서버가 메시지를 push
+  deliverSubject: <deliverSubject>
+  # deliverGroup: <queueGroup>
+
+  rateLimitBps: -1
 ```
 
-### Pull
-
-```yaml
-
-```
-
-## Reference
-
-- https://github.com/nats-io/nack/blob/main/deploy/crds.yml
-- https://docs.nats.io/using-nats/developer/develop_jetstream/model_deep_dive
+- `ackPolicy`
+  - `none`
+  - `all`: 중간에 한 번이라도 Ack 응답을 받으면 이전에 받은 메시지는 Ack를 받은 것으로 간주
+  - `explicit`: 모든 메시지에 Ack 응답(Pull에서만 사용 가능)
+- `deliverPolicy`: Consumer를 생성했을 때 시작 위치
+  - `all`: 가장 첫 번째 메시지부터 가져감
+  - `last`: 가장 마지막 메시지부터 가져감
+  - `new`: 새로 들어오는 메시지부터 가져감
+  - `byStartSequence`: `optStartSeq`에 설정된 메시지부터 가져감
+  - `byStartTime`: `optStartTime`에 설정된 시간 이후 메시지부터 가져감

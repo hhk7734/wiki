@@ -696,7 +696,6 @@ module.exports = {
 						"mlops/mlops/event/nats/nats",
 						"mlops/mlops/event/nats/cli",
 						"mlops/mlops/event/nats/crd",
-						"mlops/mlops/event/nats/flow",
 					],
 				},
 				{
