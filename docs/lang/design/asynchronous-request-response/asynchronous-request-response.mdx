@@ -12,45 +12,43 @@ keywords:
 
 클라이언트에서 서버에 요청을 보냈을 때, 서버에서 신속하게 응답을 보내지 못하지만 클라이언트는 서버의 응답을 받아야하는 경우가 있습니다. 예를 들어 처리하는 데 1초가 걸리는 CPU 바운드 작업을 요청했을 때, 대량의 요청이 오는 경우 서버는 1초 이상 응답을 못하거나 요청 자체를 처리하지 못할 수 있습니다.
 
-이런 경우 고민해야하는 사항은
+이러한 상황에 대해 Scale up/out만으로 처리할 수 없는 경우
 
-- 서버가 요청을 처리하는 방법
-- 서버가 처리를 완료한 후 클라이언트에게 응답을 보내는 방법
-- 완료되기 전에 클라이언트가 요청을 취소하는 방법
+1. 서버를 서버와 워커로 분리
+1. 클라이언트가 현재 진행상태를 알 수 있도록 상태(Status) 엔드포인트를 추가
+1. 취소가 필요한 장기 실행 작업에 대해서는 취소(Cancel) 정책과 엔드포인트 추가
 
-입니다.
+가 필요합니다.
 
-이러한 상황에 대해 Scale up/out만으로 처리할 수 없는 경우 클라이언트, 서버, 워커 사이에서 요청(Command), 상태(Status), 응답(Response)에 대한 설계로 해결할 수 있습니다.
-
-## 요청(Command)
+## 요청(Request)
 
 ```mermaid
 sequenceDiagram
-  participant Client
+  actor Client
   participant Server
-  participant Queue
+  participant RequestQueue
   participant Worker
 
-  Client->>Server: POST Command
-  Server->>Queue: Command
+  Client->>Server: POST Request
+  Server->>RequestQueue: Request
   Server-->>Client: 202 Accepted
-  Queue-->>Worker: Command
+  RequestQueue-->>Worker: Request
 ```
 
-## 상태(Status) && 응답(Result)
+## 상태(Status) && 응답(Response)
 
 ```mermaid
 sequenceDiagram
-  participant Client
+  actor Client
   participant Server
-  participant Queue
+  participant StatusQueue
   participant Worker
 
-  alt
+  alt webhook
     Worker->>Server: Status
-  else
-    Worker->>Queue: Status
-    Queue-->>Server: Status
+  else StatusQueue
+    Worker->>StatusQueue: Status
+    StatusQueue-->>Server: Status
   end
 ```
 
@@ -60,46 +58,47 @@ Polling이 많아지면 서버에 부하가 걸리기 때문에 이를 완화하
 
 ```mermaid
 sequenceDiagram
-  participant Client
+  actor Client
   participant Server
-  participant Queue
-  participant Worker
 
   loop
     Client->>Server: GET Status
     Server-->>Client: Status
   end
 
-  Client->>Server: GET Result
-  Server-->>Client: Result
+  Client->>Server: GET Response
+  Server-->>Client: Response
 ```
 
 ### SSE(Server Sent Event) || Websocket
 
 ```mermaid
 sequenceDiagram
-  participant Client
+  actor Client
   participant Server
-  participant Queue
-  participant Worker
 
-  Server->>Client: Status || Result
+  Server->>Client: Status || Response
 ```
 
 ## 취소(Cancel)
 
 ```mermaid
 sequenceDiagram
-  participant Client
+  actor Client
   participant Server
-  participant Queue
+  participant CancelQueue
+  participant StatusQueue
   participant Worker
 
   Client->>Server: POST Cancel
   Server-->>Client: 202 Accepted
 
-  Queue-->>Worker: Command
-  Worker->>Server: GET Status
-  Server-->>Worker: CancelRequested
-  Worker->>Server: PUT Canceled
+  Server ->> CancelQueue: Cancel
+  CancelQueue-->>Worker: Cancel
+  alt webhook
+    Worker->>Server: Status(Canceled)
+  else StatusQueue
+    Worker->>StatusQueue: Status(Canceled)
+    StatusQueue-->>Server: Status(Canceled)
+  end
 ```

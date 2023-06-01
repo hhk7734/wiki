@@ -1,0 +1,39 @@
+---
+id: custom
+title: Custom Formatter and Handler
+sidebar_label: Custom Formatter and Handler
+description: Python Custom Formatter and Handler
+keywords:
+  - Python
+  - Logger
+  - custom handlers
+  - custom formatter
+---
+
+## Fromatter
+
+- https://docs.python.org/3/library/logging.html#logrecord-attributes
+
+```python
+from logging import Formatter, LogRecord
+
+
+class CustomFormatter(Formatter):  # pragma: no cover
+    def format(self, record: LogRecord) -> str:
+        # record를 출력하고 싶은 형태로 변환
+        msg = record.getMessage()
+        return msg
+```
+
+## Handler
+
+```python
+from logging import Handler, LogRecord
+
+
+class CustomHandler(Handler):
+    def emit(self, record: LogRecord) -> None:
+        msg = self.format(record)
+
+        # 로그를 stdout 등으로 출력하거나 파일에 저장하는 등의 작업을 수행
+```

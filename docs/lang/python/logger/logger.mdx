@@ -28,6 +28,10 @@ keywords:
 
 ## 포맷
 
+```python
+format = '[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s'
+```
+
 | 포맷                | 설명                                                                   |
 | ------------------- | ---------------------------------------------------------------------- |
 | %(created)f         | time.time()                                                            |
@@ -51,54 +55,62 @@ keywords:
 ## 함수
 
 ```python
-LOG = logging.getLogger(name=None)
+logger = logging.getLogger(name=None)
 ```
 
-- @param `name` 특별한 경우가 아니면 `__name__` 설정
-- @return `logging.Logger`
+- `name`: 특별한 경우가 아니면 `__name__` 설정
+  - `__name__`은 해당 코드의 import 경로입니다. 예를 들어 `from a.b import c`의 경우 `c.py`의 `__name__`은 `a.b.c`입니다.
+- `logging.Logger`를 반환합니다.
 
 ```python
 logging.basicConfig(**kwargs)
 ```
 
-- @brief 루트 로거 설정
-- @param `filename` 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
-- @param `format` 포맷
-  ex) `fmt='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s'`
-- @param `datefmt` `time.strftime()` 설정과 동일
-- @param `level` 수준
-- @param `handlers` 핸들러 설정, `filename`이나 `stream`을 설정하면 안됨, 포매터 설정 안하면 `format`이 설정됨
+- 루트 로거를 설정합니다.
+- `kwargs`
+  - `filename`: 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
+  - `format`: [포맷](#포맷)
+  - `datefmt`: https://docs.python.org/3/library/time.html#time.strftime
+  - `level`: 수준
+  - `handlers`: 핸들러 설정, `filename`이나 `stream`을 설정하면 안됨, 포매터 설정 안하면 `format`이 설정됨
 
 자식 로거는 자신에게 설정된 수준에 맞춰 부모 로거에게 메시지를 전달합니다.
 
-:::info
+:::warning
 `logging.basicConfig`는 로깅이 시작되기 전에 호출해야 유효합니다.
 :::
 
 ### logging.Logger
 
 ```python
-logging.Logger.setLevel(level)
+logger.setLevel(level)
 ```
-
-- @brief 수준 설정
 
 ```python
-logging.Logger.addHandler(hdlr)
+logger.addHandler(handler)
 ```
 
-- @brief 메시지를 처리할 핸들러를 등록
+- 메시지를 처리할 핸들러를 등록합니다.
 
 자식 로거에 핸들러를 추가하는 경우 핸들러와 부모 로거 모두에게 메시지를 보냅니다.
-상황에 따라 `logging.Logger.propagate`의 값을 설정해야 합니다.
+상황에 따라 `logger.propagate`의 값을 설정해야 합니다.
 
 ```python
-logging.Logger.debug(msg, *args, **kwargs)
-logging.Logger.info(msg, *args, **kwargs)
-logging.Logger.warning(msg, *args, **kwargs)
-logging.Logger.error(msg, *args, **kwargs)
-logging.Logger.critical(msg, *args, **kwargs)
+logger.debug(msg, *args, **kwargs)
+logger.info(msg, *args, **kwargs)
+logger.warning(msg, *args, **kwargs)
+logger.error(msg, *args, **kwargs)
+logger.critical(msg, *args, **kwargs)
 ```
+
+### logging.Formatter
+
+```python
+formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
+```
+
+- `fmt`: [포맷](#포맷)
+- `datefmt`: https://docs.python.org/3/library/time.html#time.strftime
 
 ### logging.Handler
 
@@ -112,27 +124,17 @@ queue_handler = logging.handlers.QueueHandler()
 ```
 
 ```python
-logging.Handler.setLevel(level)
+handler.setLevel(level)
 ```
 
 - @brief 핸들러가 처리할 수 있는 메시지 수준 설정
 
 ```python
-logging.Handler.setFormatter(fmt)
+handler.setFormatter(formatter)
 ```
 
 - @brief 출력되는 메시지 포맷 설정
-- @param fmt 포맷터
-
-### logging.Formatter
-
-```python
-formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
-```
-
-- @brief 출력 형식을 설정
-- @param `fmt` 포맷
-- @param `datefmt` time.strftime() 설정 방법 Ref
+- @param formatter 포맷터
 
 ## Examples
 
@@ -141,16 +143,16 @@ formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
 ```python
 import logging
 
-LOG = logging.getLogger(__name__)
-# LOG.setLevel()을 사용하지 않으면 루트 로거의 level을 따름
+logger = logging.getLogger(__name__)
+# logger.setLevel()을 사용하지 않으면 루트 로거의 level을 따름
 
 
 def child_function():
-    LOG.debug("debug")
-    LOG.info("info")
-    LOG.warning("warning")
-    LOG.error("error")
-    LOG.critical("critical")
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+    logger.error("error")
+    logger.critical("critical")
 ```
 
 ### main.py
@@ -167,16 +169,16 @@ logging.basicConfig(
     format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
     level=logging.ERROR)
 
-LOG = logging.getLogger(__name__)
-LOG.setLevel(logging.INFO)
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 
 def main_function():
-    LOG.debug("debug")
-    LOG.info("info")
-    LOG.warning("warning")
-    LOG.error("error")
-    LOG.critical("critical")
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+    logger.error("error")
+    logger.critical("critical")
 
 
 if __name__ == '__main__':

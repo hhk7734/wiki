@@ -902,6 +902,7 @@ module.exports = {
 			label: "Logger",
 			items: [
 				"lang/python/logger/logger",
+				"lang/python/logger/custom",
 			],
 		},
 		"lang/python/pytest",

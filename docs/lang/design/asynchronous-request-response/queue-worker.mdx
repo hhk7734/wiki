@@ -10,12 +10,12 @@ keywords:
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-## In-Queue + Consumer(Executor) + Out-Queue
+## RequestQueue + Worker + ResponseQueue
 
 <center>
   <img
     src={useBaseUrl(
-      "img/lang/design/asynchronous-request-response/queue-executor.jpg"
+      "img/lang/design/asynchronous-request-response/queue-worker.jpg"
     )}
   />
 </center>
@@ -24,9 +24,9 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 장기 실행 작업(Long Running Task)을 처리하기 위해서는 작업이 완료되지 않더라도 요청을 계속 받을 수 있어야 하고, 받은 요청을 처리한 후 결과를 반환하거나 어딘가에 저장한 후 완료되었음을 알려야하는 경우가 많습니다.
 
-이러한 요구사항을 충족시키기 위해 In-Queue에 작업 지시사항을 메시지로 넣어두면, Consumer(Executor)가 In-Queue에서 메시지를 가져와서 작업을 수행하고 Out-Queue에 결과를 저장하는 방식을 사용할 수 있습니다.
+이러한 요구사항을 충족시키기 위해 RequestQueue에 작업 지시사항을 메시지로 넣어두면, Worker가 RequestQueue에서 메시지를 가져와서 작업을 수행하고 ResponseQueue에 결과를 저장하는 방식을 사용할 수 있습니다.
 
-## Workflow orchestrator + Out Queue
+## Workflow orchestrator + ResponseQueue
 
 <center>
   <img
@@ -38,13 +38,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <br />
 
-단순한 작업의 경우 `In-Queue + Consumer(Executor) + Out-Queue`로 충분하지만, 여러 작업을 순차적으로 실행하거나 병렬로 실행하고 결과를 얻어야 하는데 한 Executor에서 모든 작업을 수행하기에는 자원이 부족한 경우가 있습니다.
+단순한 작업의 경우 `RequestQueue + Worker + ResponseQueue`로 충분하지만, 여러 작업을 순차적으로 실행하거나 병렬로 실행하고 결과를 얻어야 하는데 한 Worker에서 모든 작업을 수행하기에는 자원이 부족한 경우가 있습니다.
 
-이런 경우 Workflow orchestrator에 DAG로 표현되는 작업 지시를 보내면, Workflow orchestrator가 작업을 수행하고 결과를 Out-Queue에 저장하는 방식을 사용할 수 있습니다.
+이런 경우 Workflow orchestrator에 DAG로 표현되는 작업 지시를 보내면, Workflow orchestrator가 작업을 수행하고 결과를 ResponseQueue에 저장하는 방식을 사용할 수 있습니다.
 
 ## Stream Processing
 
-Queue와 Executor들의 조합으로 `Workflow orchestrator`에서 DAG를 실행하는 구조를 만들 수 있습니다. 이런 경우 한 Executor의 Out-Queue가 다른 Executor의 In-Queue가 되는 구조가 반복되는데, 이런식의 파이프라인을 처리하는 것을 Stream Processing이라고 합니다.
+Queue와 Worker들의 조합으로 한 Worker의 ResponseQueue가 다른 Worker의 RequestQueue가 되는 구조가 반복되는데, 이런식의 파이프라인을 처리하는 것을 Stream Processing이라고 합니다.
 
 ## ? + Worker
 
