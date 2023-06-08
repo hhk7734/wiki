@@ -19,42 +19,12 @@ kind: Workflow
 metadata:
   generateName: hello-world-
 spec:
-  entrypoint: container-test # 처음 시작되어야 할 템플릿 이름
+  entrypoint: <templateName> # 처음 시작되어야 할 템플릿 이름
   templates:
     - <template>
 ```
 
-### `volumes`
-
-`container`가 마운트할 수 있는 볼륨 목록을 선언할 수 있습니다.
-
-- https://argoproj.github.io/argo-workflows/fields/#volume
-
-```yaml
-spec:
-  volumes:
-    - name: volume-1
-      persistentVolumeClaim:
-        claimName: test-pvc-1
-  volumes:
-    - name: volume-2
-      persistentVolumeClaim:
-        claimName: test-pvc-2
-  entrypoint: container-test
-  templates:
-    - name: container-test
-      container:
-        image: ubuntu:20.04
-        command:
-          - ls
-        args:
-          - /data
-        volumeMounts:
-          - name: volume-1 # 사용하고자 하는 volume의 name을 적어주면 됩니다.
-            mountPath: /data
-```
-
-### `templates` 선언
+### `templates`
 
 - https://argoproj.github.io/argo-workflows/fields/#template
 
@@ -73,6 +43,20 @@ spec:
         image: docker/whalesay
         command: [cowsay]
         args: ["hello world"]
+```
+
+`daemon`을 `true`로 설정하면 데몬이 호출된 템플릿 범위의 모든 작업이 완료될 때까지 실행됩니다. 전체 작업에서 임시로 사용될 데이터베이스를 생성하는 등의 용도로 사용할 수 있습니다.
+
+```yaml
+spec:
+  template:
+    - name: <templateName>
+      daemon: true
+      container:
+        image: postgres:15.3
+        ports:
+          - name: postgres
+            containerPort: 5432
 ```
 
 #### `script`
@@ -155,11 +139,9 @@ spec:
         duration: "20s"
 ```
 
-### `templates` 호출
-
 #### `steps`
 
-`steps`는 연속적인 작업의 실행 순서를 정의할 수 있는 방법 중 하나입니다. 리스트 안의 리스트로 구성됩니다.
+`steps`는 연속적인 template 실행 순서를 정의할 수 있는 방법 중 하나입니다. 리스트 안의 리스트로 구성됩니다.
 
 - https://argoproj.github.io/argo-workflows/fields/#workflowstep
 
@@ -199,7 +181,7 @@ flowchart LR
 
 #### `dag`
 
-`dag`는 연속적인 작업의 실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.
+`dag`는 연속적인 template 실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.
 
 - https://argoproj.github.io/argo-workflows/fields/#dagtemplate
 
@@ -221,6 +203,58 @@ spec:
             dependencies: [b1]
             template: work4
             when: "{{tasks.b1.outputs.result}} == success"
+```
+
+### `volumes`
+
+`container`가 마운트할 수 있는 볼륨 목록을 선언할 수 있습니다.
+
+- https://argoproj.github.io/argo-workflows/fields/#volume
+
+```yaml
+spec:
+  volumes:
+    - name: <volumeName>
+      persistentVolumeClaim:
+        claimName: <existingPvcName>
+
+  templates:
+    - name: <templateName>
+      container:
+        image: ubuntu:20.04
+        command:
+          - ls
+        args:
+          - /mnt/vol
+        volumeMounts:
+          - name: <volumeName>
+            mountPath: /mnt/vol
+```
+
+```yaml
+spec:
+  volumeClaimGC:
+    strategy: OnWorkflowSuccess # OnWorkflowSuccess | OnWorkflowCompletion
+  volumeClaimTemplates:
+    - metadata:
+        name: <pvcName> # PersistentVolumeClaim의 이름이면서 동시에 volumes.name이 됩니다.
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 1Gi
+
+  templates:
+    - name: <templateName>
+      container:
+        image: ubuntu:20.04
+        command:
+          - ls
+        args:
+          - /mnt/vol
+        volumeMounts:
+          - name: <pvcName>
+            mountPath: /mnt/vol
 ```
 
 ## Variables
