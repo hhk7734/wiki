@@ -680,6 +680,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/workflow/argo-workflows/argo-workflows",
 						"mlops/mlops/workflow/argo-workflows/crd",
+						"mlops/mlops/workflow/argo-workflows/entrypoint-templates",
 					],
 				},
 			],
@@ -770,7 +771,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "Neural Network",
-			items: ["mlops/nn/nn/nn","mlops/nn/nn/derivative"],
+			items: ["mlops/nn/nn/nn", "mlops/nn/nn/derivative"],
 		},
 		"mlops/nn/nn-cpu-gpu-npu",
 		{
@@ -900,18 +901,13 @@ module.exports = {
 		{
 			type: "category",
 			label: "Logger",
-			items: [
-				"lang/python/logger/logger",
-				"lang/python/logger/custom",
-			],
+			items: ["lang/python/logger/logger", "lang/python/logger/custom"],
 		},
 		"lang/python/pytest",
 		{
 			type: "category",
 			label: "asyncio",
-			items: [
-				"lang/python/asyncio/asyncio",
-			],
+			items: ["lang/python/asyncio/asyncio"],
 		},
 		{
 			type: "category",

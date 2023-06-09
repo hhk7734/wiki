@@ -8,7 +8,7 @@ keywords:
   - crd
 ---
 
-:::info
+:::warning
 Stream, Consumer, Account의 name은 파일 경로로 사용되기 때문에 `[a-z0-9]*` 32자 이하로 만드는 것이 좋습니다. 버전 업데이트에 따라 이 제약사항이 사라질 수 있다고 합니다.
 :::
 
@@ -100,9 +100,9 @@ spec:
   # optStartTime: "2022-07-05T01:32:00+09:00"
 
   ackPolicy: explicit # none | all | explicit
-  ackWait: 30s
+  ackWait: 120s
   maxAckPending: 100 # Ack 정책을 사용할 때, Ack를 받지 못한 메시지 수가 이 값을 넘어가면 일시 중지 됨
-  maxDeliver: 20 # Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
+  maxDeliver: 3 # Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
 
   # account: <accountName>
 
@@ -120,6 +120,10 @@ spec:
 
   rateLimitBps: -1
 ```
+
+:::info
+Pull Consumer는 `deliverGroup: <queueGroup>`과 `ackPolicy: explicit`을 설정한 Push Consumer와 기능적으로 동일합니다.
+:::
 
 - `filterSubject`: stream의 subject를 필터링할 수 있습니다.
 - `ackPolicy`: **수정불가**
