@@ -101,8 +101,8 @@ spec:
 
   ackPolicy: explicit # none | all | explicit
   ackWait: 120s
-  maxAckPending: 100 # Ack 정책을 사용할 때, Ack를 받지 못한 메시지 수가 이 값을 넘어가면 일시 중지 됨
-  maxDeliver: 3 # Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
+  maxAckPending: 100
+  maxDeliver: 3
 
   # account: <accountName>
 
@@ -126,10 +126,14 @@ Pull Consumer는 `deliverGroup: <queueGroup>`과 `ackPolicy: explicit`을 설정
 :::
 
 - `filterSubject`: stream의 subject를 필터링할 수 있습니다.
-- `ackPolicy`: **수정불가**
-  - `none`
-  - `all`: 중간에 한 번이라도 Ack 응답을 받으면 이전에 받은 메시지는 Ack를 받은 것으로 간주
-  - `explicit`: 모든 메시지에 Ack 응답(Pull에서만 사용 가능)
+- Ack 정책
+  - `ackPolicy`: **수정불가**
+    - `none`
+    - `all`: 중간에 한 번이라도 Ack 응답을 받으면 이전에 받은 메시지는 Ack를 받은 것으로 간주
+    - `explicit`: 모든 메시지에 Ack 응답(Pull에서만 사용 가능)
+  - `maxAckPending`: Ack 정책을 사용할 때, 클라이언트가 메시지를 가져간 후 Ack를 보내지 않은 메시지 수가 이 값을 넘어가면 일시 중지됩니다.
+  - `ackWait`: Ack 정책을 사용할 때, 클라이언트가 메시지를 가져간 후 `ackWait` 시간 이내에 Ack를 보내지 않으면 메시지가 재전송 됩니다.
+  - `maxDeliver`: Ack 정책으로 인해 재전송 될 때, 최대 재시도 횟수
 - `deliverPolicy`: **수정불가**, Consumer를 '생성'했을 때 시작 위치
   - `all`: 가장 첫 번째 메시지부터 가져감
   - `last`: 가장 마지막 메시지부터 가져감

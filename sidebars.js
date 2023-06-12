@@ -166,6 +166,14 @@ module.exports = {
 				},
 				{
 					type: "category",
+					label: "Protobuf",
+					items: [
+						"lang/design/protocol/protobuf/protobuf",
+						"lang/design/protocol/protobuf/type",
+					],
+				},
+				{
+					type: "category",
 					label: "Email",
 					items: ["lang/design/protocol/email/authentication"],
 				},

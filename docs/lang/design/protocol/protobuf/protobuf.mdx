@@ -1,0 +1,106 @@
+---
+id: protobuf
+title: Protobuf
+sidebar_label: Protobuf
+description: Protocol Buffers
+keywords:
+  - Protobuf
+---
+
+## Message 정의
+
+- https://protobuf.dev/programming-guides/proto3/
+
+### 형식
+
+- 파일 이름은 snake_case로 작성하고 확장자는 `.proto`를 사용합니다.
+- 내용은 아래 순서로 작성합니다.
+  - 라이센스 헤더(옵션)
+  - 파일 설명
+  - syntax
+  - package
+  - import
+  - option
+  - 그 외
+- 줄길이는 80자를 넘지 않도록 합니다자
+- 들여쓰기는 2칸을 사용합니다.
+- 문자열은 큰따옴표를 사용하길 권장합니다.
+- `message`, `enum`, `service` 명은 PascalCase를 사용합니다.
+- `message`의 필드 명은 snake_case를 사용합니다.
+- `enum`의 값은 CAPITALS_WITH_UNDERSCORES를 사용합니다.
+- `service`의 `rpc` 명은 PascalCase를 사용합니다.
+
+### CloudEvent Example
+
+- https://github.com/cloudevents/spec/blob/main/cloudevents/formats/cloudevents.proto
+
+```protobuf title="cloudevents.proto"
+/**
+ * CloudEvent Protobuf Format
+ *
+ * - Required context attributes are explicitly represented.
+ * - Optional and Extension context attributes are carried in a map structure.
+ * - Data may be represented as binary, text, or protobuf messages.
+ */
+
+syntax = "proto3";
+
+package io.cloudevents.v1;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "CloudNative.CloudEvents.V1";
+option go_package = "cloudevents.io/genproto/v1";
+option java_package = "io.cloudevents.v1.proto";
+option java_multiple_files = true;
+option php_namespace = "Io\\CloudEvents\\V1\\Proto";
+option ruby_package = "Io::CloudEvents::V1::Proto";
+
+message CloudEvent {
+
+  // -- CloudEvent Context Attributes
+
+  // Required Attributes
+  string id = 1;
+  string source = 2; // URI-reference
+  string spec_version = 3;
+  string type = 4;
+
+  // Optional & Extension Attributes
+  map<string, CloudEventAttributeValue> attributes = 5;
+
+  // -- CloudEvent Data (Bytes, Text, or Proto)
+  oneof  data {
+    bytes binary_data = 6;
+    string text_data = 7;
+    google.protobuf.Any proto_data = 8;
+  }
+
+  /**
+   * The CloudEvent specification defines
+   * seven attribute value types...
+   */
+
+  message CloudEventAttributeValue {
+
+    oneof attr {
+      bool ce_boolean = 1;
+      int32 ce_integer = 2;
+      string ce_string = 3;
+      bytes ce_bytes = 4;
+      string ce_uri = 5;
+      string ce_uri_ref = 6;
+      google.protobuf.Timestamp ce_timestamp = 7;
+    }
+  }
+}
+
+/**
+ * CloudEvent Protobuf Batch Format
+ */
+
+message CloudEventBatch {
+  repeated CloudEvent events = 1;
+}
+```
