@@ -13,27 +13,28 @@ keywords:
 - https://protobuf.dev/programming-guides/proto3/#scalar
 - https://protobuf.dev/programming-guides/proto3/#json
 
-| proto      | note                                                     | go         | python3     | json         |
-| ---------- | -------------------------------------------------------- | ---------- | ----------- | ------------ |
-| double     |                                                          | float64    | float       | number       |
-| float      |                                                          | float32    | float       | number       |
-| int32      | 음수가 있는 경우 sint32를 사용                           | int32      | int         | number       |
-| int64      | 음수가 있는 경우 sint64를 사용                           | int64      | int/long    | string       |
-| uint32     |                                                          | uint32     | int/long    | number       |
-| uint64     |                                                          | uint64     | int/long    | string       |
-| sint32     |                                                          | int32      | int         | number       |
-| sint64     |                                                          | int64      | int/long    | string       |
-| fixed32    | 4 bytes로 표현, 2^28 이상의 수를 많이 사용할 경우 효율적 | uint32     | int/long    | number       |
-| fixed64    | 8 bytes로 표현, 2^56 이상의 수를 많이 사용할 경우 효율적 | uint64     | int/long    | string       |
-| sfixed32   | 4 bytes로 표현                                           | int32      | int         | number       |
-| sfixed64   | 8 bytes로 표현                                           | int64      | int/long    | string       |
-| bool       |                                                          | bool       | bool        | boolean      |
-| string     | UTF-8 or ASCII, 길이는 2^32로 제한됨                     | string     | unicode/str | string       |
-| bytes      |                                                          | []byte     | bytes       | base64String |
-| message    | json으로 변환할 때, key로 camelCase 사용                 | struct     | class       | object       |
-| enum       |                                                          | Named Type | class       | string       |
-| map<K,V\>  |                                                          | map[K]V    | dict[K,V]   | object       |
-| repeated V |                                                          | []V        | list[V]     | array        |
+| proto      | note                                                     | go      | python3     | json                       |
+| ---------- | -------------------------------------------------------- | ------- | ----------- | -------------------------- |
+| double     |                                                          | float64 | float       | number                     |
+| float      |                                                          | float32 | float       | number                     |
+| int32      | 음수가 있는 경우 sint32를 사용                           | int32   | int         | number                     |
+| int64      | 음수가 있는 경우 sint64를 사용                           | int64   | int/long    | string                     |
+| uint32     |                                                          | uint32  | int/long    | number                     |
+| uint64     |                                                          | uint64  | int/long    | string                     |
+| sint32     |                                                          | int32   | int         | number                     |
+| sint64     |                                                          | int64   | int/long    | string                     |
+| fixed32    | 4 bytes로 표현, 2^28 이상의 수를 많이 사용할 경우 효율적 | uint32  | int/long    | number                     |
+| fixed64    | 8 bytes로 표현, 2^56 이상의 수를 많이 사용할 경우 효율적 | uint64  | int/long    | string                     |
+| sfixed32   | 4 bytes로 표현                                           | int32   | int         | number                     |
+| sfixed64   | 8 bytes로 표현                                           | int64   | int/long    | string                     |
+| bool       |                                                          | bool    | bool        | boolean                    |
+| string     | UTF-8 or ASCII, 길이는 2^32로 제한됨                     | string  | unicode/str | string                     |
+| bytes      |                                                          | []byte  | bytes       | base64String               |
+| message    | json으로 변환할 때, key로 camelCase 사용                 |         |             | object                     |
+| enum       |                                                          |         |             | string                     |
+| map<K,V\>  |                                                          | map[K]V | dict[K,V]   | object                     |
+| repeated V |                                                          | []V     | list[V]     | array                      |
+| Timestamp  |                                                          |         |             | "1972-01-01T10:00:20.021Z" |
 
 :::info
 protobuf -\> json으로 변환될 때는 위 표를 따르지만, json -\> protobuf로 변환될 때는 허용되는 타입이 더 넓어집니다. 예를 들어 message에서 필드 명은 camelCase로 변환되지만, json에서 필드명은 snake_case를 사용해도 됩니다.
