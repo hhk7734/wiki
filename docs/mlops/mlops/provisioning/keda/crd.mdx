@@ -11,7 +11,6 @@ keywords:
 ## ScaledObject
 
 - https://keda.sh/docs/2.8/concepts/scaling-deployments/
-- https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#configurable-scaling-behavior
 
 ```yaml
 apiVersion: keda.sh/v1alpha1
@@ -26,23 +25,12 @@ spec:
     name: <name> # Required
     # Default: .spec.template.spec.containers[0].name
     envSourceContainerName: <containerName>
-  triggers:
-    # trigger 중 max 값으로 scale
-    - name: <triggerName> # Optional
-      type: <triggerType> # Required
-      metricType: AverageValue # AverageValue|Value|Utilization
-      metadata: # Required, 트리거 설정 정보
-        <key>: <value>
-      # authenticationRef:
-      #   # TriggerAuthentication|ClusterTriggerAuthentication
-      #   kind: TriggerAuthentication
-      #   name: <name>
-  pollingInterval: 30 # Default: 30, trigger를 확인하는 주기
+  pollingInterval: 30 # Default: 30
   minReplicaCount: 1 # Default: 0
   maxReplicaCount: 100 # Default: 100
   # Default: 0, 트리거가 없을 때 유지할 파드 개수로 minReplicaCount보다 작아야함
   idleReplicaCount: 0
-  cooldownPeriod: 300 # Default: 300, 트리거가 없을 때, idle 상태가 되기까지 대기하는 시간
+  cooldownPeriod: 300 # Default: 300
   # fallback: # Optional, trigger확인에 실패했을 때, 유지할 파드 개유
   #   failureThreshold: 3
   #   replicas: 6
@@ -73,11 +61,42 @@ spec:
             - type: Percent # Percent|Pods
               value: <value>
               periodSeconds: <period>
+  triggers:
+    # trigger 중 max 값으로 scale
+    - name: <triggerName> # Optional
+      type: <triggerType> # Required
+      metricType: AverageValue # AverageValue|Value|Utilization
+      metadata: # Required, 트리거 설정 정보
+        <key>: <value>
+      # authenticationRef:
+      #   # TriggerAuthentication|ClusterTriggerAuthentication
+      #   kind: TriggerAuthentication
+      #   name: <name>
 ```
 
 :::warning
-처리가 오래걸리는 작업에 대해, 스케일 다운이 발생하면, 처리가 완료되지 않은 작업이 중단될 수 있습니다. 이 경우 `terminationGracePeriodSeconds`을 활용하거나, `ScaledJob`을 사용해야 합니다.
+처리가 오래걸리는 작업에 대해, 스케일 다운이 발생하면, 처리가 완료되지 않은 작업이 중단될 수 있습니다. 이 경우 [terminationGracePeriodSeconds](/docs/mlops/mlops/kubernetes/workloads/pod-lifecycle#termination)를 사용하거나, `ScaledJob`를 활용하는 방향으로 변경해야합니다.
 :::
+
+- `pollingInterval`: 트리거 확인 간격
+- `cooldownPeriod`: 모든 트리거가 비활성화 되었을 때, idle 상태가 되기까지 대기하는 시간(1 -\> 0)
+- `advanced`
+  - `horizontalPodAutoscalerConfig`
+    - `behavior`
+      - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+      - https://github.com/kubernetes/enhancements/blob/master/keps/sig-autoscaling/853-configurable-hpa-scale-velocity/README.md
+      - `scaleUp`
+        - `stabilizationWindowSeconds`: 0 ~ 3600 설정 가능, 설정된 시간동안 `desiredReplicas` 값을 저장 후, 가장 작은 값을 적용
+      - `scaleDown`
+        - `stabilizationWindowSeconds`: 0 ~ 3600 설정 가능, 설정된 시간동안 scaleDown 해야하는 `desiredReplicas` 값을 저장 후, 가장 큰 값을 적용
+- `triggers`
+  - `metricType`
+    - HorizontalPodAutoscaler: `desiredReplicas` = ceil[`currentReplicas` * ( `currentMetricValue` / `desiredMetricValue` )]
+    - `AverageValue`: `currentaMetricValue` = `<metric>`/`currentReplicas`
+    - `Value`: `currentMetricValue` = `<metric>`
+    - `Utilization`: `<usage>/<requested>`의 평균값으로, CPU, Memory 타입 트리거에서만 사용가능합니다.
+
+replicas \* (msg / replicas) / target
 
 ## ScaledJob
 

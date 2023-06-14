@@ -18,6 +18,12 @@ python3 -m pip install pylint
 pylint --generate-toml-config >> pyproject.toml
 ```
 
+```toml title="pyproject.toml"
+[tool.pylint.main]
+
+ignore-patterns = ["^\\.#", ".*_pb2.pyi?"]
+```
+
 ```shell
 pylint **/*.py
 ```
@@ -32,6 +38,12 @@ python3 -m pip install black
 black **/*.py
 ```
 
+```toml title="pyproject.toml"
+[tool.black]
+include = '\.pyi?$'
+line-length = 100
+```
+
 ## isort
 
 ```shell
@@ -40,4 +52,12 @@ python3 -m pip install isort
 
 ```shell
 isort --profile black **/*.py
+```
+
+- https://pycqa.github.io/isort/docs/configuration/options.html
+
+```toml title="pyproject.toml"
+[tool.isort]
+line_length = 100
+profile = "black"
 ```

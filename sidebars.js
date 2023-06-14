@@ -999,6 +999,11 @@ module.exports = {
 						"lang/python/libraries/fastapi/lifespan",
 					],
 				},
+				{
+					type: "category",
+					label: "gRPC",
+					items: ["lang/python/libraries/grpc/protobuf"],
+				},
 			],
 		},
 		{

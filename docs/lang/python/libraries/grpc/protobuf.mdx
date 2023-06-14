@@ -1,0 +1,31 @@
+---
+id: protobuf
+title: Protobuf
+sidebar_label: Protobuf
+description: Protocol Buffers
+keywords:
+  - Protobuf
+---
+
+## Protobuf
+
+- [Protobuf](/docs/lang/design/protocol/protobuf)
+
+## 컴파일
+
+```shell
+python3 -m pip install protobuf
+```
+
+```shell
+protoc
+```
+
+- `<flogs>`
+  - `--python_out=<path>`
+  - `--pyi_out=<path>`
+
+### 규칙
+
+- `import a/b.proto` -\> `from a import b`
+  - 따라서 import를 해야하는 경우 파이썬에서 생성된 파일들의 경로를 protobuf 파일들의 경로와 맞춰야할 수 있습니다.

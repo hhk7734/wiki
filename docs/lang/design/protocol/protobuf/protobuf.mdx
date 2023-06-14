@@ -37,6 +37,30 @@ asdf current protoc
 
 - https://protobuf.dev/programming-guides/proto3/
 
+### import
+
+```protobuf title="a/b.proto"
+message A {
+  string a = 1;
+}
+```
+
+```protobuf title="c.proto"
+import "a/b.proto";
+
+message C {
+  A a = 1;
+}
+```
+
+`a/b.proto`를 import하면 해당 파일에 정의된 내용을 다른 파일에서 사용할 수 있습니다. import 파일을 찾을 경로는 `--proto_path=<path>` 옵션을 사용하여 지정할 수 있습니다.
+
+```protobuf title="d.proto"
+import public "a/b.proto";
+```
+
+`d.proto` 파일을 import하면 `d.proto`파일에 정의된 내용에 `a/b.proto` 파일에 정의된 내용까지 사용할 수 있습니다.
+
 ### 형식
 
 - 파일 이름은 snake_case로 작성하고 확장자는 `.proto`를 사용합니다.

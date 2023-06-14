@@ -68,9 +68,12 @@ poetry add <package|git|path>
 ```
 
 - `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.
-- `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>@<branch_or_tag>#<package_name>`
+- `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>[<options>]`
   - `<vcs_type>`: `git`
   - `<scheme>`: `http`, `https`, `ssh`
+  - `<options>`
+    - `#<key>=<value>[&<key>=<value>]`
+      - `subdirectory=<path>`
 - `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
 
 ```shell

@@ -53,3 +53,14 @@ kubectl explain pod.spec.containers.startupProbe --recursive
 - `TCPSocketAction(tcpSocket)`: 지정 port가 활성화 되어 있다면 성공
 - `HTTPGetAction(httpGet)`: 지정 `<host>:<port><path>` 에 GET 요청 수행 후 `200 <= status code < 400` 이면 성공
 - 진단 성공 또는 probe가 없을 시 `Success`, 실패 시 `Failure`, 진단 자체가 실패하는 경우 `Unknown`으로 표시됩니다.
+
+## Termination
+
+- 종료 시작
+  - Pod
+    - `.spec.preStop` 훅이 정의된 경우 해당 훅을 실행합니다.
+    - 컨테이너 이미지에 `STOPSIGNAL`이 있는 경우 이 신호를, 없는 경우 `SIGTERM`을 컨테이너의 기본 프로세스에 전송합니다.
+      - Pod 내의 컨테이너들은 랜덤한 순서로 신호를 받습니다.
+    - 종료가 시작된 후 `.spec.terminationGracePeriodSeconds`이 지나면 `SIGKILL`을 컨테이너의 기본 프로세스에 전송합니다.
+  - Service
+    - 종료가 시작된 Pod의 Endpoint를 제거합니다.

@@ -21,12 +21,16 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 protoc [<flags>] <protoDirPath>/<protoFile>
 ```
 
+:::warning
+문서를 찾지 못해서 검색과 각종 테스트로 정리해보고 있는 내용입니다. 상황에 따라 틀린 내용이 있을 수 있습니다.
+:::
+
 - `<flags>`
   - `--go_out=<rootPath>`: `.pb.go` 파일이 생성될 루트 경로입니다.
   - `--go_opt=M<protoPath>=<goImportPath>`: `<protoPath>`에 있는 파일을 컴파일하여 `import "<goImportPath>"`로 go에서 import 할 수 있는 경로에 컴파일된 파일을 생성합니다. 패키지명으로 `<goImportPath>`의 마지막 구성요소가 사용됩니다.
-    - `<goImportPath>`에서 모듈 명을 생략할 수 있습니다.
-      - `--go_opt=M<protoPath>=<module>/<path>` -> `--go_opt=M<protoPath>=./<path>`
-    - 여러 프로젝트에서 항상 동일한 경로를 갖는다면 proto 파일에 `option go_package = "./<path>"`를 추가하여 해당 옵션을 대체할 수 있습니다.
+    - ~~`<goImportPath>`에서 모듈 명을 생략할 수 있습니다.~~
+      - ~~`--go_opt=M<protoPath>=<module>/<path>` -> `--go_opt=M<protoPath>=./<path>`~~
+    - ~~여러 프로젝트에서 항상 동일한 경로를 갖는다면 proto 파일에 `option go_package = "./<path>"`를 추가하여 해당 옵션을 대체할 수 있습니다.~~
   - `--go_opt=paths=source_relative`: `.pb.go` 파일을 생성할 때 `<rootPath>/<protoDirPath>`에 파일을 생성합니다.
     - `--go_opt=M<protoPath>=<goImportPath>` 옵션은 패키지 명을 가져오는 것을 제외하고 무시됩니다.
   - `--proto_path=<protoRootPath>`: `<protoRootPath>` 에서 컴파일 할 `<protoDirPath>/<protoFile>`을 찾습니다.
