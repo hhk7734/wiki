@@ -40,6 +40,21 @@ black **/*.py
 
 ```toml title="pyproject.toml"
 [tool.black]
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.nox
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
 include = '\.pyi?$'
 line-length = 100
 ```
@@ -60,4 +75,5 @@ isort --profile black **/*.py
 [tool.isort]
 line_length = 100
 profile = "black"
+skip_gitignore = true
 ```
