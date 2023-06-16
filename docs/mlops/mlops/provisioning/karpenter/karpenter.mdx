@@ -173,11 +173,11 @@ new aws.iam.RolePolicyAttachment(
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.27.3 \
+    --version v0.28.0 \
     > karpenter-values.yaml
 ```
 
-```yaml tilte="karpenter-values.yaml"
+```yaml title="karpenter-values.yaml"
 additionalLabels: {}
 
 serviceAccount:
@@ -205,6 +205,9 @@ controller:
     limits:
       memory: 512Mi
 
+logEncoding: json
+
+# ConfigMap: karpenter-global-settings
 settings:
   # Pending Pod가 새로 생성되면 batch를 만들려고 시도함
   # 새 Pending Pod가 생기고 batchIdleDuration 시간 만큼 대기
@@ -222,11 +225,15 @@ settings:
     clusterEndpoint: <clusterEndpoint>
 
     defaultInstanceProfile: <instanceProfile>
+
+    # Rebalance Recommendation/ Spot Interrupt 이벤트를 받을 SQS Queue
+    # 설정하지 않으면 해당이벤트를 처리하지 않습니다.
+    interruptionQueueName: <interruptionQueueName>
 ```
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.27.3 \
+    --version v0.28.0 \
     -n provisioning \
     -f karpenter-values.yaml \
     > karpenter.yaml
@@ -235,7 +242,7 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.27.3 \
+    --version v0.28.0 \
     --history-max 3 \
     -n provisioning \
     -f karpenter-values.yaml
@@ -260,4 +267,4 @@ data:
 
 ## 업그레이드
 
-- https://karpenter.sh/v0.27.3/upgrade-guide/
+- https://karpenter.sh/v0.28.0/upgrade-guide/

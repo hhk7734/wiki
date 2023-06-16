@@ -14,19 +14,23 @@ keywords:
 import asyncio
 import threading
 
-
+# 메인 스레드에서 자식 스레드의 이벤트 루프를 제어
 new_loop = asyncio.new_event_loop()
 
 def run_loop(loop: asyncio.AbstractEventLoop) -> None:
+    # 현재 스레드에 이벤트 루프 등록
     asyncio.set_event_loop(loop)
 
     try:
+        # 현재 스레드에 등록된 이벤트 루프 가져오기
+        # loop = asyncio.get_event_loop()
         loop.run_forever()
     finally:
         try:
             loop.run_until_complete(loop.shutdown_asyncgens())
             loop.run_until_complete(loop.shutdown_default_executor())
         finally:
+            # 현재 스레드에 등록된 이벤트 루프 제거
             asyncio.set_event_loop(None)
             loop.close()
 
@@ -40,3 +44,5 @@ t.start()
 new_loop.call_soon_threadsafe(new_loop.stop)
 t.join()
 ```
+
+## EventLoop

@@ -1,0 +1,156 @@
+---
+id: spot-event
+title: Karpenter Spot Event
+sidebar_label: Spot Event
+description: Karpenter Spot Event
+keywords:
+  - karpenter
+  - spot
+---
+
+## SQS 생성
+
+```typescript
+const instanceTerminationEventSQSName = "instance-termination-event-sqs";
+export const instanceTerminationEventSQS = new aws.sqs.Queue(
+  instanceTerminationEventSQSName,
+  {
+    name: `${instanceTerminationEventSQSName}-`,
+    messageRetentionSeconds: 300,
+    tags: {
+      Name: instanceTerminationEventSQSName,
+      "loliot.net/stack": variable.stackName,
+    },
+  }
+);
+
+const instanceTerminationEventSQSPolicyName =
+  "instance-termination-event-sqs-policy";
+const instanceTerminationEventSQSPolicy = new aws.sqs.QueuePolicy(
+  instanceTerminationEventSQSPolicyName,
+  {
+    queueUrl: instanceTerminationEventSQS.id,
+    policy: instanceTerminationEventSQS.arn.apply((arn) =>
+      JSON.stringify({
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Effect: "Allow",
+            Principal: {
+              Service: ["sqs.amazonaws.com", "events.amazonaws.com"],
+            },
+            Action: "sqs:SendMessage",
+            Resource: [arn],
+          },
+        ],
+      })
+    ),
+  }
+);
+```
+
+## EventBridge 추가
+
+```typescript
+const targetId = "instance-termination-event";
+
+const spotInstanceInterruptionWarningEventRuleName =
+  "spot-interruption-warning-event-rule";
+const spotInstanceInterruptionWarningEventRule = new aws.cloudwatch.EventRule(
+  spotInstanceInterruptionWarningEventRuleName,
+  {
+    namePrefix: `${spotInstanceInterruptionWarningEventRuleName}-`,
+    eventPattern: JSON.stringify({
+      source: ["aws.ec2"],
+      "detail-type": ["EC2 Spot Instance Interruption Warning"],
+    }),
+    tags: {
+      Name: spotInstanceInterruptionWarningEventRuleName,
+      "loliot.net/stack": variable.stackName,
+    },
+  }
+);
+
+const spotInstanceInterruptionWarningEventTargetName =
+  "spot-interruption-warning-event-target";
+const spotInstanceInterruptionWarningEventTarget =
+  new aws.cloudwatch.EventTarget(
+    spotInstanceInterruptionWarningEventTargetName,
+    {
+      rule: spotInstanceInterruptionWarningEventRule.name,
+      arn: instanceTerminationEventSQS.arn,
+      targetId: targetId,
+    }
+  );
+
+const instanceRebalanceRecommendationEventRuleName =
+  "instance-rebal-recom-event-rule";
+const instanceRebalanceRecommendationEventRule = new aws.cloudwatch.EventRule(
+  instanceRebalanceRecommendationEventRuleName,
+  {
+    namePrefix: `${instanceRebalanceRecommendationEventRuleName}-`,
+    eventPattern: JSON.stringify({
+      source: ["aws.ec2"],
+      "detail-type": ["EC2 Instance Rebalance Recommendation"],
+    }),
+    tags: {
+      Name: instanceRebalanceRecommendationEventRuleName,
+      "loliot.net/stack": variable.stackName,
+    },
+  }
+);
+
+const instanceRebalanceRecommendationEventTargetName =
+  "instance-rebal-recom-event-target";
+const instanceRebalanceRecommendationEventTarget =
+  new aws.cloudwatch.EventTarget(
+    instanceRebalanceRecommendationEventTargetName,
+    {
+      rule: instanceRebalanceRecommendationEventRule.name,
+      arn: instanceTerminationEventSQS.arn,
+      targetId: targetId,
+    }
+  );
+```
+
+## Client
+
+현재 v0.28.0 버전에서는 `EC2 Instance Rebalance Recommendation` 이벤트를 처리하지 않고 있습니다. (https://github.com/aws/karpenter/blob/bf484b63ae500578ac2843f28ba6ba6ab849d83f/pkg/controllers/interruption/controller.go#L288-L295)
+
+해당 이벤트 처리가 필요한 경우 Karpenter 설정에서 `aws.interruptionQueueName: ""`를 설정하고, AWS Node Termination Handler 를 사용해야 합니다.
+
+### Karpenter 설정
+
+```typescript
+const controllerPolicyName = "karpenter-controller-policy";
+const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
+  namePrefix: `${controllerPolicyName}-`,
+  policy: {
+    Version: "2012-10-17",
+    Statement: [
+      // ...
+      {
+        Action: [
+          "sqs:DeleteMessage",
+          "sqs:GetQueueUrl",
+          "sqs:GetQueueAttributes",
+          "sqs:ReceiveMessage",
+        ],
+        Effect: "Allow",
+        Resource: instanceTerminationEventSQS.arn,
+      },
+    ],
+  },
+  // ...
+});
+```
+
+```yaml title="karpenter-values.yaml"
+settings:
+  aws:
+    interruptionQueueName: <sqsName>
+```
+
+### AWS Node Termination Handler
+
+- https://github.com/aws/aws-node-termination-handler

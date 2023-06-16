@@ -534,6 +534,7 @@ module.exports = {
 					label: "Karpenter",
 					items: [
 						"mlops/mlops/provisioning/karpenter/karpenter",
+						"mlops/mlops/provisioning/karpenter/spot-event",
 						"mlops/mlops/provisioning/karpenter/crd",
 						"mlops/mlops/provisioning/karpenter/scheduling",
 						"mlops/mlops/provisioning/karpenter/deprovisioning",
