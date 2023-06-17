@@ -1,0 +1,108 @@
+---
+id: poetry
+title: Package with Poetry
+sidebar_label: Poetry
+description: Package with Poetry
+keywords:
+  - Python
+  - Poetry
+---
+
+## Directory Structure
+
+```shell
+<project>/
+├── pyproject.toml
+├── README.md
+└── <package>/
+    ├── __init__.py # import <package>
+    ├── <subpackage>/
+    │   ├── __init__.py # from <package> import <subpackage>
+    │   ├── <module>.py # from <package>.<subpackage> import <module>
+    │   └── ...
+    └── ...
+```
+
+## pyproject.toml
+
+- https://python-poetry.org/docs/pyproject/
+
+```toml title="pyproject.toml"
+[tool.poetry]
+# Required
+name = "<packageName>" # pip install <packageName>, <package>와 다를 수 있습니다.
+version = "<version>"
+description = "<description>"
+authors = [
+  "Hyeonki Hong <hhk7734@gmail.com>"
+]
+package = [
+  { include = "<package>"} # import <package>
+]
+
+# Optional
+licencse = "<license>"
+maintainers = []
+readme = ["README.md"]
+homepage = "https://wiki.loliot.net"
+repository = "https://github.com/hhk7734/example"
+documentation = "https://wiki.loliot.net"
+keywords = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Developers"
+]
+include = []
+exclude = []
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+[build-system]
+build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core"]
+```
+
+- version: https://peps.python.org/pep-0440/
+- license: identifier, https://spdx.org/licenses/
+- classifiers: https://pypi.org/classifiers/
+
+## Extras
+
+```toml title="pyproject.toml"
+[tool.poetry.dependencies]
+<packageName> = {..., optional = true}
+
+[tool.poetry.extras]
+<extra> = ["<packageName>"]
+```
+
+`[tool.poetry.dependencies]`에 정의된 패키지만 extra로 등록할 수 있습니다. extra로 정의된 의존성은 아래와 같은 명령어로 해당 패키지를 설치할 때 함께 설치할 수 있습니다.
+
+```shell
+pip install <packageName>[<extra>]
+```
+
+## Scripts
+
+```toml title="pyproject.toml"
+[tool.poetry.scripts]
+<cli> = "<package>.<module>" # __main__
+<cli> = "<package>.<module>:<function>"
+```
+
+패키지를 설치하면 설치할 때 사용한 python과 관련된 `bin/` 디렉토리에 해당 모듈이나 함수를 실행시키는 `<cli>` 스크립트가 자동으로 생성됩니다.
+
+## build
+
+```shell
+poetry build
+```
+
+빌드를 하면 `dist/` 디렉토리에 빌드된 패키지가 생성됩니다.
+
+## publish
+
+```shell
+poetry publish
+```

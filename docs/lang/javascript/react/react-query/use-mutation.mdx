@@ -15,7 +15,6 @@ keywords:
 ```typescript
 const mutation = useMutation({
   mutationFn: (variables: TVariables) => Promise<TData>,
-  // mutationFn을 호출하면 onMutate -> onSuccess || onError -> onSettled 순으로 실행됩니다.
   onMutate: (variables: TVariables) => Promise<TContext | void> | TContext | void,
   onSuccess: (data: TData, variables: TVariables, context?: TContext) => Promise<unknown> | void,
   onError: (err: TError, variables: TVariables, context?: TContext) => Promise<unknown> | void,
@@ -27,21 +26,25 @@ const mutation = useMutation({
   meta: Record<string, unknown>
 });
 
-// mutate에서 정의한 콜백은 useMutation의 onSettled가 실행된 후 실행됩니다.
-// ... -> onSettled -> mutation.onSuccess || mutation.onError -> mutation.onSettled
-mutation.mutate(variables, {onSuccess, onError, onSettled})
+mutation.mutate(variables, { localOnSuccess, localOnError, localOnSettled });
 
-const result = mutation.mutateAsync(variables, {onSuccess, onError, onSettled})
+const result = mutation.mutateAsync(variables, {
+  onSuccess,
+  onError,
+  onSettled,
+});
 
-mutation.status // "idle" | "loading" | "error" | "success"
-mutation.isIdle
-mutation.isLoading
-mutation.isSuccess
-mutation.isError
+mutation.status; // "idle" | "loading" | "error" | "success"
+mutation.isIdle;
+mutation.isLoading;
+mutation.isSuccess;
+mutation.isError;
 
-mutation.data
+mutation.data;
 
-mutation.error
+mutation.error;
 
-mutation.reset()
+mutation.reset();
 ```
+
+- `mutation.mutate`를 호출하면 `onMutate` -\> `mutationFn` -> ((`onSuccess` -\> `localOnSuccess`) || (`onError` -\> `localOnError`)) -> `onSettled` -\> `localOnSettled` 순으로 실행됩니다.

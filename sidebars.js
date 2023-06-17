@@ -1009,7 +1009,7 @@ module.exports = {
 		},
 		{
 			type: "category",
-			label: "Package",
+			label: "Custom Package",
 			items: [
 				{
 					type: "category",
@@ -1019,6 +1019,7 @@ module.exports = {
 						"lang/python/package/pybind11/type",
 					],
 				},
+				"lang/python/package/poetry",
 				"lang/python/package/conda",
 				"lang/python/package/python-package-sphinx",
 			],
