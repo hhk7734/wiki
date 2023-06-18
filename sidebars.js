@@ -840,7 +840,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "React Query",
-					items: ["lang/javascript/react/react-query/use-mutation"],
+					items: [
+						"lang/javascript/react/react-query/use-query",
+						"lang/javascript/react/react-query/use-mutation",
+					],
 				},
 				{
 					type: "category",

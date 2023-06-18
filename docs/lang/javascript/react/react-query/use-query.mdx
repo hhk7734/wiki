@@ -1,0 +1,121 @@
+---
+id: use-query
+title: React Query useQuery
+sidebar_label: useQuery
+description: React Query useQuery
+keywords:
+  - react query
+  - useQuery
+---
+
+## useQuery
+
+- https://tanstack.com/query/latest/docs/react/reference/useQuery
+
+```typescript
+import { useQuery } from "@tanstack/react-query";
+
+const query = useQuery({
+  queryKey, // unknown[]
+  queryFn, // (context: QueryFunctionContext) => Promise<TData>
+  cacheTime,
+  enabled,
+  networkMode,
+  initialData,
+  initialDataUpdatedAt,
+  keepPreviousData,
+  meta,
+  notifyOnChangeProps,
+  onError,
+  onSettled,
+  onSuccess,
+  placeholderData,
+  queryKeyHashFn,
+  refetchInterval,
+  refetchIntervalInBackground,
+  refetchOnMount,
+  refetchOnReconnect,
+  refetchOnWindowFocus,
+  retry,
+  retryOnMount,
+  retryDelay,
+  select,
+  staleTime,
+  structuralSharing,
+  suspense,
+  useErrorBoundary,
+});
+
+const {
+  data,
+  dataUpdatedAt,
+  error,
+  errorUpdateCount,
+  errorUpdatedAt,
+  failureCount,
+  failureReason,
+  fetchStatus,
+  isError, // status === "error"
+  isFetched,
+  isFetchedAfterMount,
+  isFetching,
+  isInitialLoading,
+  isLoading, // status === "loading"
+  isLoadingError,
+  isPaused,
+  isPlaceholderData,
+  isPreviousData,
+  isRefetchError,
+  isRefetching,
+  isStale,
+  isSuccess, // status === "success"
+  refetch,
+  remove,
+  status,
+} = query;
+```
+
+## Query Key
+
+- https://tanstack.com/query/latest/docs/react/guides/query-keys
+
+쿼리는 `queryKey`를 기반으로 캐싱을 관리합니다. 따라서 같은 `queryFn`을 가졌더라도 `queryKey`가 다르면 다른 쿼리로 취급됩니다.
+
+`queryKey`의 고유성은 배열 내의 아이템에 의해 결정되며, 아이템은 같더라도 순서가 다르면 다른 것으로 간주합니다. 단, 아이템이 객체인 경우 객체 내의 키 순서는 고려되지 않습니다.
+
+따라서 아래와 같은 경우 모두 같은 `queryKey`로 취급되며
+
+```typescript
+useQuery({ queryKey: ['todos', { status, page }], ... })
+useQuery({ queryKey: ['todos', { page, status }], ...})
+useQuery({ queryKey: ['todos', { page, status, other: undefined }], ... })
+```
+
+아래와 같은 경우는 모두 다른 `queryKey`로 취급됩니다.
+
+```typescript
+useQuery({ queryKey: ['todos', status, page], ... })
+useQuery({ queryKey: ['todos', page, status], ...})
+useQuery({ queryKey: ['todos', undefined, page, status], ...})
+```
+
+## Query Function
+
+```typescript
+useQuery({
+  queryFn: async (context) => {
+    const {
+      queryKey, // unknown[]
+      pageParam, // undefined | unknown
+      signal, // undefined | AbortSignal
+      meta, //undefined | Record<string, unknown>
+    } = context;
+
+    const res =  await fetch(...);
+
+    // throw Error("error"); -> onError
+
+    // return data; -> onSuccess
+  },
+});
+```
