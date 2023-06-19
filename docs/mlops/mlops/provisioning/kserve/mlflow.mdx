@@ -1,0 +1,66 @@
+---
+id: mlflow
+title: KServe with MLFlow
+sidebar_label: MLFlow
+description: KServe with MLFlow
+keywords:
+  - kserve
+  - serverless
+  - mlserver
+  - mlflow
+---
+
+## 모델 준비
+
+## MLServer Local Test
+
+```shell
+python3 -m pip install mlserver mlserver-mlflow
+```
+
+```shell
+.
+├── model/
+│   ├── conda.yaml
+│   ├── MLmodel
+│   ├── model.pkl
+│   ├── python_env.yaml
+│   └── requirements.txt
+├── model-settings.json
+└── ...
+```
+
+- https://mlserver.readthedocs.io/en/stable/reference/model-settings.html
+
+```json title="model-settings.json"
+{
+  "name": "mlserver-mlflow-test",
+  "implementation": "mlserver_mlflow.MLflowRuntime",
+  "parameters": {
+    "uri": "./model"
+  }
+}
+```
+
+```shell
+mlserver start .
+```
+
+- [:8080/v2/docs](http://localhost:8080/v2/docs) 에 접속하면 API 정보를 볼 수 있습니다.
+
+## InferenceService
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: mlflow
+      protocolVersion: v2
+      storageUri: <modelUri>
+```

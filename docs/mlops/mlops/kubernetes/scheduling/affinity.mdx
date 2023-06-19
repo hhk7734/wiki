@@ -29,9 +29,9 @@ spec:
                   - <labelValue>
           # - matchLabels:
           #     <key>: <value>
-      # 선호하는 노드에 대한 규칙입니다
+      # 선호하는 Node에 대한 규칙입니다
       preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 노드를 선호합니다
+        - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 Node를 선호합니다
           preference:
             matchExpressions:
               - key: <labelKey>
@@ -42,7 +42,7 @@ spec:
 
 ## podAffinity & podAntiAffinity
 
-Pod가 스케줄링될 때 다른 Pod의 label을 기준으로 Pod을 찾고, 해당 Pod이 위치한 topologyKey를 확인 후 같은 topologyKey, 같은 값을 갖는 Node에 Pod을 스케줄링하거나 하지 않습니다
+Pod가 스케줄링될 때 `topologyKey`조건 내에서 label이 일치하는 Pod을 찾습니다. `podAffinity`의 경우 조건이 일치하는 토폴로지에 Pod를 배치하고, `podAntiAffinity`의 경우 조건이 일치하는 토폴로지를 피해서 Pod을 배치합니다.
 
 ```yaml
 spec:
@@ -60,9 +60,9 @@ spec:
           # 생략하면 해당 Pod의 namespace를 사용합니다
           namespaces:
             - <namespace>
-      # 선호하는 노드에 대한 규칙입니다
+      # 선호하는 Pod가 있는 Node에 대한 규칙입니다
       preferredDuringSchedulingIgnoredDuringExecution:
-        - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 노드를 선호합니다
+        - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 Node를 선호합니다
           podAffinityTerm:
             labelSelector:
               matchExpressions:
@@ -74,5 +74,5 @@ spec:
 ```
 
 - `topologyKey`:Node의 label을 확인하여 `<topologyKey>: <topologyValue>`가 같은 Node를 기준으로 selector의 조건을 확인합니다
-  - `kubernetes.io/hostname`: 한 노드 내에서 조건을 만족해야함
+  - `kubernetes.io/hostname`: 한 Node 내에서 조건을 만족해야함
   - `topology.kubernetes.io/zone`: 같은 zone 내에서 조건을 만족해야함

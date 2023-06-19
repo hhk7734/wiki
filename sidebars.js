@@ -489,6 +489,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/kubernetes/scheduling/affinity",
 						"mlops/mlops/kubernetes/scheduling/taint-toleration",
+						"mlops/mlops/kubernetes/scheduling/topology-spread-constraints",
 					],
 				},
 				{
@@ -564,7 +565,7 @@ module.exports = {
 						"mlops/mlops/provisioning/kserve/kserve",
 						"mlops/mlops/provisioning/kserve/crds",
 						"mlops/mlops/provisioning/kserve/transformer",
-						"mlops/mlops/provisioning/kserve/inference-service",
+						"mlops/mlops/provisioning/kserve/mlflow",
 					],
 				},
 				"mlops/mlops/provisioning/nvidia-gpu-operator",

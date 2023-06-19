@@ -260,7 +260,7 @@ jobs:
           cd argocd
           git config --global user.name "$COMMIT_AUTHOR_NAME"
           git config --global user.email "$COMMIT_AUTHOR_EMAIL"
-          git commit -am "chore: set project/frontend tag to $IMAGE_TAG"
+          git commit -am "feat(frontend): set tag to $IMAGE_TAG"
 
       - name: Push changes
         uses: ad-m/github-push-action@master

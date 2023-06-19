@@ -11,6 +11,7 @@ keywords:
 ## ServingRuntimes/ClusterServingRuntimes
 
 - https://kserve.github.io/website/0.10/modelserving/servingruntimes/
+- https://github.com/kserve/website/blob/main/docs/modelserving/v1beta1/serving_runtime.md
 
 ```yaml
 apiVersion: serving.kserve.io/v1beta1
@@ -20,9 +21,13 @@ metadata:
   namespace: <namespace>
 spec:
   supportedModelFormats:
-    - name: <modelFormantName>
+    - name: <modelFormatName>
       version: <version> # 주 버전만 지정하는 것이 좋습니다
       autoSelect: true
+  containers:
+    # <modelFormat>을 사용하는 InferenceService의 containers 기본 설정값을 정의합니다.
+    - name: <containerName>
+      image: <image>
 ```
 
 ## InferenceService
