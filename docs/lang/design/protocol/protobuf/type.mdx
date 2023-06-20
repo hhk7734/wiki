@@ -39,3 +39,28 @@ keywords:
 :::info
 protobuf -\> json으로 변환될 때는 위 표를 따르지만, json -\> protobuf로 변환될 때는 허용되는 타입이 더 넓어집니다. 예를 들어 message에서 필드 명은 camelCase로 변환되지만, json에서 필드명은 snake_case를 사용해도 됩니다.
 :::
+
+## `oneof`
+
+```protobuf
+message Test {
+  oneof data {
+    bytes binary_data = 1;
+    string string_data = 2;
+  }
+}
+```
+
+JSON으로 변환하는 경우 아래와 같이 변환됩니다.
+
+```json
+{
+  "binaryData": "base64String"
+}
+
+// or
+
+{
+  "stringData": "string"
+}
+```
