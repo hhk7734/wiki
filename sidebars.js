@@ -274,6 +274,11 @@ module.exports = {
 				"lang/go/libraries/websocket",
 			],
 		},
+		{
+			type: "category",
+			label: "Custom Package",
+			items: ["lang/go/package/package"],
+		},
 	],
 	infineon: [
 		"mcu/infineon/tricore-development-environment",
