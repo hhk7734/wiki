@@ -705,7 +705,6 @@ module.exports = {
 			label: "Event",
 			items: [
 				"mlops/mlops/event/argo-events",
-				"mlops/mlops/event/probot",
 				{
 					type: "category",
 					label: "NATS",
@@ -713,6 +712,7 @@ module.exports = {
 						"mlops/mlops/event/nats/nats",
 						"mlops/mlops/event/nats/cli",
 						"mlops/mlops/event/nats/crd",
+						"mlops/mlops/event/nats/dlq",
 					],
 				},
 				{
@@ -887,6 +887,7 @@ module.exports = {
 						"lang/javascript/libraries/firebase/custom-email-handler",
 					],
 				},
+				"lang/javascript/libraries/github-probot",
 			],
 		},
 	],
