@@ -7,6 +7,16 @@ keywords:
   - postgresql
 ---
 
+## 초기화
+
+```shell
+sudo su postgres
+```
+
+```shell
+initdb --locale=C.UTF-8 --encoding=UTF8 -D /var/lib/postgres/data
+```
+
 ## Access
 
 ### Local
@@ -34,12 +44,6 @@ psql -h <host> -U <user>
 ```
 
 `\`로 시작하는 명령어 목록과 설명이 출력됩니다.
-
-## Role(User)
-
-```sql
-CREATE USER <user> WITH PASSWORD '<password>';
-```
 
 ## Database
 

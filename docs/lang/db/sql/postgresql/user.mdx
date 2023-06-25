@@ -1,0 +1,38 @@
+---
+id: user
+title: PostgreSQL User(Role)
+sidebar_label: User(Role)
+description: PostgreSQL User(Role)
+keywords:
+  - user
+  - role
+  - postgresql
+---
+
+## CREATE USER
+
+- https://www.postgresql.org/docs/15/sql-createuser.html
+
+```sql
+CREATE USER <user> WITH PASSWORD '<password>'
+```
+
+`CREATE USER`는 `CREATE ROLE ... LOGIN`과 동일한 것으로 간주하면 됩니다.
+
+## CREATE ROLE
+
+- https://www.postgresql.org/docs/15/sql-createrole.html
+- https://www.postgresql.org/docs/15/role-attributes.html
+
+```sql
+CREATE ROLE <role> [WITH <option> ...]
+```
+
+## GRANT
+
+- https://www.postgresql.org/docs/15/sql-grant.html
+
+```sql
+GRANT <role>
+    TO <user | role>
+```

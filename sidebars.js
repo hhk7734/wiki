@@ -114,7 +114,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "PostgresSQL",
-					items: ["lang/db/sql/postgresql/postgresql"],
+					items: [
+						"lang/db/sql/postgresql/postgresql",
+						"lang/db/sql/postgresql/user",
+					],
 				},
 				"lang/db/sql/sqlalchemy",
 			],
