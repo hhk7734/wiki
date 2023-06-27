@@ -31,17 +31,79 @@ git config --global init.templateDir ~/.git-template
 pre-commit init-templatedir ~/.git-template -t pre-commit -t prepare-commit-msg
 ```
 
-## Custom Hooks
+## Hooks 정의하기
+
+- https://pre-commit.com/#creating-new-hooks
+
+커스텀 훅을 만들려면 `.pre-commit-hooks.yaml` 파일을 root에 정의한 레포지토리를 만들면 됩니다.
+
+```yaml title=".pre-commit-hooks.yaml"
+- id: <id>
+  name: <name>
+  entry: <command|scriptPath>
+  language: <language>
+  files: "" # <filesRegex>
+  stages: [] # [<stage>]
+```
+
+- `<id>`: 훅을 구분할 수 있는 고유한 값입니다.
+- `<name>`: 훅을 실행할 때 표시될 이름입니다.
+- `<entry>`: 훅을 실행할 때 실행할 명령어 또는 스크립트의 root 기준 상대 경로입니다.
+- `<language>`: 훅을 실행할 때 사용할 언어입니다.
+  - https://pre-commit.com/#supported-languages
+- `<filesRegex>`: 훅의 실행 조건이 될 파일의 정규표현식입니다.
+  - `^aaa\/.*`가 조건인 경우 `aaa/` 디렉토리내의 모든 파일의 생성 또는 추가가 발생하면 훅이 실행됩니다.
+- `<stage>`: 훅이 실행될 단계입니다.
+  - https://pre-commit.com/#confining-hooks-to-run-at-certain-stages
+  - `commit`(`pre-commit`)
 
 ### ShellScript
 
 ```yaml title=".pre-commit-hooks.yaml"
 - id: <id> # .pre-commit-config.yaml에서 사용할 id 입니다
   name: <name> # 실행될 때 표시될 이름입니다
-  entry: <relative-path> # 레포지토리의 root 기준으로 상대 경로를 적으면 됩니다
+  entry: <relativePath> # 레포지토리의 root 기준으로 상대 경로를 적으면 됩니다
   language: script
 ```
 
 :::info
 script 실행 시, 실행이 성공한 경우(`exit 0`) stdout이 출력되지 않습니다.
 :::
+
+## 정의된 Hooks 사용
+
+- https://pre-commit.com/#adding-pre-commit-plugins-to-your-project
+
+정의된 훅을 사용하려면 `.pre-commit-config.yaml` 파일을 레포지토리의 root에 생성하면 됩니다.
+
+```yaml title=".pre-commit-config.yaml"
+# https://pre-commit.com/#pre-commit-configyaml---top-level
+default_install_hook_types:
+  - pre-commit
+default_language_version: {}
+# default_stages: []
+files: ""
+exclues: ^$
+fail_fast: false
+minimum_pre_commit_version: "0"
+repos:
+  # https://pre-commit.com/#pre-commit-configyaml---repos
+  - repo: <url|local>
+    rev: <tag|commitHash>
+    hooks:
+      # https://pre-commit.com/#pre-commit-configyaml---hooks
+      - id: <id>
+        # <hookOverride>
+```
+
+### 로컬 명령어/스크립트 실행
+
+```yaml title=".pre-commit-config.yaml"
+repos:
+  - repo: local
+    hooks:
+      - id: <id>
+        name: <name>
+        entry: <relativePath>
+        language: <language>
+```
