@@ -1,0 +1,71 @@
+---
+id: shutdown
+title: Graceful Shutdown
+sidebar_label: Graceful Shutdown
+description: Graceful Shutdown
+keywords:
+  - gin
+  - go
+  - graceful
+  - shutdown
+---
+
+## Graceful Shutdown
+
+```go
+func main() {
+	//
+	// Startup
+	//
+
+	// ...
+
+	server := &http.Server{
+		Addr:         ":8080",
+		Handler:      engin,
+	}
+
+	listenErr := make(chan error, 1)
+
+	go func() {
+		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			listenErr <- err
+		}
+	}()
+
+	// ...
+
+	shutdown := make(chan os.Signal, 1)
+	signal.Notify(shutdown, syscall.SIGINT, syscall.SIGTERM)
+
+	select {
+	case err := <-listenErr:
+		logger.Logger(context.Background()).Error("failed to listen and serve", zap.Error(err))
+	case <-shutdown:
+	}
+
+	//
+	// Shutdown
+	//
+	logger.Logger(context.Background()).Info("shutting down...")
+
+	wg := sync.WaitGroup{}
+
+	go func() {
+		defer wg.Done()
+
+		ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+		defer cancel()
+
+		// blocked until all connections are closed or timeout
+		if err := server.Shutdown(ctx); err != nil {
+			logger.Logger(context.Background()).Error("failed to shutdown server", zap.Error(err))
+		}
+	}()
+	wg.Add(1)
+
+	// ...
+
+	wg.Wait()
+}
+```

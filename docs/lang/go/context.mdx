@@ -7,7 +7,7 @@ keywords:
   - context
 ---
 
-## context.Context
+## `context.Context`
 
 - struct에 컨텍스트를 저장하지 않습니다
 - 일반적으로 `ctx context.Context`를 첫번째 파라미터로 선언합니다
@@ -21,14 +21,9 @@ func DoSomething(ctx context.Context, arg Arg) error {
 }
 ```
 
-## context.WithValue
+## `context.WithValue`
 
 ```go
-type valueCtx struct {
-	Context
-	key, val any
-}
-
 func WithValue(parent Context, key, val any) Context {
 	if parent == nil {
 		panic("cannot create context from nil parent")
@@ -40,6 +35,11 @@ func WithValue(parent Context, key, val any) Context {
 		panic("key is not comparable")
 	}
 	return &valueCtx{parent, key, val}
+}
+
+type valueCtx struct {
+	Context
+	key, val any
 }
 ```
 
@@ -93,3 +93,39 @@ func value(c Context, key any) any {
 :::warning
 Context를 키-값 저장소로 너무 많이 사용하면 성능에 영향을 줄 수 있습니다
 :::
+
+## `context.WithCancel`
+
+```go
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc) {
+	c := withCancel(parent)
+	return c, func() { c.cancel(true, Canceled, nil) }
+}
+
+func withCancel(parent Context) *cancelCtx {
+	if parent == nil {
+		panic("cannot create context from nil parent")
+	}
+	c := newCancelCtx(parent)
+	propagateCancel(parent, c)
+	return c
+}
+
+type cancelCtx struct {
+	Context
+
+	mu       sync.Mutex            // protects following fields
+	done     atomic.Value          // of chan struct{}, created lazily, closed by first cancel call
+	children map[canceler]struct{} // set to nil by the first cancel call
+	err      error                 // set to non-nil by the first cancel call
+	cause    error                 // set to non-nil by the first cancel call
+}
+```
+
+`context.WithCancel`은 부모 컨텍스트를 멤버 변수로 갖는 컨텍스트를 생성하고, 부모 컨텍스트가 취소되면 자신도 취소되도록 설계되어 있습니다.
+
+```go
+WithCancelCause(parent Context) (ctx Context, cancel CancelCauseFunc)
+WithDeadline(parent Context, d time.Time) (Context, CancelFunc)
+WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+```
