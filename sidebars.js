@@ -258,6 +258,7 @@ module.exports = {
 						"lang/go/libraries/gin/validator",
 						"lang/go/libraries/gin/crud",
 						"lang/go/libraries/gin/shutdown",
+						"lang/go/libraries/gin/deploy",
 					],
 				},
 				{

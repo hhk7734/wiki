@@ -1,0 +1,47 @@
+---
+id: deploy
+title: Deploy
+sidebar_label: Deploy
+description: Deploy Gin
+keywords:
+  - gin
+  - deploy
+---
+
+## Dockerfile
+
+```shell title=".dockerignore"
+.env
+```
+
+```dockerfile title="Dockerfile"
+FROM golang:1.20-alpine AS build
+WORKDIR /app
+
+# Private 레포지토리를 사용해야 하능 경우
+# ARG GITHUB_TOKEN
+# ENV GOPRIVATE=github.com/hhk7734
+# RUN apk add --no-cache git
+# RUN git config --global url.https://$GITHUB_TOKEN@github.com/.insteadOf \
+#     https://github.com/
+
+COPY . /app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build \
+    -a \
+    -ldflags '-s' \
+    -tags=go_json,nomsgpack \
+    -buildvcs=false \
+    -o app \
+    ./cmd/server
+
+FROM alpine:3.17 AS runtime
+WORKDIR /app
+
+COPY --from=build /app/app /usr/bin/
+
+ENV PORT 8080
+EXPOSE 8080
+CMD ["app"]
+```
+
+scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.
