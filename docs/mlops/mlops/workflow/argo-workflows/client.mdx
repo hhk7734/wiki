@@ -1,0 +1,38 @@
+---
+id: client
+title: Argo Workflows Client
+sidebar_label: Client
+description: Argo Workflows Client
+keywords:
+  - argo
+  - workflows
+  - client
+---
+
+## Go Client
+
+### gRPC
+
+### HTTP
+
+```go
+	ctx, client, err := apiclient.NewClientFromOpts(
+		apiclient.Opts{
+			ArgoServerOpts: apiclient.ArgoServerOpts{
+				HTTP1:  true,
+                Secure: false,
+				URL:    "localhost:2746",
+			},
+			AuthSupplier: func() string {
+				return "Bearer <token>"
+			},
+		},
+	)
+```
+
+- `Opts`
+  - `ArgoServerOpts`
+    - `HTTP1`: true, HTTP Client를 사용합니다.
+    - `Secure`: HTTPS or HTTP
+    - `URL`: `<host>:<port>`
+  - `AuthSupplier`: `Authorization` 헤더에 사용될 값을 반환하는 함수입니다.

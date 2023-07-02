@@ -85,6 +85,7 @@ server:
 ```
 
 ```yaml
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -95,9 +96,8 @@ metadata:
     # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
     # 이상으로 설정해주세요
     workflows.argoproj.io/rbac-rule-precedence: "0"
-```
 
-```yaml
+---
 apiVersion: v1
 kind: Secret
 metadata:
@@ -109,6 +109,7 @@ type: kubernetes.io/service-account-token
 ```
 
 ```yaml
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
@@ -122,9 +123,8 @@ metadata:
     workflows.argoproj.io/rbac-rule: "'<group>' in groups"
     # 값이 클 수록 우선순위가 높아짐
     workflows.argoproj.io/rbac-rule-precedence: "1"
-```
 
-```yaml
+---
 apiVersion: v1
 kind: Secret
 metadata:
