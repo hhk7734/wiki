@@ -1,0 +1,25 @@
+---
+id: pagination
+title: Pagination
+sidebar_label: Pagination
+description: Pagination
+keywords:
+  - sql
+  - pagination
+---
+
+## Offset-based Pagination
+
+- `OFFSET`을 사용하여 페이지를 탐색하는 방법입니다.
+- 구현이 상대적으로 쉽습니다.
+- DB는 OFFSET으로 설정된 수만큼의 레코드를 처리한 후에야 OFFSET 이후의 레코드를 반환할 수 있기 때문에 OFFSET이 큰 경우 성능이 저하됩니다.
+- 페이지 이동 중 레코드가 추가되거나 삭제되면 변경 전/후를 기준으로 동일한 페이지더라도 다른 레코드가 반환될 수 있습니다.
+
+## Cursor-based Pagination
+
+- 고유하고 정렬 가능한 필드를 사용하여 페이지를 탐색하는 방법입니다.
+- 첫 페이지, 이전 페이지, 다음 페이지로 이동하는 방법을 제공합니다.
+
+### 중복이 가능한 필드 처리
+
+- ?

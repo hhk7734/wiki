@@ -120,7 +120,7 @@ module.exports = {
 						"lang/db/sql/postgresql/table",
 					],
 				},
-				"lang/db/sql/sqlalchemy",
+				"lang/db/sql/pagination",
 			],
 		},
 		{

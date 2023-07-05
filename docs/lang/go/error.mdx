@@ -60,3 +60,14 @@ func (e *CustomError) Error() string {
 	return e.Message
 }
 ```
+
+## Panic And Recover
+
+```go
+func panic(v interface{})
+func recover() interface{}
+```
+
+- `panic`을 호출하면 현재 함수의 실행을 중단하고, panic 전에 defer로 등록된 함수들을 모두 실행한 후 콜스택을 타고 올라가며 실행을 중단합니다.
+- 실행이 중단된 함수들도 panic 전에 defer로 등록된 함수가 있다면 실행합니다.
+- `recover`가 호출 되면 recover 이후의 코드를 실행합니다.
