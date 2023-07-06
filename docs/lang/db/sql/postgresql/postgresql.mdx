@@ -28,7 +28,7 @@ sudo -u postgres psql
 ### Remote
 
 ```shell
-psql -h <host> -U <user>
+psql -h <host> -U <user> -d <database>
 ```
 
 ## Help
@@ -44,88 +44,3 @@ psql -h <host> -U <user>
 ```
 
 `\`로 시작하는 명령어 목록과 설명이 출력됩니다.
-
-## Database
-
-```sql
-CREATE DATABASE <database_name> with OWNER <user>;
-```
-
-```sql
-\list+
-```
-
-```sql
-\connect <database_name>;
-```
-
-```sql
-DROP DATABASE <database_name>;
-```
-
-## Schema
-
-## Table
-
-### 생성, 삭제
-
-```sql
-CREATE TABLE <table_name> (
-    <column_name> <data_type> [options]
-    [, <column_name> <data_type> [options]]
-);
-```
-
-```sql
-\d[+] <table_name>
-```
-
-```sql
-TRUNCATE TABLE <table_name>;
-```
-
-```sql
-DROP TABLE <table_name>;
-```
-
-### Column
-
-```sql
-ALTER TABLE <table_name>
-ADD COLUMN <column_name> <data_type> [options];
-```
-
-```sql
-ALTER TABLE <table_name>
-DROP COLUMN <column_name>;
-```
-
-### Row
-
-```sql
-INSERT INTO <table_name> (<column_name>[, <column_name>])
-VALUES (<value>[, <value>,]);
-```
-
-```sql
-SELECT <column_name>[,
-    <column_name>]
-FROM <table_name>
-[WHERE <condition>];
-```
-
-```sql
-UPDATE <table_name>
-SET <column_name> = <value>[,
-    <column_name> = <value>]
-[WHERE <condition>];
-```
-
-```sql
-DELETE FROM <table_name>
-WHERE <condition>;
-```
-
-## Reference
-
-- [https://www.postgresql.org/docs/13/index.html](https://www.postgresql.org/docs/13/index.html)

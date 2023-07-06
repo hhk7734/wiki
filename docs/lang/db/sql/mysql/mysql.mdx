@@ -30,7 +30,7 @@ SOURCE </path/sql_file>
 - https://dev.mysql.com/doc/refman/8.0/en/create-database.html
 
 ```sql
-CREATE DATABASE <db_name> CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE <db_name> CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci
 ```
 
 ## Table
@@ -40,11 +40,13 @@ CREATE DATABASE <db_name> CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 - https://dev.mysql.com/doc/refman/8.0/en/create-table.html
 
 ```sql
-CREATE TABLE <table> (
-    <column> <type> <constraints>
-    [,<column> <type> <constraints> ...]
-    [,<table_constraints> ...]
-)
+CREATE TABLE
+    `<table>`
+    (
+        <column> <type> <constraints>
+        [,<column> <type> <constraints> ...]
+        [,<table_constraints> ...]
+    )
 ```
 
 ```sql
@@ -134,8 +136,31 @@ LOAD DATA LOCAL INFILE 'example.tsv' INTO TABLE `example`
     LINES TERMINATED BY '\n'
     (col1, @var1)
 SET
-    col2 = @var1/10;
+    col2 = @var1/10
 ```
+
+### SELECT
+
+- https://dev.mysql.com/doc/refman/8.0/en/select.html
+- https://dev.mysql.com/doc/refman/8.0/en/join.html
+- https://dev.mysql.com/doc/refman/8.0/en/select-into.html
+
+```sql
+SELECT
+    <select_expr>
+FROM
+    <table_references>
+[WHERE
+    <where_condition>]
+[LIMIT
+    [<offset>,] <row_count>]
+[INTO
+    <into_option>]
+```
+
+:::warning
+`SELECT ... INTO OUTFILE ...` 명령어는 서버에 파일을 생성합니다. 따라서 클라이언트에 파일을 생성하려면 `mysql ... -e "SELECT ..." > <path>` 명령어를 사용해야 합니다.
+:::
 
 ### UPDATE
 
@@ -149,29 +174,6 @@ SET
 [WHERE
     <where_condition>]
 ```
-
-### SELECT
-
-- https://dev.mysql.com/doc/refman/8.0/en/select.html
-- https://dev.mysql.com/doc/refman/8.0/en/join.html
-- https://dev.mysql.com/doc/refman/8.0/en/select-into.html
-
-```sql
-SELECT
-    <select_expr>
-[FROM
-    <table_references>]
-[WHERE
-    <where_condition>]
-[LIMIT
-    [<offset>,] <row_count>]
-[INTO
-    <into_option>]
-```
-
-:::warning
-`SELECT ... INTO OUTFILE ...` 명령어는 서버에 파일을 생성합니다. 따라서 클라이언트에 파일을 생성하려면 `mysql ... -e "SELECT ..." > <path>` 명령어를 사용해야 합니다.
-:::
 
 ### DELETE
 

@@ -13,6 +13,30 @@ keywords:
 - 물리적인 분리
 - 데이터베이스 간 `JOIN` 불가능
 
+### CREATE DATABASE
+
+```sql
+CREATE DATABASE <database_name> with OWNER <user>
+```
+
+### SELECT
+
+```sql
+\l [<pattern>]
+```
+
+### 연결
+
+```sql
+\connect <database_name>
+```
+
+### DROP DATABASE
+
+```sql
+DROP DATABASE <database_name>
+```
+
 ## Schema
 
 - 논리적인 분리
@@ -24,9 +48,96 @@ keywords:
 - https://www.postgresql.org/docs/current/sql-createtable.html
 
 ```sql
-CREATE TABLE <table> (
-    <column> <type> <constraints>
-    [,<column> <type> <constraints> ...]
-    [,<table_constraints> ...]
-)
+CREATE TABLE
+    `<table>`
+    (
+        <column> <type> <constraints>
+        [,<column> <type> <constraints> ...]
+        [,<table_constraints> ...]
+    )
+```
+
+### SELECT
+
+```sql
+\d [<pattern>]
+```
+
+### ALTER TABLE
+
+```sql
+ALTER TABLE
+    `<table>`
+ADD
+    COLUMN <column> <data_type> [options]
+```
+
+```sql
+ALTER TABLE
+    `<table>`
+DROP
+    COLUMN <column>
+```
+
+### DROP TABLE
+
+```sql
+TRUNCATE TABLE <table>
+```
+
+```sql
+DROP TABLE <table>
+```
+
+## Record
+
+### INSERT INTO
+
+- https://www.postgresql.org/docs/current/sql-insert.html
+
+```sql
+INSERT INTO
+    `<table>`
+    [(
+        <column>[,
+        <column>]
+    )]
+VALUES
+    (
+        <value>[,
+        <value>]
+    )
+```
+
+### SELECT
+
+```sql
+SELECT
+    <select_expr>
+FROM
+    `<table>`
+[WHERE
+    <condition>]
+```
+
+### UPDATE
+
+- https://www.postgresql.org/docs/current/sql-update.html
+
+```sql
+UPDATE
+    `<table>`
+SET
+    <assignment_list>
+[WHERE
+    <condition>]
+```
+
+### DELETE
+
+```sql
+DELETE FROM
+    `<table>`
+[WHERE
+    <condition>]
 ```

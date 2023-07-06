@@ -278,6 +278,11 @@ module.exports = {
 				"lang/go/libraries/session",
 				"lang/go/libraries/google-wire",
 				"lang/go/libraries/websocket",
+				{
+					type: "category",
+					label: "Firebase",
+					items: ["lang/go/libraries/firebase/custom-email"],
+				},
 			],
 		},
 		{
@@ -702,6 +707,7 @@ module.exports = {
 						"mlops/mlops/workflow/argo-workflows/argo-workflows",
 						"mlops/mlops/workflow/argo-workflows/crd",
 						"mlops/mlops/workflow/argo-workflows/entrypoint-templates",
+						"mlops/mlops/workflow/argo-workflows/variables",
 						"mlops/mlops/workflow/argo-workflows/client",
 					],
 				},
@@ -777,11 +783,6 @@ module.exports = {
 				"mlops/mlops/aws/ecr",
 				"mlops/mlops/aws/ses",
 			],
-		},
-		{
-			type: "category",
-			label: "Firebase",
-			items: ["mlops/mlops/firebase/authentication"],
 		},
 		{
 			type: "category",
