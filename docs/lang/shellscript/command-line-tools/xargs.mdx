@@ -1,0 +1,33 @@
+---
+id: xargs
+title: xargs 사용법
+sidebar_label: xargs 사용법
+description: xargs 사용법
+keywords:
+  - shell script
+  - xargs
+  - findutils
+  - stdin
+---
+
+## xargs
+
+`xargs`는 GNU Findutils 중 하나입니다.
+
+`stdin`으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행합니다.
+
+```shell
+<stdout> | xargs [<options>] <command>
+```
+
+- `<options>`
+  - `-t|--verbose`: 실행할 명령어를 출력합니다.
+  - `-n|--max-args <num>`: 한번에 명령어로 전달할 인자의 최대 개수를 지정합니다.
+  - `-r|--no-run-if-empty`: stdin이 비어있을 경우 명령어를 실행하지 않습니다.
+
+:::warning
+`|`는 stdout만 stdin으로 보내기 때문에 stderr를 처리하려면 `2>&1`을 사용해야합니다.
+
+- [Redirection과 Piping](/docs/lang/shellscript/redirection-piping)
+
+:::

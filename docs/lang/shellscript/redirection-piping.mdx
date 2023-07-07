@@ -1,0 +1,25 @@
+---
+id: redirection-piping
+title: Redirection과 Piping
+sidebar_label: Redirection과 Piping
+description: Redirection과 Piping
+keywords:
+  - shell script
+  - piping
+  - redirection
+  - ipc
+  - Interprocess Communication
+---
+
+## Redirection
+
+## Piping
+
+```shell
+program1 | program2
+```
+
+- `|`는 program1의 `stdout`을 program2의 `stdin`으로 연결합니다.
+- program1과 program2의 `stderr`는 터미널 화면으로 출력됩니다.
+- `stderr`를 `stdin`으로 연결하길 원한다면 `2>&1`을 사용하여 `stderr`를 우선 `stdout`으로 리다이렉션 해야합니다.
+  - `program1 2>&1 | program2`

@@ -1,0 +1,23 @@
+---
+id: jq
+title: jq 사용법
+sidebar_label: jq 사용법
+description: jq 사용법
+keywords:
+  - shell script
+  - jq
+---
+
+```shell
+sudo pacman -S jq
+```
+
+## 실시간 json log 파싱
+
+```shell
+<program> | jq -R -r '. as $line | try fromjson catch $line'
+```
+
+```shell
+alias log2jq="jq -R -r '. as \$line | try fromjson catch \$line'"
+```

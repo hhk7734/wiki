@@ -9,13 +9,13 @@ keywords:
   - CRD
 ---
 
-## Workflow
+## Workflow and WorkflowTemplate
 
 - https://argoproj.github.io/argo-workflows/fields/#workflowspec
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: Workflow # Workflow|WorkflowTemplate|ClusterWorkflowTemplate
 metadata:
   generateName: hello-world-
 spec:
@@ -24,6 +24,8 @@ spec:
     - <template>
 ```
 
+- Workflow와 WorkflowTemplate는 `.status` 필드만 다릅니다.
+
 ### `entrypoint` and `templates`
 
 - [Argo Workflows entrypoint and templates](/docs/mlops/mlops/workflow/argo-workflows/entrypoint-templates)
@@ -31,6 +33,18 @@ spec:
 ### `podGC`
 
 - https://argoproj.github.io/argo-workflows/fields/#podgc
+
+```yaml
+spec:
+  podGC:
+    labelSelector: {}
+    strategy: OnPodCompletion # OnPodCompletion|OnPodSuccess|OnWorkflowCompletion|OnWorkflowSuccess
+```
+
+- `podGC`
+  - 선언하지 않으면 Pod는 삭제되지 않습니다.
+  - `labelSelector`
+    - 선언하지 않으면 실행되는 모든 템플릿의 Pod이 삭제됩니다.
 
 ### `volumes`
 

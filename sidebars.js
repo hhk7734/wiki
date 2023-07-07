@@ -1070,6 +1070,15 @@ module.exports = {
 		"lang/shellscript/shellscript",
 		"lang/shellscript/text-color",
 		"lang/shellscript/getopt",
+		"lang/shellscript/redirection-piping",
+		{
+			type: "category",
+			label: "Command Line Tools",
+			items: [
+				"lang/shellscript/command-line-tools/xargs",
+				"lang/shellscript/command-line-tools/jq",
+			],
+		},
 	],
 	stm32: [
 		"mcu/stm32/stm32-create-project-stm32cubeide",
