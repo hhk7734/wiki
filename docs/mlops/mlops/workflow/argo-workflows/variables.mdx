@@ -8,3 +8,110 @@ keywords:
   - workflows
   - variables
 ---
+
+- https://argoproj.github.io/argo-workflows/variables/
+
+## `inputs.parameters`
+
+- https://argoproj.github.io/argo-workflows/workflow-inputs/
+
+### 템플릿 정의
+
+```yaml
+spec:
+  templates:
+    - name: <templateName>
+      inputs:
+        parameters:
+          - name: <parameterName>
+            # value: <defaultValue>
+```
+
+위와 같이 선언하면 해당 템플릿에서 `{{inputs.parameters.<parameterName>}}` 또는 `{{inputs.parameters['<parameterName>']}}`으로 접근할 수 있습니다.
+
+아래와 같은 방식으로 사용됩니다.
+
+```yaml
+spec:
+  templates:
+    - name: whalesay
+      inputs:
+        parameters:
+          - name: message
+      container:
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["{{inputs.parameters.message}}"]
+```
+
+### 템플릿 사용
+
+템플릿은 Workflow의 entrypoint로 직접 사용되거나 steps, dag에서 사용됩니다. 그 때 `arguments.parameters`를 통해 템플릿에 정의된 파라미터에 인자를 전달할 수 있습니다.
+
+```yaml title="entrypoint"
+spec:
+  entrypoint: <templateName>
+  arguments:
+    parameters:
+      - name: <parameterName>
+        value: <value>
+```
+
+```yaml title="dag"
+spec:
+  templates:
+    - name: ""
+      dag:
+        tasks:
+          - name: ""
+            template: <templateName>
+            arguments:
+              parameters:
+                - name: <parameterName>
+                  value: <value>
+```
+
+## `workflow`(Global)
+
+- https://argoproj.github.io/argo-workflows/variables/#global
+
+### `workflow.parameters`
+
+```yaml
+spec:
+  arguments:
+    parameters:
+      - name: <parameterName>
+        value: <value>
+```
+
+submit할 때 `<parameterName>=<value>` 리스트 로 전달 할 수 있습니다.
+
+## `outputs.parameters`
+
+- https://argoproj.github.io/argo-workflows/fields/#parameter
+
+```yaml
+spec:
+  templates:
+    - name: <templateName>
+      outputs:
+        parameters:
+          - name: <parameterName>
+            valueFrom:
+              path: <path>
+```
+
+## Helm에서 선언하기
+
+`{{`와 `}}`는 Go 템플릿에서 사용하는 구문이기 때문에 Helm에서 사용할 때는 템플릿 처리가 안되도록 수정해야합니다.
+
+아래와 같은 방법으로 처리할 수 있습니다.
+
+```yaml
+{{`<escape 하고싶은 내용>`}}
+```
+
+```yaml
+{{`"{{inputs.parameters.message}}"`}}
+```
