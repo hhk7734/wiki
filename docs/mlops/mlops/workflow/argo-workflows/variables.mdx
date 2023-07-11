@@ -9,27 +9,21 @@ keywords:
   - variables
 ---
 
+## 변수 사용 방법
+
 - https://argoproj.github.io/argo-workflows/variables/
 
-## `inputs.parameters`
+CR 정의에 따라 자동으로 정의 및 할당되는 변수와 사용자 정의(`inputs.parameters`) 및 할당(`arguments.parameters`)이 필요한 변수가 있습니다.
 
-- https://argoproj.github.io/argo-workflows/workflow-inputs/
+정의된 변수는 아래와 같은 형태로 `template`을 구성하는 데 사용할 수 있습니다.
 
-### 템플릿 정의
+- 단순 치환
+  - `"{{inputs.parameters.<parameterName>}}"`
+- 연산 후 치환
+  - `"{{=inputs.parameters['<parameterName>']}}"`
+  - `"{{=inputs.parameters.<parameterName>}}"`
 
-```yaml
-spec:
-  templates:
-    - name: <templateName>
-      inputs:
-        parameters:
-          - name: <parameterName>
-            # value: <defaultValue>
-```
-
-위와 같이 선언하면 해당 템플릿에서 `{{inputs.parameters.<parameterName>}}` 또는 `{{inputs.parameters['<parameterName>']}}`으로 접근할 수 있습니다.
-
-아래와 같은 방식으로 사용됩니다.
+예를 들어 아래와 같은 방식으로 변수를 사용할 수 있습니다.
 
 ```yaml
 spec:
@@ -44,18 +38,25 @@ spec:
         args: ["{{inputs.parameters.message}}"]
 ```
 
-### 템플릿 사용
+## 사용자 정의 및 할당
+
+### `inputs.parameters`
+
+- https://argoproj.github.io/argo-workflows/workflow-inputs/
+
+```yaml
+spec:
+  templates:
+    - name: <templateName>
+      inputs:
+        parameters:
+          - name: <parameterName>
+            # value: <defaultValue>
+```
+
+### `arguments.parameters`
 
 템플릿은 Workflow의 entrypoint로 직접 사용되거나 steps, dag에서 사용됩니다. 그 때 `arguments.parameters`를 통해 템플릿에 정의된 파라미터에 인자를 전달할 수 있습니다.
-
-```yaml title="entrypoint"
-spec:
-  entrypoint: <templateName>
-  arguments:
-    parameters:
-      - name: <parameterName>
-        value: <value>
-```
 
 ```yaml title="dag"
 spec:
@@ -71,11 +72,18 @@ spec:
                   value: <value>
 ```
 
-## `workflow`(Global)
+```yaml title="entrypoint"
+spec:
+  entrypoint: <templateName>
+  arguments:
+    parameters:
+      - name: <parameterName>
+        value: <value>
+```
+
+### `workflow.parameters` (전역변수)
 
 - https://argoproj.github.io/argo-workflows/variables/#global
-
-### `workflow.parameters`
 
 ```yaml
 spec:
@@ -85,7 +93,9 @@ spec:
         value: <value>
 ```
 
-submit할 때 `<parameterName>=<value>` 리스트 로 전달 할 수 있습니다.
+위와 같이 정의하면 CR 정의 전체 영역에서 `"{{workflow.parameters.<parameterName>}}"`으로 사용할 수 있습니다.
+
+submit할 때 `--parameter <parameterName>=<value>` 형태로도 전달 할 수도 있습니다.
 
 ## `outputs.parameters`
 
@@ -131,7 +141,7 @@ spec:
 
 :::warning
 
-- 함수를 사용할 때, `-`가 있는 `<key>`를 사용하는 경우 `['<key>']`로 사용해야 합니다. 예를 들어 `inputs.parameters.hello-world`는 `inputs.parameters['hello-world']`로 사용해야 합니다.
+- 함수를 사용할 때, `-`가 있는 `<key>`를 사용하는 경우 `['<key>']`로 사용해야 합니다.
 - 시작은 `{{=`로 해야합니다.
 
 :::
