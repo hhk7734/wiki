@@ -707,6 +707,7 @@ module.exports = {
 						"mlops/mlops/workflow/argo-workflows/argo-workflows",
 						"mlops/mlops/workflow/argo-workflows/crd",
 						"mlops/mlops/workflow/argo-workflows/entrypoint-templates",
+						"mlops/mlops/workflow/argo-workflows/dag",
 						"mlops/mlops/workflow/argo-workflows/variables",
 						"mlops/mlops/workflow/argo-workflows/client",
 					],
