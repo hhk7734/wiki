@@ -26,27 +26,36 @@ ignore-patterns = ["^\\.#", ".*_pb2.pyi?"]
 [tool.pylint."messages control"]
 
 disable = [
-    "raw-checker-failed",
-    "bad-inline-option",
-    "locally-disabled",
-    "file-ignored",
-    "suppressed-message",
-    "useless-suppression",
-    "deprecated-pragma",
-    "use-symbolic-message-instead",
-    "missing-module-docstring",
-    "missing-class-docstring",
-    "missing-function-docstring",
-    "too-few-public-methods",
-    "too-many-arguments",
-    "bare-except",
-    "invalid-name",
-    "line-too-long",
+  "bad-inline-option",
+  "bare-except",
+  "broad-exception-caught",
+  "deprecated-pragma",
+  "file-ignored",
+  "invalid-name",
+  "line-too-long",
+  "locally-disabled",
+  "missing-class-docstring",
+  "missing-function-docstring",
+  "missing-module-docstring",
+  "raw-checker-failed",
+  "suppressed-message",
+  "too-few-public-methods",
+  "too-many-arguments",
+  "useless-suppression",
+  "use-symbolic-message-instead",
 ]
 ```
 
 ```shell
 pylint **/*.py
+```
+
+### inline 오류 무시
+
+부분적으로만 무시하고 싶은 경우에는 에러가 발생하는 줄에 `# pylint: disable=<errorCode>` 주석을 추가하면 됩니다.
+
+```python
+a._b = 1  # pylint: disable=protected-access
 ```
 
 ## black
@@ -97,4 +106,28 @@ isort --profile black **/*.py
 line_length = 100
 profile = "black"
 skip_gitignore = true
+```
+
+## mypy
+
+```shell
+python3 -m pip install mypy
+```
+
+- https://mypy.readthedocs.io/en/stable/config_file.html#example-pyproject-toml
+
+```toml title="pyproject.toml"
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+# module = "<pattern>" # ex) "module.*"
+# 옵션
+```
+
+### inline 오류 무시
+
+부분적으로만 무시하고 싶은 경우에는 에러가 발생하는 줄에 `# type: ignore[<errorCode>, ...]` 주석을 추가하면 됩니다.
+
+```python
+a: int = 1.0  # type: ignore[assignment]
 ```
