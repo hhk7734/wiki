@@ -24,6 +24,8 @@ Field <type> `json:"<name>[,<option>]"`
     - empty: `false`, `0`, `a nil pointer`, `a nil interface value`, and `any empty array, slice, map, or string`.
   - `string`: `floating point`, `integer`, or `boolean`인 경우 문자열로 인코딩 됩니다.
 
-## Reference
+## type <-\> JSON
 
-- [https://pkg.go.dev/encoding/json](https://pkg.go.dev/encoding/json)
+| Unmarshal | type      | Marshal |
+| --------- | --------- | ------- |
+| RFC3339   | time.Time | RFC3339 |

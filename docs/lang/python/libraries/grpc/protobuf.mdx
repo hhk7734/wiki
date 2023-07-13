@@ -29,3 +29,56 @@ protoc
 
 - `import a/b.proto` -\> `from a import b`
   - 따라서 import를 해야하는 경우 파이썬에서 생성된 파일들의 경로를 protobuf 파일들의 경로와 맞춰야할 수 있습니다.
+
+## 변환
+
+### Message <-\> Bytes
+
+```python
+msg = pb.SomeProtoMessage()
+
+# ...
+
+bytes_msg = msg.SerializeToString()
+```
+
+```python
+msg = pb.SomeProtoMessage()
+msg.ParseFromString(bytes_msg)
+```
+
+### Message <-\> JSON
+
+```python
+from google.protobuf.json_format import MessageToJson
+
+msg = pb.SomeProtoMessage()
+
+# ...
+
+json_msg = MessageToJson(msg)
+```
+
+```python
+from google.protobuf.json_format import Parse
+
+msg = Parse(json_msg, pb.SomeProtoMessage())
+```
+
+### Message <-\> Dict
+
+```python
+from google.protobuf.json_format import MessageToDict
+
+msg = pb.SomeProtoMessage()
+
+# ...
+
+dict_msg = MessageToDict(msg)
+```
+
+```python
+from google.protobuf.json_format import ParseDict
+
+msg = ParseDict(dict_msg, pb.SomeProtoMessage())
+```
