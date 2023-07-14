@@ -939,6 +939,11 @@ module.exports = {
 		},
 		{
 			type: "category",
+			label: "context",
+			items: ["lang/python/context/contextvar"],
+		},
+		{
+			type: "category",
 			label: "Libraries",
 			items: [
 				{

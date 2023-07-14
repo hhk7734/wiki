@@ -121,6 +121,13 @@ spec:
   - `Gt`: 정수값이 주어졌을 때만 사용 가능, 설정한 값보다 큰 경우 매칭됩니다.
   - `Lt`: 정수값이 주어졌을 때만 사용 가능, 설정한 값보다 작은 경우 매칭됩니다.
 
+:::warning
+
+- `values`에는 숫자도 `"`로 감싸서 문자열로 입력해야 합니다.
+- 하나도 선언을 안하면 기본값으로 설정되므로 유의해야합니다.
+
+:::
+
 ### taints
 
 ```yaml
@@ -214,7 +221,8 @@ spec:
     - deviceName: /dev/xvda
       ebs:
         volumeType: gp3
-        volumeSize: 30Gi
+        volumeSize: 50Gi
+        encrypted: true
         deleteOnTermination: true
   userData: <userData>
 ```

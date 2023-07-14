@@ -41,6 +41,9 @@ nats:
     limits:
       memory: 256Mi
 
+  limits:
+    maxPayload: 1MB # 최댓값: 64MB, 권장 최댓값: 8MB
+
   jetstream:
     enabled: true
 
