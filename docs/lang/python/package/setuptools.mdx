@@ -1,0 +1,36 @@
+---
+id: setuptools
+title: Package with setuptools
+sidebar_label: setuptools
+description: Package with setuptools
+keywords:
+  - Python
+  - setuptools
+---
+
+## Directory Structure
+
+## pyproject.toml
+
+```toml
+[project]
+name = "<package>"
+# version = "<version>"
+description = "<description>"
+authors = [{ name = "Hyeonki Hong", email = "hhk7734@gmail.com" }]
+dynamic = ["version"]
+
+[tool.setuptools.dynamic]
+version = {attr = "<package>.__version__"}
+
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools-scm", # for dynamic project information from git
+]
+build-backend = "setuptools.build_meta"
+```
+
+## Build
+
+## Publish
