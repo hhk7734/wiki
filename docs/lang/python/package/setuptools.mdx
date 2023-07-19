@@ -10,18 +10,50 @@ keywords:
 
 ## Directory Structure
 
+```shell
+<project>/
+├── pyproject.toml
+├── README.md
+└── <package>/
+    ├── __init__.py # import <package>
+    ├── <subpackage>/
+    │   ├── __init__.py # from <package> import <subpackage>
+    │   ├── <module>.py # from <package>.<subpackage> import <module>
+    │   └── ...
+    └── ...
+```
+
 ## pyproject.toml
 
-```toml
+```toml title="pyproject.toml"
 [project]
-name = "<package>"
+name = "<packageName>"
 # version = "<version>"
 description = "<description>"
 authors = [{ name = "Hyeonki Hong", email = "hhk7734@gmail.com" }]
+requires-python = ">=3.11"
+
 dynamic = ["version"]
+
+readme = "README.md"
+keywords = []
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Intended Audience :: Developers"
+]
+
+[project.urls]
+homepage = "https://wiki.loliot.net"
+repository = "https://github.com/hhk7734/example"
+documentation = "https://wiki.loliot.net"
+
+[tool.setuptools.packages.find]
+# where = ["src"]
+include = ["<package>"]
 
 [tool.setuptools.dynamic]
 version = {attr = "<package>.__version__"}
+
 
 [build-system]
 requires = [
@@ -31,6 +63,59 @@ requires = [
 build-backend = "setuptools.build_meta"
 ```
 
+## Dependencies
+
+- https://setuptools.pypa.io/en/latest/userguide/dependency_management.html
+
+```toml title="pyproject.toml"
+[project]
+dependencies = []
+```
+
+## Scripts
+
+```toml title="pyproject.toml"
+[project.scripts]
+<cli> = "<package>.<module>" # __main__
+<cli> = "<package>.<module>:<function>"
+```
+
 ## Build
 
+```shell
+python3 -m pip install -U build
+```
+
+```shell
+python3 -m build
+```
+
 ## Publish
+
+```shell
+python3 -m pip install twine
+```
+
+### Test PyPI
+
+```shell
+python3 -m twine upload --repository testpypi dist/*
+```
+
+```shell
+python3 -m pip install \
+    --index-url https://test.pypi.org/simple/ \
+    --verbose \
+    --no-deps \
+    <packageName>
+```
+
+### PyPI
+
+```shell
+python3 -m twine upload dist/*
+```
+
+```shell
+python3 -m pip install <packageName>
+```

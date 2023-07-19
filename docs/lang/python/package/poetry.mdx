@@ -56,7 +56,7 @@ include = []
 exclude = []
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.11,<4.0"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
@@ -102,6 +102,49 @@ poetry build
 빌드를 하면 `dist/` 디렉토리에 빌드된 패키지가 생성됩니다.
 
 ## Publish
+
+- https://python-poetry.org/docs/cli/#publish
+- https://python-poetry.org/docs/repositories/
+
+```shell
+poetry publish [<options>]
+```
+
+- `<options>`
+  - `--build`: 빌드 후 업로드
+  - `-r|--repository <repository>`
+  - `-u|--username "<user>"`
+  - `-p|--password "<password>"`
+
+### Test PyPI
+
+```shell
+poetry config repositories.testpypi https://test.pypi.org/legacy/
+```
+
+```shell
+poetry config http-basic.testpypi "<user>" "<password>"
+```
+
+```shell
+poetry publish -r testpypi
+```
+
+Test PyPI에 등록된 패키지를 poetry로 설치해보려면 아래와 같이 source 등록 후 설치해야 합니다.
+
+```shell
+poetry source add --secondary testpypi https://test.pypi.org/simple/
+```
+
+```shell
+poetry add --source testpypi <packageName>
+```
+
+### PyPI
+
+```shell
+poetry config http-basic.pypi "<user>" "<password>"
+```
 
 ```shell
 poetry publish
