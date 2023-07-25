@@ -21,9 +21,11 @@ helm repo update fluent \
 
 ```shell
 helm show values fluent/fluent-bit \
-  --version 0.28.0 \
+  --version 0.36.0 \
   > fluent-bit-values.yaml
 ```
+
+`0.36.0` == `v2.1.7`
 
 ```yaml title="fluent-bit-values.yaml"
 resources:
@@ -54,8 +56,8 @@ config:
         Daemon          Off
         Flush           {{ .Values.flush }}
         Log_Level       {{ .Values.logLevel }}
-        Parsers_File    parsers.conf
-        Parsers_File    custom_parsers.conf
+        Parsers_File    /fluent-bit/etc/parsers.conf
+        Parsers_File    /fluent-bit/etc/conf/custom_parsers.conf
         HTTP_Server     On
         HTTP_Listen     0.0.0.0
         HTTP_Port       {{ .Values.metricsPort }}
@@ -89,7 +91,7 @@ config:
 
 ```shell
 helm template fluent-bit fluent/fluent-bit \
-    --version 0.28.0 \
+    --version 0.36.0 \
     -n monitoring \
     -f fluent-bit-values.yaml \
     > fluent-bit.yaml
@@ -99,7 +101,7 @@ helm template fluent-bit fluent/fluent-bit \
 helm upgrade fluent-bit fluent/fluent-bit \
   --install \
   --history-max 3 \
-  --version 0.28.0 \
+  --version 0.36.0 \
   -n monitoring \
   -f fluent-bit-values.yaml
 ```
@@ -151,6 +153,23 @@ FILTER는 선언된 순서대로 적용됩니다.
 #### Validating data
 
 - https://docs.fluentbit.io/manual/local-testing/validating-your-data-and-structure
+
+#### Grep
+
+- https://docs.fluentbit.io/manual/pipeline/filters/grep
+
+```ini
+[FILTER]
+    name       grep
+    match      *
+    logical_op <or|and>
+    regex      <key|recordAccessor> <regex>
+    exclude    <key|recordAccessor> <regex>
+```
+
+- `logical_op <or|and>`: 여러 `regex`나 `exclude`를 선언했을 때 조합에 사용될 조건입니다.
+- `regex <key|recordAccessor> <regex>`: `<key|recordAccessor>`에 해당하는 값이 `<regex>`를 만족하면 해당 레코드를 통과시킵니다.
+- `exclude <key|recordAccessor> <regex>`: `<key|recordAccessor>`에 해당하는 값이 `<regex>`를 만족하면 해당 레코드를 건너뜁니다.
 
 ### OUTPUT
 
