@@ -6,3 +6,34 @@ description: Request Rate Limit
 keywords:
   - Request Rate Limit
 ---
+
+## RateLimit Header
+
+- https://github.com/ietf-wg-httpapi/ratelimit-headers/tree/main
+
+<br />
+
+- `RateLimit-Policy: <policy>[, <policy>]`
+  - `<policy>`: `<limit>;w=<window>[;policy="<description>"]`
+    - `<limit>`: 제한량
+    - `<window>`: 윈도우 기간 (초)
+    - `<description>`: 정책 설명
+    - 그 외에 정책을 설명하기위한 정보를 `;<key>=<value>` 형태로 추가할 수 있지만 정확한 정보를 찾지 못했습니다.
+- `RateLimit: limit=<limit>, remaining=<remaining>, reset=<reset>`
+  - `<limit>`: 제한량
+  - `<remaining>`: 남은 요청량
+  - `<reset>`: 다음 리셋까지 남은 시간 (초), 리셋이 되면 `limit`과 `remaining` 모두 바뀔 수 있습니다.
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+RateLimit-Policy: 100;w=60,policy="sliding window"
+RateLimit: limit=100, remaining=99, reset=1
+...
+```
+
+위의 예시는 아래와 같이 해석됩니다.
+
+- 60 초의 윈도우 시간동안 최대 100 회 요청 가능한 Sliding Window 정책
+- 99 회 추가 요청 가능
+- 1 초 후 리셋

@@ -199,11 +199,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "Limited Resources",
-			items: [
-				"lang/design/limited-resources/request-rate-limit",
-				"lang/design/limited-resources/queue-rate-limit",
-				"lang/design/limited-resources/priority-queue",
-			],
+			items: ["lang/design/limited-resources/request-rate-limit"],
 		},
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
@@ -250,10 +246,7 @@ module.exports = {
 						{
 							type: "category",
 							label: "Middleware",
-							items: [
-								"lang/go/libraries/gin/middleware/logger",
-								"lang/go/libraries/gin/middleware/ratelimit",
-							],
+							items: ["lang/go/libraries/gin/middleware/ratelimit"],
 						},
 						"lang/go/libraries/gin/validator",
 						"lang/go/libraries/gin/crud",

@@ -17,9 +17,12 @@ pytest [options] [file_or_dir ...]
 
 `pytest.ini`, `tox.ini`, `pyproject.toml` 등 파일에 아래 와 같은 설정을 추가할 수 있습니다.
 
-```ini
-[pytest]
-testpaths = py_src
+```toml title="pyproject.toml"
+[tool.pytest.ini_options]
+testpaths = [
+  "src",
+  "tests",
+]
 ```
 
 ## pytest 검색 규칙
