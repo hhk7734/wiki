@@ -27,7 +27,7 @@ keywords:
 ```http
 HTTP/1.1 200 OK
 Content-Type: application/json
-RateLimit-Policy: 100;w=60,policy="sliding window"
+RateLimit-Policy: 100;w=60;policy="sliding window log"
 RateLimit: limit=100, remaining=99, reset=1
 ...
 ```
@@ -37,3 +37,21 @@ RateLimit: limit=100, remaining=99, reset=1
 - 60 초의 윈도우 시간동안 최대 100 회 요청 가능한 Sliding Window 정책
 - 99 회 추가 요청 가능
 - 1 초 후 리셋
+
+## Leaky Bucket
+
+## Token Bucket
+
+## Fixed Window Counter
+
+## Sliding Window Log
+
+Sliding Window Log는 요청이 오면
+
+- 윈도우 시간 이전의 로그 삭제
+- 윈도우 시간 내에 로그 수 확인
+- 로그 수가 제한량보다
+  - 많거나 같으 경우 요청 거부
+  - 적은 경우 타임스탬프를 로그에 추가 후 요청 처리
+
+## Sliding Window Counter

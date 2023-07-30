@@ -243,11 +243,6 @@ module.exports = {
 					label: "Gin",
 					items: [
 						"lang/go/libraries/gin/gin",
-						{
-							type: "category",
-							label: "Middleware",
-							items: ["lang/go/libraries/gin/middleware/ratelimit"],
-						},
 						"lang/go/libraries/gin/validator",
 						"lang/go/libraries/gin/crud",
 						"lang/go/libraries/gin/shutdown",
