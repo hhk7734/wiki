@@ -257,6 +257,7 @@ module.exports = {
 						"lang/go/libraries/grpc/grpc",
 					],
 				},
+				"lang/go/libraries/validator",
 				"lang/go/libraries/swagger",
 				"lang/go/libraries/gorm",
 				"lang/go/libraries/encoding-json",

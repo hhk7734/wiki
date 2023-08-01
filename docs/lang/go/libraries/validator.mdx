@@ -1,0 +1,43 @@
+---
+id: validator
+title: validator
+sidebar_label: validator
+description: validator
+keywords:
+  - validator
+  - golang
+---
+
+## 설치
+
+- https://github.com/go-playground/validator
+
+```shell
+go get github.com/go-playground/validator/v10
+```
+
+## Tag
+
+```go
+type Test struct {
+	Field `validate:"<tag>"`
+}
+```
+
+- `-`: 스킵
+- `,`: AND
+- `|`: OR
+- `omitempty`: `required` 검사기에 의해 필드가 설정되지 않았다고 판단되면 스킵합니다.
+- `required`: 필드가 설정되지 않았다고 판단되면(nil 값) 오류를 반환합니다.
+
+### String
+
+- `min=<value>`: 최소 길이
+- `max=<value>`: 최대 길이
+- `len=<value>`: 길이
+
+### 전화번호
+
+- `e164`: E.164 형식의 전화번호
+
+## Custom Validator
