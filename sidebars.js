@@ -264,12 +264,9 @@ module.exports = {
 				},
 				"lang/go/libraries/swagger",
 				"lang/go/libraries/gorm",
-				"lang/go/libraries/go-redis",
 				"lang/go/libraries/encoding-json",
-				"lang/go/libraries/go-yaml",
 				"lang/go/libraries/smtp",
 				"lang/go/libraries/session",
-				"lang/go/libraries/google-wire",
 				"lang/go/libraries/websocket",
 				{
 					type: "category",
