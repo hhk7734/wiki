@@ -28,7 +28,7 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.28.0 \
+    --version 0.32.1 \
     > argo-workflows-values.yaml
 ```
 
@@ -52,7 +52,7 @@ server:
 
 ```shell
 helm template argo-workflows argo/argo-workflows \
-    --version 0.28.0 \
+    --version 0.32.1 \
     -n workflow \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
@@ -62,7 +62,7 @@ helm template argo-workflows argo/argo-workflows \
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
     --history-max 3 \
-    --version 0.28.0 \
+    --version 0.32.1 \
     -n workflow \
     --values argo-workflows-values.yaml
 ```
@@ -191,6 +191,7 @@ server:
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
+    enabled: true
     issuer: <argo-cd-server-uri>/api/dex
     sessionExpiry: 12h
     clientId:
@@ -230,6 +231,7 @@ server:
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
+    enabled: true
     issuer: <keycloak-url>/realms/<realm>
     sessionExpiry: 12h
     clientId:

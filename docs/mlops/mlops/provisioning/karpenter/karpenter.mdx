@@ -173,7 +173,7 @@ new aws.iam.RolePolicyAttachment(
 
 ```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.28.0 \
+    --version v0.29.2 \
     > karpenter-values.yaml
 ```
 
@@ -233,7 +233,7 @@ settings:
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.28.0 \
+    --version v0.29.2 \
     -n provisioning \
     -f karpenter-values.yaml \
     > karpenter.yaml
@@ -242,7 +242,7 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.28.0 \
+    --version v0.29.2 \
     --history-max 3 \
     -n provisioning \
     -f karpenter-values.yaml
@@ -267,4 +267,4 @@ data:
 
 ## 업그레이드
 
-- https://karpenter.sh/v0.28.0/upgrade-guide/
+- https://karpenter.sh/docs/upgrade-guide/

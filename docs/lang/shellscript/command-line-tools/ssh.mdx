@@ -1,19 +1,21 @@
 ---
 id: ssh
-title: SSH
-description: SSH
+title: ssh 사용법
+sidebar_label: ssh 사용법
+description: ssh 사용법
 keywords:
-  - SSH
+  - shell script
+  - ssh
 ---
 
-## 키 생성
+## SSH 키 생성
 
 ```shell
-ssh-keygen -t ed25519 -N "" -C "your_email@example.com" -f <path>
+ssh-keygen -t ed25519 -N "" -C "hhk7734@gmail.com" -f <path>
 ```
 
 ```shell
-ssh-keygen -t rsa -b 2048 -N "" -C "your_email@example.com" -f <path>
+ssh-keygen -t rsa -b 2048 -N "" -C "hhk7734@gmail.com" -f <path>
 ```
 
 ## config
@@ -37,16 +39,22 @@ Host <alias>
 eval "$(ssh-agent -s)"
 ```
 
-## 키 등록
-
-```shell
-ssh-add ~/.ssh/<id file>
+```shell title=".zshrc"
+plugins=(
+    ssh-agent
+)
 ```
 
-## 퍼블릭 키 접속할 곳에 등록
+## 로컬에 프라이빗 키 등록
 
 ```shell
-ssh-copy-id -i ~/.ssh/<id file>.pub <remote>
+ssh-add ~/.ssh/<private>
+```
+
+## 접속할 곳에 퍼블릭 키 등록
+
+```shell
+ssh-copy-id -i ~/.ssh/<public> <remote>
 ```
 
 ## SCP
@@ -82,6 +90,8 @@ ssh -f -N \
     -L <localPort>:<host>:<port> \
     -p <tunnelPort> <tunnelUser>@<tunnelHost>
 ```
+
+암호 입력이 나오면 `<tunnelHost>`의 암호를 입력합니다.
 
 ```shell
 lsof -i4 -P | grep -i "listen" | grep <localPort>

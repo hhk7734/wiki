@@ -22,7 +22,7 @@ helm repo update prometheus-community \
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 45.28.0 \
+    --version 48.2.3 \
     > prometheus-operator-values.yaml
 ```
 
@@ -35,6 +35,9 @@ defaultRules:
   # Chart가 제공하는 기본 alert and record rules의 집합
   # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack/templates/prometheus/rules-1.14
   create: false
+
+windowsMonitoring:
+  enabled: false
 
 alertmanager:
   enabled: false
@@ -99,7 +102,7 @@ prometheus:
 
 ```shell
 helm template prometheus-operator prometheus-community/kube-prometheus-stack \
-    --version 45.28.0 \
+    --version 48.2.3 \
     -n monitoring \
     -f prometheus-operator-values.yaml \
     > prometheus-operator.yaml
@@ -109,7 +112,7 @@ helm template prometheus-operator prometheus-community/kube-prometheus-stack \
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
     --history-max 3 \
-    --version 45.28.0 \
+    --version 48.2.3 \
     -n monitoring \
     -f prometheus-operator-values.yaml
 ```

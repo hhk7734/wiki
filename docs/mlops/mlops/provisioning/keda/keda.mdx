@@ -16,7 +16,7 @@ import Image from "@theme/IdealImage";
     width={750}
   />
 </center>
-<center>https://keda.sh/docs/2.9/concepts/#architecture</center>
+<center>https://keda.sh/docs/concepts/#architecture</center>
 <br />
 
 ## 설치
@@ -32,7 +32,7 @@ helm repo update kedacore \
 
 ```shell
 helm show values kedacore/keda \
-    --version 2.10.1 \
+    --version 2.11.2 \
     > keda-values.yaml
 ```
 
@@ -42,7 +42,7 @@ additionalLabels: {}
 
 ```shell
 helm template keda kedacore/keda \
-    --version 2.10.1 \
+    --version 2.11.2 \
     -n provisioning \
     -f keda-values.yaml \
     > keda.yaml
@@ -51,7 +51,7 @@ helm template keda kedacore/keda \
 ```shell
 helm upgrade keda kedacore/keda \
     --install \
-    --version 2.10.1 \
+    --version 2.11.2 \
     -n provisioning \
     --history-max 3 \
     -f keda-values.yaml

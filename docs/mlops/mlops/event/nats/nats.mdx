@@ -24,73 +24,96 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nats \
-    --version 0.19.5 \
+    --version 1.0.0 \
     > nats-values.yaml
 ```
 
 ```yaml title="nats-values.yaml"
 fullnameOverride: ""
 
-commonLabels: {}
-
-nats:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
-
-  limits:
-    maxPayload: 1MB # 최댓값: 64MB, 권장 최댓값: 8MB
+config:
+  cluster:
+    enabled: true
+    replicas: 3
 
   jetstream:
     enabled: true
 
-    memStorage:
-      enabled: false
-      size: 1Gi
-
-    fileStorage:
+    fileStore:
       enabled: true
-      storageDirectory: /data
-      size: 10Gi
-      accessModes:
-        - ReadWriteOnce
+      dir: /data
 
-affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: nats
-              app.kubernetes.io/instance: nats
-          topologyKey: kubernetes.io/hostname
-        weight: 100
+      pvc:
+        size: 10Gi
 
-statefulSetPodLabels: {}
+        merge:
+          spec:
+            accessModes:
+              - "ReadWriteOnce"
 
-cluster:
-  enabled: true
-  replicas: 3
+    memoryStore:
+      enabled: false
+      maxSize: 1Gi
 
-natsbox:
+  merge:
+    # <<>> 로 감싸면 "" 없이 입력 그대로 설정됩니다.
+    max_payload: << 1MB >> # 최댓값: 64MB, 권장 최댓값: 8MB
+    authorization:
+      users:
+        - user: << $NATS_USER >>
+          password: << $NATS_PASSWORD >>
+        - nkey: <nkey-user>
+
+container:
+  env:
+    NATS_USER:
+      valueFrom:
+        secretKeyRef:
+          name: <secretName>
+          key: user
+    NATS_PASSWORD:
+      valueFrom:
+        secretKeyRef:
+          name: <secretName>
+          key: password
+  merge:
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 256Mi
+
+statefulSet:
+  merge:
+    metadata:
+      labels: {}
+
+podTemplate:
+  merge:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nats
+        app.kubernetes.io/instance: <fullname>
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: nats
+                    app.kubernetes.io/instance: <fullname>
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+
+natsBox:
   enabled: false
-
-auth:
-  enabled: true
-
-  basic:
-    users:
-      - user: <user>
-        password: <password>
-      - nkey: <nkey-user>
 ```
 
 ```shell
 helm template nats nats/nats \
-    --version 0.19.5 \
+    --version 1.0.0 \
     -n event \
     -f nats-values.yaml \
     > nats.yaml
@@ -99,7 +122,7 @@ helm template nats nats/nats \
 ```shell
 helm upgrade nats nats/ntas \
     --install \
-    --version 0.19.5 \
+    --version 1.0.0 \
     -n event \
     --history-max 3 \
     -f nats-values.yaml
@@ -108,7 +131,7 @@ helm upgrade nats nats/ntas \
 ### NACK
 
 ```shell
-kubectl apply -f https://github.com/nats-io/nack/releases/download/v0.10.1/crds.yml
+kubectl apply -f https://github.com/nats-io/nack/releases/download/v0.12.0/crds.yml
 ```
 
 ```shell
@@ -118,7 +141,7 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nack \
-    --version 0.21.0 \
+    --version 0.23.0 \
     > nack-values.yaml
 ```
 
@@ -133,7 +156,7 @@ resources:
 
 ```shell
 helm template nack nats/nack \
-    --version 0.21.0 \
+    --version 0.23.0 \
     -n event \
     -f nack-values.yaml \
     > nack.yaml
@@ -143,7 +166,7 @@ helm template nack nats/nack \
 helm upgrade nack nats/nack \
     --install \
     --history-max 3 \
-    --version 0.21.0 \
+    --version 0.23.0 \
     -n event \
     -f nack-values.yaml
 ```

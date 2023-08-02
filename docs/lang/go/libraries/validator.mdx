@@ -40,4 +40,75 @@ type Test struct {
 
 - `e164`: E.164 형식의 전화번호
 
+## Custom Field Type
+
+커스텀으로 만든 타입 중에 변환을 통해 validator가 처리할 수 있는 타입을 만들 수 있는 경우 `RegisterCustomTypeFunc`를 사용하여 타입 변환 함수를 등록할 수 있습니다.
+
+```go
+package main
+
+import (
+	"fmt"
+	"reflect"
+
+	"github.com/go-playground/validator/v10"
+)
+
+type PhoneNumber struct {
+	CountryCode string
+	Number      string
+}
+
+func PhoneNumberToString(field reflect.Value) interface{} {
+	if v, ok := field.Interface().(PhoneNumber); ok {
+		if v == (PhoneNumber{}) {
+			return ""
+		}
+		return fmt.Sprintf("+%s%s", v.CountryCode, v.Number)
+	}
+	return ""
+}
+
+type User struct {
+	PhoneNumber PhoneNumber `validate:"omitempty,e164"`
+}
+
+var validate *validator.Validate
+
+func main() {
+	validate = validator.New()
+	validate.RegisterCustomTypeFunc(PhoneNumberToString, PhoneNumber{})
+
+	cases := []User{
+		{},
+		{
+			PhoneNumber: PhoneNumber{
+				CountryCode: "82",
+				Number:      "1012345678",
+			},
+		},
+		{
+			PhoneNumber: PhoneNumber{
+				CountryCode: "x",
+				Number:      "x",
+			},
+		},
+	}
+
+	for _, c := range cases {
+		if err := validate.Struct(c); err != nil {
+			fmt.Println(err)
+		} else {
+			fmt.Println("OK")
+		}
+	}
+}
+```
+
+```shell
+OK
+OK
+Key: 'User.PhoneNumber' Error:Field validation for 'PhoneNumber' failed on the 'e164' tag
+```
+
 ## Custom Validator

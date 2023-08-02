@@ -362,7 +362,12 @@ module.exports = {
 			],
 		},
 		"linux/linux-tools/progress-bar",
-		"linux/linux-tools/ssh",
+		// DEPRECATED: 2023-11-01
+		{
+			type: "link",
+			label: "SSH",
+			href: "/docs/lang/shellscript/command-line-tools/ssh",
+		},
 		"linux/linux-tools/linux-udev",
 		{
 			type: "category",
@@ -1070,6 +1075,7 @@ module.exports = {
 			items: [
 				"lang/shellscript/command-line-tools/xargs",
 				"lang/shellscript/command-line-tools/jq",
+				"lang/shellscript/command-line-tools/ssh",
 			],
 		},
 	],

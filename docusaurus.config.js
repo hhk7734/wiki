@@ -24,6 +24,25 @@ const config = {
 				size: 750,
 			},
 		],
+		[
+			"@docusaurus/plugin-google-gtag",
+			{
+				trackingID: "G-E8VGH1197Y",
+				anonymizeIP: false,
+			},
+		],
+		[
+			"@docusaurus/plugin-client-redirects",
+			{
+				redirects: [
+					// DEPRECATED: 2023-11-01
+					{
+						from: "/docs/linux/linux-tools/ssh",
+						to: "/docs/lang/shellscript/command-line-tools/ssh",
+					},
+				],
+			},
+		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
 	],
 	stylesheets: [

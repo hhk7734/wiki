@@ -33,11 +33,11 @@ helm repo update bitnami \
 
 ```shell
 helm pull bitnami/thanos \
-    --version 12.0.5
+    --version 12.10.1
 ```
 
 ```shell
-helm show values thanos-12.0.5.tgz \
+helm show values thanos-12.10.1.tgz \
     > thanos-values.yaml
 ```
 
@@ -83,14 +83,14 @@ metrics:
 ```
 
 ```shell
-helm template thanos thanos-12.0.5.tgz \
+helm template thanos thanos-12.10.1.tgz \
     -n monitoring \
     -f thanos-values.yaml \
     > thanos.yaml
 ```
 
 ```shell
-helm upgrade thanos thanos-12.0.5.tgz \
+helm upgrade thanos thanos-12.10.1.tgz \
     --install \
     --history-max 3 \
     -n monitoring \
