@@ -154,9 +154,19 @@ module.exports = {
 		"lang/design/repository-pattern",
 		{
 			type: "category",
+			label: "OpenAPI",
+			items: ["lang/design/openapi/restful-api", "lang/design/openapi/openapi"],
+		},
+		{
+			type: "category",
 			label: "Protocol",
 			items: [
-				"lang/design/protocol/restful-api",
+				// DEPRECATED: 2023-11-01
+				{
+					type: "link",
+					label: "Restful API",
+					href: "/docs/lang/design/openapi/restful-api",
+				},
 				{
 					type: "category",
 					label: "HTTP",

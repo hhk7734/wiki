@@ -1,0 +1,79 @@
+---
+id: openapi
+title: OpenAPI
+sidebar_label: OpenAPI
+description: OpenAPI
+keywords:
+  - OpenAPI
+---
+
+## V3
+
+- https://spec.openapis.org/oas/v3.1.0
+
+```yaml
+openapi: 3.1.0 # Required
+info: # Required
+  title: Sample API # Required
+  version: 0.1.0 # Required
+  description: Sample
+servers:
+  - url: https://dev.loliot.net # Required
+    description: Development server
+paths:
+  /<path>:
+    <get|put|post|delete|options|head|patch|trace>:
+      tags:
+        - <tag>
+      operationId: <operationId> # 모든 작업에 대해 고유해야 하며 대소문자를 구분합니다.
+      summary: <summary>
+      parameters:
+        - $ref: "#/components/parameters/<parameter>"
+      requestBody:
+        $ref: "#/components/requestBodies/<requestBody>"
+      responses:
+        "<statusCode>":
+          $ref: "#/components/responses/<response>"
+        default:
+          $ref: "#/components/responses/<response>"
+components:
+  schemas:
+    <schema>: {}
+  parameters:
+    <parameter>: {}
+  requestBodies:
+    <requestBody>:
+      content:
+        application/json:
+          schema: {}
+  responses:
+    <response>:
+      content:
+        application/json:
+          schema: {}
+  examples:
+    <example>:
+      value: {}
+```
+
+## Data Type
+
+- https://swagger.io/docs/specification/data-models/data-types/
+
+### string
+
+```yaml
+type: string
+# format: <format>
+# pattern: '<regex>'
+# minLength: 1
+# maxLength: 10
+```
+
+- `<format>`
+  - `date`
+  - `date-time`
+  - `password`
+  - `byte`
+  - `binary`
+  - 기타 사용자 정의
