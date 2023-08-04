@@ -161,12 +161,6 @@ module.exports = {
 			type: "category",
 			label: "Protocol",
 			items: [
-				// DEPRECATED: 2023-11-01
-				{
-					type: "link",
-					label: "Restful API",
-					href: "/docs/lang/design/openapi/restful-api",
-				},
 				{
 					type: "category",
 					label: "HTTP",

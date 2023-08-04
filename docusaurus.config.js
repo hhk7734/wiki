@@ -40,6 +40,10 @@ const config = {
 						from: "/docs/linux/linux-tools/ssh",
 						to: "/docs/lang/shellscript/command-line-tools/ssh",
 					},
+					{
+						from: "/docs/lang/design/protocol/restful-api",
+						to: "/docs/lang/design/openapi/restful-api",
+					},
 				],
 			},
 		],
