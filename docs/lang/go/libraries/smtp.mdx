@@ -25,10 +25,22 @@ keywords:
   </head>
 
   <body>
-    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <table border="1" cellpadding="0" cellspacing="0" width="100%">
       <tr>
         <td>
-          <table border="0" cellpadding="0" cellspacing="0" width="600">
+          <table
+            border="1"
+            cellpadding="0"
+            cellspacing="0"
+            width="600"
+            style="margin: 0 auto;"
+          >
+            <tr>
+              <td>{{.Something}}</td>
+            </tr>
+            <tr>
+              <td>{{.Something}}</td>
+            </tr>
             <tr>
               <td>{{.Something}}</td>
             </tr>
@@ -48,6 +60,8 @@ keywords:
 - https://validator.w3.org/#validate_by_input+with_options 에서 검사합니다
 
 :::
+
+이메일 템플릿을 작성할 때는 `border="1"`로 설정하여 원하는 레이아웃을 먼저 구성합니다. 작업을 마친 후 `border="0"`으로 설정하여 테두리를 제거합니다.
 
 ```go
 package smtp

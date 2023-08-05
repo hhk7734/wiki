@@ -17,6 +17,7 @@ keywords:
 ├── README.md
 └── <package>/
     ├── __init__.py # import <package>
+    ├── py.typed # for type hint
     ├── <subpackage>/
     │   ├── __init__.py # from <package> import <subpackage>
     │   ├── <module>.py # from <package>.<subpackage> import <module>
@@ -51,9 +52,15 @@ homepage = "https://wiki.loliot.net"
 repository = "https://github.com/hhk7734/example"
 documentation = "https://wiki.loliot.net"
 
+[tool.setuptools]
+zip-safe = false
+
+[tool.setuptools.package-data]
+"*" = ["py.typed", "*.pyi"]
+
 [tool.setuptools.packages.find]
 # where = ["src"]
-include = ["<package>"]
+include = ["<package>", "<package>.*"]
 
 # dynamic = ["version"]이 설정되어 있을 경우 version을 git tag로부터 가져옵니다.
 [tool.setuptools_scm]

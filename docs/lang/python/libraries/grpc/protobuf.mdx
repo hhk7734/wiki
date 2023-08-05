@@ -22,8 +22,9 @@ protoc
 ```
 
 - `<flogs>`
-  - `--python_out=<path>`
-  - `--pyi_out=<path>`
+  - `--proto_path=<path>`: import할 다른 protobuf 파일들의 기본 경로
+  - `--python_out=<path>`: `*_pb2.py` 파일들이 생성될 루트 경로
+  - `--pyi_out=<path>`: `*_pb2.pyi` 파일들이 생성될 루트 경로
 
 ### 규칙
 
@@ -32,19 +33,19 @@ protoc
 
 ## 변환
 
-### Message <-\> Bytes
+### Message <-\> Binary
 
 ```python
 msg = pb.SomeProtoMessage()
 
 # ...
 
-bytes_msg = msg.SerializeToString()
+binary_msg = msg.SerializeToString()
 ```
 
 ```python
 msg = pb.SomeProtoMessage()
-msg.ParseFromString(bytes_msg)
+msg.ParseFromString(binary_msg)
 ```
 
 ### Message <-\> JSON

@@ -36,3 +36,51 @@ protoc [<flags>] <protoDirPath>/<protoFile>
   - `--proto_path=<protoRootPath>`: `<protoRootPath>` 에서 컴파일 할 `<protoDirPath>/<protoFile>`을 찾습니다.
     - 여러 개의 `--proto_path` 옵션을 사용할 수 있습니다.
     - `import` 하는 proto 파일을 찾을 때 사용합니다.
+
+## 변환
+
+### Message <-\> Binary
+
+```go
+import (
+	"google.golang.org/protobuf/proto"
+)
+
+msg := &pb.SomeProtoMessage{}
+
+// ...
+
+binaryMsg, err := proto.Marshal(msg)
+```
+
+```go
+import (
+	"google.golang.org/protobuf/proto"
+)
+
+msg := &pb.SomeProtoMessage{}
+err := proto.Unmarshal(binaryMsg, msg)
+```
+
+### Message <-\> JSON
+
+```go
+import (
+	"google.golang.org/protobuf/encoding/protojson"
+)
+
+msg := &pb.SomeProtoMessage{}
+
+// ...
+
+jsonMsg, err := protojson.Marshal(msg)
+```
+
+```go
+import (
+	"google.golang.org/protobuf/encoding/protojson"
+)
+
+msg := &pb.SomeProtoMessage{}
+err := protojson.Unmarshal(jsonMsg, msg)
+```
