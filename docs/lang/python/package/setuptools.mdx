@@ -32,12 +32,10 @@ keywords:
 ```toml title="pyproject.toml"
 [project]
 name = "<packageName>" # pip install <packageName>, <package>와 다를 수 있습니다.
-# version = "<version>"
+version = "<version>"
 description = "<description>"
 authors = [{ name = "Hyeonki Hong", email = "hhk7734@gmail.com" }]
 requires-python = ">=3.11"
-
-dynamic = ["version"]
 
 licencse = {file = "LICENSE"}
 readme = "README.md"
@@ -62,26 +60,43 @@ zip-safe = false
 # where = ["src"]
 include = ["<package>", "<package>.*"]
 
-# dynamic = ["version"]이 설정되어 있을 경우 version을 git tag로부터 가져옵니다.
-[tool.setuptools_scm]
-
 [build-system]
-requires = [
-    "setuptools",
-    "setuptools-scm", # for dynamic project information from git
-]
+requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 ```
 
 - classifiers: https://pypi.org/classifiers/
 
-## `__version__`
+## version
+
+### Dynamic version with setuptools_scm
+
+- https://github.com/pypa/setuptools_scm
+
+```toml title="pyproject.toml"
+[project]
+# version = "<version>"
+dynamic = ["version"]
+
+# version을 git tag로부터 가져옵니다.
+[tool.setuptools_scm]
+# .git 이 있는 경로
+# root = "."
+# 버전을 찾는 정규식
+# tag_regex = '^(?:[\w-]+-)?(?P<version>[vV]?\d+(?:\.\d+){0,2}[^\+]*)(?:\+.*)?$'
+
+[build-system]
+requires = ["setuptools", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+```
+
+### `__version__`
 
 ```python title="<package>/__init__.py"
 from importlib.metadata import version, PackageNotFoundError
 
 try:
-    __version__ = version("package-name")
+    __version__ = version("<packageName>")
 except PackageNotFoundError:
     # package is not installed
     pass
