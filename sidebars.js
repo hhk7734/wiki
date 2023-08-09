@@ -258,6 +258,7 @@ module.exports = {
 					label: "gRPC",
 					items: [
 						"lang/go/libraries/grpc/protobuf",
+						"lang/go/libraries/grpc/type",
 						"lang/go/libraries/grpc/grpc",
 					],
 				},
@@ -1022,7 +1023,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "gRPC",
-					items: ["lang/python/libraries/grpc/protobuf"],
+					items: [
+						"lang/python/libraries/grpc/protobuf",
+						"lang/python/libraries/grpc/type",
+					],
 				},
 			],
 		},
