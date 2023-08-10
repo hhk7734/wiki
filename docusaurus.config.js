@@ -48,6 +48,7 @@ const config = {
 			},
 		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
+		"docusaurus-plugin-image-zoom",
 	],
 	stylesheets: [
 		{
@@ -171,6 +172,18 @@ const config = {
 		},
 		mermaid: {
 			theme: { light: "base", dark: "dark" },
+		},
+		zoom: {
+			selector: ".markdown :not(em) > img",
+			background: {
+				light: "rgb(255, 255, 255, .5)",
+				dark: "rgb(50, 50, 50, .5)",
+			},
+			config: {
+				// options you can specify via https://github.com/francoischalifour/medium-zoom#usage
+				margin: 24,
+				scrollOffset: 200,
+			},
 		},
 	},
 	presets: [

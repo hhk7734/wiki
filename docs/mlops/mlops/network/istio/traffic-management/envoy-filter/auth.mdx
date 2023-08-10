@@ -1,59 +1,16 @@
 ---
-id: envoy-filter
-title: EnvoyFilter
-sidebar_label: EnvoyFilter
-description: EnvoyFilter
+id: auth
+title: Auth EnvoyFilter
+sidebar_label: Auth
+description: Auth EnvoyFilter
 keywords:
   - EnvoyFilter
+  - auth
 ---
 
-## EnvoyFilter
+## http.ext_authz
 
-```yaml
-apiVersion: networking.istio.io/v1alpha3
-kind: EnvoyFilter
-metadata:
-  name: <name>
-  namespace: <namespace>
-spec:
-  workloadSelector:
-    labels:
-      <key>: <value>
-  configPatches:
-    []
-    # - applyTo:
-    #   match:
-    #   patch:
-  # 패치가 적용되는 우선순위는 namespace 기준으로 루트 네임스페이스 -> 개별 네임스페이스
-  # 순으로 적용됩니다.
-  # 같은 namespace에 여러 EnvoyFilter가 존재하는 경우, 우선순위는 priority 기준으로
-  # 오름차순으로 적용됩니다.
-  # 같은 EnvoyFilter에 여러 패치가 존재하는 경우, 우선순위는 패치의 순서로 적용됩니다.
-  priority: 0 # default
-```
-
-- `workloadSelector`
-  - 설정하면 동일한 namespace 내에서 선택된 Workload의 Envoy에 필터가 적용됩니다
-  - 설정하지 않으면 동일한 namespace 내의 모든 Workload의 Envoy에 필터가 적용됩니다
-  - namespace가 MeshConfig의 rootNamespace(default: istio-system)와 같은 경우 namespace에 관계없이 적용됩니다
-
-## Debug
-
-```shell
-istioctl proxy-status
-```
-
-```shell
-istioctl proxy-config listener -n <namespace> <pod>
-```
-
-- `-o json`: 상세 정보를 json 형태로 출력합니다.
-- `--port <port>`: 특정 port에 대한 정보만 출력합니다.
-
-## patch
-
-### envoy.filters.http.ext_authz
-
+- https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter#config-http-filters-ext-authz
 - https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto
 
 ```yaml

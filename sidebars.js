@@ -588,7 +588,6 @@ module.exports = {
 			label: "Network",
 			items: [
 				"mlops/mlops/network/cni-calico",
-				"mlops/mlops/network/coredns",
 				{
 					type: "category",
 					label: "Istio",
@@ -602,7 +601,15 @@ module.exports = {
 							items: [
 								"mlops/mlops/network/istio/traffic-management/gateway",
 								"mlops/mlops/network/istio/traffic-management/virtual-service",
-								"mlops/mlops/network/istio/traffic-management/envoy-filter",
+								{
+									type: "category",
+									label: "EnvoyFilter",
+									items: [
+										"mlops/mlops/network/istio/traffic-management/envoy-filter/envoy-filter",
+										"mlops/mlops/network/istio/traffic-management/envoy-filter/auth",
+										"mlops/mlops/network/istio/traffic-management/envoy-filter/compression",
+									],
+								},
 							],
 						},
 						"mlops/mlops/network/istio/kiali",
@@ -843,10 +850,7 @@ module.exports = {
 				{
 					type: "category",
 					label: "Jotai",
-					items: [
-						"lang/javascript/react/jotai/jotai",
-						"lang/javascript/react/jotai/provider",
-					],
+					items: ["lang/javascript/react/jotai/jotai"],
 				},
 				{
 					type: "category",
@@ -869,16 +873,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "Components",
-			items: [
-				"lang/javascript/components/semantic-elements",
-				{
-					type: "category",
-					label: "Styled Components",
-					items: [
-						"lang/javascript/components/styled-components/styled-components",
-					],
-				},
-			],
+			items: ["lang/javascript/components/semantic-elements"],
 		},
 		{
 			type: "category",

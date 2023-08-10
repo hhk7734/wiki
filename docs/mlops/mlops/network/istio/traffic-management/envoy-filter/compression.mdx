@@ -1,0 +1,186 @@
+---
+id: compression
+title: Compression EnvoyFilter
+sidebar_label: Compression
+description: Compression EnvoyFilter
+keywords:
+  - EnvoyFilter
+  - compression
+---
+
+## http.compressor
+
+- https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/compressor_filter
+- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/compressor/v3/compressor.proto
+
+```yaml
+spec:
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: envoy.filters.network.http_connection_manager
+              subFilter:
+                name: envoy.filters.http.router
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.compressor
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.compressor.v3.Compressor
+            response_direction_config:
+              common_config:
+                min_content_length: 1024
+            compressor_library:
+              name: text_optimized
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.compression.brotli.compressor.v3.Brotli
+```
+
+- `content_length`
+  - 최소 response 길이입니다.
+  - 기본값은 30입니다.
+- `content_type`
+  - 압축이 적용될 mime-types 입니다.
+  - 기본값은 `["application/javascript", "application/json", "application/xhtml+xml", "image/svg+xml", "text/css", "text/html", "text/plain", "text/xml"]` 입니다.
+- `disable_on_etag_header`
+- `remove_accept_encoding_header`
+- `runtime_enabled`
+
+<br />
+
+- `request_direction_config`
+  - 설정하지 않으면 기본적으로 비활성화 됩니다.
+  - `common_config`
+    - `enabled`
+      - `default_value`
+      - `runtime_key`
+    - `min_content_length`
+    - `content_type`
+- `response_direction_config`
+  - 설정하지 않으면 기본적으로 활성화 됩니다.
+  - `common_config`
+    - `enabled`
+      - `default_value`
+      - `runtime_key`
+    - `min_content_length`
+    - `content_type`
+  - `disable_on_etag_header`
+  - `remove_accept_encoding_header`
+- `choose_first`
+- `compressor_library`
+
+## `compressor_library`
+
+### gzip
+
+- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/gzip/compressor/v3/gzip.proto
+
+```yaml
+spec:
+  configPatches:
+    - patch:
+        value:
+          typed_config:
+            compressor_library:
+              name: text_optimized
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.compression.gzip.compressor.v3.Gzip
+```
+
+- `memory_level`
+  - 1 ~ 9 까지 값을 가질 수 있으며, 클 수록 메모리를 많이 사용하지만 빨라지고 압축 결과가 좋아집니다.
+  - 기본값은 5 입니다.
+- `compression_level`
+  - COMPRESSION_LEVEL_N으로 설정할 수 있으며 N은 1 ~ 9 까지의 값을 가집니다.
+  - BEST_SPEED == COMPRESSION_LEVEL_1
+  - DEFAULT_COMPRESSION == COMPRESSION_LEVEL_6
+  - BEST_COMPRESSION == COMPRESSION_LEVEL_9
+- `compression_strategy`
+  - DEFAULT_STRATEGY
+  - FILTERED
+  - HUFFMAN_ONLY
+  - RLE
+  - FIXED
+- `window_bits`
+  - 압축기 window 크기는 2 ^ window_bits 로 설정됩니다. 9 ~ 15 사이 값을 가지며, 클 수록 더 많은 메모리를 사용하는 대신 압축 결과가 좋아집니다.
+  - 기본값은 12 입니다.
+- `chunk_size`
+  - 출력 버퍼 크기입니다.
+  - 기본값은 4096 입니다.
+
+### Brotli
+
+- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/brotli/compressor/v3/brotli.proto
+
+```yaml
+spec:
+  configPatches:
+    - patch:
+        value:
+          typed_config:
+            compressor_library:
+              name: text_optimized
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.compression.brotli.compressor.v3.Brotli
+```
+
+- `quality`
+  - 0 ~ 11 까지 값을 가질 수 있으며, 클 수록 느려지는 대신 압축 결과가 좋아집니다.
+  - 기본값은 3 입니다.
+- `encoder_mode`
+  - DEFAULT == GENERIC
+  - TEXT
+  - FONT
+- `window_bits`
+  - 압축기 window 크기는 2 ^ window_bits 로 설정됩니다. 10 ~ 24 사이 값을 가지며, 클 수록 더 많은 메모리를 사용하는 대신 압축 결과가 좋아집니다.
+  - 기본값은 18 입니다.
+- `input_block_bits`
+  - 16 ~ 24 까지 값을 가질 수 있으며, 클 수록 더 많은 메모리를 사용하는 대신 압축 결과가 좋아집니다.
+  - 기본값은 24 입니다.
+- `chunk_size`
+  - 출력 버퍼 크기입니다.
+  - 기본값은 4096 입니다.
+- `disable_literal_context_modeling`
+  - literal context modeling을 비활성화할 지 여부입니다. 디코딩 속도와 압축률 사이의 트레이드 오프입니다.
+
+### zstd
+
+- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/zstd/compressor/v3/zstd.proto
+
+```yaml
+spec:
+  configPatches:
+    - patch:
+        value:
+          typed_config:
+            compressor_library:
+              name: text_optimized
+              typed_config:
+                "@type": type.googleapis.com/envoy.extensions.compression.zstd.compressor.v3.Zstd
+```
+
+- `compression_level`
+  - 컨텐츠 크기와 미리 정의된 압축 레벨에 따라 동적으로 압축 파라미터가 결정됩니다.
+- `enable_checksum`
+  - 32 bits 체크섬을 사용할 지 여부입니다.
+- `strategy`
+  - 압축 전략으로 클 수록 느려지는 대신 압축 결과가 좋아집니다.
+  - DEFAULT = 0
+  - FAST
+  - DFAST
+  - GREEDY
+  - LAZY
+  - LAZY2
+  - BTLAZY2
+  - BTOPT
+  - BTULTRA
+  - BTULTRA2
+- `dictionary`
+  - 압축을 위한 dictionary 입니다.
+- `chunk_size`
+  - 출력 버퍼 크기입니다.
+  - 기본값은 4096 입니다.
