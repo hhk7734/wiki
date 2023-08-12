@@ -1,0 +1,38 @@
+---
+id: user-defined-order
+title: 사용자 정의 순서(User Defined Order)
+sidebar_label: 사용자 정의 순서
+description: 사용자 정의 순서(User Defined Order)
+keywords:
+  - sql
+  - user-defined
+  - order
+---
+
+## LexoRank
+
+- Bucket
+  - Rank 값을 저장하는 곳입니다.
+  - 0 -> 1 -> 2 -> 0 순으로 순환하는 3 개의 Bucket이 존재합니다.
+  - 1 개의 Bucket만 사용되며, Balancing을 하는 동안에만 2 개의 Bucket이 존재할 수 있습니다.
+- Balancing
+  - Rank를 변경할 수 없는 경우가 발생한 경우, 전체 Rank를 다시 계산하는 것을 의미합니다.
+- Marker Row
+  - Type 0: 가장 작은 Rank 값을 가진 Row
+  - Type 1
+  - Type 2: 가장 큰 Rank 값을 가진 Row
+
+<br />
+
+- `<bucket>|<rank>` 형태로 저장합니다.
+- 0 ~ 9, a ~ z의 문자를 사용하면 36진수로 표현할 수 있습니다.
+- 소숫점 대신 `:` 문자를 사용합니다.
+
+| id  | rank       |
+| --- | ---------- |
+| 1   | 0\|000001: |
+| 2   | 0\|hzzzzz: |
+| 3   | 0\|i00000: |
+| 4   | 0\|zzzzzz: |
+
+## Linked List

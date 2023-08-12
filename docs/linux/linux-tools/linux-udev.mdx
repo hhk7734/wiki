@@ -28,12 +28,12 @@ The information displayed is useful for writing rules for the device.
 
 > Files should be named xx-descriptive-name.rules, the xx should be chosen first according to the following sequence points:
 >
-> **\< 60** most user rules; if you want to prevent an assignment being
+> **< 60** most user rules; if you want to prevent an assignment being
 > overriden by default rules, use the := operator. These cannot access persistent information such as that from vol_id
 >
-> **\< 70** rules that run helpers such as vol_id to populate the udev db
+> **< 70** rules that run helpers such as vol_id to populate the udev db
 >
-> **\< 90** rules that run other programs (often using information in the
+> **< 90** rules that run other programs (often using information in the
 > udev db)
 >
 > **>=90** rules that should run last

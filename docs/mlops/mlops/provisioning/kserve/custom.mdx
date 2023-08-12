@@ -1,0 +1,90 @@
+---
+id: custom
+title: Kserve Custom Resource
+sidebar_label: Custom Resource
+description: Kserve Custom Resource
+keywords:
+  - kserve
+  - Custom
+  - ServingRuntimes
+  - Transformer
+---
+
+## ServingRuntimes
+
+```shell
+python3 -m pip install kserve
+```
+
+```python
+from kserve import InferRequest, InferResponse, Model, ModelServer
+
+
+class Predictor(Model):
+    def __init__(self, name: str):
+        super().__init__(name)
+
+        self.load()
+
+    def load(self):
+        # Load model
+
+        self.ready = True
+
+    async def preprocess(
+        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
+    ) -> dict | InferRequest:
+
+        # -> predict
+        return payload
+
+    async def predict(
+        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
+    ) -> dict | InferResponse:
+
+        # -> postprocess
+        return response
+
+    def postprocess(
+        self, response: dict | InferResponse, headers: dict[str, str] | None = None
+    ) -> dict | InferResponse:
+
+        return response
+
+
+if __name__ == "__main__":
+    ModelServer().start([Predictor("test")])
+```
+
+## Transformer
+
+```shell
+python3 -m pip install kserve
+```
+
+```python
+from kserve import InferRequest, InferResponse, Model, ModelServer
+
+
+class Transformer(Model):
+    def __init__(self, name: str):
+        super().__init__(name)
+
+        self.load()
+
+    async def preprocess(
+        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
+    ) -> dict | InferRequest:
+
+        return payload
+
+    def postprocess(
+        self, response: dict | InferResponse, headers: dict[str, str] | None = None
+    ) -> dict | InferResponse:
+
+        return response
+
+
+if __name__ == "__main__":
+    ModelServer().start([Transformer("test")])
+```

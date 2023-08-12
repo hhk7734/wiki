@@ -8,7 +8,7 @@ keywords:
   - null modem
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 Ref:
 
@@ -18,14 +18,14 @@ Ref:
 - [https://github.com/martinezjavier/ldd3/blob/master/tty/tiny_tty.c](https://github.com/martinezjavier/ldd3/blob/master/tty/tiny_tty.c)
 
 <center>
-  <img src={useBaseUrl('img/linux/linux-kernel/jake-tty-driver.png')} />
+  <img src={useBaseUrl("img/linux/linux-kernel/jake-tty-driver.png")} />
 </center>
 
 가상으로 하드웨어 UART 장치를 만들려면 아래 조건이 만족되어야 합니다.
 
 - /sys/class/tty/xxx의 링크가 /sys/devices/virtual/tty/xxx면 안 됨
 - /sys/class/tty/xxx/device 링크가 존재해야 함
-- linux/serial_core.h (uart_driver \<-\> tty_driver)
+- linux/serial_core.h (uart_driver <-\> tty_driver)
 - normal serial ports == N_TTY
 - platform_device와 platform_driver의 name이 같아야 연결 됨
 

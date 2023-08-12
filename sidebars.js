@@ -120,7 +120,14 @@ module.exports = {
 						"lang/db/sql/postgresql/table",
 					],
 				},
-				"lang/db/sql/pagination",
+				{
+					type: "category",
+					label: "Design",
+					items: [
+						"lang/db/sql/design/pagination",
+						"lang/db/sql/design/user-defined-order",
+					],
+				},
 			],
 		},
 		{
@@ -576,7 +583,7 @@ module.exports = {
 					items: [
 						"mlops/mlops/provisioning/kserve/kserve",
 						"mlops/mlops/provisioning/kserve/crds",
-						"mlops/mlops/provisioning/kserve/transformer",
+						"mlops/mlops/provisioning/kserve/custom",
 						"mlops/mlops/provisioning/kserve/mlflow",
 					],
 				},
