@@ -1,81 +1,16 @@
 ---
-id: cert-manager
-title: cert-manager
-sidebar_label: cert-manager
-description: cert-manager
+id: lets-encrypt
+title: Let's Encrypt with cert-manager
+sidebar_label: Let's Encrypt
+description: Let's Encrypt with cert-manager
 keywords:
   - cert-manager
+  - Let's Encrypt
 ---
 
-## 설치
-
-- https://cert-manager.io/docs/installation/helm/
-
-```shell
-helm repo add jetstack https://charts.jetstack.io
-```
-
-```shell
-helm repo update jetstack \
-&& helm search repo jetstack/cert-manager -l | head -n 10
-```
-
-```shell
-helm show values jetstack/cert-manager \
-    --version v1.10.1 \
-    > cert-manager-values.yaml
-```
-
-```yaml title="cert-manager-values.yaml"
-global:
-  commonLabels: {}
-
-installCRDs: true
-
-resources:
-  requests:
-    cpu: 10m
-    memory: 256Mi
-  limits:
-    memory: 256Mi
-```
-
-```shell
-helm template cert-manager jetstack/cert-manager \
-    --version v1.10.1 \
-    -n auth \
-    -f cert-manager-values.yaml \
-    > cert-manager.yaml
-```
-
-```shell
-helm upgrade cert-manager jetstack/cert-manager \
-    --install \
-    --version v1.10.1 \
-    -n auth \
-    --history-max 3 \
-    -f cert-manager-values.yaml
-```
-
-## Removal
-
-사용된 CRD가 있는지 확인합니다.
-
-```shell
-kubectl get Issuers,ClusterIssuers,Certificates,CertificateRequests,Orders,Challenges -A
-```
-
-```shell
-helm uninstall -n auth cert-manager
-```
-
-```shell
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.10.1/cert-manager.crds.yaml
-```
-
-## selfSigned
-
 ## Let's Encrypt
+
+- - https://cert-manager.io/docs/faq/acme/
 
 ### HTTP-01 challenge
 
@@ -136,6 +71,8 @@ spec:
               key: token
 ```
 
+- https://istio.io/latest/docs/ops/integrations/certmanager/
+
 ```yaml
 apiVersion: cert-manager.io/v1
 kind: Certificate
@@ -179,9 +116,3 @@ kubectl describe certificaterequests.cert-manager.io -n istio-ingress <name>
 ```shell
 kubectl logs cert-manager-
 ```
-
-## Reference
-
-- https://github.com/jetstack/cert-manager
-- https://istio.io/latest/docs/ops/integrations/certmanager/
-- https://cert-manager.io/docs/faq/acme/

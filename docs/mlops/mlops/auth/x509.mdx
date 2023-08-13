@@ -13,7 +13,7 @@ openssl version -a
 
 ## Root CA
 
-### root-key.pem
+### root-key.pem(Private)
 
 ```shell
 openssl genrsa -out root-key.pem 3072
@@ -41,13 +41,11 @@ keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertS
 subjectKeyIdentifier = hash
 
 [ req_dn ]
-commonName = *.loliot.net
 organizationName = loliot
 organizationalUnitName = devops
 countryName = KR
 ```
 
-- commonName -\> CN
 - organizationName -\> O, 쿠버네티스에서 Group으로 인식
 - organizationalUnitName -\> OU
 - localityName -\> L
@@ -55,13 +53,13 @@ countryName = KR
 - countryName -\> C
 - emailAddress -\> EMAIL
 
-### root-cert.csr
+### root-cert.csr(인증 서명 요청서)
 
 ```shell
 openssl req -new -key root-key.pem -config root-ca.conf -out root-cert.csr
 ```
 
-### root-cert.pem
+### root-cert.pem(Public)
 
 ```shell
 openssl x509 -req -days 3650 -signkey root-key.pem \
@@ -107,7 +105,6 @@ subjectAltName=@san
 DNS.1 = loliot.net
 
 [ req_dn ]
-commonName = *.loliot.net
 organizationName = loliot
 organizationalUnitName = devops
 countryName = KR

@@ -117,8 +117,6 @@ kubectl label namespace istio-system topology.istio.io/network=<network>
 ```yaml title="istiod-values.yaml"
 meshConfig:
   enablePrometheusMerge: true
-  rootNamespace: istio-system
-  trustDomain: "cluster.local"
 
 global:
   meshID: <mesh-id> # 이 값은 공통으로 사용됩니다.

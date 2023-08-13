@@ -72,6 +72,10 @@ const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
 
 ## NodeGroup
 
+:::info
+EBS 암호화가 필요한 경우 진행 전에 EC2 계정 속성의 EBS 암호화 기본 설정을 활성화하면 됩니다.
+:::
+
 ```typescript
 const nodeGroupName = "eks-ng";
 const nodeGroup = new aws.eks.NodeGroup(
@@ -81,7 +85,7 @@ const nodeGroup = new aws.eks.NodeGroup(
     clusterName: cluster.name,
     nodeRoleArn: nodeGroupRole.arn,
     instanceTypes: ["m6a.large"],
-    diskSize: 30,
+    diskSize: 50,
     scalingConfig: {
       minSize: 1,
       maxSize: 1,

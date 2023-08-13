@@ -499,11 +499,6 @@ module.exports = {
 				},
 				{
 					type: "category",
-					label: "Policy",
-					items: ["mlops/mlops/kubernetes/policy/limit-range"],
-				},
-				{
-					type: "category",
 					label: "Scheduling",
 					items: [
 						"mlops/mlops/kubernetes/scheduling/affinity",
@@ -600,6 +595,7 @@ module.exports = {
 					label: "Istio",
 					items: [
 						"mlops/mlops/network/istio/istio",
+						"mlops/mlops/network/istio/ambient-mesh",
 						"mlops/mlops/network/istio/multi-cluster",
 						"mlops/mlops/network/istio/upgrade",
 						{
@@ -684,7 +680,15 @@ module.exports = {
 				"mlops/mlops/auth/kubeconfig",
 				"mlops/mlops/auth/rbac",
 				"mlops/mlops/auth/x509",
-				"mlops/mlops/auth/cert-manager",
+				{
+					type: "category",
+					label: "cert-manager",
+					items: [
+						"mlops/mlops/auth/cert-manager/cert-manager",
+						"mlops/mlops/auth/cert-manager/crds",
+						"mlops/mlops/auth/cert-manager/lets-encrypt",
+					],
+				},
 				{
 					type: "category",
 					label: "Keycloak",

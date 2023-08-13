@@ -1,0 +1,83 @@
+---
+id: crds
+title: cert-manager CRDs
+sidebar_label: CRDs
+description: cert-manager CRDs
+keywords:
+  - cert-manager
+  - CRD
+---
+
+## Issure
+
+- https://cert-manager.io/docs/concepts/issuer/
+- https://cert-manager.io/docs/configuration/
+
+<br />
+
+- Issuer는 인증서에 서명할 수 있는 인증 기관을 나타내는 리소스입니다.
+- Issuer는 Namespace 내에서만 사용가능하므로 여러 Namespace에서 사용하려면 ClusterIssuer를 사용해야합니다.
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: <issuerName>
+  namespace: <namespace>
+spec:
+  selfSigned: {}
+  # ca:
+```
+
+- `selfSigned`: 별도의 인증 가관 없이 인증서 생성 요청이 오면 자체 서명합니다.
+- `ca`: 인증서 생성 요청이 오면 등록된 인증서를 사용하여 서명합니다.
+  - `secretName`: 인증서가 저장된 Secret의 이름을 설정합니다. Issuer는 Issuer가 속한 Namespace에서 Secret을 찾고, ClusterIssuer의 경우 기본적으로 cert-manager가 설치된 Namespace에서 Secret을 찾습니다.(설치 시 clusterResourceNamespace 옵션으로 변경 가능)
+
+## Certificate
+
+- https://cert-manager.io/docs/usage/certificate/
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: <certificateName>
+  namespace: <namespace>
+spec:
+  secretName: <secretName>
+  # isCA: false
+  # secretTemplate:
+  #   annotations:
+  #     <key>: <value>
+  #   labels:
+  #     <key>: <value>
+  duration: 2160h # 90d
+  # renewBefore: 360h # 15d
+  # subject:
+  #   organizations:
+  #     - <organization> # O
+  privateKey:
+    algorithm: ECDSA # RSA|Ed25519|ECDSA
+    size: 256
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer # Issuer|ClusterIssuer
+    name: <issuerName>
+```
+
+- `secretName`: 인증서가 저장될 Secret의 이름을 설정합니다.
+
+생성된 인증서는 아래와 같은 형태로 저장됩니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <secretName>
+  namespace: <namespace>
+type: kubernetes.io/tls
+data:
+  ca.crt: <PEM CA certificate>
+  tls.key: <PEM private key>
+  tls.crt: <PEM signed certificate chain>
+```
