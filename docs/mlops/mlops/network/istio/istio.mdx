@@ -20,23 +20,19 @@ asdf list all istioctl
 ```
 
 ```shell
-asdf install istioctl 1.16.1
+asdf install istioctl 1.18.2
 ```
 
 ```shell
-asdf global istioctl 1.16.1
+asdf global istioctl 1.18.2
 ```
 
 ```shell
-asdf local istioctl 1.16.1
+asdf local istioctl 1.18.2
 ```
 
 ```shell
 asdf current istioctl
-```
-
-```shell
-export ISTIO_VERSION=1.16.1
 ```
 
 - https://github.com/istio/istio/tree/master/manifests/charts
@@ -54,23 +50,34 @@ helm repo update istio \
 kubectl create namespace istio-system
 ```
 
+### Istio CSR, Multi Cluster
+
+해당 기능을 사용하려면 설치 전에
+
+- [Istio CSR](/docs/mlops/mlops/network/istio/istio-csr)
+- [Multi Cluster](/docs/mlops/mlops/network/istio/multi-cluster)
+
+를 먼저 확인하고 설치해야합니다.
+
 ### base
+
+- https://istio.io/latest/docs/setup/install/helm/
 
 base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니다.
 
 ```shell
 helm show values istio/base \
-    --version 1.16.1 \
+    --version 1.18.2 \
     > istio-base-values.yaml
 ```
 
 ```yaml title="istio-base-values.yaml"
-defaultRevision: 1-16-1
+defaultRevision: 1-18-2
 ```
 
 ```shell
 helm template istio-base istio/base \
-    --version 1.16.1 \
+    --version 1.18.2 \
     -n istio-system \
     -f istio-base-values.yaml \
     > istio-base.yaml
@@ -79,7 +86,7 @@ helm template istio-base istio/base \
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --version 1.16.1 \
+    --version 1.18.2 \
     -n istio-system \
     --history-max 3 \
     -f istio-base-values.yaml
@@ -89,7 +96,7 @@ helm upgrade istio-base istio/base \
 
 ```shell
 helm show values istio/istiod \
-    --version 1.16.1 \
+    --version 1.18.2 \
     > istiod-values.yaml
 ```
 
@@ -102,21 +109,21 @@ pilot:
     limits:
       memory: 512Mi
 
-revision: 1-16-1
+revision: 1-18-2
 ```
 
 ```shell
-helm template istiod-1-16-1 istio/istiod \
-    --version 1.16.1 \
+helm template istiod-1-18-2 istio/istiod \
+    --version 1.18.2 \
     -n istio-system \
     -f istiod-values.yaml \
     > istiod.yaml
 ```
 
 ```shell
-helm upgrade istiod-1-16-1 istio/istiod \
+helm upgrade istiod-1-18-2 istio/istiod \
     --install \
-    --version 1.16.1 \
+    --version 1.18.2 \
     -n istio-system \
     --history-max 3 \
     -f istiod-values.yaml
@@ -126,12 +133,12 @@ helm upgrade istiod-1-16-1 istio/istiod \
 
 ```shell
 helm show values istio/gateway \
-    --version 1.16.1 \
+    --version 1.18.2 \
     > ingress-values.yaml
 ```
 
 ```yaml title="ingress-values.yaml"
-revision: 1-16-1
+revision: 1-18-2
 
 service:
   ports:
@@ -194,7 +201,7 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 
 ```shell
 helm template istio-ingress istio/gateway \
-    --version 1.16.1 \
+    --version 1.18.2 \
     -n istio-system \
     -f ingress-values.yaml \
     > ingress.yaml
@@ -203,7 +210,7 @@ helm template istio-ingress istio/gateway \
 ```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
-    --version 1.16.1 \
+    --version 1.18.2 \
     -n istio-system \
     --history-max 3 \
     -f ingress-values.yaml
@@ -305,8 +312,8 @@ revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활�
 
 | Resource  | Enabled label       | Disabled label                  |
 | --------- | ------------------- | ------------------------------- |
-| Namespace | istio.io/rev=1-16-1 | istio-injection=disabled        |
-| Pod       | istio.io/rev=1-16-1 | sidecar.istio.io/inject="false" |
+| Namespace | istio.io/rev=1-18-2 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-18-2 | sidecar.istio.io/inject="false" |
 
 :::warning
 

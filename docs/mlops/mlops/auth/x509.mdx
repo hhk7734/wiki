@@ -13,7 +13,7 @@ openssl version -a
 
 ## Root CA
 
-### root-key.pem(Private)
+### root-key.pem(Private Key)
 
 ```shell
 openssl genrsa -out root-key.pem 3072
@@ -53,13 +53,13 @@ countryName = KR
 - countryName -\> C
 - emailAddress -\> EMAIL
 
-### root-cert.csr(인증 서명 요청서)
+### root-cert.csr(CSR, 인증 서명 요청서)
 
 ```shell
 openssl req -new -key root-key.pem -config root-ca.conf -out root-cert.csr
 ```
 
-### root-cert.pem(Public)
+### root-cert.pem(CRT, 인증서)
 
 ```shell
 openssl x509 -req -days 3650 -signkey root-key.pem \

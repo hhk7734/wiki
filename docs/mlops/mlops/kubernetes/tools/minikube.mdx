@@ -1,0 +1,55 @@
+---
+id: minikube
+title: Minikube
+sidebar_label: Minikube
+description: Minikube
+keywords:
+  - minikube
+---
+
+## minikube start
+
+```shell
+minikube start [<flag>]
+```
+
+- `<flag>`
+  - `--kubernetes-version=<version>`
+  - `--driver=<name>`, docker|podman
+  - `--container-runtime=<name>`, docker|crio|containerd
+  - `--cpus=<number>`
+  - `--insecure-registry=<host>[,<host>]`, docker.io, quay.io
+
+### Podman
+
+- https://minikube.sigs.k8s.io/docs/drivers/podman/
+
+```shell
+sudo pacman -S podman
+```
+
+```shell
+minikube config set rootless true
+```
+
+## minikube config
+
+기본 설정을 변경할 수 있는 명령어입니다.
+
+```shell
+minikube config set <key> <value>
+```
+
+```shell
+minikube config view
+```
+
+```shell
+minikube config unset <key>
+```
+
+## minikube stop
+
+```shell
+minikube stop
+```

@@ -8,8 +8,20 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## Configure Trust
+
+<Tabs
+    defaultValue="istio-csr"
+    values={[
+        {label: 'Istio-CSR', value: 'istio-csr',},
+        {label: '직접 생성', value: 'manual',},
+    ]}
+>
+
+<TabItem value="manual">
 
 - https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/
 - [x509](/docs/mlops/mlops/auth/x509)
@@ -85,6 +97,16 @@ kubectl create secret generic cacerts -n istio-system \
     --from-file=../root-cert.pem
 ```
 
+</TabItem>
+
+<TabItem value="istio-csr">
+
+- [Istio CSR](/docs/mlops/mlops/network/istio/istio-csr)
+
+</TabItem>
+
+</Tabs>
+
 ## Multi-Primary on different networks
 
 - https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/
@@ -122,14 +144,14 @@ global:
   meshID: <mesh-id> # 이 값은 공통으로 사용됩니다.
   multiCluster:
     enabled: true
-    clusterName: <clusterName>
+    clusterName: <clusterName> # clusterID
   network: <network>
 ```
 
 ```shell
 helm upgrade istiod istio/istiod \
     --install \
-    --version $ISTIO_VERSION \
+    --version 1.18.2 \
     -n istio-system \
     --history-max 3 \
     -f istiod-values.yaml
@@ -139,7 +161,7 @@ helm upgrade istiod istio/istiod \
 
 ```shell
 helm show values istio/gateway \
-    --version $ISTIO_VERSION \
+    --version 1.18.2 \
     > ingress-cross-values.yaml
 ```
 
@@ -199,7 +221,7 @@ networkGateway: <network>
 ```shell
 helm upgrade ingress-cross istio/gateway \
     --install \
-    --version $ISTIO_VERSION \
+    --version 1.18.2 \
     -n istio-system \
     --history-max 3 \
     -f ingress-cross-values.yaml

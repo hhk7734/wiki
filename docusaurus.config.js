@@ -3,7 +3,7 @@ const rehypeKatex = require("rehype-katex");
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-	title: "loliot",
+	title: "loliot by HHK",
 	tagline: "loliot",
 	url: "https://wiki.loliot.net",
 	baseUrl: "/",
@@ -59,7 +59,7 @@ const config = {
 	/** @type {import('@docusaurus/preset-classic').ThemeConfig} */
 	themeConfig: {
 		colorMode: {
-			defaultMode: "light",
+			defaultMode: "dark",
 			respectPrefersColorScheme: true,
 		},
 		footer: {
@@ -131,12 +131,20 @@ const config = {
 							}),
 						};
 					})
-					.concat({
-						href: "https://github.com/hhk7734/wiki.loliot.net",
-						position: "right",
-						className: "header-github-link",
-						"aria-label": "GitHub",
-					});
+					.concat([
+						{
+							href: "https://www.linkedin.com/in/%ED%98%84%EA%B8%B0-%ED%99%8D-26896b98/",
+							position: "right",
+							className: "header-linkedin-link",
+							"aria-label": "LinkedIn",
+						},
+						{
+							href: "https://github.com/hhk7734/wiki.loliot.net",
+							position: "right",
+							className: "header-github-link",
+							"aria-label": "GitHub",
+						},
+					]);
 			})(),
 		},
 		prism: {

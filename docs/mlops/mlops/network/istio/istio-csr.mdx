@@ -1,0 +1,151 @@
+---
+id: istio-csr
+title: Istio CSR
+sidebar_label: Istio CSR
+description: Istio CSR
+keywords:
+  - Istio
+  - CSR
+---
+
+- [cert-manager](/docs/mlops/mlops/auth/cert-manager) 설치가 선행되어야 합니다.
+
+## Root CA 발급
+
+### SelfSigned
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: selfsigned
+  namespace: istio-system
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: root-ca
+  namespace: istio-system
+spec:
+  isCA: true
+  duration: 87600h # 10 years
+  secretName: root-ca
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  subject:
+    organizations:
+      - cluster.local
+      - cert-manager
+  issuerRef:
+    group: cert-manager.io
+    kind: Issuer
+    name: selfsigned
+```
+
+```shell
+kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.crt"}}' | base64 -d > tls.crt
+```
+
+```shell
+kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.key"}}' | base64 -d > tls.key
+```
+
+```shell
+kubectl create secret generic -n istio-system istio-ca \
+    --from-file=tls.crt \
+    --from-file=tls.key
+```
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: istio-ca
+  namespace: istio-system
+spec:
+  ca:
+    secretName: istio-ca
+```
+
+## Istio-CSR(Intermediate CA)
+
+```shell
+kubectl create secret generic -n auth istio-root-ca \
+    --from-file=ca.pem=tls.crt
+```
+
+```shell
+helm repo update jetstack \
+&& helm search repo jetstack/cert-manager-istio-csr -l | head -n 10
+```
+
+```shell
+helm show values jetstack/cert-manager-istio-csr \
+    --version v0.7.0 \
+    > cert-manager-istio-csr-values.yaml
+```
+
+```yaml title="cert-manager-istio-csr-values.yaml"
+app:
+  certmanager:
+    issuer:
+      name: istio-ca
+
+  tls:
+    rootCAFile: /var/run/secrets/istio-csr/ca.pem
+
+    certificateDNSNames:
+      - cert-manager-istio-csr.auth.svc
+
+    certificateDuration: 24h
+    istiodCertificateDuration: 24h
+
+  server:
+    clusterID: "Kubernetes" # istiod.Values.global.multiCluster.clusterName
+    maxCertificateDuration: 48h
+
+  istio:
+    revisions:
+      - 1-18-2
+
+volumes:
+  - name: root-ca
+    secret:
+      secretName: istio-root-ca
+
+volumeMounts:
+  - name: root-ca
+    mountPath: /var/run/secrets/istio-csr
+    readOnly: true
+```
+
+```shell
+helm template cert-manager-istio-csr jetstack/cert-manager-istio-csr \
+    --version v0.7.0 \
+    -n auth \
+    -f cert-manager-istio-csr-values.yaml \
+    > cert-manager-istio-csr.yaml
+```
+
+```shell
+helm upgrade cert-manager-istio-csr jetstack/cert-manager-istio-csr \
+    --install \
+    --history-max 3 \
+    --version v0.7.0 \
+    -n auth \
+    -f cert-manager-istio-csr-values.yaml
+```
+
+## istiod
+
+```yaml title="istiod-values.yaml"
+pilot:
+  env:
+    ENABLE_CA_SERVER: "false"
+
+global:
+  caAddress: cert-manager-istio-csr.auth.svc:443
+```

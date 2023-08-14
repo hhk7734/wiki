@@ -476,6 +476,7 @@ module.exports = {
 						"mlops/mlops/kubernetes/tools/kubeadm",
 						"mlops/mlops/kubernetes/tools/kustomize",
 						"mlops/mlops/kubernetes/tools/helm",
+						"mlops/mlops/kubernetes/tools/minikube",
 						"mlops/mlops/kubernetes/tools/etc",
 					],
 				},
@@ -595,7 +596,7 @@ module.exports = {
 					label: "Istio",
 					items: [
 						"mlops/mlops/network/istio/istio",
-						"mlops/mlops/network/istio/ambient-mesh",
+						"mlops/mlops/network/istio/istio-csr",
 						"mlops/mlops/network/istio/multi-cluster",
 						"mlops/mlops/network/istio/upgrade",
 						{
