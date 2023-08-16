@@ -88,6 +88,7 @@ const config = {
 						Flutter: "flutter",
 						ShellScript: "shellscript",
 						LabVIEW: "labview",
+						etc: "programmingetc",
 					},
 					MLOps: {
 						MLOps: "mlops",

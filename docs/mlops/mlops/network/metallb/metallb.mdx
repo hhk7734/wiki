@@ -1,0 +1,45 @@
+---
+id: metallb
+title: MetalLB
+sidebar_label: MetalLB
+description: MetalLB
+keywords:
+  - CNI
+  - MetalLB
+---
+
+## 설치
+
+- https://metallb.universe.tf/installation/
+
+```shell
+helm repo add metallb https://metallb.github.io/metallb
+```
+
+```shell
+helm repo update metallb \
+&& helm search repo metallb/metallb -l | head -n 10
+```
+
+```shell
+helm show values metallb/metallb \
+    --version 0.13.10 \
+    > metallb-values.yaml
+```
+
+```shell
+helm template metallb metallb/metallb \
+    --version 0.13.10 \
+    -n metallb-system \
+    -f metallb-values.yaml \
+    > metallb.yaml
+```
+
+```shell
+helm upgrade metallb metallb/metallb \
+    --install \
+    --history-max 3 \
+    --version 0.13.10 \
+    -n metallb-system \
+    -f metallb-values.yaml
+```

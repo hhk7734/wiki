@@ -20,6 +20,7 @@ module.exports = {
 			label: "Basics",
 			items: ["etc/circuit/basics/circuit-capacitor"],
 		},
+
 		{
 			type: "category",
 			label: "Sensor",
@@ -158,7 +159,11 @@ module.exports = {
 		"lang/design/event-storming",
 		"lang/design/solid",
 		"lang/design/contextual-logging",
-		"lang/design/repository-pattern",
+		{
+			type: "category",
+			label: "Pattern",
+			items: ["lang/design/pattern/repository"],
+		},
 		{
 			type: "category",
 			label: "OpenAPI",
@@ -211,6 +216,13 @@ module.exports = {
 			type: "category",
 			label: "Limited Resources",
 			items: ["lang/design/limited-resources/request-rate-limit"],
+		},
+	],
+	programmingetc: [
+		{
+			type: "category",
+			label: "Vim",
+			items: ["lang/etc/vim/nvim", "lang/etc/vim/regex"],
 		},
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
@@ -352,14 +364,6 @@ module.exports = {
 		"linux/linux-tools/zsh-and-utility",
 		{
 			type: "category",
-			label: "Vim",
-			items: [
-				"linux/linux-tools/vim/vim-basics",
-				"linux/linux-tools/vim/regex-for-vim",
-			],
-		},
-		{
-			type: "category",
 			label: "Git",
 			items: [
 				"linux/linux-tools/git/git-basics",
@@ -477,6 +481,7 @@ module.exports = {
 						"mlops/mlops/kubernetes/tools/kustomize",
 						"mlops/mlops/kubernetes/tools/helm",
 						"mlops/mlops/kubernetes/tools/minikube",
+						"mlops/mlops/kubernetes/tools/k0s",
 						"mlops/mlops/kubernetes/tools/etc",
 					],
 				},
@@ -620,6 +625,11 @@ module.exports = {
 						"mlops/mlops/network/istio/jaeger",
 						"mlops/mlops/network/istio/jwt",
 					],
+				},
+				{
+					type: "category",
+					label: "MetalLB",
+					items: ["mlops/mlops/network/metallb/metallb"],
 				},
 			],
 		},

@@ -141,7 +141,23 @@ meshConfig:
   enablePrometheusMerge: true
 
 global:
-  meshID: <mesh-id> # 이 값은 공통으로 사용됩니다.
+  meshID: <meshID> # 이 값은 공통으로 사용됩니다.
+
+  # 직접 각 클러스터의 cross gateway 엔드포인트를 지정해야할 때, 아래와 같이 설정해주세요.
+  # meshNetworks:
+  #   <network>:
+  #     endpoints:
+  #       - fromRegistry: <clusterName>
+  #     gateways:
+  #       - address: <ip|host>
+  #         port: 15443
+  #   <otherNetwork>:
+  #     endpoints:
+  #       - fromRegistry: <clusterName>
+  #     gateways:
+  #       - address: <ip|host>
+  #         port: 15443
+
   multiCluster:
     enabled: true
     clusterName: <clusterName> # clusterID
@@ -265,8 +281,13 @@ istioctl x create-remote-secret \
 ## Test
 
 ```shell
-kubectl run tmp-shell --rm -it --image nicolaka/netshoot --labels sidecar.istio.io/inject="true" -- /bin/bash
+kubectl run tmp-shell --rm -it --image nicolaka/netshoot \
+  --labels istio.io/rev="1-18-2" \
+  -- \
+  /bin/bash
 ```
+
+- https://istio.io/latest/docs/setup/install/multicluster/verify/
 
 ## 운영 시 주의사항
 
