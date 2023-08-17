@@ -16,75 +16,110 @@ keywords:
 python3 -m pip install kserve
 ```
 
-```python
-from kserve import InferRequest, InferResponse, Model, ModelServer
+```shell
+<project>
+├── app/
+│   ├── __init__.py
+│   ├── runtime/
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   └── predictor.py
+│   └── ...
+└── ...
+```
+
+```python title="app/runtime/__main__.py"
+import argparse
+
+from kserve import ModelServer, model_server
+
+from app.runtime.predictor import DEFAULT_MODEL_NAME, Predictor
+
+parser = argparse.ArgumentParser(parents=[model_server.parser])
+parser.add_argument("--model_dir", required=True, help="A URI pointer to the model binary")
+parser.add_argument(
+    "--model_name", help="The name that the model is served under.", default=DEFAULT_MODEL_NAME
+)
+args, _ = parser.parse_known_args()
+
+ModelServer().start([Predictor(args.model_name, args.model_dir)])
+```
+
+```python title="app/runtime/predictor.py"
+from kserve import InferRequest, InferResponse, Model
+
+DEFAULT_MODEL_NAME = "model"
+DEFAULT_LOCAL_MODEL_DIR = "/tmp/model"
 
 
 class Predictor(Model):
-    def __init__(self, name: str):
+    def __init__(self, name: str = DEFAULT_MODEL_NAME, model_dir: str = DEFAULT_LOCAL_MODEL_DIR):
         super().__init__(name)
+
+        self._model_dir = model_dir
 
         self.load()
 
     def load(self):
-        # Load model
-
         self.ready = True
 
     async def preprocess(
         self, payload: dict | InferRequest, headers: dict[str, str] | None = None
     ) -> dict | InferRequest:
-
-        # -> predict
         return payload
 
     async def predict(
         self, payload: dict | InferRequest, headers: dict[str, str] | None = None
     ) -> dict | InferResponse:
-
-        # -> postprocess
-        return response
-
-    def postprocess(
-        self, response: dict | InferResponse, headers: dict[str, str] | None = None
-    ) -> dict | InferResponse:
-
-        return response
-
-
-if __name__ == "__main__":
-    ModelServer().start([Predictor("test")])
-```
-
-## Transformer
-
-```shell
-python3 -m pip install kserve
-```
-
-```python
-from kserve import InferRequest, InferResponse, Model, ModelServer
-
-
-class Transformer(Model):
-    def __init__(self, name: str):
-        super().__init__(name)
-
-        self.load()
-
-    async def preprocess(
-        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
-    ) -> dict | InferRequest:
-
         return payload
 
     def postprocess(
         self, response: dict | InferResponse, headers: dict[str, str] | None = None
     ) -> dict | InferResponse:
-
         return response
+```
+
+```shell
+python3 -m app.runtime
+```
+
+- built-in flags
+  - `--http_port=<port>`, 기본값: 8080
+  - `--grpc_port=<port>`, 기본값: 8081
+  - `--workers=<process>`, 기본값: 1
+  - `--max_threads=<thread>`, 워커당 스레드, 기본값: 4
+  - `--max_asyncio_workers=<thread>`, 이벤트 루프 스레드, 기본값: CPU + 4
+  - `--enable_grpc=<bool>`, 기본값: true
+  - `--enable_docs_url=<bool>`, 기본값: false
+  - `--enable_latency_logging=<bool>`, 기본값: true
+  - `--configure_logging=<bool>`, 기본값: true
+  - `--log_config_file=<path>`
+  - `--access_log_format=<format>`
+- 추가
+  - `--model_dir=<path>`, 기본값: `/tmp/model`
+  - `--model_name=<name>`, 기본값: `model`
+
+## Transformer
+
+Transformer는 ServingRuntimes에서 `predict`만 제외하고 구현하면 됩니다.
+
+```python
+from kserve import InferRequest, InferResponse, Model
+
+DEFAULT_MODEL_NAME = "model"
 
 
-if __name__ == "__main__":
-    ModelServer().start([Transformer("test")])
+class Predictor(Model):
+    def __init__(self, name: str = DEFAULT_MODEL_NAME):
+        super().__init__(name)
+
+    async def preprocess(
+        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
+    ) -> dict | InferRequest:
+        return payload
+
+    def postprocess(
+        self, response: dict | InferResponse, headers: dict[str, str] | None = None
+    ) -> dict | InferResponse:
+        return response
 ```
