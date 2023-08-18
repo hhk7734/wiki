@@ -10,8 +10,7 @@
 		"deploy": "docusaurus deploy",
 		"serve": "docusaurus serve",
 		"clear": "docusaurus clear",
-		"docker-build": "skopeo login docker.io && buildah bud --tag wiki-loliot-net:1.0 . && skopeo copy containers-storage:localhost/wiki-loliot-net:1.0 docker://hhk7734/wiki-loliot-net:1.0",
-		"docker-update": "docker stack deploy -c docker-compose.yml wiki"
+		"docker-build": "sh ./script/build.sh"
 	},
 	"dependencies": {
 		"@docusaurus/core": "^2.4.1",
@@ -34,11 +33,7 @@
 		"styled-components": "^5.3.10"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
+		"production": [">0.2%", "not dead", "not op_mini all"],
 		"development": [
 			"last 1 chrome version",
 			"last 1 firefox version",
