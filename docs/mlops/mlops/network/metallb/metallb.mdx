@@ -27,6 +27,16 @@ helm show values metallb/metallb \
     > metallb-values.yaml
 ```
 
+```yaml title="metallb-values.yaml"
+controller:
+  enabled: true
+  labels: {}
+
+speaker:
+  enabled: true
+  labels: {}
+```
+
 ```shell
 helm template metallb metallb/metallb \
     --version 0.13.10 \

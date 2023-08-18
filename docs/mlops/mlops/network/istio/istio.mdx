@@ -157,11 +157,21 @@ service:
       targetPort: 8443
       protocol: TCP
       nodePort: <nodePort>
+  # https://istio.io/latest/docs/reference/config/labels/
+  # https://istio.io/latest/docs/reference/config/annotations/
   annotations:
     service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
     service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
     proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
   externalTrafficPolicy: "Local"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 2000m
+    memory: 1024Mi
 
 autoscaling:
   enabled: true

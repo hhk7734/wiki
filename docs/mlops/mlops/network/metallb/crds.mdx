@@ -1,0 +1,46 @@
+---
+id: crds
+title: MetalLB CRDs
+sidebar_label: CRDs
+description: MetalLB CRDs
+keywords:
+  - CNI
+  - MetalLB
+  - CRD
+---
+
+## IPAddressPool
+
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: <name>
+  namespace: metallb-system
+spec:
+  addresses:
+    - <ip>/<cidr>
+    - <ip>-<ip>
+```
+
+:::warning
+클라우드의 경우 Public IP가 노드 내에 확인이 안되기 때문에 Private IP를 사용합니다. Private IP의 특정 포트에 로드밸런싱되는 서비스가 바인딩되었을 때, Public IP에 해당 포트로 접근하면 됩니다.
+
+단 Service에 할당된 External IP는 Private IP기 때문에 이를 검색하여 사용하는 프로그램이 있다면 문제가 발생합니다.
+
+- https://metallb.universe.tf/installation/clouds/
+
+:::
+
+## L2Advertisement
+
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: <name>
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - <poolName>
+```

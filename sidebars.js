@@ -629,7 +629,10 @@ module.exports = {
 				{
 					type: "category",
 					label: "MetalLB",
-					items: ["mlops/mlops/network/metallb/metallb"],
+					items: [
+						"mlops/mlops/network/metallb/metallb",
+						"mlops/mlops/network/metallb/crds",
+					],
 				},
 			],
 		},

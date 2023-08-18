@@ -12,6 +12,7 @@ keywords:
 
 - https://cert-manager.io/docs/concepts/issuer/
 - https://cert-manager.io/docs/configuration/
+- https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.ClusterIssuer
 
 <br />
 
@@ -36,6 +37,7 @@ spec:
 ## Certificate
 
 - https://cert-manager.io/docs/usage/certificate/
+- https://cert-manager.io/docs/reference/api-docs/#cert-manager.io%2fv1
 
 ```yaml
 apiVersion: cert-manager.io/v1
@@ -57,8 +59,7 @@ spec:
   #   organizations:
   #     - <organization> # O
   privateKey:
-    algorithm: ECDSA # RSA|Ed25519|ECDSA
-    size: 256
+    algorithm: Ed25519 # RSA|Ed25519|ECDSA
   issuerRef:
     group: cert-manager.io
     kind: Issuer # Issuer|ClusterIssuer
