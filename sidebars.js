@@ -268,7 +268,11 @@ module.exports = {
 	],
 	go: [
 		"lang/go/go",
-		"lang/go/logging",
+		{
+			type: "link",
+			label: "Logging",
+			href: "https://github.com/hhk7734/zapx.go",
+		},
 		"lang/go/error",
 		"lang/go/test",
 		"lang/go/context",
@@ -956,7 +960,15 @@ module.exports = {
 		{
 			type: "category",
 			label: "Logger",
-			items: ["lang/python/logger/logger", "lang/python/logger/custom"],
+			items: [
+				"lang/python/logger/logger",
+				"lang/python/logger/custom",
+				{
+					type: "link",
+					label: "Contextual Logging",
+					href: "https://github.com/hhk7734/loggingx.py",
+				},
+			],
 		},
 		"lang/python/pytest",
 		{
