@@ -221,6 +221,22 @@ module.exports = {
 	programmingetc: [
 		{
 			type: "category",
+			label: "Terminal",
+			items: [
+				{
+					type: "category",
+					label: "Emulator",
+					items: ["lang/etc/terminal/emulator/alacritty"],
+				},
+				{
+					type: "category",
+					label: "Shell",
+					items: ["lang/etc/terminal/shell/zsh"],
+				},
+			],
+		},
+		{
+			type: "category",
 			label: "Vim",
 			items: ["lang/etc/vim/nvim", "lang/etc/vim/regex"],
 		},
@@ -396,11 +412,7 @@ module.exports = {
 		{
 			type: "category",
 			label: "Network",
-			items: [
-				"linux/linux-tools/network/nmap",
-				"linux/linux-tools/network/ss",
-				"linux/linux-tools/network/nslookup",
-			],
+			items: ["linux/linux-tools/network/nmap"],
 		},
 		"linux/linux-tools/linux-tools-etc",
 	],
@@ -480,7 +492,6 @@ module.exports = {
 						"mlops/mlops/kubernetes/tools/kubeadm",
 						"mlops/mlops/kubernetes/tools/kustomize",
 						"mlops/mlops/kubernetes/tools/helm",
-						"mlops/mlops/kubernetes/tools/minikube",
 						"mlops/mlops/kubernetes/tools/k0s",
 						"mlops/mlops/kubernetes/tools/etc",
 					],

@@ -1,0 +1,66 @@
+---
+id: alacritty
+title: Alacritty
+sidebar_label: Alacritty
+description: Alacritty
+keywords:
+  - alacritty
+---
+
+## 설치
+
+```shell
+sudo pacman -S alacrittyt
+```
+
+```shell
+curl https://github.com/alacritty/alacritty/releases/download/v0.12.2/alacritty.yml \
+    --create-dirs \
+    -o ~/.config/alacritty/alacritty.yml
+```
+
+```shell
+curl -sSL https://github.com/alacritty/alacritty/releases/download/v0.12.2/alacritty.info \
+    | tic -x -
+```
+
+:::info
+tic 명령어를 사용할 수 없는 원격 서버에 접속하는 경우 `TERM=xterm-256color ssh ...`와 같은 방식으로 접속해야합니다.
+:::
+
+## 설정
+
+### font
+
+```shell
+sudo pacman -S ttf-meslo-nerd
+```
+
+```shell
+fc-list
+
+...
+<path> <font>:style=<style>
+...
+```
+
+```yaml title="~/.config/alacritty/alacritty.yml"
+font:
+  normal:
+    family: "MesloLGM Nerd Font"
+```
+
+### theme
+
+- https://github.com/alacritty/alacritty-theme
+
+```shell
+# We use Alacritty's default Linux config directory as our storage location here.
+mkdir -p ~/.config/alacritty/themes
+git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
+```
+
+```yaml title="~/.config/alacritty/alacritty.yml"
+import:
+  - ~/.config/alacritty/themes/themes/github_dark.yaml
+```
