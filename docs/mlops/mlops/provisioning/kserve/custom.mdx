@@ -64,18 +64,22 @@ class Predictor(Model):
         self.ready = True
 
     async def preprocess(
-        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
-    ) -> dict | InferRequest:
+        self, payload: InferRequest, headers: dict[str, str] | None = None
+    ) -> InferRequest:
         return payload
 
     async def predict(
-        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
-    ) -> dict | InferResponse:
-        return payload
+        self, payload: InferRequest, headers: dict[str, str] | None = None
+    ) -> InferResponse:
+        return InferResponse(
+            response_id=payload.id,
+            model_name=self.name,
+            infer_outputs={},
+        )
 
     def postprocess(
-        self, response: dict | InferResponse, headers: dict[str, str] | None = None
-    ) -> dict | InferResponse:
+        self, response: InferResponse, headers: dict[str, str] | None = None
+    ) -> InferResponse:
         return response
 ```
 
@@ -114,12 +118,12 @@ class Predictor(Model):
         super().__init__(name)
 
     async def preprocess(
-        self, payload: dict | InferRequest, headers: dict[str, str] | None = None
-    ) -> dict | InferRequest:
+        self, payload: InferRequest, headers: dict[str, str] | None = None
+    ) -> InferRequest:
         return payload
 
     def postprocess(
-        self, response: dict | InferResponse, headers: dict[str, str] | None = None
-    ) -> dict | InferResponse:
+        self, response: InferResponse, headers: dict[str, str] | None = None
+    ) -> InferResponse:
         return response
 ```
