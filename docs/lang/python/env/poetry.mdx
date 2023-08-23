@@ -67,7 +67,8 @@ poetry env remove <env>
 poetry add <package|git|path>
 ```
 
-- `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.
+- `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.(`--group=dev`)
+- `--group=<group>`: `<group>` 의존성에 추가합니다.
 - `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>[<options>]`
   - `<vcs_type>`: `git`
   - `<scheme>`: `http`, `https`, `ssh`
@@ -122,10 +123,11 @@ poetry install [<flags>]
 ```
 
 - `<flags>`
-  - `--no-dev`: dev 의존성을 제외하고 설치합니다.
   - `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
   - `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
-  - `--with=<group>`: `<group>`에 있는 의존성을 설치합니다.
+  - `--with=<group>[,<group>]`: `<group>`에 있는 의존성을 설치합니다.
+  - `--without=<group>[,<group>]`: `<group>`에 있는 의존성을 설치하지 않습니다.
+  - `--only=<group>[,<group>]`: `<group>`에 있는 의존성만 설치합니다.
 
 ### requirements.txt
 
