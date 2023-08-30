@@ -7,20 +7,7 @@ keywords:
   - oauth2-proxy
 ---
 
-## 설정
-
-- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options
-
-옵션을 전달하는 방식은 3가지가 있습니다.
-
-- `args`으로 옵션을 전달
-- 파일
-  - `args: ["--config=<config-path>"]`
-  - 옵션의 `-`를 `_`로 변경
-  - 여러번 사용할 수 있는 옵션의 경우 마지막에 s를 붙이고 `[]` 리스트로 변경
-- `env`
-  - 옵션의 소문자를 대문자로, `-`를 `_`로 변경
-  - `OAUTH2_PROXY_`을 앞에 붙임
+## 인증 방식
 
 ### OAuth2 + Reverse Proxy
 
@@ -78,17 +65,56 @@ flowchart LR
 - `--upstream=static://202`
   - upstream 서버를 설정하지 않고 인증이 성공한 경우 `202`, 실패한 경우 `401` 응답을 반환합니다
 
+## 설정
+
+- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#command-line-options
+
+옵션을 전달하는 방식은 3가지가 있습니다.
+
+- `args`으로 옵션을 전달
+- 파일
+  - `--config=<config-path>`
+  - 옵션의 `-`를 `_`로 변경
+  - 여러번 사용할 수 있는 옵션의 경우 마지막에 s를 붙이고 `[]` 리스트로 변경
+- `env`
+  - 옵션의 소문자를 대문자로, `-`를 `_`로 변경
+  - `OAUTH2_PROXY_`을 앞에 붙임
+- alpha config
+  - `--alpha-config=<config-path>`
+  - alpha 테스트 중인 설정 방법으로 yaml 파일을 사용합니다.
+  - alpha config를 사용하면 위의 3 가지 방법중 호환되지 않는 옵션들이 생깁니다.
+  - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/alpha-config
+
 ## Deployment
 
 ```yaml
 apiVersion: v1
-kind: Secret
+kind: ConfigMap
 metadata:
   name: <name>
   namespace: <namespace>
-type: Opaque
-stringData:
-  OAUTH2_PROXY_XXX: XXX
+data:
+  oauth2-proxy.yaml: |-
+    upstreamConfig:
+      upstreams:
+        - id: <id>
+          path: /
+          uri: http://<upstreamName>.<upstreamNamespace>.svc
+    injectRequestHeaders:
+      - name: x-forwarded-email
+        values:
+          - claim: email
+    injectResponseHeaders:
+      - name: x-forwarded-email
+        values:
+          - claim: email
+    providers: []
+    server:
+      BindAddress: 0.0.0.0:4180
+      SecureBindAddress: ""
+    metricsServer:
+      BindAddress: 0.0.0.0:44180
+      SecureBindAddress: ""
 ```
 
 ```yaml
@@ -125,21 +151,31 @@ spec:
     spec:
       containers:
         - name: oauth2-proxy
-          image: quay.io/oauth2-proxy/oauth2-proxy:v7.2.1
+          image: quay.io/oauth2-proxy/oauth2-proxy:v7.4.0
           args:
-            - --http-address=0.0.0.0:4180
-          envFrom:
-            - secretRef:
-                name: <secretName>
+            - --alpha-config=/opt/oauth2-proxy/oauth2-proxy.yaml
+          env: []
           ports:
             - name: http
               containerPort: 4180
               protocol: TCP
+            - name: metrics
+              containerPort: 44180
+              protocol: TCP
+          volumeMounts:
+            - name: <volumeName>
+              mountPath: /opt/oauth2-proxy
+              readOnly: true
           readinessProbe:
             periodSeconds: 10
             httpGet:
               path: /ping
               port: 4180
+      volumes:
+        - name: <name>
+          configMap:
+            name: <configMapName>
+            defaultMode: 0644
 ```
 
 ## Keycloak OIDC
@@ -153,8 +189,8 @@ spec:
 - `--client-id=<client-id>`
 - `--client-secret=<client-secret>`
 - `--redirect-url=<client-url>/oauth2/callback`
-- `--oidc-issuer-url=https://<keycloak-url>/auth/realms/<realm>`
-- `--allowed-groups=<group>`
+- `--oidc-issuer-url=https://<keycloak-url>/realms/<realm>`
+- `--allowed-group=<group>`
 - `--email-domain=*`
 - `--cookie-secret=<cookie-secret>`
   - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret

@@ -29,8 +29,8 @@ spec:
           name: envoy.filters.http.ext_authz
           typed_config:
             "@type": type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz
-            status_on_error:
-              code: ServiceUnavailable
+            # status_on_error:
+            #   code: ServiceUnavailable # 문제가 생기면 503으로 응답
             http_service:
               server_uri:
                 uri: http://<service>.<namespace>.svc.cluster.local
@@ -40,10 +40,13 @@ spec:
                 allowed_headers:
                   patterns:
                     - exact: cookie
+                    - exact: authorization
+                    - exact: x-auth-tokeno
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
                     - exact: x-auth-request-email
+                    - exact: authorization
     - applyTo: HTTP_ROUTE
       match:
         routeConfiguration:

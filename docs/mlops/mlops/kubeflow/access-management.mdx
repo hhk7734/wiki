@@ -1,0 +1,66 @@
+---
+id: access-management
+title: access-management
+sidebar_label: access-management
+description: access-management
+keywords:
+  - access-management
+---
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <user>
+data:
+  profile-name: <profileName>
+  user: <email>
+```
+
+```yaml
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: <name>
+spec:
+  owner:
+    kind: User
+    name: <email> # admin
+```
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: <email>-clusterrole-edit # .@ 등 특수문자는 -로 변경, 대문자는 소문자로 변경
+  namespace: <profileName>
+  annotations:
+    role: edit
+    user: <email>
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-edit
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: <email>
+```
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: <email>-clusterrole-edit # .@ 등 특수문자는 -로 변경, 대문자는 소문자로 변경
+  namespace: <profileName>
+  annotations:
+    role: edit
+    user: <email>
+spec:
+  action: ALLOW
+  rules:
+    - when:
+        - key: request.headers[kubeflow-userid] # 헤더는 설정에 따라 다름
+          values:
+            - <email>
+```
