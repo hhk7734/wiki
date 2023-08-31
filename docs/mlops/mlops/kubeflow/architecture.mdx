@@ -11,7 +11,7 @@ keywords:
 ## Architecture
 
 :::info
-`oauth2-proxy`를 사용하는 부분은 기존과 다르게 커스텀한 부분입니다.
+`oauth2-proxy`를 envoy filter로 사용했을 때, 주피터 노트 등에 접속하는 웹소켓 작동에 문제가 있어 Gateway 앞단의 reverse proxy로 사용했습니다.
 :::
 
 ```mermaid
@@ -19,10 +19,12 @@ flowchart
   subgraph Auth
     Gateway(gateway)
     Oauth2Proxy(oauth2-proxy)
+    OIDCProvider(oidc-provider)
   end
 
-  Gateway --EnvoyFilter --> Oauth2Proxy
-  Gateway -- /oauth2 --> Oauth2Proxy
+  Oauth2Proxy --> Gateway
+  Oauth2Proxy --> OIDCProvider
+  OIDCProvider --> Oauth2Proxy
 
   CentralDashboard(centraldashboard)
   ObjectStorage[(object-storage)]
@@ -54,6 +56,11 @@ flowchart
     PiepelineUIArtifact(pipeline-ui-artifact)
   end
 
+  subgraph JNBox [Jupyter Notebook]
+    JupyterWebApp(jupyter-web-app)
+    NotebookController(notebook-controller)
+  end
+
   MW(MutatingWebhook)
 
   Gateway -- / --> CentralDashboard
@@ -63,6 +70,7 @@ flowchart
   CentralDashboard -- /kfam --> KFAM
   CentralDashboard -- /pipeline --> PipelineUI
   CentralDashboard -- /ml_metadata --> META
+  CentralDashboard -- /jupyter --> JupyterWebApp
   DB --> MDB & CDB & PDB
   META --> DB
   Pipeline --> DB
