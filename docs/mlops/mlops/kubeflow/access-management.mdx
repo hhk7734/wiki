@@ -1,11 +1,14 @@
 ---
 id: access-management
-title: access-management
-sidebar_label: access-management
-description: access-management
+title: Kubeflow Access Management
+sidebar_label: Access Management
+description: Kubeflow Access Management
 keywords:
-  - access-management
+  - access management
+  - kubeflow
 ---
+
+## Profile
 
 ```yaml
 apiVersion: v1
@@ -23,9 +26,18 @@ kind: Profile
 metadata:
   name: <name>
 spec:
+  # <name> namespace admin
   owner:
     kind: User
-    name: <email> # admin
+    name: <email>
+
+  # optional
+  # https://kubernetes.io/docs/concepts/policy/resource-quotas/
+  resourceQuotaSpec:
+    hard:
+      cpu: "16"
+      memory: "64Gi"
+      requests.nvidia.com/gpu: "2"
 ```
 
 ```yaml

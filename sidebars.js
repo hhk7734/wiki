@@ -557,7 +557,15 @@ module.exports = {
 				"mlops/mlops/storage/aws-ebs-csi-driver",
 				"mlops/mlops/storage/aws-efs-csi-driver",
 				"mlops/mlops/storage/rook-ceph",
-				"mlops/mlops/storage/postgresql",
+				{
+					type: "category",
+					label: "PostgresSQL",
+					items: [
+						"mlops/mlops/storage/postgresql/postgresql",
+						"mlops/mlops/storage/postgresql/pgbouncer",
+						"mlops/mlops/storage/postgresql/ha",
+					],
+				},
 				"mlops/mlops/storage/harbor",
 			],
 		},
@@ -632,6 +640,19 @@ module.exports = {
 										"mlops/mlops/network/istio/traffic-management/envoy-filter/envoy-filter",
 										"mlops/mlops/network/istio/traffic-management/envoy-filter/auth",
 										"mlops/mlops/network/istio/traffic-management/envoy-filter/compression",
+									],
+								},
+							],
+						},
+						{
+							type: "category",
+							label: "Security",
+							items: [
+								{
+									type: "category",
+									label: "Authorization",
+									items: [
+										"mlops/mlops/network/istio/security/authorization/authorization",
 									],
 								},
 							],
@@ -831,7 +852,10 @@ module.exports = {
 		{
 			type: "category",
 			label: "Kubeflow",
-			items: ["mlops/mlops/kubeflow/architecture"],
+			items: [
+				"mlops/mlops/kubeflow/architecture",
+				"mlops/mlops/kubeflow/access-management",
+			],
 		},
 	],
 	nn: [

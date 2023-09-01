@@ -1,0 +1,80 @@
+---
+id: authorization
+title: Istio Authorization
+sidebar_label: Authorization
+description: Istio Authorization
+keywords:
+  - Istio
+  - Authorization
+---
+
+## Istio Authorization
+
+- https://istio.io/latest/docs/concepts/security/#authorization
+
+<br />
+
+- 인가 정책(AuthorizationPolicy)은 기본적으로 Envoy에서 처리합니다.
+- 정책 변경은 Envoy를 재시작하지 않고도 적용할 수 있습니다.
+- 정책이 적용되지 않은 워크로드는 모든 트래픽을 허용합니다.
+- `CUSTOM`, `DENY`, `ALLOW` 순으로 평가됩니다.
+
+## AuthorizationPolicy
+
+- https://istio.io/latest/docs/reference/config/security/authorization-policy/
+
+```yaml
+apiVersion: security.istio.io/v1
+kind: AuthorizationPolicy
+metadata:
+  name: <name>
+  # 정책 적용 범위는 <namespace> 내로 제한됩니다.
+  # <namespace>가 루트 네임스페이스(istio-system)인 경우, 클러스터 전체에 적용됩니다.
+  namespace: <namespace>
+spec:
+  # selector를 선언하면 해당 워크로드에만 정책이 적용됩니다.
+  selector:
+    matchLabels:
+      <key>: <value>
+  action: ALLOW # CUSTOM, DENY, ALLOW, AUDIT
+  # rules에서 매칭 값은 "exact", "prefix.*", "*.suffix", "*"(not-empty)로 지정할 수 있습니다.
+  # when.key, source.ipBlocks, to.ports는 "exact"만 지원합니다.
+  # rules을 선언하지 않는 경우, 모든 트래픽이 매칭되지 않는 것으로 간주됩니다.
+  rules:
+    # - {} 으로 선언한 경우 모든 트래픽이 매칭됩니다.
+    - from:
+        # https://istio.io/latest/docs/reference/config/security/authorization-policy/#Source
+        - source: {}
+      when:
+        # https://istio.io/latest/docs/reference/config/security/conditions/#supported-conditions
+        - key: <key>
+          values:
+            - <value>
+          # notValues:
+          #   - <value>
+      to:
+        # https://istio.io/latest/docs/reference/config/security/authorization-policy/#Operation
+        - operation: {}
+  # CUSTOM action을 사용하는 경우에만 사용됩니다.
+  # provider: {}
+```
+
+### allow-nothing
+
+모든 트래픽을 차단하는 정책은 아래 2가지 방법이 있습니다.
+
+```yaml
+spec:
+  # allow nothing
+  action: ALLOW
+```
+
+```yaml
+spec:
+  # deny all
+  action: DENY
+  rules:
+    - {}
+```
+
+기본적으로 `allow-nothing` 정책에서 필요한 트래픽만 추가하는 방식으로 정책을 확대해 나가는 것이 좋습니다.

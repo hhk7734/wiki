@@ -61,6 +61,10 @@ flowchart
     NotebookController(notebook-controller)
   end
 
+  subgraph VABox [Volume Web App]
+    VolumeWebApp(volume-web-app)
+  end
+
   MW(MutatingWebhook)
 
   Gateway -- / --> CentralDashboard
@@ -71,6 +75,7 @@ flowchart
   CentralDashboard -- /pipeline --> PipelineUI
   CentralDashboard -- /ml_metadata --> META
   CentralDashboard -- /jupyter --> JupyterWebApp
+  CentralDashboard -- /volume --> VolumeWebApp
   DB --> MDB & CDB & PDB
   META --> DB
   Pipeline --> DB
