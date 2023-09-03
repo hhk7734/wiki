@@ -798,22 +798,6 @@ module.exports = {
 					label: "Redis",
 					items: ["mlops/mlops/event/redis/redis"],
 				},
-				{
-					type: "category",
-					label: "Kafka",
-					items: ["mlops/mlops/event/kafka/kafka"],
-				},
-				{
-					type: "category",
-					label: "Severless",
-					items: [
-						{
-							type: "category",
-							label: "Fission",
-							items: ["mlops/mlops/event/serverless/fission/fission"],
-						},
-					],
-				},
 				"mlops/mlops/event/rabbitmq",
 				"mlops/mlops/event/rabbitmq-flow",
 			],
