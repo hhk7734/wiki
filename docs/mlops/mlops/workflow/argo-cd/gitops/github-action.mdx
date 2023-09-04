@@ -1,0 +1,178 @@
+---
+id: github-action
+title: GitHub Action
+sidebar_label: GitHub Action
+description: GitHub Action
+keywords:
+  - gitops
+  - cd
+  - github
+  - action
+---
+
+## 컨텍스트 정보
+
+- https://docs.github.com/en/actions/learn-github-actions/contexts
+
+사용할 수 있는 컨텍스트 정보를 아래 Action을 통해 확인 할 수 있습니다.
+
+```yaml
+name: Context testing
+on: push
+
+jobs:
+  dump_contexts_to_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+```
+
+## 버전 태그
+
+```yaml
+name: Hash
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  hash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get TAG
+        id: tag
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-8)
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+```
+
+```yaml
+name: Version
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get TAG
+        id: tag
+        run: |
+          TAG=${{ github.ref_name }}
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+```
+
+## Auto Release
+
+```yaml
+name: Auto Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+```
+
+## Container Registry
+
+### ECR
+
+```yaml
+name: Push to Amazon ECR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ecr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      # https://github.com/docker/build-push-action
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/backend:${{ steps.tag.outputs.tag }}
+```
+
+### Githup
+
+```yaml
+name: Push to GitHub Container Registry
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  ecr:
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/docker/login-action
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+
+      # https://github.com/docker/build-push-action
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/backend:${{ steps.tag.outputs.tag }}
+```
+
+- [GitHub Docker imagePullSecrets](/docs/mlops/mlops/kubernetes/configuration/secret#github-package)

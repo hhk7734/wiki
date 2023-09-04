@@ -761,7 +761,14 @@ module.exports = {
 					items: [
 						"mlops/mlops/workflow/argo-cd/argo-cd",
 						"mlops/mlops/workflow/argo-cd/crd",
-						"mlops/mlops/workflow/argo-cd/gitops",
+						{
+							type: "category",
+							label: "GitOps",
+							items: [
+								"mlops/mlops/workflow/argo-cd/gitops/gitops",
+								"mlops/mlops/workflow/argo-cd/gitops/github-action",
+							],
+						},
 					],
 				},
 				{

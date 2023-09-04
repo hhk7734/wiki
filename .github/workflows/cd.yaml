@@ -55,8 +55,8 @@ jobs:
         with:
           cmd: |
             yq -i '
-              .wiki.image.repository = strenv(ECR_REPOSITORY) |
-              .wiki.image.tag = strenv(IMAGE_TAG)
+              .frontend.image.repository = strenv(ECR_REPOSITORY) |
+              .frontend.image.tag = strenv(IMAGE_TAG)
             ' argocd/wiki/cd/prod-values.yaml
 
       - name: Commit files

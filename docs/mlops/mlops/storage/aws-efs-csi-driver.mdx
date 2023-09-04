@@ -58,7 +58,6 @@ efs_csi_driver_policy = aws.iam.Policy(
     tags={
         "Name": name,
         "Stack": variable.stack_name,
-        "Github": variable.github,
     },
     opts=pulumi.ResourceOptions(parent=eks.cluster),
 )
@@ -91,7 +90,7 @@ efs_csi_driver_role = aws.iam.Role(
     tags={
         "Name": name,
         "Stack": variable.stack_name,
-        "Github": variable.github,
+        "GitHub": variable.github,
     },
     opts=pulumi.ResourceOptions(parent=eks.cluster),
 )
@@ -168,7 +167,7 @@ efs = aws.efs.FileSystem(
     tags={
         "Name": name,
         "Stack": variable.stack_name,
-        "Github": variable.github,
+        "GitHub": variable.github,
     },
 )
 
@@ -197,7 +196,7 @@ efs_sg = aws.ec2.SecurityGroup(
     tags={
         "Name": name,
         "Stack": variable.stack_name,
-        "Github": variable.github,
+        "GitHub": variable.github,
     },
 )
 

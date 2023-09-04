@@ -9,58 +9,164 @@ keywords:
 
 ## 설치
 
-```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami
-```
+- https://hub.docker.com/_/postgres
 
-```shell
-helm repo update bitnami \
-&& helm search repo bitnami/postgresql -l | head -n 10
-```
-
-```shell
-helm show values bitnami/postgresql \
-    --version 12.1.7 \
-    > postgresql-values.yaml
+```yaml
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: postgresql
+  namespace: storage
+  labels:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
 ```
 
 ```yaml
-auth:
-  postgresPassword: ""
-
-architecture: standalone
-
-primary:
-  labels: {}
-
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
-
-  persistence:
-    storageClass: ""
-    size: 10Gi
-    labels: {}
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgresql
+  namespace: storage
+  labels:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
+type: Opaque
+data:
+  password: <base64(password)>
 ```
 
-```shell
-helm template postgresql bitnami/postgresql \
-    --version 12.1.7 \
-    -n storage \
-    -f postgresql-values.yaml \
-    > postgresql.yaml
+```yaml
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgresql
+  namespace: storage
+  labels:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
+spec:
+  replicas: 1
+  serviceName: postgresql
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: postgresql
+      app: postgresql
+  template:
+    metadata:
+      name: postgresql
+      labels:
+        app.kubernetes.io/name: postgresql
+        app: postgresql
+    spec:
+      serviceAccountName: postgresql
+      containers:
+        - name: postgresql
+          image: postgres:15.4-alpine3.18
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - name: postgresql
+              containerPort: 5432
+              protocol: TCP
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: password
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql
+                  key: password
+            - name: PGDATA
+              value: /var/lib/postgresql/data
+          livenessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+          readinessProbe:
+            failureThreshold: 6
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 5
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - -e
+                - |
+                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
+                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              memory: 256Mi
+          volumeMounts:
+            - name: dshm
+              mountPath: /dev/shm
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                topologyKey: kubernetes.io/hostname
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: postgresql
+                    app: postgresql
+              weight: 1
+      volumes:
+        - name: dshm
+          emptyDir:
+            medium: Memory
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        labels:
+          app.kubernetes.io/name: postgresql
+          app: postgresql
+      spec:
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: "8Gi"
 ```
 
-```shell
-helm upgrade postgresql bitnami/postgresql \
-    --install \
-    --version 12.1.7 \
-    -n storage \
-    --history-max 3 \
-    -f postgresql-values.yaml
+- [PersistentVolume](/docs/mlops/mlops/kubernetes/persistent-volume)
+
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  namespace: storage
+  labels:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
+spec:
+  type: ClusterIP
+  ports:
+    - name: postgresql
+      port: 5432
+      protocol: TCP
+      targetPort: postgresql
+  selector:
+    app.kubernetes.io/name: postgresql
+    app: postgresql
 ```
 
 ## Test
