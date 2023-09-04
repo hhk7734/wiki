@@ -1,0 +1,79 @@
+name: Upload wiki.loliot.net to Container Registry
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: wiki-cd
+  cancel-in-progress: true
+
+jobs:
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Get TAG
+        id: tag
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-8)
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./deploy/Dockerfile
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/wiki:${{ steps.tag.outputs.tag }}
+
+      - name: Checkout argocd
+        uses: actions/checkout@v3
+        with:
+          repository: hhk7734/argocd
+          ref: main
+          token: ${{ secrets.PAT }}
+          path: argocd
+
+      - name: Update wiki helm values
+        uses: mikefarah/yq@master
+        env:
+          ECR_REPOSITORY: ghcr.io/${{ github.repository_owner }}/wiki
+          IMAGE_TAG: ${{ steps.tag.outputs.tag }}
+        with:
+          cmd: |
+            yq -i '
+              .wiki.image.repository = strenv(ECR_REPOSITORY) |
+              .wiki.image.tag = strenv(IMAGE_TAG)
+            ' argocd/wiki/cd/prod-values.yaml
+
+      - name: Commit files
+        env:
+          COMMIT_AUTHOR_NAME: ${{ github.event.head_commit.author.name }}
+          COMMIT_AUTHOR_EMAIL: ${{ github.event.head_commit.author.email }}
+          IMAGE_TAG: ${{ steps.tag.outputs.tag }}
+        run: |
+          cd argocd
+          git config --global user.name "$COMMIT_AUTHOR_NAME"
+          git config --global user.email "$COMMIT_AUTHOR_EMAIL"
+          git commit -am "feat(wiki): set tag to $IMAGE_TAG"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          repository: hhk7734/argocd
+          github_token: ${{ secrets.PAT }}
+          branch: main
+          directory: argocd
