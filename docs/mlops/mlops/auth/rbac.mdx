@@ -8,24 +8,79 @@ keywords:
   - rbac
 ---
 
-`<verb>` /apis/`<group>`/`<version>`/namespace/`<namespace>`/`<resourceType>`/`<name>`
+- https://kubernetes.io/docs/reference/access-authn-authz/rbac/
 
-## Subjects
+## API server
 
-### ServiceAccount
+쿠버네티스 API는 아래와 같은 방식으로 구성되어 있습니다.
 
-### User
+- `<verb>` /api/v1/namespace/`<namespace>`/`<resource>`/`<resourceName>`
+- `<verb>` /apis/`<apiGroup>`/`<version>`/namespace/`<namespace>`/`<resource>`/`<resourceName>`
 
-### Group
+## Role/ClusterRole
 
-## ClusterRole
+### Role/ClusterRole
 
-### ClusterRole
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role # Role|ClusterRole
+metadata:
+  name: <name>
+  namespace: <namespace> # ClusterRole은 namespace에 속하지 않습니다.
+rules:
+  - apiGroups: []
+    resources: []
+    # resourceNames: []
+    verbs: []
+```
 
-### ClusterRoleBinding
+### ClusterRole aggregationRule
 
-## Role
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: <name1>
+aggregationRule:
+  clusterRoleSelectors:
+    - matchLabels:
+        rbac.authorization.loliot.net/aggregate-to-<name1>: "true"
+rules: []
+```
 
-### Role
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: <name2>
+  labels:
+    rbac.authorization.loliot.net/aggregate-to-<name1>: "true"
+rules:
+  - apiGroups: [""]
+    resources: ["services", "endpointslices", "pods"]
+    verbs: ["get", "list", "watch"]
+```
 
-### RoleBinding
+### RoleBinding/ClusterRoleBinding
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding # RoleBinding|ClusterRoleBinding
+metadata:
+  name: <name>
+  namespace: <namespace>
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role # Role|ClusterRole
+  name: <name>
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: <user>
+  - apiGroup: rbac.authorization.k8s.io
+    kind: Group
+    name: <group>
+  - kind: ServiceAccount
+    name: <serviceAccount>
+    namespace: <namespace>
+```
