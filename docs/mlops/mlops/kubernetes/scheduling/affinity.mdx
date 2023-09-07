@@ -50,16 +50,25 @@ spec:
     podAffinity:
       # 필수적으로 만족해야하는 규칙입니다
       requiredDuringSchedulingIgnoredDuringExecution:
-        - labelSelector:
+        - topologyKey: <labelKey>
+          # namespaces가 null이거나 빈 배열이고 namespaceSelector가 null이면 Pod의 namespace를
+          # 기준으로 합니다.
+          # namespaces:
+          #   - <namespace>
+          # namespaceSelector: {}인 경우 모든 namespace를 기준으로 합니다.
+          namespaceSelector:
             matchExpressions:
               - key: <labelKey>
                 operator: In # In, NotIn, Exists, DoesNotExist
                 values:
                   - <labelValue>
-          topologyKey: <labelKey>
-          # 생략하면 해당 Pod의 namespace를 사용합니다
-          namespaces:
-            - <namespace>
+          labelSelector:
+            matchExpressions:
+              - key: <labelKey>
+                operator: In # In, NotIn, Exists, DoesNotExist
+                values:
+                  - <labelValue>
+
       # 선호하는 Pod가 있는 Node에 대한 규칙입니다
       preferredDuringSchedulingIgnoredDuringExecution:
         - weight: 1 # 1 ~ 100, 만족하는 조건의 weight의 총합이 높은 Node를 선호합니다

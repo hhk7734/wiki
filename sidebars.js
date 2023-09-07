@@ -611,7 +611,14 @@ module.exports = {
 						"mlops/mlops/provisioning/kserve/mlflow",
 					],
 				},
-				"mlops/mlops/provisioning/nvidia-gpu-operator",
+				{
+					type: "category",
+					label: "Nvidia",
+					items: [
+						"mlops/mlops/provisioning/nvidia/k8s-device-plugin",
+						"mlops/mlops/provisioning/nvidia/gpu-operator",
+					],
+				},
 			],
 		},
 		{

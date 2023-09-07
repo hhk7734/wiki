@@ -1,0 +1,64 @@
+---
+id: k8s-device-plugin
+title: Nvidia Kubernetes Device Plugin
+sidebar_label: Kubernetes Device Plugin
+description: Nvidia Kubernetes Device Plugin
+keywords:
+  - nvidia
+  - kubernetes
+  - device plugin
+---
+
+## nvidia.com/gpu 자원
+
+Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.
+
+## 설치
+
+- https://github.com/NVIDIA/k8s-device-plugin
+
+```shell
+helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
+```
+
+```shell
+helm repo update nvdp \
+&& helm search repo nvdp -l | head -n 10
+```
+
+```shell
+helm show values nvdp/nvidia-device-plugin \
+    --version 0.14.1 \
+    > nvidia-device-plugin-values.yaml
+```
+
+```yaml title="nvidia-device-plugin-values.yaml"
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: karpenter.k8s.aws/instance-gpu-count
+              operator: Exists
+            - key: karpenter.k8s.aws/instance-gpu-manufacturer
+              operator: In
+              values:
+                - nvidia
+```
+
+```shell
+helm template nvidia-device-plugin nvdp/nvidia-device-plugin \
+    --version 0.14.1 \
+    -n provisioning \
+    -f nvidia-device-plugin-values.yaml \
+    > nvidia-device-plugin.yaml
+```
+
+```shell
+helm upgrade nvidia-device-plugin nvdp/nvidia-device-plugin \
+    --install \
+    --version 0.14.1 \
+    --history-max 3 \
+    -n provisioning \
+    -f nvidia-device-plugin-values.yaml
+```
