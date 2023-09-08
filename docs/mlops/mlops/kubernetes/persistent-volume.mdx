@@ -93,6 +93,12 @@ spec:
   volumeClaimTemplates:
     - metadata:
         name: <PVCTemplateName>
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: <storage>
 ```
 
 위와 같이 StatefulSet을 생성하면, `<PVCTemplateName>-<StatefulSetName>-<ReplicaIndex>` 형태의 PVC가 생성되므로 아래와 같은 PersistentVolume을 미리 생성하면 됩니다.

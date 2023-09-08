@@ -1,0 +1,32 @@
+---
+id: identity-providers
+title: Keycloak Identity Providers
+sidebar_label: Identity Providers
+description: Keycloak Identity Providers
+keywords:
+  - keycloak
+  - identity providers
+---
+
+## Google
+
+- GCP
+  - 프로젝트 생성하기
+  - API 및 서비스
+    - OAuth 동의 화면
+  - 사용자 인증 정보
+    - 사용자 인증 정보 만들기
+      - OAuth 클라이언트 ID
+        - 승인된 리디렉션 URI : `https://<keycloak>/realms/<realm>/broker/google/endpoint`
+
+<br />
+
+- Keycloak
+  - Identity providers
+    - Add provider
+      - Google
+        - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID
+        - Client Secret: OAuth 클라이언트 ID 에서 발급받은 Client Secret
+    - google
+      - Advanced settings
+        - Trust Email: On
