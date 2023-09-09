@@ -82,6 +82,12 @@ is_installed() {
 # User configuration
 
 export PATH=$PATH:$HOME/.local/bin
+
+if is_installed kubectl; then
+  source <(kubectl completion zsh)
+  alias k=kubectl
+  complete -F __start_kubectl k
+fi
 ```
 
 ```shell

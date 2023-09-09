@@ -11,16 +11,6 @@ keywords:
 ## Profile
 
 ```yaml
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: <user>
-data:
-  profile-name: <profileName>
-  user: <email>
-```
-
-```yaml
 apiVersion: kubeflow.org/v1beta1
 kind: Profile
 metadata:
@@ -39,6 +29,8 @@ spec:
       memory: "64Gi"
       requests.nvidia.com/gpu: "2"
 ```
+
+## Contributor
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

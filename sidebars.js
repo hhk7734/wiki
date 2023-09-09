@@ -854,6 +854,7 @@ module.exports = {
 			items: [
 				"mlops/mlops/kubeflow/architecture",
 				"mlops/mlops/kubeflow/access-management",
+				"mlops/mlops/kubeflow/notebook",
 			],
 		},
 	],

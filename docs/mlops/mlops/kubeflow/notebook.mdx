@@ -1,0 +1,26 @@
+---
+id: notebook
+title: Kubeflow Notebook
+sidebar_label: Notebook
+description: Kubeflow Notebook
+keywords:
+  - kubeflow
+  - notebook
+---
+
+## 커스텀 이미지
+
+- https://github.com/kubeflow/kubeflow/tree/master/components/example-notebook-servers#custom-images
+
+### 요구 사항
+
+- 8888 포트로 서비스를 노출해야 합니다.
+  - 노트북 서버, VSCode 서버 등 웹 서비스를 8888 포트로 노출하면 CONNECT 버튼을 눌렀을 때 해당 서비스로 연결됩니다.
+- Jupyter lab
+  - `jovyan` 유저를 사용해야합니다.
+    - `chown -R jovyan:users /home/jovyan`
+  - `NB_PREFIX` 환경변수에 설정된 값으로 `--ServerApp.base_url="${NB_PREFIX}"` 옵션을 사용해야합니다.
+
+### Example
+
+- https://github.com/hhk7734/kubeflow.conf/tree/main/notebook/image
