@@ -28,7 +28,7 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.32.1 \
+    --version 0.33.3 \
     > argo-workflows-values.yaml
 ```
 
@@ -52,7 +52,7 @@ server:
 
 ```shell
 helm template argo-workflows argo/argo-workflows \
-    --version 0.32.1 \
+    --version 0.33.3 \
     -n workflow \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
@@ -62,7 +62,7 @@ helm template argo-workflows argo/argo-workflows \
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
     --history-max 3 \
-    --version 0.32.1 \
+    --version 0.33.3 \
     -n workflow \
     --values argo-workflows-values.yaml
 ```
