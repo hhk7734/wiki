@@ -788,6 +788,7 @@ module.exports = {
 						"mlops/mlops/workflow/argo-workflows/entrypoint-templates",
 						"mlops/mlops/workflow/argo-workflows/dag",
 						"mlops/mlops/workflow/argo-workflows/variables",
+						"mlops/mlops/workflow/argo-workflows/garbage-collection",
 						"mlops/mlops/workflow/argo-workflows/client",
 					],
 				},

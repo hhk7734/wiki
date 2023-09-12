@@ -41,6 +41,11 @@ controller:
     limits:
       memory: 256Mi
 
+  retentionPolicy:
+    completed: 10
+    failed: 100
+    errored: 100
+
 server:
   resources:
     requests:

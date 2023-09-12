@@ -9,10 +9,12 @@ keywords:
 
 ## SMTP
 
+### HTML
+
 - https://www.cdnfonts.com/
 - https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css
 
-```html title="template/smtp.html" {18}
+```html
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -25,7 +27,13 @@ keywords:
   </head>
 
   <body>
-    <table border="1" cellpadding="0" cellspacing="0" width="100%">
+    <table
+      border="1"
+      cellpadding="0"
+      cellspacing="0"
+      width="100%"
+      style="border-collapse: collapse; background-color:#F8FAFB;"
+    >
       <tr>
         <td>
           <table
@@ -36,13 +44,19 @@ keywords:
             style="margin: 0 auto;"
           >
             <tr>
-              <td>{{.Something}}</td>
+              <td height="40px"></td>
             </tr>
             <tr>
               <td>{{.Something}}</td>
             </tr>
             <tr>
               <td>{{.Something}}</td>
+            </tr>
+            <tr>
+              <td>{{.Something}}</td>
+            </tr>
+            <tr>
+              <td height="40px"></td>
             </tr>
           </table>
         </td>
@@ -62,6 +76,58 @@ keywords:
 :::
 
 이메일 템플릿을 작성할 때는 `border="1"`로 설정하여 원하는 레이아웃을 먼저 구성합니다. 작업을 마친 후 `border="0"`으로 설정하여 테두리를 제거합니다.
+
+- `<table>`
+  - `border="<0|1>"`
+  - `width="<px|%>"`
+- `<tr>`
+- `<td>`
+  - `align="<left|right|center|justify|char>`
+  - `valign="<top|middle|bottom|baseline>"`
+
+:::info
+
+사용했던 버튼 예시입니다.
+
+```html
+<table
+  border="0"
+  cellpadding="0"
+  cellspacing="0"
+  align="center"
+  style="
+    border-collapse: collapse;
+    border-radius: 6px;
+    background: #228be6;
+  "
+>
+  <tr>
+    <td align="center">
+      <a
+        href="https://wiki.loliot.net"
+        style="
+          color: #ffffff;
+          text-align: center;
+          font-family: Pretendard;
+          font-size: 16px;
+          font-style: normal;
+          font-weight: 500;
+          width: 200px;
+          line-height: 48px;
+          display: inline-block;
+          text-decoration: none;
+          -webkit-text-size-adjust: none;
+        "
+        >Button</a
+      >
+    </td>
+  </tr>
+</table>
+```
+
+:::
+
+### net/smtp
 
 ```go
 package smtp

@@ -40,19 +40,11 @@ Workflow와 WorkflowTemplate는 `.status` 필드만 다릅니다.
 
 ### `podGC`
 
-- https://argoproj.github.io/argo-workflows/fields/#podgc
+- [podGC](/docs/mlops/mlops/workflow/argo-workflows/garbage-collection#podgc)
 
-```yaml
-spec:
-  podGC:
-    labelSelector: {}
-    strategy: OnPodCompletion # OnPodCompletion|OnPodSuccess|OnWorkflowCompletion|OnWorkflowSuccess
-```
+### `ttlStrategy`
 
-- `podGC`
-  - 선언하지 않으면 Pod는 삭제되지 않습니다.
-  - `labelSelector`
-    - 선언하지 않으면 실행되는 모든 템플릿의 Pod이 삭제됩니다.
+- [ttlStrategy](/docs/mlops/mlops/workflow/argo-workflows/garbage-collection#ttlstrategy)
 
 ### `volumes`
 

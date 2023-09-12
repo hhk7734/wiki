@@ -1,0 +1,67 @@
+---
+id: garbage-collection
+title: Argo Workflows Garbage Collection
+sidebar_label: Garbage Collection
+description: Argo Workflows Garbage Collection
+keywords:
+  - argo
+  - workflows
+  - garbage-collection
+---
+
+- https://argoproj.github.io/argo-workflows/cost-optimisation/
+
+## podGC
+
+- https://argoproj.github.io/argo-workflows/fields/#podgc
+
+```yaml
+spec:
+  podGC:
+    labelSelector: {}
+    strategy: OnPodCompletion # OnPodCompletion|OnPodSuccess|OnWorkflowCompletion|OnWorkflowSuccess
+```
+
+- `podGC`
+  - 선언하지 않으면 Pod는 삭제되지 않습니다.
+  - `labelSelector`
+    - 선언하지 않으면 실행되는 모든 템플릿의 Pod이 삭제됩니다.
+
+## ttlStrategy
+
+- https://argoproj.github.io/argo-workflows/fields/#ttlstrategy
+
+```yaml
+spec:
+  ttlStrategy:
+    # secondsAfterCompletion: 3600
+    secondsAfterSuccess: 3600
+    secondsAfterFailure: 86400
+```
+
+- `ttlStrategy`
+  - 선언하지 않으면 시간 기반으로 삭제되지 않습니다.
+  - `secondsAfterCompletion`: workflow가 완료된 후 삭제되기까지의 시간
+  - `secondsAfterSuccess`: workflow가 성공한 후 삭제되기까지의 시간
+  - `secondsAfterFailure`: workflow가 실패한 후 삭제되기까지의 시간
+
+## retentionPolicy
+
+`retentionPolicy`는 동일한 workflow들 중 삭제되지 않고 남아있을 수 있는 workflow의 개수입니다.
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+name: workflow-controller-configmap
+data:
+  retentionPolicy: |
+    completed: 10
+    failed: 3
+    errored: 3
+```
+
+- `retentionPolicy`
+  - 선언하지 않으면 개수 기반으로 삭제되지 않습니다.
+  - `completed`: 삭제되지 않고 남아있을 수 있는 성공한 workflow 수
+  - `failed`: 삭제되지 않고 남아있을 수 있는 실패한 workflow 수
+  - `errored`: 삭제되지 않고 남아있을 수 있는 에러난 workflow 수
