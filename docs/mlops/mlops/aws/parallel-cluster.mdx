@@ -14,16 +14,30 @@ keywords:
 - 인스턴스 유형: https://aws.amazon.com/ko/ec2/instance-types/
 - 설정: https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/configuration-v3.html
 
-```yaml
+## Instance 설정
 
+### Environment
+
+- `/opt/slurm`
+- `/opt/slurm/etc/slurm.conf`
+- `/opt/slurm/etc/slurm.sh`
+- `/etc/profile.d/slurm.sh -> /opt/slurm/etc/slurm.sh`(symbolic link)
+
+#### ResumeTimeout
+
+`/opt/slurm/etc/slurm.conf` 파일에서 아래 설정값을 수정하여 잡이 없을 때 컴퓨트 노드가 꺼질 시간을 설정합니다.
+
+```shell
+ResumeTimeout=600
 ```
 
-## pcluster
+## pcluster 명령어
 
 ### create-cluster
 
 ```shell
 export PARALLEL_CLUSTER_NAME=<cluster-name>
+export REGION=<region>
 ```
 
 ```shell
@@ -36,6 +50,7 @@ config 파일을 사용하여 클러스터를 생성합니다.
 
 ```shell
 pcluster describe-cluster \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME \
 | jq '.cloudFormationStackStatus'
 ```
@@ -48,28 +63,33 @@ pcluster describe-cluster \
 
 ```shell
 export PARALLEL_CLUSTER_NAME=<cluster-name>
+export REGION=<region>
 ```
 
 ```shell
 pcluster update-compute-fleet \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME \
     --status STOP_REQUESTED
 ```
 
 ```shell
 pcluster update-cluster \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME \
     --cluster-config cluster-config.yaml
 ```
 
 ```shell
 pcluster describe-cluster \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME \
 | jq '.cloudFormationStackStatus'
 ```
 
 ```shell
 pcluster update-compute-fleet \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME \
     --status START_REQUESTED
 ```
@@ -78,11 +98,37 @@ pcluster update-compute-fleet \
 
 ```shell
 export PARALLEL_CLUSTER_NAME=<cluster-name>
+export REGION=<region>
 ```
 
 ```shell
 pcluster delete-cluster \
+    --region $REGION \
     --cluster-name $PARALLEL_CLUSTER_NAME
+```
+
+## scontrol 명령어
+
+`<jobid>`, `<jobid>,<jobid>`, `{<jobid>..<jobid>}`
+
+### CF 상태에서 멈춰있는 작업 재시작하기
+
+Suspend 상태로 만들기
+
+```shell
+sudo `which scontrol` suspend jobid=<jobid>
+```
+
+Suspend -> Pending 상태로 만들기
+
+```shell
+sudo `which scontrol` requeue jobid=<jobid>
+```
+
+Pending -> Configuring or Running 상태로 만들기
+
+```shell
+sudo `which scontrol` requeue jobid=<jobid>
 ```
 
 ## Reference
