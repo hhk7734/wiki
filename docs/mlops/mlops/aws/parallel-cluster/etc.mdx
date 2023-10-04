@@ -1,0 +1,49 @@
+---
+id: etc
+title: etc
+sidebar_label: etc
+description: etc
+keywords:
+  - ParallelCluster
+---
+
+## Instance 설정
+
+### Environment
+
+- `/opt/slurm`
+- `/opt/slurm/etc/slurm.conf`
+- `/opt/slurm/etc/slurm.sh`
+- `/etc/profile.d/slurm.sh -> /opt/slurm/etc/slurm.sh`(symbolic link)
+
+#### ResumeTimeout
+
+`/opt/slurm/etc/slurm.conf` 파일에서 아래 설정값을 수정하여 잡이 없을 때 컴퓨트 노드가 꺼질 시간을 설정합니다.
+
+```shell
+ResumeTimeout=600
+```
+
+## scontrol 명령어
+
+`<jobid>`, `<jobid>,<jobid>`, `{<jobid>..<jobid>}`
+
+### CF 상태에서 멈춰있는 작업 재시작하기
+
+Suspend 상태로 만들기
+
+```shell
+sudo `which scontrol` suspend jobid=<jobid>
+```
+
+Suspend -> Pending 상태로 만들기
+
+```shell
+sudo `which scontrol` requeue jobid=<jobid>
+```
+
+Pending -> Configuring or Running 상태로 만들기
+
+```shell
+sudo `which scontrol` requeue jobid=<jobid>
+```

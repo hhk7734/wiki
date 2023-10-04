@@ -1,0 +1,83 @@
+---
+id: custom-action
+title: AWS ParallelCluster CustomActions
+sidebar_label: CustomActions
+description: AWS ParallelCluster CustomActions
+keywords:
+  - ParallelCluster
+  - custom actions
+  - start scripts
+---
+
+## HeadNode.CustomActions
+
+- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/HeadNode-v3.html#HeadNode-v3-CustomActions
+
+```yaml title="cluster-config.yaml"
+HeadNode:
+  CustomActions:
+    OnNodeStart: # OnNodeStart|OnNodeConfigured|OnNodeUpdated
+      Script: <script> # http://<script>|s3://<script>
+      Args:
+        - <arg>
+      # 여러 개의 스크립트를 순차적으로 실행해야 할 경우 아래와 같이 작성합니다.
+      # Sequence:
+      #   - Script: <script>
+      #     Args:
+      #       - <arg>
+```
+
+## Scheduling.SlurmQueues.CustomActions
+
+- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/Scheduling-v3.html#Scheduling-v3-SlurmQueues-CustomActions
+
+```yaml title="cluster-config.yaml"
+Scheduling:
+  SlurmQueues:
+    - Name: <queue>
+      CustomActions:
+        OnNodeStart: # OnNodeStart|OnNodeConfigured
+          Script: <script> # http://<script>|s3://<script>
+          Args:
+            - <arg>
+          # 여러 개의 스크립트를 순차적으로 실행해야 할 경우 아래와 같이 작성합니다.
+          # Sequence:
+          #   - Script: <script>
+          #     Args:
+          #       - <arg>
+```
+
+### 다중 사용자 지원(Multi-user support)
+
+- https://github.com/aws/aws-parallelcluster/wiki/Multi-User-Support
+
+EFS, FSx 등 컴퓨트 노드가 접근 가능한 경로를 `/shared`라고 가정했을 때, 아래 명령어를 활용하여 `/shared/userlistfile`에 사용자 목록을 작성합니다.
+
+```shell
+echo "$USER,`id -u $USER`" >> /shared/userlistfile
+```
+
+```shell title="/shared/userlistfile"
+hhk7734,1001
+```
+
+`compute-node-on-node-configured.sh` 스크립트에 아래 내용을 추가합니다.
+
+```shell title="compute-node-on-node-configured.sh"
+#!/bin/bash
+
+. "/etc/parallelcluster/cfnconfig"
+
+IFS=","
+
+if [ "${cfn_node_type}" = "ComputeFleet" ]; then
+    while read USERNAME USERID
+    do
+        # -M do not create home since head node is exporting /homes via NFS
+        # -u to set UID to match what is set on the head node
+        if ! [ $(id -u $USERNAME 2>/dev/null || echo -1) -ge 0 ]; then
+            useradd -M -u $USERID $USERNAME
+        fi
+    done < "/shared/userlistfile"
+fi
+```

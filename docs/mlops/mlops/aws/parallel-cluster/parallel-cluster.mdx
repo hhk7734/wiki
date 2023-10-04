@@ -1,0 +1,99 @@
+---
+id: parallel-cluster
+title: AWS ParallelCluster
+sidebar_label: ParallelCluster
+description: AWS ParallelCluster
+keywords:
+  - ParallelCluster
+  - pcluster
+---
+
+## 클러스터 생성
+
+### 네트워크 구성
+
+- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html
+
+### cluster-config.yaml
+
+- 인스턴스 유형: https://aws.amazon.com/ko/ec2/instance-types/
+- 설정: https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/configuration-v3.html
+
+### create-cluster
+
+:::info
+`pcluster configure --config cluster-config.yaml` 명령어를 통해 대화형으로 클러스터를 생성할 수 있습니다.
+:::
+
+- https://docs.aws.amazon.com/parallelcluster/latest/ug/pcluster.create-cluster-v3.html
+
+```shell
+export PARALLEL_CLUSTER_NAME=<cluster-name>
+export PARALLEL_CLUSTER_REGION=<region>
+```
+
+```shell
+pcluster create-cluster \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+    --cluster-configuration cluster-config.yaml
+```
+
+config 파일을 사용하여 클러스터를 생성합니다.
+
+```shell
+pcluster describe-cluster \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+| jq '.cloudFormationStackStatus'
+```
+
+## update-cluster
+
+```shell
+export PARALLEL_CLUSTER_NAME=<cluster-name>
+export PARALLEL_CLUSTER_REGION=<region>
+```
+
+```shell
+pcluster update-compute-fleet \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+    --status STOP_REQUESTED
+```
+
+```shell
+pcluster update-cluster \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+    --cluster-config cluster-config.yaml
+```
+
+```shell
+pcluster describe-cluster \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+| jq '.cloudFormationStackStatus'
+```
+
+```shell
+pcluster update-compute-fleet \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME \
+    --status START_REQUESTED
+```
+
+## delete-cluster
+
+- https://docs.aws.amazon.com/parallelcluster/latest/ug/pcluster.delete-cluster-v3.html
+
+```shell
+export PARALLEL_CLUSTER_NAME=<cluster-name>
+export PARALLEL_CLUSTER_REGION=<region>
+```
+
+```shell
+pcluster delete-cluster \
+    --region $PARALLEL_CLUSTER_REGION \
+    --cluster-name $PARALLEL_CLUSTER_NAME
+```
