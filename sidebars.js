@@ -238,7 +238,11 @@ module.exports = {
 		{
 			type: "category",
 			label: "Vim",
-			items: ["lang/etc/vim/nvim", "lang/etc/vim/regex"],
+			items: [
+				"lang/etc/vim/nvim",
+				"lang/etc/vim/nvim-tree",
+				"lang/etc/vim/regex",
+			],
 		},
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],

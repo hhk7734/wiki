@@ -9,204 +9,168 @@ keywords:
 
 AWS EFS Container Storage Interface Driver
 
+- https://github.com/kubernetes-sigs/aws-efs-csi-driver
+
+## 사전 요구 사항
+
+```typescript
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const awsEFSCSIDriverRoleName = "aws-efs-csi-driver-role";
+const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
+export const awsEFSCSIDriverRole = new aws.iam.Role(
+	awsEFSCSIDriverRoleName,
+	{
+		namePrefix: `${awsEFSCSIDriverRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Action: "sts:AssumeRoleWithWebIdentity",
+					Effect: "Allow",
+					Principal: {
+						Federated: oidcUrl.apply(
+							(url) =>
+								`arn:aws:iam::${variable.aws.profile}:oidc-provider/${url}`,
+						),
+					},
+					Condition: {
+						StringEquals: oidcUrl.apply((url) => ({
+							[`${url}:sub`]:
+								"system:serviceaccount:kube-system:aws-efs-csi-driver",
+						})),
+					},
+				},
+			],
+		},
+		tags: {
+			Name: awsEFSCSIDriverRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+new aws.iam.RolePolicyAttachment(
+	"aws-efs-csi-driver-rpa-0",
+	{
+		policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy",
+		role: awsEFSCSIDriverRole.name,
+	},
+	{ protect: true },
+);
+```
+
 ## 설치
 
-### CSI role
-
-```python
-name = "efs-csi-driver-policy"
-efs_csi_driver_policy = aws.iam.Policy(
-    name,
-    name_prefix=name,
-    policy=json.dumps(
-        {
-            "Statement": [
-                {
-                    "Action": [
-                        "elasticfilesystem:DescribeAccessPoints",
-                        "elasticfilesystem:DescribeFileSystems",
-                        "elasticfilesystem:DescribeMountTargets",
-                        "ec2:DescribeAvailabilityZones"
-                    ],
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-                {
-                    "Action": ["elasticfilesystem:CreateAccessPoint"],
-                    "Condition": {
-                        "StringLike": {
-                            "aws:RequestTag/efs.csi.aws.com/cluster": "true"
-                        }
-                    },
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-                {
-                    "Action": "elasticfilesystem:DeleteAccessPoint",
-                    "Condition": {
-                        "StringEquals": {
-                            "aws:ResourceTag/efs.csi.aws.com/cluster": "true"
-                        }
-                    },
-                    "Effect": "Allow",
-                    "Resource": "*",
-                },
-            ],
-            "Version": "2012-10-17",
-        }
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-    },
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-)
-
-name = "efs-csi-driver-role"
-efs_csi_driver_role = aws.iam.Role(
-    name,
-    name_prefix=name,
-    assume_role_policy=pulumi.Output.all(oidc_url=eks.oidc_provider.url,).apply(
-        lambda args: json.dumps(
-            {
-                "Version": "2012-10-17",
-                "Statement": [
-                    {
-                        "Effect": "Allow",
-                        "Principal": {
-                            "Federated": f"arn:aws:iam::{variable.account_id}:oidc-provider/{args['oidc_url']}"
-                        },
-                        "Action": "sts:AssumeRoleWithWebIdentity",
-                        "Condition": {
-                            "StringEquals": {
-                                f"{args['oidc_url']}:sub": "system:serviceaccount:kube-system:efs-csi-controller-sa"
-                            }
-                        },
-                    }
-                ],
-            }
-        )
-    ),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "GitHub": variable.github,
-    },
-    opts=pulumi.ResourceOptions(parent=eks.cluster),
-)
-
-aws.iam.RolePolicyAttachment(
-    "efs-csi-driver-rpa-0",
-    role=efs_csi_driver_role.name,
-    policy_arn=efs_csi_driver_policy.arn,
-    opts=pulumi.ResourceOptions(parent=efs_csi_driver_role),
-)
-```
-
-### Helm
-
 ```shell
-helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver \
-&& helm repo update aws-efs-csi-driver
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
 ```
 
 ```shell
-mkdir -p storage/aws-efs-csi-driver/{dynamic,helm,static}
-```
-
-```shell
-helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
+helm repo update aws-efs-csi-driver \
+&& helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
 ```
 
 ```shell
 helm show values aws-efs-csi-driver/aws-efs-csi-driver \
-    --version 2.2.5 \
-    > storage/aws-efs-csi-driver/helm/values.yaml
+    --version 2.5.0 \
+    > aws-efs-csi-driver-values.yaml
 ```
 
-```shell
-pulumi stack output efs_csi_driver_role_arn
-```
-
-```yaml title="storage/aws-efs-csi-driver/helm/values.yaml"
+```yaml title="aws-efs-csi-driver-values.yaml"
 controller:
   serviceAccount:
     create: true
-    name: efs-csi-controller-sa
+    name: aws-efs-csi-driver
     annotations:
       eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
 ```
 
 ```shell
+helm template aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+    --version 2.5.0 \
+    -n kube-system \
+    -f aws-efs-csi-driver-values.yaml \
+    > aws-efs-csi-driver.yaml
+```
+
+
+```shell
 helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --install \
-    --version 2.2.5 \
+    --version 2.5.0 \
     -n kube-system \
-    -f storage/aws-efs-csi-driver/helm/values.yaml
+    --history-max 3 \
+    -f aws-efs-csi-driver-values.yaml
 ```
 
 ## EFS
 
-```python
-# EFS
+- https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html
 
-name = "efs"
-efs = aws.efs.FileSystem(
-    name,
-    availability_zone_name=vpc.AZs.names[0],
-    performance_mode="generalPurpose",
-    throughput_mode="bursting",
-    lifecycle_policies=[
-        aws.efs.FileSystemLifecyclePolicyArgs(
-            transition_to_ia="AFTER_14_DAYS",
-            transition_to_primary_storage_class=None,
-        )
-    ],
-    encrypted=True,
-    opts=pulumi.ResourceOptions(protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "GitHub": variable.github,
-    },
-)
+```typescript
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
 
-name = "efs-sg"
-efs_sg = aws.ec2.SecurityGroup(
-    name,
-    name_prefix=name,
-    vpc_id=vpc.vpc.id,
-    ingress=[
-        aws.ec2.SecurityGroupIngressArgs(
-            from_port=2049,
-            to_port=2049,
-            protocol="tcp",
-            cidr_blocks=[vpc.vpc.cidr_block],
-        ),
-    ],
-    egress=[
-        aws.ec2.SecurityGroupEgressArgs(
-            from_port=0,
-            to_port=0,
-            protocol="all",
-            cidr_blocks=["0.0.0.0/0"],
-        ),
-    ],
-    opts=pulumi.ResourceOptions(parent=efs),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-        "GitHub": variable.github,
-    },
-)
+const efs0Name = "efs-0";
+const efs0 = new aws.efs.FileSystem(efs0Name, {
+	availabilityZoneName: "ap-northeast-2a",
+	performanceMode: "generalPurpose",
+	throughputMode: "bursting",
+	lifecyclePolicies: [
+		{
+			transitionToIa: "AFTER_14_DAYS",
+		},
+	],
+	encrypted: true,
+	tags: {
+		Name: efs0Name,
+		"loliot.net/stack": variable.stackName,
+	},
+});
 
-aws.efs.MountTarget(
-    "efs-mount-target",
-    file_system_id=efs.id,
-    security_groups=[efs_sg.id],
-    subnet_id=vpc.private_subnet["0"].id,
-    opts=pulumi.ResourceOptions(parent=efs),
-)
+const efs0SecurityGroupName = "efs-0";
+const vpcId = variable.eks.core.vpc.apply((vpc) => vpc.vpc.id);
+const cidrBlocks = variable.eks.core.vpc.apply((vpc) => vpc.vpc.cidrBlock);
+const efs0SecurityGroup = new aws.ec2.SecurityGroup(
+	efs0SecurityGroupName,
+	{
+		namePrefix: efs0SecurityGroupName,
+		vpcId: vpcId,
+		ingress: [
+			{
+				fromPort: 2049,
+				toPort: 2049,
+				protocol: "tcp",
+				cidrBlocks: [cidrBlocks],
+			},
+		],
+		egress: [
+			{ fromPort: 0, toPort: 0, protocol: "all", cidrBlocks: ["0.0.0.0/0"] },
+		],
+		tags: {
+			Name: efs0SecurityGroupName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ parent: efs0 },
+);
+
+const efs0MountTarget0Name = "efs-0";
+const subnetId = variable.eks.core.vpc.apply((vpc) => vpc.privateSubnet1.id);
+const efs0MountTarget0 = new aws.efs.MountTarget(
+	efs0MountTarget0Name,
+	{
+		fileSystemId: efs0.id,
+		securityGroups: [efs0SecurityGroup.id],
+		subnetId: subnetId,
+	},
+	{
+		parent: efs0,
+	},
+);
 ```
 
 ## StorageClass
@@ -293,7 +257,3 @@ spec:
       storage: 5Gi
 ```
 
-## Reference
-
-- [https://github.com/kubernetes-sigs/aws-efs-csi-driver](https://github.com/kubernetes-sigs/aws-efs-csi-driver)
-- [https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html](https://docs.aws.amazon.com/ko_kr/eks/latest/userguide/efs-csi.html)
