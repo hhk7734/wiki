@@ -51,6 +51,9 @@ flowchart
 
 ## VPC & Internet Gateway
 
+- 리전당 생성가능한 VPC 수는 5 개로 설정되어 있습니다.(Quota 변경 가능)
+- VPC당 생성 가능한 Subnet 수는 200 개로 설정되어 있습니다.(Quota 변경 가능)
+
 ```typescript
 const vpcName = "vpc";
 const vpc = new aws.ec2.Vpc(
@@ -59,7 +62,7 @@ const vpc = new aws.ec2.Vpc(
     enableDnsHostnames: true,
     enableDnsSupport: true,
     instanceTenancy: "default",
-    cidrBlock: "172.16.0.0/18",
+    cidrBlock: "172.16.0.0/16",
     tags: {
       Name: vpcName,
       "loliot.net/stack": variable.stackName,
