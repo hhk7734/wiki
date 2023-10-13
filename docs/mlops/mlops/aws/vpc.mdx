@@ -55,6 +55,7 @@ flowchart
 - VPC당 생성 가능한 Subnet 수는 200 개로 설정되어 있습니다.(Quota 변경 가능)
 
 ```typescript
+// 172.16.0.1 ~ 172.16.255.255
 const vpcName = "vpc";
 const vpc = new aws.ec2.Vpc(
   vpcName,
@@ -116,12 +117,13 @@ const igwRouteTable = new aws.ec2.RouteTable(
 ## Public Subnet && NAT Gateway
 
 ```typescript
+// 172.16.0.1 ~ 172.16.0.255
 const publicSubnet1Name = "public-subnet-1";
 const publicSubnet1 = new aws.ec2.Subnet(
   publicSubnet1Name,
   {
     vpcId: vpc.id,
-    cidrBlock: "172.16.0.0/25",
+    cidrBlock: "172.16.0.0/24",
     availabilityZone: "ap-northeast-2a",
     tags: {
       Name: publicSubnet1Name,
@@ -133,7 +135,7 @@ const publicSubnet1 = new aws.ec2.Subnet(
 );
 
 new aws.ec2.RouteTableAssociation(
-  `${igwRouteTableName}-association-1`,
+	`${igwRouteTableName}-${publicSubnet1Name}`,
   {
     routeTableId: igwRouteTable.id,
     subnetId: publicSubnet1.id,
@@ -184,12 +186,13 @@ const ngw1RouteTable = new aws.ec2.RouteTable(
 ## Private Subnet
 
 ```typescript
+// 172.16.32.1 ~ 172.16.47.255
 const privateSubnet1Name = "private-subnet-1";
 export const privateSubnet1 = new aws.ec2.Subnet(
   privateSubnet1Name,
   {
     vpcId: vpc.id,
-    cidrBlock: "172.16.60.0/22",
+    cidrBlock: "172.16.32.0/20",
     availabilityZone: "ap-northeast-2a",
     tags: {
       Name: privateSubnet1Name,
@@ -201,7 +204,7 @@ export const privateSubnet1 = new aws.ec2.Subnet(
 );
 
 new aws.ec2.RouteTableAssociation(
-  `${ngw1RouteTableName}-association-1`,
+	`${ngw1RouteTableName}-${privateSubnet1Name}`,
   {
     routeTableId: ngw1RouteTable.id,
     subnetId: privateSubnet1.id,

@@ -831,7 +831,7 @@ module.exports = {
 					type: "category",
 					label: "IAM",
 					items: [
-						"mlops/mlops/aws/iam/basics",
+						"mlops/mlops/aws/iam/iam",
 						"mlops/mlops/aws/iam/cross-accounts-access",
 						"mlops/mlops/aws/iam/spot-role",
 					],
@@ -847,7 +847,6 @@ module.exports = {
 						"mlops/mlops/aws/eks/keycloak",
 					],
 				},
-				"mlops/mlops/aws/aws-cloud-controller-manager",
 				"mlops/mlops/aws/cluster-autoscaler",
 				"mlops/mlops/aws/ecr",
 				{

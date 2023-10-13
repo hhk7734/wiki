@@ -1,15 +1,13 @@
 ---
-id: basics
-title: IAM Basics
-sidebar_label: Basics
-description: IAM Basics
+id: iam
+title: IAM
+sidebar_label: IAM
+description: IAM
 keywords:
   - IAM
 ---
 
-## Group
-
-그룹에 권한을 부여하고 유저를 그룹에 추가하는 방식으로 사용됩니다. 예를 들어 EC2를 관리하는 ec2-manager 그룹을 만들고, A, B, C 유저를 그룹에 추가하는 방식입니다.
+- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html
 
 ## User
 
@@ -26,6 +24,12 @@ keywords:
 Role을 사용하는 경우 `aws sts assume-role`을 사용하여 임시 AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_SESSION_TOKEN을 발급 받아서 사용하게 되는데, 여러 계정과 여러 권한을 행사해야 하는 경우 스위칭해가며 작업하는 것이 불편했습니다.
 :::
 
+## Group
+
+- Group은 User의 묶음입니다.
+- Group에 직접 Policy를 연결하여 권한을 부여합니다.
+
+
 ## Role
 
 - 사람이 아닌 경우, 예를 들어 EC2, EKS 내의 POD 등에 권한을 부여할 때, 사용됩니다.
@@ -34,6 +38,3 @@ Role을 사용하는 경우 `aws sts assume-role`을 사용하여 임시 AWS_ACC
 
 ## Policy
 
-## Reference
-
-- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html

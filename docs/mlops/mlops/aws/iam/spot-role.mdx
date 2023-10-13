@@ -7,48 +7,46 @@ keywords:
   - Spot Role
 ---
 
+- https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html
+
 ## AmazonEC2SpotFleetTaggingRole
 
-```python
-import json
+```typescript
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
 
-import pulumi
-import pulumi_aws as aws
+const roleName = "AmazonEC2SpotFleetTaggingRole";
+const role = new aws.iam.Role(roleName, {
+	name: roleName,
+	assumeRolePolicy: {
+		Statement: [
+			{
+				Principal: {
+					Service: "spotfleet.amazonaws.com",
+				},
+				Action: "sts:AssumeRole",
+				Effect: "Allow",
+			},
+		],
+		Version: "2012-10-17",
+	},
+	tags: {
+		Name: roleName,
+		"loliot.net/stack": variable.stackName,
+	},
+});
 
-from .. import variable
+const policyARNs = {
+	"0": "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
+};
 
-name = "AmazonEC2SpotFleetTaggingRole"
-spot_fleet_tagging = aws.iam.Role(
-    name,
-    name=name,
-    assume_role_policy=json.dumps(
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Principal": {
-                        "Service": "spotfleet.amazonaws.com",
-                    },
-                    "Action": "sts:AssumeRole",
-                }
-            ],
-        }
-    ),
-    opts=pulumi.ResourceOptions(protect=True),
-    tags={
-        "Name": name,
-        "Stack": variable.stack_name,
-    },
-)
-
-name = "spot-fleet-tagging-rpa-0"
-aws.iam.RolePolicyAttachment(
-    name,
-    policy_arn="arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
-    role=spot_fleet_tagging.name,
-    opts=pulumi.ResourceOptions(parent=spot_fleet_tagging, protect=True),
-)
+const rpas = Object.entries(policyARNs).map(
+	([i, arn]) =>
+		new aws.iam.RolePolicyAttachment(`AmazonEC2SpotFleetTaggingRole-rpa-${i}`, {
+			policyArn: arn,
+			role: role.name,
+		}),
+);
 ```
 
 ## AWSServiceRoleForEC2Spot
