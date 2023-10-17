@@ -18,7 +18,6 @@ import * as aws from "@pulumi/aws";
 import * as variable from "@src/variable";
 
 const awsEbsCsiDriverRoleName = "aws-ebs-csi-driver-role";
-const oidcUrl = variable.eks.core.eks.apply((eks) => eks.oidcProvider.url);
 export const awsEbsCsiDriverRole = new aws.iam.Role(
   awsEbsCsiDriverRoleName,
   {
@@ -27,20 +26,20 @@ export const awsEbsCsiDriverRole = new aws.iam.Role(
       Version: "2012-10-17",
       Statement: [
         {
-          Action: "sts:AssumeRoleWithWebIdentity",
           Effect: "Allow",
           Principal: {
-            Federated: oidcUrl.apply(
-              (url) =>
-                `arn:aws:iam::${variable.awsAccountId}:oidc-provider/${url}`
+            Federated: variable.eks.core.eks.apply(
+              (eks) => eks.oidcProvider.arn
             ),
           },
           Condition: {
-            StringEquals: oidcUrl.apply((url) => ({
-              [`${url}:sub`]:
+            StringEquals: variable.eks.core.eks.apply((eks) => ({
+              [`${eks.oidcProvider.url}:sub`]:
+                // system:serviceaccount:<namespace>:<serviceAccount>
                 "system:serviceaccount:kube-system:aws-ebs-csi-driver",
             })),
           },
+          Action: "sts:AssumeRoleWithWebIdentity",
         },
       ],
     },

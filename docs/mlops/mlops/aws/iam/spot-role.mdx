@@ -17,35 +17,35 @@ import * as variable from "@src/variable";
 
 const roleName = "AmazonEC2SpotFleetTaggingRole";
 const role = new aws.iam.Role(roleName, {
-	name: roleName,
-	assumeRolePolicy: {
-		Statement: [
-			{
-				Principal: {
-					Service: "spotfleet.amazonaws.com",
-				},
-				Action: "sts:AssumeRole",
-				Effect: "Allow",
-			},
-		],
-		Version: "2012-10-17",
-	},
-	tags: {
-		Name: roleName,
-		"loliot.net/stack": variable.stackName,
-	},
+  name: roleName,
+  assumeRolePolicy: {
+    Statement: [
+      {
+        Effect: "Allow",
+        Principal: {
+          Service: "spotfleet.amazonaws.com",
+        },
+        Action: "sts:AssumeRole",
+      },
+    ],
+    Version: "2012-10-17",
+  },
+  tags: {
+    Name: roleName,
+    "loliot.net/stack": variable.stackName,
+  },
 });
 
 const policyARNs = {
-	"0": "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
+  "0": "arn:aws:iam::aws:policy/service-role/AmazonEC2SpotFleetTaggingRole",
 };
 
 const rpas = Object.entries(policyARNs).map(
-	([i, arn]) =>
-		new aws.iam.RolePolicyAttachment(`AmazonEC2SpotFleetTaggingRole-rpa-${i}`, {
-			policyArn: arn,
-			role: role.name,
-		}),
+  ([i, arn]) =>
+    new aws.iam.RolePolicyAttachment(`AmazonEC2SpotFleetTaggingRole-rpa-${i}`, {
+      policyArn: arn,
+      role: role.name,
+    })
 );
 ```
 

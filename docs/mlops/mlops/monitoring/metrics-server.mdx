@@ -24,6 +24,8 @@ import Image from "@theme/IdealImage";
 
 ## 설치
 
+- https://kubernetes-sigs.github.io/metrics-server/
+
 ```shell
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
 ```
@@ -35,7 +37,7 @@ helm repo update metrics-server \
 
 ```shell
 helm show values metrics-server/metrics-server \
-    --version 3.8.3 \
+    --version 3.11.0 \
     > metrics-server-values.yaml
 ```
 
@@ -46,6 +48,14 @@ args:
   []
   # - --kubelet-insecure-tls
   # - --v=2
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 200Mi
+
+tolerations:
+  - operator: Exists
 ```
 
 :::info
@@ -54,7 +64,7 @@ args:
 
 ```shell
 helm template metrics-server metrics-server/metrics-server \
-    --version 3.8.3 \
+    --version 3.11.0 \
     -n monitoring \
     -f metrics-server-values.yaml \
     > metrics-server.yaml
@@ -63,9 +73,9 @@ helm template metrics-server metrics-server/metrics-server \
 ```shell
 helm upgrade metrics-server metrics-server/metrics-server \
     --install \
-    --version 3.8.3 \
-    -n monitoring \
     --history-max 3 \
+    --version 3.11.0 \
+    -n monitoring \
     -f metrics-server-values.yaml
 ```
 

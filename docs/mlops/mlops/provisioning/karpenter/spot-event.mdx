@@ -8,43 +8,48 @@ keywords:
   - spot
 ---
 
+- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml
+
 ## SQS 생성
 
 ```typescript
-const instanceTerminationEventSQSName = "instance-termination-event-sqs";
-export const instanceTerminationEventSQS = new aws.sqs.Queue(
-  instanceTerminationEventSQSName,
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const karpenterInterruptionQueueName = "karpenter-interruption-queue";
+export const karpenterInterruptionQueue = new aws.sqs.Queue(
+  karpenterInterruptionQueueName,
   {
-    name: `${instanceTerminationEventSQSName}-`,
+    namePrefix: `${karpenterInterruptionQueueName}-`,
     messageRetentionSeconds: 300,
+    sqsManagedSseEnabled: true,
     tags: {
-      Name: instanceTerminationEventSQSName,
+      Name: karpenterInterruptionQueueName,
       "loliot.net/stack": variable.stackName,
     },
   }
 );
 
-const instanceTerminationEventSQSPolicyName =
-  "instance-termination-event-sqs-policy";
-const instanceTerminationEventSQSPolicy = new aws.sqs.QueuePolicy(
-  instanceTerminationEventSQSPolicyName,
+const karpenterInterruptionQueuePolicyName =
+  "karpenter-interruption-queue-policy";
+const karpenterInterruptionQueuePolicy = new aws.sqs.QueuePolicy(
+  karpenterInterruptionQueuePolicyName,
   {
-    queueUrl: instanceTerminationEventSQS.id,
-    policy: instanceTerminationEventSQS.arn.apply((arn) =>
-      JSON.stringify({
-        Version: "2012-10-17",
-        Statement: [
-          {
-            Effect: "Allow",
-            Principal: {
-              Service: ["sqs.amazonaws.com", "events.amazonaws.com"],
-            },
-            Action: "sqs:SendMessage",
-            Resource: [arn],
+    queueUrl: karpenterInterruptionQueue.id,
+    policy: {
+      Id: "EC2InterruptionPolicy",
+      Version: "2012-10-17",
+      Statement: [
+        {
+          Effect: "Allow",
+          Principal: {
+            Service: ["sqs.amazonaws.com", "events.amazonaws.com"],
           },
-        ],
-      })
-    ),
+          Action: "sqs:SendMessage",
+          Resource: [karpenterInterruptionQueue.arn],
+        },
+      ],
+    },
   }
 );
 ```
@@ -52,65 +57,92 @@ const instanceTerminationEventSQSPolicy = new aws.sqs.QueuePolicy(
 ## EventBridge 추가
 
 ```typescript
-const targetId = "instance-termination-event";
+const targetId = "KarpenterInterruptionQueueTarget";
 
-const spotInstanceInterruptionWarningEventRuleName =
-  "spot-interruption-warning-event-rule";
-const spotInstanceInterruptionWarningEventRule = new aws.cloudwatch.EventRule(
-  spotInstanceInterruptionWarningEventRuleName,
+const scheduledChangeRuleName = "scheduled-change-rule";
+const scheduledChangeRule = new aws.cloudwatch.EventRule(
+  scheduledChangeRuleName,
   {
-    namePrefix: `${spotInstanceInterruptionWarningEventRuleName}-`,
+    namePrefix: `${scheduledChangeRuleName}-`,
+    eventPattern: JSON.stringify({
+      source: ["aws.health"],
+      "detail-type": ["AWS Health Event"],
+    }),
+    tags: {
+      Name: scheduledChangeRuleName,
+      "loliot.net/stack": variable.stackName,
+    },
+  }
+);
+
+new aws.cloudwatch.EventTarget(`${scheduledChangeRuleName}-target`, {
+  rule: scheduledChangeRule.name,
+  arn: karpenterInterruptionQueue.arn,
+  targetId: targetId,
+});
+
+const spotInterruptionRuleName = "spot-interruption-rule";
+const spotInterruptionRule = new aws.cloudwatch.EventRule(
+  spotInterruptionRuleName,
+  {
+    namePrefix: `${spotInterruptionRuleName}-`,
     eventPattern: JSON.stringify({
       source: ["aws.ec2"],
       "detail-type": ["EC2 Spot Instance Interruption Warning"],
     }),
     tags: {
-      Name: spotInstanceInterruptionWarningEventRuleName,
+      Name: spotInterruptionRuleName,
       "loliot.net/stack": variable.stackName,
     },
   }
 );
 
-const spotInstanceInterruptionWarningEventTargetName =
-  "spot-interruption-warning-event-target";
-const spotInstanceInterruptionWarningEventTarget =
-  new aws.cloudwatch.EventTarget(
-    spotInstanceInterruptionWarningEventTargetName,
-    {
-      rule: spotInstanceInterruptionWarningEventRule.name,
-      arn: instanceTerminationEventSQS.arn,
-      targetId: targetId,
-    }
-  );
+new aws.cloudwatch.EventTarget(`${spotInterruptionRuleName}-target`, {
+  rule: spotInterruptionRule.name,
+  arn: karpenterInterruptionQueue.arn,
+  targetId: targetId,
+});
 
-const instanceRebalanceRecommendationEventRuleName =
-  "instance-rebal-recom-event-rule";
-const instanceRebalanceRecommendationEventRule = new aws.cloudwatch.EventRule(
-  instanceRebalanceRecommendationEventRuleName,
+const rebalanceRuleName = "rebalance-rule";
+const rebalanceRule = new aws.cloudwatch.EventRule(rebalanceRuleName, {
+  namePrefix: `${rebalanceRuleName}-`,
+  eventPattern: JSON.stringify({
+    source: ["aws.ec2"],
+    "detail-type": ["EC2 Instance Rebalance Recommendation"],
+  }),
+  tags: {
+    Name: rebalanceRuleName,
+    "loliot.net/stack": variable.stackName,
+  },
+});
+
+new aws.cloudwatch.EventTarget(`${rebalanceRuleName}-target`, {
+  rule: rebalanceRule.name,
+  arn: karpenterInterruptionQueue.arn,
+  targetId: targetId,
+});
+
+const instanceStateChangeRuleName = "instance-state-change-rule";
+const instanceStateChangeRule = new aws.cloudwatch.EventRule(
+  instanceStateChangeRuleName,
   {
-    namePrefix: `${instanceRebalanceRecommendationEventRuleName}-`,
+    namePrefix: `${instanceStateChangeRuleName}-`,
     eventPattern: JSON.stringify({
       source: ["aws.ec2"],
-      "detail-type": ["EC2 Instance Rebalance Recommendation"],
+      "detail-type": ["EC2 Instance State-change Notification"],
     }),
     tags: {
-      Name: instanceRebalanceRecommendationEventRuleName,
+      Name: instanceStateChangeRuleName,
       "loliot.net/stack": variable.stackName,
     },
   }
 );
 
-const instanceRebalanceRecommendationEventTargetName =
-  "instance-rebal-recom-event-target";
-const instanceRebalanceRecommendationEventTarget =
-  new aws.cloudwatch.EventTarget(
-    instanceRebalanceRecommendationEventTargetName,
-    {
-      rule: instanceRebalanceRecommendationEventRule.name,
-      arn: instanceTerminationEventSQS.arn,
-      targetId: targetId,
-    }
-  );
+new aws.cloudwatch.EventTarget(`${instanceStateChangeRuleName}-target`, {
+  rule: instanceStateChangeRule.name,
+  arn: karpenterInterruptionQueue.arn,
+  targetId: targetId,
+});
 ```
 
 ## Client
@@ -130,14 +162,14 @@ const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
     Statement: [
       // ...
       {
+        Effect: "Allow",
         Action: [
           "sqs:DeleteMessage",
           "sqs:GetQueueUrl",
           "sqs:GetQueueAttributes",
           "sqs:ReceiveMessage",
         ],
-        Effect: "Allow",
-        Resource: instanceTerminationEventSQS.arn,
+        Resource: karpenterInterruptionQueue.arn,
       },
     ],
   },
