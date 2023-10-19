@@ -740,7 +740,11 @@ module.exports = {
 			items: [
 				"mlops/mlops/auth/kubeconfig",
 				"mlops/mlops/auth/rbac",
-				"mlops/mlops/auth/x509",
+				{
+					type: "category",
+					label: "TLS",
+					items: ["mlops/mlops/auth/tls/tls", "mlops/mlops/auth/tls/x509"],
+				},
 				{
 					type: "category",
 					label: "cert-manager",

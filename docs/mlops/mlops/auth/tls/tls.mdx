@@ -1,0 +1,63 @@
+---
+id: tls
+title: Transport Layer Security(전송 계층 보안)
+sidebar_label: TLS
+description: Transport Layer Security(전송 계층 보안)
+keywords:
+  - tls
+  - pki
+  - Public Key
+  - Private Key
+---
+
+## X.509 Public Key 인증서
+
+인증서(Certificate)는 `Subject`의 Public Key와 인증 정보를 `Data`의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 `Signature Value`의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Private Key로 서명한 인증서를 Self-Signed 인증서라고 합니다.
+
+인증서를 `openssl` 명령어로 해석하면 다음과 같은 정보를 얻을 수 있습니다.
+
+```shell
+openssl x509 -text -noout -in <cert.pem>
+```
+
+```text
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            <serialNumber>
+        Signature Algorithm: <algorithm>
+        Issuer: <issuerDN>
+        Validity
+            Not Before: <date>
+            Not After : <date>
+        Subject: <subjectDN>
+        Subject Public Key Info:
+            Public Key Algorithm: <algorithm>
+                Public-Key: (<n> bit)
+                <publicKey>
+        X509v3 extensions:
+            <extensions>
+    Signature Algorithm: <algorithm>
+    Signature Value:
+        <signature>
+```
+
+인증서에 `<publicKey>`는 비대칭 암호화에 사용되는 Public Key입니다. 따라서 유효한 인증서를 가지고 있으면 서버에서 Private Key로 암호화된 데이터를 보냈을 때, Public Key로 복호화하여 데이터를 확인할 수 있습니다.
+
+### 인증서 유효성 검사
+
+유효성 검사는
+
+- 인증서의 `Data`를 해시한 값과
+- `Signature Value`를 인증 기관(`Issuer`)의 인증서에 있는 Public Key로 복호화한 값을
+
+비교하여 같은지 확인하는 방식으로 진행됩니다.
+
+Self-Signed 인증서는 `Issuer`와 `Subject`가 같기 때문에 다른 인증서 없이 스스로 유효성 검사를 할 수 있습니다. 최상위 인증 기관을 Root CA라고 하는데, Root CA의 인증서는 다른 인증 기관이 발급 할 수 없기 때문에 Self-Signed 인증서로 만듭니다.
+
+모든 인증서를 최상위 인증 기관에서 발급할 수는 없기 때문에 중간 인증 기관(Intermediate CA)에 인증서를 발급해주고 중간 인증 기관 들이 그 하위 기관에게 인증서를 발급해줍니다. 중간 인증 기관은 또 다른 중간 인증 기관의 인증서를 발급할 수도 있습니다. 이렇게 인증 기관들이 인증서를 발급하는 구조를 인증 체인(Certificate Chain)이라고 합니다.
+
+인증 체인을 위해 브라우저는 최상위 인증 기관의 인증서와 그 외 신뢰할 수 있는 중간 인증 기관의 인증서를 미리 가지고 있고, 이를 사용하기 위해서는 브라우저가 가지고 있는 인증서 목록에 있는 인증 기관 중 한 곳에서 인증서를 받아야합니다. 이것이 우리가 인증 기관에 돈을 내고 인증서를 받거나, Let's Encrypt 같은 무료 인증 기관을 이용하는 이유입니다.
+
+### TLS Handshake
