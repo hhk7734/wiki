@@ -60,6 +60,12 @@ spec:
   #     - <organization> # O
   privateKey:
     algorithm: Ed25519 # RSA|Ed25519|ECDSA
+
+  # dnsNames, uris, ipAddresses 중 하나는 필수로 입력해야합니다.
+  dnsNames: []
+  uris: []
+  ipAddresses: []
+
   issuerRef:
     group: cert-manager.io
     kind: Issuer # Issuer|ClusterIssuer

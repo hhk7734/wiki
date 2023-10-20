@@ -26,6 +26,107 @@ flowchart LR
 
 ## Gateway
 
+### 설치
+
+```shell
+helm show values istio/gateway \
+    --version 1.19.3 \
+    > ingress-values.yaml
+```
+
+```yaml title="ingress-values.yaml"
+revision: 1-19-3
+
+service:
+  ports:
+    - name: status-port
+      port: 15021
+      targetPort: 15021
+      protocol: TCP
+      nodePort: <nodePort>
+    - name: http2
+      port: 80
+      targetPort: 8080
+      protocol: TCP
+      nodePort: <nodePort>
+    - name: https
+      port: 443
+      targetPort: 8443
+      protocol: TCP
+      nodePort: <nodePort>
+  # https://istio.io/latest/docs/reference/config/labels/
+  # https://istio.io/latest/docs/reference/config/annotations/
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
+    proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
+  externalTrafficPolicy: "Local"
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 2000m
+    memory: 1024Mi
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+labels: {}
+
+tolerations: []
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        # LoadBalancer를 사용할 수 있는 AZ를 지정합니다.
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - ap-northeast-2a
+                - ap-northeast-2c
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - istio-ingress
+          topologyKey: "kubernetes.io/hostname"
+        weight: 50
+```
+
+:::info
+https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-ip-address-of-the-original-client
+:::
+
+```shell
+helm template istio-ingress istio/gateway \
+    --version 1.19.3 \
+    -n istio-system \
+    -f ingress-values.yaml \
+    > ingress.yaml
+```
+
+```shell
+helm upgrade istio-ingress istio/gateway \
+    --install \
+    --version 1.19.3 \
+    -n istio-system \
+    --history-max 3 \
+    -f ingress-values.yaml
+```
+
+### Gateway CRD
+
 - https://istio.io/latest/docs/reference/config/networking/gateway/
 
 ```yaml

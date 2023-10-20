@@ -23,27 +23,7 @@ config:
           # permissions: {}
 ```
 
-## Account && User
-
-- https://docs.nats.io/running-a-nats-service/configuration/securing_nats/accounts
-- https://docs.nats.io/running-a-nats-service/configuration/securing_nats/authorization
-
-```yaml title="nats-values.yaml"
-config:
-  merge:
-    accounts:
-      <account>:
-        users:
-          - user: <user>
-            password: <password>
-            permissions:
-              publish:
-                - <subject>
-              subscribe:
-                - <subject>
-```
-
-## API permissions
+### API permissions
 
 - https://docs.nats.io/reference/reference-protocols/nats_api_reference
 
@@ -58,4 +38,24 @@ config:
               publish:
                 deny:
                   - <apiSubject> # API 중 막고 싶은 것을 적으면 됩니다.
+      SYS:
+        users:
+          - user: << $NATS_ADMIN_USER >>
+            password: << $NATS_ADMIN_PASSWORD >>
+
+    system_account: SYS
+```
+
+## Accounts && Users
+
+- https://docs.nats.io/running-a-nats-service/configuration/securing_nats/accounts
+- https://docs.nats.io/running-a-nats-service/configuration/securing_nats/authorization
+
+```yaml title="nats-values.yaml"
+config:
+  merge:
+    accounts:
+      <account>:
+        # authorization.users와 동일한 구조입니다.
+        users: []
 ```

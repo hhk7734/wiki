@@ -685,6 +685,39 @@ module.exports = {
 		},
 		{
 			type: "category",
+			label: "Auth",
+			items: [
+				"mlops/mlops/auth/kubeconfig",
+				"mlops/mlops/auth/rbac",
+				{
+					type: "category",
+					label: "TLS",
+					items: ["mlops/mlops/auth/tls/tls", "mlops/mlops/auth/tls/x509"],
+				},
+				{
+					type: "category",
+					label: "cert-manager",
+					items: [
+						"mlops/mlops/auth/cert-manager/cert-manager",
+						"mlops/mlops/auth/cert-manager/crds",
+						"mlops/mlops/auth/cert-manager/lets-encrypt",
+					],
+				},
+				{
+					type: "category",
+					label: "Keycloak",
+					items: [
+						"mlops/mlops/auth/keycloak/keycloak",
+						"mlops/mlops/auth/keycloak/realm",
+						"mlops/mlops/auth/keycloak/openid-connect",
+						"mlops/mlops/auth/keycloak/identity-providers",
+					],
+				},
+				"mlops/mlops/auth/oauth2-proxy",
+			],
+		},
+		{
+			type: "category",
 			label: "Monitoring",
 			items: [
 				"mlops/mlops/monitoring/metrics-server",
@@ -732,39 +765,6 @@ module.exports = {
 				},
 				"mlops/mlops/monitoring/dcgm-exporter",
 				"mlops/mlops/monitoring/kubernetes-dashboard",
-			],
-		},
-		{
-			type: "category",
-			label: "Auth",
-			items: [
-				"mlops/mlops/auth/kubeconfig",
-				"mlops/mlops/auth/rbac",
-				{
-					type: "category",
-					label: "TLS",
-					items: ["mlops/mlops/auth/tls/tls", "mlops/mlops/auth/tls/x509"],
-				},
-				{
-					type: "category",
-					label: "cert-manager",
-					items: [
-						"mlops/mlops/auth/cert-manager/cert-manager",
-						"mlops/mlops/auth/cert-manager/crds",
-						"mlops/mlops/auth/cert-manager/lets-encrypt",
-					],
-				},
-				{
-					type: "category",
-					label: "Keycloak",
-					items: [
-						"mlops/mlops/auth/keycloak/keycloak",
-						"mlops/mlops/auth/keycloak/realm",
-						"mlops/mlops/auth/keycloak/openid-connect",
-						"mlops/mlops/auth/keycloak/identity-providers",
-					],
-				},
-				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},
 		{

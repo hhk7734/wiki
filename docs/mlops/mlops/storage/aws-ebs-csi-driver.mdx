@@ -9,9 +9,9 @@ keywords:
 
 AWS EBS Container Storage Interface Driver
 
-## 사전 요구 사항
-
 - https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md
+
+## 사전 요구 사항
 
 ```typescript
 import * as aws from "@pulumi/aws";
@@ -74,7 +74,7 @@ helm repo update aws-ebs-csi-driver \
 
 ```shell
 helm show values aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --version 2.14.2 \
+    --version 2.24.0 \
     > aws-ebs-csi-driver-values.yaml
 ```
 
@@ -87,11 +87,13 @@ controller:
     name: aws-ebs-csi-driver
     annotations:
       eks.amazonaws.com/role-arn: "arn:aws:iam::<account-id>:role/<role-name>"
+
+  tolerations: []
 ```
 
 ```shell
 helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --version 2.14.2 \
+    --version 2.24.0 \
     -n kube-system \
     -f aws-ebs-csi-driver-values.yaml \
     > aws-ebs-csi-driver.yaml
@@ -100,7 +102,7 @@ helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 ```shell
 helm upgrade aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
     --install \
-    --version 2.14.2 \
+    --version 2.24.0 \
     -n kube-system \
     --history-max 3 \
     -f aws-ebs-csi-driver-values.yaml

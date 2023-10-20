@@ -8,11 +8,22 @@ keywords:
   - CSR
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 - [cert-manager](/docs/mlops/mlops/auth/cert-manager) 설치가 선행되어야 합니다.
 
 ## Root CA 발급
 
-### SelfSigned
+<Tabs
+  defaultValue="cert-manager"
+  values={[
+    { label: "cert-manager", value: "cert-manager" },
+    { label: "openssl", value: "openssl" },
+  ]}
+>
+
+<TabItem value="cert-manager">
 
 ```yaml
 apiVersion: cert-manager.io/v1
@@ -30,7 +41,7 @@ metadata:
   namespace: istio-system
 spec:
   isCA: true
-  duration: 87600h # 10 years
+  duration: 175200h # 20 years
   secretName: root-ca
   privateKey:
     algorithm: ECDSA
@@ -39,6 +50,8 @@ spec:
     organizations:
       - cluster.local
       - cert-manager
+  dnsNames:
+    - root-ca.loliot.net
   issuerRef:
     group: cert-manager.io
     kind: Issuer
@@ -46,17 +59,27 @@ spec:
 ```
 
 ```shell
-kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.crt"}}' | base64 -d > tls.crt
+kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.key"}}' | base64 -d > root-ca.key
 ```
 
 ```shell
-kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.key"}}' | base64 -d > tls.key
+kubectl get -n istio-system secret root-ca -ogo-template='{{index .data "tls.crt"}}' | base64 -d > root-ca.crt
 ```
+
+</TabItem>
+
+<TabItem value="openssl">
+
+- [openssl 명령어로 Root CA 만들기](/docs/mlops/mlops/auth/tls/x509#root-ca)
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 kubectl create secret generic -n istio-system istio-ca \
-    --from-file=tls.crt \
-    --from-file=tls.key
+    --from-file=tls.key=root-ca.key \
+    --from-file=tls.crt=root-ca.crt
 ```
 
 ```yaml
@@ -74,7 +97,7 @@ spec:
 
 ```shell
 kubectl create secret generic -n auth istio-root-ca \
-    --from-file=ca.pem=tls.crt
+    --from-file=ca.pem=root-ca.crt
 ```
 
 ```shell
@@ -109,7 +132,7 @@ app:
 
   istio:
     revisions:
-      - 1-18-2
+      - 1-19-3
 
 volumes:
   - name: root-ca
@@ -120,6 +143,8 @@ volumeMounts:
   - name: root-ca
     mountPath: /var/run/secrets/istio-csr
     readOnly: true
+
+tolerations: []
 ```
 
 ```shell

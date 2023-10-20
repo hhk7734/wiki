@@ -20,15 +20,15 @@ asdf list all istioctl
 ```
 
 ```shell
-asdf install istioctl 1.18.2
+asdf install istioctl 1.19.3
 ```
 
 ```shell
-asdf global istioctl 1.18.2
+asdf global istioctl 1.19.3
 ```
 
 ```shell
-asdf local istioctl 1.18.2
+asdf local istioctl 1.19.3
 ```
 
 ```shell
@@ -67,17 +67,17 @@ base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니�
 
 ```shell
 helm show values istio/base \
-    --version 1.18.2 \
+    --version 1.19.3 \
     > istio-base-values.yaml
 ```
 
 ```yaml title="istio-base-values.yaml"
-defaultRevision: 1-18-2
+defaultRevision: 1-19-3
 ```
 
 ```shell
 helm template istio-base istio/base \
-    --version 1.18.2 \
+    --version 1.19.3 \
     -n istio-system \
     -f istio-base-values.yaml \
     > istio-base.yaml
@@ -86,7 +86,7 @@ helm template istio-base istio/base \
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --version 1.18.2 \
+    --version 1.19.3 \
     -n istio-system \
     --history-max 3 \
     -f istio-base-values.yaml
@@ -94,9 +94,11 @@ helm upgrade istio-base istio/base \
 
 ### istiod
 
+- https://istio.io/latest/docs/setup/install/helm/
+
 ```shell
 helm show values istio/istiod \
-    --version 1.18.2 \
+    --version 1.19.3 \
     > istiod-values.yaml
 ```
 
@@ -109,121 +111,26 @@ pilot:
     limits:
       memory: 512Mi
 
-revision: 1-18-2
+  tolerations: []
+
+revision: 1-19-3
 ```
 
 ```shell
-helm template istiod-1-18-2 istio/istiod \
-    --version 1.18.2 \
+helm template istiod-1-19-3 istio/istiod \
+    --version 1.19.3 \
     -n istio-system \
     -f istiod-values.yaml \
     > istiod.yaml
 ```
 
 ```shell
-helm upgrade istiod-1-18-2 istio/istiod \
+helm upgrade istiod-1-19-3 istio/istiod \
     --install \
-    --version 1.18.2 \
+    --version 1.19.3 \
     -n istio-system \
     --history-max 3 \
     -f istiod-values.yaml
-```
-
-### ingressgateway
-
-```shell
-helm show values istio/gateway \
-    --version 1.18.2 \
-    > ingress-values.yaml
-```
-
-```yaml title="ingress-values.yaml"
-revision: 1-18-2
-
-service:
-  ports:
-    - name: status-port
-      port: 15021
-      targetPort: 15021
-      protocol: TCP
-      nodePort: <nodePort>
-    - name: http2
-      port: 80
-      targetPort: 8080
-      protocol: TCP
-      nodePort: <nodePort>
-    - name: https
-      port: 443
-      targetPort: 8443
-      protocol: TCP
-      nodePort: <nodePort>
-  # https://istio.io/latest/docs/reference/config/labels/
-  # https://istio.io/latest/docs/reference/config/annotations/
-  annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
-    service.beta.kubernetes.io/aws-load-balancer-proxy-protocol: "*"
-    proxy.istio.io/config: '{"gatewayTopology" : { "numTrustedProxies": 2 } }'
-  externalTrafficPolicy: "Local"
-
-resources:
-  requests:
-    cpu: 100m
-    memory: 128Mi
-  limits:
-    cpu: 2000m
-    memory: 1024Mi
-
-autoscaling:
-  enabled: true
-  minReplicas: 2
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 80
-
-labels: {}
-
-affinity:
-  nodeAffinity:
-    requiredDuringSchedulingIgnoredDuringExecution:
-      nodeSelectorTerms:
-        # LoadBalancer를 사용할 수 있는 AZ를 지정합니다.
-        - matchExpressions:
-            - key: topology.kubernetes.io/zone
-              operator: In
-              values:
-                - ap-northeast-2a
-                - ap-northeast-2c
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-      - podAffinityTerm:
-          labelSelector:
-            matchExpressions:
-              - key: app
-                operator: In
-                values:
-                  - istio-ingress
-          topologyKey: "kubernetes.io/hostname"
-        weight: 50
-```
-
-:::info
-https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-ip-address-of-the-original-client
-:::
-
-```shell
-helm template istio-ingress istio/gateway \
-    --version 1.18.2 \
-    -n istio-system \
-    -f ingress-values.yaml \
-    > ingress.yaml
-```
-
-```shell
-helm upgrade istio-ingress istio/gateway \
-    --install \
-    --version 1.18.2 \
-    -n istio-system \
-    --history-max 3 \
-    -f ingress-values.yaml
 ```
 
 ## Removal
@@ -322,8 +229,8 @@ revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활�
 
 | Resource  | Enabled label       | Disabled label                  |
 | --------- | ------------------- | ------------------------------- |
-| Namespace | istio.io/rev=1-18-2 | istio-injection=disabled        |
-| Pod       | istio.io/rev=1-18-2 | sidecar.istio.io/inject="false" |
+| Namespace | istio.io/rev=1-19-3 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-19-3 | sidecar.istio.io/inject="false" |
 
 :::warning
 

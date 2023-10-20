@@ -1,10 +1,11 @@
 ---
 id: x509
-title: x509
-sidebar_label: x509
-description: x509
+title: X.509
+sidebar_label: X.509
+description: X.509
 keywords:
-  - x509
+  - X.509
+  - PKI
 ---
 
 ```shell
@@ -13,10 +14,14 @@ openssl version -a
 
 ## Root CA
 
-### root-key.pem(Private Key)
+### root-ca.key(Private Key)
 
 ```shell
-openssl genrsa -out root-key.pem 3072
+openssl genrsa -out root-ca.key 3072
+```
+
+```shell
+openssl ecparam -genkey -name prime256v1 -noout -out root-ca.key
 ```
 
 ### root-ca.conf
@@ -39,6 +44,10 @@ basicConstraints = critical, CA:true
 keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
 
 subjectKeyIdentifier = hash
+subjectAltName=@san
+
+[ san ]
+DNS.1 = loliot.net
 
 [ req_dn ]
 organizationName = loliot
@@ -53,33 +62,37 @@ countryName = KR
 - countryName -\> C
 - emailAddress -\> EMAIL
 
-### root-cert.csr(CSR, 인증 서명 요청서)
+### root-ca.csr(CSR, 인증 서명 요청서)
 
 ```shell
-openssl req -new -key root-key.pem -config root-ca.conf -out root-cert.csr
+openssl req -new -key root-ca.key -config root-ca.conf -out root-ca.csr
 ```
 
-### root-cert.pem(CRT, 인증서)
+### root-ca.crt(CRT, 인증서)
 
 ```shell
-openssl x509 -req -days 3650 -signkey root-key.pem \
+openssl x509 -req -days 7300 -signkey root-ca.key \
     -extensions req_ext -extfile root-ca.conf \
-    -in root-cert.csr -out root-cert.pem
+    -in root-ca.csr -out root-ca.crt
 ```
 
 ```shell
-openssl x509 -in root-cert.pem -text -noout
+openssl x509 -in root-ca.crt -text -noout
 ```
 
 ## Intermediate CA
 
-### ca-key.pem
+### intermediate-ca.key
 
 ```shell
-openssl genrsa -out ca-key.pem 3072
+openssl genrsa -out intermediate-ca.key 3072
 ```
 
-### ca-cert.conf
+```shell
+openssl ecparam -genkey -name prime256v1 -noout -out intermediate-ca.key
+```
+
+### intermediate-ca.conf
 
 ```ini
 [ req ]
@@ -111,27 +124,27 @@ countryName = KR
 localityName = Seoul
 ```
 
-### ca-cert.csr
+### intermediate-ca.csr
 
 ```shell
-openssl req -new -config ca-cert.conf -key ca-key.pem -out ca-cert.csr
+openssl req -new -config intermediate-ca.conf -key intermediate-ca.key -out intermediate-ca.csr
 ```
 
-### ca-cert.pem
+### intermediate-ca.crt
 
 ```shell
 openssl x509 -req -days 1825 \
-    -CA ../root-cert.pem -CAkey ../root-key.pem -CAcreateserial\
-    -extensions req_ext -extfile ca-cert.conf \
-    -in ca-cert.csr -out ca-cert.pem
+    -CA root-ca.crt -CAkey root-ca.key -CAcreateserial \
+    -extensions req_ext -extfile intermediate-ca.conf \
+    -in intermediate-ca.csr -out intermediate-ca.crt
 ```
 
 ```shell
-openssl x509 -in ca-cert.pem -text -noout
+openssl x509 -in intermediate-ca.crt -text -noout
 ```
 
-### cert-chain.pem
+### cert-chain.crt
 
 ```shell
-cat ca-cert.pem ../root-cert.pem > cert-chain.pem
+cat intermediate-ca.crt ../root-ca.crt > cert-chain.crt
 ```

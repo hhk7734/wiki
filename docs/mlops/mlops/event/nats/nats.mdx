@@ -24,9 +24,11 @@ helm repo update nats \
 
 ```shell
 helm show values nats/nats \
-    --version 1.0.0 \
+    --version 1.1.2 \
     > nats-values.yaml
 ```
+
+- https://github.com/nats-io/k8s/tree/main/helm/charts/nats#merge
 
 ```yaml title="nats-values.yaml"
 fullnameOverride: ""
@@ -53,25 +55,36 @@ config:
 
     memoryStore:
       enabled: false
-      maxSize: 1Gi
 
   merge:
     # <<>> 로 감싸면 "" 없이 입력 그대로 설정됩니다.
     max_payload: << 1MB >> # 최댓값: 64MB, 권장 최댓값: 8MB
-    authorization:
-      users:
-        - user: << $NATS_USER >>
-          password: << $NATS_PASSWORD >>
-        - nkey: <nkey-user>
+
+    # authorization:
+    #   users:
+    #     - user: << $NATS_USER >>
+    #       password: << $NATS_PASSWORD >>
+    #     - nkey: <nkey-user>
+    accounts:
+      dev:
+        users: []
+      prod:
+        users: []
+      SYS:
+        users:
+          - user: << $NATS_ADMIN_USER >>
+            password: << $NATS_ADMIN_PASSWORD >>
+
+    system_account: SYS
 
 container:
   env:
-    NATS_USER:
+    NATS_ADMIN_USER:
       valueFrom:
         secretKeyRef:
           name: <secretName>
           key: user
-    NATS_PASSWORD:
+    NATS_ADMIN_PASSWORD:
       valueFrom:
         secretKeyRef:
           name: <secretName>
@@ -79,10 +92,10 @@ container:
   merge:
     resources:
       requests:
-        cpu: 100m
-        memory: 256Mi
+        cpu: 500m
+        memory: 1Gi
       limits:
-        memory: 256Mi
+        memory: 1Gi
 
 service:
   ports:
@@ -111,6 +124,7 @@ podTemplate:
                     app.kubernetes.io/instance: <fullname>
                 topologyKey: kubernetes.io/hostname
               weight: 100
+      tolerations: []
 
 natsBox:
   enabled: false
@@ -118,7 +132,7 @@ natsBox:
 
 ```shell
 helm template nats nats/nats \
-    --version 1.0.0 \
+    --version 1.1.2 \
     -n event \
     -f nats-values.yaml \
     > nats.yaml
@@ -127,7 +141,7 @@ helm template nats nats/nats \
 ```shell
 helm upgrade nats nats/ntas \
     --install \
-    --version 1.0.0 \
+    --version 1.1.2 \
     -n event \
     --history-max 3 \
     -f nats-values.yaml
