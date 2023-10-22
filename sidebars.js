@@ -930,6 +930,17 @@ module.exports = {
 		},
 		{
 			type: 'category',
+			label: 'Svelte',
+			items: [
+				{
+					type: 'category',
+					label: 'SvelteKit',
+					items: ['lang/javascript/svelte/sveltekit/routing']
+				}
+			]
+		},
+		{
+			type: 'category',
 			label: 'Components',
 			items: ['lang/javascript/components/semantic-elements']
 		},

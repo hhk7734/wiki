@@ -1,0 +1,48 @@
+---
+id: routing
+title: SvelteKit Routing
+sidebar_label: Routing
+description: SvelteKit Routing
+keywords:
+  - SvelteKit
+  - routing
+---
+
+## Routing
+
+- https://kit.svelte.dev/docs/routing
+
+SvelteKit은 디렉토리 구조를 기반으로 라우팅 합니다.
+
+```shell
+src/routes/
+├── +layout.ts # or +layout.server.ts
+├── +layout.svelte
+├── +page.ts # or +page.server.ts
+├── +page.svelte # /
+├── a/
+│   ├── +layout.ts
+│   ├── +layout.svelte
+│   ├── +page.ts
+│   ├── +page.svelte # /a
+│   ├── [b]/
+│   │   ├── +layout.ts
+│   │   ├── +layout.svelte
+│   │   ├── +page.ts
+│   │   ├── +page.svelte # /a/[b]
+│   │   ├── c/
+│   │   │   ├── +layout.ts
+│   │   │   ├── +layout.svelte
+│   │   │   ├── +page.ts
+│   │   │   ├── +page.svelte # /a/[b]/c
+│   │   │   └── ...
+│   │   └── ...
+│   └── ...
+└── ...
+```
+
+- `+page.svelte`: 라우팅 경로에 해당하는 페이지를 렌더링 합니다.
+- `+page[.server].ts`: `+page.svelte`가 렌더링 되기 전에 필요한 데이터를 가져오는 로직을 작성할 수 있습니다.
+- `+layout.svelte`: 해당 파일이 있는 라우팅 경로를 포함하여 하위 경로에 반복적으로 나타나는 요소를 렌더링 합니다.
+- `+layout[.server].ts`: `+layout.svelte`가 렌더링 되기 전에 필요한 데이터를 가져오는 로직을 작성할 수 있습니다.
+  - `+page.[server.].ts`와 다른 점은 부모의 레이아웃 데이터에 새로운 데이터가 병합된다는 점입니다.
