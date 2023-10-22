@@ -73,15 +73,15 @@ metadata:
   name: argocd-manager-role
 rules:
   - apiGroups:
-      - "*"
+      - '*'
     resources:
-      - "*"
+      - '*'
     verbs:
-      - "*"
+      - '*'
   - nonResourceURLs:
-      - "*"
+      - '*'
     verbs:
-      - "*"
+      - '*'
 ```
 
 ```yaml
@@ -150,7 +150,7 @@ metadata:
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
-  description: ""
+  description: ''
   sourceRepos:
     - git@github.com:<user>/<repository>.git
   destinations:
@@ -175,7 +175,7 @@ metadata:
   name: <application>-<env>
   namespace: workflow
   labels:
-    "<example.com/project-env>": <env> # 웹 UI에서 필터링을 위해 사용할 수 있습니다.
+    '<example.com/project-env>': <env> # 웹 UI에서 필터링을 위해 사용할 수 있습니다.
   finalizers: # Application이 삭제되면 해당하는 리소스를 삭제합니다.
     - resources-finalizer.argocd.argoproj.io
 spec:

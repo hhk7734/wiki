@@ -57,7 +57,7 @@ spec:
         # name은 main으로 고정되어 있습니다.
         image: docker/whalesay
         command: [cowsay]
-        args: ["hello world"]
+        args: ['hello world']
 ```
 
 ```yaml
@@ -152,7 +152,7 @@ spec:
           - name: selector
       resource:
         action: delete
-        flags: ["pod", "--selector", "{{inputs.parameters.selector}}"]
+        flags: ['pod', '--selector', '{{inputs.parameters.selector}}']
 ```
 
 - `setOwnerReference`: `true`로 설정하면 workflow가 삭제될 때 리소스도 함께 삭제됩니다.

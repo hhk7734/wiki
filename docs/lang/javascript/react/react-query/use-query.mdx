@@ -13,65 +13,65 @@ keywords:
 - https://tanstack.com/query/latest/docs/react/reference/useQuery
 
 ```typescript
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
 const query = useQuery({
-  queryKey, // unknown[]
-  queryFn, // (context: QueryFunctionContext) => Promise<TData>
-  cacheTime,
-  enabled,
-  networkMode,
-  initialData,
-  initialDataUpdatedAt,
-  keepPreviousData,
-  meta,
-  notifyOnChangeProps,
-  onError,
-  onSettled,
-  onSuccess,
-  placeholderData,
-  queryKeyHashFn,
-  refetchInterval,
-  refetchIntervalInBackground,
-  refetchOnMount,
-  refetchOnReconnect,
-  refetchOnWindowFocus,
-  retry,
-  retryOnMount,
-  retryDelay,
-  select,
-  staleTime,
-  structuralSharing,
-  suspense,
-  useErrorBoundary,
+	queryKey, // unknown[]
+	queryFn, // (context: QueryFunctionContext) => Promise<TData>
+	cacheTime,
+	enabled,
+	networkMode,
+	initialData,
+	initialDataUpdatedAt,
+	keepPreviousData,
+	meta,
+	notifyOnChangeProps,
+	onError,
+	onSettled,
+	onSuccess,
+	placeholderData,
+	queryKeyHashFn,
+	refetchInterval,
+	refetchIntervalInBackground,
+	refetchOnMount,
+	refetchOnReconnect,
+	refetchOnWindowFocus,
+	retry,
+	retryOnMount,
+	retryDelay,
+	select,
+	staleTime,
+	structuralSharing,
+	suspense,
+	useErrorBoundary
 });
 
 const {
-  data,
-  dataUpdatedAt,
-  error,
-  errorUpdateCount,
-  errorUpdatedAt,
-  failureCount,
-  failureReason,
-  fetchStatus,
-  isError, // status === "error"
-  isFetched,
-  isFetchedAfterMount,
-  isFetching,
-  isInitialLoading,
-  isLoading, // status === "loading"
-  isLoadingError,
-  isPaused,
-  isPlaceholderData,
-  isPreviousData,
-  isRefetchError,
-  isRefetching,
-  isStale,
-  isSuccess, // status === "success"
-  refetch,
-  remove,
-  status,
+	data,
+	dataUpdatedAt,
+	error,
+	errorUpdateCount,
+	errorUpdatedAt,
+	failureCount,
+	failureReason,
+	fetchStatus,
+	isError, // status === "error"
+	isFetched,
+	isFetchedAfterMount,
+	isFetching,
+	isInitialLoading,
+	isLoading, // status === "loading"
+	isLoadingError,
+	isPaused,
+	isPlaceholderData,
+	isPreviousData,
+	isRefetchError,
+	isRefetching,
+	isStale,
+	isSuccess, // status === "success"
+	refetch,
+	remove,
+	status
 } = query;
 ```
 

@@ -45,22 +45,22 @@ K8S_CLUSTER_DNS_IP=xxx
 
 ```json title="cluster-autoscaler-policy.json"
 {
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": [
-        "autoscaling:DescribeAutoScalingGroups",
-        "autoscaling:DescribeAutoScalingInstances",
-        "autoscaling:DescribeLaunchConfigurations",
-        "autoscaling:DescribeTags",
-        "autoscaling:SetDesiredCapacity",
-        "autoscaling:TerminateInstanceInAutoScalingGroup",
-        "ec2:DescribeLaunchTemplateVersions"
-      ],
-      "Resource": "*",
-      "Effect": "Allow"
-    }
-  ]
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Action": [
+				"autoscaling:DescribeAutoScalingGroups",
+				"autoscaling:DescribeAutoScalingInstances",
+				"autoscaling:DescribeLaunchConfigurations",
+				"autoscaling:DescribeTags",
+				"autoscaling:SetDesiredCapacity",
+				"autoscaling:TerminateInstanceInAutoScalingGroup",
+				"ec2:DescribeLaunchTemplateVersions"
+			],
+			"Resource": "*",
+			"Effect": "Allow"
+		}
+	]
 }
 ```
 
@@ -111,9 +111,9 @@ spec:
       labels:
         app: cluster-autoscaler
       annotations:
-        prometheus.io/scrape: "true"
-        prometheus.io/port: "8085"
-        cluster-autoscaler.kubernetes.io/safe-to-evict: "false"
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8085'
+        cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
     spec:
       priorityClassName: system-cluster-critical
       securityContext:
@@ -144,11 +144,11 @@ spec:
             - name: ssl-certs
               mountPath: /etc/ssl/certs/ca-certificates.crt # /etc/ssl/certs/ca-bundle.crt for Amazon Linux Worker Nodes
               readOnly: true
-          imagePullPolicy: "Always"
+          imagePullPolicy: 'Always'
       volumes:
         - name: ssl-certs
           hostPath:
-            path: "/etc/ssl/certs/ca-bundle.crt"
+            path: '/etc/ssl/certs/ca-bundle.crt'
 ```
 
 - `cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'`: 제거 비용이 많이 드는 pod라는 표시로, 해당 pod이 node에 있는 경우 node는 scalie in 되지 않습니다.

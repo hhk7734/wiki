@@ -66,7 +66,7 @@ spec:
       containers:
         - name: postgresql
           image: postgres:15.4-alpine3.18
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: 'IfNotPresent'
           ports:
             - name: postgresql
               containerPort: 5432
@@ -139,10 +139,10 @@ spec:
           app: postgresql
       spec:
         accessModes:
-          - "ReadWriteOnce"
+          - 'ReadWriteOnce'
         resources:
           requests:
-            storage: "8Gi"
+            storage: '8Gi'
 ```
 
 - [PersistentVolume](/docs/mlops/mlops/kubernetes/persistent-volume)

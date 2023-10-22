@@ -8,12 +8,12 @@ keywords:
   - istio
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
+import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## Kiali architecture
 
 <center>
-  <img src={useBaseUrl("img/mlops/mlops/istio/kiali-architecture.png")} />
+	<img src={useBaseUrl('img/mlops/mlops/istio/kiali-architecture.png')} />
 </center>
 
 ## 설치
@@ -72,19 +72,19 @@ Kubernetes api-server과 OIDC를 연결합니다.
 
 ```yaml title="istio/kiali/helm/values.yaml"
 auth:
-  strategy: "openid"
+  strategy: 'openid'
   openid:
     client_id: <k8s>
     issuer_uri: <oidc-issuer-uri>
     scopes:
-      - "openid"
-      - "profile"
-      - "email"
-      - "groups"
-    username_claim: "email"
+      - 'openid'
+      - 'profile'
+      - 'email'
+      - 'groups'
+    username_claim: 'email'
 
 deployment:
-  secret_name: "kiali"
+  secret_name: 'kiali'
 ```
 
 ```yaml
@@ -114,11 +114,11 @@ spec:
   http:
     - match:
         - uri:
-            prefix: "/"
+            prefix: '/'
       headers:
         request:
           set:
-            X-Forwarded-Port: "443"
+            X-Forwarded-Port: '443'
       route:
         - destination:
             host: kiali.istio-system.svc.cluster.local

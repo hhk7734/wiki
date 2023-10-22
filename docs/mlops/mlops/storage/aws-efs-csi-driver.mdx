@@ -14,50 +14,48 @@ AWS EFS Container Storage Interface Driver
 ## 사전 요구 사항
 
 ```typescript
-import * as aws from "@pulumi/aws";
-import * as variable from "@src/variable";
+import * as aws from '@pulumi/aws';
+import * as variable from '@src/variable';
 
-const awsEFSCSIDriverRoleName = "aws-efs-csi-driver-role";
+const awsEFSCSIDriverRoleName = 'aws-efs-csi-driver-role';
 export const awsEFSCSIDriverRole = new aws.iam.Role(
-  awsEFSCSIDriverRoleName,
-  {
-    namePrefix: `${awsEFSCSIDriverRoleName}-`,
-    assumeRolePolicy: {
-      Version: "2012-10-17",
-      Statement: [
-        {
-          Effect: "Allow",
-          Principal: {
-            Federated: variable.eks.core.eks.apply(
-              (eks) => eks.oidcProvider.arn
-            ),
-          },
-          Condition: {
-            StringEquals: variable.eks.core.eks.apply((eks) => ({
-              [`${eks.oidcProvider.url}:sub`]:
-                // system:serviceaccount:<namespace>:<serviceAccount>
-                "system:serviceaccount:kube-system:aws-efs-csi-driver",
-            })),
-          },
-          Action: "sts:AssumeRoleWithWebIdentity",
-        },
-      ],
-    },
-    tags: {
-      Name: awsEFSCSIDriverRoleName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	awsEFSCSIDriverRoleName,
+	{
+		namePrefix: `${awsEFSCSIDriverRoleName}-`,
+		assumeRolePolicy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn)
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:sub`]:
+								// system:serviceaccount:<namespace>:<serviceAccount>
+								'system:serviceaccount:kube-system:aws-efs-csi-driver'
+						}))
+					},
+					Action: 'sts:AssumeRoleWithWebIdentity'
+				}
+			]
+		},
+		tags: {
+			Name: awsEFSCSIDriverRoleName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 new aws.iam.RolePolicyAttachment(
-  "aws-efs-csi-driver-rpa-0",
-  {
-    policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy",
-    role: awsEFSCSIDriverRole.name,
-  },
-  { protect: true }
+	'aws-efs-csi-driver-rpa-0',
+	{
+		policyArn: 'arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy',
+		role: awsEFSCSIDriverRole.name
+	},
+	{ protect: true }
 );
 ```
 
@@ -109,65 +107,63 @@ helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
 - https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html
 
 ```typescript
-import * as aws from "@pulumi/aws";
-import * as variable from "@src/variable";
+import * as aws from '@pulumi/aws';
+import * as variable from '@src/variable';
 
-const efs0Name = "efs-0";
+const efs0Name = 'efs-0';
 const efs0 = new aws.efs.FileSystem(efs0Name, {
-  availabilityZoneName: "ap-northeast-2a",
-  performanceMode: "generalPurpose",
-  throughputMode: "bursting",
-  lifecyclePolicies: [
-    {
-      transitionToIa: "AFTER_14_DAYS",
-    },
-  ],
-  encrypted: true,
-  tags: {
-    Name: efs0Name,
-    "loliot.net/stack": variable.stackName,
-  },
+	availabilityZoneName: 'ap-northeast-2a',
+	performanceMode: 'generalPurpose',
+	throughputMode: 'bursting',
+	lifecyclePolicies: [
+		{
+			transitionToIa: 'AFTER_14_DAYS'
+		}
+	],
+	encrypted: true,
+	tags: {
+		Name: efs0Name,
+		'loliot.net/stack': variable.stackName
+	}
 });
 
-const efs0SecurityGroupName = "efs-0";
+const efs0SecurityGroupName = 'efs-0';
 const vpcId = variable.eks.core.vpc.apply((vpc) => vpc.vpc.id);
 const cidrBlocks = variable.eks.core.vpc.apply((vpc) => vpc.vpc.cidrBlock);
 const efs0SecurityGroup = new aws.ec2.SecurityGroup(
-  efs0SecurityGroupName,
-  {
-    namePrefix: efs0SecurityGroupName,
-    vpcId: vpcId,
-    ingress: [
-      {
-        fromPort: 2049,
-        toPort: 2049,
-        protocol: "tcp",
-        cidrBlocks: [cidrBlocks],
-      },
-    ],
-    egress: [
-      { fromPort: 0, toPort: 0, protocol: "all", cidrBlocks: ["0.0.0.0/0"] },
-    ],
-    tags: {
-      Name: efs0SecurityGroupName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { parent: efs0 }
+	efs0SecurityGroupName,
+	{
+		namePrefix: efs0SecurityGroupName,
+		vpcId: vpcId,
+		ingress: [
+			{
+				fromPort: 2049,
+				toPort: 2049,
+				protocol: 'tcp',
+				cidrBlocks: [cidrBlocks]
+			}
+		],
+		egress: [{ fromPort: 0, toPort: 0, protocol: 'all', cidrBlocks: ['0.0.0.0/0'] }],
+		tags: {
+			Name: efs0SecurityGroupName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ parent: efs0 }
 );
 
-const efs0MountTarget0Name = "efs-0";
+const efs0MountTarget0Name = 'efs-0';
 const subnetId = variable.eks.core.vpc.apply((vpc) => vpc.privateSubnet1.id);
 const efs0MountTarget0 = new aws.efs.MountTarget(
-  efs0MountTarget0Name,
-  {
-    fileSystemId: efs0.id,
-    securityGroups: [efs0SecurityGroup.id],
-    subnetId: subnetId,
-  },
-  {
-    parent: efs0,
-  }
+	efs0MountTarget0Name,
+	{
+		fileSystemId: efs0.id,
+		securityGroups: [efs0SecurityGroup.id],
+		subnetId: subnetId
+	},
+	{
+		parent: efs0
+	}
 );
 ```
 
@@ -237,8 +233,8 @@ provisioner: efs.csi.aws.com
 parameters:
   provisioningMode: efs-ap # PVC를 선언하면 AccessPoint가 생성됩니다.
   fileSystemId: <FileSystemId>
-  directoryPerms: "755"
-  basePath: "/k8s" # Default: "/". AccessPoint의 루트 디렉터리들이 생성될 위치 입니다.
+  directoryPerms: '755'
+  basePath: '/k8s' # Default: "/". AccessPoint의 루트 디렉터리들이 생성될 위치 입니다.
 ```
 
 ```yaml title="storage/aws-efs-csi-driver/dynamic/efs-dp-pvc.yaml"

@@ -27,9 +27,7 @@ Mali GPU uses global memory with cache, instead of using local or private memory
 It is recommended to use `clCreateBuffer(CL_MEM_ALLOC_HOST_PTR)` whenever possible.
 
 <center>
-  <img
-    src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-alloc.png')}
-  />
+	<img src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-alloc.png')} />
 </center>
 
 ### CL_MEM_USE_HOST_PTR
@@ -39,7 +37,7 @@ It is better not to create a buffer using `clCreateBuffer(CL_MEM_USE_HOST_PTR)` 
 Creating a buffer with HOST_PTR creates a buffer accessed by the host program and a buffer accessed by the GPU in global memory. The result is 'unnecessary copying'.
 
 <center>
-  <img src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-host.png')} />
+	<img src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-host.png')} />
 </center>
 
 ### malloc
@@ -47,7 +45,5 @@ Creating a buffer with HOST_PTR creates a buffer accessed by the host program an
 There is a global memory area that the host program can access, not the Mali GPU.
 
 <center>
-  <img
-    src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-malloc.png')}
-  />
+	<img src={useBaseUrl('img/lang/cpp/libraries/opencl/opencl-mali-malloc.png')} />
 </center>

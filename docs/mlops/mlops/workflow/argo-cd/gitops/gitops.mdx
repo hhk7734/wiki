@@ -9,15 +9,15 @@ keywords:
   - gitops
 ---
 
-import Image from "@theme/IdealImage";
+import Image from '@theme/IdealImage';
 
 ## GitOps
 
 <center>
-  <Image
-    img={require("@site/static/img/mlops/mlops/event/argo-cd/argo-cd-gitops.png")}
-    width={600}
-  />
+	<Image
+		img={require('@site/static/img/mlops/mlops/event/argo-cd/argo-cd-gitops.png')}
+		width={600}
+	/>
 </center>
 <center>https://nortal.com/blog/gitops-argocd/</center>
 <br />
@@ -46,16 +46,16 @@ project/
 ```
 
 ```yaml title="project/values.yaml"
-nameOverride: ""
-namespaceOverride: ""
-fullnameOverride: ""
+nameOverride: ''
+namespaceOverride: ''
+fullnameOverride: ''
 
 commonLabels: {}
 
 frontend:
   image:
-    repository: "<ecr>/frontend"
-    tag: ""
+    repository: '<ecr>/frontend'
+    tag: ''
     pullPolicy: IfNotPresent
 
   podLabels: {}
@@ -71,8 +71,8 @@ frontend:
 
 backend:
   image:
-    repository: "<ecr>/backend"
-    tag: ""
+    repository: '<ecr>/backend'
+    tag: ''
     pullPolicy: IfNotPresent
 # ...
 ```

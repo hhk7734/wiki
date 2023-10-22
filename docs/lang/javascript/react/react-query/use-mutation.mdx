@@ -15,43 +15,43 @@ keywords:
 - https://react-query-v3.tanstack.com/reference/useMutation
 
 ```typescript
-import { useMutation } from "@tanstack/react-query";
+import { useMutation } from '@tanstack/react-query';
 
 const mutation = useMutation({
-  mutationFn, // (variables: TVariables) => Promise<TData>
-  cacheTime,
-  mutationKey,
-  networkMode,
-  onError, // (err: TError, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
-  onMutate, // (variables: TVariables) => Promise<TContext | void> | TContext | void
-  onSettled, // (data: TData, error: TError, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
-  onSuccess, // (data: TData, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
-  retry,
-  retryDelay,
-  useErrorBoundary,
-  meta,
+	mutationFn, // (variables: TVariables) => Promise<TData>
+	cacheTime,
+	mutationKey,
+	networkMode,
+	onError, // (err: TError, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
+	onMutate, // (variables: TVariables) => Promise<TContext | void> | TContext | void
+	onSettled, // (data: TData, error: TError, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
+	onSuccess, // (data: TData, variables: TVariables, context?: TContext) => Promise<unknown> | unknown
+	retry,
+	retryDelay,
+	useErrorBoundary,
+	meta
 });
 
 const {
-  data,
-  error,
-  isError,
-  isIdle,
-  isLoading,
-  isPaused,
-  isSuccess,
-  failureCount,
-  failureReason,
-  mutate,
-  mutateAsync,
-  reset,
-  status,
+	data,
+	error,
+	isError,
+	isIdle,
+	isLoading,
+	isPaused,
+	isSuccess,
+	failureCount,
+	failureReason,
+	mutate,
+	mutateAsync,
+	reset,
+	status
 } = mutation;
 
 mutation.mutate(variables, {
-  localOnError, // (err: TError, variables: TVariables, context: TContext | undefined) => void
-  localOnSettled, // (data: TData | undefined, error: TError | null, variables: TVariables, context: TContext | undefined) => void
-  localOnSuccess, // (data: TData, variables: TVariables, context: TContext) => void
+	localOnError, // (err: TError, variables: TVariables, context: TContext | undefined) => void
+	localOnSettled, // (data: TData | undefined, error: TError | null, variables: TVariables, context: TContext | undefined) => void
+	localOnSuccess // (data: TData, variables: TVariables, context: TContext) => void
 });
 ```
 

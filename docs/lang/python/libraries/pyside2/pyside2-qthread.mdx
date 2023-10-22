@@ -103,11 +103,7 @@ Python의 GIL로 인해 메인 쓰레드 외에 QThread에서 `QThread.msleep` �
 - `automatic connection` : 시그널 발생 쓰레드와 슬롯 실행 쓰레드를 비교하여 direct or queued connection
 
 <center>
-  <img
-    src={useBaseUrl(
-      'img/lang/python/libraries/pyside2/pyside2-qthread-loop-diagram.png'
-    )}
-  />
+	<img src={useBaseUrl('img/lang/python/libraries/pyside2/pyside2-qthread-loop-diagram.png')} />
 </center>
 
 `QThread` 파생 클래스 A를 만들 때, 내부에 시그널과 슬롯을 만들 수 있습니다. 그런 경우 시그널과 슬롯은 위 그림에서 빨간색 원에 위치하게 됩니다.

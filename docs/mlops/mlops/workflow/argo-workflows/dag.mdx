@@ -37,7 +37,7 @@ spec:
           - name: b2
             dependencies: [b1]
             template: work4
-            when: "{{tasks.b1.outputs.result}} == success"
+            when: '{{tasks.b1.outputs.result}} == success'
 ```
 
 <center>
@@ -81,7 +81,7 @@ spec:
             template: work3
           - name: b2
             template: work4
-            when: "{{steps.b1.outputs.result}} == success"
+            when: '{{steps.b1.outputs.result}} == success'
 ```
 
 위와 같이 정의한 경우 아래와 같은 순서로 진행됩니다. `a1`, `a2`는 병렬로 실행되고, `b2`는 `b1`의 결과에 따라 실행됩니다.

@@ -65,7 +65,7 @@ spec:
             - name: elasticsearch
               env:
                 - name: ES_JAVA_OPTS
-                  value: "-Xms2g -Xmx2g"
+                  value: '-Xms2g -Xmx2g'
               resources:
                 limits:
                   memory: 4Gi
@@ -130,9 +130,9 @@ env:
   - name: ES_HOST
     value: elasticsearch-es-http.elastic-system.svc.cluster.local
   - name: ES_PORT
-    value: "9200"
+    value: '9200'
   - name: ES_USER
-    value: "elastic"
+    value: 'elastic'
   - name: ES_PASSWORD
     valueFrom:
       secretKeyRef:
@@ -167,9 +167,9 @@ env:
   - name: ES_HOST
     value: elasticsearch-es-http.elastic-system.svc.cluster.local
   - name: ES_PORT
-    value: "9200"
+    value: '9200'
   - name: ES_USER
-    value: "elastic"
+    value: 'elastic'
   - name: ES_PASSWORD
     valueFrom:
       secretKeyRef:

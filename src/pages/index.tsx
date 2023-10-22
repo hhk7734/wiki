@@ -1,8 +1,8 @@
-import BrowserOnly from "@docusaurus/BrowserOnly";
-import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
-import Layout from "@theme/Layout";
-import React, { useEffect } from "react";
-import styled from "styled-components";
+import BrowserOnly from '@docusaurus/BrowserOnly';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import Layout from '@theme/Layout';
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
 
 function Home() {
 	const context = useDocusaurusContext();

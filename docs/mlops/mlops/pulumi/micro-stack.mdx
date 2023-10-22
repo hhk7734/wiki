@@ -49,24 +49,24 @@ keywords:
 
 ```json title="<project>/package.json"
 {
-  "name": "<project>",
-  "devDependencies": {
-    "@types/js-yaml": "^4.0.5",
-    "@types/node": "^14"
-  },
-  "dependencies": {
-    "@pulumi/aws": "^5.19.0",
-    "@pulumi/kubernetes": "^3.22.1",
-    "@pulumi/pulumi": "^3.45.0",
-    "js-yaml": "^4.1.0",
-    "tsconfig-paths": "^4.1.0"
-  }
+	"name": "<project>",
+	"devDependencies": {
+		"@types/js-yaml": "^4.0.5",
+		"@types/node": "^14"
+	},
+	"dependencies": {
+		"@pulumi/aws": "^5.19.0",
+		"@pulumi/kubernetes": "^3.22.1",
+		"@pulumi/pulumi": "^3.45.0",
+		"js-yaml": "^4.1.0",
+		"tsconfig-paths": "^4.1.0"
+	}
 }
 ```
 
 ```json title="<path>/<stack>/package.json"
 {
-  "main": "src/index.ts"
+	"main": "src/index.ts"
 }
 ```
 
@@ -74,31 +74,31 @@ keywords:
 
 ```json title="<project>/tsconfig.base.json"
 {
-  "compilerOptions": {
-    "strict": true,
-    "outDir": "bin",
-    "target": "es2016",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "experimentalDecorators": true,
-    "pretty": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "forceConsistentCasingInFileNames": true
-  }
+	"compilerOptions": {
+		"strict": true,
+		"outDir": "bin",
+		"target": "es2016",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"pretty": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"forceConsistentCasingInFileNames": true
+	}
 }
 ```
 
 ```json title="<path>/<stack>/tsconfig.json"
 {
-  "extends": "../<relativePath>/tsconfig.base.json",
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@src/*": ["./src/*"],
-      "@crds/*": ["../<relativePath>/crds/*"]
-    }
-  }
+	"extends": "../<relativePath>/tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@src/*": ["./src/*"],
+			"@crds/*": ["../<relativePath>/crds/*"]
+		}
+	}
 }
 ```

@@ -15,33 +15,32 @@ keywords:
 아래 코드는 Next.js에서 Firebase Authentication을 사용하기 위한 초기화 코드입니다.
 
 ```typescript
-import { getApp, getApps, initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from 'firebase/app';
 import {
-  browserLocalPersistence,
-  browserPopupRedirectResolver,
-  debugErrorMap,
-  initializeAuth,
-  prodErrorMap,
-} from "firebase/auth";
+	browserLocalPersistence,
+	browserPopupRedirectResolver,
+	debugErrorMap,
+	initializeAuth,
+	prodErrorMap
+} from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 // initializeAuth는 getAuth에서 호출하는 로우레벨 API입니다.
 export const auth = initializeAuth(app, {
-  errorMap:
-    process.env.NODE_ENV === "development" ? debugErrorMap : prodErrorMap,
-  persistence: browserLocalPersistence,
-  popupRedirectResolver: browserPopupRedirectResolver,
+	errorMap: process.env.NODE_ENV === 'development' ? debugErrorMap : prodErrorMap,
+	persistence: browserLocalPersistence,
+	popupRedirectResolver: browserPopupRedirectResolver
 });
 
-export * from "firebase/auth";
+export * from 'firebase/auth';
 ```

@@ -56,52 +56,52 @@ flowchart
 
 ```typescript
 // 172.16.0.1 ~ 172.16.255.255
-const vpcName = "vpc";
+const vpcName = 'vpc';
 const vpc = new aws.ec2.Vpc(
-  vpcName,
-  {
-    enableDnsHostnames: true,
-    enableDnsSupport: true,
-    instanceTenancy: "default",
-    cidrBlock: "172.16.0.0/16",
-    tags: {
-      Name: vpcName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	vpcName,
+	{
+		enableDnsHostnames: true,
+		enableDnsSupport: true,
+		instanceTenancy: 'default',
+		cidrBlock: '172.16.0.0/16',
+		tags: {
+			Name: vpcName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
-const igwName = "igw";
+const igwName = 'igw';
 const igw = new aws.ec2.InternetGateway(
-  igwName,
-  {
-    vpcId: vpc.id,
-    tags: {
-      Name: igwName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	igwName,
+	{
+		vpcId: vpc.id,
+		tags: {
+			Name: igwName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 const igwRouteTableName = `${igwName}-rtb`;
 const igwRouteTable = new aws.ec2.RouteTable(
-  igwRouteTableName,
-  {
-    vpcId: vpc.id,
-    routes: [
-      {
-        cidrBlock: "0.0.0.0/0", // 모든 IP에 대한 요청을
-        gatewayId: igw.id, // Internet Gateway로 연결
-      },
-    ],
-    tags: {
-      Name: igwRouteTableName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	igwRouteTableName,
+	{
+		vpcId: vpc.id,
+		routes: [
+			{
+				cidrBlock: '0.0.0.0/0', // 모든 IP에 대한 요청을
+				gatewayId: igw.id // Internet Gateway로 연결
+			}
+		],
+		tags: {
+			Name: igwRouteTableName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 ```
 
@@ -118,68 +118,68 @@ const igwRouteTable = new aws.ec2.RouteTable(
 
 ```typescript
 // 172.16.0.1 ~ 172.16.0.255
-const publicSubnet1Name = "public-subnet-1";
+const publicSubnet1Name = 'public-subnet-1';
 const publicSubnet1 = new aws.ec2.Subnet(
-  publicSubnet1Name,
-  {
-    vpcId: vpc.id,
-    cidrBlock: "172.16.0.0/24",
-    availabilityZone: "ap-northeast-2a",
-    tags: {
-      Name: publicSubnet1Name,
-      "loliot.net/stack": variable.stackName,
-      "kubernetes.io/cluster/eks": "shared",
-    },
-  },
-  { protect: true }
+	publicSubnet1Name,
+	{
+		vpcId: vpc.id,
+		cidrBlock: '172.16.0.0/24',
+		availabilityZone: 'ap-northeast-2a',
+		tags: {
+			Name: publicSubnet1Name,
+			'loliot.net/stack': variable.stackName,
+			'kubernetes.io/cluster/eks': 'shared'
+		}
+	},
+	{ protect: true }
 );
 
 new aws.ec2.RouteTableAssociation(
 	`${igwRouteTableName}-${publicSubnet1Name}`,
-  {
-    routeTableId: igwRouteTable.id,
-    subnetId: publicSubnet1.id,
-  },
-  { protect: true }
+	{
+		routeTableId: igwRouteTable.id,
+		subnetId: publicSubnet1.id
+	},
+	{ protect: true }
 );
 
-const ngw1Name = "ngw-1";
+const ngw1Name = 'ngw-1';
 const ngw1EIPName = `${ngw1Name}-eip`;
 const ngw1 = new aws.ec2.NatGateway(
-  ngw1Name,
-  {
-    allocationId: new aws.ec2.Eip(ngw1EIPName, {
-      tags: {
-        Name: ngw1EIPName,
-        "loliot.net/stack": variable.stackName,
-      },
-    }).id,
-    subnetId: publicSubnet1.id,
-    tags: {
-      Name: ngw1Name,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	ngw1Name,
+	{
+		allocationId: new aws.ec2.Eip(ngw1EIPName, {
+			tags: {
+				Name: ngw1EIPName,
+				'loliot.net/stack': variable.stackName
+			}
+		}).id,
+		subnetId: publicSubnet1.id,
+		tags: {
+			Name: ngw1Name,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 const ngw1RouteTableName = `${ngw1Name}-rtb`;
 const ngw1RouteTable = new aws.ec2.RouteTable(
-  ngw1RouteTableName,
-  {
-    vpcId: vpc.id,
-    routes: [
-      {
-        cidrBlock: "0.0.0.0/0",
-        natGatewayId: ngw1.id,
-      },
-    ],
-    tags: {
-      Name: ngw1RouteTableName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	ngw1RouteTableName,
+	{
+		vpcId: vpc.id,
+		routes: [
+			{
+				cidrBlock: '0.0.0.0/0',
+				natGatewayId: ngw1.id
+			}
+		],
+		tags: {
+			Name: ngw1RouteTableName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 ```
 
@@ -187,28 +187,28 @@ const ngw1RouteTable = new aws.ec2.RouteTable(
 
 ```typescript
 // 172.16.32.1 ~ 172.16.47.255
-const privateSubnet1Name = "private-subnet-1";
+const privateSubnet1Name = 'private-subnet-1';
 export const privateSubnet1 = new aws.ec2.Subnet(
-  privateSubnet1Name,
-  {
-    vpcId: vpc.id,
-    cidrBlock: "172.16.32.0/20",
-    availabilityZone: "ap-northeast-2a",
-    tags: {
-      Name: privateSubnet1Name,
-      "loliot.net/stack": variable.stackName,
-      "kubernetes.io/cluster/eks": "shared",
-    },
-  },
-  { protect: true }
+	privateSubnet1Name,
+	{
+		vpcId: vpc.id,
+		cidrBlock: '172.16.32.0/20',
+		availabilityZone: 'ap-northeast-2a',
+		tags: {
+			Name: privateSubnet1Name,
+			'loliot.net/stack': variable.stackName,
+			'kubernetes.io/cluster/eks': 'shared'
+		}
+	},
+	{ protect: true }
 );
 
 new aws.ec2.RouteTableAssociation(
 	`${ngw1RouteTableName}-${privateSubnet1Name}`,
-  {
-    routeTableId: ngw1RouteTable.id,
-    subnetId: privateSubnet1.id,
-  },
-  { protect: true }
+	{
+		routeTableId: ngw1RouteTable.id,
+		subnetId: privateSubnet1.id
+	},
+	{ protect: true }
 );
 ```

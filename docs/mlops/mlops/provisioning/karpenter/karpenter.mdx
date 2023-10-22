@@ -18,158 +18,156 @@ keywords:
 ### NodeGroup Role
 
 ```typescript
-const nodeGroupRoleName = "karpenter-ng-role";
+const nodeGroupRoleName = 'karpenter-ng-role';
 const nodeGroupRole = new aws.iam.Role(
-  nodeGroupRoleName,
-  {
-    namePrefix: `${nodeGroupRoleName}-`,
-    assumeRolePolicy: {
-      Version: "2012-10-17",
-      Statement: [
-        {
-          Effect: "Allow",
-          Principal: {
-            Service: "ec2.amazonaws.com",
-          },
-          Action: "sts:AssumeRole",
-        },
-      ],
-    },
-    tags: {
-      Name: nodeGroupRoleName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	nodeGroupRoleName,
+	{
+		namePrefix: `${nodeGroupRoleName}-`,
+		assumeRolePolicy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Principal: {
+						Service: 'ec2.amazonaws.com'
+					},
+					Action: 'sts:AssumeRole'
+				}
+			]
+		},
+		tags: {
+			Name: nodeGroupRoleName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
-const nodeGroupInstanceProfileName = "karpenter-ng-instacne-profile";
+const nodeGroupInstanceProfileName = 'karpenter-ng-instacne-profile';
 const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
-  nodeGroupInstanceProfileName,
-  {
-    namePrefix: `${nodeGroupInstanceProfileName}-`,
-    role: nodeGroupRole.name,
-    tags: {
-      Name: nodeGroupInstanceProfileName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	nodeGroupInstanceProfileName,
+	{
+		namePrefix: `${nodeGroupInstanceProfileName}-`,
+		role: nodeGroupRole.name,
+		tags: {
+			Name: nodeGroupInstanceProfileName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 const nodeGroupPolicyARNs = {
-  "0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
-  "1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
-  "2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
-  "3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", // Karpenter
+	'0': 'arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy',
+	'1': 'arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly',
+	'2': 'arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy',
+	'3': 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore' // Karpenter
 };
 
 const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
-  ([i, arn]) =>
-    new aws.iam.RolePolicyAttachment(
-      `karpenter-ng-rpa-${i}`,
-      {
-        policyArn: arn,
-        role: nodeGroupRole.name,
-      },
-      { protect: true }
-    )
+	([i, arn]) =>
+		new aws.iam.RolePolicyAttachment(
+			`karpenter-ng-rpa-${i}`,
+			{
+				policyArn: arn,
+				role: nodeGroupRole.name
+			},
+			{ protect: true }
+		)
 );
 ```
 
 ### Karpenter Controller Role
 
 ```typescript
-const controllerRoleName = "karpenter-controller-role";
+const controllerRoleName = 'karpenter-controller-role';
 const controllerRole = new aws.iam.Role(
-  controllerRoleName,
-  {
-    namePrefix: `${controllerRoleName}-`,
-    assumeRolePolicy: {
-      Version: "2012-10-17",
-      Statement: [
-        {
-          Effect: "Allow",
-          Principal: {
-            Federated: variable.eks.core.eks.apply(
-              (eks) => eks.oidcProvider.arn
-            ),
-          },
-          Condition: {
-            StringEquals: variable.eks.core.eks.apply((eks) => ({
-              [`${eks.oidcProvider.url}:sub`]:
-                // system:serviceaccount:<namespace>:<serviceAccount>
-                "system:serviceaccount:provisioning:karpenter",
-            })),
-          },
-          Action: "sts:AssumeRoleWithWebIdentity",
-        },
-      ],
-    },
-    tags: {
-      Name: controllerRoleName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	controllerRoleName,
+	{
+		namePrefix: `${controllerRoleName}-`,
+		assumeRolePolicy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn)
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:sub`]:
+								// system:serviceaccount:<namespace>:<serviceAccount>
+								'system:serviceaccount:provisioning:karpenter'
+						}))
+					},
+					Action: 'sts:AssumeRoleWithWebIdentity'
+				}
+			]
+		},
+		tags: {
+			Name: controllerRoleName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
-const controllerPolicyName = "karpenter-controller-policy";
+const controllerPolicyName = 'karpenter-controller-policy';
 const controllerPolicy = new aws.iam.Policy(
-  controllerPolicyName,
-  {
-    namePrefix: `${controllerPolicyName}-`,
-    policy: {
-      Version: "2012-10-17",
-      Statement: [
-        {
-          Effect: "Allow",
-          Action: [
-            "ec2:CreateLaunchTemplate",
-            "ec2:CreateFleet",
-            "ec2:RunInstances",
-            "ec2:CreateTags",
-            "ec2:TerminateInstances",
-            "ec2:DescribeLaunchTemplates",
-            "ec2:DeleteLaunchTemplate",
-            "ec2:DescribeSecurityGroups",
-            "ec2:DescribeSpotPriceHistory",
-            "ec2:DescribeSubnets",
-            "ec2:DescribeImages",
-            "ec2:DescribeInstances",
-            "ec2:DescribeInstanceTypes",
-            "ec2:DescribeInstanceTypeOfferings",
-            "ec2:DescribeAvailabilityZones",
-            "eks:DescribeCluster",
-            "iam:AddRoleToInstanceProfile",
-            "iam:CreateInstanceProfile",
-            "iam:DeleteInstanceProfile",
-            "iam:GetInstanceProfile",
-            "iam:PassRole",
-            "iam:RemoveRoleFromInstanceProfile",
-            "iam:TagInstanceProfile",
-            "ssm:GetParameter",
-            "pricing:GetProducts",
-          ],
-          Resource: "*",
-        },
-      ],
-    },
-    tags: {
-      Name: controllerPolicyName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	controllerPolicyName,
+	{
+		namePrefix: `${controllerPolicyName}-`,
+		policy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Action: [
+						'ec2:CreateLaunchTemplate',
+						'ec2:CreateFleet',
+						'ec2:RunInstances',
+						'ec2:CreateTags',
+						'ec2:TerminateInstances',
+						'ec2:DescribeLaunchTemplates',
+						'ec2:DeleteLaunchTemplate',
+						'ec2:DescribeSecurityGroups',
+						'ec2:DescribeSpotPriceHistory',
+						'ec2:DescribeSubnets',
+						'ec2:DescribeImages',
+						'ec2:DescribeInstances',
+						'ec2:DescribeInstanceTypes',
+						'ec2:DescribeInstanceTypeOfferings',
+						'ec2:DescribeAvailabilityZones',
+						'eks:DescribeCluster',
+						'iam:AddRoleToInstanceProfile',
+						'iam:CreateInstanceProfile',
+						'iam:DeleteInstanceProfile',
+						'iam:GetInstanceProfile',
+						'iam:PassRole',
+						'iam:RemoveRoleFromInstanceProfile',
+						'iam:TagInstanceProfile',
+						'ssm:GetParameter',
+						'pricing:GetProducts'
+					],
+					Resource: '*'
+				}
+			]
+		},
+		tags: {
+			Name: controllerPolicyName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 new aws.iam.RolePolicyAttachment(
-  "karpenter-controller-rpa-0",
-  {
-    policyArn: controllerPolicy.arn,
-    role: controllerRole.name,
-  },
-  { protect: true }
+	'karpenter-controller-rpa-0',
+	{
+		policyArn: controllerPolicy.arn,
+		role: controllerRole.name
+	},
+	{ protect: true }
 );
 ```
 

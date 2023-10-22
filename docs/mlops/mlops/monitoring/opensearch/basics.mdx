@@ -57,7 +57,7 @@ helm show values opensearch/opensearch \
 ```
 
 ```yaml title="monitoring/opensearch/helm/opensearch-values.yaml"
-masterService: "opensearch-cluster-master"
+masterService: 'opensearch-cluster-master'
 
 replicas: 1
 
@@ -93,16 +93,16 @@ config:
     plugins.security.nodes_dn:
       - "CN=....." # 수정해야함
 
-opensearchJavaOpts: "-Xmx2g -Xms2g"
+opensearchJavaOpts: '-Xmx2g -Xms2g'
 
 resources:
   requests:
-    cpu: "500m"
-    memory: "4Gi"
+    cpu: '500m'
+    memory: '4Gi'
   limits:
-    memory: "4Gi"
+    memory: '4Gi'
 
-networkHost: "0.0.0.0"
+networkHost: '0.0.0.0'
 ```
 
 ```shell
@@ -187,7 +187,7 @@ config:
     logging.verbose: false
 
 opensearchAccount:
-  secret: "opensearch-dashboards-account"
+  secret: 'opensearch-dashboards-account'
   keyPassphrase:
     enabled: false
 
@@ -253,7 +253,7 @@ stringData:
 ```yaml title="monitoring/opensearch/helm/opensearch-values.yaml"
 securityConfig:
   config:
-    securityConfigSecret: "opensearch-security-config"
+    securityConfigSecret: 'opensearch-security-config'
 ```
 
 #### OpenSearch Dashboards

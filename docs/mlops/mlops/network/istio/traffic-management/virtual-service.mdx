@@ -109,7 +109,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  name: "backend"
+  name: 'backend'
 spec:
   hosts:
     - domain-b.com
@@ -118,9 +118,9 @@ spec:
   http:
     - match:
         - uri:
-            prefix: "/v1/"
+            prefix: '/v1/'
       rewrite:
-        uri: "/"
+        uri: '/'
       route:
         - destination:
             host: backend.default.svc.cluster.local
@@ -145,7 +145,7 @@ spec:
           - Ratelimit-Limit
           - Ratelimit-Remaining
         # Access-Control-Max-Age
-        maxAge: "24h"
+        maxAge: '24h'
         # Access-Control-Allow-Credentials
         allowCredentials: true
 ```

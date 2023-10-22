@@ -7,7 +7,7 @@ keywords:
   - Loki
 ---
 
-import Image from "@theme/IdealImage";
+import Image from '@theme/IdealImage';
 
 ## 배포 Mode
 
@@ -27,14 +27,12 @@ import Image from "@theme/IdealImage";
 ## 컴포넌트
 
 <center>
-  <Image
-    img={require("@site/static/img/mlops/mlops/monitoring/plg/loki_architecture_components.png")}
-    width={750}
-  />
+	<Image
+		img={require('@site/static/img/mlops/mlops/monitoring/plg/loki_architecture_components.png')}
+		width={750}
+	/>
 </center>
-<center>
-  https://grafana.com/docs/loki/latest/fundamentals/architecture/components/
-</center>
+<center>https://grafana.com/docs/loki/latest/fundamentals/architecture/components/</center>
 <br />
 
 - Distributor: 클라이언트에서 들어오는 로그를 검증 후 Ingester로 전달
@@ -43,10 +41,10 @@ import Image from "@theme/IdealImage";
 - Querier: Ingester 또는 장기 저장소에서 로그를 쿼리
 
 <center>
-  <Image
-    img={require("@site/static/img/mlops/mlops/monitoring/plg/simple-scalable-test-environment.png")}
-    width={750}
-  />
+	<Image
+		img={require('@site/static/img/mlops/mlops/monitoring/plg/simple-scalable-test-environment.png')}
+		width={750}
+	/>
 </center>
 <center>https://grafana.com/docs/loki/latest/getting-started/</center>
 <br />
@@ -69,7 +67,7 @@ helm show values grafana/loki-distributed \
 ```
 
 ```yaml title="loki-distributed-values.yaml"
-fullnameOverride: "loki"
+fullnameOverride: 'loki'
 
 loki:
   # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
@@ -175,7 +173,7 @@ env:
   - name: LOKI_HOST
     value: loki-gateway.monitoring.svc
   - name: LOKI_PORT
-    value: "80"
+    value: '80'
 
 config:
   # indent를 4칸으로 맞춰야 합니다.
@@ -202,7 +200,7 @@ env:
   - name: LOKI_HOST
     value: loki-gateway.monitoring.svc
   - name: LOKI_PORT
-    value: "80"
+    value: '80'
 
 fileConfigs:
   output-loki.conf: |

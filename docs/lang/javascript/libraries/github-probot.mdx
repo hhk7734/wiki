@@ -36,98 +36,97 @@ yarn add -D \
 
 ```json title="package.json"
 {
-  "scripts": {
-    "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/main.ts",
-    "build": "tsc"
-  }
+	"scripts": {
+		"dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/main.ts",
+		"build": "tsc"
+	}
 }
 ```
 
 ```typescript title="src/app.ts"
-import { Probot } from "probot";
+import { Probot } from 'probot';
 
 export function route(app: Probot) {
-  app.onAny(async (context) => {
-    const repository =
-      "repository" in context.payload ? context.payload.repository?.name : null;
-    const category = context.name;
-    const action = "action" in context.payload ? context.payload.action : null;
+	app.onAny(async (context) => {
+		const repository = 'repository' in context.payload ? context.payload.repository?.name : null;
+		const category = context.name;
+		const action = 'action' in context.payload ? context.payload.action : null;
 
-    app.log.info({
-      repository,
-      category,
-      action,
-    });
-  });
+		app.log.info({
+			repository,
+			category,
+			action
+		});
+	});
 }
 ```
 
 ```typescript title="src/main.ts"
-import { Server, ProbotOctokit, Probot } from "probot";
-import { readEnvOptions } from "probot/lib/bin/read-env-options";
-import { getLog } from "probot/lib/helpers/get-log";
-import { route } from "./app";
-import { config } from "dotenv";
+import { Server, ProbotOctokit, Probot } from 'probot';
+import { readEnvOptions } from 'probot/lib/bin/read-env-options';
+import { getLog } from 'probot/lib/helpers/get-log';
+import { route } from './app';
+import { config } from 'dotenv';
 
 async function startServer(appFn: (app: Probot) => void) {
-  config();
-  const envOptions = readEnvOptions();
+	config();
+	const envOptions = readEnvOptions();
 
-  const {
-    // log options
-    logLevel: level,
-    logFormat,
-    logLevelInString,
-    logMessageKey,
-    sentryDsn,
-    // server options
-    host,
-    port,
-    webhookPath,
-    webhookProxy,
-    // probot options
-    appId,
-    privateKey,
-    redisConfig,
-    secret,
-    baseUrl,
-  } = { ...envOptions };
+	const {
+		// log options
+		logLevel: level,
+		logFormat,
+		logLevelInString,
+		logMessageKey,
+		sentryDsn,
+		// server options
+		host,
+		port,
+		webhookPath,
+		webhookProxy,
+		// probot options
+		appId,
+		privateKey,
+		redisConfig,
+		secret,
+		baseUrl
+	} = { ...envOptions };
 
-  // GitHub Personal Access Token
-  const githubToken = process.env.GITHUB_TOKEN;
+	// GitHub Personal Access Token
+	const githubToken = process.env.GITHUB_TOKEN;
 
-  const logOptions = {
-    level,
-    logFormat,
-    logLevelInString,
-    logMessageKey,
-    sentryDsn,
-  };
+	const logOptions = {
+		level,
+		logFormat,
+		logLevelInString,
+		logMessageKey,
+		sentryDsn
+	};
 
-  const log = getLog(logOptions);
+	const log = getLog(logOptions);
 
-  const probotOptions = {
-    githubToken,
-    appId,
-    privateKey,
-    redisConfig,
-    secret,
-    baseUrl,
-    log: log.child({ name: "probot" }),
-  };
-  const serverOptions = {
-    host,
-    port,
-    webhookPath,
-    webhookProxy,
-    log: log.child({ name: "server" }),
-    Probot: Probot.defaults(probotOptions),
-  };
+	const probotOptions = {
+		githubToken,
+		appId,
+		privateKey,
+		redisConfig,
+		secret,
+		baseUrl,
+		log: log.child({ name: 'probot' })
+	};
+	const serverOptions = {
+		host,
+		port,
+		webhookPath,
+		webhookProxy,
+		log: log.child({ name: 'server' }),
+		Probot: Probot.defaults(probotOptions)
+	};
 
-  const server = new Server(serverOptions);
-  await server.load(appFn);
-  await server.start();
-  return server;
+	const server = new Server(serverOptions);
+	await server.load(appFn);
+	await server.start();
+	return server;
 }
 
 startServer(route);

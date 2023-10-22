@@ -18,74 +18,74 @@ keywords:
 ### Role
 
 ```typescript
-const roleName = "eks-role";
+const roleName = 'eks-role';
 const role = new aws.iam.Role(
-  roleName,
-  {
-    namePrefix: `${roleName}-`,
-    assumeRolePolicy: {
-      Version: "2012-10-17",
-      Statement: [
-        {
-          Effect: "Allow",
-          Principal: {
-            Service: "eks.amazonaws.com",
-          },
-          Action: "sts:AssumeRole",
-        },
-      ],
-    },
-    tags: {
-      Name: roleName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	roleName,
+	{
+		namePrefix: `${roleName}-`,
+		assumeRolePolicy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Principal: {
+						Service: 'eks.amazonaws.com'
+					},
+					Action: 'sts:AssumeRole'
+				}
+			]
+		},
+		tags: {
+			Name: roleName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 
 const clusterPolicyARNs = {
-  "0": "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+	'0': 'arn:aws:iam::aws:policy/AmazonEKSClusterPolicy'
 };
 
 const rpas = Object.entries(clusterPolicyARNs).map(
-  ([i, arn]) =>
-    new aws.iam.RolePolicyAttachment(
-      `eks-rpa-${i}`,
-      {
-        policyArn: arn,
-        role: role.name,
-      },
-      { protect: true }
-    )
+	([i, arn]) =>
+		new aws.iam.RolePolicyAttachment(
+			`eks-rpa-${i}`,
+			{
+				policyArn: arn,
+				role: role.name
+			},
+			{ protect: true }
+		)
 );
 ```
 
 ### Cluster
 
 ```typescript
-const clusterName = "eks";
+const clusterName = 'eks';
 export const cluster = new aws.eks.Cluster(
-  clusterName,
-  {
-    name: clusterName,
-    version: "1.28",
-    roleArn: role.arn,
-    vpcConfig: {
-      endpointPublicAccess: true,
-      subnetIds: [
-        vpc.privateSubnet1.id,
-        vpc.privateSubnet2.id,
-        vpc.privateSubnet3.id,
-        vpc.privateSubnet4.id,
-      ],
-    },
-    kubernetesNetworkConfig: { serviceIpv4Cidr: "10.96.0.0/16" },
-    tags: {
-      Name: clusterName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { dependsOn: [...rpas], protect: true }
+	clusterName,
+	{
+		name: clusterName,
+		version: '1.28',
+		roleArn: role.arn,
+		vpcConfig: {
+			endpointPublicAccess: true,
+			subnetIds: [
+				vpc.privateSubnet1.id,
+				vpc.privateSubnet2.id,
+				vpc.privateSubnet3.id,
+				vpc.privateSubnet4.id
+			]
+		},
+		kubernetesNetworkConfig: { serviceIpv4Cidr: '10.96.0.0/16' },
+		tags: {
+			Name: clusterName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ dependsOn: [...rpas], protect: true }
 );
 ```
 
@@ -124,19 +124,19 @@ export KUBECONFIG=<config-path>[:<config-path>]
   - 지문 가져오기
 
 ```typescript
-const oidcProviderName = "eks-oidc-provider";
+const oidcProviderName = 'eks-oidc-provider';
 export const oidcProvider = new aws.iam.OpenIdConnectProvider(
-  oidcProviderName,
-  {
-    url: cluster.identities[0].oidcs[0].issuer,
-    clientIdLists: ["sts.amazonaws.com"],
-    thumbprintLists: ["**********"],
-    tags: {
-      Name: oidcProviderName,
-      "loliot.net/stack": variable.stackName,
-    },
-  },
-  { protect: true }
+	oidcProviderName,
+	{
+		url: cluster.identities[0].oidcs[0].issuer,
+		clientIdLists: ['sts.amazonaws.com'],
+		thumbprintLists: ['**********'],
+		tags: {
+			Name: oidcProviderName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
 );
 ```
 
