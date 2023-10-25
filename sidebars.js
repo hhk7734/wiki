@@ -203,7 +203,8 @@ module.exports = {
 			label: 'Asynch Request Response',
 			items: [
 				'lang/design/asynchronous-request-response/asynchronous-request-response',
-				'lang/design/asynchronous-request-response/queue-worker'
+				'lang/design/asynchronous-request-response/queue-worker',
+				'lang/design/asynchronous-request-response/database'
 			]
 		},
 		{

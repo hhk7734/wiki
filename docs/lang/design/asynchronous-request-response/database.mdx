@@ -1,0 +1,24 @@
+---
+id: database
+title: Long-running Tasks Database Schema
+sidebar_label: Database
+description: Long-running Tasks 관리를 위한 Database Schema
+keywords:
+  - async
+  - long-running
+  - database
+---
+
+장기 실행 작업을 비동기로 관리할 때, 단순히 비지니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다.
+
+하지만, 미처 처리하지 못한 에러에 대한 디버깅, 방어적인 시스템 관리, 사용자 분석 등 이유로 비지니스 로직에서 사용하지 않더라도 나중을 위해 저장하면 좋은 정보들이 있습니다.
+
+- `user_id` 등: 태스크를 요청한 사용자가 서비스 내의 그룹을 벗어나거나 탈퇴한 경우에도 인식가능한 정보
+- `completed_steps`: 태스크가 완료된 단계 수
+- `total_steps`: 태스크의 총 단계 수
+- `created_at`: 태스크가 생성된 시간
+- `started_at`: 태스크가 시작된 시간
+- `finished_at`: 태스크가 종료된 시간
+- `cancelled_at`: 태스크가 취소된 시간
+
+작업의 상태(Status)를 알기위한 필드를 사용할 수도 있지만, 시간으로 표현한 이유는 이벤트가 발생한 시점과 이벤트와 이벤트 사이의 시간 간격을 측정해야하는 경우가 있기 때문입니다.
