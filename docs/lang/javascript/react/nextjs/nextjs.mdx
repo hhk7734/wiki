@@ -17,24 +17,25 @@ yarn create next-app --typescript
 
 기본으로 생성되는 구조는 아래와 같습니다.
 
+email/
+
 ```shell
 <package>
-├── next.config.js
 ├── next-env.d.ts
-├── node_modules/
+├── next.config.js
 ├── package.json
-├── pages/ # <domain>/*로 매핑되는 디렉토리입니다.
-│   ├── api/ # <domain>/api/*로 매핑되며 클라이언트 번들에 포함되지 않습니다.
-│   │   └── hello.ts # <domain>/api/hello
-│   ├── _app.tsx # 모든 페이지에 공통으로 적용될 Warpper
-│   └── index.tsx # <domain>/, index 파일은 상위 디렉토리의 기본 페이지로 매핑됩니다.
-├── public/ # static files, 런타임에만 제공하면 되는 파일의 경우 CDN을 활용할 수 있습니다.
-│   ├── favicon.ico # <domain>/favicon.ico
+├── postcss.config.js
+├── public/
+│   ├── next.svg
 │   └── vercel.svg
 ├── README.md
-├── styles/
-│   ├── globals.css
-│   └── Home.module.css
+├── src/
+│   └── app/
+│       ├── favicon.ico
+│       ├── globals.css
+│       ├── layout.tsx
+│       └── page.tsx
+├── tailwind.config.ts
 ├── tsconfig.json
 └── yarn.lock
 ```

@@ -888,6 +888,11 @@ module.exports = {
 		'lang/javascript/javascript',
 		{
 			type: 'category',
+			label: 'ENV',
+			items: ['lang/javascript/env/linting-formatting']
+		},
+		{
+			type: 'category',
 			label: 'node-addon-api',
 			items: [
 				'lang/javascript/node-addon-api/basics',
