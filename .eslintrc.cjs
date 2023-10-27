@@ -4,14 +4,12 @@ module.exports = {
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
 	parserOptions: {
-		sourceType: 'module',
-		ecmaVersion: 2020,
-		extraFileExtensions: []
+		ecmaVersion: 'latest',
+		sourceType: 'module'
 	},
 	env: {
 		browser: true,
 		es2017: true,
 		node: true
-	},
-	overrides: []
+	}
 };
