@@ -98,6 +98,28 @@ spec:
             mountPath: /mnt/vol
 ```
 
+## CronWorkflow
+
+- https://argoproj.github.io/argo-workflows/fields/#cronworkflowspec
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  schedule: '* * * * *' # https://en.wikipedia.org/wiki/Cron
+  timezone: Asia/Seoul
+  concurrencyPolicy: 'Allow' # Allow|Forbid|Replace, CronJob.spec.concurrencyPolicy
+  startingDeadlineSeconds: 0 # CronJob.spec.startingDeadlineSeconds
+  suspend: false # Cron을 멈춰두고 싶은 경우 true로 설정하면 됩니다.
+  # workflowMetadata:
+  #   labes: {}
+  #   annotations: {}
+  workflowSpec: {} # Workflow.spec
+```
+
 ## Reference
 
 - https://argoproj.github.io/argo-workflows/workflow-concepts/

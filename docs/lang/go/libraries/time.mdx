@@ -1,0 +1,28 @@
+---
+id: time
+title: time
+sidebar_label: time
+description: time
+keywords:
+  - time
+---
+
+## time/tzdata
+
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+	_ "time/tzdata"
+)
+
+func main() {
+	loc, _ := time.LoadLocation("Asia/Seoul")
+	t := time.Now().In(loc)
+	fmt.Println(t)
+}
+```
+
+타임존은 IANA Time Zone Database를 사용하는데, alpine 리눅스를 기반으로 한 컨테이너 이미지에는 해당 데이터베이스가 없습니다. 따라서 OS에 tzdata 패키지를 설치하거나 또는 `_ "time/tzdata"`를 추가하여 컴파일 시점에 데이터베이스를 포함시켜야 합니다.

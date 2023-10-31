@@ -149,7 +149,8 @@ module.exports = {
 				'lang/design/ddd/domain',
 				'lang/design/ddd/repository',
 				'lang/design/ddd/hexagonal',
-				'lang/design/ddd/refactoring'
+				'lang/design/ddd/refactoring',
+				'lang/design/ddd/cqrs'
 			]
 		},
 		'lang/design/eda',
@@ -184,7 +185,11 @@ module.exports = {
 				{
 					type: 'category',
 					label: 'Protobuf',
-					items: ['lang/design/protocol/protobuf/protobuf', 'lang/design/protocol/protobuf/type']
+					items: [
+						'lang/design/protocol/protobuf/protobuf',
+						'lang/design/protocol/protobuf/type',
+						'lang/design/protocol/protobuf/compatibility'
+					]
 				},
 				{
 					type: 'category',
@@ -296,6 +301,7 @@ module.exports = {
 						'lang/go/libraries/grpc/grpc'
 					]
 				},
+				'lang/go/libraries/time',
 				'lang/go/libraries/validator',
 				'lang/go/libraries/swagger',
 				'lang/go/libraries/gorm',
