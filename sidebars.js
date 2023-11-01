@@ -1092,15 +1092,7 @@ module.exports = {
 				{
 					type: 'category',
 					label: 'FastAPI',
-					items: [
-						'lang/python/libraries/fastapi/basics',
-						{
-							type: 'category',
-							label: 'Middleware',
-							items: ['lang/python/libraries/fastapi/middleware/logger']
-						},
-						'lang/python/libraries/fastapi/lifespan'
-					]
+					items: ['lang/python/libraries/fastapi/fastapi', 'lang/python/libraries/fastapi/lifespan']
 				},
 				{
 					type: 'category',

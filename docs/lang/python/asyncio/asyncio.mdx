@@ -84,6 +84,9 @@ t.join()
     - 콜백은 `callback(*args)`로 실행됩니다.
     - 메인 스레드에서만 사용할 수 있습니다.
     - `loop.remove_signal_handler(sig)`로 콜백을 제거할 수 있습니다.
+  - `asyncio.run_coroutine_threadsafe(coroutine, loop)`
+    - 루프에 코루틴을 등록합니다.
+    - `concurrent.futures.Future`를 반환합니다.
   - Keywords 인자를 사용해야하는 경우 `functools.partial()`을 사용합니다.
     - Ex) `loop.call_soon(functools.partial(callback, arg1, key=value))`
 
