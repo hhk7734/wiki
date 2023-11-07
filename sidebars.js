@@ -309,6 +309,7 @@ module.exports = {
 				'lang/go/libraries/smtp',
 				'lang/go/libraries/session',
 				'lang/go/libraries/websocket',
+				'lang/go/libraries/reverse-proxy',
 				{
 					type: 'category',
 					label: 'Firebase',
@@ -430,11 +431,7 @@ module.exports = {
 		{
 			type: 'category',
 			label: 'Dev-Lead',
-			items: [
-				'etc/memo/dev-lead/role-and-responsibility',
-				'etc/memo/dev-lead/planning-to-development',
-				'etc/memo/dev-lead/scrum'
-			]
+			items: ['etc/memo/dev-lead/role-and-responsibility', 'etc/memo/dev-lead/scrum']
 		}
 	],
 	mlops: [
