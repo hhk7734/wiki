@@ -36,9 +36,15 @@ spec:
 
 - `daemon`: `true`로 설정하면 해당 컨테이너의 Ready status가 True가 되면 진행중 여부와 관계없이 다음 작업으로 넘어갑니다. 종료되지 않는 작업인 경우 전체 작업에서 임시로 사용될 데이터베이스를 생성하는 등의 용도로 사용할 수 있습니다.
 - `retryStrategy`: (Optional) 템플릿이 실패했을 때, 재시도할 횟수와 간격을 설정할 수 있습니다.
+  - https://argoproj.github.io/argo-workflows/retries/
   - `retryPolicy`: `OnFailure`(기본값), `OnError`, `OnTransientError`, `Always`
   - `limit`: null(기본값)이면 무한 재시도, 정수면 해당 횟수만큼 재시도합니다.
   - `expression`: (Optional) 재시도 조건
+    - variables
+      - `lastRetry.exitCode`: exit 코드를 알 수 없는 경우 -1 입니다.
+      - `lastRetry.status`: `Error`, `Failed`
+      - `lastRetry.duration`: 마지막 재시도의 시작 시간부터 종료 시간까지의 간격입니다.
+      - `lastRetry.message`
   - `backoff`
   - `affinity`
 
