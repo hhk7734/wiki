@@ -28,11 +28,13 @@ helm repo update argo \
 
 ```shell
 helm show values argo/argo-workflows \
-    --version 0.33.3 \
+    --version 0.39.0 \
     > argo-workflows-values.yaml
 ```
 
 ```yaml title="argo-workflows-values.yaml"
+commonLabels: {}
+
 controller:
   resources:
     requests:
@@ -47,6 +49,9 @@ controller:
     errored: 100
 
 server:
+  authModes:
+    - client # kubernetes 토큰을 사용한 인증
+
   resources:
     requests:
       cpu: 100m
@@ -57,7 +62,7 @@ server:
 
 ```shell
 helm template argo-workflows argo/argo-workflows \
-    --version 0.33.3 \
+    --version 0.39.0 \
     -n workflow \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
@@ -67,7 +72,7 @@ helm template argo-workflows argo/argo-workflows \
 helm upgrade argo-workflows argo/argo-workflows \
     --install \
     --history-max 3 \
-    --version 0.33.3 \
+    --version 0.39.0 \
     -n workflow \
     --values argo-workflows-values.yaml
 ```
@@ -190,9 +195,10 @@ Dex는 클라이언트(`aud(audience)`)대신 다른 클라이언트(`azp(author
 ```yaml title="argo-workflows-values.yaml"
 server:
   extraArgs:
-    - --auth-mode=sso
-    - --auth-mode=client
     - --access-control-allow-origin=true
+
+  authModes:
+    - sso
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:
@@ -230,9 +236,10 @@ EOF
 ```yaml title="argo-workflows-values.yaml"
 server:
   extraArgs:
-    - --auth-mode=sso
-    - --auth-mode=client
     - --access-control-allow-origin=true
+
+  authModes:
+    - sso
 
   # ConfigMap.data.sso |, name: workflow-controller-configmap
   sso:

@@ -148,9 +148,8 @@ module.exports = {
 			items: [
 				'lang/design/ddd/domain',
 				'lang/design/ddd/repository',
-				'lang/design/ddd/hexagonal',
-				'lang/design/ddd/refactoring',
-				'lang/design/ddd/cqrs'
+				'lang/design/ddd/cqrs',
+				'lang/design/ddd/hexagonal'
 			]
 		},
 		'lang/design/eda',

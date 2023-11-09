@@ -20,12 +20,14 @@ spec:
   podGC:
     labelSelector: {}
     strategy: OnPodCompletion # OnPodCompletion|OnPodSuccess|OnWorkflowCompletion|OnWorkflowSuccess
+    deleteDelayDuration: 0s # 00h00m00s
 ```
 
 - `podGC`
   - 선언하지 않으면 Pod는 삭제되지 않습니다.
   - `labelSelector`
     - 선언하지 않으면 실행되는 모든 템플릿의 Pod이 삭제됩니다.
+  - `deleteDelayDuration`: GC 큐에 있는 Pod의 삭제 지연 시간
 
 ## ttlStrategy
 
