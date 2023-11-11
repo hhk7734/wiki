@@ -134,7 +134,7 @@ const config = {
 					})
 					.concat([
 						{
-							href: 'https://www.linkedin.com/in/%ED%98%84%EA%B8%B0-%ED%99%8D-26896b98/',
+							href: 'https://www.linkedin.com/in/hyeonki-hong/',
 							position: 'right',
 							className: 'header-linkedin-link',
 							'aria-label': 'LinkedIn'
