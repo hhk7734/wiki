@@ -199,11 +199,6 @@ module.exports = {
 		},
 		{
 			type: 'category',
-			label: 'Cache',
-			items: ['lang/design/cache/cache-aside']
-		},
-		{
-			type: 'category',
 			label: 'Asynch Request Response',
 			items: [
 				'lang/design/asynchronous-request-response/asynchronous-request-response',
@@ -238,6 +233,19 @@ module.exports = {
 			type: 'category',
 			label: 'Vim',
 			items: ['lang/etc/vim/nvim', 'lang/etc/vim/nvim-tree', 'lang/etc/vim/regex']
+		},
+		{
+			type: 'category',
+			label: 'Command Line Tools',
+			items: [
+				'lang/etc/command-line-tools/asdf',
+				'lang/etc/command-line-tools/ssh',
+				{
+					type: 'link',
+					label: 'Etc',
+					href: '/docs/lang/shellscript/command-line-tools/xargs'
+				}
+			]
 		}
 	],
 	espressif: ['mcu/espressif/esp8266-esp-01-module'],
@@ -396,12 +404,6 @@ module.exports = {
 			]
 		},
 		'linux/linux-tools/progress-bar',
-		// DEPRECATED: 2023-11-01
-		{
-			type: 'link',
-			label: 'SSH',
-			href: '/docs/lang/shellscript/command-line-tools/ssh'
-		},
 		'linux/linux-tools/linux-udev',
 		{
 			type: 'category',
@@ -591,16 +593,6 @@ module.exports = {
 					items: [
 						'mlops/mlops/provisioning/knative/knative',
 						'mlops/mlops/provisioning/knative/serving-crds'
-					]
-				},
-				{
-					type: 'category',
-					label: 'KServe',
-					items: [
-						'mlops/mlops/provisioning/kserve/kserve',
-						'mlops/mlops/provisioning/kserve/crds',
-						'mlops/mlops/provisioning/kserve/custom',
-						'mlops/mlops/provisioning/kserve/mlflow'
 					]
 				},
 				{
@@ -854,7 +846,17 @@ module.exports = {
 			items: [
 				'mlops/mlops/kubeflow/architecture',
 				'mlops/mlops/kubeflow/access-management',
-				'mlops/mlops/kubeflow/notebook'
+				'mlops/mlops/kubeflow/notebook',
+				{
+					type: 'category',
+					label: 'KServe',
+					items: [
+						'mlops/mlops/kubeflow/kserve/kserve',
+						'mlops/mlops/kubeflow/kserve/crds',
+						'mlops/mlops/kubeflow/kserve/custom',
+						'mlops/mlops/kubeflow/kserve/mlflow'
+					]
+				}
 			]
 		}
 	],
@@ -1147,7 +1149,11 @@ module.exports = {
 			items: [
 				'lang/shellscript/command-line-tools/xargs',
 				'lang/shellscript/command-line-tools/jq',
-				'lang/shellscript/command-line-tools/ssh'
+				{
+					type: 'link',
+					label: 'Etc',
+					href: '/docs/lang/etc/command-line-tools/asdf'
+				}
 			]
 		}
 	],

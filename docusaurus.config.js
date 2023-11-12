@@ -35,14 +35,26 @@ const config = {
 			'@docusaurus/plugin-client-redirects',
 			{
 				redirects: [
-					// DEPRECATED: 2023-11-01
+					// DEPRECATED: 2024-01-01
 					{
-						from: '/docs/linux/linux-tools/ssh',
-						to: '/docs/lang/shellscript/command-line-tools/ssh'
+						from: '/docs/mlops/mlops/provisioning/kserve/kserve',
+						to: '/docs/mlops/mlops/kubeflow/kserve/kserve'
 					},
 					{
-						from: '/docs/lang/design/protocol/restful-api',
-						to: '/docs/lang/design/openapi/restful-api'
+						from: '/docs/mlops/mlops/provisioning/kserve',
+						to: '/docs/mlops/mlops/kubeflow/kserve'
+					},
+					{
+						from: '/docs/mlops/mlops/provisioning/kserve/crds',
+						to: '/docs/mlops/mlops/kubeflow/kserve/crds'
+					},
+					{
+						from: '/docs/mlops/mlops/provisioning/kserve/custom',
+						to: '/docs/mlops/mlops/kubeflow/kserve/custom'
+					},
+					{
+						from: '/docs/mlops/mlops/provisioning/kserve/mlflow',
+						to: '/docs/mlops/mlops/kubeflow/kserve/mlflow'
 					}
 				]
 			}
@@ -88,7 +100,7 @@ const config = {
 						Flutter: 'flutter',
 						ShellScript: 'shellscript',
 						LabVIEW: 'labview',
-						etc: 'programmingetc'
+						Etc: 'programmingetc'
 					},
 					MLOps: {
 						MLOps: 'mlops',

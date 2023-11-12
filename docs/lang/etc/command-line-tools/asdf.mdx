@@ -1,0 +1,162 @@
+---
+id: asdf
+title: asdf로 런타임 버전 관리하기
+sidebar_label: 버전 관리 툴 asdf
+description: asdf로 런타임 버전 관리하기
+keywords:
+  - asdf
+  - runtime
+  - version
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## 설치
+
+- https://asdf-vm.com/guide/getting-started.html
+
+<Tabs
+    defaultValue="pacman"
+    values={[
+        {label: 'pacman', value: 'pacman',},
+    ]}
+>
+
+<TabItem value="pacman">
+
+```shell
+sudo pacman -S curl git
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+git clone https://github.com/asdf-vm/asdf.git ~/.asdf
+```
+
+<Tabs
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+    ]}
+>
+
+<TabItem value="zsh">
+
+```shell title=".zshrc"
+# asdf
+. $HOME/.asdf/asdf.sh
+fpath=(${ASDF_DIR}/completions $fpath)
+
+# 마지막 줄에 추가
+autoload -Uz compinit && compinit
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+asdf info
+```
+
+## 업그레이드
+
+```shell
+asdf update
+```
+
+## 플러그인
+
+- https://asdf-vm.com/manage/plugins.html
+
+### 설치
+
+```shell
+asdf plugin list all
+```
+
+```shell
+asdf plugin add <plugin> [<url>]
+```
+
+```shell
+asdf plugin list [<flag>]
+```
+
+- `<flag>`
+  - `--urls`: 플러그인 URL 출력
+
+### 업그레이드
+
+```shell
+asdf plugin update [<plugin>] [<flag>]
+```
+
+- `<flag>`
+  - `--all`: 모든 플러그인 업그레이드
+
+### 삭제
+
+```shell
+asdf plugin remove <plugin>
+```
+
+## 버전 관리
+
+- https://asdf-vm.com/manage/versions.html
+
+### 설치
+
+```shell
+asdf list all <plugin>
+```
+
+```shell
+asdf install [<plugin>] [<version>]
+```
+
+`asdf install` 명령어는 현재 환경에서 설치되어야하는 실행 파일의 버전을 모두 설치합니다.
+
+```shell
+asdf list <plugin>
+```
+
+### 설치 위치 확인
+
+```shell
+asdf which <plugin>
+```
+
+### 버전 설정
+
+```shell
+asdf global <plugin> <version>
+```
+
+전역 버전은 `$HOME/.tool-versions`에 저장됩니다.
+
+```shell
+asdf local <plugin> <version>
+```
+
+로컬 버전은 `$PWD/.tool-versions`에 저장되지만 해당 경로의 하위 경로에도 적용됩니다.
+
+```shell
+asdf shell <plugin> <version>
+```
+
+특정 쉘에서만 일시적으로 사용할 버전은 `ASDF_${TOOL}_VERSION` 환경 변수값으로 결정됩니다.
+
+```shell
+asdf current [<plugin>]
+```
+
+### 삭제
+
+```shell
+asdf uninstall <plugin> <version>
+```
