@@ -37,10 +37,6 @@ const config = {
 				redirects: [
 					// DEPRECATED: 2024-01-01
 					{
-						from: '/docs/mlops/mlops/provisioning/kserve/kserve',
-						to: '/docs/mlops/mlops/kubeflow/kserve/kserve'
-					},
-					{
 						from: '/docs/mlops/mlops/provisioning/kserve',
 						to: '/docs/mlops/mlops/kubeflow/kserve'
 					},
