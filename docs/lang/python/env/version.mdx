@@ -1,0 +1,105 @@
+---
+id: version
+title: Python 런타임 버전 관리
+sidebar_label: 런타임 버전 관리
+description: Python 런타임 버전 관리
+keywords:
+  - python
+  - runtime
+  - version
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## 빌드 의존성
+
+- https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+
+<Tabs
+    defaultValue="pacman"
+    values={[
+        {label: 'pacman', value: 'pacman',},
+        {label: 'apt', value: 'apt',},
+        {label: 'brew', value: 'brew',}
+    ]}
+>
+
+<TabItem value="pacman">
+
+```shell
+sudo pacman -S --needed base-devel openssl zlib xz tk
+```
+
+</TabItem>
+
+<TabItem value="apt">
+
+```shell
+sudo apt install build-essential libssl-dev zlib1g-dev \
+    libbz2-dev libreadline-dev libsqlite3-dev curl \
+    libncursesw5-dev xz-utils tk-dev libxml2-dev \
+    libxmlsec1-dev libffi-dev liblzma-dev
+```
+
+</TabItem>
+
+<TabItem value="brew">
+
+```shell
+brew install openssl readline sqlite3 xz zlib tcl-tk
+```
+
+</TabItem>
+
+</Tabs>
+
+## asdf
+
+- [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
+
+## pyenv
+
+### 설치
+
+```shell
+curl https://pyenv.run | bash
+```
+
+```shell title=".zshrc"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv > /dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+```
+
+```shell
+rm -rf $(pyenv root)
+```
+
+### 버전 관리
+
+- `pyenv --version`: pyenv 버전
+- `pyenv version`: 현재 기본 python 버전
+- `pyenv versions`: 설치된 python 버전
+- `pyenv install --list`: 설치 가능한 python 버전
+
+```shell
+pyenv install <version>
+```
+
+```shell
+pyenv global <version>
+```
+
+```shell
+pyenv local <version>
+```
+
+`.python-version` 파일이 생성되고 해당 디렉토리로 이동하면 자동으로 python 버전이 설정된 값으로 변경됩니다.
+
+### 업그레이드
+
+```shell
+cd $(pyenv root)
+git pull
+```
