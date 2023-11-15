@@ -1,5 +1,6 @@
-const remarkMath = require('remark-math');
-const rehypeKatex = require('rehype-katex');
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
+import { themes } from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -60,8 +61,10 @@ const config = {
 	],
 	stylesheets: [
 		{
-			href: '/katex/v0.13.9/katex.min.css',
-			type: 'text/css'
+			href: 'https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css',
+			type: 'text/css',
+			integrity: 'sha384-odtC+0UGzzFL/6PNoE8rX/SPcQDXBJ+uRepguP4QkPCm2LBxH3FA3y+fKSiJ+AmM',
+			crossorigin: 'anonymous'
 		}
 	],
 	/** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -84,7 +87,7 @@ const config = {
 				src: 'img/logo.svg'
 			},
 			items: (() => {
-				links = {
+				const links = {
 					Programming: {
 						Design: 'design',
 						'C++': 'cpp',
@@ -158,8 +161,10 @@ const config = {
 		},
 		prism: {
 			// https://prismjs.com/#supported-languages
+			// https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts
 			additionalLanguages: [
 				'apacheconf',
+				'bash',
 				'bnf',
 				'cmake',
 				'dart',
@@ -167,6 +172,7 @@ const config = {
 				'hcl',
 				'http',
 				'ini',
+				'json',
 				'nginx',
 				'promql',
 				'protobuf',
@@ -174,8 +180,8 @@ const config = {
 				'toml',
 				'yaml'
 			],
-			theme: require('prism-react-renderer/themes/nightOwlLight'),
-			darkTheme: require('prism-react-renderer/themes/vsDark')
+			theme: themes.nightOwlLight,
+			darkTheme: themes.vsDark
 		},
 		tableOfContents: {
 			minHeadingLevel: 2,
@@ -235,4 +241,4 @@ const config = {
 	// },
 };
 
-module.exports = config;
+export default config;

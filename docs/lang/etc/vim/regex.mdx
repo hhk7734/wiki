@@ -21,21 +21,18 @@ keywords:
 
 ## Substitute
 
-`:[line option]s/<before>/<after>/[option]` : before에서 after로 찾아 바꿉니다.
+`:[<lineOption>]s/<before>/<after>/[<option>]` : before에서 after로 찾아 바꿉니다.
 
-### [line option]
-
-- line option이 없는 경우 커서가 위치한 줄에 적용됩니다.
-- `start_num,end_num`: 주어진 번호의 줄을 포함한 그 사이 줄
-- \`<,\`>: Visual 모드에서 블록된 영역의 줄
-- `.,$`: 현재 위치에서 끝까지
-- `.,+n`: 현재 위치에서 n번째 다음 줄까지
-
-### [option]
-
-- `g`: 줄 전체에서 찾아 바꿉니다. 기본은 줄에서 찾은 첫번째만 바꾸는 것입니다.(global)
-- `c`: 찾은 후 바꿀 것인지 묻습니다.(confirmation)
-- `i`: 대소문자를 무시하고 찾습니다. (ignoring case)
+- `[<lineOption>]`
+  - line option이 없는 경우 커서가 위치한 줄에 적용됩니다.
+  - `start_num,end_num`: 주어진 번호의 줄을 포함한 그 사이 줄
+  - <code>\`&lt;,\`&gt;</code>: Visual 모드에서 블록된 영역의 줄
+  - `.,$`: 현재 위치에서 끝까지
+  - `.,+n`: 현재 위치에서 n번째 다음 줄까지
+- `[<option>]`
+  - `g`: 줄 전체에서 찾아 바꿉니다. 기본은 줄에서 찾은 첫번째만 바꾸는 것입니다.(global)
+  - `c`: 찾은 후 바꿀 것인지 묻습니다.(confirmation)
+  - `i`: 대소문자를 무시하고 찾습니다. (ignoring case)
 
 ## RegEx
 
@@ -67,5 +64,5 @@ keywords:
 ## Examples
 
 - `:%s/^\* / \* /g` : \*로 시작하는 줄 2 칸 들여쓰기
-- `:%s/<code \([a-z|A-Z]*\)>/```\1/g`: <code xxxx\> -> \`\`\`xxxx
-- `:%s/<a href="\(.\{-}\)" \?.\{-}>.\{-}<\/a>/\1/g` : <a href="web"\>web</a\>->web
+- `:%s/<code \([a-z|A-Z]*\)>/```\1/g`: \<code xxxx\> -> \`\`\`xxxx
+- `:%s/<a href="\(.\{-}\)" \?.\{-}>.\{-}<\/a>/\1/g` : \<a href="web"\>web\</a\>->web

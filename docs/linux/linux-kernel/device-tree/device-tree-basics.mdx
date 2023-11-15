@@ -10,9 +10,9 @@ keywords:
 
 import useBaseUrl from '@docusaurus/useBaseUrl';
 
-Typically, **<.dtsi\>** file contain definitions of SoC-level information.
+Typically, **\<.dtsi\>** file contain definitions of SoC-level information.
 
-The **<.dts\>** file contains board-level information.
+The **\<.dts\>** file contains board-level information.
 
 <center>
 	<img src={useBaseUrl('img/linux/linux-kernel/device-tree/device-tree-inclusion-example.jpg')} />
@@ -112,5 +112,5 @@ make xxx_defconfig \
 Then, DTB will be created in `linux/arch/<arch>/boot/`.
 
 :::tip
-If the above command fails, check **arch/<arch\>/configs**. If not in arch/<arch\>/configs, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+If the above command fails, check **arch/\<arch\>/configs**. If not in arch/\<arch\>/configs, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
 :::

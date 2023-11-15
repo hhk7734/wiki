@@ -113,13 +113,13 @@ sudo k0s install controller -c k0s.yaml --enable-worker
 
 | Protocol | Port  | Service               | Direction                 | Notes |
 | -------- | ----- | --------------------- | ------------------------- | ----- |
-| TCP      | 2380  | etcd peers            | controller<-\>controller  |       |
+| TCP      | 2380  | etcd peers            | controller\<-\>controller |       |
 | TCP      | 6443  | Kubernetes API Server | worker=\>controller       |       |
-| TCP      | 179   | kube-router           | worker<-\>worker          | BGP   |
-| TCP      | 4789  | Calico                | worker<-\>worker          | VXLAN |
+| TCP      | 179   | kube-router           | worker\<-\>worker         | BGP   |
+| TCP      | 4789  | Calico                | worker\<-\>worker         | VXLAN |
 | TCP      | 10250 | kubelet               | master,worker=\>host "\*" |       |
-| TCP      | 9443  | k0s-api               | controller<-\>controller  |       |
-| TCP      | 8132  | konnectivity          | worker<-\>controller      |       |
+| TCP      | 9443  | k0s-api               | controller\<-\>controller |       |
+| TCP      | 8132  | konnectivity          | worker\<-\>controller     |       |
 
 :::info
 램이 부족한 환경인 경우 swap을 사용할 수 있습니다.

@@ -145,8 +145,8 @@ sudo apt-get install pack pack-config pack-dev
 ```
 
 - Source: 소스 패키지 명 (mandatory)
-- Maintainer: 이름 <이메일> (mandatory)
-- Uploaders: 이름 <이메일>
+- Maintainer: 이름 \<이메일\> (mandatory)
+- Uploaders: 이름 \<이메일\>
 - Section: (recommended)
   - admin, cli-mono, comm, database, debug, devel, doc, editors, education, electronics, embedded, fonts, games, gnome, gnu-r, gnustep, graphics, hamradio, haskell, httpd, interpreters, introspection, java, javascript, kde, kernel, libdevel, libs, lisp, localization, mail, math, metapackages, misc, net, news, ocaml, oldlibs, otherosfs, perl, php, python, ruby, rust, science, shells, sound, tasks, tex, text, utils, vcs, video, web, x11, xfce, zope
 - Priority: 대부분 optional (recommended)
@@ -243,7 +243,7 @@ debhelper에 의해 패키지가 빌드 될 때, 각 단계에 실행되는 명�
 
 Ref: [https://www.debian.org/doc/manuals/maint-guide/dother.en.html](https://www.debian.org/doc/manuals/maint-guide/dother.en.html)
 
-### <package\>.cron.\*
+### \<package\>.cron.\*
 
 - package.cron.hourly - Installed as /etc/cron.hourly/package; run once an hour.
 - package.cron.daily - Installed as /etc/cron.daily/package; run once a day.
@@ -251,7 +251,7 @@ Ref: [https://www.debian.org/doc/manuals/maint-guide/dother.en.html](https://www
 - package.cron.monthly - Installed as /etc/cron.monthly/package: run once a month.
 - package.cron.d - Installed as /etc/cron.d/package: for any other time.
 
-### install (<package\>.install)
+### install (\<package\>.install)
 
 표준 `make install`이 하지 않는 파일 설치 목록 입니다. 파일 명과 설치되어야할 위치를 한 줄에 하나씩 적으면 됩니다. 패키지 안에서 파일의 상대 경로와 설치될 경로가 동일한 경우 파일 명만 작성해도 됩니다.
 
@@ -266,7 +266,7 @@ lib/B /usr/local/lib
 
 Ref: [https://www.debian.org/doc/debian-policy/ap-flowcharts.html](https://www.debian.org/doc/debian-policy/ap-flowcharts.html)
 
-#### preinst (<package\>.preinst)
+#### preinst (\<package\>.preinst)
 
 ```shell
 #!/bin/sh
@@ -291,7 +291,7 @@ esac
 exit 0
 ```
 
-#### postinst (<package\>.postinst)
+#### postinst (\<package\>.postinst)
 
 ```shell
 #!/bin/sh
@@ -316,7 +316,7 @@ esac
 exit 0
 ```
 
-#### prerm (<package\>.prerm)
+#### prerm (\<package\>.prerm)
 
 ```shell
 #!/bin/sh
@@ -341,7 +341,7 @@ esac
 exit 0
 ```
 
-#### postrm (<package\>.postrm)
+#### postrm (\<package\>.postrm)
 
 ```shell
 #!/bin/sh
