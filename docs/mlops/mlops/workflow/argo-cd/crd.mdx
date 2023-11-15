@@ -145,9 +145,8 @@ kind: AppProject
 metadata:
   name: <project>
   namespace: workflow
-  # Application이 이 프로젝트를 참조하고 있다면 이 프로젝트를 삭제하려고 시도할 때,
-  # 삭제되지 않도록 해주는 옵션입니다.
   finalizers:
+    # 하위에 속한 Application이 있으면 삭제 요청을 거부합니다.
     - resources-finalizer.argocd.argoproj.io
 spec:
   description: ''
@@ -176,7 +175,8 @@ metadata:
   namespace: workflow
   labels:
     '<example.com/project-env>': <env> # 웹 UI에서 필터링을 위해 사용할 수 있습니다.
-  finalizers: # Application이 삭제되면 해당하는 리소스를 삭제합니다.
+  finalizers:
+    # 삭제 요청 시 하위에 속한 리소스들을 삭제합니다.
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: <project>

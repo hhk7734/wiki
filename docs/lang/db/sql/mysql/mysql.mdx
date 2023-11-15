@@ -143,7 +143,6 @@ SET
 ### SELECT
 
 - https://dev.mysql.com/doc/refman/8.0/en/select.html
-- https://dev.mysql.com/doc/refman/8.0/en/join.html
 - https://dev.mysql.com/doc/refman/8.0/en/select-into.html
 
 ```sql
@@ -154,10 +153,12 @@ FROM
 [WHERE
     <where_condition>]
 [LIMIT
-    [<offset>,] <row_count>]
+    <row_count> [OFFSET <offset>]]
 [INTO
     <into_option>]
 ```
+
+- `LIMIT a OFFSET b`는 b+1 번째 row부터 b+a 번째 row 까지를 의미합니다.
 
 :::warning
 `SELECT ... INTO OUTFILE ...` 명령어는 서버에 파일을 생성합니다. 따라서 클라이언트에 파일을 생성하려면 `mysql ... -e "SELECT ..." > <path>` 명령어를 사용해야 합니다.
