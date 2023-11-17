@@ -1,0 +1,136 @@
+---
+id: aws-load-balancer
+title: AWS Load Balancer Controller 설치하기
+sidebar_label: Controller 설치
+description: AWS Load Balancer Controller 설치하기
+keywords:
+  - AWS Load Balancer Controller
+  - Elastic Load Balancer
+---
+
+## 사전 요구 사항
+
+- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/deploy/installation/#configure-iam
+
+### AWS Load Balancer Controller Role
+
+```typescript
+const controllerRoleName = 'aws-load-balancer-controller-role';
+const controllerRole = new aws.iam.Role(
+	controllerRoleName,
+	{
+		namePrefix: `${controllerRoleName}-`,
+		assumeRolePolicy: {
+			Version: '2012-10-17',
+			Statement: [
+				{
+					Effect: 'Allow',
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn)
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:sub`]:
+								// system:serviceaccount:<namespace>:<serviceAccount>
+								'system:serviceaccount:kube-system:aws-load-balancer-controller'
+						}))
+					},
+					Action: 'sts:AssumeRoleWithWebIdentity'
+				}
+			]
+		},
+		tags: {
+			Name: controllerRoleName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
+);
+```
+
+```shell
+curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.6.1/docs/install/iam_policy.json
+```
+
+```typescript
+const controllerPolicyName = 'aws-load-balancer-controller-policy';
+const controllerPolicy = new aws.iam.Policy(
+	controllerPolicyName,
+	{
+		namePrefix: `${controllerPolicyName}-`,
+		policy: {
+			Version: '2012-10-17',
+			Statement: [
+				// ...
+			]
+		},
+		tags: {
+			Name: controllerPolicyName,
+			'loliot.net/stack': variable.stackName
+		}
+	},
+	{ protect: true }
+);
+
+new aws.iam.RolePolicyAttachment(
+	'aws-load-balancer-controller-rpa-0',
+	{
+		policyArn: controllerPolicy.arn,
+		role: controllerRole.name
+	},
+	{ protect: true }
+);
+```
+
+## 설치
+
+- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/deploy/installation/#add-controller-to-cluster
+
+```shell
+helm repo add eks https://aws.github.io/eks-charts
+```
+
+```shell
+helm repo update eks \
+&& helm search repo eks/aws-load-balancer-controller -l | head -n 10
+```
+
+```shell
+helm show values eks/aws-load-balancer-controller \
+    --version 1.6.2 \
+    > aws-load-balancer-controller-values.yaml
+```
+
+```yaml title="aws-load-balancer-controller-values.yaml"
+serviceAccount:
+  name: aws-load-balancer-controller
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<accountId>:role/<controllerRoleName>
+
+additionalLabels: {}
+
+clusterName: <cluserName>
+```
+
+```shell
+helm template keda eks/aws-load-balancer-controller \
+    --version 1.6.2 \
+    -n kube-system \
+    -f aws-load-balancer-controller-values.yaml \
+    > aws-load-balancer-controller.yaml
+```
+
+```shell
+helm upgrade aws-load-balancer-controller eks/aws-load-balancer-controller \
+    --install \
+    --history-max 3 \
+    --version 1.6.2 \
+    -n kube-system \
+    -f aws-load-balancer-controller-values.yaml
+```
+
+## 업그레이드
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/aws/eks-charts/master/stable/aws-load-balancer-controller/crds/crds.yaml
+```

@@ -655,6 +655,14 @@ module.exports = {
 					type: 'category',
 					label: 'MetalLB',
 					items: ['mlops/mlops/network/metallb/metallb', 'mlops/mlops/network/metallb/crds']
+				},
+				{
+					type: 'category',
+					label: 'AWS Load BAlancer',
+					items: [
+						'mlops/mlops/network/aws-load-balancer/aws-load-balancer',
+						'mlops/mlops/network/aws-load-balancer/create'
+					]
 				}
 			]
 		},

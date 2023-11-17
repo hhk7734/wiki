@@ -1,0 +1,60 @@
+---
+id: create
+title: AWS Load Balancer 생성하기
+sidebar_label: Load Balancer 생성하기
+description: AWS Load Balancer 생성하기
+keywords:
+  - AWS Load Balancer
+  - Elastic Load Balancer
+  - 생성하기
+---
+
+## Subnet 태그
+
+- Public Subnet
+  - `kubernetes.io/role/elb: 1`
+- Private Subnet
+  - `kubernetes.io/role/internal-elb: 1`
+
+## Application Load Balancer 생성하기
+
+- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/
+- https://kubernetes.io/ko/docs/concepts/services-networking/ingress/
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: <name>
+  namespace: <namespace>
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: instance
+spec:
+  ingressClassName: alb
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: <serviceName>
+                port:
+                  number: <port>
+```
+
+- `alb.ingress.kubernetes.io/scheme`: `internal`|`internet-facing`
+  - `internet-facing`을 사용하면 외부에서 접근 가능한 ALB가 생성됩니다.(Public Subnet)
+- `alb.ingress.kubernetes.io/target-type`: `instance`|`ip`
+  - `instance`를 사용하면 `<NodeIP>:<NodePort>`로 연결됩니다.
+  - `ip`를 사용하면 `<PodIP>:<PodPort>`로 연결됩니다.
+    - amazon-vpc-cni-k8s를 사용해야합니다.
+
+:::warning
+Istio Ingress Gateway와 같이 사용할 경우, Service의 포트 설정과 Gateway의 포트 설정 모두 확인해야합니다.
+:::
+
+## Network Load Balancer 생성하기
+
+- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/service/annotations/

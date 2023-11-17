@@ -12,6 +12,10 @@ keywords:
 
 Istio에서 Gateway는 독립적으로 배포된 Envoy로 들어오는 트래픽을 관리하는 리소스입니다. 일반적으로 IngressGateway EgressGateway라고 부르는 Envoy Pod이 있고, 이 Pod을 바라보는 Service의 타입과 포트 설정에 따라 실재 트래픽이 들어오는 곳이 결정됩니다.
 
+:::warning
+Service에 설정된 포트로 트래픽이 들어가더라도 Gateway에 해당 포트에 대한 설정이 없다면 트래픽이 통과되지 않습니다.
+:::
+
 <center>
 
 ```mermaid
@@ -147,7 +151,6 @@ spec:
         name: <name>
         number: <servicePort> # Service의 port 중 하나를 설정합니다.
         # HTTP|HTTPS|GRPC|HTTP2|MONGO|TCP|TLS
-        #
         protocol: HTTP
       # 해당 port로 들어오는 트래픽 중 처리할 host를 설정합니다.
       # 가장 왼쪽 subdomain 파트에 wildcard를 사용할 수 있습니다.
