@@ -1,0 +1,33 @@
+---
+id: awk
+title: awk 사용법
+sidebar_label: awk 사용법
+description: awk 사용법
+keywords:
+  - shell script
+  - awk
+---
+
+- https://www.gnu.org/software/gawk/manual/gawk.html
+
+`awk`는 입력을 받아서 원하는 형태로 변환하여 출력하는 스크립트 언어입니다.
+
+## 문법
+
+```awk
+# comment
+pattern { action }
+pattern { action }
+```
+
+awk 스크립트는 기본적으로 위와 같은 방식으로 작성됩니다. 입력을 받아서 라인 별로 `pattern`이 매칭되는지 확인하고, 매칭되면 `action`을 실행합니다.
+
+## 실행
+
+```shell
+awk '<script>' <input> [<input> ...]
+```
+
+```shell
+awk -f <scriptFile> <input> [<input> ...]
+```

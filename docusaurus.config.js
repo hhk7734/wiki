@@ -164,6 +164,7 @@ const config = {
 			// https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts
 			additionalLanguages: [
 				'apacheconf',
+				'awk',
 				'bash',
 				'bnf',
 				'cmake',

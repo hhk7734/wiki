@@ -1157,6 +1157,7 @@ module.exports = {
 			items: [
 				'lang/shellscript/command-line-tools/xargs',
 				'lang/shellscript/command-line-tools/jq',
+				'lang/shellscript/command-line-tools/awk',
 				{
 					type: 'link',
 					label: 'Etc',
