@@ -897,11 +897,10 @@ module.exports = {
 		}
 	],
 	javascript: [
-		'lang/javascript/javascript',
 		{
 			type: 'category',
 			label: 'ENV',
-			items: ['lang/javascript/env/linting-formatting']
+			items: ['lang/javascript/env/version', 'lang/javascript/env/linting-formatting']
 		},
 		{
 			type: 'category',

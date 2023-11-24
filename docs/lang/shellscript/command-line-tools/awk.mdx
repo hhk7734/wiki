@@ -8,26 +8,27 @@ keywords:
   - awk
 ---
 
+## awk
+
 - https://www.gnu.org/software/gawk/manual/gawk.html
 
-`awk`는 입력을 받아서 원하는 형태로 변환하여 출력하는 스크립트 언어입니다.
+`awk`는 입력을 받아서 패턴을 찾아 원하는 형태로 변환하여 출력하는 스크립트 언어입니다.
 
-## 문법
+`awk` 스크립트는 아래와 같은 방식으로 작성됩니다. 입력을 받아서 라인 별로 `pattern`이 매칭되는지 확인하고, 매칭되면 `action`을 실행합니다.
 
-```awk
+```awk title="example.awk"
 # comment
 pattern { action }
 pattern { action }
 ```
 
-awk 스크립트는 기본적으로 위와 같은 방식으로 작성됩니다. 입력을 받아서 라인 별로 `pattern`이 매칭되는지 확인하고, 매칭되면 `action`을 실행합니다.
-
-## 실행
-
 ```shell
-awk '<script>' <input> [<input> ...]
+awk [<flag>] '<script>' <input> [<input> ...]
 ```
 
 ```shell
-awk -f <scriptFile> <input> [<input> ...]
+awk [<flag>] -f <scriptFile> <input> [<input> ...]
 ```
+
+- `<flag>`
+  - `-F|--field-separator <regex>`: 필드 구분자를 정규식으로 지정합니다. 기본값은 연속된 공백입니다.
