@@ -290,6 +290,11 @@ module.exports = {
 			items: [
 				{
 					type: 'category',
+					label: 'Command',
+					items: ['lang/go/libraries/command/viper']
+				},
+				{
+					type: 'category',
 					label: 'Gin',
 					items: [
 						'lang/go/libraries/gin/gin',

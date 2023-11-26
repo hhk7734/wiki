@@ -1,0 +1,84 @@
+---
+id: viper
+title: viper로 설정 관리하기
+sidebar_label: viper
+description: viper로 설정파일, 환경변수, flag 등을 관리하는 방법
+keywords:
+  - viper
+---
+
+## viper 설정 우선순위
+
+1. `Set`으로 설정한 값
+1. flag
+1. 환경 변수
+1. 설정파일
+1. 키/값 저장소
+1. 기본값
+
+## 설정파일
+
+```go
+viper.SetConfigName(".env") // 확장자를 제외한 파일명을 적습니다.
+// 확장자가 없다면 명시적으로 설정해줘야 합니다.
+// "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
+viper.SetConfigType("dotenv")
+viper.AddConfigPath(".") // 설정파일을 찾을 경로를 추가합니다.
+
+if err := viper.ReadInConfig(); err != nil {
+	if errors.As(err, &viper.ConfigFileNotFoundError{}) {
+		fmt.Println("failed to find .env file")
+	} else {
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+}
+```
+
+## 환경 변수
+
+환경 변수는 `BindEnv`호출 시점이 아니라 값에 접근하는 시점에 평가됩니다.
+
+```go
+viper.SetEnvPrefix("a")
+viper.BindEnv("c") // viper.BindEnv("c", "A_C")
+viper.BindEnv("d") // viper.BindEnv("d", "A_D")
+
+viper.SetEnvPrefix("b")
+viper.BindEnv("c") // viper.BindEnv("c", "B_C")
+viper.BindEnv("f") // viper.BindEnv("f", "B_F")
+
+// viper.BindEnv("c", "A_C", "B_C")
+```
+
+```go
+viper.AutomaticEnv() // 환경변수를 자동으로 읽어옵니다.
+```
+
+- `c`의 경우 `A_C`와 `B_C`가 모두 설정되어 있을 경우, `A_C`가 우선순위가 높습니다.
+- `AutomaticEnv`가 설정되어 있을 경우 BindEnv보다 우선순위가 높습니다.
+  - `SetEnvPrefix`는 마지막 설정값만 유효합니다.
+
+```go
+// 환경 변수가 빈 값으로 설정되어 있을 때, 환경 변수를 설정한 것으로 간주할지
+// 여부를 결정합니다.
+viper.AllowEmptyEnv(true)
+```
+
+## flag
+
+flag는 `BindPFlag`호출 시점이 아니라 값에 접근하는 시점에 평가됩니다.
+
+```go
+pflag.String("log_level", "info", "log level")
+
+pflag.Parse()
+viper.BindPFlags(pflag.CommandLine)
+```
+
+```go
+flag.String("log_level", "info", "log level")
+
+pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
+pflag.Parse()
+viper.BindPFlags(pflag.CommandLine)
+```

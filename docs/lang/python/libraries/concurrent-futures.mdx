@@ -134,3 +134,26 @@ async def cpu_bound_task() -> list[int]:
 
         return results
 ```
+
+## 자식 프로세스에서 signal 핸들링
+
+프로세스가 생성될 때,
+
+- fork의 경우 자식 프로세스는 부모의 모든 자원을 상속받습니다. 따라서 생성되는 시점의 부모 프로세스의 signal handler를 상속받습니다.
+- spawn의 경우 자식 프로세스는 필요한 자원만 상속받습니다.
+
+자식 프로세스가 시그널에 의해 종료되는 것을 막아야하는 경우가 있는데, 이를 위해 Process 시작 시 signal handler를 무시하도록 설정해야합니다.
+
+```python
+import signal
+from concurrent.futures import ProcessPoolExecutor
+
+
+def ignore_signal() -> None:
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
+
+
+with ProcessPoolExecutor(5, initializer=ignore_signal) as executor:
+    ...
+```

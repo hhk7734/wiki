@@ -31,11 +31,10 @@ spec:
           - name: a2
             template: work2
           - name: b1
-            # depends: "a1 && a2"
-            dependencies: [a1, a2]
+            depends: 'a1 && a2'
             template: work3
           - name: b2
-            dependencies: [b1]
+            depends: b1
             template: work4
             when: '{{tasks.b1.outputs.result}} == success'
 ```
@@ -54,6 +53,11 @@ flowchart LR
 ```
 
 </center>
+
+- `tasks`
+  - `depends`
+    - https://argoproj.github.io/argo-workflows/enhanced-depends-logic/
+    - dag 내에서 dependencies와 함께 사용할 수 없습니다.
 
 ### Variables
 
