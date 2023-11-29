@@ -9,6 +9,87 @@ keywords:
   - formatting
 ---
 
+## ruff
+
+```shell
+python3 -m pip install ruff
+```
+
+- https://docs.astral.sh/ruff/configuration/
+
+```toml title="pyproject.toml"
+[tool.ruff]
+exclude = [
+  ".bzr",
+  ".direnv",
+  ".eggs",
+  ".git",
+  ".git-rewrite",
+  ".hg",
+  ".mypy_cache",
+  ".nox",
+  ".pants.d",
+  ".pytype",
+  ".ruff_cache",
+  ".svn",
+  ".tox",
+  ".venv",
+  "__pypackages__",
+  "_build",
+  "buck-out",
+  "build",
+  "dist",
+  "node_modules",
+  "venv",
+]
+
+line-length = 100
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+ignore = []
+
+fixable = ["ALL"]
+unfixable = []
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+```
+
+```shell
+ruff format **/*.py
+```
+
+## mypy
+
+```shell
+python3 -m pip install mypy
+```
+
+- https://mypy.readthedocs.io/en/stable/config_file.html#example-pyproject-toml
+
+```toml title="pyproject.toml"
+[tool.mypy]
+
+[[tool.mypy.overrides]]
+# module = "<pattern>" # ex) "module.*"
+# 옵션
+```
+
+### inline 오류 무시
+
+부분적으로만 무시하고 싶은 경우에는 에러가 발생하는 줄에 `# type: ignore[<errorCode>, ...]` 주석을 추가하면 됩니다.
+
+```python
+a: int = 1.0  # type: ignore[assignment]
+```
+
 ## pylint, black, isort
 
 ### pylint
@@ -113,98 +194,4 @@ line_length = 100
 profile = "black"
 skip_gitignore = true
 multi_line_output = 3
-```
-
-## ruff
-
-```shell
-python3 -m pip install ruff
-```
-
-- https://docs.astral.sh/ruff/configuration/
-
-```toml title="pyproject.toml"
-[tool.ruff]
-# Exclude a variety of commonly ignored directories.
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
-    "venv",
-]
-
-# Same as Black.
-line-length = 88
-indent-width = 4
-
-# Assume Python 3.8
-target-version = "py38"
-
-[tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
-ignore = []
-
-# Allow fix for all enabled rules (when `--fix`) is provided.
-fixable = ["ALL"]
-unfixable = []
-
-# Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
-
-[tool.ruff.format]
-# Like Black, use double quotes for strings.
-quote-style = "double"
-
-# Like Black, indent with spaces, rather than tabs.
-indent-style = "space"
-
-# Like Black, respect magic trailing commas.
-skip-magic-trailing-comma = false
-
-# Like Black, automatically detect the appropriate line ending.
-line-ending = "auto"
-```
-
-## mypy
-
-```shell
-python3 -m pip install mypy
-```
-
-- https://mypy.readthedocs.io/en/stable/config_file.html#example-pyproject-toml
-
-```toml title="pyproject.toml"
-[tool.mypy]
-
-[[tool.mypy.overrides]]
-# module = "<pattern>" # ex) "module.*"
-# 옵션
-```
-
-### inline 오류 무시
-
-부분적으로만 무시하고 싶은 경우에는 에러가 발생하는 줄에 `# type: ignore[<errorCode>, ...]` 주석을 추가하면 됩니다.
-
-```python
-a: int = 1.0  # type: ignore[assignment]
 ```
