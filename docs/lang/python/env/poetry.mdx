@@ -73,14 +73,13 @@ poetry env remove <env>
 poetry add <package|git|path>
 ```
 
-- `--dev`: 개발용 패키지인 경우 이 옵션을 사용합니다.(`--group=dev`)
-- `--group=<group>`: `<group>` 의존성에 추가합니다.
 - `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>[<options>]`
   - `<vcs_type>`: `git`
   - `<scheme>`: `http`, `https`, `ssh`
   - `<options>`
     - `@<tag|rev|branch>`
     - `#subdirectory=<path>`
+- `--group=<group>`: `<group>` 의존성에 추가합니다.
 - `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
 
 ```shell
@@ -93,11 +92,16 @@ poetry remove <package>
 
 ### Source(Repository)
 
+- https://python-poetry.org/docs/repositories/
+
 ```shell
 poetry add <source> <url> [<flags>]
 ```
 
 - `<flags>`
+  - `--priority <default|primary|supplemental|explicit>`
+    - 우선순위는 default, primary, (pypi), supplemental 순입니다.
+    - explicit은 직접 source를 지정한 경우에만 사용됩니다.
   - `--default`: 추가될 소스를 기본 소스로 설정하고 PyPI를 비활성화 합니다
 
 ### Group
