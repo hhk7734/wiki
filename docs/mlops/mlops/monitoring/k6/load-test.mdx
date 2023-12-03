@@ -1,0 +1,97 @@
+---
+id: load-test
+title: k6 Local 부하 테스트
+sidebar_label: Local 부하 테스트
+description: k6 Local 부하 테스트
+keywords:
+  - k6
+  - Local
+  - load test
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## 설치
+
+<Tabs
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+yay -S k6
+```
+
+</TabItem>
+
+</Tabs>
+
+## k6 스크립트
+
+- https://k6.io/docs/get-started/running-k6/
+
+```javascript title="script.js"
+import { sleep } from 'k6';
+import http from 'k6/http';
+
+export const options = {
+	vus: 100, // Virtual User(VU) 수, --vus <number>
+	duration: '10s' // --duration <duration>
+};
+
+export default function () {
+	// VU가 실행하는 코드
+	const url = 'http://localhost:8080/v2/models/model/infer';
+	const params = {
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	};
+	const body = JSON.stringify({
+		id: '1',
+		inputs: [
+			{
+				name: 'input0',
+				shape: [1],
+				datatype: 'STR',
+				data: ['CC(C)(C)C(=O)OC1=CC=C(C=C1)S(=O)(=O)NC2=CC=CC=C2C(=O)NCC(=O)O']
+			}
+		],
+		outputs: []
+	});
+
+	http.post(url, body, params);
+
+	sleep(0.5);
+}
+```
+
+```shell
+k6 run [<flags>] script.js
+```
+
+- `<flags>`: script.js의 options를 재정의할 수 있습니다.
+  - https://k6.io/docs/using-k6/k6-options/how-to/
+
+## 결과
+
+- https://k6.io/docs/using-k6/metrics/reference/
+
+<br />
+
+```shell
+http_req_duration..............: avg=814.5ms  min=25.55ms med=827.68ms max=965.33ms p(90)=899.68ms p(95)=931.89ms
+```
+
+요청 후 응답까지 걸린 시간을 예시로 살펴 보면 아래와 같은 의미를 같습니다.
+
+- `avg`: 평균값
+- `min`: 최소값
+- `med`: 중앙값
+- `max`: 최대값
+- `p(<percent>)`: `<percent>`% 에 해당하는 값으로 `med=p(50)` 입니다.

@@ -1,0 +1,70 @@
+---
+id: act
+title: Local에서 Github Action 실행하기
+sidebar_label: Local Github Action
+description: Local에서 Github Action 실행하기
+keywords:
+  - github
+  - action
+  - local
+  - act
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## act
+
+- https://github.com/nektos/act
+- https://github.com/nektos/act?tab=readme-ov-file#necessary-prerequisites-for-running-act
+
+Docker를 활용하여 Github Action을 Local에서 실행할 수 있게 해주는 `act`라는 도구가 있습니다. 저는 `podman`을 사용하고 있어서 `podman`기준으로 글을 작성합니다.(실행이 안될 수 있으므로 주의해주세요.)
+
+## 설치
+
+- [Podman](/docs/mlops/mlops/container/podman)
+
+<Tabs
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S podman-docker
+systemctl enable --now --user podman.socket
+systemctl start --user podman.socket
+```
+
+```shell
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+```
+
+```shell
+yay -S act
+```
+
+```shell
+alias pact='act --container-daemon-socket $DOCKER_HOST'
+```
+
+</TabItem>
+
+</Tabs>
+
+## 실행
+
+```shell
+act [<flags>]
+```
+
+- `<flags>`
+  - `-s | --secret <key>=<value>`
+  - `--secret-file <file>`: .env 형식의 파일을 읽어서 secret으로 사용할 수 있습니다.
+  - `--env <key>=<value>`
+  - `--env-file <file>`: .env 형식의 파일을 읽어서 env로 사용할 수 있습니다.
+  - `--bind`: 로컬 파일을 복사대신 바인딩합니다.
+  - `-W, --workflows <workflows>`: 기본 값으로 `./.github/workflows`를 사용합니다. workflow파일 하나만 지정해서 실행할 수도 있습니다.

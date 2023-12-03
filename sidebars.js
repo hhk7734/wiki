@@ -748,6 +748,11 @@ module.exports = {
 				},
 				{
 					type: 'category',
+					label: 'k6',
+					items: ['mlops/mlops/monitoring/k6/load-test']
+				},
+				{
+					type: 'category',
 					label: 'OpenSearch',
 					items: ['mlops/mlops/monitoring/opensearch/basics']
 				},
@@ -770,7 +775,8 @@ module.exports = {
 							label: 'GitOps',
 							items: [
 								'mlops/mlops/workflow/argo-cd/gitops/gitops',
-								'mlops/mlops/workflow/argo-cd/gitops/github-action'
+								'mlops/mlops/workflow/argo-cd/gitops/github-action',
+								'mlops/mlops/workflow/argo-cd/gitops/act'
 							]
 						}
 					]
