@@ -53,6 +53,13 @@ function itemToTreeData(item: string | SidebarItem): TreeData {
 
 function docToTreeData(doc: string | SidebarItemDoc): TreeData {
 	if (typeof doc === 'string') {
+		doc = doc.split('/').pop();
+		const prefixList = ['arduino-', 'cpp-', 'flutter-', 'llvm-', 'python-', 'sam-', 'stm32-'];
+		for (const prefix of prefixList) {
+			if (doc.startsWith(prefix)) {
+				doc = doc.slice(prefix.length);
+			}
+		}
 		return { name: doc };
 	}
 	return { name: doc.label ?? doc.id };
@@ -79,7 +86,7 @@ const Tree = () => {
 		const width = 928;
 		const height = width;
 		const cx = width * 0.5; // adjust as needed to fit
-		const cy = height * 0.59; // adjust as needed to fit
+		const cy = height * 0.5; // adjust as needed to fit
 		const radius = Math.min(width, height) / 2 - 30;
 
 		// Create a radial tree layout. The layout’s first dimension (x)
@@ -114,7 +121,7 @@ const Tree = () => {
 			.attr('fill', 'none')
 			.attr('stroke', '#000000')
 			.attr('stroke-opacity', 0.4)
-			.attr('stroke-width', 1.5)
+			.attr('stroke-width', 2)
 			.selectAll()
 			.data(root.links())
 			.join('path')
