@@ -16,6 +16,8 @@ keywords:
 python3 -m pip install kserve
 ```
 
+`Storage`를 사용해야하는 경우 `kserve[storage]`를 설치해야합니다.
+
 ```shell
 <project>
 ├── app/
@@ -32,6 +34,7 @@ python3 -m pip install kserve
 import argparse
 
 from kserve import ModelServer, model_server
+# from kserve.storage import Storage
 
 from app.runtime.predictor import DEFAULT_MODEL_NAME, Predictor
 
@@ -43,6 +46,7 @@ parser.add_argument(
 args, _ = parser.parse_known_args()
 
 ModelServer().start([Predictor(args.model_name, args.model_dir)])
+# ModelServer().start([Predictor(args.model_name, Storage.download(args.model_dir))])
 ```
 
 ```python title="app/runtime/predictor.py"
