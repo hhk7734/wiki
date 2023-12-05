@@ -10,23 +10,26 @@ keywords:
 
 ## ServingRuntimes/ClusterServingRuntimes
 
-- https://kserve.github.io/website/0.10/modelserving/servingruntimes/
+- https://kserve.github.io/website/0.11/modelserving/servingruntimes/
 - https://github.com/kserve/website/blob/main/docs/modelserving/v1beta1/serving_runtime.md
 
 ```yaml
-apiVersion: serving.kserve.io/v1beta1
-kind: ServingRuntimes
+apiVersion: serving.kserve.io/v1alpha1
+kind: ServingRuntime
 metadata:
   name: <name>
   namespace: <namespace>
 spec:
   supportedModelFormats:
     - name: <modelFormat>
-      version: <version> # 주 버전만 지정하는 것이 좋습니다
+      version: <version> # 주 버전만 지정하는 것이 좋습니다. ex) "1"
       autoSelect: true
+  protocolVersions:
+    - v1
+    - v2
   containers:
     # <modelFormat>을 사용하는 InferenceService의 containers 기본 설정값을 정의합니다.
-    - name: <containerName>
+    - name: kserve-container
       image: <image>
       commands:
         - <command>
@@ -58,6 +61,7 @@ spec:
       runtime: <servingRuntimeName>
       # 훈련된 모델이 저장된 경로입니다.
       storageUri: <storageUri> # 훈련된 모델이 저장된 경로
+
       # kubernetes core/v1.Container 설정값을 적을 수 있습니다
       # args: ["--enable_docs_url=True"]
 
@@ -66,6 +70,10 @@ spec:
 
   # Optional
   explainer: <explainer>
+
+  # kubernetes core/v1.Pod.spec 설정값을 적을 수 있습니다
+  # affinity: {}
+  # tolerations: []
 ```
 
 - `predictor`

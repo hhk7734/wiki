@@ -38,14 +38,16 @@ import useBaseUrl from '@docusaurus/useBaseUrl';
 
 ## 설치
 
+- https://github.com/kserve/kserve/releases
+
 ```shell
-helm upgrade kserve-crd kserve-crd-v0.10.1.tgz \
+helm upgrade kserve-crd kserve-crd-v0.11.2.tgz \
   --install \
   --history-max 3
 ```
 
 ```shell
-helm show values kserve-v0.10.1.tgz \
+helm show values kserve-v0.11.2.tgz \
   > kserve-values.yaml
 ```
 
@@ -68,14 +70,14 @@ kserve:
 ```
 
 ```shell
-helm template kserve kserve-v0.10.1.tgz \
+helm template kserve kserve-v0.11.2.tgz \
   -n kserve \
   -f kserve-values.yaml \
   > kserve.yaml
 ```
 
 ```shell
-helm upgrade kserve kserve-v0.10.1.tgz \
+helm upgrade kserve kserve-v0.11.2.tgz \
   --install \
   --history-max 3 \
   -n kserve \
