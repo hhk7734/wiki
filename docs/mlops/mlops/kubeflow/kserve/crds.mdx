@@ -65,15 +65,15 @@ spec:
       # kubernetes core/v1.Container 설정값을 적을 수 있습니다
       # args: ["--enable_docs_url=True"]
 
+    # kubernetes core/v1.Pod.spec 설정값을 적을 수 있습니다
+    # affinity: {}
+    # tolerations: []
+
   # Optional
   transformer: <transformer>
 
   # Optional
   explainer: <explainer>
-
-  # kubernetes core/v1.Pod.spec 설정값을 적을 수 있습니다
-  # affinity: {}
-  # tolerations: []
 ```
 
 - `predictor`
@@ -81,5 +81,7 @@ spec:
     - `storageUri`
       - 모델이 저장된 경로입니다.
       - 해당 경로는 storage-initializer initContainer에 의해 /mnt/models 경로에 마운트됩니다.
-  - `containers`
-    - ServingRuntimes를 쓰지 않고 직접 컨테이너를 설정할 때 사용합니다.
+
+:::warning
+`predictor.affinity`, `predictor.tolerations` 등의 설정은 [Knative Serving](/docs/mlops/mlops/provisioning/knative/#knativeserving)의 설정에서 이를 허용해야 사용할 수 있습니다.
+:::

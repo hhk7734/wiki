@@ -163,10 +163,6 @@ spec:
 
 ## Application
 
-### Helm
-
-argo-cd는 차트의 apiVersion이 v2더라도 v3를 사용합니다. v2를 사용하려면 `.spec.source.helm.version`을 v2라고 명시해야 합니다.
-
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -180,13 +176,7 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   project: <project>
-  source:
-    repoURL: git@github.com:<user>/<repository>.git
-    path: <path>
-    targetRevision: <branch|tag>
-    helm:
-      valueFiles:
-        - <relative_path>/<values>.yaml
+  source: {}
   destination:
     name: <cluster-name>
     namespace: <namespace>
@@ -195,6 +185,31 @@ spec:
     automated:
       prune: true
       selfHeal: true
+```
+
+- `syncPolicy`
+  - `automated`
+    - https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/
+    - `prune`: Git에서 삭제된 리소스를 클러스터에서 삭제할지 여부를 결정합니다.
+    - `selfHeal`: 클러스터에서 리소스를 변경하면 다시 Git의 상태로 돌릴지 여부를 결정합니다.
+  - `syncOptions`
+    - https://argo-cd.readthedocs.io/en/stable/user-guide/sync-options/
+    - `RespectIgnoreDifferences=true`: `.spec.ignoreDifferences`에 명시된 필드의 변경사항을 무시합니다.
+  - [개별 리소스에 적용](/docs/mlops/mlops/workflow/argo-cd/annotations#sync-options)
+
+### Helm
+
+argo-cd는 차트의 apiVersion이 v2더라도 v3를 사용합니다. v2를 사용하려면 `.spec.source.helm.version`을 v2라고 명시해야 합니다.
+
+```yaml
+spec:
+  source:
+    repoURL: git@github.com:<user>/<repository>.git
+    path: <path>
+    targetRevision: <branch|tag>
+    helm:
+      valueFiles:
+        - <relative_path>/<values>.yaml
 ```
 
 ## ApplicationSet

@@ -770,6 +770,7 @@ module.exports = {
 					items: [
 						'mlops/mlops/workflow/argo-cd/argo-cd',
 						'mlops/mlops/workflow/argo-cd/crd',
+						'mlops/mlops/workflow/argo-cd/annotations',
 						{
 							type: 'category',
 							label: 'GitOps',
