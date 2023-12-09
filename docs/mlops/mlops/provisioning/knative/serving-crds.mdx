@@ -10,6 +10,20 @@ keywords:
   - CRD
 ---
 
+<center>
+
+```mermaid
+flowchart TD
+  Service -- manages --> Route
+  Service --manages --> Configuration
+  Configuration -- records hitstory of --> Revision1[Revision]
+  Configuration --> Revision2[Revision]
+  Configuration --> Revision3[Revision]
+  Route --routes traffic to --> Revision1
+```
+
+</center>
+
 ## Service
 
 - https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-2
@@ -22,7 +36,10 @@ metadata:
   namespace: <namespace>
 spec:
   template:
+    metadata:
+      annotations: {}
     spec:
+      containerConcurrency: 0 # 0 == no-limit
       containers:
         - name: <containerName>
           image: <image>
@@ -33,10 +50,12 @@ spec:
               containerPort: <port>
               protocol: TCP
           resources: {}
-          env: {}
+          env: []
   traffic: {}
 ```
 
-## 설정
+- `template.metdata`
+  - `annotations`
+    - [Auto Scaling 설정하기](/docs/mlops/mlops/provisioning/knative/autoscaling)
 
 ## Route

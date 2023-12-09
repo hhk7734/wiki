@@ -91,21 +91,27 @@ class Predictor(Model):
 python3 -m app.runtime
 ```
 
+### Kserve Args
+
+- https://github.com/kserve/kserve/blob/master/python/kserve/kserve/model_server.py
+
+<br />
+
 - built-in flags
-  - `--http_port=<port>`, 기본값: 8080
-  - `--grpc_port=<port>`, 기본값: 8081
-  - `--workers=<process>`, 기본값: 1
-  - `--max_threads=<thread>`, 워커당 스레드, 기본값: 4
-  - `--max_asyncio_workers=<thread>`, 이벤트 루프 스레드, 기본값: CPU + 4
-  - `--enable_grpc=<bool>`, 기본값: true
-  - `--enable_docs_url=<bool>`, 기본값: false
-  - `--enable_latency_logging=<bool>`, 기본값: true
-  - `--configure_logging=<bool>`, 기본값: true
+  - `--http_port=8080`
+  - `--grpc_port=8081`
+  - `--workers=1`: RestAPI 프로세스
+  - `--max_threads=4`: gRPC 스레드
+  - `--max_asyncio_workers=<thread>`: 이벤트 루프 스레드, 기본값: `min(32, CPU + 4)`
+  - `--enable_grpc=true`
+  - `--enable_docs_url=false`
+  - `--enable_latency_logging=true`
+  - `--configure_logging=true`
   - `--log_config_file=<path>`
   - `--access_log_format=<format>`
 - 추가
-  - `--model_dir=<path>`, 기본값: `/tmp/model`
-  - `--model_name=<name>`, 기본값: `model`
+  - `--model_dir=<path>`
+  - `--model_name=<name>`
 
 ## Transformer
 

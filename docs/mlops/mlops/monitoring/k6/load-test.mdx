@@ -44,7 +44,11 @@ export const options = {
 	duration: '10s' // --duration <duration>
 };
 
-export default function () {
+export function setup() {
+	return {}; // data
+}
+
+export default function (data) {
 	// VU가 실행하는 코드
 	const url = 'http://localhost:8080/v2/models/model/infer';
 	const params = {
@@ -69,6 +73,8 @@ export default function () {
 
 	sleep(0.5);
 }
+
+export function teardown(data) {}
 ```
 
 ```shell
@@ -77,6 +83,9 @@ k6 run [<flags>] script.js
 
 - `<flags>`: script.js의 options를 재정의할 수 있습니다.
   - https://k6.io/docs/using-k6/k6-options/how-to/
+  - `--batch <number>`: `http.batch`를 사용할 때, 한 VU가 한 번에 연결할 커넥션 수
+  - `--batch-per-host <number>`: `http.batch`를 사용할 때, 한 VU가 호스트 당 한 번에 연결할 커넥션 수
+  - `--duration <duration>`: 테스트를 실행할 시간
 
 ## 결과
 

@@ -60,27 +60,23 @@ search <namespace>.svc.cluster.local svc.cluster.local cluster.local us-west-2.c
 
 NodePort는 `pod ip:targetPort` --- `service ip:port` --- `node ip:nodePort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
 
-```shell {1}
-$ kubectl describe pods -n kubernetes-dashboard kubernetes-dashboard
+```shell
+kubectl describe pods -n kubernetes-dashboard kubernetes-dashboard
+```
 
+```shell
 ...
-
 Labels:       k8s-app=kubernetes-dashboard
               pod-template-hash=576cb95f94
-
 ...
-
 Containers:
   kubernetes-dashboard:
     ...
-
     Port:          8443/TCP
-
     ...
-
 ```
 
-```yaml title="kubernetes-dashboard-nodeport.yaml" {5,10,13}
+```yaml title="kubernetes-dashboard-nodeport.yaml"
 apiVersion: v1
 kind: Service
 metadata:

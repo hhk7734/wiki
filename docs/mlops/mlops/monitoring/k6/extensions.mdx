@@ -1,0 +1,53 @@
+---
+id: extensions
+title: k6 확장 프로그램(Extensions)
+sidebar_label: 확장 프로그램
+description: k6 확장 프로그램(Extensions)
+keywords:
+  - k6
+  - extensions
+  - 확장 프로그램
+---
+
+## xk6 설치
+
+- https://github.com/grafana/xk6
+
+`xk6`는 확장 프로그램과 함께 k6 바이너리를 빌드하는 데 사용되는 도구입니다.
+
+```shell
+go install go.k6.io/xk6/cmd/xk6@latest
+```
+
+## 확장 프로그램을 추가해서 빌드하기
+
+- https://k6.io/docs/extensions/get-started/bundle/
+
+```shell
+xk6 build \
+    [<k6Version>] \
+    --with <module>[@<version>][=<replacement>] \
+    [--with <module>[@<version>][=<replacement>]]
+```
+
+위 명령어를 통해 확장 프로그램이 추가된 `k6` 바이너리를 얻을 수 있습니다.
+
+## 로컬 Dashboard(xk6-dashboard)
+
+`xk6-dashboard`는 로컬에서 `k6`를 실행할 때, 진행 양상을 실시간으로 확인할 수 있는 대시보드를 제공하는 확장 프로그램입니다.
+
+- https://github.com/grafana/xk6-dashboard
+
+```shell
+xk6 build --with github.com/grafana/xk6-dashboard@latest
+```
+
+```shell
+./k6 run --out 'dashboard[=<param>=<value>[&<param>=<value>]]' <test>.js
+```
+
+- `<param>=<value>`
+  - `period=10s`: 이벤트 발생 빈도
+  - `open`: 브라우저를 자동으로 열지 여부
+  - `report=report.html`: 보고서 파일 저장
+  - `record=record.ndjson`: 이벤트 기록 파일 저장

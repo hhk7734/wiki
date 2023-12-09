@@ -597,7 +597,8 @@ module.exports = {
 					label: 'Knative',
 					items: [
 						'mlops/mlops/provisioning/knative/knative',
-						'mlops/mlops/provisioning/knative/serving-crds'
+						'mlops/mlops/provisioning/knative/serving-crds',
+						'mlops/mlops/provisioning/knative/autoscaling'
 					]
 				},
 				{
@@ -749,7 +750,7 @@ module.exports = {
 				{
 					type: 'category',
 					label: 'k6',
-					items: ['mlops/mlops/monitoring/k6/load-test']
+					items: ['mlops/mlops/monitoring/k6/load-test', 'mlops/mlops/monitoring/k6/extensions']
 				},
 				{
 					type: 'category',

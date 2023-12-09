@@ -12,7 +12,7 @@ keywords:
 - https://podman.io/getting-started/installation
 
 ```shell
-sudo pacman -S podman
+sudo pacman -S podman podman-docker
 ```
 
 ```shell
@@ -41,6 +41,10 @@ podman run [options] <image> [command [arg ...]]
   - `-p|--publish <hostPort>:<containerPort>[/<protocol>]`: 포트 포워딩
   - `--network "host"`: 호스트 네트워크 사용
   - `-v|--volume <hostDir>:<containerDir>[:<options>]`: 호스트 디렉토리를 컨테이너 디렉토리에 마운트
+    - `<options>`
+      - `ro`: 읽기 전용
+      - `rw`: 읽기 쓰기
+      - `z`: 공유 볼륨으로 설정하여 모든 컨테이너가 읽고 쓸 수 있습니다.
   - `--name <containerName>`: 컨테이너 이름
   - `--rm`: 종료 시 컨테이너 삭제
   - `--env-file <path>`: `.env` 처럼 환경 변수 값이 있는 파일로 환경 변수 설정

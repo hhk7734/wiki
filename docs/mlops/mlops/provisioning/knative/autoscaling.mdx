@@ -1,0 +1,149 @@
+---
+id: autoscaling
+title: Knative Auto Scaling 설정하기
+sidebar_label: Auto Scaling 설정하기
+description: Knative Auto Scaling 설정하기
+keywords:
+  - knative
+  - serverless
+  - autoscaling
+  - kpa
+  - hpa
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## KPA/HPA
+
+- https://knative.dev/docs/serving/autoscaling/autoscaler-types/
+
+<br />
+
+- KPA(Knative Pod Autoscaler)
+  - Knative에서 제공하는 기본적인 Pod Autoscaler입니다.
+  - 0으로 스케일이 가능합니다.
+  - `concurrency`, `rps` 기준으로 Autoscaling을 지원합니다.
+- HPA(Horizontal Pod Autoscaler)
+  - Kubernetes에서 제공하는 Pod Autoscaler입니다.
+  - 0으로 스케일이 불가능합니다.
+  - `cpu`, `memory`, `<custom-metric>` 기준으로 Autoscaling을 지원합니다.
+  - 확장프로그램 설치가 필요합니다.
+    - https://knative.dev/docs/install/yaml-install/serving/install-serving-with-yaml/#install-optional-serving-extensions
+
+<Tabs
+    defaultValue="operator"
+    values={[
+        {label: '전역 설정(Operator)', value: 'operator',},
+        {label: 'Revision 별 설정', value: 'revision',},
+    ]}
+>
+
+<TabItem value="operator">
+
+```yaml
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+spec:
+  config:
+    autoscaler:
+      pod-autoscaler-class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
+```
+
+</TabItem>
+
+<TabItem value="revision">
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
+```
+
+</TabItem>
+
+</Tabs>
+
+## 설정
+
+모든 설정이 전역 설정과 Revision 별 설정으로 나뉘어지는 것은 아닙니다.
+
+### 전역 설정(Operator)
+
+```yaml
+apiVersion: operator.knative.dev/v1alpha1
+kind: KnativeServing
+spec:
+  config:
+    defaults:
+      container-concurrency: '0'
+    autoscaler:
+      pod-autoscaler-class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
+      min-scale: '0'
+      max-scale: '0' # 0 == no-limit
+      initial-scale: '1'
+      allow-zero-initial-scale: 'false'
+      enable-scale-to-zero: 'true'
+      scale-to-zero-grace-period: '30s'
+      scale-to-zero-pod-retention-period: '0s'
+      container-concurrency-target-default: '100'
+      container-concurrency-target-percentage: '70'
+      requests-per-second-target-default: '200'
+      scale-down-delay: '0s' # 0s <= value <= 1h
+      stable-window: '60s' # 6s <= value <= 1h
+      panic-window-percentage: '10.0' # 1.0 <= value <= 100.0
+      panic-threshold-percentage: '110.0' # 110.0 <= value <= 1000.0
+      max-scale-up-rate: '1000.0'
+      max-scale-down-rate: '2.0'
+```
+
+- `scale-to-zero-grace-period`: 0으로 스케일 될때까지 대기하는 상한 시간을 설정합니다.
+- `scale-to-zero-pod-retention-period`: 0으로 스케일하기로 결정한 후, Pod를 유지할 시간을 설정합니다.
+- `panic-window-percentage`: panic 모드일 때 `window = stable-window * panic-window-percentage / 100` 입니다.
+- `panic-threshold-percentage`: metric이 `target * panic-threshold-percentage / 100`을 초과하면 panic 모드로 전환합니다.
+- `max-scale-up-rate`: 한번에 스케일 아웃될 수 있는 수는 `현재 Pod 수 * max-scale-up-rate` 입니다.
+- `max-scale-down-rate`: 한번에 스케일 인될 수 있는 수는 `현재 Pod 수 / max-scale-down-rate` 입니다.
+
+### Revision 별 설정
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
+        autoscaling.knative.dev/min-scale: '0'
+        autoscaling.knative.dev/max-scale: '0' # 0 == no-limit
+        autoscaling.knative.dev/initial-scale: '1'
+        autoscaling.knative.dev/activation-scale: '1'
+        autoscaling.knative.dev/metric: concurrency # concurrency|rps|cpu|memory|<custom-metric>
+        autoscaling.knative.dev/target: '<number>'
+        autoscaling.knative.dev/target-utilization-percentage: '70' # concurrency에 적용
+        autoscaling.knative.dev/scale-to-zero-pod-retention-period: '0s'
+        autoscaling.knative.dev/scale-down-delay: '0s' # 0s <= value <= 1h
+        autoscaling.knative.dev/window: '60s' # 6s <= value <= 1h
+        autoscaling.knative.dev/panic-window-percentage: '10.0' # 1.0 <= value <= 100.0
+        autoscaling.knative.dev/panic-threshold-percentage: '110.0' # 110.0 <= value <= 1000.0
+    spec:
+      containerConcurrency: 0
+```
+
+- `autoscaling.knative.dev/metric: <metric>`
+  - `concurrency`: Pod이 동시에 처리할 수 있는 요청의 수입니다.
+  - `rps`: Pod이 처리할 수 있는 초당 요청의 수입니다.
+  - `cpu`
+  - `memory`
+  - `<custom-metric>`
+- `autoscaling.knative.dev/target: "<number>"`: metric의 기준값을 설정합니다.
+  - 기준값은 soft limit으로 이 값을 초과할 수 있습니다.
+  - `concurrency`
+  - `rps`
+  - `cpu`: millicore 값을 설정합니다.
+  - `memory`: Mi 값을 설정합니다.
+  - `<custom-metric>`

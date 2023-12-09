@@ -58,6 +58,8 @@ spec:
       # Gateway: knative-local-gateway
       # knative-local-gateway:
   config:
+    # ConfigMap: config-defaults
+    # defaults: {}
     # ConfigMap: config-istio
     istio:
       # Optional
@@ -68,10 +70,15 @@ spec:
       local-gateway.<localGatewayNamespace>.<localGatewayName>: <ingressGatewayServiceHost>
     # ConfigMap: config-features
     # features: {}
+    # ConfigMap: config-autoscaler
+    # autoscaler: {}
 ```
 
 - `config`
+  - 전역 설정 값으로, Revision 별 설정이 있다면 Revision 별 설정 값이 우선합니다.
+  - `defaults`: https://knative.dev/docs/serving/configuration/config-defaults/
   - `features`: https://knative.dev/docs/serving/configuration/feature-flags/
+  - `autoscaler`: [Auto Scaling 설정하기](/docs/mlops/mlops/provisioning/knative/autoscaling)
 
 ### Test
 
