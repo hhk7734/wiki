@@ -46,4 +46,10 @@ EXPOSE 8080
 CMD ["app"]
 ```
 
-scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.
+- scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.
+- https://github.com/gin-gonic/gin/blob/master/docs/doc.md#build-tags
+  - msgpack을 사용하지 않는 다면 `-tags nomsgpack` 옵션으로 끌 수 있습니다.
+  - `encoding/json` 대신 사용할 json 패키지를 tag를 사용하여 선택할 수 있습니다.
+    - go-json: `-tags go_json`
+    - jsoniter: `-tags jsoniter`
+    - sonic: `-tags sonic,avx`

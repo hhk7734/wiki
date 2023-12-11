@@ -41,18 +41,22 @@ go mod tidy
 ## Build
 
 ```shell
-[envs] go build [flags] [-o <output>]
+[<envs>] go build [<flags>] [-o <output>]
 ```
 
-- `[envs]`
+- `<envs>`
   - `GOOS=<os>`
   - `GOARCH=<arch>`
   - `CGO_ENABLED=0|1`: `cgo` 사용 여부
-- `[flags]`
+- `<flags>`
   - `-a`: 사용되는 모든 패키지를 강제로 다시 빌드합니다.
-  - `-ldflags 'flags'`
-    - `flags`
+  - `-ldflags <ld>`
+    - `<ld>`
       - `-s`: static linking
+  - `-tags <tag>[,<tag>]`
+    - https://pkg.go.dev/cmd/go@go1.21.5#hdr-Build_constraints
+    - `//go:build <tagCondition>`에 true로 평가할 태그를 선언합니다.
+    - `<tagCondition>`은 괄호`()`, 논리 연산자 `&&`, `||`, `!`, 태그 이름으로 구성됩니다.
 
 Ex) `CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-s' -o app`
 
