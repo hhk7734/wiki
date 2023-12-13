@@ -50,7 +50,6 @@ metadata:
     app: postgresql
 spec:
   replicas: 1
-  serviceName: postgresql
   selector:
     matchLabels:
       app.kubernetes.io/name: postgresql
@@ -74,13 +73,13 @@ spec:
           env:
             - name: POSTGRES_USER
               value: postgres
-            - name: password
+            - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: postgresql
                   key: password
             - name: PGDATA
-              value: /var/lib/postgresql/data
+              value: /var/lib/postgresql/data/pgdata
           livenessProbe:
             failureThreshold: 6
             initialDelaySeconds: 30
@@ -105,7 +104,7 @@ spec:
                 - -e
                 - |
                   exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
-                  [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
+                  [ -f /var/lib/postgresql/data/.initialized ]
           resources:
             requests:
               cpu: 100m
@@ -146,6 +145,10 @@ spec:
 ```
 
 - [PersistentVolume](/docs/mlops/mlops/kubernetes/persistent-volume)
+
+:::warning
+볼륨을 `/var/lib/postgresql`에 마운트 시켰을 때, `/var/lib/postgresql/data` 경로는 로컬 볼륨을 사용하므로 이 값들을 바꾸지 않으면 데이터가 삭제됩니다.
+:::
 
 ```yaml
 ---
