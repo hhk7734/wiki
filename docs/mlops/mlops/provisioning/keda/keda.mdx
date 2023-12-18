@@ -32,7 +32,7 @@ helm repo update kedacore \
 
 ```shell
 helm show values kedacore/keda \
-    --version 2.11.2 \
+    --version 2.12.1 \
     > keda-values.yaml
 ```
 
@@ -42,7 +42,7 @@ additionalLabels: {}
 
 ```shell
 helm template keda kedacore/keda \
-    --version 2.11.2 \
+    --version 2.12.1 \
     -n provisioning \
     -f keda-values.yaml \
     > keda.yaml
@@ -52,7 +52,7 @@ helm template keda kedacore/keda \
 helm upgrade keda kedacore/keda \
     --install \
     --history-max 3 \
-    --version 2.11.2 \
+    --version 2.12.1 \
     -n provisioning \
     -f keda-values.yaml
 ```

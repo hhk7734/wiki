@@ -62,7 +62,7 @@ helm repo update grafana \
 
 ```shell
 helm show values grafana/loki-distributed \
-    --version 0.71.1 \
+    --version 0.77.0 \
     > loki-distributed-values.yaml
 ```
 
@@ -96,6 +96,11 @@ loki:
       active_index_directory: /var/loki/index
       cache_location: /var/loki/cache
       cache_ttl: 168h
+
+  # -- Structured loki configuration, takes precedence over `loki.config`, `loki.schemaConfig`, `loki.storageConfig`
+  structuredConfig:
+    limits_config:
+      max_entries_limit_per_query: 50000
 
 ingester:
   resources:
@@ -145,7 +150,7 @@ gateway:
 
 ```shell
 helm template loki grafana/loki-distributed \
-    --version 0.71.1 \
+    --version 0.77.0 \
     -n monitoring \
     -f loki-distributed-values.yaml \
     > loki-distributed.yaml
@@ -154,7 +159,7 @@ helm template loki grafana/loki-distributed \
 ```shell
 helm upgrade loki grafana/loki-distributed \
     --install \
-    --version 0.71.1 \
+    --version 0.77.0 \
     -n monitoring \
     --history-max 3 \
     -f loki-distributed-values.yaml
