@@ -79,6 +79,8 @@ const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
 
 ### Karpenter Controller Role
 
+- https://github.com/aws/karpenter-provider-aws/blob/main/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml
+
 ```typescript
 const controllerRoleName = 'karpenter-controller-role';
 const controllerRole = new aws.iam.Role(
@@ -95,9 +97,10 @@ const controllerRole = new aws.iam.Role(
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
-								'system:serviceaccount:provisioning:karpenter'
+								'system:serviceaccount:kube-system:karpenter'
 						}))
 					},
 					Action: 'sts:AssumeRoleWithWebIdentity'
@@ -121,41 +124,207 @@ const controllerPolicy = new aws.iam.Policy(
 			Version: '2012-10-17',
 			Statement: [
 				{
+					Sid: 'AllowScopedEC2InstanceActions',
 					Effect: 'Allow',
+					Resource: [
+						`arn:aws:ec2:${variable.awsRegion}::image/*`,
+						`arn:aws:ec2:${variable.awsRegion}::snapshot/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:security-group/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:subnet/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:launch-template/*`
+					],
+					Action: ['ec2:RunInstances', 'ec2:CreateFleet']
+				},
+				{
+					Sid: 'AllowScopedEC2InstanceActionsWithTags',
+					Effect: 'Allow',
+					Resource: [
+						`arn:aws:ec2:${variable.awsRegion}:*:fleet/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:instance/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:volume/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:network-interface/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:launch-template/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:spot-instances-request/*`
+					],
+					Action: ['ec2:RunInstances', 'ec2:CreateFleet', 'ec2:CreateLaunchTemplate'],
+					Condition: {
+						StringEquals: {
+							[`aws:RequestTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned'
+						},
+						StringLike: {
+							'aws:RequestTag/karpenter.sh/nodepool': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedResourceCreationTagging',
+					Effect: 'Allow',
+					Resource: [
+						`arn:aws:ec2:${variable.awsRegion}:*:fleet/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:instance/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:volume/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:network-interface/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:launch-template/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:spot-instances-request/*`
+					],
+					Action: 'ec2:CreateTags',
+					Condition: {
+						StringEquals: {
+							[`aws:RequestTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned',
+							'ec2:CreateAction': ['RunInstances', 'CreateFleet', 'CreateLaunchTemplate']
+						},
+						StringLike: {
+							'aws:RequestTag/karpenter.sh/nodepool': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedResourceTagging',
+					Effect: 'Allow',
+					Resource: `arn:aws:ec2:${variable.awsRegion}:*:instance/*`,
+					Action: 'ec2:CreateTags',
+					Condition: {
+						StringEquals: {
+							[`aws:ResourceTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned'
+						},
+						StringLike: {
+							'aws:ResourceTag/karpenter.sh/nodepool': '*'
+						},
+						'ForAllValues:StringEquals': {
+							'aws:TagKeys': ['karpenter.sh/nodeclaim', 'Name']
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedDeletion',
+					Effect: 'Allow',
+					Resource: [
+						`arn:aws:ec2:${variable.awsRegion}:*:instance/*`,
+						`arn:aws:ec2:${variable.awsRegion}:*:launch-template/*`
+					],
+					Action: ['ec2:TerminateInstances', 'ec2:DeleteLaunchTemplate'],
+					Condition: {
+						StringEquals: {
+							[`aws:ResourceTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned'
+						},
+						StringLike: {
+							'aws:ResourceTag/karpenter.sh/nodepool': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowRegionalReadActions',
+					Effect: 'Allow',
+					Resource: '*',
 					Action: [
-						'ec2:CreateLaunchTemplate',
-						'ec2:CreateFleet',
-						'ec2:RunInstances',
-						'ec2:CreateTags',
-						'ec2:TerminateInstances',
-						'ec2:DescribeLaunchTemplates',
-						'ec2:DeleteLaunchTemplate',
-						'ec2:DescribeSecurityGroups',
-						'ec2:DescribeSpotPriceHistory',
-						'ec2:DescribeSubnets',
+						'ec2:DescribeAvailabilityZones',
 						'ec2:DescribeImages',
 						'ec2:DescribeInstances',
-						'ec2:DescribeInstanceTypes',
 						'ec2:DescribeInstanceTypeOfferings',
-						'ec2:DescribeAvailabilityZones',
-						'eks:DescribeCluster',
-						'iam:AddRoleToInstanceProfile',
-						'iam:CreateInstanceProfile',
-						'iam:DeleteInstanceProfile',
-						'iam:GetInstanceProfile',
-						'iam:PassRole',
-						'iam:RemoveRoleFromInstanceProfile',
-						'iam:TagInstanceProfile',
-						'ssm:GetParameter',
-						'pricing:GetProducts'
+						'ec2:DescribeInstanceTypes',
+						'ec2:DescribeLaunchTemplates',
+						'ec2:DescribeSecurityGroups',
+						'ec2:DescribeSpotPriceHistory',
+						'ec2:DescribeSubnets'
 					],
-					Resource: '*'
+					Condition: {
+						StringEquals: {
+							'aws:RequestedRegion': `${variable.awsRegion}`
+						}
+					}
+				},
+				{
+					Sid: 'AllowSSMReadActions',
+					Effect: 'Allow',
+					Resource: `arn:aws:ssm:${variable.awsRegion}::parameter/aws/service/*`,
+					Action: 'ssm:GetParameter'
+				},
+				{
+					Sid: 'AllowPricingReadActions',
+					Effect: 'Allow',
+					Resource: '*',
+					Action: 'pricing:GetProducts'
+				},
+				{
+					Sid: 'AllowPassingInstanceRole',
+					Effect: 'Allow',
+					Resource: nodeGroupRole.arn,
+					Action: 'iam:PassRole',
+					Condition: {
+						StringEquals: {
+							'iam:PassedToService': 'ec2.amazonaws.com'
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedInstanceProfileCreationActions',
+					Effect: 'Allow',
+					Resource: '*',
+					Action: 'iam:CreateInstanceProfile',
+					Condition: {
+						StringEquals: {
+							[`aws:RequestTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned',
+							'aws:RequestTag/topology.kubernetes.io/region': `${variable.awsRegion}`
+						},
+						StringLike: {
+							'aws:RequestTag/karpenter.k8s.aws/ec2nodeclass': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedInstanceProfileTagActions',
+					Effect: 'Allow',
+					Resource: '*',
+					Action: 'iam:TagInstanceProfile',
+					Condition: {
+						StringEquals: {
+							[`aws:ResourceTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned',
+							'aws:ResourceTag/topology.kubernetes.io/region': `${variable.awsRegion}`,
+							[`aws:RequestTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned',
+							'aws:RequestTag/topology.kubernetes.io/region': `${variable.awsRegion}`
+						},
+						StringLike: {
+							'aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass': '*',
+							'aws:RequestTag/karpenter.k8s.aws/ec2nodeclass': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowScopedInstanceProfileActions',
+					Effect: 'Allow',
+					Resource: '*',
+					Action: [
+						'iam:AddRoleToInstanceProfile',
+						'iam:RemoveRoleFromInstanceProfile',
+						'iam:DeleteInstanceProfile'
+					],
+					Condition: {
+						StringEquals: {
+							[`aws:ResourceTag/kubernetes.io/cluster/${variable.eksClusterName}`]: 'owned',
+							'aws:ResourceTag/topology.kubernetes.io/region': `${variable.awsRegion}`
+						},
+						StringLike: {
+							'aws:ResourceTag/karpenter.k8s.aws/ec2nodeclass': '*'
+						}
+					}
+				},
+				{
+					Sid: 'AllowInstanceProfileReadActions',
+					Effect: 'Allow',
+					Resource: '*',
+					Action: 'iam:GetInstanceProfile'
+				},
+				{
+					Sid: 'AllowAPIServerEndpointDiscovery',
+					Effect: 'Allow',
+					Resource: `arn:aws:eks:${variable.awsRegion}:${variable.awsAccountID}:cluster/${variable.eksClusterName}`,
+					Action: 'eks:DescribeCluster'
 				}
 			]
 		},
 		tags: {
 			Name: controllerPolicyName,
-			'loliot.net/stack': variable.stackName
+			'hits.ai/stack': variable.stackName
 		}
 	},
 	{ protect: true }
@@ -178,8 +347,16 @@ new aws.iam.RolePolicyAttachment(
 :::
 
 ```shell
+helm upgrade karpenter-crd oci://public.ecr.aws/karpenter/karpenter-crd \
+    --install \
+    --version v0.33.0 \
+    --history-max 3 \
+    -n kube-system
+```
+
+```shell
 helm show values oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.31.0 \
+    --version v0.33.0 \
     > karpenter-values.yaml
 ```
 
@@ -197,7 +374,7 @@ affinity:
     requiredDuringSchedulingIgnoredDuringExecution:
       nodeSelectorTerms:
         - matchExpressions:
-            - key: karpenter.sh/provisioner-name
+            - key: karpenter.sh/nodepool
               operator: DoesNotExist
 
 tolerations:
@@ -211,8 +388,9 @@ controller:
     limits:
       memory: 512Mi
 
-logLevel: info
-logEncoding: json
+webhook:
+  # kubernetes 1.25 미만은 true로 설정해야 합니다.
+  enabled: false
 
 # ConfigMap: karpenter-global-settings
 settings:
@@ -225,23 +403,17 @@ settings:
   batchMaxDuration: 20s
   batchIdleDuration: 5s
 
-  aws:
-    clusterName: <clusterName>
+  clusterName: <clusterName>
 
-    # EKS의 경우 생략 가능
-    clusterEndpoint: <clusterEndpoint>
-
-    defaultInstanceProfile: <instanceProfile>
-
-    # Rebalance Recommendation/ Spot Interrupt 이벤트를 받을 SQS Queue
-    # 설정하지 않으면 해당이벤트를 처리하지 않습니다.
-    interruptionQueueName: <interruptionQueueName>
+  # Rebalance Recommendation/ Spot Interrupt 이벤트를 받을 SQS Queue
+  # 설정하지 않으면 해당이벤트를 처리하지 않습니다.
+  interruptionQueue: <interruptionQueueName>
 ```
 
 ```shell
 helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
-    --version v0.31.0 \
-    -n provisioning \
+    --version v0.33.0 \
+    -n kube-system \
     -f karpenter-values.yaml \
     > karpenter.yaml
 ```
@@ -249,9 +421,9 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 ```shell
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
-    --version v0.31.0 \
+    --version v0.33.0 \
     --history-max 3 \
-    -n provisioning \
+    -n kube-system \
     -f karpenter-values.yaml
 ```
 

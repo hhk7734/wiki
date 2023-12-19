@@ -136,8 +136,6 @@ new aws.cloudwatch.EventTarget(`${instanceStateChangeRuleName}-target`, {
 
 현재 v0.28.0 버전에서는 `EC2 Instance Rebalance Recommendation` 이벤트를 처리하지 않고 있습니다. (https://github.com/aws/karpenter/blob/bf484b63ae500578ac2843f28ba6ba6ab849d83f/pkg/controllers/interruption/controller.go#L288-L295)
 
-해당 이벤트 처리가 필요한 경우 Karpenter 설정에서 `aws.interruptionQueueName: ""`를 설정하고, AWS Node Termination Handler 를 사용해야 합니다.
-
 ### Karpenter 설정
 
 ```typescript
@@ -149,14 +147,15 @@ const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
 		Statement: [
 			// ...
 			{
+				Sid: 'AllowInterruptionQueueActions',
 				Effect: 'Allow',
+				Resource: karpenterInterruptionQueue.arn,
 				Action: [
 					'sqs:DeleteMessage',
-					'sqs:GetQueueUrl',
 					'sqs:GetQueueAttributes',
+					'sqs:GetQueueUrl',
 					'sqs:ReceiveMessage'
-				],
-				Resource: karpenterInterruptionQueue.arn
+				]
 			}
 		]
 	}
@@ -166,8 +165,7 @@ const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
 
 ```yaml title="karpenter-values.yaml"
 settings:
-  aws:
-    interruptionQueueName: <sqsName>
+  interruptionQueue: <sqsName>
 ```
 
 ### AWS Node Termination Handler
