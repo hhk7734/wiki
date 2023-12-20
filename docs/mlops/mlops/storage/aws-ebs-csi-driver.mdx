@@ -32,6 +32,7 @@ export const awsEbsCsiDriverRole = new aws.iam.Role(
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
 								'system:serviceaccount:kube-system:aws-ebs-csi-driver'
@@ -72,7 +73,7 @@ helm repo update aws-ebs-csi-driver \
 
 ```shell
 helm show values aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --version 2.24.0 \
+    --version 2.26.0 \
     > aws-ebs-csi-driver-values.yaml
 ```
 
@@ -91,7 +92,7 @@ controller:
 
 ```shell
 helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --version 2.24.0 \
+    --version 2.26.0 \
     -n kube-system \
     -f aws-ebs-csi-driver-values.yaml \
     > aws-ebs-csi-driver.yaml
@@ -100,9 +101,9 @@ helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 ```shell
 helm upgrade aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
     --install \
-    --version 2.24.0 \
-    -n kube-system \
     --history-max 3 \
+    --version 2.26.0 \
+    -n kube-system \
     -f aws-ebs-csi-driver-values.yaml
 ```
 

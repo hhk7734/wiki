@@ -32,6 +32,7 @@ export const awsEFSCSIDriverRole = new aws.iam.Role(
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
 								'system:serviceaccount:kube-system:aws-efs-csi-driver'
@@ -96,9 +97,9 @@ helm template aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
 ```shell
 helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --install \
+    --history-max 3 \
     --version 2.5.0 \
     -n kube-system \
-    --history-max 3 \
     -f aws-efs-csi-driver-values.yaml
 ```
 

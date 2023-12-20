@@ -10,6 +10,9 @@ keywords:
 ## 설치
 
 - https://hub.docker.com/_/postgres
+- https://www.postgresql.org/about/featurematrix/
+
+PostgreSQL 이미지와 버전별 특징을 위 링크에서 확인할 수 있습니다.
 
 ```yaml
 ---
@@ -79,32 +82,7 @@ spec:
                   name: postgresql
                   key: password
             - name: PGDATA
-              value: /var/lib/postgresql/data/pgdata
-          livenessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 30
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
-          readinessProbe:
-            failureThreshold: 6
-            initialDelaySeconds: 5
-            periodSeconds: 10
-            successThreshold: 1
-            timeoutSeconds: 5
-            exec:
-              command:
-                - /bin/sh
-                - -c
-                - -e
-                - |
-                  exec pg_isready -U "postgres" -h 127.0.0.1 -p 5432
-                  [ -f /var/lib/postgresql/data/.initialized ]
+              value: /loliot/postgresql/data
           resources:
             requests:
               cpu: 100m
@@ -115,7 +93,7 @@ spec:
             - name: dshm
               mountPath: /dev/shm
             - name: data
-              mountPath: /var/lib/postgresql/data
+              mountPath: /loliot/postgresql
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -147,7 +125,7 @@ spec:
 - [PersistentVolume](/docs/mlops/mlops/kubernetes/persistent-volume)
 
 :::warning
-볼륨을 `/var/lib/postgresql`에 마운트 시켰을 때, `/var/lib/postgresql/data` 경로는 로컬 볼륨을 사용하므로 이 값들을 바꾸지 않으면 데이터가 삭제됩니다.
+`PGDATA`로 `/var/lib/postgresql/data`를 설정하면 볼륨을 `/var/lib/postgresql`에 마운트하더라도 로컬 볼륨을 사용하므로 이를 바꾸지 않으면 데이터가 삭제됩니다.
 :::
 
 ```yaml

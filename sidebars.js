@@ -118,7 +118,8 @@ module.exports = {
 					items: [
 						'lang/db/sql/postgresql/postgresql',
 						'lang/db/sql/postgresql/user',
-						'lang/db/sql/postgresql/table'
+						'lang/db/sql/postgresql/table',
+						'lang/db/sql/postgresql/config'
 					]
 				},
 				{

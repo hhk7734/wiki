@@ -30,6 +30,7 @@ const controllerRole = new aws.iam.Role(
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
 								'system:serviceaccount:kube-system:aws-load-balancer-controller'
