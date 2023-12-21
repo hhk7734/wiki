@@ -57,20 +57,6 @@ spec:
       kubelet:
         clusterDNS:
           - <ip|url>
-  disruption:
-    consolidationPolicy: WhenUnderutilized # WhenUnderutilized|WhenEmpty
-    # WhenEmpty 정책을 사용 시, 노드에 Daemonset을 제외한 Pod가 없을 때,
-    # consolidateAfter 시간이 지나면 노드를 정리합니다.
-    consolidateAfter: 30s # 00h00m00s|Never
-    # expireAfter 시간이 지나면 노드를 정리합니다.
-    expireAfter: 720h # 00h00m00s|Never
-  limits:
-    # 관리하는 리소스의 총 합이 아래 설정 값을 넘어가면 더이상 노드를 생성하지
-    # 않습니다.
-    # cpu: "10" 으로 설정되더라도 72 코어 인스턴스가 생성될 수 있습니다.
-    cpu: <DecimalSI> # m|""|k|M|G|T|P|E
-    memory: <BinarySI> # Ki|Mi|Gi|Ti|Pi|Ei
-  # weight: 10
 ```
 
 #### spec.template.spec.requirements
@@ -129,6 +115,33 @@ spec:
 Karpenter는 각 Node에 `Finalizer`를 설정하여 Node 삭제 프로세스를 개선해줍니다.
 
 `kubectl delete node <node>` 또는 `kubectl delete node -l <key>[=<value>]`로 Node를 제거할 때에도 Karpenter가 관리하는 Node는 미리 Finalizer를 설정해놨기 때문에 Node 삭제에 의해 생길 수 있는 문제를 최소화 해줍니다.
+
+```yaml
+spec:
+  disruption:
+    consolidationPolicy: WhenUnderutilized # WhenUnderutilized|WhenEmpty
+    # WhenEmpty 정책을 사용 시, 노드에 Daemonset을 제외한 Pod가 없을 때,
+    # consolidateAfter 시간이 지나면 노드를 정리합니다.
+    consolidateAfter: 30s # 00h00m00s|Never
+    # expireAfter 시간이 지나면 노드를 정리합니다.
+    expireAfter: 720h # 00h00m00s|Never
+```
+
+:::warning
+Spot의 경우 WhenUnderutilized에 의한 정리는 아직 지원되지 않습니다. https://github.com/kubernetes-sigs/descheduler 를 고려해보세요.
+:::
+
+### spec.limits
+
+```yaml
+spec:
+  limits:
+    # 관리하는 리소스의 총 합이 아래 설정 값을 넘어가면 더이상 노드를 생성하지
+    # 않습니다.
+    # cpu: "10" 으로 설정되더라도 72 코어 인스턴스가 생성될 수 있습니다.
+    cpu: <DecimalSI> # m|""|k|M|G|T|P|E
+    memory: <BinarySI> # Ki|Mi|Gi|Ti|Pi|Ei
+```
 
 ## EC2NodeClass
 
