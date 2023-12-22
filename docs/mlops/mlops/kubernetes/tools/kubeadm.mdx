@@ -26,10 +26,10 @@ keywords:
   tasks:
     - name: Install requirements
       apt:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: latest
         update_cache: yes
-      loop: ['apt-transport-https', 'ca-certificates', 'curl']
+      loop: ["apt-transport-https", "ca-certificates", "curl"]
 
     - name: Add kubernetes GPG apt key
       apt_key:
@@ -44,10 +44,10 @@ keywords:
 
     - name: Install kubeadm kubectl kubelet version={{ version }}
       apt:
-        name: '{{ item }}={{ version }}'
+        name: "{{ item }}={{ version }}"
         update_cache: yes
         force: yes
-      loop: ['kubelet', 'kubeadm', 'kubectl']
+      loop: ["kubelet", "kubeadm", "kubectl"]
 
     - name: Disable swap
       command: swapoff -a
@@ -73,14 +73,14 @@ keywords:
     - name: Add netbridge config ip6
       lineinfile:
         path: /etc/sysctl.d/k8s.conf
-        line: 'net.bridge.bridge-nf-call-ip6tables = 1'
+        line: "net.bridge.bridge-nf-call-ip6tables = 1"
         mode: 0644
         create: yes
 
     - name: Add netbridge config ip4
       lineinfile:
         path: /etc/sysctl.d/k8s.conf
-        line: 'net.bridge.bridge-nf-call-iptables = 1'
+        line: "net.bridge.bridge-nf-call-iptables = 1"
         mode: 0644
         create: yes
 

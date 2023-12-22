@@ -10,14 +10,14 @@ keywords:
   - toolkit
 ---
 
-import Image from '@theme/IdealImage';
+import Image from "@theme/IdealImage";
 
 ## Redux
 
 `state`는 특정 시간의 데이터 입니다. `action(event)`이 발생하면 `reducer`가 `actino.type` + `action.payload` + `(old)state`의 조합으로 다음 `(new)state`를 만들어 냅니다.
 
 <center>
-	<Image img={require('@site/static/img/lang/javascript/redux/redux-thunk.gif')} width={750} />
+	<Image img={require("@site/static/img/lang/javascript/redux/redux-thunk.gif")} width={750} />
 </center>
 <center>https://redux.js.org/tutorials/essentials/part-5-async-logic/</center>
 
@@ -29,7 +29,7 @@ import Image from '@theme/IdealImage';
 export interface CreateSliceOptions<
 	State = any,
 	CR extends SliceCaseReducers<State> = SliceCaseReducers<State>,
-	Name extends string = string
+	Name extends string = string,
 > {
 	// action.type의 namespace로 사용됩니다.
 	name: Name;
@@ -51,7 +51,7 @@ export interface CreateSliceOptions<
 export declare function createSlice<
 	State,
 	CaseReducers extends SliceCaseReducers<State>,
-	Name extends string = string
+	Name extends string = string,
 >(options: CreateSliceOptions<State, CaseReducers, Name>): Slice<State, CaseReducers, Name>;
 ```
 
@@ -59,7 +59,7 @@ export declare function createSlice<
 export interface Slice<
 	State = any,
 	CaseReducers extends SliceCaseReducers<State> = SliceCaseReducers<State>,
-	Name extends string = string
+	Name extends string = string,
 > {
 	name: Name;
 	reducer: Reducer<State>;
@@ -95,9 +95,9 @@ createSlice({
 				// action.payload를 받아서 state를 변경합니다.
 				console.log(action.payload);
 				return state;
-			}
-		}
-	}
+			},
+		},
+	},
 });
 ```
 
@@ -117,15 +117,15 @@ createSlice({
 			.addMatcher(
 				(action: AnyAction): action is ExtraAction2 => {
 					// 설정된 reducer를 실행시킬 수 있는 action인지 확인합니다.
-					return action.type.endsWith('extraAction2');
+					return action.type.endsWith("extraAction2");
 				},
-				(state: S, action: ExtraAction2): S | void => {}
+				(state: S, action: ExtraAction2): S | void => {},
 			)
 			.addMatcher<ExtraAction3>(
-				(action: AnyAction) => action.type.endsWith('extraAction3'),
-				(state: S, action: ExtraAction3): S | void => {}
+				(action: AnyAction) => action.type.endsWith("extraAction3"),
+				(state: S, action: ExtraAction3): S | void => {},
 			)
 			.addDefaultCase((state: S, action: AnyAction): S | void => {});
-	}
+	},
 });
 ```

@@ -11,32 +11,32 @@ keywords:
 ## Role
 
 ```typescript
-const nodeGroupRoleName = 'eks-ng-role';
+const nodeGroupRoleName = "eks-ng-role";
 const nodeGroupRole = new aws.iam.Role(
 	nodeGroupRoleName,
 	{
 		namePrefix: `${nodeGroupRoleName}-`,
 		assumeRolePolicy: {
-			Version: '2012-10-17',
+			Version: "2012-10-17",
 			Statement: [
 				{
-					Effect: 'Allow',
+					Effect: "Allow",
 					Principal: {
-						Service: 'ec2.amazonaws.com'
+						Service: "ec2.amazonaws.com",
 					},
-					Action: 'sts:AssumeRole'
-				}
-			]
+					Action: "sts:AssumeRole",
+				},
+			],
 		},
 		tags: {
 			Name: nodeGroupRoleName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 
-const nodeGroupInstanceProfileName = 'eks-ng-instacne-profile';
+const nodeGroupInstanceProfileName = "eks-ng-instacne-profile";
 const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
 	nodeGroupInstanceProfileName,
 	{
@@ -44,17 +44,17 @@ const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
 		role: nodeGroupRole.name,
 		tags: {
 			Name: nodeGroupInstanceProfileName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 
 const nodeGroupPolicyARNs = {
-	'0': 'arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy',
-	'1': 'arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly',
-	'2': 'arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy',
-	'3': 'arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore' // Karpenter
+	"0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+	"1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+	"2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+	"3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", // Karpenter
 };
 
 const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
@@ -63,10 +63,10 @@ const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
 			`eks-ng-rpa-${i}`,
 			{
 				policyArn: arn,
-				role: nodeGroupRole.name
+				role: nodeGroupRole.name,
 			},
-			{ protect: true }
-		)
+			{ protect: true },
+		),
 );
 ```
 
@@ -77,36 +77,36 @@ EBS 암호화가 필요한 경우 진행 전에 EC2 계정 속성의 EBS 암호�
 :::
 
 ```typescript
-const nodeGroupName = 'eks-ng';
+const nodeGroupName = "eks-ng";
 const nodeGroup = new aws.eks.NodeGroup(
 	nodeGroupName,
 	{
 		nodeGroupNamePrefix: `${nodeGroupName}-`,
 		clusterName: cluster.name,
 		nodeRoleArn: nodeGroupRole.arn,
-		instanceTypes: ['m6a.large'],
+		instanceTypes: ["m6a.large"],
 		diskSize: 50,
 		scalingConfig: {
 			minSize: 1,
 			maxSize: 1,
-			desiredSize: 1
+			desiredSize: 1,
 		},
 		subnetIds: [vpc.privateSubnet1.id],
 		labels: {
-			'node-group': 'eks-ng'
+			"node-group": "eks-ng",
 		},
 		taints: [
 			{
-				key: 'node-group',
-				value: 'eks-ng',
-				effect: 'NO_SCHEDULE'
-			}
+				key: "node-group",
+				value: "eks-ng",
+				effect: "NO_SCHEDULE",
+			},
 		],
 		tags: {
 			Name: nodeGroupName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 ```

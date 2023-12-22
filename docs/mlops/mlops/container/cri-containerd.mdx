@@ -8,12 +8,12 @@ keywords:
   - containerd
 ---
 
-import Image from '@theme/IdealImage';
+import Image from "@theme/IdealImage";
 
 ## Container
 
 <center>
-	<Image img={require('@site/static/img/mlops/mlops/container/vm-vs-container.png')} width={750} />
+	<Image img={require("@site/static/img/mlops/mlops/container/vm-vs-container.png")} width={750} />
 </center>
 <center>
 	<strong>VM vs Container</strong>
@@ -39,10 +39,10 @@ import Image from '@theme/IdealImage';
   tasks:
     - name: Install requirements
       apt:
-        name: '{{ item }}'
+        name: "{{ item }}"
         state: latest
         update_cache: yes
-      loop: ['apt-transport-https', 'ca-certificates', 'curl', 'gnupg']
+      loop: ["apt-transport-https", "ca-certificates", "curl", "gnupg"]
 
     - name: Add docker GPG apt key
       apt_key:

@@ -8,24 +8,24 @@ keywords:
   - While loop
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 **While** 루프는 특정 조건이 만족될 때까지 루프 안의 코드를 실행하는 구조입니다. 기본으로 만들어지는 While 루프는 조건이나 불리언 연산에 의해 참인 결과가 루프 조건에 입력될 때 정지합니다.
 
 **블록다이어그램 팔레트 - 구조 - while 루프**를 선택하여 블록다이어그램에 배치할 수 있습니다.
 
 <center>
-	<img src={useBaseUrl('img/lang/labview/labview-create-while.gif')} />
+	<img src={useBaseUrl("img/lang/labview/labview-create-while.gif")} />
 </center>
 
 <center>
-	<img src={useBaseUrl('img/lang/labview/labview-while-term.png')} />
+	<img src={useBaseUrl("img/lang/labview/labview-while-term.png")} />
 </center>
 
 While 루프를 실행시키면 프로세서는 **가능한 최고 속도로 루프를 반복 실행**시킵니다. 예를 들어 듀얼 코어 프로세서를 가진 컴퓨터에서 While 루프 하나를 실행시키면, 코어 하나를 모두 사용하기 때문에, 다른 프로그램을 안돌린다는 가정 하에, 전체 CPU 점유율이 50%가 됩니다.
 
 <center>
-	<img src={useBaseUrl('img/lang/labview/labview-while-cpu.gif')} />
+	<img src={useBaseUrl("img/lang/labview/labview-while-cpu.gif")} />
 </center>
 
 이렇게 작업을 하면 **다른 작업을 병행하기 어렵고, CPU에 필요 이상으로 부하가 걸려서 좋지 않습니다.** 연산 속도가 최대한 빨라야하는 경우 어쩔 수 없지만, 그렇지 않다면 속도를 조절할 필요가 있습니다.
@@ -33,5 +33,5 @@ While 루프를 실행시키면 프로세서는 **가능한 최고 속도로 루
 예를 들어 1 초에 100 회 정도 루프가 실행되도록 코드를 작성하려면 while 루프 안에 **블록다이어그램 팔레트 - 타이밍 - 기다림(ms)**를 추가하고 10 을 입력해주면 됩니다. 기다리는 시간 동안은 CPU 사용을 줄일 수 있습니다.
 
 <center>
-	<img src={useBaseUrl('img/lang/labview/labview-while-cpu-test.gif')} />
+	<img src={useBaseUrl("img/lang/labview/labview-while-cpu-test.gif")} />
 </center>

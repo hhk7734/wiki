@@ -5,16 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import clsx from 'clsx';
-import { ThemeClassNames } from '@docusaurus/theme-common';
-import { useDoc } from '@docusaurus/theme-common/internal';
-import Heading from '@theme/Heading';
-import MDXContent from '@theme/MDXContent';
-import type { Props } from '@theme/DocItem/Content';
+import React from "react";
+import clsx from "clsx";
+import { ThemeClassNames } from "@docusaurus/theme-common";
+import { useDoc } from "@docusaurus/theme-common/internal";
+import Heading from "@theme/Heading";
+import MDXContent from "@theme/MDXContent";
+import type { Props } from "@theme/DocItem/Content";
 
-import AdSense from 'react-adsense';
-import Comment from '../../../component/Comment.js';
+import AdSense from "react-adsense";
+import Comment from "../../../component/Comment.js";
 
 /**
  Title can be declared inside md content or declared through
@@ -28,7 +28,7 @@ import Comment from '../../../component/Comment.js';
 */
 function useSyntheticTitle(): string | null {
 	const { metadata, frontMatter, contentTitle } = useDoc();
-	const shouldRender = !frontMatter.hide_title && typeof contentTitle === 'undefined';
+	const shouldRender = !frontMatter.hide_title && typeof contentTitle === "undefined";
 	if (!shouldRender) {
 		return null;
 	}
@@ -38,7 +38,7 @@ function useSyntheticTitle(): string | null {
 export default function DocItemContent({ children }: Props): JSX.Element {
 	const syntheticTitle = useSyntheticTitle();
 	return (
-		<div className={clsx(ThemeClassNames.docs.docMarkdown, 'markdown')}>
+		<div className={clsx(ThemeClassNames.docs.docMarkdown, "markdown")}>
 			{syntheticTitle && (
 				<header>
 					<Heading as="h1">{syntheticTitle}</Heading>
@@ -49,7 +49,7 @@ export default function DocItemContent({ children }: Props): JSX.Element {
 					<AdSense.Google
 						client="ca-pub-5199357432848758"
 						slot="5326538900"
-						style={{ display: 'block' }}
+						style={{ display: "block" }}
 						format="auto"
 						responsive="true"
 					/>
@@ -63,7 +63,7 @@ export default function DocItemContent({ children }: Props): JSX.Element {
 					<AdSense.Google
 						client="ca-pub-5199357432848758"
 						slot="5326538900"
-						style={{ display: 'block' }}
+						style={{ display: "block" }}
 						format="auto"
 						responsive="true"
 					/>

@@ -9,7 +9,7 @@ keywords:
   - upload
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## Adding programmer
 
@@ -24,13 +24,13 @@ Available tools 창 안쪽에서 오른쪽 클릭 후 **Add Target**을 선택�
 또는 **Tools -> Add Target**을 선택합니다.
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-add-programmer.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-add-programmer.png")} />
 </center>
 
 STK500을 선택한 후, 장치 관리자에서 포트를 확인하여 STK500에 맞는 포트를 선택합니다.
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-stk500-setup.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-stk500-setup.png")} />
 </center>
 
 :::caution
@@ -52,7 +52,7 @@ Atmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해�
 - ✔ Use Output window
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-register-external-tools.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-register-external-tools.png")} />
 </center>
 
 command 부분의 경우 avrdude.exe를 설치한 경로를 선택하면 됩니다. 일반적으로 아두이노 IDE를 설치하시면 설치 경로에 있습니다.
@@ -74,7 +74,7 @@ Tool에 원하는 프로그래머를 선택하고 **Apply**를 누릅니다.
 **Memories**에서 flash, eeprom 업로드를 하거나 다운로드 할 수 있습니다. 그 외 **Fuses**, **Lock bits** 등을 제어할 수 있습니다.
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-device-programming.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-device-programming.png")} />
 </center>
 
 **External tools**를 사용하는 경우 Tools -> \<External tools title\>을 선택하시면 됩니다.
@@ -96,7 +96,7 @@ avrdude가 환경 변수 Path에 등록되어 있어야 합니다.
 External tools를 등록할 때, **Prompt for arguments**를 선택한 후, 수동 업로드를 실행하면 아래와 같은 창이 뜹니다.
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-external-arguments.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-external-arguments.png")} />
 </center>
 
 **Command Line** 내용을 복사하여 **Custom programming tool**의 Command에 붙여넣습니다.
@@ -104,5 +104,5 @@ External tools를 등록할 때, **Prompt for arguments**를 선택한 후, 수�
 그리고 **\<path\>/avrdude.exe** 부분을 **avrdude**로 바꾸면 됩니다.
 
 <center>
-	<img src={useBaseUrl('img/mcu/avr/atmel-custom-tool.png')} />
+	<img src={useBaseUrl("img/mcu/avr/atmel-custom-tool.png")} />
 </center>

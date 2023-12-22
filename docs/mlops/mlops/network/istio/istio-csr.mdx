@@ -8,8 +8,8 @@ keywords:
   - CSR
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 - [cert-manager](/docs/mlops/mlops/auth/cert-manager) 설치가 선행되어야 합니다.
 
@@ -127,7 +127,7 @@ app:
     istiodCertificateDuration: 24h
 
   server:
-    clusterID: 'Kubernetes' # istiod.Values.global.multiCluster.clusterName
+    clusterID: "Kubernetes" # istiod.Values.global.multiCluster.clusterName
     maxCertificateDuration: 48h
 
   istio:
@@ -169,7 +169,7 @@ helm upgrade cert-manager-istio-csr jetstack/cert-manager-istio-csr \
 ```yaml title="istiod-values.yaml"
 pilot:
   env:
-    ENABLE_CA_SERVER: 'false'
+    ENABLE_CA_SERVER: "false"
 
 global:
   caAddress: cert-manager-istio-csr.auth.svc:443

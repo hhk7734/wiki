@@ -26,7 +26,7 @@ helm show values argo/argo-cd \
 ```
 
 ```yaml title="argo-cd-values.yaml"
-fullnameOverride: 'argo-cd'
+fullnameOverride: "argo-cd"
 
 global:
   additionalLabels: {}
@@ -36,10 +36,10 @@ global:
 configs:
   cm:
     # 2.5 버전을 위한 준비
-    server.rbac.log.enforce.enable: 'true'
+    server.rbac.log.enforce.enable: "true"
     # Web UI에서 터미널 접속
-    exec.enabled: 'true'
-    admin.enabled: 'false'
+    exec.enabled: "true"
+    admin.enabled: "false"
 
 controller:
   resources:
@@ -121,13 +121,13 @@ configs:
 
     # role:readonly, role:admin
     # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-    policy.default: 'role:readonly'
+    policy.default: "role:readonly"
 
     # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
-    scopes: '[groups, preferred_username, email]'
+    scopes: "[groups, preferred_username, email]"
 
     # glob or regex
-    policy.matchMode: 'glob'
+    policy.matchMode: "glob"
 ```
 
 ## User
@@ -143,10 +143,10 @@ configs:
     #   apiKey - allows generating API keys
     #   login - allows to login using UI
     accounts.<user>: apiKey, login
-    accounts.<user>.enabled: 'true'
+    accounts.<user>.enabled: "true"
 
     # disables user. User is enabled by default
-    admin.enabled: 'false'
+    admin.enabled: "false"
 ```
 
 ### Dex

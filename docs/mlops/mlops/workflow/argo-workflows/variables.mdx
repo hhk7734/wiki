@@ -35,7 +35,7 @@ spec:
       container:
         image: docker/whalesay
         command: [cowsay]
-        args: ['{{inputs.parameters.message}}']
+        args: ["{{inputs.parameters.message}}"]
 ```
 
 ## 사용자 정의 및 할당
@@ -61,10 +61,10 @@ spec:
 ```yaml title="dag"
 spec:
   templates:
-    - name: ''
+    - name: ""
       dag:
         tasks:
-          - name: ''
+          - name: ""
             template: <templateName>
             arguments:
               parameters:
@@ -127,11 +127,11 @@ spec:
           - name: <parameterName>
             valueFrom:
               # `kubectl get job <resourceObjName> -o jsonpath='<jsonPath>'`
-              jsonPath: '<jsonPath>'
+              jsonPath: "<jsonPath>"
           - name: <parameterName>
             valueFrom:
               # `kubectl get job <resourceObjName> -o json | jq -c '<filter>'
-              jqFilter: '<filter>'
+              jqFilter: "<filter>"
 ```
 
 ## 함수 사용하기(expression)

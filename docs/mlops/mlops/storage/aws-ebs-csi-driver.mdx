@@ -14,49 +14,49 @@ AWS EBS Container Storage Interface Driver
 ## 사전 요구 사항
 
 ```typescript
-import * as aws from '@pulumi/aws';
-import * as variable from '@src/variable';
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
 
-const awsEbsCsiDriverRoleName = 'aws-ebs-csi-driver-role';
+const awsEbsCsiDriverRoleName = "aws-ebs-csi-driver-role";
 export const awsEbsCsiDriverRole = new aws.iam.Role(
 	awsEbsCsiDriverRoleName,
 	{
 		namePrefix: `${awsEbsCsiDriverRoleName}-`,
 		assumeRolePolicy: {
-			Version: '2012-10-17',
+			Version: "2012-10-17",
 			Statement: [
 				{
-					Effect: 'Allow',
+					Effect: "Allow",
 					Principal: {
-						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn)
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn),
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
-							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
+							[`${eks.oidcProvider.url}:aud`]: "sts.amazonaws.com",
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
-								'system:serviceaccount:kube-system:aws-ebs-csi-driver'
-						}))
+								"system:serviceaccount:kube-system:aws-ebs-csi-driver",
+						})),
 					},
-					Action: 'sts:AssumeRoleWithWebIdentity'
-				}
-			]
+					Action: "sts:AssumeRoleWithWebIdentity",
+				},
+			],
 		},
 		tags: {
 			Name: awsEbsCsiDriverRoleName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 
 new aws.iam.RolePolicyAttachment(
-	'aws-ebs-csi-driver-rpa-0',
+	"aws-ebs-csi-driver-rpa-0",
 	{
-		policyArn: 'arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy',
-		role: awsEbsCsiDriverRole.name
+		policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
+		role: awsEbsCsiDriverRole.name,
 	},
-	{ protect: true }
+	{ protect: true },
 );
 ```
 
@@ -85,7 +85,7 @@ controller:
     create: true
     name: aws-ebs-csi-driver
     annotations:
-      eks.amazonaws.com/role-arn: 'arn:aws:iam::<account-id>:role/<role-name>'
+      eks.amazonaws.com/role-arn: "arn:aws:iam::<account-id>:role/<role-name>"
 
   tolerations: []
 ```
@@ -117,7 +117,7 @@ apiVersion: storage.k8s.io/v1
 metadata:
   name: gp3
   annotations:
-    storageclass.kubernetes.io/is-default-class: 'true'
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: ebs.csi.aws.com
 volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true

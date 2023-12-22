@@ -7,9 +7,9 @@ keywords:
   - multi-cluster
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## Configure Trust
 
@@ -112,7 +112,7 @@ kubectl create secret generic cacerts -n istio-system \
 - https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/
 
 <center>
-	<img src={useBaseUrl('img/mlops/mlops/istio/istio-multi-primary-diff.svg')} />
+	<img src={useBaseUrl("img/mlops/mlops/istio/istio-multi-primary-diff.svg")} />
 </center>
 
 <center>
@@ -207,7 +207,7 @@ service:
       protocol: TCP
       nodePort: <node-port-4>
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: 'nlb'
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
 
 autoscaling:
   enabled: true
@@ -228,7 +228,7 @@ affinity:
                 operator: In
                 values:
                   - ingress-cross
-          topologyKey: 'kubernetes.io/hostname'
+          topologyKey: "kubernetes.io/hostname"
         weight: 50
 
 networkGateway: <network>
@@ -260,7 +260,7 @@ spec:
       tls:
         mode: AUTO_PASSTHROUGH
       hosts:
-        - '*.local'
+        - "*.local"
 ```
 
 ```shell

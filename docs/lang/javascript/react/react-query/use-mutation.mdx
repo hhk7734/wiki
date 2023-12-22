@@ -15,7 +15,7 @@ keywords:
 - https://react-query-v3.tanstack.com/reference/useMutation
 
 ```typescript
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 
 const mutation = useMutation({
 	mutationFn, // (variables: TVariables) => Promise<TData>
@@ -29,7 +29,7 @@ const mutation = useMutation({
 	retry,
 	retryDelay,
 	useErrorBoundary,
-	meta
+	meta,
 });
 
 const {
@@ -45,13 +45,13 @@ const {
 	mutate,
 	mutateAsync,
 	reset,
-	status
+	status,
 } = mutation;
 
 mutation.mutate(variables, {
 	localOnError, // (err: TError, variables: TVariables, context: TContext | undefined) => void
 	localOnSettled, // (data: TData | undefined, error: TError | null, variables: TVariables, context: TContext | undefined) => void
-	localOnSuccess // (data: TData, variables: TVariables, context: TContext) => void
+	localOnSuccess, // (data: TData, variables: TVariables, context: TContext) => void
 });
 ```
 

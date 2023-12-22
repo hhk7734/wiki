@@ -8,13 +8,13 @@ keywords:
   - lifecycle
 ---
 
-import Image from '@theme/IdealImage';
+import Image from "@theme/IdealImage";
 
 ## React.Component Lifecycle
 
 <center>
 	<Image
-		img={require('@site/static/img/lang/javascript/react/react-component-lifecycle.jpg')}
+		img={require("@site/static/img/lang/javascript/react/react-component-lifecycle.jpg")}
 		width={750}
 	/>
 </center>
@@ -24,7 +24,7 @@ import Image from '@theme/IdealImage';
 
 <center>
 	<Image
-		img={require('@site/static/img/lang/javascript/react/react-hooks-lifecycle.jpg')}
+		img={require("@site/static/img/lang/javascript/react/react-hooks-lifecycle.jpg")}
 		width={750}
 	/>
 </center>
@@ -33,7 +33,7 @@ import Image from '@theme/IdealImage';
 ## React Hook flow
 
 <center>
-	<Image img={require('@site/static/img/lang/javascript/react/react-hook-flow.png')} width={750} />
+	<Image img={require("@site/static/img/lang/javascript/react/react-hook-flow.png")} width={750} />
 </center>
 <center>https://github.com/donavon/hook-flow</center>
 
@@ -41,31 +41,31 @@ import Image from '@theme/IdealImage';
 
 ```javascript
 const Child = () => {
-	console.log('%c    Child: render 시작', 'color: MediumSpringGreen');
+	console.log("%c    Child: render 시작", "color: MediumSpringGreen");
 
 	const [count, setCount] = useState(() => {
-		console.log('%c    Child: useState callback 호출', 'color: tomato');
+		console.log("%c    Child: useState callback 호출", "color: tomato");
 		return 0;
 	});
 
 	useEffect(() => {
-		console.log('%c    Child: useEffect - deps 없음', 'color: LightCoral');
+		console.log("%c    Child: useEffect - deps 없음", "color: LightCoral");
 		return () => {
-			console.log('%c    Child: useEffect cleanup - deps 없음', 'color: LightCoral');
+			console.log("%c    Child: useEffect cleanup - deps 없음", "color: LightCoral");
 		};
 	});
 
 	useEffect(() => {
-		console.log('%c    Child: useEffect - deps [] ', 'color: MediumTurquoise');
+		console.log("%c    Child: useEffect - deps [] ", "color: MediumTurquoise");
 		return () => {
-			console.log('%c    Child: useEffect cleanup - deps []', 'color: MediumTurquoise');
+			console.log("%c    Child: useEffect cleanup - deps []", "color: MediumTurquoise");
 		};
 	}, []);
 
 	useEffect(() => {
-		console.log('%c    Child: useEffect - deps [count]', 'color: HotPink');
+		console.log("%c    Child: useEffect - deps [count]", "color: HotPink");
 		return () => {
-			console.log('%c    Child: useEffect cleanup - deps [count]', 'color: HotPink');
+			console.log("%c    Child: useEffect cleanup - deps [count]", "color: HotPink");
 		};
 	}, [count]);
 
@@ -73,37 +73,37 @@ const Child = () => {
 		<button onClick={() => setCount((previousCount) => previousCount + 1)}>{count}</button>
 	);
 
-	console.log('%c    Child: render 끝', 'color: MediumSpringGreen');
+	console.log("%c    Child: render 끝", "color: MediumSpringGreen");
 
 	return element;
 };
 
 const App = () => {
-	console.log('%cApp: render 시작', 'color: MediumSpringGreen');
+	console.log("%cApp: render 시작", "color: MediumSpringGreen");
 
 	const [showChild, setShowChild] = useState(() => {
-		console.log('%cApp: useState callback 호출', 'color: tomato');
+		console.log("%cApp: useState callback 호출", "color: tomato");
 		return false;
 	});
 
 	useEffect(() => {
-		console.log('%cApp: useEffect - deps 없음', 'color: LightCoral');
+		console.log("%cApp: useEffect - deps 없음", "color: LightCoral");
 		return () => {
-			console.log('%cApp: useEffect cleanup - deps 없음', 'color: LightCoral');
+			console.log("%cApp: useEffect cleanup - deps 없음", "color: LightCoral");
 		};
 	});
 
 	useEffect(() => {
-		console.log('%cApp: useEffect - deps []', 'color: MediumTurquoise');
+		console.log("%cApp: useEffect - deps []", "color: MediumTurquoise");
 		return () => {
-			console.log('%cApp: useEffect cleanup - deps []', 'color: MediumTurquoise');
+			console.log("%cApp: useEffect cleanup - deps []", "color: MediumTurquoise");
 		};
 	}, []);
 
 	useEffect(() => {
-		console.log('%cApp: useEffect - deps [showChild]', 'color: HotPink');
+		console.log("%cApp: useEffect - deps [showChild]", "color: HotPink");
 		return () => {
-			console.log('%cApp: useEffect cleanup - deps [showChild]', 'color: HotPink');
+			console.log("%cApp: useEffect cleanup - deps [showChild]", "color: HotPink");
 		};
 	}, [showChild]);
 
@@ -114,7 +114,7 @@ const App = () => {
 					type="checkbox"
 					checked={showChild}
 					onChange={(e) => setShowChild(e.target.checked)}
-				/>{' '}
+				/>{" "}
 				Child 보기
 			</label>
 			<div
@@ -123,7 +123,7 @@ const App = () => {
 					margin: 10,
 					height: 30,
 					width: 30,
-					border: 'solid'
+					border: "solid",
 				}}
 			>
 				{showChild ? <Child /> : null}
@@ -131,7 +131,7 @@ const App = () => {
 		</>
 	);
 
-	console.log('%cApp: render 끝', 'color: MediumSpringGreen');
+	console.log("%cApp: render 끝", "color: MediumSpringGreen");
 
 	return element;
 };

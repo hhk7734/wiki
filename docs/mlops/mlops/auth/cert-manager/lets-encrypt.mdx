@@ -55,17 +55,17 @@ metadata:
   name: letsencrypt
 spec:
   acme:
-    email: '' # email
+    email: "" # email
     server: https://acme-v02.api.letsencrypt.org/directory
     privateKeySecretRef:
       name: letsencrypt
     solvers:
       - selector:
           dnsZones:
-            - '' # "domain"
+            - "" # "domain"
         dns01:
           cloudflare:
-            email: '' # cloudflare email
+            email: "" # cloudflare email
             apiTokenSecretRef:
               name: cloudflare-api-token
               key: token
@@ -84,8 +84,8 @@ spec:
   duration: 2160h # 90d
   renewBefore: 360h # 15d
   dnsNames:
-    - '' # "*.sub.domain"
-    - '' # "sub.domain"
+    - "" # "*.sub.domain"
+    - "" # "sub.domain"
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt

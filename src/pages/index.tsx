@@ -1,16 +1,16 @@
-import BrowserOnly from '@docusaurus/BrowserOnly';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Layout from '@theme/Layout';
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import sidebarList from '../../sidebars.js';
-import * as d3 from 'd3';
+import BrowserOnly from "@docusaurus/BrowserOnly";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Layout from "@theme/Layout";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import sidebarList from "../../sidebars.js";
+import * as d3 from "d3";
 import type {
 	SidebarItem,
 	SidebarItemDoc,
 	SidebarItemLink,
-	SidebarItemCategory
-} from '@docusaurus/plugin-content-docs/src/sidebars/types.js';
+	SidebarItemCategory,
+} from "@docusaurus/plugin-content-docs/src/sidebars/types.js";
 
 function Home() {
 	const context = useDocusaurusContext();
@@ -36,25 +36,25 @@ interface TreeData {
 }
 
 function itemToTreeData(item: string | SidebarItem): TreeData {
-	if (typeof item === 'string') {
+	if (typeof item === "string") {
 		return docToTreeData(item);
 	}
 	switch (item.type) {
-		case 'doc':
+		case "doc":
 			return docToTreeData(item);
-		case 'link':
+		case "link":
 			return linkToTreeData(item);
-		case 'category':
+		case "category":
 			return categoryToTreeData(item);
 		default:
-			throw new Error('Invalid item type');
+			throw new Error("Invalid item type");
 	}
 }
 
 function docToTreeData(doc: string | SidebarItemDoc): TreeData {
-	if (typeof doc === 'string') {
-		doc = doc.split('/').pop();
-		const prefixList = ['arduino-', 'cpp-', 'flutter-', 'llvm-', 'python-', 'sam-', 'stm32-'];
+	if (typeof doc === "string") {
+		doc = doc.split("/").pop();
+		const prefixList = ["arduino-", "cpp-", "flutter-", "llvm-", "python-", "sam-", "stm32-"];
 		for (const prefix of prefixList) {
 			if (doc.startsWith(prefix)) {
 				doc = doc.slice(prefix.length);
@@ -74,7 +74,7 @@ function categoryToTreeData(category: SidebarItemCategory): TreeData {
 		name: category.label,
 		children: category.items.map((item) => {
 			return itemToTreeData(item);
-		})
+		}),
 	};
 }
 
@@ -107,59 +107,59 @@ const Tree = () => {
 
 		const root = tree(
 			d3
-				.hierarchy({ name: 'loliot', children: sidebarData })
-				.sort((a, b) => d3.ascending(a.data.name, b.data.name))
+				.hierarchy({ name: "loliot", children: sidebarData })
+				.sort((a, b) => d3.ascending(a.data.name, b.data.name)),
 		);
 
 		svg
-			.attr('width', width)
-			.attr('height', height)
-			.attr('viewBox', [-cx, -cy, width, height])
-			.attr('style', 'width: 100%; height: 100%; font: 10px sans-serif; font-color: black;');
+			.attr("width", width)
+			.attr("height", height)
+			.attr("viewBox", [-cx, -cy, width, height])
+			.attr("style", "width: 100%; height: 100%; font: 10px sans-serif; font-color: black;");
 		svg
-			.append('g')
-			.attr('fill', 'none')
-			.attr('stroke', '#000000')
-			.attr('stroke-opacity', 0.4)
-			.attr('stroke-width', 2)
+			.append("g")
+			.attr("fill", "none")
+			.attr("stroke", "#000000")
+			.attr("stroke-opacity", 0.4)
+			.attr("stroke-width", 2)
 			.selectAll()
 			.data(root.links())
-			.join('path')
+			.join("path")
 			.attr(
-				'd',
+				"d",
 				d3
 					.linkRadial()
 					.angle((d) => d.x)
-					.radius((d) => d.y)
+					.radius((d) => d.y),
 			);
 		svg
-			.append('g')
+			.append("g")
 			.selectAll()
 			.data(root.descendants())
-			.join('circle')
-			.attr('transform', (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`)
-			.attr('fill', (d) => (d.children ? '#ff0000' : '#0000ff'))
-			.attr('r', 2.5);
+			.join("circle")
+			.attr("transform", (d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0)`)
+			.attr("fill", (d) => (d.children ? "#ff0000" : "#0000ff"))
+			.attr("r", 2.5);
 		svg
-			.append('g')
-			.attr('stroke-linejoin', 'round')
-			.attr('stroke-width', 3)
+			.append("g")
+			.attr("stroke-linejoin", "round")
+			.attr("stroke-width", 3)
 			.selectAll()
 			.data(root.descendants())
-			.join('text')
+			.join("text")
 			.attr(
-				'transform',
+				"transform",
 				(d) =>
 					`rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0) rotate(${
 						d.x >= Math.PI ? 180 : 0
-					})`
+					})`,
 			)
-			.attr('dy', '0.31em')
-			.attr('x', (d) => (d.x < Math.PI === !d.children ? 6 : -6))
-			.attr('text-anchor', (d) => (d.x < Math.PI === !d.children ? 'start' : 'end'))
-			.attr('paint-order', 'stroke')
-			.attr('stroke', 'white')
-			.attr('fill', 'currentColor')
+			.attr("dy", "0.31em")
+			.attr("x", (d) => (d.x < Math.PI === !d.children ? 6 : -6))
+			.attr("text-anchor", (d) => (d.x < Math.PI === !d.children ? "start" : "end"))
+			.attr("paint-order", "stroke")
+			.attr("stroke", "white")
+			.attr("fill", "currentColor")
 			.text((d) => d.data.name);
 	}, []);
 

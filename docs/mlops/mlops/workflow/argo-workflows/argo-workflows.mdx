@@ -102,10 +102,10 @@ metadata:
   name: argo-workflows-guest
   namespace: workflow
   annotations:
-    workflows.argoproj.io/rbac-rule: 'true'
+    workflows.argoproj.io/rbac-rule: "true"
     # 이 설정이 guest 설정이 될 수 있도록 다른 ServiceAccount는 precedence를 1
     # 이상으로 설정해주세요
-    workflows.argoproj.io/rbac-rule-precedence: '0'
+    workflows.argoproj.io/rbac-rule-precedence: "0"
 
 ---
 apiVersion: v1
@@ -132,7 +132,7 @@ metadata:
     # https://github.com/antonmedv/expr/blob/master/docs/Language-Definition.md
     workflows.argoproj.io/rbac-rule: "'<group>' in groups"
     # 값이 클 수록 우선순위가 높아짐
-    workflows.argoproj.io/rbac-rule-precedence: '1'
+    workflows.argoproj.io/rbac-rule-precedence: "1"
 
 ---
 apiVersion: v1

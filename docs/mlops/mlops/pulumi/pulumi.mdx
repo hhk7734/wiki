@@ -7,8 +7,8 @@ keywords:
   - pulumi
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## 설치
 
@@ -239,7 +239,7 @@ pulumi stack init test.dev
 ```
 
 ```yaml title="Pulumi.test.dev.yaml"
-encryptionsalt: '*****'
+encryptionsalt: "*****"
 config:
   # pulumi.Config("aws")
   aws:region: <region>
@@ -310,7 +310,7 @@ from src import ec2
 <TabItem value="typescript">
 
 ```typescript title="src/variable.ts"
-import * as pulumi from '@pulumi/pulumi';
+import * as pulumi from "@pulumi/pulumi";
 
 export const stackName = pulumi.getStack();
 
@@ -318,42 +318,42 @@ const config = new pulumi.Config();
 ```
 
 ```typescript title="src/ec2/ec2.ts"
-import * as aws from '@pulumi/aws';
+import * as aws from "@pulumi/aws";
 
-import * as variable from '@src/variable';
+import * as variable from "@src/variable";
 
 function createEC2(name: string): aws.ec2.Instance {
 	return new aws.ec2.Instance(name, {
-		ami: 'ami-090717c950a5c34d3',
-		instanceType: 't3.micro',
+		ami: "ami-090717c950a5c34d3",
+		instanceType: "t3.micro",
 		tags: {
 			Name: name,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	});
 }
 
-export const appServer = createEC2('app-server');
+export const appServer = createEC2("app-server");
 ```
 
 ```typescript title="src/ec2/index.ts"
-export * as ec2 from './ec2';
+export * as ec2 from "./ec2";
 ```
 
 ```typescript title="src/index.ts"
-import { loadConfig, register } from 'tsconfig-paths';
+import { loadConfig, register } from "tsconfig-paths";
 
-const tsConfig = loadConfig('.');
-if (tsConfig.resultType === 'failed') {
-	console.log('Could not load tsconfig to map paths, aborting.');
+const tsConfig = loadConfig(".");
+if (tsConfig.resultType === "failed") {
+	console.log("Could not load tsconfig to map paths, aborting.");
 	process.exit(1);
 }
 register({
 	baseUrl: tsConfig.absoluteBaseUrl,
-	paths: tsConfig.paths
+	paths: tsConfig.paths,
 });
 
-export * as ec2 from './ec2';
+export * as ec2 from "./ec2";
 ```
 
 </TabItem>

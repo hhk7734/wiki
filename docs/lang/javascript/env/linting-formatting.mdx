@@ -21,16 +21,33 @@ yarn add -D eslint
 ```javascript title=".eslintrc.cjs"
 module.exports = {
 	root: true,
-	extends: ['eslint:recommended'],
+	extends: ["eslint:recommended"],
 	parserOptions: {
-		ecmaVersion: 'latest',
-		sourceType: 'module'
+		ecmaVersion: "latest",
+		sourceType: "module",
 	},
 	env: {
 		browser: true,
-		es2021: true
-	}
+		es2021: true,
+	},
 };
+```
+
+```ignore title=".eslintignore"
+### macOS ###
+# General
+.DS_Store
+
+### JavaScript ###
+# Dependencies
+node_modules
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build
+dist
+build
 ```
 
 ### Prettier
@@ -43,7 +60,7 @@ yarn add -D eslint-config-prettier
 
 ```javascript title=".eslintrc.cjs"
 module.exports = {
-	extends: ['prettier']
+	extends: ["prettier"],
 };
 ```
 
@@ -57,9 +74,9 @@ yarn add -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
 
 ```javascript title=".eslintrc.cjs"
 module.exports = {
-	extends: ['plugin:@typescript-eslint/recommended'],
-	parser: '@typescript-eslint/parser',
-	plugins: ['@typescript-eslint']
+	extends: ["plugin:@typescript-eslint/recommended"],
+	parser: "@typescript-eslint/parser",
+	plugins: ["@typescript-eslint"],
 };
 ```
 
@@ -74,10 +91,27 @@ yarn add -D prettier
 ```javascript title=".prettierrc.cjs"
 module.exports = {
 	printWidth: 100,
-	singleQuote: true,
-	trailingComma: 'none',
-	useTabs: true
+	singleQuote: false,
+	trailingComma: "all",
+	useTabs: true,
 };
+```
+
+```ignore title=".prettierignore"
+### macOS ###
+# General
+.DS_Store
+
+### JavaScript ###
+# Dependencies
+node_modules
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Build
+dist
+build
 ```
 
 ```shell
@@ -95,8 +129,8 @@ yarn add -D prettier-plugin-tailwindcss
 ```javascript title=".prettierrc.cjs"
 module.exports = {
 	plugins: [
-		'prettier-plugin-tailwindcss' // 다른 플러그인과 호환성을 위해 마지막에 추가
+		"prettier-plugin-tailwindcss", // 다른 플러그인과 호환성을 위해 마지막에 추가
 	],
-	tailwindFunctions: ['clsx']
+	tailwindFunctions: ["clsx"],
 };
 ```

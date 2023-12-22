@@ -11,8 +11,8 @@ keywords:
   - hpa
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## KPA/HPA
 
@@ -80,25 +80,25 @@ kind: KnativeServing
 spec:
   config:
     defaults:
-      container-concurrency: '0'
+      container-concurrency: "0"
     autoscaler:
       pod-autoscaler-class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
-      min-scale: '0'
-      max-scale: '0' # 0 == no-limit
-      initial-scale: '1'
-      allow-zero-initial-scale: 'false'
-      enable-scale-to-zero: 'true'
-      scale-to-zero-grace-period: '30s'
-      scale-to-zero-pod-retention-period: '0s'
-      container-concurrency-target-default: '100'
-      container-concurrency-target-percentage: '70'
-      requests-per-second-target-default: '200'
-      scale-down-delay: '0s' # 0s <= value <= 1h
-      stable-window: '60s' # 6s <= value <= 1h
-      panic-window-percentage: '10.0' # 1.0 <= value <= 100.0
-      panic-threshold-percentage: '110.0' # 110.0 <= value <= 1000.0
-      max-scale-up-rate: '1000.0'
-      max-scale-down-rate: '2.0'
+      min-scale: "0"
+      max-scale: "0" # 0 == no-limit
+      initial-scale: "1"
+      allow-zero-initial-scale: "false"
+      enable-scale-to-zero: "true"
+      scale-to-zero-grace-period: "30s"
+      scale-to-zero-pod-retention-period: "0s"
+      container-concurrency-target-default: "100"
+      container-concurrency-target-percentage: "70"
+      requests-per-second-target-default: "200"
+      scale-down-delay: "0s" # 0s <= value <= 1h
+      stable-window: "60s" # 6s <= value <= 1h
+      panic-window-percentage: "10.0" # 1.0 <= value <= 100.0
+      panic-threshold-percentage: "110.0" # 110.0 <= value <= 1000.0
+      max-scale-up-rate: "1000.0"
+      max-scale-down-rate: "2.0"
 ```
 
 - `scale-to-zero-grace-period`: 0으로 스케일 될때까지 대기하는 상한 시간을 설정합니다.
@@ -118,18 +118,18 @@ spec:
     metadata:
       annotations:
         autoscaling.knative.dev/class: kpa.autoscaling.knative.dev # kpa.autoscaling.knative.dev|hpa.autoscaling.knative.dev
-        autoscaling.knative.dev/min-scale: '0'
-        autoscaling.knative.dev/max-scale: '0' # 0 == no-limit
-        autoscaling.knative.dev/initial-scale: '1'
-        autoscaling.knative.dev/activation-scale: '1'
+        autoscaling.knative.dev/min-scale: "0"
+        autoscaling.knative.dev/max-scale: "0" # 0 == no-limit
+        autoscaling.knative.dev/initial-scale: "1"
+        autoscaling.knative.dev/activation-scale: "1"
         autoscaling.knative.dev/metric: concurrency # concurrency|rps|cpu|memory|<custom-metric>
-        autoscaling.knative.dev/target: '<number>'
-        autoscaling.knative.dev/target-utilization-percentage: '70' # concurrency에 적용
-        autoscaling.knative.dev/scale-to-zero-pod-retention-period: '0s'
-        autoscaling.knative.dev/scale-down-delay: '0s' # 0s <= value <= 1h
-        autoscaling.knative.dev/window: '60s' # 6s <= value <= 1h
-        autoscaling.knative.dev/panic-window-percentage: '10.0' # 1.0 <= value <= 100.0
-        autoscaling.knative.dev/panic-threshold-percentage: '110.0' # 110.0 <= value <= 1000.0
+        autoscaling.knative.dev/target: "<number>"
+        autoscaling.knative.dev/target-utilization-percentage: "70" # concurrency에 적용
+        autoscaling.knative.dev/scale-to-zero-pod-retention-period: "0s"
+        autoscaling.knative.dev/scale-down-delay: "0s" # 0s <= value <= 1h
+        autoscaling.knative.dev/window: "60s" # 6s <= value <= 1h
+        autoscaling.knative.dev/panic-window-percentage: "10.0" # 1.0 <= value <= 100.0
+        autoscaling.knative.dev/panic-threshold-percentage: "110.0" # 110.0 <= value <= 1000.0
     spec:
       containerConcurrency: 0
 ```

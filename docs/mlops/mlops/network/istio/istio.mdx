@@ -7,7 +7,7 @@ keywords:
   - Istio
 ---
 
-import useBaseUrl from '@docusaurus/useBaseUrl';
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 설치
 
@@ -158,7 +158,7 @@ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 ## Proxy & Service mesh
 
 <center>
-	<img src={useBaseUrl('img/mlops/mlops/mlops-istio-service-mesh-before.svg')} />
+	<img src={useBaseUrl("img/mlops/mlops/mlops-istio-service-mesh-before.svg")} />
 </center>
 
 <center>
@@ -167,7 +167,7 @@ kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
 <br />
 
 <center>
-	<img src={useBaseUrl('img/mlops/mlops/mlops-istio-service-mesh.svg')} />
+	<img src={useBaseUrl("img/mlops/mlops/mlops-istio-service-mesh.svg")} />
 </center>
 
 <center>
@@ -246,12 +246,12 @@ patches:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: '*'
+  name: "*"
 spec:
   template:
     metadata:
       labels:
-        sidecar.istio.io/inject: 'true'
+        sidecar.istio.io/inject: "true"
 ```
 
 아래와 같이 설정한 경우 해당 `Namespace`에 있는 Pod에는 사이드카가 주입되지 않습니다.

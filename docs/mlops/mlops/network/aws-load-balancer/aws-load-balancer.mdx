@@ -15,37 +15,37 @@ keywords:
 ### AWS Load Balancer Controller Role
 
 ```typescript
-const controllerRoleName = 'aws-load-balancer-controller-role';
+const controllerRoleName = "aws-load-balancer-controller-role";
 const controllerRole = new aws.iam.Role(
 	controllerRoleName,
 	{
 		namePrefix: `${controllerRoleName}-`,
 		assumeRolePolicy: {
-			Version: '2012-10-17',
+			Version: "2012-10-17",
 			Statement: [
 				{
-					Effect: 'Allow',
+					Effect: "Allow",
 					Principal: {
-						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn)
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn),
 					},
 					Condition: {
 						StringEquals: variable.eks.core.eks.apply((eks) => ({
-							[`${eks.oidcProvider.url}:aud`]: 'sts.amazonaws.com',
+							[`${eks.oidcProvider.url}:aud`]: "sts.amazonaws.com",
 							[`${eks.oidcProvider.url}:sub`]:
 								// system:serviceaccount:<namespace>:<serviceAccount>
-								'system:serviceaccount:kube-system:aws-load-balancer-controller'
-						}))
+								"system:serviceaccount:kube-system:aws-load-balancer-controller",
+						})),
 					},
-					Action: 'sts:AssumeRoleWithWebIdentity'
-				}
-			]
+					Action: "sts:AssumeRoleWithWebIdentity",
+				},
+			],
 		},
 		tags: {
 			Name: controllerRoleName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 ```
 
@@ -54,32 +54,32 @@ curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-lo
 ```
 
 ```typescript
-const controllerPolicyName = 'aws-load-balancer-controller-policy';
+const controllerPolicyName = "aws-load-balancer-controller-policy";
 const controllerPolicy = new aws.iam.Policy(
 	controllerPolicyName,
 	{
 		namePrefix: `${controllerPolicyName}-`,
 		policy: {
-			Version: '2012-10-17',
+			Version: "2012-10-17",
 			Statement: [
 				// ...
-			]
+			],
 		},
 		tags: {
 			Name: controllerPolicyName,
-			'loliot.net/stack': variable.stackName
-		}
+			"loliot.net/stack": variable.stackName,
+		},
 	},
-	{ protect: true }
+	{ protect: true },
 );
 
 new aws.iam.RolePolicyAttachment(
-	'aws-load-balancer-controller-rpa-0',
+	"aws-load-balancer-controller-rpa-0",
 	{
 		policyArn: controllerPolicy.arn,
-		role: controllerRole.name
+		role: controllerRole.name,
 	},
-	{ protect: true }
+	{ protect: true },
 );
 ```
 

@@ -8,7 +8,7 @@ keywords:
   - events
 ---
 
-import Image from '@theme/IdealImage';
+import Image from "@theme/IdealImage";
 
 ## 설치
 
@@ -52,7 +52,7 @@ helm upgrade argo-events argo/argo-events \
 
 <center>
 	<Image
-		img={require('@site/static/img/mlops/mlops/workflow/argo-events-architecture.jpg')}
+		img={require("@site/static/img/mlops/mlops/workflow/argo-events-architecture.jpg")}
 		width={750}
 	/>
 </center>
@@ -120,7 +120,7 @@ spec:
       repository: <repository>
       webhook:
         endpoint: <endpoint>
-        port: '12000' # pod port
+        port: "12000" # pod port
         method: POST
         url: https://<eventsource-url>
       # https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads
@@ -128,7 +128,7 @@ spec:
       insecure: false
       active: true
       events:
-        - '*'
+        - "*"
       apiToken:
         name: <secret-name>
         key: token

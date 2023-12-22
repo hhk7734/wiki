@@ -9,8 +9,8 @@ keywords:
   - load test
 ---
 
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## 설치
 
@@ -36,12 +36,12 @@ yay -S k6
 - https://k6.io/docs/get-started/running-k6/
 
 ```javascript title="script.js"
-import { sleep } from 'k6';
-import http from 'k6/http';
+import { sleep } from "k6";
+import http from "k6/http";
 
 export const options = {
 	vus: 100, // Virtual User(VU) 수, --vus <number>
-	duration: '10s' // --duration <duration>
+	duration: "10s", // --duration <duration>
 };
 
 export function setup() {
@@ -50,23 +50,23 @@ export function setup() {
 
 export default function (data) {
 	// VU가 실행하는 코드
-	const url = 'http://localhost:8080/v2/models/model/infer';
+	const url = "http://localhost:8080/v2/models/model/infer";
 	const params = {
 		headers: {
-			'Content-Type': 'application/json'
-		}
+			"Content-Type": "application/json",
+		},
 	};
 	const body = JSON.stringify({
-		id: '1',
+		id: "1",
 		inputs: [
 			{
-				name: 'input0',
+				name: "input0",
 				shape: [1],
-				datatype: 'STR',
-				data: ['CC(C)(C)C(=O)OC1=CC=C(C=C1)S(=O)(=O)NC2=CC=CC=C2C(=O)NCC(=O)O']
-			}
+				datatype: "STR",
+				data: ["CC(C)(C)C(=O)OC1=CC=C(C=C1)S(=O)(=O)NC2=CC=CC=C2C(=O)NCC(=O)O"],
+			},
 		],
-		outputs: []
+		outputs: [],
 	});
 
 	http.post(url, body, params);
