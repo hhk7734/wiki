@@ -17,9 +17,9 @@ sudo pacman -S jq
 ## 실시간 json log 파싱
 
 ```shell
-<program> | jq -R -r '. as $line | try fromjson catch $line'
+alias log2jq="jq -rRC --unbuffered '. as \$line | try fromjson catch \$line' | sed 's/\\\\n/\\n/g; s/\\\\t/\\t/g'"
 ```
 
 ```shell
-alias log2jq="jq -R -r '. as \$line | try fromjson catch \$line'"
+<program> | log2jq
 ```

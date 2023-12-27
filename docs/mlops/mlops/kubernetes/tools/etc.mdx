@@ -146,7 +146,33 @@ kubectl node-shell <node>
 - https://k9scli.io/topics/rbac/
 
 ```shell
-sudo pacman -S k9s
+asdf plugin add https://github.com/looztra/asdf-k9s
+```
+
+```shell
+k9s info
+```
+
+### plugin
+
+- https://k9scli.io/topics/plugins/
+
+```yaml title="$HOME/.config/k9s/plugins.yaml"
+plugins:
+  log2jq:
+    shortCut: Shift-L
+    confirm: false
+    background: false
+    description: "Log to jq"
+    scopes:
+      - pods
+    command: sh
+    args:
+      - -c
+      - |
+        kubectl logs -f --since=10m --context $CONTEXT -n $NAMESPACE $NAME \
+        | jq -rRC --unbuffered '. as $line | try fromjson catch $line' \
+        | sed 's/\\n/\n/g; s/\\t/\t/g'
 ```
 
 ## Popeye
