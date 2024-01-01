@@ -8,11 +8,37 @@ keywords:
   - jq
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
 
 ```shell
 sudo pacman -S jq
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install jq
+```
+
+</TabItem>
+
+</Tabs>
 
 ## 실시간 json log 파싱
 

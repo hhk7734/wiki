@@ -9,31 +9,7 @@ keywords:
 
 ## kubectl
 
-- https://github.com/asdf-community/asdf-kubectl
-
-```shell
-asdf plugin add kubectl
-```
-
-```shell
-asdf list all kubectl
-```
-
-```Shell
-asdf install kubectl 1.24.12
-```
-
-```shell
-asdf global kubectl 1.24.12
-```
-
-```shell
-asdf local kubectl 1.24.12
-```
-
-```shell
-asdf current kubectl
-```
+- [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
 
 ```shell title=".zshrc"
 # kubectl
@@ -146,7 +122,7 @@ kubectl node-shell <node>
 - https://k9scli.io/topics/rbac/
 
 ```shell
-asdf plugin add https://github.com/looztra/asdf-k9s
+asdf plugin add k9s
 ```
 
 ```shell
@@ -170,9 +146,13 @@ plugins:
     args:
       - -c
       - |
+        echo 'kubectl logs -f --since=10m --context $CONTEXT -n $NAMESPACE $NAME \\
+          | jq -rRC --unbuffered '"'"'. as $line | try fromjson catch $line'"'"' \\
+          | sed '"'"'s/\\\\n/\\n/g; s/\\\\t/\\t/g'"'\n\n"
+
         kubectl logs -f --since=10m --context $CONTEXT -n $NAMESPACE $NAME \
-        | jq -rRC --unbuffered '. as $line | try fromjson catch $line' \
-        | sed 's/\\n/\n/g; s/\\t/\t/g'
+          | jq -rRC --unbuffered '. as $line | try fromjson catch $line' \
+          | sed 's/\\n/\n/g; s/\\t/\t/g'
 ```
 
 ## Popeye
