@@ -3,7 +3,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
 import React from "react";
 import styled from "styled-components";
-import { RadialTree } from "./radial-tree";
+import RadialTree from "../component/RadialTree";
 
 function Home() {
 	const context = useDocusaurusContext();

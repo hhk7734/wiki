@@ -57,7 +57,7 @@ function categoryToTreeData(category: SidebarItemCategory): TreeData {
 	};
 }
 
-export const RadialTree = () => {
+export default function RadialTree() {
 	const svgRef = useRef(null);
 
 	useEffect(() => {
@@ -143,7 +143,7 @@ export const RadialTree = () => {
 	}, []);
 
 	return <RadialTreeSVG ref={svgRef} />;
-};
+}
 
 const RadialTreeSVG = styled.svg`
 	color: black;
