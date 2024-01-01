@@ -1,4 +1,4 @@
-import sidebarList from "../../sidebars.js";
+import sidebarList from "../../sidebars";
 import * as d3 from "d3";
 import type {
 	SidebarItem,
@@ -62,7 +62,7 @@ export const RadialTree = () => {
 
 	useEffect(() => {
 		const svg = d3.select(svgRef.current);
-		const width = 928;
+		const width = 1920;
 		const height = width;
 		const cx = width * 0.5; // adjust as needed to fit
 		const cy = height * 0.5; // adjust as needed to fit
