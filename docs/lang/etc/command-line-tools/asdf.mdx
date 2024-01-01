@@ -17,9 +17,11 @@ import TabItem from "@theme/TabItem";
 - https://asdf-vm.com/guide/getting-started.html
 
 <Tabs
+    groupId="os"
     defaultValue="arch"
     values={[
         {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
     ]}
 >
 
@@ -27,6 +29,14 @@ import TabItem from "@theme/TabItem";
 
 ```shell
 sudo pacman -S curl git
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install curl git
 ```
 
 </TabItem>

@@ -7,11 +7,37 @@ keywords:
   - zsh
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
 
 ```shell
 sudo pacman -S zsh
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install zsh
+```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 chsh -s $(which zsh)
@@ -19,9 +45,42 @@ chsh -s $(which zsh)
 
 ## Oh My Zsh
 
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
 ```shell
 sudo pacman -S curl git ttf-meslo-nerd
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install curl git
+```
+
+```shell
+sudo mkdir -p /usr/share/fonts/NerdFonts
+```
+
+```shell
+curl -sL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.tar.xz \
+  | sudo tar -xvJf - -C /usr/share/fonts/NerdFonts \
+&& sudo fc-cache -fv
+```
+
+</TabItem>
+
+</Tabs>
 
 - https://github.com/ohmyzsh/ohmyzsh/wiki
 
