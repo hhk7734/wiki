@@ -1,0 +1,240 @@
+---
+id: utility
+title: 기타 utility
+sidebar_label: 기타 utility
+description: 기타 utility
+keywords:
+  - utility
+  - shell
+---
+
+import Image from "@theme/IdealImage";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## fcitx5
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S fcitx5-hangul fcitx5-im
+```
+
+```shell title="/etc/environment"
+GTK_IM_MODULE=fcitx
+QT_IM_MODULE=fcitx
+XMODIFIERS=@im=fcitx
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install fcitx5 fcitx5-hangul
+```
+
+```shell
+im-config
+```
+
+</TabItem>
+
+</Tabs>
+
+## fzf
+
+- https://github.com/junegunn/fzf
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S fzf
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install fzf
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell title=".zshrc"
+# fzf
+export FZF_DEFAULT_OPTS='--height 40% --layout=reverse --border'
+# fdfind를 사용하는 경우
+export FZF_DEFAULT_COMMAND='fd --type f --follow' # --hidden --exclude .git
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+```
+
+경로를 완성할 때 `**<Tab>`을 사용하면 하위 경로 검색이 가능합니다. 예를 들어 `aaa/bbb/ccc/ddd.txt`를 찾고 싶으면 `aaa/**<Tab>` 후에 원하는 파일명을 특징 지을 수 있는 문자열 몇개를 입력하면 됩니다. Ex) `b/c/d` 또는 `c/d.txt` 등
+
+<center>
+	<Image img={require("@site/static/img/lang/etc/command-line-tools/fzf-test.png")} width={750} />
+</center>
+
+## bat
+
+- https://github.com/sharkdp/bat
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S bat
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install bat
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell title=".zshrc"
+# bat
+alias cat="bat -pp"
+```
+
+## fd
+
+- https://github.com/sharkdp/fd
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S fd
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install fd-find
+```
+
+```shell
+sudo update-alternatives --install /usr/bin/fd fd $(which fdfind) 1
+```
+
+</TabItem>
+
+</Tabs>
+
+## ripgrep(rg)
+
+- https://github.com/BurntSushi/ripgrep
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S ripgrep
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install ripgrep
+```
+
+</TabItem>
+
+</Tabs>
+
+## lsd
+
+- https://github.com/Peltoche/lsd
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S lsd
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+https://github.com/lsd-rs/lsd/releases
+
+</TabItem>
+
+</Tabs>
+
+```shell title=".zshrc"
+# lsd
+alias ls='lsd --icon never -F'
+alias tree='lsd --icon never --tree -F'
+```
+
+## bpytop
+
+```shell
+python3 -m pip install bpytop
+```

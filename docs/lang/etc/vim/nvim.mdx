@@ -8,15 +8,45 @@ keywords:
   - neovim
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
 
 ```shell
 sudo pacman -S neovim
 ```
 
 ```shell
-sudo ln -s /usr/bin/nvim /usr/local/bin/vim
+sudo ln -s `which nvim` /usr/local/bin/vim
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo snap install --beta nvim --classic
+```
+
+```shell
+sudo snap alias nvim vim
+```
+
+</TabItem>
+
+</Tabs>
 
 ## NvChad
 

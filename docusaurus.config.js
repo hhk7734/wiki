@@ -36,22 +36,10 @@ const config = {
 			"@docusaurus/plugin-client-redirects",
 			{
 				redirects: [
-					// DEPRECATED: 2024-01-01
+					// DEPRECATED: 2024-04-01
 					{
-						from: "/docs/mlops/mlops/provisioning/kserve",
-						to: "/docs/mlops/mlops/kubeflow/kserve",
-					},
-					{
-						from: "/docs/mlops/mlops/provisioning/kserve/crds",
-						to: "/docs/mlops/mlops/kubeflow/kserve/crds",
-					},
-					{
-						from: "/docs/mlops/mlops/provisioning/kserve/custom",
-						to: "/docs/mlops/mlops/kubeflow/kserve/custom",
-					},
-					{
-						from: "/docs/mlops/mlops/provisioning/kserve/mlflow",
-						to: "/docs/mlops/mlops/kubeflow/kserve/mlflow",
+						from: "/docs/linux/linux-tools/zsh-and-utility",
+						to: "/docs/lang/etc/command-line-tools/utility",
 					},
 				],
 			},

@@ -241,6 +241,7 @@ module.exports = {
 			items: [
 				"lang/etc/command-line-tools/asdf",
 				"lang/etc/command-line-tools/ssh",
+				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",
 					label: "Etc",
@@ -393,7 +394,6 @@ module.exports = {
 		},
 	],
 	"linux-tools": [
-		"linux/linux-tools/zsh-and-utility",
 		{
 			type: "category",
 			label: "Git",
