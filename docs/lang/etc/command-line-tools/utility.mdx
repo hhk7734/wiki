@@ -123,6 +123,10 @@ sudo pacman -S bat
 sudo apt install bat
 ```
 
+```shell
+sudo update-alternatives --install /usr/local/bin/bat bat $(which batcat) 1
+```
+
 </TabItem>
 
 </Tabs>
@@ -160,7 +164,7 @@ sudo apt install fd-find
 ```
 
 ```shell
-sudo update-alternatives --install /usr/bin/fd fd $(which fdfind) 1
+sudo update-alternatives --install /usr/local/bin/fd fd $(which fdfind) 1
 ```
 
 </TabItem>
