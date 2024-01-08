@@ -8,13 +8,39 @@ keywords:
   - skopeo
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
 - https://github.com/containers/buildah/blob/main/install.md
 
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
 ```shell
 sudo pacman -S buildah skopeo
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install buildah skopeo
+```
+
+</TabItem>
+
+</Tabs>
 
 ```ini title="/etc/containers/registries.conf"
 unqualified-search-registries = ['docker.io', 'quay.io', 'registry.fedoraproject.org']
@@ -155,7 +181,3 @@ skopeo copy <src-image> <dst-image>
 ```shell
 skopeo inspect <image>
 ```
-
-## Reference
-
-- [https://github.com/containers/buildah/blob/main/install.md](https://github.com/containers/buildah/blob/main/install.md)

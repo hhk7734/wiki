@@ -7,25 +7,47 @@ keywords:
   - podman
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
 - https://podman.io/getting-started/installation
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
 
 ```shell
 sudo pacman -S podman podman-docker
 ```
 
 ```shell
-sudo usermod --add-subuids 100000-165535 --add-subgids 100000-165535 $USER
-```
-
-```shell
-podman system migrate
-```
-
-```shell
 yay -S podman-desktop
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install podman podman-docker
+```
+
+```shell
+flatpak install flathub io.podman_desktop.PodmanDesktop
+```
+
+</TabItem>
+
+</Tabs>
 
 ## run
 
