@@ -1,0 +1,108 @@
+---
+id: extern-c
+title: C++ 코드를 C에서 또는 C 코드를 C++에서 사용하기
+sidebar_label: C++ -> C or C -> C++
+description: C++ 코드를 C에서 또는 C 코드를 C++에서 사용하기
+keywords:
+  - C++
+  - extern C
+---
+
+## 네임 맹글링(Name Mangling)
+
+- https://en.wikipedia.org/wiki/Name_mangling
+
+> In compiler construction, name mangling (also called name decoration) is a technique used to solve various problems caused by the need to resolve unique names for programming entities in many modern programming languages.
+
+컴파일 과정에서 컴파일러는 네임 맹글링 규칙에 따라 전역 변수와 함수 이름을 변경합니다. C의 경우 중복된 이름을 사용할 수 없기 때문에 규칙이 간단하지만, C++에서는 오버로딩을 지원하기 때문에 네임 맹글링 규칙도 복잡합니다. 그래서 C와 C++은 코드상에서 이름이 같더라도 링크를 시도하면 에러가 발생합니다.
+
+C++은 링크 과정에서 이런 문제를 해결하기 위해, C의 규칙에 따라 컴파일 하라는 `extern "C"` 지시자를 지원합니다.
+
+## C++에서 C 코드 사용하기
+
+```c title="foo.h"
+#pragma once
+
+int get_one();
+```
+
+```c title="foo.c"
+#include "foo.h"
+
+int get_one() { return 1; }
+```
+
+```shell
+clang -c foo.c -o foo.o
+```
+
+```cpp title="main.cpp"
+#include <iostream>
+
+extern "C" {
+#include "foo.h"
+}
+
+int main() { std::cout << get_one() << std::endl; }
+```
+
+```shell
+clang++ main.cpp foo.o -o app
+```
+
+## C에서 C++ 코드 사용하기
+
+C++로 작성된 코드가 있고 헤더가 `foo.hpp`라고 가정하면 아래와 같은 방식으로 C에서 사용할 수 있습니다.
+
+```cpp title="foo.hpp"
+#pragma once
+
+int get_one();
+```
+
+```cpp title="foo.cpp"
+#include "foo.hpp"
+
+int get_one() { return 1; }
+```
+
+```shell
+clang++ -c foo.cpp -o foo.o
+```
+
+```c title="foo_cwrapper.h"
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+int func_get_one();
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+```c title="foo_cwrapper.cpp"
+#include "foo_cwrapper.h"
+#include "foo.hpp"
+
+int func_get_one() { return get_one(); }
+```
+
+```shell
+clang++ -c foo_cwrapper.cpp -o foo_cwrapper.o
+```
+
+```c title="main.c"
+#include <stdio.h>
+
+#include "foo_cwrapper.h"
+
+int main() { printf("%d\n", func_get_one()); }
+```
+
+```shell
+clang main.c foo.o foo_cwrapper.o -o app
+```

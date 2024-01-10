@@ -89,6 +89,14 @@ module.exports = {
 						"lang/cpp/advanced-cpp/llvm/llvm-cross-compile",
 					],
 				},
+				{
+					type: "category",
+					label: 'extern "C"',
+					items: [
+						"lang/cpp/advanced-cpp/extern-c/extern-c",
+						"lang/cpp/advanced-cpp/extern-c/class",
+					],
+				},
 			],
 		},
 	],

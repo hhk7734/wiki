@@ -1,0 +1,66 @@
+---
+id: class
+title: C++ class를 C에서 사용하기
+description: class
+keywords:
+  - C++
+  - extern C
+  - class
+---
+
+```cpp title="foo.h"
+#pragma once
+
+class Foo {
+public:
+  Foo(int value) : value(value) {}
+  ~Foo() {}
+
+  void set_value(int value);
+  int get_value();
+
+private:
+  int value;
+};
+```
+
+```cpp title="foo.cpp"
+#include "foo.h"
+
+void Foo::set_value(int value) { this->value = value; }
+
+int Foo::get_value() { return this->value; }
+```
+
+```cpp title="foo_cwrapper.h"
+#pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct Foo Foo;
+
+Foo *Foo_new(int value);
+void Foo_delete(Foo *self);
+
+void Foo_set_value(Foo *self, int value);
+int Foo_get_value(Foo *self);
+
+#ifdef __cplusplus
+}
+#endif
+```
+
+```cpp title="foo_cwrapper.cpp"
+#include "foo_cwrapper.h"
+#include "foo.h"
+
+Foo *Foo_new(int value) { return new Foo(value); }
+
+void Foo_delete(Foo *self) { delete self; }
+
+void Foo_set_value(Foo *self, int value) { self->set_value(value); }
+
+int Foo_get_value(Foo *self) { return self->get_value(); }
+```
