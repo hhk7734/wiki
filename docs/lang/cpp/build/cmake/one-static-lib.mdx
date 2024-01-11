@@ -1,0 +1,34 @@
+---
+id: one-static-lib
+title: 여러 Static 라이브러리를 하나로 묶기
+sidebar_label: Static 라이브러리 묶기
+description: 여러 Static 라이브러리를 하나의 Static 라이브러리로 묶기
+keywords:
+  - c++
+  - build
+  - CMake
+  - static
+---
+
+```cmake
+set(STATIC_LIBS lib1 lib2 lib3)
+
+add_custom_target(merged_static_lib ALL DEPENDS ${STATIC_LIBS})
+
+add_custom_command(TARGET merged_static_lib POST_BUILD
+    COMMAND echo "CREATE libfoo.a" > merge.mri
+)
+
+foreach(lib IN LISTS STATIC_LIBS)
+    add_custom_command(TARGET merged_static_lib POST_BUILD
+        COMMAND echo "ADDLIB $<TARGET_FILE:${lib}>" >> merge.mri
+    )
+endforeach()
+
+add_custom_command(TARGET merged_static_lib POST_BUILD
+    COMMAND echo "SAVE" >> merge.mri
+    COMMAND echo "END" >> merge.mri
+    COMMAND ar -M < merge.mri
+    COMMAND rm merge.mri
+)
+```

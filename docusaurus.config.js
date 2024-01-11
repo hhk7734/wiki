@@ -41,6 +41,10 @@ const config = {
 						from: "/docs/linux/linux-tools/zsh-and-utility",
 						to: "/docs/lang/etc/command-line-tools/utility",
 					},
+					{
+						from: "/docs/lang/cpp/build/cpp-cmake",
+						to: "/docs/lang/cpp/build/cmake",
+					},
 				],
 			},
 		],

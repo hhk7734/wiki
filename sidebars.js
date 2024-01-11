@@ -45,7 +45,11 @@ module.exports = {
 						"lang/cpp/build/makefile/makefile-avr-example",
 					],
 				},
-				"lang/cpp/build/cpp-cmake",
+				{
+					type: "category",
+					label: "CMake",
+					items: ["lang/cpp/build/cmake/cmake", "lang/cpp/build/cmake/one-static-lib"],
+				},
 			],
 		},
 		{
