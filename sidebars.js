@@ -348,6 +348,11 @@ module.exports = {
 			label: "Custom Package",
 			items: ["lang/go/package/package"],
 		},
+		{
+			type: "category",
+			label: "cgo",
+			items: ["lang/go/cgo/cgo"],
+		},
 	],
 	infineon: [
 		"mcu/infineon/tricore-development-environment",

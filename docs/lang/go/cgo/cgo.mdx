@@ -1,0 +1,64 @@
+---
+id: cgo
+title: Go에서 C 코드 사용하기
+sidebar_label: C 코드 사용하기
+description: Go에서 C 코드 사용하기
+keywords:
+  - cgo
+---
+
+## `import "C"`
+
+- https://pkg.go.dev/cmd/cgo
+
+```go
+/*
+
+// C 코드
+
+*/
+import "C"
+```
+
+`import "C"` 바로 윗줄의 주석을 `preamble`이라고 합니다. preamble은 `/* 주석 */` 또는 `// 주석`이 빈 줄 없이 연속적으로 선언된 것으로 C 코드와 cgo 지시자가 포함될 수 있습니다. 포함된 코드는 `C` 패키지에 정의된 것처럼 사용할 수 있으며, 다른 패키지와 다르게 소문자로 시작되는 변수나 함수 등을 사용할 수 있습니다. 단 C 코드에 있는 static 변수는 사용할 수 없습니다.
+
+## cgo 지시자
+
+```go
+/*
+
+#cgo CFLAGS: -DDEBUG=1
+#cgo linux,amd64 CFLAGS: -DOS=linux
+#cgo LDFLAGS: -lm
+
+*/
+import "C"
+```
+
+cgo 지시자는 `#cgo [<condition>] <env>: <value>` 형식으로 빌드에 필요한 정보를 추가할 때 사용됩니다. 같은 환경 변수를 여러번 선언하면 모든 값이 연결되어 사용됩니다.
+
+- `<env>`
+  - `CFLAGS`
+  - `CPPFLAGS`: C, C++, Fortran 모두에 적용됩니다.
+  - `CXXFLAGS`
+  - `FFLAGS`
+  - `LDFLAGS`: `-I${SRCDIR}`는 선언된 것으로 간주됩니다.
+
+`${SRCDIR}`는 현재 파일이 있는 디렉토리를 나타내므로 이를 사용하여 static 라이브러리를 링크할 수 있습니다.
+
+```shell
+<path>/
+├── libfoo.a
+└── foo.go
+```
+
+```go title=foo.go
+// #cgo LDFLAGS: -L${SRCDIR} -lfoo
+import "C"
+```
+
+## 코드 분리
+
+preamble에 모든 코드를 작성하면 IDE등의 도움을 받기 어려우므로 preamble에는 최소한의 코드만 작성하고 나머지는 다른 파일에 작성하거나 해당 코드만 컴파일해서 라이브러리만 포함시키는 것이 좋습니다.
+
+go 도구들은 `import "C"`가 포함된 go 코드를 발견하면 같은 디렉토리에 있는 .c, .s, .S, .sx 파일은 C 컴파일러로, .cc, .cpp, .cxx 파일은 C++ 컴파일러로, .f, .F, .for, .f90 파일은 Fortran 컴파일러로 컴파일합니다. .h, .hh, .hpp, .hxx 파일은 컴파일되지는 않지만 변경된 경우 다시 컴파일합니다.
