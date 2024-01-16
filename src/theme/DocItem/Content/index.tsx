@@ -14,7 +14,7 @@ import MDXContent from "@theme/MDXContent";
 import type { Props } from "@theme/DocItem/Content";
 
 import AdSense from "react-adsense";
-import Comment from "../../../component/Comment.js";
+import Comment from "../../../component/Comment";
 
 /**
  Title can be declared inside md content or declared through
