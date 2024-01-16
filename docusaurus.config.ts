@@ -1,9 +1,12 @@
+import type { Config } from "@docusaurus/types";
+import type { NavbarItem } from "@docusaurus/theme-common";
+import { EnumChangefreq } from "sitemap";
+import type * as Preset from "@docusaurus/preset-classic";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
 
-/** @type {import('@docusaurus/types').Config} */
-const config = {
+const config: Config = {
 	title: "loliot by HHK",
 	tagline: "loliot",
 	url: "https://wiki.loliot.net",
@@ -72,7 +75,6 @@ const config = {
 			crossorigin: "anonymous",
 		},
 	],
-	/** @type {import('@docusaurus/preset-classic').ThemeConfig} */
 	themeConfig: {
 		colorMode: {
 			defaultMode: "dark",
@@ -133,35 +135,37 @@ const config = {
 					},
 				};
 
-				return Object.entries(links)
-					.map(([key, categories]) => {
-						return {
-							type: "dropdown",
-							label: key,
-							position: "left",
-							items: Object.entries(categories).map(([label, to]) => {
-								return {
-									type: "docSidebar",
-									label: label,
-									sidebarId: to,
-								};
-							}),
-						};
-					})
-					.concat([
-						{
-							href: "https://www.linkedin.com/in/hyeonki-hong/",
-							position: "right",
-							className: "header-linkedin-link",
-							"aria-label": "LinkedIn",
-						},
-						{
-							href: "https://github.com/hhk7734/wiki.loliot.net",
-							position: "right",
-							className: "header-github-link",
-							"aria-label": "GitHub",
-						},
-					]);
+				const navbarItems: NavbarItem[] = Object.entries(links).map(([key, categories]) => {
+					return {
+						type: "dropdown",
+						label: key,
+						position: "left",
+						items: Object.entries(categories).map(([label, to]) => {
+							return {
+								type: "docSidebar",
+								label: label,
+								sidebarId: to,
+							};
+						}),
+					};
+				});
+
+				navbarItems.concat([
+					{
+						href: "https://www.linkedin.com/in/hyeonki-hong/",
+						position: "right",
+						className: "header-linkedin-link",
+						"aria-label": "LinkedIn",
+					},
+					{
+						href: "https://github.com/hhk7734/wiki.loliot.net",
+						position: "right",
+						className: "header-github-link",
+						"aria-label": "GitHub",
+					},
+				]);
+
+				return navbarItems;
 			})(),
 		},
 		prism: {
@@ -215,37 +219,31 @@ const config = {
 				scrollOffset: 200,
 			},
 		},
-	},
+	} satisfies Preset.ThemeConfig,
 	presets: [
 		[
 			"@docusaurus/preset-classic",
-			/** @type {import('@docusaurus/preset-classic').Options} */
 			{
 				docs: {
-					sidebarPath: require.resolve("./sidebars.js"),
+					sidebarPath: "./sidebars.ts",
 					showLastUpdateTime: true,
 					remarkPlugins: [remarkMath],
 					rehypePlugins: [[rehypeKatex, { strict: false }]],
 				},
 				theme: {
-					customCss: require.resolve("./src/css/custom.css"),
+					customCss: "./src/css/custom.css",
 				},
 				sitemap: {
-					changefreq: "weekly",
+					changefreq: EnumChangefreq.WEEKLY,
 					priority: 0.5,
 				},
 				googleAnalytics: {
 					trackingID: "UA-82937088-4",
 					anonymizeIP: true,
 				},
-			},
+			} satisfies Preset.Options,
 		],
 	],
-	// i18n: {
-	//   defaultLocale: "en",
-	//   locales: Object.keys(LocaleConfigs),
-	//   localeConfigs: LocaleConfigs,
-	// },
 };
 
 export default config;

@@ -1,4 +1,6 @@
-module.exports = {
+import type { SidebarsConfig } from "@docusaurus/plugin-content-docs";
+
+const sidebars: SidebarsConfig = {
 	arduino: [
 		"mcu/arduino/arduino-platform-specification",
 		"mcu/arduino/arduino-library-specification",
@@ -1215,3 +1217,5 @@ module.exports = {
 		"mcu/stm32/stm32-low-power-modes",
 	],
 };
+
+export default sidebars;
