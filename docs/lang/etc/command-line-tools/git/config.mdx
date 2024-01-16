@@ -1,0 +1,36 @@
+---
+id: config
+title: Git config
+sidebar_label: Git config
+description: Git config
+keywords:
+  - git
+  - config
+---
+
+## git config
+
+```shell
+git config <flag> <key> <value>
+```
+
+- `<flag>`
+  - `--system`: 시스템 설정(`/etc/gitconfig`)
+  - `--global`: 유저 설정(`~/.gitconfig`)
+  - `--local`: 프로젝트 설정(`.git/config`)
+
+## url 설정
+
+### insteadOf로 url 값 변환
+
+```shell
+git config url.<newURL>.insteadOf <oldURL>
+```
+
+clone, fetch, push 등을 수행할 때, 입력한 URL이나 설정한 URL 중 `<oldURL>`로 시작하는 URL이 있다면 `<newURL>`로 변환한 후 명령을 수행합니다.
+
+예를 들어 특정 프로그램이 git으로 `https:/github.com` 경로의 레포지토리에 접근할 때, 해당 프로그램 수정 없이 https 대신 ssh를 사용하도록 설정하고 싶다면 아래와 같은 명령어를 사용하면 됩니다.
+
+```shell
+git config --global url.ssh://git@github.com/.insteadOf https://github.com/
+```

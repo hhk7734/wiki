@@ -258,7 +258,9 @@ module.exports = {
 					label: "Git",
 					items: [
 						"lang/etc/command-line-tools/git/git",
+						"lang/etc/command-line-tools/git/config",
 						"lang/etc/command-line-tools/git/commit-message",
+						"lang/etc/command-line-tools/git/fork-pull-request",
 					],
 				},
 				"lang/etc/command-line-tools/utility",
@@ -423,7 +425,6 @@ module.exports = {
 			type: "category",
 			label: "Git",
 			items: [
-				"linux/linux-tools/git/git-fork-pull-request",
 				"linux/linux-tools/git/git-submodule",
 				"linux/linux-tools/git/git-tag",
 				"linux/linux-tools/git/git-create-apply-patch",

@@ -54,6 +54,10 @@ const config = {
 						from: "/docs/linux/linux-tools/git/git-commit-message",
 						to: "/docs/lang/etc/command-line-tools/commit-message",
 					},
+					{
+						from: "/docs/linux/linux-tools/git/git-fork-pull-request",
+						to: "/docs/lang/etc/command-line-tools/fork-pull-request",
+					},
 				],
 			},
 		],
