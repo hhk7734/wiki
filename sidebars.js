@@ -253,6 +253,14 @@ module.exports = {
 			items: [
 				"lang/etc/command-line-tools/asdf",
 				"lang/etc/command-line-tools/ssh",
+				{
+					type: "category",
+					label: "Git",
+					items: [
+						"lang/etc/command-line-tools/git/git",
+						"lang/etc/command-line-tools/git/commit-message",
+					],
+				},
 				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",
@@ -415,8 +423,6 @@ module.exports = {
 			type: "category",
 			label: "Git",
 			items: [
-				"linux/linux-tools/git/git-basics",
-				"linux/linux-tools/git/git-commit-message",
 				"linux/linux-tools/git/git-fork-pull-request",
 				"linux/linux-tools/git/git-submodule",
 				"linux/linux-tools/git/git-tag",

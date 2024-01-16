@@ -45,6 +45,15 @@ const config = {
 						from: "/docs/lang/cpp/build/cpp-cmake",
 						to: "/docs/lang/cpp/build/cmake",
 					},
+					// DEPRECATED: 2024-05-01
+					{
+						from: "/docs/linux/linux-tools/git/git-basics",
+						to: "/docs/lang/etc/command-line-tools/git",
+					},
+					{
+						from: "/docs/linux/linux-tools/git/git-commit-message",
+						to: "/docs/lang/etc/command-line-tools/commit-message",
+					},
 				],
 			},
 		],
