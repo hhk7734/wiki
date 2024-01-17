@@ -39,7 +39,7 @@ const config: Config = {
 			"@docusaurus/plugin-client-redirects",
 			{
 				redirects: [
-					// DEPRECATED: 2024-04-01
+					// DEPRECATED: 2025-01-01
 					{
 						from: "/docs/linux/linux-tools/zsh-and-utility",
 						to: "/docs/lang/etc/command-line-tools/utility",
@@ -48,7 +48,6 @@ const config: Config = {
 						from: "/docs/lang/cpp/build/cpp-cmake",
 						to: "/docs/lang/cpp/build/cmake",
 					},
-					// DEPRECATED: 2024-05-01
 					{
 						from: "/docs/linux/linux-tools/git/git-basics",
 						to: "/docs/lang/etc/command-line-tools/git",
@@ -60,6 +59,10 @@ const config: Config = {
 					{
 						from: "/docs/linux/linux-tools/git/git-fork-pull-request",
 						to: "/docs/lang/etc/command-line-tools/git/fork-pull-request",
+					},
+					{
+						from: "/docs/linux/linux-tools/git/git-submodule",
+						to: "/docs/lang/etc/command-line-tools/git/submodule",
 					},
 				],
 			},

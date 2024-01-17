@@ -1,8 +1,8 @@
 ---
-id: basics
-title: Ansible Basics
-sidebar_label: Basics
-description: Ansible Basics
+id: ansible
+title: Ansible 기본 안내
+sidebar_label: Ansible 기본 안내
+description: Ansible 기본 안내
 keywords:
   - Ansible
 ---
@@ -33,28 +33,7 @@ ssh-copy-id -i<path>/<id file>.pub [-p<port>] <managed user>@<managed ip>
 
 ## Inventory
 
-- https://docs.ansible.com/ansible-core/devel/user_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
-
-기본 인벤토리 파일은 `/etc/ansible/hosts` 파일입니다.
-
-```yaml
-all:
-  hosts:
-    <hostname>:
-      ansible_host: <ip|url>
-      ansible_port: <port>
-  children:
-    <group>:
-      hosts:
-        <hostname>:
-    <group>:
-      children:
-        <group>:
-```
-
-```shell
-ansible all -m ping
-```
+- [Inventory](/docs/mlops/mlops/ansible/inventory)
 
 ## Directory structure
 

@@ -1,0 +1,65 @@
+---
+id: inventory
+title: Ansible inventory 설정하기
+sidebar_label: inventory 설정하기
+description: Ansible inventory 설정하기
+keywords:
+  - Ansible
+  - inventory
+---
+
+## Inventory
+
+- https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.html
+
+inventory는 ansible이 관리할 대상을 정의한 것입니다. inventory를 설정하지 않았을 때 기본적으로 사용되는 것은 `/etc/ansible/hosts` 파일입니다.
+
+inventory는 다음과 같은 형식으로 작성할 수 있습니다.
+
+```yaml title="inventory/cluster/hosts.yaml"
+all:
+  hosts:
+    <host>[:<port>]:
+      [<hostConnVar>: <value>]
+      [<hostVar>: <value>]
+
+<group>:
+  children:
+    <group>:
+  vars:
+    [<groupVar>: <value>]
+```
+
+- `<group>`
+  - 기본 그룹으로 `all`과 `ungrouped`가 있습니다.
+    - `all`
+      - 모든 호스트에 대한 그룹입니다.
+      - 선언하지 않아도 모든 그룹을 `children`으로 가지고 있습니다.
+    - `ungrouped`
+      - `all`이외의 그룹에 속하지 않은 호스트에 대한 그룹입니다.
+      - 선언하지 않아도 사용할 때 자동으로 호스트를 찾습니다.
+  - `hosts`: 그룹에 속하는 호스트를 정의합니다.
+    - `<host>`
+      - `<hostConnVar>`
+        - https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.html#connecting-to-hosts-behavioral-inventory-parameters
+        - 모두 옵션이므로 필요한 것만 사용합니다.
+        - `ansible_host`: `<host>` 대신 사용할 주소입니다.
+        - `ansible_port`: `<port>` 대신 사용할 포트입니다.
+          - 기본값: 22
+        - `ansible_user`: 호스트에 접속할 때 사용할 사용자입니다.
+        - `ansible_password`: 호스트에 접속할 때 사용할 비밀번호입니다.
+          - vault를 사용하여 암호화해야 합니다.
+        - `ansible_ssh_private_key_file`: 호스트에 접속할 때 사용할 SSH 개인키 파일입니다.
+        - `ansible_become_user`: 권한 상승을 위해 사용할 사용자입니다.
+          - host 별로 다른 사용자를 사용해야 할 경우에 사용합니다.
+        - `ansible_become_password`: 권한 상승을 위해 사용할 비밀번호입니다.
+          - vault를 사용하여 암호화해야 합니다.
+      - `<hostVar>`
+  - `vars`:
+    - `<groupVar>`
+
+## 연결 테스트
+
+```shell
+ansible -i <inventoryFile> all -m ping
+```

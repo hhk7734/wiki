@@ -263,6 +263,7 @@ const sidebars: SidebarsConfig = {
 						"lang/etc/command-line-tools/git/config",
 						"lang/etc/command-line-tools/git/commit-message",
 						"lang/etc/command-line-tools/git/fork-pull-request",
+						"lang/etc/command-line-tools/git/submodule",
 					],
 				},
 				"lang/etc/command-line-tools/utility",
@@ -427,7 +428,6 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Git",
 			items: [
-				"linux/linux-tools/git/git-submodule",
 				"linux/linux-tools/git/git-tag",
 				"linux/linux-tools/git/git-create-apply-patch",
 				"linux/linux-tools/git/git-github-issue",
@@ -495,7 +495,8 @@ const sidebars: SidebarsConfig = {
 					type: "category",
 					label: "Ansible",
 					items: [
-						"mlops/mlops/ansible/basics",
+						"mlops/mlops/ansible/ansible",
+						"mlops/mlops/ansible/inventory",
 						"mlops/mlops/ansible/vault",
 						"mlops/mlops/ansible/roles",
 					],
