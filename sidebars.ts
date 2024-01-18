@@ -266,6 +266,7 @@ const sidebars: SidebarsConfig = {
 						"lang/etc/command-line-tools/git/submodule",
 					],
 				},
+				"lang/etc/command-line-tools/iptables",
 				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",
@@ -523,6 +524,7 @@ const sidebars: SidebarsConfig = {
 					label: "Tools",
 					items: [
 						"mlops/mlops/kubernetes/tools/kubeadm",
+						"mlops/mlops/kubernetes/tools/kubespray",
 						"mlops/mlops/kubernetes/tools/kustomize",
 						"mlops/mlops/kubernetes/tools/helm",
 						"mlops/mlops/kubernetes/tools/k0s",
@@ -643,6 +645,11 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Network",
 			items: [
+				{
+					type: "category",
+					label: "WireGuard",
+					items: ["mlops/mlops/network/wireguard/wireguard"],
+				},
 				"mlops/mlops/network/cni-calico",
 				{
 					type: "category",

@@ -4,7 +4,6 @@ title: ssh 사용법
 sidebar_label: ssh 사용법
 description: ssh 사용법
 keywords:
-  - shell script
   - ssh
 ---
 
@@ -54,8 +53,11 @@ ssh-add ~/.ssh/<private>
 ## 접속할 곳에 퍼블릭 키 등록
 
 ```shell
-ssh-copy-id -i ~/.ssh/<public> <remote>
+ssh-copy-id -i ~/.ssh/<public> [<flag>] <remote>
 ```
+
+- `<flag>`
+  - `-p <port>`
 
 ## SCP
 

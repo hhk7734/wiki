@@ -15,21 +15,7 @@ python3 -m pip install ansible
 
 ## Control node
 
-```shell
-ssh-keygen -t ed25519 -N "" -f <keyfile>
-```
-
-```shell
-eval "$(ssh-agent -s)"
-```
-
-```shell
-ssh-add <path>/<id file>
-```
-
-```shell
-ssh-copy-id -i<path>/<id file>.pub [-p<port>] <managed user>@<managed ip>
-```
+- [SSH 키 생성 후 Managed node에 키 추가](/docs/lang/etc/command-line-tools/ssh)
 
 ## Inventory
 

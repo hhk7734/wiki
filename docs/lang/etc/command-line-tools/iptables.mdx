@@ -1,0 +1,70 @@
+---
+id: iptables
+title: iptables 사용법
+sidebar_label: iptables 사용법
+description: iptables 사용법
+keywords:
+  - iptables
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## iptables
+
+iptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에 따른 규칙이 정의되어있습니다.
+
+<center>
+	<img src={useBaseUrl("img/lang/etc/command-line-tools/netfilter.jpg")} />
+	<br />
+	https://stuffphilwrites.com/2014/09/iptables-processing-flowchart/
+</center>
+
+| 테이블/체인           | PREROUTING | INPUT | FORWARD | OUTPUT | POSTROUTING |
+| :-------------------- | :--------: | :---: | :-----: | :----: | :---------: |
+| (routing decision)    |            |       |         |   v    |             |
+| raw                   |     v      |       |         |   v    |             |
+| (connection tracking) |     v      |       |         |   v    |             |
+| mangle                |     v      |   v   |    v    |   v    |      v      |
+| nat (DNAT)            |     v      |       |         |   v    |             |
+| (routing decision)    |     v      |       |         |        |             |
+| filter                |            |   v   |    v    |   v    |             |
+| security              |            |   v   |    v    |   v    |             |
+| nat (SNAT)            |            |   v   |         |        |      v      |
+
+- 테이블
+  - raw: connection tracking에서 처리할지 결정
+  - mangle: 패킷 헤더의 일부를 변경
+  - nat: 패킷의 source 또는 destination 주소를 변경
+  - filter: 패킷 허용/거부
+  - security:
+
+## 규칙 추가
+
+```shell
+iptables [-t <table>] -A <chain> <rule>
+```
+
+```shell
+iptables [-t <table>] -I <chain> [<ruleNum>] <rule>
+```
+
+- `-t <table>`
+  - 생략하면 filter 테이블을 사용합니다.
+- `-A`: 테이블 마지막에 규칙을 추가합니다.
+- `-I`: `<ruleNum>`번째에 규칙을 추가합니다.
+  - `<ruleNum>`이 생략되면 첫번째(1)에 추가합니다.
+- `<rule>`
+  - `-p <protocol>`
+  - `-i <inputInterface>`
+  - `-o <outputInterface>`
+  - `-s <source>`
+  - `-d <destination>`
+  - `-j <target>`
+    - `<target>`
+      - `ACCEPT`: 패킷을 허용합니다.
+      - `DROP`: 패킷을 삭제합니다.
+      - `REJECT`: 패킷을 삭제하고, 적절한 응답을 보냅니다.
+      - `DNAT`: 패킷의 destination 주소를 `--to-destination <addr>`로 변경합니다.
+      - `SNAT`: 패킷의 source 주소를 `--to-source <addr>`로 변경합니다.
+      - `MASQUERADE`: 패킷 source 주소를 인터페이스 주소로 변경합니다.
+        - `SNAT` + `--to-source <interfaceAddr>`
