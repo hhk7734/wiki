@@ -49,7 +49,9 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 
 </Tabs>
 
-## run
+## 명령어
+
+### run
 
 ```shell
 podman run [<options>] <image> [<command> [<arg> ...]]
@@ -79,7 +81,7 @@ podman run [<options>] <image> [<command> [<arg> ...]]
 - `[<command> [<arg> ...]]`
   - Dockerfile의 `CMD`에 해당합니다.
 
-## ps
+### ps
 
 ```shell
 podman ps [options]
@@ -89,7 +91,7 @@ podman ps [options]
   - `-a|--all`: 모든 컨테이너 출력
   - `-l|--latest`: 마지막 컨테이너 출력
 
-## exec
+### exec
 
 ```shell
 podman exec [options] <containerID|containerName> <command> [arg ...]
@@ -100,7 +102,7 @@ podman exec [options] <containerID|containerName> <command> [arg ...]
 - options
   - `-it`: STDIN을 열고 컨테이너에 가상 터미널 할당
 
-## rm
+### rm
 
 ```shell
 podman rm [options] <containerID|containerName>
@@ -110,10 +112,73 @@ podman rm [options] <containerID|containerName>
   - `-f|--force`: running 또는 unstable 상태의 컨테이너도 삭제
   - `-a|--all`: 모든 컨테이너 삭제
 
-## cp
+### cp
 
 ```shell
 podman cp [options] [<containerID|containerName>:]<srcPath> [<containerID|containerName>:]<destPath>
 ```
 
 호스트와 컨테이너 또는 컨테이너와 컨테이너 사이에서 파일을 복사합니다.
+
+## 유저 네임스페이스 매핑
+
+`/etc/subuid`와 `/etc/subgid` 파일을 사용하여 사용자 네임스페이스에서 사용자가 사용할 수 있는 uid와 gid를 결정하는 기능을 포함한 Linux 배포판에서는 `useradd` 명령어를 통해 사용자를 추가했을 때 자동으로 65536개의 uid와 gid를 할당합니다.
+
+```shell title="/etc/subuid, /etc/subgid"
+hhk7734:100000:65536
+```
+
+```shell
+sudo useradd test
+```
+
+```shell title="/etc/subuid, /etc/subgid"
+hhk7734:100000:65536
+test:165536:65536
+```
+
+LDAP 등의 사용으로 이러한 매핑이 없다면, 직접 추가해야합니다.
+
+```shell
+sudo usermod \
+  --add-subuids 100000-165535 \
+  --add-subgids 100000-165535 \
+  test
+```
+
+podman으로 컨테니어를 실행했을 때, 컨테이너 내부에서 외부 사용자와 내부 사용자가 어떻게 매핑되어 있는지 확인 할 수 있습니다.
+
+```shell
+podman run alpine cat /proc/self/uid_map
+         0       1000          1
+         1     100000      65536
+```
+
+| 네임스페이스 안 uid | 네임스페이스 밖 uid | 길이  |
+| ------------------- | ------------------- | ----- |
+| 0                   | 1000                | 1     |
+| 1                   | 100000              | 65536 |
+
+이를 해석하면 내부 uid 0은 외부 uid 1000에 매핑되고, 내부 uid 1 ~ 65536은 외부 uid 100000 ~ 165535에 각각 매핑된다는 것을 알 수 있습니다.
+
+podman 사용중에 매핑을 추가한다면 아래 명령어를 실행 시켜야합니다.(실행 중인 컨테이너가 멈춥니다.)
+
+```shell
+podman system migrate
+```
+
+:::warning
+
+- https://www.redhat.com/sysadmin/rootless-podman-nfs
+
+NFS 프로토콜에는 사용자 네임스페이스 개념이 없습니다. rootless podman을 사용할 때 기본 graphroot는 `$HOME/.local/share/containers/storage`인데, NFS로 홈 디렉토리를 공유하고 있다면 문제가 발생할 수 있습니다.
+
+```ini title="$HOME/.config/containers/storage.conf"
+[storage]
+driver = "overlay"
+runroot = "/run/user/2081"
+graphroot = "/var/tmp/hyeonki/containers/storage"
+```
+
+위와 같은 설정을 추가해서 NFS가 아닌 로컬 디스크에 저장하도록 설정할 수 있습니다.
+:::

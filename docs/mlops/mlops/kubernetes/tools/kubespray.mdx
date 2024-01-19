@@ -8,3 +8,182 @@ keywords:
   - kubeadm
   - ansible
 ---
+
+## 사전 작업
+
+- 최소 필요 조건
+  - 2 CPU
+  - 2 GB memory
+  - 모든 노드에 대한 고유한 호스트 이름, MAC 주소, prodcut_uuid
+    - `ip link`
+    - `sudo cat /sys/class/dmi/id/product_uuid`
+
+```yaml title="init-node.yaml"
+- hosts: all
+  become: true
+  tasks:
+    - name: Set net.ipv4.ip_forward to 1
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+
+    - name: Set net.ipv6.conf.all.forwarding to 1
+      ansible.posix.sysctl:
+        name: net.ipv6.conf.all.forwarding
+        value: 1
+```
+
+```shell
+git clone git@github.com:kubernetes-sigs/kubespray.git --branch v2.23.2
+```
+
+kubespray 레포지토리에 있는 `inventory/sample` 디렉토리를 복사 사용합니다. 이후 설명에서 경로는 `inventory/`로 표시하겠습니다.
+
+```yaml title="inventory/hosts.yaml"
+all:
+  hosts:
+    node1:
+      ansible_host: <host> # ansible이 접근 가능한 주소
+      ansible_port: <port> # ansible이 접근 가능한 포트
+      ip: <ip>
+      access_ip: <ip>
+    node2:
+      ansible_host: <host>
+      ansible_port: <port>
+      ip: <ip>
+      access_ip: <ip>
+    node3:
+      ansible_host: <host>
+      ansible_port: <port>
+      ip: <ip>
+      access_ip: <ip>
+  children:
+    kube_control_plane:
+      hosts:
+        node1:
+        node2:
+    kube_node:
+      hosts:
+        node1:
+        node2:
+        node3:
+    etcd:
+      hosts:
+        node1:
+        node2:
+        node3:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    calico_rr:
+      hosts: {}
+```
+
+```shell
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory \
+  -v <path>/init-node.yaml:/kubespray/init-node.yaml \
+  -v <privateKeyPath>:/root/.ssh/id_rsa \
+  quay.io/kubespray/kubespray:v2.23.2 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml \
+  /kubespray/init-node.yaml
+```
+
+## 클러스터 생성
+
+```shell
+inventory/
+├── group_vars/
+│   ├── all/
+│   │   ├── all.yml
+│   │   ├── aws.yml
+│   │   ├── azure.yml
+│   │   ├── containerd.yml
+│   │   ├── coreos.yml
+│   │   ├── cri-o.yml
+│   │   ├── docker.yml
+│   │   ├── etcd.yml
+│   │   ├── gcp.yml
+│   │   ├── hcloud.yml
+│   │   ├── huaweicloud.yml
+│   │   ├── oci.yml
+│   │   ├── offline.yml
+│   │   ├── openstack.yml
+│   │   ├── upcloud.yml
+│   │   └── vsphere.yml
+│   ├── etcd.yml
+│   └── k8s_cluster/
+│       ├── addons.yml
+│       ├── k8s-cluster.yml
+│       ├── k8s-net-calico.yml
+│       ├── k8s-net-cilium.yml
+│       ├── k8s-net-flannel.yml
+│       ├── k8s-net-kube-ovn.yml
+│       ├── k8s-net-kube-router.yml
+│       ├── k8s-net-macvlan.yml
+│       └── k8s-net-weave.yml
+├── hosts.yaml
+└── patches/
+    ├── kube-controller-manager+merge.yaml
+    └── kube-scheduler+merge.yaml
+```
+
+- group_vars
+  - k8s_cluster
+    - k8s-cluster.yml: 클러스터의 기본 구성을 설정합니다.
+    - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
+
+```shell
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory \
+  -v <privateKeyPath>:/root/.ssh/id_rsa \
+  quay.io/kubespray/kubespray:v2.23.2 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml \
+  /kubespray/cluster.yml
+```
+
+## 노드 추가
+
+`inventory/hosts.yaml`에 노드 정보를 추가합니다.
+
+```shell
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory \
+  -v <privateKeyPath>:/root/.ssh/id_rsa \
+  quay.io/kubespray/kubespray:v2.23.2 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml \
+  /kubespray/scale.yml
+```
+
+## 노드 삭제
+
+- `kubectl drain <node>`
+  - DaemonSet을 확인하고 무시해도 되면 `--ignore-daemonsets` 옵션을 사용합니다.
+  - emptyDir를 사용하는 Pod을 확인하고 무시해도 되면 `--delete-local-data` 옵션을 사용합니다.
+  - 관리되지 않는 Pod을 확인하고 무시해도 되면 `--force` 옵션을 사용합니다.
+- `kubectl delete node <node>`
+
+```shell
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory \
+  -v <privateKeyPath>:/root/.ssh/id_rsa \
+  quay.io/kubespray/kubespray:v2.23.2 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml \
+  --extra-vars "node=<node1>,<node2>" \
+  /kubespray/remove-node.yml
+```
+
+제거하려는 노드들에 SSH로 접근이 안되는 경우 `--extra-vars reset_nodes=false`를 추가하고, 일부 노드에만 접근이 안되는 경우 host 변수에 `reset_nodes=false`를 추가합니다.
+
+제거된 후 `inventory/hosts.yaml`에서 노드 정보를 삭제합니다.
+
+## 클러스터 삭제
+
+```shell
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory \
+  -v <privateKeyPath>:/root/.ssh/id_rsa \
+  quay.io/kubespray/kubespray:v2.23.2 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml /kubespray/reset.yml
+```
