@@ -1,0 +1,35 @@
+---
+id: user
+title: Linux User Namespace
+sidebar_label: User
+description: Linux User Namespace
+keywords:
+  - linux
+  - namespace
+  - user
+---
+
+## User Namespace
+
+:::info
+
+- https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html
+
+> User namespaces isolate security-related identifiers and attributes, in particular, user IDs and group IDs (see credentials(7)), the root directory, keys (see keyrings(7)), and capabilities (see capabilities(7)).
+
+유저 네임스페이스는 보안 관련 식별자 및 속성, 특히 UID와 GID, 루트 디렉토리, key([keyrings(7)](https://www.man7.org/linux/man-pages/man7/keyrings.7.html)), 권한([capabilities(7)](https://www.man7.org/linux/man-pages/man7/capabilities.7.html))을 격리합니다.
+
+> A process's user and group IDs can be different inside and outside a user namespace.
+
+프로세스의 UID와 GID는 유저 네임스페이스 내부와 외부에서 서로 다를 수 있습니다.
+
+> In particular, a process can have a normal unprivileged user ID outside a user namespace while at the same time having a user ID of 0 inside the namespace; in other words, the process has full privileges for operations inside the user namespace, but is unprivileged for operations outside the namespace.
+
+특히, 프로세스는 사용자 네임스페이스 외부에서는 정상적인 권한이 없는 UID를 가지면서 동시에 네임스페이스 내부에서는 0의 UID를 가질 수 있습니다. 즉, 프로세스는 사용자 네임스페이스 내부의 작업에 대해서는 전체 권한을 가지지만 네임스페이스 외부의 작업에 대해서는 권한이 없습니다.
+
+:::
+
+- 프로세스는 한 유저 네임스페이스에만 속합니다.
+- 별도의 설정 없이 자식 프로세스를 생성하면 프로세스는 부모 프로세스의 유저 네임스페이스에 속하게 됩니다.
+- 싱글 스레드 프로세스는 다른 유저 네임스페이스로 이동할 수 있습니다.
+- 유저 네임스페이스 내부와 외부의 연결지점에 대한 표현을 위해 `/proc/<pid>/uid_map`과 `/proc/<pid>/gid_map`이 있습니다.

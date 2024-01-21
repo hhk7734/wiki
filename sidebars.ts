@@ -408,8 +408,8 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Drivers",
-			items: ["linux/linux-kernel/driver/bluetooth"],
+			label: "Namespace",
+			items: ["linux/kernel/namespace/namespace", "linux/kernel/namespace/user"],
 		},
 	],
 	"linux-package": [

@@ -1,0 +1,39 @@
+---
+id: namespace
+title: Linux Namespace(네임스페이스)
+sidebar_label: Namespace(네임스페이스)
+description: Linux Namespace(네임스페이스)
+keywords:
+  - linux
+  - namespace
+---
+
+## Linux Namespace
+
+:::info
+
+- https://man7.org/linux/man-pages/man7/namespaces.7.html
+
+> A namespace wraps a global system resource in an abstraction that makes it appear to the processes within the namespace that they have their own isolated instance of the global resource.
+
+네임스페이스는 전역 시스템 리소스를 추상화하여 네임스페이스 내의 프로세스가 전역 리소스의 격리된 인스턴스를 가지고 있는 것처럼 보이게 합니다.
+
+> Changes to the global resource are visible to other processes that are members of the namespace, but are invisible to other processes.
+
+전역 리소스의 변경 사항은 네임스페이스 멤버인 프로스세들에게는 보이지만, 그렇지 않은 프로세스들에게는 보이지 않습니다.
+
+> One use of namespaces is to implement containers.
+
+네임스페이스의 사용 중 하나는 컨테이너를 구현하는 것입니다.
+
+...
+
+> Absent any other factors, a namespace is automatically torn down when the last process in the namespace terminates or leaves the namespace.
+
+다른 요인이 없다면, 네임스페이스는 네임스페이스 내의 마지막 프로세스가 종료되거나 네임스페이스를 떠날 때 자동으로 해제됩니다.
+
+> However, there are a number of other factors that may pin a namespace into existence even though it has no member processes
+
+그러나, 네임스페이스에 멤버 프로세스가 없는 경우에도 네임스페이스를 존재하게 하는 여러 요인이 있습니다.
+
+:::

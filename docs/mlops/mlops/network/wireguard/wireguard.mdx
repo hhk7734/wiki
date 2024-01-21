@@ -9,6 +9,9 @@ keywords:
   - VPN
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## WireGuard
 
 - https://www.wireguard.com/
@@ -115,12 +118,41 @@ flowchart LR
 
 </center>
 
-## 사전 준비
+## 설치 및 사전준비
+
+- https://www.wireguard.com/install/
+
+<Tabs
+    groupId="os"
+    defaultValue="debian"
+    values={[
+        {label: 'Debian', value: 'debian',},
+        {label: 'Mac OS', value: 'mac',}
+    ]}
+>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install wireguard
+```
+
+</TabItem>
+
+<TabItem value="mac">
+
+```shell
+brew install wireguard-tools
+```
+
+</TabItem>
+
+</Tabs>
 
 패킷 암호화/복호화에 사용될 키를 생성합니다.
 
 ```shell
-wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
+umask 077 && wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
 ```
 
 포워딩이 필요한 경우 ip_forward를 허용하도록 설정합니다.
