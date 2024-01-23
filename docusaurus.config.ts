@@ -64,6 +64,22 @@ const config: Config = {
 						from: "/docs/linux/linux-tools/git/git-submodule",
 						to: "/docs/lang/etc/command-line-tools/git/submodule",
 					},
+					{
+						from: "/dcos/linux/linux-tools/git/git-tag",
+						to: "/docs/lang/etc/command-line-tools/git/tag",
+					},
+					{
+						from: "/docs/linux/linux-tools/git/git-create-apply-patch",
+						to: "/docs/lang/etc/command-line-tools/git/patch",
+					},
+					{
+						from: "/docs/linux/linux-tools/git/pre-commit",
+						to: "/docs/lang/etc/command-line-tools/git/pre-commit",
+					},
+					{
+						from: "/docs/linux/linux-tools/git/lfs",
+						to: "/docs/lang/etc/command-line-tools/git/lfs",
+					},
 				],
 			},
 		],

@@ -1,0 +1,40 @@
+---
+id: patch
+title: Git patch 파일 만들기
+sidebar_label: patch 파일 만들기
+description: Git patch 파일 만들기
+keywords:
+  - Git
+  - format-patch
+  - am
+  - patch
+  - mbox
+---
+
+## patch files 생성
+
+```shell
+git format-patch [-<num of commit>] [commit]
+```
+
+## patch file 적용
+
+```shell
+git am <patch>
+```
+
+### patch 중 에러 수정
+
+```shell
+git apply <patch> --reject
+```
+
+생성된 **\<.ref\>** 파일을 보고 에러를 수정합니다.
+
+```shell
+git add <modified files>
+```
+
+```shell
+git am --continue
+```

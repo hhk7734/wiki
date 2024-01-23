@@ -1,0 +1,143 @@
+---
+id: ip
+title: ip 사용법
+sidebar_label: ip 사용법
+description: ip 사용법
+keywords:
+  - ip
+---
+
+## ip
+
+- https://man7.org/linux/man-pages/man8/ip.8.html
+
+```shell
+ip [<flag>] <object> <command>
+```
+
+- `<object>`
+  - `link`: 네트워크 장치
+  - `address`: 네트워크 장치의 IP 주소
+  - `route`: 라우팅 테이블
+  - `netns`: 네트워크 네임스페이스
+
+:::info
+
+IP Prefix
+
+```shell
+192.   168.   0. 123/  24
+<--  prefix --> <-->    |
+               suffix   |
+                    prefixLength
+```
+
+:::
+
+## ip link
+
+- https://man7.org/linux/man-pages/man8/ip-link.8.html
+
+```shell
+ip link [show <args>]
+```
+
+```shell
+ip link help <type>
+```
+
+```shell
+ip link add <name> type <type> <args>
+```
+
+```shell
+ip link set <name> netns <netnsName>
+```
+
+```shell
+ip link set <name> <up|down>
+```
+
+- `up`: 네트워크 장치를 활성화합니다.
+- `down`: 네트워크 장치를 비활성화합니다.
+
+```shell
+ip link del <name>
+```
+
+### veth(가상 이더넷 인터페이스)
+
+```shell
+ip link add <name> type veth [peer name <pairName>]
+```
+
+- 페어 장치를 지정하지 않으면 임의의 이름으로 생성됩니다.
+- 페어가 되는 장치 모두 활성화시켜야 합니다.
+- 삭제 시에는 한 쪽만 삭제해도 다른 쪽이 자동으로 삭제됩니다.
+
+```shell
+ip link set <name> master <masterName>
+```
+
+### bridge(이더넷 브리지)
+
+- OSI 2 계층의 가상 장치
+- Spanning-Tree Protocol(STP)를 통해 루프 생성을 방지합니다.
+- forwarding database(fdb)
+  - 패킷이 들어오면 source의 포트와 MAC 주소를 fdb에 저장합니다.
+  - destination의 MAC 주소를 fdb에서 찾습니다.
+    - 해당 주소를 찾으면 매핑된 포트로 패킷을 전달합니다.
+    - 해당 주소를 찾지 못하면 source를 제외한 모든 포트로 패킷을 전달합니다.
+      - 응답을 통해 확인된 장치의 MAC 주소와 포트를 fdb에 저장합니다.
+  - 일정 시간 동안 사용하지 않은 정보는 주기적으로 삭제합니다.
+
+```shell
+ip link add <name> type bridge
+```
+
+## ip addr
+
+- https://man7.org/linux/man-pages/man8/ip-address.8.html
+
+```shell
+ip addr add <prefix> dev <devName>
+```
+
+```shell
+ip addr [show <args>]
+```
+
+```shell
+ip addr del <prefix> dev <devName>
+```
+
+## ip route
+
+- https://man7.org/linux/man-pages/man8/ip-route.8.html
+
+```shell
+ip route add <nodeSpec> <infoSpec>
+```
+
+- `<nodeSpec>`
+  - `<prefix>`
+    - `<prefix>`대신 `default`를 쓰면 모든 주소를 의미하게 됩니다.
+- `<infoSpec>`
+  - `via [<family>] <address>`: 다음 라우터의 주소를 지정합니다.
+  - `dev <devName>`: output 장치를 설정합니다.
+
+## ip netns
+
+- https://man7.org/linux/man-pages/man8/ip-netns.8.html
+
+```shell
+ip netns add <name>
+```
+
+```shell
+ip netns exec <name> <command>
+```
+
+```shell
+ip netns del <name>
+```

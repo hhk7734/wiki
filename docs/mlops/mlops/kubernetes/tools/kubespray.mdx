@@ -34,7 +34,7 @@ keywords:
 ```
 
 ```shell
-git clone git@github.com:kubernetes-sigs/kubespray.git --branch v2.23.2
+git clone git@github.com:kubernetes-sigs/kubespray.git --branch v2.24.0
 ```
 
 kubespray 레포지토리에 있는 `inventory/sample` 디렉토리를 복사 사용합니다. 이후 설명에서 경로는 `inventory/`로 표시하겠습니다.
@@ -85,7 +85,7 @@ podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
   -v <path>/init-node.yaml:/kubespray/init-node.yaml \
   -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.23.2 \
+  quay.io/kubespray/kubespray:v2.24.0 \
   ansible-playbook -i /kubespray/inventory/hosts.yaml \
   /kubespray/init-node.yaml
 ```
@@ -97,36 +97,15 @@ inventory/
 ├── group_vars/
 │   ├── all/
 │   │   ├── all.yml
-│   │   ├── aws.yml
-│   │   ├── azure.yml
-│   │   ├── containerd.yml
-│   │   ├── coreos.yml
-│   │   ├── cri-o.yml
-│   │   ├── docker.yml
-│   │   ├── etcd.yml
-│   │   ├── gcp.yml
-│   │   ├── hcloud.yml
-│   │   ├── huaweicloud.yml
-│   │   ├── oci.yml
-│   │   ├── offline.yml
-│   │   ├── openstack.yml
-│   │   ├── upcloud.yml
-│   │   └── vsphere.yml
+│   │   └── ...
 │   ├── etcd.yml
 │   └── k8s_cluster/
 │       ├── addons.yml
 │       ├── k8s-cluster.yml
-│       ├── k8s-net-calico.yml
-│       ├── k8s-net-cilium.yml
-│       ├── k8s-net-flannel.yml
-│       ├── k8s-net-kube-ovn.yml
-│       ├── k8s-net-kube-router.yml
-│       ├── k8s-net-macvlan.yml
-│       └── k8s-net-weave.yml
+│       └── ...
 ├── hosts.yaml
 └── patches/
-    ├── kube-controller-manager+merge.yaml
-    └── kube-scheduler+merge.yaml
+    └── ...
 ```
 
 - group_vars
@@ -134,11 +113,51 @@ inventory/
     - k8s-cluster.yml: 클러스터의 기본 구성을 설정합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
 
+```yaml title="inventory/hosts.yaml"
+all:
+  hosts:
+    node1:
+      # host_vars
+      ansible_host: 10.0.0.2
+      ip: 10.0.0.2
+      access_ip: 10.0.0.2
+    node2:
+      ansible_host: 10.0.0.3
+      ip: 10.0.0.3
+      access_ip: 10.0.0.3
+    node3:
+      ansible_host: 10.0.0.4
+      ip: 10.0.0.4
+      access_ip: 10.0.0.4
+  children:
+    kube_control_plane:
+      hosts:
+        node1:
+        node2:
+    kube_node:
+      hosts:
+        node1:
+        node2:
+        node3:
+    etcd:
+      hosts:
+        node1:
+        node2:
+        node3:
+    k8s_cluster:
+      children:
+        kube_control_plane:
+        kube_node:
+    # Calico Route Reflector
+    calico_rr:
+      hosts: {}
+```
+
 ```shell
 podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
   -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.23.2 \
+  quay.io/kubespray/kubespray:v2.24.0 \
   ansible-playbook -i /kubespray/inventory/hosts.yaml \
   /kubespray/cluster.yml
 ```
@@ -151,7 +170,7 @@ podman run --rm -it \
 podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
   -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.23.2 \
+  quay.io/kubespray/kubespray:v2.24.0 \
   ansible-playbook -i /kubespray/inventory/hosts.yaml \
   /kubespray/scale.yml
 ```
@@ -168,7 +187,7 @@ podman run --rm -it \
 podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
   -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.23.2 \
+  quay.io/kubespray/kubespray:v2.24.0 \
   ansible-playbook -i /kubespray/inventory/hosts.yaml \
   --extra-vars "node=<node1>,<node2>" \
   /kubespray/remove-node.yml
@@ -184,6 +203,7 @@ podman run --rm -it \
 podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
   -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.23.2 \
-  ansible-playbook -i /kubespray/inventory/hosts.yaml /kubespray/reset.yml
+  quay.io/kubespray/kubespray:v2.24.0 \
+  ansible-playbook -i /kubespray/inventory/hosts.yaml \
+  /kubespray/reset.yml
 ```

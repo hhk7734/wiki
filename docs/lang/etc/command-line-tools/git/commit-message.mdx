@@ -10,31 +10,36 @@ keywords:
 
 ## Message
 
-- https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines
+- https://www.conventionalcommits.org/ko/v1.0.0/#%EA%B0%9C%EC%9A%94
 
 ```xml
-<type>(<scope>): <subject>
+<type>[(<scope>)]: <subject>
 
-<body>
+[<body>]
 
-<footer>
+[<footer>]
 ```
 
 - `<type>`
-  - `feat`: 새로운 기능
-  - `fix`: 버그 수정
-  - `docs`: 문서만 수정
-  - `style`: 코드 의미에 영향을 주지 않는 변경사항 (코드 포맷팅, 세미콜론 누락 등의 변경)
-  - `refactor`: `feat`, `fix`가 아닌 코드 수정
+  - `fix`: 버그 수정 (SemVer, PATCH)
+  - `feat`: 새로운 기능 (SemVer, MINOR)
+  - `<type>!`: `!`는 `BREAKING CHANGE`를 의미합니다. (SemVer, MAJOR)
   - `perf`: 성능 개선
   - `test`: 테스트 코드 추가, 수정
-  - `chore`: 기타 수정
-- `<scope>`: 변경된 코드 범위를 나타내는 모든 것으로 생략이 가능합니다
+  - `refactor`: `feat`, `fix`가 아닌 코드 수정
+  - `docs`: 문서만 수정
+  - `chore`: 다른 타입에 해당하지 않는 변경사항
+- `<scope>`: 변경된 코드 범위를 나타내는 모든 것으로 생략이 가능합니다.
 - `<subject>`
-  - 명령형을 사용합니다
-  - 소문자로 시작합니다
-  - `.`(구두점)으로 끝나지 않습니다
+  - 명령형을 사용합니다.
+  - 소문자로 시작합니다.
+  - `.`(구두점)으로 끝나지 않습니다.
 - `<body>`
+- `<footer>`
+  - [git tailer format](https://git-scm.com/docs/git-interpret-trailers)
+  - `<token>: <value>` 형식으로 작성합니다.
+  - `<token>`에 공백이 들어간 경우 공백 대신 `-`를 사용합니다.
+    - `BREAKING CHANGE: <description>`는 예외입니다.
 
 :::info
 헤더는 50자, 본문은 72자 줄 길이(line length)를 권장하는 글이 많습니다.

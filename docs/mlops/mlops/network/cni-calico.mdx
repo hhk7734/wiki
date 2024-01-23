@@ -1,40 +1,13 @@
 ---
-id: cni-calico
-title: CNI - Calico
-sidebar_label: CNI - Calico
-description: CNI - Calico
+id: cni
+title: Container Network Interface(CNI)
+sidebar_label: CNI
+description: Container Network Interface(CNI)
 keywords:
-  - CNI
-  - Calico
+  - Container Network Interface
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
-
-## Docker network
-
-### bridge
-
-```txt
-                                              ┌─── container0 ───┐
-host eth0 ─── docker0(172.17.0.1) ┬── veth0 ─── eth0(172.17.0.2) │
-                                  │           └──────────────────┘
-                                  │           ┌─── container1 ───┐
-                                  ├── veth1 ─── eth0(172.17.0.3) │
-                                  │           └──────────────────┘
-                                  │           ┌─── container2 ───┐
-                                  └── veth2 ─── eth0(172.17.0.4) │
-                                              └──────────────────┘
-```
-
-### host
-
-```txt
-                                                  ┌─── container2 ───┐
-                                                ┌─── container1 ───┐ │
-                                              ┌─── container0 ───┐ │─┘
-host eth0 ─── docker0(172.17.0.1) ─── veth0 ─── eth0(172.17.0.2) │─┘
-                                              └──────────────────┘
-```
 
 ## Kubernetes network
 
@@ -48,103 +21,38 @@ Kubernetes network 기본 요구 사항
 
 Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유합니다. `Pause`라는 container가 생성되며 이 컨테이너가 IPC, Network namespace를 생성하고 유지합니다.
 
-## Calico
+## CNI
+
+- https://github.com/containernetworking/cni/blob/main/SPEC.md
+
+<br />
+
+- Network configuration format
+  - `cniVersion`, `cniVersions`, `name`, `disableCheck`, `plugins` 등을 포함한 JSON 객체로 구성됩니다.
+- Execution Protocol
+  - 플러그인은 실행파일이어야 합니다.
+  - 플러그인은 환경 변수와 stdin을 통해 설정값을 받습니다.
+  - 플러그인은 설정 성공 시 stdout, 실패 시 stderr로 결과를 반환합니다.
+- Execution of Network Configurations
+  - 컨테이너 런타임은 네트워크 설정을 해석하여 CNI 플러그인을 실행합니다.
+  - 수명 주기
+    - 컨테이너 런타임은 플러그인을 호출하기 전에 컨테이너에 대한 새 네트워크 네임스페이스를 생성해야 합니다.
+    - ...
+    - 컨테이너 런타임은 컨테이너의 네트워크 네임스페이스 정리를 담당합니다.
+- Plugin Delegation
+  - CNI 플러그인은 일부 기능을 다른 플러그인에 위임할 수 있습니다.(ex) IPAM plugin)
+  - 위임받은 플러그인은 실행파일이어야 합니다.
+  - 위임받은 플러그인은 CNI 플러그인에 전달된 것과 동일한 환경 변수와 stdin을 모두 설정값으로 받아야합니다.
+  - 위임받은 플러그인은 설정 성공 시 stdout, 실패 시 stderr로 결과를 반환합니다.
+- Result Types
+  - CNI 플러그인의 실행 결과에 대한 JSON 형식의 스키마가 있습니다.
+
+## Example(Calico)
 
 <center>
 	<img src={useBaseUrl("img/mlops/mlops/mlops-calico-cni-with-calico-ipam.png")} />
-</center>
-
-<center>
+	<br />
 	<strong>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</strong>
+	<br />
+	https://www.youtube.com/watch?v=JyLtg_SJ1lo
 </center>
-<br />
-
-:::warning
-EKS에서 VPC CNI 대신 Calico를 사용할 때, Kubernetes API server는 Calico Pod network에 있는 Pod와 연결된 Service를 사용하는 Webhook에 연결이 직접적으로 되지 않습니다. `CNI-Genie`같은 어플리케이션이 추가적으로 필요할 수 있습니다.
-:::
-
-### Installation
-
-```shell
-kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
-```
-
-| Policy | IPAM   | CNI    | Overlay | Routing | Datastore  |
-| ------ | ------ | ------ | ------- | ------- | ---------- |
-| Calico | Calico | Calico | VXLAN   | Calico  | Kubernetes |
-
-```yaml title="calico.yaml" {13,14}
-# This section includes base Calico installation configuration.
-# For more information, see: https://projectcalico.docs.tigera.io/archive/v3.19/reference/installation/api#operator.tigera.io/v1.Installation
-apiVersion: operator.tigera.io/v1
-kind: Installation
-metadata:
-  name: default
-spec:
-  # Configures Calico networking.
-  calicoNetwork:
-    # Note: The ipPools section cannot be modified post-install.
-    ipPools:
-      - blockSize: 26
-        cidr: 192.168.0.0/16
-        encapsulation: VXLANCrossSubnet
-        natOutgoing: Enabled
-        nodeSelector: all()
----
-# This section configures the Calico API server.
-# For more information, see: https://projectcalico.docs.tigera.io/archive/v3.20/reference/installation/api#operator.tigera.io/v1.APIServer
-apiVersion: operator.tigera.io/v1
-kind: APIServer
-metadata:
-  name: default
-spec: {}
-```
-
-아래와 같이 operator가 생성하는 리소스에 대한 tolerations을 추가할 수 있습니다.
-
-```yaml
-apiVersion: operator.tigera.io/v1
-kind: Installation
-spec:
-  controlPlaneTolerations:
-    - effect: NoSchedule
-      key: node.cloudprovider.kubernetes.io/uninitialized
-      value: "true"
-```
-
-```shell
-kubectl apply -f calico.yaml
-```
-
-```shell
-watch kubectl get pods -n calico-system
-```
-
-마스터 노드에 Pod이 생성 될 수 있도록 설정하려면 아래 명령어를 실행하면 됩니다.
-
-```shell
-kubectl taint nodes <name> node-role.kubernetes.io/master:NoSchedule-
-```
-
-```shell
-kubectl taint nodes <name> node-role.kubernetes.io/master:NoSchedule
-```
-
-```shell
-kubectl get nodes -o wide
-```
-
-### Test
-
-```shell
-kubectl run tmp-shell --rm -it --image nicolaka/netshoot -- /bin/bash
-```
-
-## Reference
-
-- [https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/](https://kubernetes.io/ko/docs/concepts/cluster-administration/networking/)
-- [https://docs.projectcalico.org/getting-started/kubernetes/quickstart](https://docs.projectcalico.org/getting-started/kubernetes/quickstart)
-- [https://www.youtube.com/watch?v=JyLtg_SJ1lo](https://www.youtube.com/watch?v=JyLtg_SJ1lo)
-- [https://docs.projectcalico.org/reference/installation/api](https://docs.projectcalico.org/reference/installation/api)
-- [https://github.com/nicolaka/netshoot](https://github.com/nicolaka/netshoot)
-- [https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/eks](https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/eks)

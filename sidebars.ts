@@ -264,9 +264,14 @@ const sidebars: SidebarsConfig = {
 						"lang/etc/command-line-tools/git/commit-message",
 						"lang/etc/command-line-tools/git/fork-pull-request",
 						"lang/etc/command-line-tools/git/submodule",
+						"lang/etc/command-line-tools/git/tag",
+						"lang/etc/command-line-tools/git/patch",
+						"lang/etc/command-line-tools/git/pre-commit",
+						"lang/etc/command-line-tools/git/lfs",
 					],
 				},
 				"lang/etc/command-line-tools/iptables",
+				"lang/etc/command-line-tools/ip",
 				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",
@@ -425,17 +430,6 @@ const sidebars: SidebarsConfig = {
 		},
 	],
 	"linux-tools": [
-		{
-			type: "category",
-			label: "Git",
-			items: [
-				"linux/linux-tools/git/git-tag",
-				"linux/linux-tools/git/git-create-apply-patch",
-				"linux/linux-tools/git/git-github-issue",
-				"linux/linux-tools/git/pre-commit",
-				"linux/linux-tools/git/lfs",
-			],
-		},
 		"linux/linux-tools/progress-bar",
 		"linux/linux-tools/linux-udev",
 		{
@@ -650,7 +644,7 @@ const sidebars: SidebarsConfig = {
 					label: "WireGuard",
 					items: ["mlops/mlops/network/wireguard/wireguard"],
 				},
-				"mlops/mlops/network/cni-calico",
+				"mlops/mlops/network/cni",
 				{
 					type: "category",
 					label: "Istio",

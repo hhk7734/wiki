@@ -12,7 +12,7 @@ keywords:
 - https://docs.k0sproject.io/head/install/
 
 ```shell
-curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.27.4+k0s.0 sh
+curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.28.6+k0s.0 sh
 ```
 
 ## Controller
@@ -32,65 +32,36 @@ metadata:
   name: k0s
 spec:
   api:
+    # externalAddress - loadbalancer - controllers
+    # 모든 클러스터 컴포넌트가 이 주소를 사용하도록 설정
+    # 새 Node가 추가될 때 사용
+    externalAddress: <host|ip>
+    # API에 바인딩할 로컬 주소
     address: <host|ip>
-    externalAddress: <host|ip> # 외부 접근용
-    port: 6443
-    k0sApiPort: 9443
-    sans: # 인증서 SAN
+    # 인증서를 서빙하는 API 서버에 넣을 추가 주소
+    sans:
       - <address>
       - <externalAddress>
       - <host|ip>
-    tunneledNetworkingMode: false
   storage:
     type: etcd
     etcd:
       peerAddress: <address>
   network:
-    podCIDR: 10.244.0.0/16
-    serviceCIDR: 10.96.0.0/12
-    provider: kuberouter
+    podCIDR: 10.244.0.0/16 # 10.244.0.1 ~ 10.244.255.255
+    serviceCIDR: 10.96.0.0/12 # 10.96.0.1 ~ 10.111.255.255
     clusterDomain: cluster.local
-    calico: null
-    kuberouter:
-      autoMTU: true
-      hairpin: Enabled
-      ipMasq: false
-      metricsPort: 8080
-      mtu: 0
-      peerRouterASNs: ""
-      peerRouterIPs: ""
-    kubeProxy:
-      mode: iptables
-      iptables:
-        minSyncPeriod: 0s
-        syncPeriod: 0s
-      metricsBindAddress: 0.0.0.0:10249
-    nodeLocalLoadBalancing:
-      enabled: false
-  podSecurityPolicy:
-    defaultPolicy: 00-k0s-privileged
   telemetry:
     enabled: false
-  installConfig:
-    users:
-      etcdUser: etcd
-      kineUser: kube-apiserver
-      konnectivityUser: konnectivity-server
-      kubeAPIserverUser: kube-apiserver
-      kubeSchedulerUser: kube-scheduler
-  konnectivity:
-    adminPort: 8133
-    agentPort: 8132
-  extensions:
-    helm:
-      charts: null
-      concurrencyLevel: 5
-      repositories: null
-    storage:
-      type: openebs_local_storage
-  controllerManager: {}
-  scheduler: {}
+  workerProfiles:
+    - name: extra-args
+      values:
 ```
+
+- `network`
+  - `provider: <kuberouter|calico|custom>`
+    - default: kuberouter
+    - 네트워크 프로바이더를 변경하는 유일한 방법은 클러스터를 재배포하는 것입니다.
 
 아래 명령어를 통해 controller 서비스를 설치합니다.
 
@@ -101,6 +72,7 @@ sudo k0s install controller -c k0s.yaml --enable-worker
 - `--enable-worker`: controller, worker를 모두 설치합니다.
 - `--single`: controller + worker, worker를 추가할 수 없습니다.
 - `--kubelet-extra-args <extraArgs>`: kubelet 옵션
+  - `--node-ip=<ip>`
 - `--enable-dynamic-config`
   - 동적으로 구성을 변경할 수 있는 기능을 활성화 합니다.
   - `spec.api`, `spec.storage`, `spec.network.podCIDR`, `spec.network.serviceCIDR`, `spec.network.provider`는 변경할 수 없습니다.
@@ -151,7 +123,7 @@ sudo k0s status
 `sudo k0s status` 값이 안나오거나 에러가 있다고 나오는 경우 아래 명령어를 통해 실행 상태와 로그를 확인할 수 있습니다.
 
 ```shell
-sudo systemctl status k0scontroller
+systemctl status k0scontroller
 ```
 
 ```shell
@@ -195,6 +167,10 @@ sudo k0s reset
 sudo k0s token create --role=worker --expiry=1h > <tokenFile>
 ```
 
+```shell
+cat <tokenFile> | base64 -d | gunzip -
+```
+
 ### start
 
 작업 노드에서 아래 명렁어를 통해 worker 서비스를 설치합니다.
@@ -204,8 +180,22 @@ sudo k0s install worker --token-file <tokenFile>
 ```
 
 - `--kubelet-extra-args <extraArgs>`: kubelet 옵션
-  - `--node-ip <ip>`
+  - `--node-ip=<ip>`
 
 ```shell
 sudo k0s start
 ```
+
+:::info
+
+`sudo k0s status` 값이 안나오거나 에러가 있다고 나오는 경우 아래 명령어를 통해 실행 상태와 로그를 확인할 수 있습니다.
+
+```shell
+systemctl status k0sworker
+```
+
+```shell
+journalctl -xe -u k0sworker
+```
+
+:::

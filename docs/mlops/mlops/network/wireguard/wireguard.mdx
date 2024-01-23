@@ -152,13 +152,14 @@ brew install wireguard-tools
 패킷 암호화/복호화에 사용될 키를 생성합니다.
 
 ```shell
-umask 077 && wg genkey | sudo tee /etc/wireguard/privatekey | wg pubkey | sudo tee /etc/wireguard/publickey
+umask 077 && wg genkey | sudo tee /etc/wireguard/privatekey \
+  | wg pubkey | sudo tee /etc/wireguard/publickey
 ```
 
 포워딩이 필요한 경우 ip_forward를 허용하도록 설정합니다.
 
 ```shell
-echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-wireguard.conf \
+echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-wireguard.conf > /dev/null \
 && sudo sysctl -p /etc/sysctl.d/99-wireguard.conf
 ```
 
