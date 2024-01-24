@@ -68,3 +68,14 @@ iptables [-t <table>] -I <chain> [<ruleNum>] <rule>
       - `SNAT`: 패킷의 source 주소를 `--to-source <addr>`로 변경합니다.
       - `MASQUERADE`: 패킷 source 주소를 인터페이스 주소로 변경합니다.
         - `SNAT` + `--to-source <interfaceAddr>`
+
+## 규칙 확인
+
+```shell
+iptables [-t <table>] -L [<chain>] <option>
+```
+
+- `-t <table>`
+  - 생략하면 filter 테이블을 사용합니다.
+- `-n`: 주소를 숫자로 표시합니다.
+- `-v`

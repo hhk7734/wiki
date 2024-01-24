@@ -152,8 +152,8 @@ brew install wireguard-tools
 패킷 암호화/복호화에 사용될 키를 생성합니다.
 
 ```shell
-umask 077 && wg genkey | sudo tee /etc/wireguard/privatekey \
-  | wg pubkey | sudo tee /etc/wireguard/publickey
+umask 077 && wg genkey | sudo tee /etc/wireguard/private.key \
+  | wg pubkey | sudo tee /etc/wireguard/public.key > /dev/null
 ```
 
 포워딩이 필요한 경우 ip_forward를 허용하도록 설정합니다.
@@ -165,54 +165,69 @@ echo "net.ipv4.ip_forward=1" | sudo tee /etc/sysctl.d/99-wireguard.conf > /dev/n
 
 ## 설정
 
+- https://man7.org/linux/man-pages/man8/wg.8.html
+- https://man7.org/linux/man-pages/man8/wg-quick.8.html
+
 ```ini title="/etc/wireguard/<interface>.conf"
 [Interface]
 # 주석
-<key> = <value>
+# <option>
+PrivateKey = ODBloDgfiVacBrsz0x5b2X0fvvFLy8/p2ckwHhIUa2E=
+ListenPort = 51820
+Address = 10.1.2.3/24
+SaveConfig = true
 
 [Peer]
-<key> = <value>
+PublicKey = MkodccJF0RADc4JN4+eKgmAITpIsNUMA2XO/CaDsQnE=
+AllowedIPs = 10.1.2.4/32
+AllowedIPs = 172.16.1.0/24
+Endpoint = 172.16.1.2/32:12345
 ```
 
 - `[Interface]`
-  - `<key>`
-    - `Address`
-      - 인터페이스에 할당할 IP 주소 목록입니다.
-      - `,`로 구분하여 여러 개를 지정할 수 있습니다.
-      - IP4와 IP6을 지정할 수 있습니다.
-      - CIDR mask를 쓸 수 있습니다.
-      - 여러번 선언될 수 있습니다.
-    - `DNS`
-      - 인터페이스의 DNS 주소 목록입니다.
-      - `,`로 구분하여 여러 개를 지정할 수 있습니다.
-      - IP4, IP6, hostname을 지정할 수 있습니다.
-      - 여러번 선언될 수 있습니다.
-    - `PrivateKey`
-      - 복호화에 사용될 개인키입니다.
-    - `PreUp`, `PostUp`, `PreDown`, `PostDown`
-      - `wg-quick up|down <intreface>` 명령을 실행하기 전/후에 실행할 bash 스크립트입니다.
-      - `%i`는 `<interface>`로 치환됩니다.
-      - 여러번 선언될 수 있습니다.
-    - `SaveConfig`
-      - `true`로 설정한 경우 `<interface>`가 제거되기 전 변경된 사항이 있다면 `/etc/wireguard/<interface>.conf`에 반영됩니다.
+  - `<option>`
+    - `wg` 옵션
+      - `PrivateKey = <key>`
+        - 복호화에 사용될 개인키입니다.
+      - `ListenPort = <port>`
+        - WireGuard가 사용할 UDP 포트입니다.
+        - 선언하지 않으면 임의의 포트가 할당됩니다.
+    - `wg-quick` 옵션
+      - `Address = <ip>/<cidr>[,<ip>/<cidr> ...]`
+        - WireGuard 인터페이스에 할당할 IP 주소 목록입니다.
+        - IP4와 IP6을 지정할 수 있습니다.
+        - 여러번 선언될 수 있습니다.
+      - `DNS = <ip|host>[,<ip|host>]`
+        - 인터페이스의 DNS 주소 목록입니다.
+        - IP4, IP6, hostname을 지정할 수 있습니다.
+        - 여러번 선언될 수 있습니다.
+      - `PreUp|PostUp|PreDown|PostDown = <script>`
+        - `wg-quick up|down <intreface>` 명령을 실행하기 전/후에 실행할 bash 스크립트입니다.
+        - `%i`는 `<interface>`로 치환됩니다.
+        - 여러번 선언될 수 있습니다.
+      - `SaveConfig = true|false`
+        - `true`로 설정한 경우 `<interface>`가 제거되기 전 변경된 사항이 있다면 `/etc/wireguard/<interface>.conf`에 반영됩니다.
 - `[Peer]`
   - 여러번 선언할 수 있습니다.
-  - `<key>`
-    - `AllowedIPs`
-      - 라우팅에 사용될 IP 주소 목록입니다.
-    - `PublicKey`
-      - 암호화에 사용될 공개키입니다.
-    - `Endpoint`
-      - 엔드포인트 정보가 없을 때 사용되는 기본값입니다.
-      - 기본적으로 WireGuard는 다른 피어로부터 패킷을 받을 때 해당 피어의 엔드포인트 정보를 갱신합니다.
-      - 최초 통신 시 또는 통신이 끊어진 후 일정 시간이 지나면 해당 피어의 엔드포인트를 알 수 없습니다.
-    - `PersistentKeepalive`
-      - 피어에게 ping을 보내는 주기입니다.
-      - 기본값은 0으로 ping을 보내지 않습니다.
-      - ping을 받은 피어는 보낸 피어의 엔드포인트 정보를 갱신합니다.
-      - 25로 설정하는 것이 합리적입니다.(https://www.wireguard.com/quickstart/)
+  - `<option>`
+    - `wg` 옵션
+      - `PublicKey = <key>`
+        - 암호화에 사용될 공개키입니다.
+      - `AllowedIPs = <ip>/<cidr>[,<ip>/<cidr> ...]`
+        - 라우팅에 사용될 IP 주소 목록입니다.
+        - IP4와 IP6를 지정할 수 있습니다.
+        - 여러번 선언될 수 있습니다.
+      - `Endpoint = <ip|host>:<port>`
+        - 엔드포인트 정보가 없을 때 사용되는 기본값입니다.
+        - 기본적으로 WireGuard는 다른 피어로부터 패킷을 받을 때 해당 피어의 엔드포인트 정보를 갱신합니다.
+        - 최초 통신 시 또는 통신이 끊어진 후 일정 시간이 지나면 해당 피어의 엔드포인트를 알 수 없습니다.
+      - `PersistentKeepalive = <seconds>`
+        - 피어에게 ping을 보내는 주기입니다.
+        - 기본값은 0으로 ping을 보내지 않습니다.
+        - ping을 받은 피어는 보낸 피어의 엔드포인트 정보를 갱신합니다.
+        - 25로 설정하는 것이 합리적입니다.(https://www.wireguard.com/quickstart/)
 
-## wg-quick
+## `wg`, `wg-quick` 커맨드
 
 ### 실행
 
@@ -237,8 +252,31 @@ sudo systemctl start wg-quick@<interface>
 ### 설정 업데이트
 
 ```shell
-wg syncconf <interface> <(wg-quick strip <interface>)
+sudo wg set <interface> <option> [<option> ...]
 ```
+
+- `<option>`
+  - `listen-port <port>`
+  - `private-key <key>`
+  - `peer <pubKey> <option> [<option> ...]`
+    - `<option>`
+      - `remove`
+      - `endpoint <ip>:<port>`
+      - `persistent-keepalive <seconds>`
+      - `allowed-ips <ip>/<cidr>[,<ip>/<cidr> ...]`
+
+```shell
+sudo wg [show [<interface> [<field>]]]
+```
+
+:::info
+peer를 추가한 경우 라우팅 테이블도 수정해야합니다.
+
+```shell
+sudo ip route add|del <ip>/<cidr> dev <interface>
+```
+
+:::
 
 ### 중지
 

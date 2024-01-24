@@ -15,6 +15,12 @@ keywords:
 curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.28.6+k0s.0 sh
 ```
 
+## 의존성 확인
+
+```shell
+k0s sysinfo
+```
+
 ## Controller
 
 ### start
@@ -53,9 +59,6 @@ spec:
     clusterDomain: cluster.local
   telemetry:
     enabled: false
-  workerProfiles:
-    - name: extra-args
-      values:
 ```
 
 - `network`
@@ -106,6 +109,20 @@ sudo fallocate -l 3G /swapfile
 sudo chmod 600 /swapfile \
 && sudo mkswap /swapfile \
 && sudo swapon /swapfile
+```
+
+```shell title="/etc/fstab"
+/swapfile    none    swap    sw    0   0
+```
+
+시스템 성능을 고려하여 `vm.swappiness`을 조절합니다.
+
+```shell title="/etc/sysctl.conf"
+vm.swappiness=10
+```
+
+```shell
+sudo sysctl -p
 ```
 
 :::

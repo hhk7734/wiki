@@ -126,6 +126,17 @@ ip route add <nodeSpec> <infoSpec>
   - `via [<family>] <address>`: 다음 라우터의 주소를 지정합니다.
   - `dev <devName>`: output 장치를 설정합니다.
 
+:::info
+route 정보를 보는 것이 불편하면 아래와 같은 명령어를 사용할 수 있습니다.
+
+```shell
+ip -d -j route show table all \
+  | jq -r 'map( with_entries(  .value |= tostring  ) ) | ["target(dst)", "via(gateway)",  "source(prefsrc/src)", "dev", "protocol(proto)", "scope", "type", "metric", "table", "pref", "flags"], (.[] | [.dst // "-", .gateway // "-", .prefsrc // "-", .dev // "-", .protocol // "-", .scope // "-", .type // "-", .metric // "-", .table // "-", .pref // "-", .flags // "-"]) | @tsv' \
+  | column -ts $'\t'
+```
+
+:::
+
 ## ip netns
 
 - https://man7.org/linux/man-pages/man8/ip-netns.8.html
