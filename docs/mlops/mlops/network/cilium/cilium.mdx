@@ -1,0 +1,90 @@
+---
+id: cilium
+title: cilium
+sidebar_label: cilium
+description: cilium
+keywords:
+  - cilium
+---
+
+## 설치
+
+- [Kubernetes 호환성](https://docs.cilium.io/en/stable/network/kubernetes/compatibility/)
+
+### cilium-cli
+
+- [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
+
+### Helm으로 cilium 설치하기
+
+- https://docs.cilium.io/en/stable/installation/k8s-install-helm/
+
+```shell
+helm repo add cilium https://helm.cilium.io/
+```
+
+```shell
+helm repo update cilium \
+&& helm search repo cilium/cilium -l | head -n 10
+```
+
+```shell
+helm show values cilium/cilium \
+    --version 1.14.6 \
+    > cilium-values.yaml
+```
+
+```yaml tilte="cilium-values.yaml"
+k8sServiceHost: "<ip|host>"
+k8sServicePort: "<port>"
+
+# mesh
+cluster:
+  name: <name>
+
+ipam:
+  # -- Configure IP Address Management mode.
+  # ref: https://docs.cilium.io/en/stable/network/concepts/ipam/
+  mode: "cluster-pool"
+  operator:
+    # -- IPv4 podCIDR list
+    clusterPoolIPv4PodCIDRList: ["10.244.0.0/16"]
+    # -- IPv4 CIDR mask size to delegate to individual nodes for IPAM.
+    clusterPoolIPv4MaskSize: 25
+    # -- IPv6 podCIDR list
+    clusterPoolIPv6PodCIDRList: ["fd00::/104"]
+    # -- IPv6 CIDR mask size to delegate to individual nodes for IPAM.
+    clusterPoolIPv6MaskSize: 120
+
+kubeProxyReplacement: "true"
+
+operator:
+  replicas: 1
+```
+
+```shell
+helm template cilium cilium/cilium \
+    --version 1.14.6 \
+    -n kube-system \
+    -f cilium-values.yaml \
+    > cilium.yaml
+```
+
+```shell
+helm upgrade cilium cilium/cilium \
+    --install \
+    --history-max 3 \
+    --version 1.14.6 \
+    -n kube-system \
+    -f cilium-values.yaml
+```
+
+```shell
+cilium status --wait
+```
+
+## 테스트
+
+```shell
+cilium connectivity test
+```

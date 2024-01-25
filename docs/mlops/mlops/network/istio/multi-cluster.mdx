@@ -167,7 +167,7 @@ global:
 ```shell
 helm upgrade istiod istio/istiod \
     --install \
-    --version 1.19.3 \
+    --version 1.20.2 \
     -n istio-system \
     --history-max 3 \
     -f istiod-values.yaml
@@ -177,7 +177,7 @@ helm upgrade istiod istio/istiod \
 
 ```shell
 helm show values istio/gateway \
-    --version 1.19.3 \
+    --version 1.20.2 \
     > ingress-cross-values.yaml
 ```
 
@@ -237,7 +237,7 @@ networkGateway: <network>
 ```shell
 helm upgrade ingress-cross istio/gateway \
     --install \
-    --version 1.19.3 \
+    --version 1.20.2 \
     -n istio-system \
     --history-max 3 \
     -f ingress-cross-values.yaml
@@ -282,7 +282,7 @@ istioctl x create-remote-secret \
 
 ```shell
 kubectl run tmp-shell --rm -it --image nicolaka/netshoot \
-  --labels istio.io/rev="1-19-3" \
+  --labels istio.io/rev="1-20-2" \
   -- \
   /bin/bash
 ```

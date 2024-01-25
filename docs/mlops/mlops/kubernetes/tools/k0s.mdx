@@ -12,7 +12,7 @@ keywords:
 - https://docs.k0sproject.io/head/install/
 
 ```shell
-curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.28.6+k0s.0 sh
+curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.27.10+k0s.0 sh
 ```
 
 ## 의존성 확인
@@ -20,6 +20,37 @@ curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.28.6+k0s.0 sh
 ```shell
 k0s sysinfo
 ```
+
+:::info
+램이 부족한 환경인 경우 swap을 사용할 수 있습니다.
+
+- https://docs.k0sproject.io/head/system-requirements/
+
+```shell
+sudo fallocate -l 3G /swapfile
+```
+
+```shell
+sudo chmod 600 /swapfile \
+&& sudo mkswap /swapfile \
+&& sudo swapon /swapfile
+```
+
+```shell title="/etc/fstab"
+/swapfile    none    swap    sw    0   0
+```
+
+시스템 성능을 고려하여 `vm.swappiness`을 조절합니다.
+
+```shell title="/etc/sysctl.conf"
+vm.swappiness=10
+```
+
+```shell
+sudo sysctl -p
+```
+
+:::
 
 ## Controller
 
@@ -62,9 +93,12 @@ spec:
 ```
 
 - `network`
-  - `provider: <kuberouter|calico|custom>`
+  - `provider: kuberouter|calico|custom`
     - default: kuberouter
     - 네트워크 프로바이더를 변경하는 유일한 방법은 클러스터를 재배포하는 것입니다.
+    - [cilium 사용하기](https://docs.cilium.io/en/stable/installation/k0s/)
+  - `kubeProxy`
+    - `disabled: true|false`
 
 아래 명령어를 통해 controller 서비스를 설치합니다.
 
@@ -89,43 +123,12 @@ sudo k0s install controller -c k0s.yaml --enable-worker
 | Protocol | Port  | Service               | Direction                 | Notes |
 | -------- | ----- | --------------------- | ------------------------- | ----- |
 | TCP      | 2380  | etcd peers            | controller\<-\>controller |       |
-| TCP      | 6443  | Kubernetes API Server | worker=\>controller       |       |
+| TCP      | 6443  | Kubernetes API Server | **worker=\>controller**   |       |
 | TCP      | 179   | kube-router           | worker\<-\>worker         | BGP   |
 | TCP      | 4789  | Calico                | worker\<-\>worker         | VXLAN |
 | TCP      | 10250 | kubelet               | master,worker=\>host "\*" |       |
 | TCP      | 9443  | k0s-api               | controller\<-\>controller |       |
-| TCP      | 8132  | konnectivity          | worker\<-\>controller     |       |
-
-:::info
-램이 부족한 환경인 경우 swap을 사용할 수 있습니다.
-
-- https://docs.k0sproject.io/head/system-requirements/
-
-```shell
-sudo fallocate -l 3G /swapfile
-```
-
-```shell
-sudo chmod 600 /swapfile \
-&& sudo mkswap /swapfile \
-&& sudo swapon /swapfile
-```
-
-```shell title="/etc/fstab"
-/swapfile    none    swap    sw    0   0
-```
-
-시스템 성능을 고려하여 `vm.swappiness`을 조절합니다.
-
-```shell title="/etc/sysctl.conf"
-vm.swappiness=10
-```
-
-```shell
-sudo sysctl -p
-```
-
-:::
+| TCP      | 8132  | konnectivity          | **worker\<-\>controller** |       |
 
 ```shell
 sudo k0s start
@@ -198,6 +201,10 @@ sudo k0s install worker --token-file <tokenFile>
 
 - `--kubelet-extra-args <extraArgs>`: kubelet 옵션
   - `--node-ip=<ip>`
+- `--labels <key>=<value>[,<key>=<vlaue> ...]`: Node labels
+  - `kubernetes.io/role=worker`
+- `--taints <key>=<value>:<effect>[,<key>=<value>:<effect> ...]`: Node taints
+  - `node.cilium.io/agent-not-ready=true:NoExecute`
 
 ```shell
 sudo k0s start

@@ -22,7 +22,7 @@ helm repo update jetstack \
 
 ```shell
 helm show values jetstack/cert-manager \
-    --version v1.13.1 \
+    --version v1.13.3 \
     > cert-manager-values.yaml
 ```
 
@@ -42,19 +42,26 @@ resources:
     memory: 32Mi
 
 tolerations: []
+affinity: {}
 
 # cert-manager-webhook
 webhook:
   tolerations: []
+  affinity: {}
 
 # cert-manager-cainjector
 cainjector:
   tolerations: []
+  affinity: {}
+
+startupapicheck:
+  tolerations: []
+  affinity: {}
 ```
 
 ```shell
 helm template cert-manager jetstack/cert-manager \
-    --version v1.13.1 \
+    --version v1.13.3 \
     -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
@@ -64,7 +71,7 @@ helm template cert-manager jetstack/cert-manager \
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
     --history-max 3 \
-    --version v1.13.1 \
+    --version v1.13.3 \
     -n auth \
     -f cert-manager-values.yaml
 ```
@@ -86,5 +93,5 @@ helm uninstall -n auth cert-manager
 ```
 
 ```shell
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.1/cert-manager.crds.yaml
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
 ```

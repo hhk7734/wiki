@@ -1,0 +1,60 @@
+---
+id: bgp
+title: cilium Border Gateway Protocol(BGP) 사용하기
+sidebar_label: Border Gateway Protocol(BGP)
+description: cilium Border Gateway Protocol(BGP) 사용하기
+keywords:
+  - cilium
+  - bgp
+---
+
+- https://docs.cilium.io/en/stable/network/bgp-control-plane/
+
+## BGP Control Plane
+
+BGP Control Plane은 1.14.6 버전 기준으로 IPAM 모드가 `cluster-pool`인 경우에만 사용 가능합니다.
+
+```yaml title="cilium-values.yaml"
+bgpControlPlane:
+  enabled: true
+```
+
+## CiliumBGPPeeringPolicy
+
+```yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumBGPPeeringPolicy
+metadata:
+  name: <name>
+spec:
+  # 선언하지 않으면 모든 Node에 적용됩니다.
+  nodeSelector:
+  virtualRouters:
+    - localASN: <asn>
+      serviceSelector:
+        matchExpressions:
+          - key: someKey
+            operator: NotIn
+            values:
+              - never-used-value
+      neighbors:
+        - peerASN: <asn>
+          peerAddress: <address>
+        - peerASN: <peerASN>
+          peerAddress: <peerAddress>
+```
+
+:::warning
+한 Node에 적용될 CiliumBGPPeeringPolicy은 하나만 존재해야 합니다.
+:::
+
+- `spec`
+  - `virtualRouters`
+    - `localASN`
+    - `serviceSelector`
+      - 선언하지 않으면 어떤면 LoadBalancer 타입의 Service도 알리지 않습니다.
+      - `matchExpressions`
+        - 모든 Service를 알리려면 `{key: someKey, operator: NotIn, values: ['never-used-value']}` 같은 더미 표현을 사용하면 됩니다.
+    - `neighbors`
+      - `peerAddress`
+      - `peerASN`

@@ -22,7 +22,6 @@ const sidebars: SidebarsConfig = {
 			label: "Basics",
 			items: ["etc/circuit/basics/circuit-capacitor"],
 		},
-
 		{
 			type: "category",
 			label: "Sensor",
@@ -645,6 +644,15 @@ const sidebars: SidebarsConfig = {
 					items: ["mlops/mlops/network/wireguard/wireguard"],
 				},
 				"mlops/mlops/network/cni",
+				{
+					type: "category",
+					label: "cilium",
+					items: [
+						"mlops/mlops/network/cilium/cilium",
+						"mlops/mlops/network/cilium/bgp",
+						"mlops/mlops/network/cilium/load-balancer",
+					],
+				},
 				{
 					type: "category",
 					label: "Istio",

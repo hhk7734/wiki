@@ -107,7 +107,7 @@ helm repo update jetstack \
 
 ```shell
 helm show values jetstack/cert-manager-istio-csr \
-    --version v0.7.0 \
+    --version v0.7.1 \
     > cert-manager-istio-csr-values.yaml
 ```
 
@@ -132,7 +132,7 @@ app:
 
   istio:
     revisions:
-      - 1-19-3
+      - 1-20-2
 
 volumes:
   - name: root-ca
@@ -145,11 +145,12 @@ volumeMounts:
     readOnly: true
 
 tolerations: []
+affinity: {}
 ```
 
 ```shell
 helm template cert-manager-istio-csr jetstack/cert-manager-istio-csr \
-    --version v0.7.0 \
+    --version v0.7.1 \
     -n auth \
     -f cert-manager-istio-csr-values.yaml \
     > cert-manager-istio-csr.yaml
@@ -159,7 +160,7 @@ helm template cert-manager-istio-csr jetstack/cert-manager-istio-csr \
 helm upgrade cert-manager-istio-csr jetstack/cert-manager-istio-csr \
     --install \
     --history-max 3 \
-    --version v0.7.0 \
+    --version v0.7.1 \
     -n auth \
     -f cert-manager-istio-csr-values.yaml
 ```

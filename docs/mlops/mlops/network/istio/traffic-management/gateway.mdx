@@ -34,12 +34,12 @@ flowchart LR
 
 ```shell
 helm show values istio/gateway \
-    --version 1.19.3 \
+    --version 1.20.2 \
     > ingress-values.yaml
 ```
 
 ```yaml title="ingress-values.yaml"
-revision: 1-19-3
+revision: 1-20-2
 
 service:
   ports:
@@ -114,7 +114,7 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 
 ```shell
 helm template istio-ingress istio/gateway \
-    --version 1.19.3 \
+    --version 1.20.2 \
     -n istio-system \
     -f ingress-values.yaml \
     > ingress.yaml
@@ -123,7 +123,7 @@ helm template istio-ingress istio/gateway \
 ```shell
 helm upgrade istio-ingress istio/gateway \
     --install \
-    --version 1.19.3 \
+    --version 1.20.2 \
     -n istio-system \
     --history-max 3 \
     -f ingress-values.yaml

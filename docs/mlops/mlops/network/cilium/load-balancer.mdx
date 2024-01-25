@@ -1,0 +1,57 @@
+---
+id: load-balancer
+title: cilium Load Balancer IPAM 사용하기
+sidebar_label: Load Balancer IPAM
+description: cilium Load Balancer IPAM 사용하기
+keywords:
+  - cilium
+  - bgp
+  - ipam
+  - load balancer
+---
+
+- https://docs.cilium.io/en/stable/network/lb-ipam/
+
+## CiliumLoadBalancerIPPool
+
+```yaml
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: <name>
+spec:
+  cidrs:
+    - cidr: <cidr>
+```
+
+- `spec`
+  - `cidrs`
+    - LoadBalancer IP로 사용할 CIDR을 지정합니다.
+    - 다른 CiliumLoadBalancerIPPool과 겹치면 안됩니다.
+  - `serviceSelector`
+    - IP를 할당 받을 수 있는 Service들을 선택할 수 있습니다.
+    - 선언하지 않으면 모든 Service들이 선택됩니다.
+    - `matchExpressions`
+
+LB IPAM은 LoadBalancer 타입의 Service들에 ExternalIP를 할당하는 역할만 하고 로드벨런신 기능은 수행하지 않습니다. 때문에 그 외 기능은 cilium이나 다른 툴이 제공하는 것을 사용해야 합니다.
+
+## Node IPAM LB
+
+Service에 아래와 같은 설정을 추가하면 별도의 네트워크 제어 없이 Node IP를 LoadBalancer IP로 사용할 수 있습니다.
+
+```yaml
+spec:
+  loadBalancerClass: "io.cilium/node"
+```
+
+IP는 `.spec.ipFamilies`, `.spec.ExternalIPs`에 의해 결정됩니다.
+
+## IP 요청
+
+Service는 `.metadata.annotations["io.cilium/lb-ipam-ips"]`에 할당 받고 싶은 IP를 `,`로 구분하여 선언할 수 있습니다.
+
+```yaml
+metadata:
+  annotations:
+    "io.cilium/lb-ipam-ips": "1.2.3.4,1.2.3.5"
+```
