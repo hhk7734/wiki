@@ -618,7 +618,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Network",
 			items: [
-				"mlops/mlops/network/cni-calico",
+				"mlops/mlops/network/cni",
 				{
 					type: "category",
 					label: "Istio",

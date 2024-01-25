@@ -80,6 +80,10 @@ const config: Config = {
 						from: "/docs/linux/linux-tools/git/lfs",
 						to: "/docs/lang/etc/command-line-tools/git/lfs",
 					},
+					{
+						from: "/docs/mlops/mlops/network/cni-calico",
+						to: "/docs/mlops/mlops/network/cni",
+					},
 				],
 			},
 		],
