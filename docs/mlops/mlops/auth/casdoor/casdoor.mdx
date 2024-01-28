@@ -1,0 +1,47 @@
+---
+id: casdoor
+title: casdoor
+sidebar_label: casdoor
+description: casdoor
+keywords:
+  - casdoor
+---
+
+## 설치
+
+- https://github.com/casdoor/casdoor-helm
+
+```shell
+helm pull oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v1.514.0
+```
+
+```shell
+helm show values casdoor-helm-charts-v1.514.0.tgz \
+    > casdoor-values.yaml
+```
+
+```yaml title="casdoor-values.yaml"
+affinity: {}
+
+tolerations: []
+```
+
+```shell
+helm template casdoor casdoor-helm-charts-v1.514.0.tgz \
+    -n auth \
+    -f casdoor-values.yaml \
+    > casdoor.yaml
+```
+
+```shell
+helm upgrade casdoor casdoor-helm-charts-v1.514.0.tgz \
+    --install \
+    --history-max 3 \
+    -n auth \
+    -f casdoor-values.yaml
+```
+
+:::info
+설치 후 초기 관리자 계정은 `admin` / `123` 입니다.
+:::

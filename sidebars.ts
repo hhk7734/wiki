@@ -739,6 +739,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/auth/keycloak/identity-providers",
 					],
 				},
+				{
+					type: "category",
+					label: "Casdoor",
+					items: ["mlops/mlops/auth/casdoor/casdoor"],
+				},
 				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},

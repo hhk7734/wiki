@@ -9,42 +9,38 @@ keywords:
 
 ## 설치
 
+- https://github.com/rancher/local-path-provisioner
+
 ```shell
-git clone https://github.com/rancher/local-path-provisioner.git -b v0.0.20 --depth 1
+helm package ./local-path-provisioner/deploy/chart/local-path-provisioner
 ```
 
 ```shell
-mkdir -p storage/local-path-provisioner/base
+helm show values local-path-provisioner-0.0.25.tgz \
+    > local-path-provisioner-values.yaml
 ```
 
-```shell
-helm show values ./local-path-provisioner/deploy/chart \
-    > storage/local-path-provisioner/base/values.yaml
-```
-
-```yaml title="storage/local-path-provisioner/base/values.yaml"
-# ...
-
+```yaml title="local-path-provisioner-values.yaml"
 storageClass:
   create: true
   defaultClass: false # storageclass.kubernetes.io/is-default-class=false
 
-# ...
+tolerations: []
+
+affinity: {}
 ```
 
 ```shell
-helm upgrade local-path-provisioner ./local-path-provisioner/deploy/chart \
-    --install \
+helm template local-path-provisioner local-path-provisioner-0.0.25.tgz \
     -n storage \
-    --create-namespace \
-    -f storage/local-path-provisioner/base/values.yaml
+    -f local-path-provisioner-values.yaml \
+    > local-path-provisioner.yaml
 ```
 
 ```shell
-helm get manifest local-path-provisioner \
-    > storage/local-path-provisioner/base/manifest.yaml
+helm upgrade local-path-provisioner local-path-provisioner-0.0.25.tgz \
+    --install \
+    --history-max 3 \
+    -n storage \
+    -f local-path-provisioner-values.yaml
 ```
-
-## Reference
-
-- [https://github.com/rancher/local-path-provisioner](https://github.com/rancher/local-path-provisioner)
