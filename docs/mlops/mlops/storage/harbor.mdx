@@ -21,19 +21,62 @@ helm repo update harbor \
 
 ```shell
 helm show values harbor/harbor \
-    --version 1.10.2 \
+    --version 1.14.0 \
     > harbor-values.yaml
 ```
 
 ```yaml title="harbor-values.yaml"
+portal:
+  affinity: {}
 
+  tolerations: []
+
+core:
+  affinity: {}
+
+  tolerations: []
+
+jobservice:
+  affinity: {}
+
+  tolerations: []
+
+registry:
+  affinity: {}
+
+  tolerations: []
+
+trivy:
+  affinity: {}
+
+  tolerations: []
+
+database:
+  internal:
+    affinity: {}
+
+    tolerations: []
+
+redis:
+  internal:
+    affinity: {}
+
+    tolerations: []
+```
+
+```shell
+helm template harbor harbor/harbor \
+    --version 1.14.0 \
+    -n storage \
+    -f harbor-values.yaml \
+    > harbor.yaml
 ```
 
 ```shell
 helm upgrade harbor harbor/harbor \
     --install \
-    --version 1.10.2 \
-    -n storage \
     --history-max 3 \
+    --version 1.14.0 \
+    -n storage \
     -f harbor-values.yaml
 ```

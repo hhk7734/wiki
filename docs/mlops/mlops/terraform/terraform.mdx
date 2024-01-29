@@ -1,11 +1,14 @@
 ---
-id: basics
-title: Terraform basics
-sidebar_label: Basics
-description: Terraform basics
+id: terraform
+title: Terraform
+sidebar_label: Terraform
+description: Terraform
 keywords:
   - terraform
 ---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## 설치
 
@@ -32,6 +35,28 @@ aws configure --profile <profile>
 
 ### Terraform
 
+- https://developer.hashicorp.com/terraform/install
+
+<Tabs
+    groupId="os"
+    defaultValue="debian"
+    values={[
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="debian">
+
+```shell
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+```
+
+</TabItem>
+
+</Tabs>
+
 ```shell
 terraform -install-autocomplete
 ```
@@ -47,11 +72,11 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = ">= 4.8.0"
+      version = ">= 4.8, < 5.0"
     }
   }
 
-  required_version = ">= 1.0.0" # `terraform version`
+  required_version = ">= 1.7,< 2.0" # `terraform version`
 
   backend "s3" {
     bucket         = "<bucket>"
@@ -71,6 +96,8 @@ provider "aws" {
 ```shell
 terraform init
 ```
+
+`main.tf`와 같은 디렉토리에 있는 모든 `.tf` 파일을 실행시킵니다.
 
 ```hcl title="ec2.tf"
 resource "aws_instance" "app_server" {

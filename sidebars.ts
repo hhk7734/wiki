@@ -435,6 +435,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Storage",
 			items: [
+				"linux/linux-tools/storage/fstab",
 				"linux/linux-tools/storage/partition-management",
 				"linux/linux-tools/storage/clone-os-image",
 			],
@@ -483,7 +484,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Terraform",
-					items: ["mlops/mlops/terraform/basics"],
+					items: ["mlops/mlops/terraform/terraform"],
 				},
 				{
 					type: "category",

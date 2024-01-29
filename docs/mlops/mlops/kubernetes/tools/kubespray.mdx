@@ -18,26 +18,16 @@ keywords:
     - `ip link`
     - `sudo cat /sys/class/dmi/id/product_uuid`
 
-```yaml title="init-node.yaml"
-- hosts: all
-  become: true
-  tasks:
-    - name: Set net.ipv4.ip_forward to 1
-      ansible.posix.sysctl:
-        name: net.ipv4.ip_forward
-        value: 1
-
-    - name: Set net.ipv6.conf.all.forwarding to 1
-      ansible.posix.sysctl:
-        name: net.ipv6.conf.all.forwarding
-        value: 1
-```
+## Inventory 생성
 
 ```shell
-git clone git@github.com:kubernetes-sigs/kubespray.git --branch v2.24.0
+podman run --rm -it \
+  -v <path>/inventory:/kubespray/inventory/new \
+  quay.io/kubespray/kubespray:v2.24.0 \
+  cp -rfp /kubespray/inventory/sample/. /kubespray/inventory/new
 ```
 
-kubespray 레포지토리에 있는 `inventory/sample` 디렉토리를 복사 사용합니다. 이후 설명에서 경로는 `inventory/`로 표시하겠습니다.
+kubespray 레포지토리에 있는 `kubespray/inventory/sample` 디렉토리 내용을 `inventory/`로 복사합니다. 이후 설명에서 경로는 `inventory/`로 표시하겠습니다.
 
 ```yaml title="inventory/hosts.yaml"
 all:
@@ -76,18 +66,11 @@ all:
       children:
         kube_control_plane:
         kube_node:
+    # Calico Route Reflector
     calico_rr:
       hosts: {}
-```
-
-```shell
-podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
-  -v <path>/init-node.yaml:/kubespray/init-node.yaml \
-  -v <privateKeyPath>:/root/.ssh/id_rsa \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /kubespray/inventory/hosts.yaml \
-  /kubespray/init-node.yaml
+    bastion:
+      hosts: {}
 ```
 
 ## 클러스터 생성
@@ -98,60 +81,19 @@ inventory/
 │   ├── all/
 │   │   ├── all.yml
 │   │   └── ...
-│   ├── etcd.yml
-│   └── k8s_cluster/
-│       ├── addons.yml
-│       ├── k8s-cluster.yml
-│       └── ...
-├── hosts.yaml
-└── patches/
-    └── ...
+│   ├── k8s_cluster/
+│   │   ├── addons.yml
+│   │   ├── k8s-cluster.yml
+│   │   └── ...
+│   └── etcd.yml
+├── patches/
+└── hosts.yaml
 ```
 
 - group_vars
   - k8s_cluster
     - k8s-cluster.yml: 클러스터의 기본 구성을 설정합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
-
-```yaml title="inventory/hosts.yaml"
-all:
-  hosts:
-    node1:
-      # host_vars
-      ansible_host: 10.0.0.2
-      ip: 10.0.0.2
-      access_ip: 10.0.0.2
-    node2:
-      ansible_host: 10.0.0.3
-      ip: 10.0.0.3
-      access_ip: 10.0.0.3
-    node3:
-      ansible_host: 10.0.0.4
-      ip: 10.0.0.4
-      access_ip: 10.0.0.4
-  children:
-    kube_control_plane:
-      hosts:
-        node1:
-        node2:
-    kube_node:
-      hosts:
-        node1:
-        node2:
-        node3:
-    etcd:
-      hosts:
-        node1:
-        node2:
-        node3:
-    k8s_cluster:
-      children:
-        kube_control_plane:
-        kube_node:
-    # Calico Route Reflector
-    calico_rr:
-      hosts: {}
-```
 
 ```shell
 podman run --rm -it \

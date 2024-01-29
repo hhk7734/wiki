@@ -15,7 +15,7 @@ import TabItem from "@theme/TabItem";
 
 <Tabs
     groupId="os"
-    defaultValue="arch"
+    defaultValue="debian"
     values={[
         {label: 'Arch Linux', value: 'arch',},
         {label: 'Debian', value: 'debian',}
@@ -86,7 +86,8 @@ git config --global core.eol lf \
 </Tabs>
 
 ```shell
-git config --global push.autoSetupRemote true
+git config --global push.autoSetupRemote true \
+&& git config --global push.default current
 ```
 
 ## clone

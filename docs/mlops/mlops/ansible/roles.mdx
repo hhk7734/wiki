@@ -1,9 +1,61 @@
 ---
 id: roles
-title: Ansible Roles
-sidebar_label: Roles
-description: Ansible Roles
+title: Ansible Role을 사용해서 task 모듈화하기
+sidebar_label: Role을 사용한 tasks 모듈화
+description: Ansible Role을 사용해서 task 모듈화하기
 keywords:
   - Ansible
   - Roles
+  - 모듈화
 ---
+
+- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html
+
+## Directory structure
+
+```shell
+roles/
+├── <category>
+│   └── <role>
+├── <role>
+│   ├── defaults/
+│   │   └── main.yaml
+│   ├── files/
+│   ├── handlers/
+│   │   └── main.yaml
+│   ├── meta
+│   │   └── main.yaml
+│   ├── tasks/
+│   │   └── main.yaml
+│   ├── templates/
+│   │   ├── <template>.j2
+│   │   └── ...
+│   ├── vars/
+│   │   └── main.yaml
+│   └── ...
+└── ...
+```
+
+## role 사용하기
+
+```yaml
+- roles:
+    - role: `<role>` # or <category>/<role>
+      vars:
+        `<var>`: `<value>`
+      tags:
+        - `<tag>`
+      when: `<condition>`
+```
+
+```yaml
+- tasks:
+    - include_role:
+        name: `<role>` # or <category>/<role>
+```
+
+```yaml
+- tasks:
+    - import_role:
+        name: `<role>` # or <category>/<role>
+```

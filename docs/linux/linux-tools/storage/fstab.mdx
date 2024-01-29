@@ -1,0 +1,52 @@
+---
+id: fstab
+title: fstab(file systems table)
+sidebar_label: fstab
+description: fstab(file systems table)
+keywords:
+  - Linux
+  - fstab
+---
+
+## fstab
+
+`/etc/fstab` 파일은 아래와 같이 구성되어 있습니다.
+
+```shell
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <fileSystem> <mountPoint>   <type>  <options>         <dump>  <pass>
+/dev/sdc2      /              ext4    errors=remount-ro 0       1
+/dev/sdc1      /boot/efi      vfat    umask=0077        0       1
+/dev/sda1      /home          ext4    defaults          0       2
+```
+
+```shell
+sudo mount -av
+```
+
+`-a` 옵션을 통해 `/etc/fstab`에 선언된 모든 파일 시스템을 마운트할 수 있습니다.
+
+### 파일 시스템
+
+```shell
+lsblk -f
+```
+
+- `/dev/<device>`
+- `LABEL=<label>`
+- `UUID=<uuid>`
+
+### 마운트 옵션
+
+- `defaults`: rw,suid,exec,auto,nouser,async,dev
+- `ro|rw`: 읽기 전용, 읽기 쓰기
+- `suid|nosuid`: setuid, setgid 허용 여부
+- `exec|noexec`: 실행파일 실행 허용 여부
+- `auto|noauto`: 부팅시 자동 마운트 여부
+- `user|nouser`: 일반 사용자 마운트 허용 여부
+  - `nouser`는 root만 마운트 가능하다는 의미입니다.
