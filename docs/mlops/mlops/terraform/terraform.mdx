@@ -63,6 +63,12 @@ terraform -install-autocomplete
 
 ## Tutorial
 
+- https://developer.hashicorp.com/terraform/language/files
+  - Terraform은 `*.tf` 파일이 있는 디렉토리를 하나의 모듈로 간주합니다.
+  - `terraform` 명령어는 별도의 선언 없이 모듈 내의 모든 `*.tf` 파일을 실행합니다.
+  - 디렉토리 내의 디렉토리 또는 다른 위치의 디렉토리는 별도의 모듈로 간주되며, 별도의 선언이 있어야지만 실행됩니다.
+  - `terraform` 명령어를 실행시키는 위치 또는 별도 선언으로 지정한 모듈이 루트 모듈이 됩니다.
+
 ```shell
 mkdir test && cd test
 ```
@@ -96,8 +102,6 @@ provider "aws" {
 ```shell
 terraform init
 ```
-
-`main.tf`와 같은 디렉토리에 있는 모든 `.tf` 파일을 실행시킵니다.
 
 ```hcl title="ec2.tf"
 resource "aws_instance" "app_server" {

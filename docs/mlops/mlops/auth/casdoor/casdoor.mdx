@@ -7,6 +7,17 @@ keywords:
   - casdoor
 ---
 
+## Casdoor
+
+Casdoor는 `Application`에 대한 인증/인가를 관리하는 서비스입니다.
+
+- `User`는 하나의 `Organization`에만 속할 수 있습니다.
+- `User`는 자신이 속한 `Organization`의 `Application`에 로그인할 수 있습니다.
+  - 인증을 위해 `Provider`를 사용할 수 있습니다.
+- Casdoor API에서 `User`는 일반적으로 `<organizationName>/<userName>`으로 식별됩니다.
+- `build-in`이라는 `Organization`에는 `admin`이라는 `User`와 `app-build-in`이라는 `Application`이 있습니다.
+  - `app-built-in`이 Casdoor 자체를 위한 `Application`입니다.
+
 ## 설치
 
 - https://github.com/casdoor/casdoor-helm
@@ -42,6 +53,14 @@ helm upgrade casdoor casdoor-helm-charts-v1.514.0.tgz \
     -f casdoor-values.yaml
 ```
 
-:::info
-설치 후 초기 관리자 계정은 `admin` / `123` 입니다.
+:::warning
+
+설치 후 보안을 위한 조치가 필요합니다.
+
+- 초기 관리자 계정은 `admin` / `123` 입니다.
+- `built-in` `Organization`의 비밀번호 타입을 `plain`에서 다른 옵션으로 변경합니다.
+- `admin`의 비밀번호를 변경합니다.
+- Admin 사용자 계정을 생성합니다.
+- `app-built-in`의 가입을 비활성화 합니다.
+
 :::
