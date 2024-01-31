@@ -314,7 +314,7 @@ import * as pulumi from "@pulumi/pulumi";
 
 export const stackName = pulumi.getStack();
 
-const config = new pulumi.Config();
+// const config = new pulumi.Config();
 ```
 
 ```typescript title="src/ec2/ec2.ts"
@@ -322,22 +322,23 @@ import * as aws from "@pulumi/aws";
 
 import * as variable from "@src/variable";
 
-function createEC2(name: string): aws.ec2.Instance {
-	return new aws.ec2.Instance(name, {
-		ami: "ami-090717c950a5c34d3",
-		instanceType: "t3.micro",
-		tags: {
-			Name: name,
-			"loliot.net/stack": variable.stackName,
-		},
-	});
-}
-
-export const appServer = createEC2("app-server");
+const appServerName = "app-server";
+new aws.ec2.Instance(appServerName, {
+	ami: "ami-090717c950a5c34d3",
+	instanceType: "t3.micro",
+	tags: {
+		Name: appServerName,
+		"loliot.net/stack": variable.stackName,
+	},
+});
 ```
 
 ```typescript title="src/ec2/index.ts"
-export * as ec2 from "./ec2";
+import * as ec2_ from "./ec2";
+
+ec2_;
+
+export const ec2 = {};
 ```
 
 ```typescript title="src/index.ts"
@@ -353,7 +354,9 @@ register({
 	paths: tsConfig.paths,
 });
 
-export * as ec2 from "./ec2";
+import { ec2 } from "./ec2";
+
+export { ec2 };
 ```
 
 </TabItem>

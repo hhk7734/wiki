@@ -103,7 +103,8 @@ spec:
 아래 명령어를 통해 controller 서비스를 설치합니다.
 
 ```shell
-sudo k0s install controller -c k0s.yaml --enable-worker
+sudo k0s install controller \
+  --config k0s.yaml
 ```
 
 - `--enable-worker`: controller, worker를 모두 설치합니다.
@@ -137,6 +138,8 @@ sudo k0s start
 ```shell
 sudo k0s status
 ```
+
+- `--out <format>`: json 또는 yaml 형식으로 출력
 
 :::info
 
