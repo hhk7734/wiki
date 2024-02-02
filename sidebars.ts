@@ -484,7 +484,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Terraform",
-					items: ["mlops/mlops/terraform/terraform"],
+					items: ["mlops/mlops/terraform/terraform", "mlops/mlops/terraform/import"],
 				},
 				{
 					type: "category",
@@ -714,7 +714,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Auth",
 			items: [
-				"mlops/mlops/auth/kubeconfig",
+				"mlops/mlops/auth/authn",
 				"mlops/mlops/auth/rbac",
 				{
 					type: "category",

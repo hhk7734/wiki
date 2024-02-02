@@ -1,0 +1,69 @@
+---
+id: import
+title: 존재하는 리소스를 Terraform으로 가져오기
+sidebar_label: 존재하는 리소스 가져오기
+description: 존재하는 리소스를 Terraform으로 가져오기
+keywords:
+  - terraform
+  - import
+---
+
+## 리소스 주소(Resource Address)
+
+- https://developer.hashicorp.com/terraform/cli/state/resource-addressing
+
+리소스 주소(`<resourceAddress>`)는 모듈 이름, 리소스 타입, 리소스 이름 으로 구성됩니다. `count`나 `for_each` 등을 써서 생성한 모듈이나 리소스는 `[<index>]`나 `["<key>"]`를 사용할 수 있습니다.
+
+```shell
+[<modulePath>.[<modulePath>.]]<resourceSpec>
+```
+
+- `<modulePath>`
+  - `module.<moduleName>`
+  - `module.<moduleName>[<index>]`
+  - `module.<moduleName>["<key>"]`
+- `<resourceSpec>`
+  - `<resourceType>.<resourceName>`
+  - `<resourceType>.<resourceName>[<index>]`
+  - `<resourceType>.<resourceName>["<key>"]`
+
+## 리소스 ID(Resource ID)
+
+- `<resourceID>`
+  - 리소스를 특정지을 수 있는 값입니다.
+  - https://registry.terraform.io/providers/hashicorp 문서에서 각 리소스 설명에 `import`시 사용할 수 있는 `id`를 확인할 수 있습니다.
+
+## `terraform import` 커맨드로 가져오기
+
+- https://developer.hashicorp.com/terraform/cli/commands/import
+
+```shell
+terraform import <resourceAddress> <resourceID>
+```
+
+## `import` 블록으로 가져오기
+
+- https://developer.hashicorp.com/terraform/language/import
+
+```hcl
+import {
+  to = <resourceSpec>
+  id = "<resourceID>"
+}
+
+resource "<resourceType>" "<resourceName>" {
+  # 가져올 리소스의 설정을 적습니다.
+}
+```
+
+:::info
+
+리소스 설정을 빠짐없이 가져오는 것이 어려울 수 있습니다. `import` 블록만 선언한 후 `-generate-config-out=<file>` 옵션을 사용하여 `plan`을 실행하면 가져올 리소스 설정을 자동으로 생성할 수 있습니다. 아직 실험적인 기능이므로, 터미널에 출력된 내용과 생성된 파일을 꼼꼼히 확인해야 합니다.
+
+```shell
+terraform plan -generate-config-out=generated.tf
+```
+
+:::
+
+리소스 선언 후 `terraform plan` 명령으로 확인한 후, `terraform apply`를 하면 리소스가 상태 파일에 추가됩니다.

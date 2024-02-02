@@ -51,6 +51,7 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf
     defaultValue="zsh"
     values={[
         {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',},
     ]}
 >
 
@@ -63,6 +64,16 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 # 마지막 줄에 추가
 autoload -Uz compinit && compinit
+```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title=".bashrc"
+# asdf
+. "$HOME/.asdf/asdf.sh"
+. "$HOME/.asdf/completions/asdf.bash"
 ```
 
 </TabItem>

@@ -29,9 +29,14 @@ helm repo update cilium \
 ```
 
 ```shell
+helm pull cilium/cilium \
+    --version 1.14.6
+```
+
+```shell
 helm show values cilium/cilium \
     --version 1.14.6 \
-    > cilium-values.yaml
+    > cilium-1.14.6.yaml
 ```
 
 ```yaml tilte="cilium-values.yaml"
@@ -63,7 +68,7 @@ operator:
 ```
 
 ```shell
-helm template cilium cilium/cilium \
+helm template cilium cilium-1.14.6.tgz \
     --version 1.14.6 \
     -n kube-system \
     -f cilium-values.yaml \
@@ -71,7 +76,7 @@ helm template cilium cilium/cilium \
 ```
 
 ```shell
-helm upgrade cilium cilium/cilium \
+helm upgrade cilium cilium-1.14.6.tgz \
     --install \
     --history-max 3 \
     --version 1.14.6 \

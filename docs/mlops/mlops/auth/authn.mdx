@@ -1,0 +1,107 @@
+---
+id: authn
+title: Kubernetes 인증(Authn)
+sidebar_label: k8s 인증(Authn)
+description: Kubernetes 인증(Authn)
+keywords:
+  - kubernetes
+  - authn
+  - kubeconfig
+---
+
+## User
+
+- 추상적인 개념으로 User를 명시하는 리소스는 없습니다.
+- ServiceAccount는 `system:serviceaccount:<namespace>:<serviceAccountName>` User로 인식됩니다.
+
+## Group
+
+- 추상적인 개념으로 Group을 명시하는 리소스는 없습니다.
+- 인증된 User는 `system:authenticated` Group으로 인식됩니다.
+- 인증되지 않은 User는 `system:unauthenticated` Group으로 인식됩니다.
+- ServiceAccount는 `system:serviceaccounts`와 `system:serviceaccounts:<namespace>` Group으로 인식됩니다.
+
+## Authn
+
+### X.509 인증서로 인증하기
+
+- 인증서의 `CN(Common Name)`이 User로 인식됩니다.
+- 인증서의 `O(Organization)`가 Group으로 인식됩니다.
+
+```shell
+curl --cacert <certificateAuthority> \
+    --cert <clientCertificate> \
+    --key <clientKey> \
+    <apiServerURL>
+```
+
+### JWT 토큰으로 인증하기
+
+- 토큰의 `sub`가 User로 인식됩니다.
+
+```shell
+curl --cacert <certificateAuthority> \
+    -H "Authorization: Bearer <jwt>" \
+    <apiServerURL>
+```
+
+#### ServiceAccount JWT 토큰
+
+#### OIDC JWT 토큰
+
+- https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens
+
+## kubeconfig
+
+```yaml
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+  - name: cluster-1
+    cluster:
+      server: <apiServerURL>
+      certificate-authority-data: <base64EncodedCertificate> # root ca 인증서
+      # certificate-authority: <ca-path>
+users:
+  - name: user-1
+    user:
+      client-certificate-data: <base64EncodedCertificate> # client 인증서
+      # client-certificate: <client-ca-path>
+      client-key-data: <base64EncodedPrivateKey> # client 개인키
+      # client-key: <client-key-path>
+  - name: user-2
+    user:
+      token: <jwt> # ServiceAccount의 토큰
+  - name: user-3
+    user:
+      auth-provider:
+        name: oidc
+        config:
+          client-id: <clientID>
+          client-secret: <clientSecret>
+          idp-issuer-url: <idpIssuerURL>
+  - name: user-4
+    user:
+      exec: # credential plugin
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=<oidcIssuerURL>
+          - --oidc-client-id=<clientID>
+          - --oidc-client-secret=<clientSecret>
+contexts: # cluster
+  - name: context-1
+    context:
+      cluster: cluster-1
+      user: user-1
+      namespace: default # 설정 안하면 default가 기본입니다.
+current-context: context-1 # 현재 설정된 접속 정보입니다.
+```
+
+## Reference
+
+- https://coffeewhale.com/apiserver
+- https://kubernetes.io/docs/reference/access-authn-authz/authentication/
