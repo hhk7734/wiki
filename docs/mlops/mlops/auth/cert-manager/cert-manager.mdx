@@ -21,9 +21,12 @@ helm repo update jetstack \
 ```
 
 ```shell
-helm show values jetstack/cert-manager \
-    --version v1.13.3 \
-    > cert-manager-values.yaml
+helm pull jetstack/cert-manager --version v1.13.3
+```
+
+```shell
+helm show values cert-manager-v1.13.3.tgz \
+    > cert-manager-v1.13.3.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
@@ -60,18 +63,16 @@ startupapicheck:
 ```
 
 ```shell
-helm template cert-manager jetstack/cert-manager \
-    --version v1.13.3 \
+helm template cert-manager cert-manager-v1.13.3.tgz \
     -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
 
 ```shell
-helm upgrade cert-manager jetstack/cert-manager \
+helm upgrade cert-manager cert-manager-v1.13.3.tgz \
     --install \
     --history-max 3 \
-    --version v1.13.3 \
     -n auth \
     -f cert-manager-values.yaml
 ```

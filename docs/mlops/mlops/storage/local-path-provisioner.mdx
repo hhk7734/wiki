@@ -12,22 +12,27 @@ keywords:
 - https://github.com/rancher/local-path-provisioner
 
 ```shell
+git clone https://github.com/rancher/local-path-provisioner.git \
+    --branch v0.0.25 \
+    --single-branch
+```
+
+```shell
 helm package ./local-path-provisioner/deploy/chart/local-path-provisioner
 ```
 
 ```shell
 helm show values local-path-provisioner-0.0.25.tgz \
-    > local-path-provisioner-values.yaml
+    > local-path-provisioner-0.0.25.yaml
 ```
 
 ```yaml title="local-path-provisioner-values.yaml"
 storageClass:
-  create: true
   defaultClass: false # storageclass.kubernetes.io/is-default-class=false
 
-tolerations: []
-
 affinity: {}
+
+tolerations: []
 ```
 
 ```shell
