@@ -20,9 +20,12 @@ helm repo update argo \
 ```
 
 ```shell
-helm show values argo/argo-cd \
-    --version 5.51.2 \
-    > argo-cd-values.yaml
+helm pull argo/argo-cd --version 5.53.13
+```
+
+```shell
+helm show values argo-cd-5.53.13.tgz \
+    > argo-cd-5.53.13.yaml
 ```
 
 ```yaml title="argo-cd-values.yaml"
@@ -30,50 +33,24 @@ fullnameOverride: "argo-cd"
 
 global:
   additionalLabels: {}
-
   podLabels: {}
 
 configs:
   cm:
-    # 2.5 버전을 위한 준비
+    # `argocd-cm` ConfigMap의 `.data` 값으로 설정됩니다.
+
     server.rbac.log.enforce.enable: "true"
     # Web UI에서 터미널 접속
     exec.enabled: "true"
+    # admin 사용시 암호는 argocd-initial-admin-secret Secret에 있습니다.
     admin.enabled: "false"
 
-controller:
-  resources:
-    requests:
-      cpu: 200m
-      memory: 512Mi
-    limits:
-      memory: 512Mi
-
-redis:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 64Mi
-    limits:
-      memory: 64Mi
+dex:
+  enabled: false
 
 server:
   extraArgs:
     - --insecure # https://github.com/argoproj/argo-cd/issues/2953
-  resources:
-    requests:
-      cpu: 20m
-      memory: 128Mi
-    limits:
-      memory: 128Mi
-
-repoServer:
-  resources:
-    requests:
-      cpu: 10m
-      memory: 128Mi
-    limits:
-      memory: 128Mi
 
 applicationSet:
   enabled: false
@@ -83,159 +60,24 @@ notifications:
 ```
 
 ```shell
-kubectl create namespace workflow
+kubectl create namespace argo-cd
 ```
 
 ```shell
-helm template argo-cd argo/argo-cd \
-    --version 5.51.2 \
-    -n workflow \
+helm template argo-cd-5.53.13.tgz \
+    -n argo-cd \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
 ```
 
 ```shell
-helm upgrade argo-cd argo/argo-cd \
+helm upgrade argo-cd-5.53.13.tgz \
     --install \
     --history-max 3 \
-    --version 5.51.2 \
-    -n workflow \
+    -n argo-cd \
     -f argo-cd-values.yaml
 ```
 
 ## 업그레이드
 
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/overview/
-
-## RBAC
-
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
-- https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  rbac:
-    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
-    policy.csv: |
-      g, <role/user/group>, role:<role>
-
-    # role:readonly, role:admin
-    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
-    policy.default: "role:readonly"
-
-    # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
-    scopes: "[groups, preferred_username, email]"
-
-    # glob or regex
-    policy.matchMode: "glob"
-```
-
-## User
-
-### ConfigMap
-
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#local-usersaccounts-v15
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  cm:
-    # add an additional local user with apiKey and login capabilities
-    #   apiKey - allows generating API keys
-    #   login - allows to login using UI
-    accounts.<user>: apiKey, login
-    accounts.<user>.enabled: "true"
-
-    # disables user. User is enabled by default
-    admin.enabled: "false"
-```
-
-### Dex
-
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#dex
-
-[Example connectors](https://github.com/dexidp/website/tree/main/content/docs/connectors)
-
-`redirectURI`은 argocd-cm의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  cm:
-    url: <uri>
-```
-
-#### GitHub
-
-- (User or Organization)Settings - Developer settings - OAuth Apps - New Oauth App
-- Homepage URL:
-- Authorization callback URL: `https://<host>/api/dex/callback`
-
-argocd-secret `.data`에 `dex.github.clientSecret: <base64 encoded>`를 추가 합니다.
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  cm:
-    dex.config: |
-      connectors:
-        - type: github
-          id: github
-          name: GitHub
-          config:
-            clientID: <clientID>
-            clientSecret: $dex.github.clientSecret
-            # 소문자와 `-`만 사용된 필드로 변환된 값을 사용할 수 있음
-            # ex) R&D -> r-d
-            teamNameField: both
-            orgs:
-              - name: <orgName>
-                # team: # 없으면 모든 팀을 포함
-                #   - <teamName>
-```
-
-:::info
-다른 Secret을 쓰고 싶으면 아래와 같이 추가하고, config에 `$github-client-secret:dex.gtihub.clientSecret`를 사용하면 됩니다.
-
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: github-client-secret
-  namespace: workflow
-  labels:
-    app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
-type: Opaque
-stringData:
-  dex.github.clientSecret: <secret>
-```
-
-:::
-
-### OIDC
-
-```yaml title="argo-cd-values.yaml"
-dex:
-  enabled: false
-
-configs:
-  cm:
-    url: <uri>
-```
-
-#### Keycloak
-
-- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
-
-<br />
-
-argocd-secret `.data`에 `oidc.keycloak.clientSecret: <base64 encoded>`를 추가 합니다.
-
-```yaml title="argo-cd-values.yaml"
-configs:
-  cm:
-    oidc.config: |
-      name: Keycloak
-      issuer: <keycloak-url>/auth/realms/<realm>
-      clientID: argo
-      clientSecret: $oidc.keycloak.clientSecret # or `$<secret-name>:oidc.keycloak.clientSecret`
-      requestedScopes: ["openid", "profile", "email", "groups"]
-```

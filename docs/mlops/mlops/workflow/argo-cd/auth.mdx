@@ -1,0 +1,202 @@
+---
+id: auth
+title: Argo CD 인증/인가
+sidebar_label: 인증/인가
+description: Argo CD 인증/인가
+keywords:
+  - argo
+  - cd
+  - auth
+---
+
+## 인증(Authn)
+
+### ConfigMap, Secret으로 계정 관리
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#local-usersaccounts
+
+SSO 설정이 부담스러운 매우 소규모 팀이나 개인 프로젝트에서는 ConfigMap, Secret으로 계정을 관리할 수 있습니다.
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    # `argocd-cm` ConfigMap
+
+    accounts.<user>: apiKey, login
+    accounts.<user>.enabled: "true"
+```
+
+- `apiKey`: API 사용을 위한 토큰 생성을 허용합니다.
+- `login`: UI 로그인을 허용합니다.
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  secret:
+    # `argocd-secret` Secret
+
+    # 암호는 bcrypt, cost 10으로 해싱된 값을 설정합니다.
+    accounts.<user>.password: $2a$10$...
+```
+
+:::info
+암호는 `argocd` 커맨드로 생성하여 등록할 수도 있습니다.
+
+```shell
+argocd account update-password --account <user>
+```
+
+:::
+
+### OIDC
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#existing-oidc-provider
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    # argo-cd의 외부 접속 주소입니다.
+    url: <argoCDURL>
+
+    oidc.config: |
+      name: <IdP>
+      issuer: <IdPURL>
+      clientID: <clientID>
+      clientSecret: $argo-cd-client-secret:oidc.<IdP>.clientSecret
+
+      # Optional
+      requestedScopes: ["openid", "profile", "email", "groups"]
+
+      # Optional
+      # https://connect2id.com/products/server/docs/guides/requesting-openid-claims#claims-parameter
+      requestedIDTokenClaims:
+        email:
+          essential: true
+        groups:
+          essential: true
+          values:
+            - <group>
+
+      # Optional
+      logoutURL: <logoutURL>?id_token_hint={{token}}&post_logout_redirect_uri={{logoutRedirectURL}}
+```
+
+- callback 주소는: `<argoCDURL>/auth/callback` 입니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: argo-cd-client-secret
+  namespace: argo-cd
+  labels:
+    app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
+type: Opaque
+stringData:
+  oidc.<IdP>.clientSecret: <clientSecret>
+```
+
+#### Keycloak
+
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    oidc.config: |
+      name: keycloak
+      issuer: <keycloakURL>/realms/<realm>
+      clientID: <clientID>
+      clientSecret: $argo-cd-client-secret:oidc.keycloak.clientSecret
+```
+
+#### Casdoor
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    oidc.config: |
+      name: casdoor
+      issuer: <casdoorURL>
+      clientID: <clientID>
+      clientSecret: $argo-cd-client-secret:oidc.casdoor.clientSecret
+```
+
+### Dex
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#dex
+
+[Example connectors](https://github.com/dexidp/website/tree/main/content/docs/connectors)
+
+`redirectURI`은 `argocd-cm`의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    # argo-cd의 외부 접속 주소입니다.
+    url: <argoCDURL>
+
+    dex.config: |
+      connectors:
+        - type: <type>
+          id: <id>
+          name: <name>
+          config:
+            <key>: <value>
+```
+
+#### Github
+
+- (User or Organization)Settings - Developer settings - OAuth Apps - New Oauth App
+- Homepage URL:
+- Authorization callback URL: `https://<host>/api/dex/callback`
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    dex.config: |
+      connectors:
+        - type: github
+          id: github
+          name: GitHub
+          config:
+            clientID: <clientID>
+            clientSecret: $argo-cd-client-secret:dex.github.clientSecret
+            # 팀 이름은 name과 slug가 있습니다.
+            # name은 github에서 설정한 이름 그대로 사용하고, slug는 소문자와 `-`만으로 변환된 이름입니다.
+            # Ex) loliot:R&D -> loliot:r-d
+            teamNameField: both
+            orgs:
+              - name: <org>
+                # teams를 선언하지 않으면 모든 팀에 대한 접근을 허용합니다.
+                # teams:
+                #   - <team>
+```
+
+## 인가(Authz)
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
+- https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+
+Argo CD는 casbin RBAC를 사용하여 권한을 제어합니다.
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  rbac:
+    # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
+    policy.csv: |
+      p, <role/user/group>, <resource>, <action>, <object>
+      p, <role/user/group>, <resource>, <action>, <appproject>/<object>
+
+      g, <role/user/group>, role:<role>
+
+    # role:readonly, role:admin
+    # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+    policy.default: "role:readonly"
+
+    # "sub" 외에 추가로 인식할 수 있는 값을 추가합니다. 기본 값은 "[groups]"입니다.
+    scopes: "[groups, preferred_username, email]"
+
+    # glob or regex
+    policy.matchMode: "glob"
+```

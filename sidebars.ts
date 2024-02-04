@@ -743,7 +743,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Casdoor",
-					items: ["mlops/mlops/auth/casdoor/casdoor"],
+					items: ["mlops/mlops/auth/casdoor/casdoor", "mlops/mlops/auth/casdoor/oidc"],
 				},
 				"mlops/mlops/auth/oauth2-proxy",
 			],
@@ -813,6 +813,7 @@ const sidebars: SidebarsConfig = {
 					label: "Argo CD",
 					items: [
 						"mlops/mlops/workflow/argo-cd/argo-cd",
+						"mlops/mlops/workflow/argo-cd/auth",
 						"mlops/mlops/workflow/argo-cd/crd",
 						"mlops/mlops/workflow/argo-cd/annotations",
 						{
