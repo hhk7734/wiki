@@ -42,18 +42,18 @@ jobs:
           tags: |
             ghcr.io/${{ github.repository_owner }}/wiki:${{ steps.tag.outputs.tag }}
 
-  argocd:
+  argo-cd:
     name: Update ArgoCD Repository
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: Checkout argocd
+      - name: Checkout argo-cd
         uses: actions/checkout@v4
         with:
-          repository: hhk7734/argocd
+          repository: hhk7734/argo-cd
           ref: main
           token: ${{ secrets.PAT }}
-          path: argocd
+          path: argo-cd
 
       - name: Update helm values
         uses: mikefarah/yq@master
@@ -62,11 +62,11 @@ jobs:
             yq -i '
               .frontend.image.repository = "ghcr.io/${{ github.repository_owner }}/wiki" |
               .frontend.image.tag = "${{ needs.build.outputs.imageTag }}"
-            ' argocd/wiki/cd/prod-values.yaml
+            ' argo-cd/wiki/cd/prod-values.yaml
 
       - name: Commit files
         run: |
-          cd argocd
+          cd argo-cd
           git config --global user.name "${{ github.event.head_commit.author.name }}"
           git config --global user.email "${{ github.event.head_commit.author.email }}"
           git commit -am "feat(wiki): set tag to ${{ needs.build.outputs.imageTag }}"
@@ -74,7 +74,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          repository: hhk7734/argocd
+          repository: hhk7734/argo-cd
           github_token: ${{ secrets.PAT }}
           branch: main
-          directory: argocd
+          directory: argo-cd
