@@ -55,6 +55,10 @@ ssh-copy-id -i ~/.ssh/<public> [<flag>] <user>@<host>
 `~/.ssh/config` 또는 `/etc/ssh/ssh_config` 파일에 아래 설정을 추가할 수 있습니다.
 
 ```shell
+# 전역 설정
+IdentityFile <path>
+
+# 호스트 별 설정
 Host <alias>
   HostName <host>
   User <user>

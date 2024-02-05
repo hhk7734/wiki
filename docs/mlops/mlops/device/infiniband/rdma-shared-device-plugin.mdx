@@ -1,0 +1,87 @@
+---
+id: rdma-shared-device-plugin
+title: RDMA Shared Device Plugin
+sidebar_label: RDMA Shared Device Plugin
+description: RDMA Shared Device Plugin
+keywords:
+  - rdma
+  - shared device plugin
+  - cdi
+---
+
+## RDMA Shared Device Plugin
+
+- https://github.com/Mellanox/k8s-rdma-shared-dev-plugin
+- https://github.com/hhk7734/helm-charts/tree/main/charts/rdma-shared-device-plugin
+
+Host의 RDMA 디바이스(Ex. `/dev/infiniband/{issm,rdma_cm,umad,uverbs}`)를 찾아 kubelet에 알리고, Pod에서 사용할 수 있도록 하는 플러그인입니다.
+
+## Plugin 설정
+
+- https://github.com/Mellanox/k8s-rdma-shared-dev-plugin?tab=readme-ov-file#rdma-shared-device-plugin-configurations
+
+```json
+{
+	"periodicUpdateInterval": 300,
+	"configList": [
+		{
+			"resourceName": "hca_shared_devices_a",
+			"resourcePrefix": "example_prefix",
+			"rdmaHcaMax": 1000,
+			"devices": ["ib0", "ib1"]
+		},
+		{
+			"resourceName": "hca_shared_devices_b",
+			"rdmaHcaMax": 500,
+			"selectors": {
+				"vendors": ["15b3"],
+				"deviceIDs": ["1017"],
+				"ifNames": ["ib3", "ib4"]
+			}
+		}
+	]
+}
+```
+
+- `periodicUpdateInterval`: 호스트 장치 변경사항 업데이트 주기입니다.
+  - 0으로 설정하면 업데이트가 비활성화됩니다.
+  - 설정하지 않으면 기본값인 60 초로 설정됩니다.
+- `configList`
+  - `resourcePrifix`
+    - Optional
+    - 기본값으로 `rdma`가 사용됩니다.
+  - `resourceName`
+    - `resourcePrifix` 내에서 유일한 이름이어야합니다.
+  - `rdmaHcaMax`: 디바이스에 의해 제공되는 RDMA 리소스의 최대 값입니다.
+  - `selectors`: 디바이스를 선택하는 데 사용되는 필터입니다.
+    - Optional
+    - 선언되지 않은 필드는 무시됩니다.
+    - 선언된 필드들은 AND 조건으로 사용되고, 필드의 값들은 OR 조건으로 사용됩니다. EX) vendor "15b3" && deviceID "1017" && (ifName "ib3" || ifName "ib4")
+    - `vendors`: 벤더를 Hex 코드로 표현한 문자열입니다.
+      - `cat /sys/class/net/<ifName>/device/vendor`
+    - `deviceIDs`: 디바이스 ID를 Hex 코드로 표현한 문자열입니다.
+      - `cat /sys/class/net/<ifName>/device/device`
+    - `drivers`
+      - `readlink -f /sys/class/net/<ifName>/device/driver`
+    - `ifNames`
+      - `ls /sys/class/net/`
+    - `linkTypes`
+      - `ip link show dev <ifName>`
+  - `devices`: `selectors`에 `ifNames`만 있는 경우와 동일합니다.
+    - Optional
+
+## 장치 사용하기
+
+```yaml
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - resources:
+        limits:
+          <resourcePrefix>/<resourceName>: "1"
+```
+
+```shell
+ls -l /dev/infiniband /sys/class/infiniband /sys/class/net
+```

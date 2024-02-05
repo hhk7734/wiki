@@ -5,6 +5,7 @@ sidebar_label: CNI
 description: Container Network Interface(CNI)
 keywords:
   - Container Network Interface
+  - cni
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -46,6 +47,62 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
   - 위임받은 플러그인은 설정 성공 시 stdout, 실패 시 stderr로 결과를 반환합니다.
 - Result Types
   - CNI 플러그인의 실행 결과에 대한 JSON 형식의 스키마가 있습니다.
+
+## CNI 설정
+
+- https://github.com/containernetworking/cni/blob/main/SPEC.md#section-1-network-configuration-format
+
+```json title="/etc/cni/net.d/10-calico.conflist"
+{
+	"cniVersion": "0.3.1",
+	"name": "k8s-pod-network",
+	"plugins": [
+		{
+			"type": "calico",
+			// plugin specific parameters
+			"datastore_type": "kubernetes",
+			"ipam": {
+				"type": "calico-ipam",
+				"assign_ipv4": "true"
+			},
+			"policy": {
+				"type": "k8s"
+			},
+			"kubernetes": {
+				"kubeconfig": "/etc/cni/net.d/calico-kubeconfig"
+			}
+
+			//...
+		}
+	]
+}
+```
+
+```json title="/etc/cni/net.d/00-multus.conf"
+{
+	"cniVersion": "0.3.1",
+	"name": "multus-cni-network",
+	"type": "multus-shim",
+	"capabilities": {
+		"bandwidth": true,
+		"portMappings": true
+	},
+	"clusterNetwork": "/host/etc/cni/net.d/10-calico.conflist"
+}
+```
+
+- `plugins`
+  - https://www.cni.dev/plugins/current/
+  - https://github.com/containernetworking/plugins
+  - `type`을 제외한 나머지 필드는 플러그인마다 다르며, 정해진 값이 없습니다.
+  - `type`: CNI 바이너리 이름과 매칭되는 값입니다.
+    - `ls /opt/cni/bin`
+  - `ipam`
+    - `type`: IPAM 바이너리 이름과 매칭되는 값입니다.
+      - https://www.cni.dev/plugins/current/ipam/
+      - `dhcp`
+      - `host-local`
+      - `static`
 
 ## Example(Calico)
 

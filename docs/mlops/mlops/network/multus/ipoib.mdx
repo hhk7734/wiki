@@ -1,0 +1,83 @@
+---
+id: ipoib
+title: IPoIB
+sidebar_label: IPoIB
+description: IPoIB
+keywords:
+  - IPoIB
+  - cni
+---
+
+## IPoIB CNI
+
+- https://github.com/Mellanox/ipoib-cni
+
+IPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.
+
+```yaml
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ipoib
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: rdma-shared-device-plugin
+    app: rdma-shared-device-plugin
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: rdma-shared-device-plugin
+      app: rdma-shared-device-plugin
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rdma-shared-device-plugin
+        app: rdma-shared-device-plugin
+    spec:
+      hostNetwork: true
+      tolerations:
+        - operator: Exists
+      containers:
+        - name: main
+          image: mellanox/ipoib-cni:latest
+          imagePullPolicy: IfNotPresent
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: cnibin
+              mountPath: /host/opt/cni/bin
+      volumes:
+        - name: cnibin
+          hostPath:
+            path: /opt/cni/bin
+```
+
+## CNI 설정
+
+```json
+{
+	"name": "ipoib",
+	"type": "ipoib",
+	"ipam": {
+		"type": "host-local",
+		"subnet": "192.168.2.0/24",
+		"rangeStart": "192.168.2.10",
+		"rangeEnd": "192.168.2.240",
+		"routes": [
+			{
+				"dst": "0.0.0.0/0"
+			}
+		],
+		"gateway": "192.168.2.1"
+	}
+}
+```
+
+- `name`
+- `type`: `ipoib`
+- `master`: Host interface 이름입니다.
+- `ipam`
+  - `type`: IP 관리에 사용할 바이너리입니다.
+    - https://www.cni.dev/plugins/current/ipam/
+    - `dhcp`는 지원되지 않습니다.

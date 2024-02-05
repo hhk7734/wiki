@@ -594,44 +594,13 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Provisioning",
+			label: "Device",
 			items: [
+				"mlops/mlops/device/cdi",
 				{
 					type: "category",
-					label: "Karpenter",
-					items: [
-						"mlops/mlops/provisioning/karpenter/karpenter",
-						"mlops/mlops/provisioning/karpenter/spot-event",
-						"mlops/mlops/provisioning/karpenter/crd",
-						"mlops/mlops/provisioning/karpenter/scheduling",
-						"mlops/mlops/provisioning/karpenter/deprovisioning",
-					],
-				},
-				{
-					type: "category",
-					label: "KEDA",
-					items: [
-						"mlops/mlops/provisioning/keda/keda",
-						"mlops/mlops/provisioning/keda/crd",
-						"mlops/mlops/provisioning/keda/external-scaler",
-					],
-				},
-				{
-					type: "category",
-					label: "Knative",
-					items: [
-						"mlops/mlops/provisioning/knative/knative",
-						"mlops/mlops/provisioning/knative/serving-crds",
-						"mlops/mlops/provisioning/knative/autoscaling",
-					],
-				},
-				{
-					type: "category",
-					label: "Nvidia",
-					items: [
-						"mlops/mlops/provisioning/nvidia/k8s-device-plugin",
-						"mlops/mlops/provisioning/nvidia/gpu-operator",
-					],
+					label: "InfiniBand",
+					items: ["mlops/mlops/device/infiniband/rdma-shared-device-plugin"],
 				},
 			],
 		},
@@ -653,6 +622,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/network/cilium/bgp",
 						"mlops/mlops/network/cilium/load-balancer",
 					],
+				},
+				{
+					type: "category",
+					label: "Multus",
+					items: ["mlops/mlops/network/multus/multus", "mlops/mlops/network/multus/ipoib"],
 				},
 				{
 					type: "category",
@@ -706,6 +680,49 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/network/aws-load-balancer/aws-load-balancer",
 						"mlops/mlops/network/aws-load-balancer/create",
+					],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Provisioning",
+			items: [
+				{
+					type: "category",
+					label: "Karpenter",
+					items: [
+						"mlops/mlops/provisioning/karpenter/karpenter",
+						"mlops/mlops/provisioning/karpenter/spot-event",
+						"mlops/mlops/provisioning/karpenter/crd",
+						"mlops/mlops/provisioning/karpenter/scheduling",
+						"mlops/mlops/provisioning/karpenter/deprovisioning",
+					],
+				},
+				{
+					type: "category",
+					label: "KEDA",
+					items: [
+						"mlops/mlops/provisioning/keda/keda",
+						"mlops/mlops/provisioning/keda/crd",
+						"mlops/mlops/provisioning/keda/external-scaler",
+					],
+				},
+				{
+					type: "category",
+					label: "Knative",
+					items: [
+						"mlops/mlops/provisioning/knative/knative",
+						"mlops/mlops/provisioning/knative/serving-crds",
+						"mlops/mlops/provisioning/knative/autoscaling",
+					],
+				},
+				{
+					type: "category",
+					label: "Nvidia",
+					items: [
+						"mlops/mlops/provisioning/nvidia/k8s-device-plugin",
+						"mlops/mlops/provisioning/nvidia/gpu-operator",
 					],
 				},
 			],
