@@ -626,7 +626,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Multus",
-					items: ["mlops/mlops/network/multus/multus", "mlops/mlops/network/multus/ipoib"],
+					items: [
+						"mlops/mlops/network/multus/multus",
+						"mlops/mlops/network/multus/network-attachment-definition",
+						"mlops/mlops/network/multus/ipoib",
+					],
 				},
 				{
 					type: "category",

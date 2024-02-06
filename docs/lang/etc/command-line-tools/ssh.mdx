@@ -52,7 +52,7 @@ ssh-copy-id -i ~/.ssh/<public> [<flag>] <user>@<host>
 
 - https://man.openbsd.org/ssh_config
 
-`~/.ssh/config` 또는 `/etc/ssh/ssh_config` 파일에 아래 설정을 추가할 수 있습니다.
+`~/.ssh/config` 또는 `/etc/ssh/ssh_config` 파일에 아래 설정을 추가하여 ssh 커맨드를 사용할 때 필요한 옵션을 미리 설정할 수 있습니다.
 
 ```shell
 # 전역 설정
@@ -100,3 +100,26 @@ nc -zv 127.0.0.1 <localPort>
 ps -lef | grep ssh | grep "\-L \?<localPort>" \
     | awk '{print $4}' | xargs kill -9
 ```
+
+## ssh ProxyJump
+
+```shell
+ssh -o 'ProxyJump <proxyArgs>[,<proxyArgs>]' \
+    <hostArgs>
+```
+
+- `<proxyArgs>`
+  - `<proxyAlias>`
+  - `<proxyUser>@<proxyHost>[:<proxyPort>]`
+
+`-o ProxyJump`는 `-J`로 대체할 수 있습니다.
+
+`ProxyJump`를 지원하지 않는 버전의 경우 아래와 같이 `ProxyCommand`를 활용할 수 있습니다.
+
+```shell
+ssh -o 'ProxyCommand ssh -W %h:%p <proxyArgs>' \
+    <hostArgs>
+```
+
+- `<proxyArgs>`에는 프록시 서버에 접속하기 위한 인자를 입력합니다.
+- `<hostArgs>`에는 목적지 서버에 접속하기 위한 인자를 입력합니다.
