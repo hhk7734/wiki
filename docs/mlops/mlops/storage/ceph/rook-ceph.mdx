@@ -1,0 +1,109 @@
+---
+id: rook-ceph
+title: Rook Ceph
+sidebar_label: Rook Ceph
+description: Rook Ceph
+keywords:
+  - Rook
+  - Ceph
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Rook
+
+<center>
+	<img src={useBaseUrl("img/mlops/mlops/storage/ceph/rook-ceph.png")} />
+	<strong>
+		https://rook.io/docs/rook/latest-release/Getting-Started/storage-architecture/#architecture
+	</strong>
+</center>
+
+## 사전 요구 사항
+
+아래 중 하나는 존재해야 합니다.
+
+- Raw devices (파티션 또는 파일 시스템이 없는 디바이스)
+- Raw partitions (파일 시스템이 없는 파티션)
+- LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
+- `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
+
+## 설치
+
+```shell
+helm repo add rook-release https://charts.rook.io/release
+```
+
+### Operator
+
+- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
+
+```shell
+helm repo update rook-release \
+&& helm search repo rook-release/rook-ceph -l | head -n 10
+```
+
+```shell
+helm pull rook-release/rook-ceph --version v1.13.3
+```
+
+```shell
+helm show values rook-ceph-v1.13.3.tgz > rook-ceph-v1.13.3.yaml
+```
+
+```yaml title="rook-ceph-values.yaml"
+
+```
+
+```shell
+helm template rook-ceph-v1.13.3.tgz \
+    -n rook-ceph \
+    -f rook-ceph-values.yaml \
+    > rook-ceph.yaml
+```
+
+```shell
+helm upgrade rook-ceph-v1.13.3.tgz \
+    --install \
+    --history-max 3 \
+    -n rook-ceph \
+    -f rook-ceph-values.yaml
+```
+
+### Cluster
+
+- helm repo update rook-release \
+
+Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다. 직접 클러스터를 구성하려는 경우 이 차트를 사용하지 않아도 됩니다.
+
+```shell
+helm repo update rook-release \
+&& helm search repo rook-release/rook-ceph-cluster -l | head -n 10
+```
+
+```shell
+helm pull rook-release/rook-ceph-cluster --version v1.13.3
+```
+
+```shell
+helm show values rook-ceph-cluster-v1.13.3.tgz > rook-ceph-cluster-v1.13.3.yaml
+```
+
+```yaml title="rook-ceph-cluster-values.yaml"
+operatorNamespace: rook-ceph
+```
+
+```shell
+helm template rook-ceph-cluster-v1.13.3.tgz \
+    -n rook-ceph \
+    -f rook-ceph-cluster-values.yaml \
+    > rook-ceph-cluster.yaml
+```
+
+```shell
+helm upgrade rook-ceph-cluster-v1.13.3.tgz \
+    --install \
+    --history-max 3 \
+    -n rook-ceph \
+    -f rook-ceph-cluster-values.yaml
+```

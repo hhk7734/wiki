@@ -579,7 +579,11 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/storage/local-path-provisioner",
 				"mlops/mlops/storage/aws-ebs-csi-driver",
 				"mlops/mlops/storage/aws-efs-csi-driver",
-				"mlops/mlops/storage/rook-ceph",
+				{
+					type: "category",
+					label: "Ceph",
+					items: ["mlops/mlops/storage/ceph/rook-ceph"],
+				},
 				{
 					type: "category",
 					label: "PostgresSQL",
