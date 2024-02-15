@@ -40,22 +40,30 @@ roles/
 
 ```yaml
 - roles:
-    - role: `<role>` # or <category>/<role>
+    - role: <role> # or <category>/<role>
       vars:
-        `<var>`: `<value>`
+        <var>: <value>
       tags:
-        - `<tag>`
-      when: `<condition>`
+        - <tag>
+      when: <condition>
 ```
 
 ```yaml
 - tasks:
     - include_role:
-        name: `<role>` # or <category>/<role>
+        name: <role> # or <category>/<role>
+      vars:
+        <var>: <value>
+        <var>: {{ loop_item }}
+      loop:
+        - <item1>
+        - <item2>
+      loop_control:
+        loop_var: loop_item
 ```
 
 ```yaml
 - tasks:
     - import_role:
-        name: `<role>` # or <category>/<role>
+        name: <role> # or <category>/<role>
 ```

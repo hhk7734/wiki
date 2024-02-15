@@ -53,6 +53,10 @@ curl --cacert <certificateAuthority> \
 
 ## kubeconfig
 
+```shell
+kubectl config view
+```
+
 ```yaml
 apiVersion: v1
 kind: Config
@@ -99,6 +103,59 @@ contexts: # cluster
       user: user-1
       namespace: default # 설정 안하면 default가 기본입니다.
 current-context: context-1 # 현재 설정된 접속 정보입니다.
+```
+
+### Cluster 추가
+
+```shell
+kubectl config set-cluster \
+    <cluster> \
+    --server=<apiServerURL> \
+    --certificate-authority=<certificateAuthorityPath> \
+    --embed-certs=true
+```
+
+### User 추가
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --client-certificate=<clientCertificatePath> \
+    --client-key=<clientKeyPath> \
+    --embed-certs=true
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --token=<jwt>
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --auth-provider=<name> \
+    --auth-provider-arg=<key>=<value>
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --exec-api-version=<apiVersion> \
+    --exec-command=<command> \
+    --exec-env=<key>=<value> \
+    --exec-arg=<arg>
+```
+
+`--auth-provider-arg`, `--exec-env`, `--exec-arg`는 여러 번 선언할 수 있습니다.
+
+### Context 추가
+
+```shell
+kubectl config set-context \
+    <context> \
+    --cluster=<cluster> \
+    --user=<user>
 ```
 
 ## Reference

@@ -17,14 +17,13 @@ python3 -m pip install ansible
 
 - [SSH 키 생성 후 Managed node에 키 추가](/docs/lang/etc/command-line-tools/ssh)
 
-## Inventory
-
-- [Inventory](/docs/mlops/mlops/ansible/inventory)
-
 ## Directory structure
 
+- https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#alternative-directory-layout
+
 ```shell
-ansible/
+./
+├── ansible.cfg # 설정 파일
 ├── inventories/
 │   ├── production/
 │   │   ├── hosts.yaml # production 서버용 inventory
@@ -56,18 +55,36 @@ ansible/
     └── ...
 ```
 
+## Inventory
+
+- [Inventory](/docs/mlops/mlops/ansible/inventory)
+
 ## Playbook
+
+```yaml title="example.yaml"
+- hosts: all
+  gather_facts: false
+  tasks:
+    - name: "example"
+      command: "echo hello"
+```
+
+## Playbook 실행
 
 ```shell
 ansible-playbook <playbook>
 ```
 
-- `-i|--inventory`
-- `-K|--ask-become-pass`
-
-```shell title="example.yaml"
-- hosts: all
-  tasks:
-  - name: "example"
-    command: "echo hello"
-```
+- `-i|--inventory <dir|yaml>`
+- 연결 옵션
+  - `-u|--user <user>`: 원격 접속 시 사용될 사용자를 설정합니다.
+    - `None`이 기본값이고, 이 경우 명령을 실행시키는 쉘의 사용자가 사용됩니다.
+  - `-k|--ask-pass`: 원격 접속 시 사용될 비밀번호를 물어보도록 설정합니다.
+- 작업 권한 옵션
+  - `-b|--become`: `<becomeMethod>`로 작업을 실행시키도록 설정합니다.
+  - `--become-user <becomeUser>`: become 사용자를 변경합니다.
+    - `root`가 기본값입니다.
+  - `-K|--ask-become-pass`: become 사용자의 비밀번호를 물어보도록 설정합니다.
+  - `--become-method <becomeMethod>`: 권한 상승 방법을 설정합니다.
+    - `sudo`가 기본값입니다.
+    - `ansible-doc -t become -l` 명령어로 가능한 값들을 확인할 수 있습니다.
