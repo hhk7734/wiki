@@ -181,7 +181,7 @@ SaveConfig = true
 PublicKey = MkodccJF0RADc4JN4+eKgmAITpIsNUMA2XO/CaDsQnE=
 AllowedIPs = 10.1.2.4/32
 AllowedIPs = 172.16.1.0/24
-Endpoint = 172.16.1.2/32:12345
+Endpoint = 172.16.1.2:12345
 ```
 
 - `[Interface]`
@@ -270,7 +270,7 @@ sudo wg [show [<interface> [<field>]]]
 ```
 
 :::info
-peer를 추가한 경우 라우팅 테이블도 수정해야합니다.
+peer를 추가한 경우 allowed-ips에 대한 라우팅 테이블 수정이 필요합니다. (Interface.Address 선언 시 CIDR에 해당하는 IP는 자동으로 라우팅 테이블에 추가됩니다.)
 
 ```shell
 sudo ip route add|del <ip>/<cidr> dev <interface>

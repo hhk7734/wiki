@@ -79,11 +79,11 @@ sequenceDiagram
 
 ```shell
 curl '<token_endpoint>' \
--H 'Content-Type: application/x-www-form-urlencoded' \
--d 'client_id=<clientID>' \
--d 'client_secret=<clientSecret>' \
--d 'grant_type=password' \
--d 'username=<user>' \
--d 'password=<password>' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -d 'client_id=<clientID>' \
+  -d 'client_secret=<clientSecret>' \
+  -d 'grant_type=password' \
+  -d 'username=<user>' \
+  -d 'password=<password>' \
 | jq '.'
 ```

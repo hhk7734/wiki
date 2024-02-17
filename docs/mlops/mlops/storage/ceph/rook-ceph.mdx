@@ -44,26 +44,27 @@ helm repo update rook-release \
 ```
 
 ```shell
-helm pull rook-release/rook-ceph --version v1.13.3
+helm pull rook-release/rook-ceph --version v1.13.4
 ```
 
 ```shell
-helm show values rook-ceph-v1.13.3.tgz > rook-ceph-v1.13.3.yaml
+helm show values rook-ceph-v1.13.4.tgz > rook-ceph-v1.13.4.yaml
 ```
 
 ```yaml title="rook-ceph-values.yaml"
-
+crds:
+  enabled: true
 ```
 
 ```shell
-helm template rook-ceph-v1.13.3.tgz \
+helm template rook-ceph-v1.13.4.tgz \
     -n rook-ceph \
     -f rook-ceph-values.yaml \
     > rook-ceph.yaml
 ```
 
 ```shell
-helm upgrade rook-ceph-v1.13.3.tgz \
+helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
     --install \
     --history-max 3 \
     -n rook-ceph \
@@ -82,11 +83,11 @@ helm repo update rook-release \
 ```
 
 ```shell
-helm pull rook-release/rook-ceph-cluster --version v1.13.3
+helm pull rook-release/rook-ceph-cluster --version v1.13.4
 ```
 
 ```shell
-helm show values rook-ceph-cluster-v1.13.3.tgz > rook-ceph-cluster-v1.13.3.yaml
+helm show values rook-ceph-cluster-v1.13.4.tgz > rook-ceph-cluster-v1.13.4.yaml
 ```
 
 ```yaml title="rook-ceph-cluster-values.yaml"
@@ -94,14 +95,14 @@ operatorNamespace: rook-ceph
 ```
 
 ```shell
-helm template rook-ceph-cluster-v1.13.3.tgz \
+helm template rook-ceph-cluster-v1.13.4.tgz \
     -n rook-ceph \
     -f rook-ceph-cluster-values.yaml \
     > rook-ceph-cluster.yaml
 ```
 
 ```shell
-helm upgrade rook-ceph-cluster-v1.13.3.tgz \
+helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.4.tgz \
     --install \
     --history-max 3 \
     -n rook-ceph \
