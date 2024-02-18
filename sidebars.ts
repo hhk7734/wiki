@@ -435,8 +435,9 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Storage",
 			items: [
+				"linux/linux-tools/storage/lvm",
+				"linux/linux-tools/storage/swap",
 				"linux/linux-tools/storage/fstab",
-				"linux/linux-tools/storage/partition-management",
 				"linux/linux-tools/storage/clone-os-image",
 			],
 		},
@@ -582,7 +583,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Ceph",
-					items: ["mlops/mlops/storage/ceph/rook-ceph"],
+					items: ["mlops/mlops/storage/ceph/ceph", "mlops/mlops/storage/ceph/rook-ceph"],
 				},
 				{
 					type: "category",

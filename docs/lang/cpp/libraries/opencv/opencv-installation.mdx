@@ -181,15 +181,7 @@ Total:         1.8G        635M        219M
 
 필요한 크기만큼 swapfile 크기를 정한 다음 swap 메모리로 등록합니다.
 
-```shell
-sudo fallocate -l 1.2G /swapfile
-```
-
-```shell
-sudo chmod 600 /swapfile \
-&& sudo mkswap /swapfile \
-&& sudo swapon /swapfile
-```
+- [Swap Memory](/docs/linux/linux-tools/storage/swap)
 
 ### build
 
@@ -213,11 +205,6 @@ make
 | 8 core(Odroid XU4) | 16 GB | 1.9 GB | 2.5 GB | make -j9 |
 
 컴파일이 끝나면 할당했던 Swap을 해제하고 생성한 swapfile을 삭제해 줍니다.
-
-```shell
-sudo swapoff /swapfile \
-&& sudo rm /swapfile
-```
 
 생성된 라이브러리를 설치합니다.
 

@@ -1,0 +1,71 @@
+---
+id: lvm
+title: Logical Volume Manager(LVM)
+sidebar_label: LVM
+description: Logical Volume Manager(LVM)
+keywords:
+  - linux
+  - lvm
+---
+
+## LVM
+
+- Physical Volume(PV)
+- Volume Group(VG)
+- Logical Volume(LV)
+
+## PV
+
+### PV 생성
+
+```shell
+sudo pvcreate <pv>
+```
+
+- `<pv>`: `/dev/<blockDevice>`
+
+### PV 조회
+
+```shell
+sudo pvdisplay
+```
+
+```shell
+sudo pvs
+```
+
+## VG
+
+### VG 생성
+
+```shell
+sudo vgcreate <vgName> <pv>
+```
+
+### VG 조회
+
+```shell
+sudo vgdisplay
+```
+
+```shell
+sudo vgs
+```
+
+## LV
+
+### LV 생성
+
+```shell
+sudo lvcreate -n <lvName> -L <size> <vgName>
+```
+
+### LV 조회
+
+```shell
+sudo lvdisplay
+```
+
+```shell
+sudo lvs
+```

@@ -8,21 +8,30 @@ keywords:
 
 ## udev
 
-`udev` (userspace /dev) is a device manager for the Linux kernel.
+- https://man7.org/linux/man-pages/man7/udev.7.html
 
-`udevd` listens to kernel uevents and passes the incoming events to udev.
+<br />
 
-Users can register custom rules in `/etc/udev/rules.d/`.
+- `udev`(userspace /dev)는 Linux 커널용 장치 관리자입니다.
+- `udevd` 는 커널 `uevent`를 감시하다가 들어오는 이벤트를 `udev`로 전달합니다.
+- 사용자는 커스텀 규칙을 `/etc/udev/rules.d/`에 등록할 수 있습니다.
+- 디바이스 정보는 `udevadm info -ap $(udevadm info -q path -n /dev/<device>)` 명령어로 확인할 수 있습니다.
+- 규칙 작성을 위한 연산자
+  - `==`
+  - `!=`
+  - `=`: 값을 할당합니다.
+  - `:=`: 값을 할당하고 이후 변경을 허용하지 않습니다.
+  - `+=`: 값을 리스트에 추가합니다.
+  - `-=`: 값을 리스트에서 제거합니다.
 
-## device info
-
-If you want to know the information of `/dev/i2c-1`, run the below command.
+:::info
+룰 적용이 되고 있는지 확인하려면 아래 명령어로 로그를 확인해보면 됩니다.
 
 ```shell
-udevadm info -ap $(udevadm info -q path -n /dev/i2c-1)
+journalctl -ex -u systemd-udevd.service
 ```
 
-The information displayed is useful for writing rules for the device.
+:::
 
 ## xx-descriptive-name.rules
 
@@ -55,4 +64,4 @@ SUBSYSTEM=="gpio", GROUP="gpio", MODE="0660"
 SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c 'find -L /sys/class/gpio/ -maxdepth 2 -exec chgrp -HR gpio {} \; -exec chmod -R 770 {} \; || true'"
 ```
 
-The first line means that if **i2c-dev** is detected, the group is set to **i2c** and the mode is set to **0660**.
+첫 번째 줄은 `i2c-dev` 장치가 감지되면(`==`) 그룹은 `i2c`로(`=`), 모드는 `0660`으로(`=`) 설정하라는 의미입니다.

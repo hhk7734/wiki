@@ -19,15 +19,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 	</strong>
 </center>
 
-## 사전 요구 사항
-
-아래 중 하나는 존재해야 합니다.
-
-- Raw devices (파티션 또는 파일 시스템이 없는 디바이스)
-- Raw partitions (파일 시스템이 없는 파티션)
-- LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
-- `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
-
 ## 설치
 
 ```shell
@@ -54,6 +45,12 @@ helm show values rook-ceph-v1.13.4.tgz > rook-ceph-v1.13.4.yaml
 ```yaml title="rook-ceph-values.yaml"
 crds:
   enabled: true
+
+csi:
+  enableRbdDriver: false
+  enableCephfsDriver: true
+
+  kubeletDirPath: /var/lib/kubelet
 ```
 
 ```shell
@@ -71,11 +68,22 @@ helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
     -f rook-ceph-values.yaml
 ```
 
-### Cluster
+## Cluster
+
+### Device 준비
+
+아래 중 하나는 존재해야 합니다.
+
+- Raw devices (파티션 또는 파일 시스템이 없는 디바이스)
+- Raw partitions (파일 시스템이 없는 파티션)
+- LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
+- `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
+
+### Cluster 설치
 
 - helm repo update rook-release \
 
-Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다. 직접 클러스터를 구성하려는 경우 이 차트를 사용하지 않아도 됩니다.
+Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다.
 
 ```shell
 helm repo update rook-release \
@@ -92,6 +100,33 @@ helm show values rook-ceph-cluster-v1.13.4.tgz > rook-ceph-cluster-v1.13.4.yaml
 
 ```yaml title="rook-ceph-cluster-values.yaml"
 operatorNamespace: rook-ceph
+
+cephClusterSpec:
+  mon:
+    count: 3
+
+  mgr:
+    count: 2
+
+  dashboard:
+    enabled: true
+    ssl: false
+
+  resources: {}
+
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    node:
+      - name: "ip-10-255-240-4"
+        devices:
+          - name: "/dev/vg1/lv1"
+
+cephBlockPools: []
+
+cephFileSystems: []
+
+cephObjectStores: []
 ```
 
 ```shell
