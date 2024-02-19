@@ -1,0 +1,27 @@
+---
+id: node
+title: Kubespray Node 추가/제거
+sidebar_label: Node 추가/제거
+description: Kubespray Node 추가/제거
+keywords:
+  - kubespray
+  - node
+  - management
+---
+
+- https://kubernetes.io/docs/concepts/overview/components/
+- https://kubespray.io/#/docs/nodes
+
+## Control plane
+
+- `kube_control_plane` 그룹은 `etcd`를 제외한 나머지 control plane 컴포넌트인 apiserver, scheduler, controller를 설치할 노드 그룹입니다.
+- `groups['kube_control_plane'][0]`은 추가적으로 실행되는 task가 있습니다.
+
+## etcd
+
+- `etcd`는 etcd가 설치될 노드 그룹입니다.
+- `groups['etcd'][0]`은 추가적으로 실행되는 task가 있습니다.
+
+## Node
+
+- `kube_node` 그룹은 container runtime, kubelet을 설치할 노드 그룹입니다.

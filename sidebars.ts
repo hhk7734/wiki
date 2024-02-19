@@ -519,7 +519,14 @@ const sidebars: SidebarsConfig = {
 					label: "Tools",
 					items: [
 						"mlops/mlops/kubernetes/tools/kubeadm",
-						"mlops/mlops/kubernetes/tools/kubespray",
+						{
+							type: "category",
+							label: "Kubespray",
+							items: [
+								"mlops/mlops/kubernetes/tools/kubespray/kubespray",
+								"mlops/mlops/kubernetes/tools/kubespray/node",
+							],
+						},
 						"mlops/mlops/kubernetes/tools/kustomize",
 						"mlops/mlops/kubernetes/tools/helm",
 						"mlops/mlops/kubernetes/tools/k0s",
