@@ -22,34 +22,32 @@ python3 -m pip install ansible
 - https://docs.ansible.com/ansible/2.8/user_guide/playbooks_best_practices.html#alternative-directory-layout
 
 ```shell
-./
+<playbook>/
 ├── ansible.cfg # 설정 파일
 ├── inventories/
-│   ├── production/
-│   │   ├── hosts.yaml # production 서버용 inventory
+│   ├── <inventory>/
+│   │   ├── hosts.yaml
 │   │   ├── group_vars/
-│   │   │   ├── <group1>.yaml # 특정 그룹에 대한 변수
-│   │   │   ├── <group2>.yaml
+│   │   │   ├── <group>/
+│   │   │   │   ├── <vars>.yaml
+│   │   │   │   └── ...
+│   │   │   ├── <group>.yaml
 │   │   │   └── ...
 │   │   └──  host_vars/
-│   │       ├── <hostname1>.yaml # 특정 호스트에 대한 변수
-│   │       ├── <hostname2>.yaml
+│   │       ├── <host>/
+│   │       │   ├── <vars>.yaml
+│   │       │   └── ...
+│   │       ├── <host>.yaml
 │   │       └── ...
-│   └── dev/
-│       ├── hosts.yaml
-│       ├── group_vars/
-│       │   ├── <group1>.yaml
-│       │   ├── <group2>.yaml
-│       │   └── ...
-│       └──  host_vars/
-│           ├── <hostname1>.yaml
-│           ├── <hostname2>.yaml
-│           └── ...
+│   └── ...
+├── group_vars/
+│   └── ...
+├── host_vars/
+│   └── ...
 ├── library/ # 커스텀 모듈
 ├── module_utils/ # 커스텀 모듈 유틸
 ├── filter_plugins/ # 커스텀 필터 플러그인
-├── <purpose1>.yaml # playbook
-├── <purpose2>.yaml
+├── <purpose>.yaml # playbook
 ├── ...
 └── roles/
     └── ...

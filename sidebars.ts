@@ -493,6 +493,7 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/ansible/ansible",
 						"mlops/mlops/ansible/inventory",
+						"mlops/mlops/ansible/variables",
 						"mlops/mlops/ansible/vault",
 						"mlops/mlops/ansible/roles",
 					],

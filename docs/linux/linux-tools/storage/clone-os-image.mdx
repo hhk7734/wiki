@@ -34,7 +34,7 @@ sudo umount /dev/sdb1 /dev/sdb2
 ```
 
 ```shell
-sudo dd if=/dev/sdb of=clone.img bs=512 count=$((31115263 + 1)) status=progress
+sudo dd if=/dev/sdb of=clone.img bs=4M count=$((31115263 + 1)) status=progress
 ```
 
 ```shell {1}
@@ -100,11 +100,8 @@ sudo xz -vk -T$(($(nproc) - 2)) clone.img
 ## Flash .img.xz to disk
 
 ```shell
-xz -dvk -T$(($(nproc) - 2)) clone.img.xz
-```
-
-```shell
-sudo dd if=clone.img of=/dev/sdb bs=512 status=progress
+xzcat -dvk -T$(($(nproc) - 2)) clone.img.xz \
+| sudo dd of=/dev/sdb bs=4M status=progress
 ```
 
 or Use Etcher.

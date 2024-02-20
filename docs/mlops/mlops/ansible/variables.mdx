@@ -1,0 +1,226 @@
+---
+id: variables
+title: Ansible 변수(variables) 관리하기
+sidebar_label: 변수(variables) 관리하기
+description: Ansible 변수(variables) 관리하기
+keywords:
+  - Ansible
+  - 변수
+  - variable
+---
+
+## 변수 명
+
+- Python 키워드와 playbook 키워드는 사용하면 안됩니다.
+  - https://docs.python.org/3/reference/lexical_analysis.html#keywords
+  - https://docs.ansible.com/ansible/latest/reference_appendices/playbooks_keywords.html
+
+## 변수의 종류 및 우선순위
+
+- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+
+변수의 종류를 우선순위가 낮은 것 부터 높은 것 순으로 나열하면 다음과 같습니다. 변수의 우선순위가 같다면 나중에 정의된 변수가 우선순위가 높습니다. 디렉토리 내의 파일을 읽어오는 경우 알파벳 순으로 읽어옵니다.
+
+### Command Line 옵션 값
+
+- 명령어를 실행할 때 사용되는 옵션은 playbook 키워드의 값으로 사용됩니다. playbook 키워드는 inventory 파라미터 등의 기본 값으로 사용됩니다.
+
+### Role의 defaults
+
+- `<role>/defaults/main.yaml`
+
+### inventory 파일의 그룹 변수
+
+- `<inventory>/hosts.yaml`
+
+```yaml title="<inventory>/hosts.yaml"
+<group>:
+  vars:
+    <key>: <value>
+```
+
+### inventory의 group_vars/all
+
+- `<inventory>/group_vars/all.yaml`
+- `<inventory>/group_vars/all/*.yaml`
+
+### playbook의 group_vars/all
+
+- `<playbook>/group_vars/all.yaml`
+- `<playbook>/group_vars/all/*.yaml`
+
+### inventory의 group_vars/`<group>`
+
+- `<inventory>/group_vars/<group>.yaml`
+- `<inventory>/group_vars/<group>/*.yaml`
+
+### playbook의 group_vars/`<group>`
+
+- `<playbook>/group_vars/<group>.yaml`
+- `<playbook>/group_vars/<group>/*.yaml`
+
+### inventory 파일의 호스트 변수
+
+- `<inventory>/hosts.yaml`
+
+```yaml title="<inventory>/hosts.yaml"
+<group>:
+  hosts:
+    <host>:
+      <key>: <value>
+```
+
+### inventory의 host_vars/`<host>`
+
+- `<inventory>/host_vars/<host>.yaml`
+- `<inventory>/host_vars/<host>/*.yaml`
+
+### playbook의 host_vars/`<host>`
+
+- `<playbook>/host_vars/<host>.yaml`
+- `<playbook>/host_vars/<host>/*.yaml`
+
+### host facts 와 캐싱된 set_facts
+
+### play의 vars
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: all
+  vars:
+    <key>: <value>
+```
+
+### play의 vars_prompt
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  vars_prompt:
+    - name: <key>
+      prompt: "<prompt>"
+      private: true
+```
+
+### play의 vars_files
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  vars_files:
+    - <file>
+```
+
+### role의 vars
+
+- `<role>/vars/main.yaml`
+
+### block의 vars
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - block: []
+      vars:
+        <key>: <value>
+```
+
+:::info
+block내의 task에게만 적용되는 변수입니다.
+:::
+
+### task의 vars
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      vars:
+        <key>: <value>
+```
+
+:::info
+해당 task에게만 적용되는 변수입니다.
+:::
+
+### include_vars
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      ansible.builtin.include_vars:
+```
+
+### set_fact와 register
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      ansible.builtin.set_fact:
+```
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      register: <key>
+```
+
+### role 매개 변수
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  roles:
+    - role: <role>
+      vars:
+        <key>: <value>
+```
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      ansible.builtin.include_role:
+        name: <role>
+      vars:
+        <key>: <value>
+```
+
+### include_tasks 매개 변수
+
+- `<playbook>/<purpose>.yaml`
+
+```yaml title="<playbook>/<purpose>.yaml"
+- hosts: <host|group>
+  tasks:
+    - name: <task>
+      ansible.builtin.include_tasks:
+        file: <file>
+      vars:
+        <key>: <value>
+```
+
+### extra_vars
+
+명령어 실행시 `-e | --extra-vars` 옵션으로 전달되는 변수입니다.
+
+- `-e <key>=<value>`
+- `-e "<key>=<value> <key>=<value>"`
+- `-e '{"<key>": "<value>"}'`
+- `-e "@<path>/<file>.yaml"`
+- `-e "@<path>/<file>.json"`
