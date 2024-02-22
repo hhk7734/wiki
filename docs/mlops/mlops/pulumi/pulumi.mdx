@@ -247,7 +247,9 @@ config:
 ```
 
 :::info
-S3를 사용할 때, backend.url을 공유하는 여러 프로젝트는, stack이름으로 접근이 가능합니다.(`pulumi.StackReference`) 따라서 stack이름을 지을 때, `<project>.<sub-project>.prod` 등의 형식으로 짓는 것이 좋습니다.(S3를 backend로 할 때 아직 `<organization>/<project>/<stack>`을 지원하지 않는 것 같습니다.)
+Self-Managed Backend(S3, local filesystem, ...)을 사용할 때, 조직은 `organization`으로 고정됩니다.
+
+backend.url을 공유하는 여러 프로젝트는, `pulumi.StackReference`로 다른 스택에 접근이 가능합니다.
 :::
 
 ### IAC code

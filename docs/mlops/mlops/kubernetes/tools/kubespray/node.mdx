@@ -25,3 +25,15 @@ keywords:
 ## Node
 
 - `kube_node` 그룹은 container runtime, kubelet을 설치할 노드 그룹입니다.
+
+## Node 제거
+
+:::warning
+kubespray에서 여러 그룹에 속해있는 노드를 한 그룹에서만 제거하는 방법을 제공하지 않는 것 같습니다.(불확실함)
+:::
+
+`groups['etcd'][0]` 또는 `groups['kube_control_plane'][0]`인 Node를 제거하려는 경우 해당 노드의 순서를 변경해야합니다.
+
+```yaml title="inventory/hosts.yaml"
+
+```

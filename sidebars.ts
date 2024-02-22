@@ -416,6 +416,19 @@ const sidebars: SidebarsConfig = {
 			items: ["linux/kernel/namespace/namespace", "linux/kernel/namespace/user"],
 		},
 	],
+	linux: [
+		"linux/linux/udev",
+		{
+			type: "category",
+			label: "Storage",
+			items: [
+				"linux/linux/storage/lvm",
+				"linux/linux/storage/swap",
+				"linux/linux/storage/fstab",
+				"linux/linux/storage/clone-os-image",
+			],
+		},
+	],
 	"linux-package": [
 		{
 			type: "category",
@@ -430,17 +443,6 @@ const sidebars: SidebarsConfig = {
 	],
 	"linux-tools": [
 		"linux/linux-tools/progress-bar",
-		"linux/linux-tools/linux-udev",
-		{
-			type: "category",
-			label: "Storage",
-			items: [
-				"linux/linux-tools/storage/lvm",
-				"linux/linux-tools/storage/swap",
-				"linux/linux-tools/storage/fstab",
-				"linux/linux-tools/storage/clone-os-image",
-			],
-		},
 		{
 			type: "category",
 			label: "Network",

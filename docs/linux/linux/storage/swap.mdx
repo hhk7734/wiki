@@ -1,0 +1,111 @@
+---
+id: swap
+title: Swap Memory
+sidebar_label: Swap Memory
+description: Swap Memory
+keywords:
+  - Linux
+  - swap
+  - memory
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Swap Space 만들기
+
+### Swap file
+
+```shell
+sudo dd if=/dev/zero of=<swapfile> bs=<blockSize> count=<blockCount>
+```
+
+```shell
+sudo chmod 600 <swapfile>
+```
+
+```shell
+sudo mkswap <swapfile>
+```
+
+### ZRAM
+
+```shell
+sudo modprobe zram [num_devices=<num>]
+```
+
+```shell
+sudo zramctl <option> [<device>]
+```
+
+- `<option>`
+  - `-f | --find`: free device를 찾습니다.
+  - `-s | --size <size>`: device size를 설정합니다.(압축 되기 전 크기)
+  - `-a | --algorithm <alg>`: compression algorithm을 설정합니다.
+
+```shell
+zramctl
+```
+
+```shell
+sudo mkswap <device>
+```
+
+:::info
+udev를 사용하여 zram을 설정할 수 있습니다.
+
+```shell title="/etc/modules-load.d/zram.conf"
+zram
+```
+
+```shell title="/etc/udev/rules.d/99-zram.rules"
+KERNEL=="zram0", ACTION=="add", ATTR{comp_algorithm}="lzo-rle", ATTR{disksize}="2G", RUN="/sbin/mkswap /dev/%k"
+```
+
+```ini title="/etc/systemd/system/zram.service"
+[Unit]
+Description=Swap with zram
+After=multi-user.target
+
+[Service]
+RemainAfterExit=true
+ExecStartPre=/sbin/mkswap /dev/zram0
+ExecStart=/sbin/swapon -p 10 /dev/zram0
+ExecStop=/sbin/swapoff /dev/zram0
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```shell
+sudo systemctl enable zram
+```
+
+:::
+
+## Swap ON/OFF
+
+```shell
+sudo swapon <option> <spec>
+```
+
+- `<option>`
+  - `-p | --priority <priority>`
+    - 0 ~ 32767 값을 설정 할 수 있습니다.
+    - 큰 값일 수록 우선순위가 높습니다.
+  - `-s | --summary`: swap 상태를 출력합니다.
+
+```shell
+sudo swapoff <spec>
+```
+
+```shell title="/etc/fstab"
+<spec> none swap defaults[,<option>] 0 0
+```
+
+- `<option>`
+  - `pri=<priority>`: swap 우선순위
+
+## vm.swappiness
+
+- https://github.com/torvalds/linux/blob/v6.2/mm/vmscan.c#L3000-L3014

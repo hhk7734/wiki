@@ -136,6 +136,7 @@ const config: Config = {
 						NueralNetwork: "nn",
 					},
 					Linux: {
+						Linux: "linux",
 						Package: "linux-package",
 						Kernel: "linux-kernel",
 						Tools: "linux-tools",

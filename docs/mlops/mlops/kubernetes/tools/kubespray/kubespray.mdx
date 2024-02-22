@@ -17,17 +17,31 @@ keywords:
   - 모든 노드에 대한 고유한 호스트 이름, MAC 주소, prodcut_uuid
     - `ip link`
     - `sudo cat /sys/class/dmi/id/product_uuid`
+  - `cat /proc/cgroups | column -t` 모두 enabled 상태
+
+:::info
+Kubespray 여러 버전을 사용하기 위해 컨테이너를 활용합니다.
+
+```shell
+podman run --rm -it \
+  -v <path>/kubespray:/usr/share/kubespray \
+  -e ANSIBLE_STDOUT_CALLBACK=yaml \
+  quay.io/kubespray/kubespray:v2.24.0 \
+  bash
+```
+
+:::
 
 ## Inventory 생성
 
 ```shell
 podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory/new \
+  -v <path>/kubespray:/usr/share/kubespray \
   quay.io/kubespray/kubespray:v2.24.0 \
-  cp -rfp /kubespray/inventory/sample/. /kubespray/inventory/new
+  cp -rfp /kubespray/inventory/sample /usr/share/kubespray/inventory
 ```
 
-kubespray 레포지토리에 있는 `kubespray/inventory/sample` 디렉토리 내용을 `inventory/`로 복사합니다. 이후 설명에서 경로는 `inventory/`로 표시하겠습니다.
+kubespray 레포지토리에 있는 `kubespray/inventory/sample` 디렉토리 내용을 `inventory`로 복사합니다. 이후 설명에서 경로는 `inventory`로 표시하겠습니다.
 
 inventory 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory)을 참고하시면 됩니다.
 
@@ -36,7 +50,6 @@ all:
   hosts:
     <hostname>:
       ansible_host: <host> # ansible이 접근 가능한 주소
-      ansible_port: <port> # ansible이 접근 가능한 포트
       ip: <ip> # Node IP
       access_ip: <ip>
 
@@ -59,8 +72,8 @@ bastion:
 calico_rr:
   hosts: {}
 
-# 수정하지 마세요.
 k8s_cluster:
+  # 수정하지 마세요.
   children:
     kube_control_plane:
     kube_node:
@@ -69,34 +82,46 @@ k8s_cluster:
 ## 클러스터 생성
 
 ```shell
-inventory/
-├── group_vars/
-│   ├── all/
-│   │   ├── all.yml
-│   │   └── ...
-│   ├── k8s_cluster/
-│   │   ├── addons.yml
-│   │   ├── k8s-cluster.yml
-│   │   └── ...
-│   └── etcd.yml
-├── patches/
-└── hosts.yaml
+kubespray/
+├── inventory/
+│   ├── group_vars/
+│   │   ├── all/
+│   │   │   ├── all.yml
+│   │   │   └── ...
+│   │   ├── k8s_cluster/
+│   │   │   ├── addons.yml
+│   │   │   ├── k8s-cluster.yml
+│   │   │   └── ...
+│   │   └── etcd.yml
+│   ├── hosts.yaml
+│   └── patches/
+│       └── ...
+└── roles/
+    └── ...
 ```
 
 - group_vars/
   - k8s_cluster/
     - k8s-cluster.yml: 클러스터의 기본 구성을 설정합니다.
+      - `kube_owner: root`: 일부 파일이나 디렉토리의 소유자를 설정합니다.
       - `kube_oidc_*`: kube-apiserver에 OIDC 관련 설정을 추가합니다.
-      - `kube_network_plugin: <cni|false>`
-      - `kubeconfig_localhost: <true|false>`: kubeconfig 파일을 로컬에 생성할지 여부를 설정합니다.
+      - `kube_network_plugin: <cni>`
+        - `calico`: 기본값입니다.
+        - `cni`: 기본적으로 필요한 cni 플러그인들만 설치합니다.
+      - `kubeconfig_localhost: <bool>`: kubeconfig 파일을 로컬에 생성할지 여부를 설정합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
+- 기타
+  - `kubelet_fail_swap_on: <bool>`
+  - `kubelet_swap_behavior: UnlimitedSwap|LimitedSwap`
+  - `kubelet_feature_gates: ["<key>=<value>"]`
 
 ```shell
 podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
+  -v <path>/kubespray:/usr/share/kubespray \
+  -e ANSIBLE_STDOUT_CALLBACK=yaml \
   quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /kubespray/inventory \
-  /kubespray/cluster.yml
+  ansible-playbook -i /usr/share/kubespray/inventory \
+  cluster.yml
 ```
 
 ## 노드 추가
@@ -105,10 +130,10 @@ podman run --rm -it \
 
 ```shell
 podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
+  -v <path>/kubespray:/usr/share/kubespray \
   quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /kubespray/inventory \
-  /kubespray/scale.yml
+  ansible-playbook -i /usr/share/kubespray/inventory \
+  scale.yml
 ```
 
 ## 노드 삭제
@@ -122,6 +147,7 @@ podman run --rm -it \
 ```shell
 podman run --rm -it \
   -v <path>/inventory:/kubespray/inventory \
+  -e ANSIBLE_STDOUT_CALLBACK=yaml \
   quay.io/kubespray/kubespray:v2.24.0 \
   ansible-playbook -i /kubespray/inventory \
   --extra-vars "node=<node1>,<node2>" \
@@ -136,8 +162,9 @@ podman run --rm -it \
 
 ```shell
 podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
+  -v <path>/kubespray:/usr/share/kubespray \
+  -e ANSIBLE_STDOUT_CALLBACK=yaml \
   quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /kubespray/inventory \
-  /kubespray/reset.yml
+  ansible-playbook -i /usr/share/kubespray/inventory \
+  reset.yml
 ```
