@@ -527,6 +527,7 @@ const sidebars: SidebarsConfig = {
 							label: "Kubespray",
 							items: [
 								"mlops/mlops/kubernetes/tools/kubespray/kubespray",
+								"mlops/mlops/kubernetes/tools/kubespray/ha",
 								"mlops/mlops/kubernetes/tools/kubespray/node",
 							],
 						},

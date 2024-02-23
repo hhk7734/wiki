@@ -24,7 +24,7 @@ Kubespray 여러 버전을 사용하기 위해 컨테이너를 활용합니다.
 
 ```shell
 podman run --rm -it \
-  -v <path>/kubespray:/usr/share/kubespray \
+  -v <path>/inventory:/kubespray/inventory \
   -e ANSIBLE_STDOUT_CALLBACK=yaml \
   quay.io/kubespray/kubespray:v2.24.0 \
   bash
@@ -36,7 +36,7 @@ podman run --rm -it \
 
 ```shell
 podman run --rm -it \
-  -v <path>/kubespray:/usr/share/kubespray \
+  -v <path>:/usr/share/kubespray \
   quay.io/kubespray/kubespray:v2.24.0 \
   cp -rfp /kubespray/inventory/sample /usr/share/kubespray/inventory
 ```
@@ -110,61 +110,19 @@ kubespray/
         - `cni`: 기본적으로 필요한 cni 플러그인들만 설치합니다.
       - `kubeconfig_localhost: <bool>`: kubeconfig 파일을 로컬에 생성할지 여부를 설정합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
+- HA
+  - [kube-apiserver HA](/docs/mlops/mlops/kubernetes/tools/kubespray/ha)
 - 기타
   - `kubelet_fail_swap_on: <bool>`
   - `kubelet_swap_behavior: UnlimitedSwap|LimitedSwap`
   - `kubelet_feature_gates: ["<key>=<value>"]`
 
 ```shell
-podman run --rm -it \
-  -v <path>/kubespray:/usr/share/kubespray \
-  -e ANSIBLE_STDOUT_CALLBACK=yaml \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /usr/share/kubespray/inventory \
-  cluster.yml
+ansible-playbook -i inventory cluster.yml
 ```
-
-## 노드 추가
-
-`inventory/hosts.yaml`에 노드 정보를 추가합니다.
-
-```shell
-podman run --rm -it \
-  -v <path>/kubespray:/usr/share/kubespray \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /usr/share/kubespray/inventory \
-  scale.yml
-```
-
-## 노드 삭제
-
-- `kubectl drain <node>`
-  - DaemonSet을 확인하고 무시해도 되면 `--ignore-daemonsets` 옵션을 사용합니다.
-  - emptyDir를 사용하는 Pod을 확인하고 무시해도 되면 `--delete-local-data` 옵션을 사용합니다.
-  - 관리되지 않는 Pod을 확인하고 무시해도 되면 `--force` 옵션을 사용합니다.
-- `kubectl delete node <node>`
-
-```shell
-podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
-  -e ANSIBLE_STDOUT_CALLBACK=yaml \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /kubespray/inventory \
-  --extra-vars "node=<node1>,<node2>" \
-  /kubespray/remove-node.yml
-```
-
-제거하려는 노드들에 SSH로 접근이 안되는 경우 `--extra-vars reset_nodes=false`를 추가하고, 일부 노드에만 접근이 안되는 경우 host 변수에 `reset_nodes=false`를 추가합니다.
-
-제거된 후 `inventory/hosts.yaml`에서 노드 정보를 삭제합니다.
 
 ## 클러스터 삭제
 
 ```shell
-podman run --rm -it \
-  -v <path>/kubespray:/usr/share/kubespray \
-  -e ANSIBLE_STDOUT_CALLBACK=yaml \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  ansible-playbook -i /usr/share/kubespray/inventory \
-  reset.yml
+ansible-playbook -i inventory reset.yml
 ```
