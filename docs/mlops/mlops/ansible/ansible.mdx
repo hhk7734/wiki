@@ -74,6 +74,19 @@ ansible-playbook <playbook>
 ```
 
 - `-i|--inventory <dir|yaml>`
+- `-l|--limit '<pattern>'`: 선택된 hosts에 추가적인 제한을 설정합니다.
+  - `<pattern>`
+    - https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html
+    - `<host>`
+    - `<group>`
+    - `<group>[i]`, `<group>[i:j]`: Python 규칙과 같습니다.
+    - `*` glob를 허용합니다
+    - `A:B`: B에 있을 수도 있습니다.
+    - `A:&B`: B에는 있어야 합니다.
+    - `A:!B`: B에는 없어야 합니다.
+- `--list-hosts`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 host를 출력합니다.(실행은 되지 않습니다.)
+- `--list-tags`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 tags를 출력합니다.(실행은 되지 않습니다.)
+- `--list-tasks`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 tasks를 출력합니다.(실행은 되지 않습니다.)
 - 연결 옵션
   - `-u|--user <user>`: 원격 접속 시 사용될 사용자를 설정합니다.
     - `None`이 기본값이고, 이 경우 명령을 실행시키는 쉘의 사용자가 사용됩니다.

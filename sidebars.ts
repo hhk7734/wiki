@@ -528,6 +528,7 @@ const sidebars: SidebarsConfig = {
 							items: [
 								"mlops/mlops/kubernetes/tools/kubespray/kubespray",
 								"mlops/mlops/kubernetes/tools/kubespray/ha",
+								"mlops/mlops/kubernetes/tools/kubespray/etcd",
 								"mlops/mlops/kubernetes/tools/kubespray/node",
 							],
 						},
@@ -580,6 +581,7 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/kubernetes/upgrade/1-21-1-22",
 						"mlops/mlops/kubernetes/upgrade/1-22-1-23",
+						"mlops/mlops/kubernetes/upgrade/1-24-1-25",
 					],
 				},
 			],

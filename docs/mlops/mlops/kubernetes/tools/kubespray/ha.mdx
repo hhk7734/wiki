@@ -1,15 +1,55 @@
 ---
 id: ha
-title: Kubespray kube-apiserver HA endpoint 구성
-sidebar_label: kube-apiserver HA
-description: Kubespray kube-apiserver HA endpoint 구성
+title: Kubeporay Control Plane HA endpoint 구성
+sidebar_label: Control Plane HA
+description: Kubeporay Control Plane HA endpoint 구성
 keywords:
-  - kubespray
+  - kubeporay
   - kube-apiserver
   - ha
   - high availability
 ---
 
-- https://github.com/kubernetes-sigs/kubespray/blob/master/docs/ha-mode.md
+- https://github.com/kubernetes-sigs/kubeporay/blob/master/docs/ha-mode.md
 
-## `kube_node` local loadbalancer
+## kube-apiserver HA endpoint
+
+### LoadBalancer(LB)에 따른 endpoint
+
+| type                          | `kube_control_plane`                            | not `kube_control_plane`      | external                      |
+| ----------------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------- |
+| Local LB(default)             | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
+| Local LB + cbip               | `https://cbip:po`<br/>`https://localhost:llbpo` | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
+| Local LB + 사용자가 구성한 LB | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://user_defined`        |
+| External LB                   | `https://0.0.0.0:po`                            | `https://lb:lbpo`             | `https://lb:lbpo`             |
+| LB 없음                       | `https://0.0.0.0:po`                            | `https://kcp[0].access_ip:po` | `https://kcp[0].access_ip:po` |
+
+- `kcp`: `kube_control_plane`
+- `cbip`: `kube_apiserver_bind_address`(role)
+- `po`: `kube_apiserver_port`
+- `llbpo`: `loadbalancer_apiserver_port`
+- `lb`: `apiserver_loadbalancer_domain_name`
+- `lbpo`: `loadbalancer_apiserver.port`
+
+:::info
+`Local LB + 사용자가 구성한 LB`는 External LB가 존재하지만 Kubespray에 해당 설정을 하지 않고 사용하는 경우입니다. Kubespray는 특정 사례가 아니라면 이 경우는 사용하지 않는다고 간주합니다.
+:::
+
+### `kube_node` local LoadBalancer(LB)
+
+kube-apiserver에 대한 local LB로 nginx 또는 haproxy가 사용됩니다. `kube_control_plane`이 아닌 각 Node에는 local LB가 설치되고, local LB는 kube-apiserver에 대한 요청을 분산시킵니다.
+
+- group_vars
+  - all
+    - `loadbalancer_apiserver_localhost: true`
+    - `loadbalancer_apiserver_type: nginx|haproxy`
+    - `loadbalancer_apiserver_port: 6443`
+
+### External LB
+
+- group_vars
+  - all
+    - `loadbalancer_apiserver_localhost: false`
+    - `apiserver_loadbalancer_domain_name: <domain>`
+    - `loadbalancer_apiserver.address: <ip>`
+    - `loadbalancer_apiserver.port: 6443`

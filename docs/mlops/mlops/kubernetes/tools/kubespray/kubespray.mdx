@@ -19,31 +19,94 @@ keywords:
     - `sudo cat /sys/class/dmi/id/product_uuid`
   - `cat /proc/cgroups | column -t` 모두 enabled 상태
 
-:::info
-Kubespray 여러 버전을 사용하기 위해 컨테이너를 활용합니다.
+## 프로젝트 생성
+
+### 컨테이너 사용하기
+
+kubespray의 기본 기능만 사용하면서 인벤토리만 관리하면 된다면 컨테이너를 활용하는 것이 편리합니다.
 
 ```shell
 podman run --rm -it \
-  -v <path>/inventory:/kubespray/inventory \
+  -v <path>:/mycluster \
+  quay.io/kubespray/kubespray:v2.24.0 \
+  cp -rfp /kubespray/inventory/sample /mycluster/inventory
+```
+
+```shell
+./
+└── inventory/
+    ├── group_vars/
+    │   └── ...
+    ├── hosts.yaml
+    └── patches/
+        └── ...
+```
+
+아래 명령어로 컨테이너 내에서 작업을 하면 됩니다.
+
+```shell
+podman run --rm -it \
+  -v $PWD/inventory:/kubespray/inventory \
   -e ANSIBLE_STDOUT_CALLBACK=yaml \
   quay.io/kubespray/kubespray:v2.24.0 \
   bash
 ```
 
-:::
+### git submodule 사용하기
 
-## Inventory 생성
+추가적인 플래이북을 만들어서 사용해야하는 경우 git submodule을 사용하는 것이 편리합니다.
 
 ```shell
-podman run --rm -it \
-  -v <path>:/usr/share/kubespray \
-  quay.io/kubespray/kubespray:v2.24.0 \
-  cp -rfp /kubespray/inventory/sample /usr/share/kubespray/inventory
+git submodule add https://github.com/kubernetes-sigs/kubespray.git upstream \
+&& pushd upstream \
+&& git checkout v2.24.0 \
+&& popd
 ```
 
-kubespray 레포지토리에 있는 `kubespray/inventory/sample` 디렉토리 내용을 `inventory`로 복사합니다. 이후 설명에서 경로는 `inventory`로 표시하겠습니다.
+```shell
+cp -rfp upstream/inventory/sample inventory
+```
 
-inventory 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory)을 참고하시면 됩니다.
+```shell
+cp upstream/ansible.cfg ansible.cfg \
+&& sed -i \
+  -e 's/\(^stdout_callback = \).*$/\1yaml/g' \
+  -e 's/\(^library =.*\)/\1:upstream\/library/g' \
+  -e 's/\(^roles_path =.*\)/\1:upstream\/roles/g' ansible.cfg
+```
+
+```shell
+for playbook in cluster.yml recover-control-plane.yml remove-node.yml reset.yml scale.yml upgrade-cluster.yml; do
+  cat <<EOF > $playbook
+---
+- name: Import upstream/$playbook
+  ansible.builtin.import_playbook: upstream/$playbook
+EOF
+done
+```
+
+```shell
+./
+├── ansible.cfg
+├── cluster.yml
+├── inventory/
+│   ├── group_vars/
+│   │   └── ...
+│   ├── hosts.yaml
+│   └── patches/
+│       └── ...
+├── recover-control-plane.yml
+├── remove-node.yml
+├── reset.yml
+├── scale.yml
+├── upgrade-cluster.yml
+└── upstream/
+    └── ...
+```
+
+## 인벤토리 작성
+
+- 인벤토리 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory)를 참고하시면 됩니다.
 
 ```yaml title="inventory/hosts.yaml"
 all:
@@ -53,15 +116,15 @@ all:
       ip: <ip> # Node IP
       access_ip: <ip>
 
+etcd:
+  hosts:
+    <hostname>:
+
 kube_control_plane:
   hosts:
     <hostname>:
 
 kube_node:
-  hosts:
-    <hostname>:
-
-etcd:
   hosts:
     <hostname>:
 
@@ -82,7 +145,7 @@ k8s_cluster:
 ## 클러스터 생성
 
 ```shell
-kubespray/
+./
 ├── inventory/
 │   ├── group_vars/
 │   │   ├── all/
@@ -96,8 +159,7 @@ kubespray/
 │   ├── hosts.yaml
 │   └── patches/
 │       └── ...
-└── roles/
-    └── ...
+└── ...
 ```
 
 - group_vars/
@@ -116,13 +178,15 @@ kubespray/
   - `kubelet_fail_swap_on: <bool>`
   - `kubelet_swap_behavior: UnlimitedSwap|LimitedSwap`
   - `kubelet_feature_gates: ["<key>=<value>"]`
+  - `node_labels: {"<key>": "<value>"}`
+  - `node_taints: ["<key>=<value>:<effect>"]`
 
 ```shell
-ansible-playbook -i inventory cluster.yml
+ansible-playbook -i inventory -b cluster.yml
 ```
 
 ## 클러스터 삭제
 
 ```shell
-ansible-playbook -i inventory reset.yml
+ansible-playbook -i inventory -b reset.yml
 ```

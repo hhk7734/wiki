@@ -1,0 +1,46 @@
+---
+id: 1-24-1-25
+title: 1.24 to 1.25
+sidebar_label: 1.24 to 1.25
+description: upgrade from 1.24 to 1.25
+keywords:
+  - kubernetes
+  - upgrade
+  - 1.24
+  - 1.25
+---
+
+- https://kubernetes.io/blog/2022/08/23/kubernetes-v1-25-release/
+- https://kubernetes.io/docs/reference/using-api/deprecation-guide/#v1-25
+
+```shell
+kubent
+```
+
+## EKS
+
+- https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html
+
+<br />
+
+- 클러스터 버전 확인
+
+```shell
+kubectl version --short
+```
+
+- 노드 버전이 현재 클러스터 버전과 일치하는지 확인
+
+```shell
+kubectl get nodes
+```
+
+- EKS 1.25로 업데이트
+- 워커노드 1.25로 교체
+  - NodeGroup 버전 변경
+  - 노드 교체([Node 제거](/docs/mlops/mlops/kubernetes/administer-cluster/drain-node))
+- 추가 기능 업데이트
+  - kube-proxy: v1.25.16-eksbuild.3
+  - CoreDNS: v1.9.3-eksbuild.11
+  - VPC CNI: v1.16.3-eksbuild.2
+- kubectl 업데이트

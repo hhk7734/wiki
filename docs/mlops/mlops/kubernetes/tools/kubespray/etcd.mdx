@@ -1,0 +1,27 @@
+---
+id: etcd
+title: Kubespray etcd 설정
+sidebar_label: etcd
+description: Kubespray etcd 설정
+keywords:
+  - Kubespray
+  - etcd
+---
+
+## `etcd` 변수
+
+- inventory
+  - group_vars
+    - all
+      - `etcd_deployment_type: host`
+- `etcd` role
+  - `etcd_config_dir: /etc/ssl/etcd`
+  - `etcd_cert_dir: "{{ etcd_config_dir }}/ssl"`
+
+## etcdctl
+
+Kubespray로 설치하면 인증서 옵션이 미리 설정된 `etcdctl.sh`라는 명령어가 생성됩니다.
+
+```shell
+etcdctl.sh get / --prefix --keys-only
+```
