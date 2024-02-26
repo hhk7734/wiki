@@ -86,7 +86,7 @@ export default function RadialTree() {
 
 		const root = tree(
 			d3
-				.hierarchy({ name: "loliot", children: sidebarData })
+				.hierarchy({ name: "lol-IoT", children: sidebarData })
 				.sort((a, b) => d3.ascending(a.data.name, b.data.name)),
 		);
 

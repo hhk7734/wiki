@@ -1,0 +1,86 @@
+---
+id: coredns
+title: CoreDNS
+sidebar_label: CoreDNS
+description: CoreDNS
+keywords:
+  - coredns
+  - dns
+---
+
+## 설치
+
+- https://github.com/coredns/helm
+
+```shell
+helm repo add coredns https://coredns.github.io/helm
+```
+
+```shell
+helm repo update coredns \
+&& helm search repo coredns/coredns -l | head -n 10
+```
+
+```shell
+helm pull coredns/coredns --version 1.29.0
+```
+
+```shell
+helm show values coredns-1.29.0.tgz > coredns-1.29.0.yaml
+```
+
+```yaml tilte="coredns-values.yaml"
+servers:
+  - zones:
+      - zone: <zone>
+        # scheme: <scheme>:// # dns://, tls://, https://, grpc://
+    port: <port>
+    plugins:
+      - name: <plugin>
+        # parameters: <parameters>
+        # configBlock: <config>
+
+extraConfig: {}
+
+affinity: {}
+
+tolerations: []
+```
+
+DNS 쿼리는 가장 많이 매칭된 zone을 사용합니다. `b.a`와 `c.b.a` zone이 있을 때, `d.c.b.a`에 대한 쿼리가 오면 `c.b.a` zone이 매칭됩니다.
+
+:::info
+
+`servers` 설정은 아래와 같은 형식으로 변환됩니다.
+
+```conf title="/etc/coredns/Corefile"
+[<scheme>]<zone>[ [<scheme>]<zone>][:<port>] {
+    # Server block
+
+    <plugin> [<parameters>] [{
+        # Plugin block
+        <config>
+    }]
+}
+```
+
+:::
+
+```shell
+helm template coredns coredns-1.29.0.tgz \
+  -f coredns-1.29.0.yaml \
+  > coredns.yaml
+```
+
+```shell
+helm upgrade coredns coredns-1.29.0.tgz \
+  --install \
+  --history-max 3 \
+  -f coredns-1.29.0.yaml
+```
+
+## 플러그인
+
+- https://coredns.io/plugins/
+
+플러그인의 실행 순서는 `plugin.cfg` 파일에 정의된 순서대로입니다.

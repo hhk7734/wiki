@@ -54,7 +54,7 @@ csi:
 ```
 
 ```shell
-helm template rook-ceph-v1.13.4.tgz \
+helm template rook-ceph rook-ceph-v1.13.4.tgz \
     -n rook-ceph \
     -f rook-ceph-values.yaml \
     > rook-ceph.yaml
@@ -130,7 +130,7 @@ cephObjectStores: []
 ```
 
 ```shell
-helm template rook-ceph-cluster-v1.13.4.tgz \
+helm template rook-ceph-cluster rook-ceph-cluster-v1.13.4.tgz \
     -n rook-ceph \
     -f rook-ceph-cluster-values.yaml \
     > rook-ceph-cluster.yaml

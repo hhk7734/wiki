@@ -87,6 +87,7 @@ ansible-playbook <playbook>
 - `--list-hosts`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 host를 출력합니다.(실행은 되지 않습니다.)
 - `--list-tags`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 tags를 출력합니다.(실행은 되지 않습니다.)
 - `--list-tasks`: 사용자가 설정한 옵션에 따라 실행될 play와 해당 tasks를 출력합니다.(실행은 되지 않습니다.)
+- `ansible -i inventory -m debug -a "var=hostvars[inventory_hostname]" '<pattern>'`: 해당 host들의 변수를 출력합니다.
 - 연결 옵션
   - `-u|--user <user>`: 원격 접속 시 사용될 사용자를 설정합니다.
     - `None`이 기본값이고, 이 경우 명령을 실행시키는 쉘의 사용자가 사용됩니다.

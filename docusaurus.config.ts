@@ -7,8 +7,8 @@ import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
 
 const config: Config = {
-	title: "loliot by HHK",
-	tagline: "loliot",
+	title: "lol-IoT by HHK",
+	tagline: "lol-IoT",
 	url: "https://wiki.loliot.net",
 	baseUrl: "/",
 	favicon: "img/favicon.ico",
@@ -111,9 +111,9 @@ const config: Config = {
 			dataAdClient: "ca-pub-5199357432848758",
 		},
 		navbar: {
-			title: "loliot",
+			title: "lol-IoT",
 			logo: {
-				alt: "loliot Logo",
+				alt: "lol-IoT Logo",
 				src: "img/logo.svg",
 			},
 			items: (() => {

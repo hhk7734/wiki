@@ -78,14 +78,14 @@ spec:
             containerPort: 5432
         env:
           - name: PGDATA
-            value: /loliot/postgresql/data
+            value: /lol_iot/postgresql/data
           - name: POSTGRES_USER
             value: test
           - name: POSTGRES_PASSWORD
             value: test
         volumeMounts:
           - name: tmp-db
-            mountPath: /loliot/postgresql
+            mountPath: /lol_iot/postgresql
 ```
 
 ### `containerSet`
