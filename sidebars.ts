@@ -607,7 +607,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/storage/postgresql/ha",
 					],
 				},
-				"mlops/mlops/storage/harbor",
+				{
+					type: "category",
+					label: "Harbor",
+					items: ["mlops/mlops/storage/harbor/harbor"],
+				},
 			],
 		},
 		{
