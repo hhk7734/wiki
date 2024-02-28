@@ -22,7 +22,7 @@ python3 -m pip install pre-commit
 pre-commit install
 ```
 
-위 명령어를 실행하면 해당 레포지토리의 `.git/hooks`에 pre-commit을 설치합니다.
+위 명령어를 실행하면 해당 리포지토리의 `.git/hooks`에 pre-commit을 설치합니다.
 
 - 기본적으로 `~/.cache/pre-commit` 위치에 사용할 모듈이 저장됩니다
 - `PRE_COMMIT_HOME`를 선언하여 설치 위치를 변경할 수 있습니다
@@ -42,7 +42,7 @@ pre-commit init-templatedir ~/.git-template -t pre-commit -t prepare-commit-msg
 
 - https://pre-commit.com/#creating-new-hooks
 
-커스텀 훅을 만들려면 `.pre-commit-hooks.yaml` 파일을 root에 정의한 레포지토리를 만들면 됩니다.
+커스텀 훅을 만들려면 `.pre-commit-hooks.yaml` 파일을 root에 정의한 리포지토리를 만들면 됩니다.
 
 ```yaml title=".pre-commit-hooks.yaml"
 - id: <id>
@@ -69,7 +69,7 @@ pre-commit init-templatedir ~/.git-template -t pre-commit -t prepare-commit-msg
 ```yaml title=".pre-commit-hooks.yaml"
 - id: <id> # .pre-commit-config.yaml에서 사용할 id 입니다
   name: <name> # 실행될 때 표시될 이름입니다
-  entry: <relativePath> # 레포지토리의 root 기준으로 상대 경로를 적으면 됩니다
+  entry: <relativePath> # 리포지토리의 root 기준으로 상대 경로를 적으면 됩니다
   language: script
 ```
 
@@ -81,7 +81,7 @@ script 실행 시, 실행이 성공한 경우(`exit 0`) stdout이 출력되지 �
 
 - https://pre-commit.com/#adding-pre-commit-plugins-to-your-project
 
-정의된 훅을 사용하려면 `.pre-commit-config.yaml` 파일을 레포지토리의 root에 생성하면 됩니다.
+정의된 훅을 사용하려면 `.pre-commit-config.yaml` 파일을 리포지토리의 root에 생성하면 됩니다.
 
 ```yaml title=".pre-commit-config.yaml"
 # https://pre-commit.com/#pre-commit-configyaml---top-level

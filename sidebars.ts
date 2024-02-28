@@ -554,6 +554,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/kubernetes/configuration/env",
 						"mlops/mlops/kubernetes/configuration/configmap",
 						"mlops/mlops/kubernetes/configuration/secret",
+						"mlops/mlops/kubernetes/configuration/replicator",
 					],
 				},
 				{

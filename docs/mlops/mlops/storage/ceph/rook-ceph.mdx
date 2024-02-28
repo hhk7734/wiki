@@ -63,7 +63,7 @@ helm template rook-ceph rook-ceph-v1.13.4.tgz \
 ```shell
 helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     -n rook-ceph \
     -f rook-ceph-values.yaml
 ```
@@ -139,7 +139,7 @@ helm template rook-ceph-cluster rook-ceph-cluster-v1.13.4.tgz \
 ```shell
 helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.4.tgz \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     -n rook-ceph \
     -f rook-ceph-cluster-values.yaml
 ```

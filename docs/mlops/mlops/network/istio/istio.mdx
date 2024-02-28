@@ -62,7 +62,7 @@ helm template istio-base istio/base \
 ```shell
 helm upgrade istio-base istio/base \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     --version 1.20.2 \
     -n istio-system \
     -f istio-base-values.yaml
@@ -104,7 +104,7 @@ helm template istiod-1-20-2 istio/istiod \
 ```shell
 helm upgrade istiod-1-20-2 istio/istiod \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     --version 1.20.2 \
     -n istio-system \
     -f istiod-values.yaml

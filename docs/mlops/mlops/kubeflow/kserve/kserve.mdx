@@ -43,7 +43,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ```shell
 helm upgrade kserve-crd kserve-crd-v0.11.2.tgz \
   --install \
-  --history-max 3
+  --history-max 5
 ```
 
 ```shell
@@ -79,7 +79,7 @@ helm template kserve kserve-v0.11.2.tgz \
 ```shell
 helm upgrade kserve kserve-v0.11.2.tgz \
   --install \
-  --history-max 3 \
+  --history-max 5 \
   -n kserve \
   -f kserve-values.yaml
 ```

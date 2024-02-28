@@ -51,7 +51,7 @@ helm template keda kedacore/keda \
 ```shell
 helm upgrade keda kedacore/keda \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     --version 2.12.1 \
     -n provisioning \
     -f keda-values.yaml

@@ -159,7 +159,7 @@ helm template cert-manager-istio-csr jetstack/cert-manager-istio-csr \
 ```shell
 helm upgrade cert-manager-istio-csr jetstack/cert-manager-istio-csr \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     --version v0.7.1 \
     -n auth \
     -f cert-manager-istio-csr-values.yaml

@@ -350,7 +350,7 @@ new aws.iam.RolePolicyAttachment(
 helm upgrade karpenter-crd oci://public.ecr.aws/karpenter/karpenter-crd \
     --install \
     --version v0.33.0 \
-    --history-max 3 \
+    --history-max 5 \
     -n kube-system
 ```
 
@@ -422,7 +422,7 @@ helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
 helm upgrade karpenter oci://public.ecr.aws/karpenter/karpenter \
     --install \
     --version v0.33.0 \
-    --history-max 3 \
+    --history-max 5 \
     -n kube-system \
     -f karpenter-values.yaml
 ```

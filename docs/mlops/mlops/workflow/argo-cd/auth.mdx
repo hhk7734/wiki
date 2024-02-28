@@ -38,6 +38,10 @@ configs:
     accounts.<user>.password: $2a$10$...
 ```
 
+```shell
+htpasswd -bnBC 10 '' '<password>' | tr -d ':\n' | sed 's/^$2y/$2a/'
+```
+
 :::info
 암호는 `argocd` 커맨드로 생성하여 등록할 수도 있습니다.
 

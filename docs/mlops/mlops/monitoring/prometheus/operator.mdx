@@ -111,7 +111,7 @@ helm template prometheus-operator prometheus-community/kube-prometheus-stack \
 ```shell
 helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
     --install \
-    --history-max 3 \
+    --history-max 5 \
     --version 48.2.3 \
     -n monitoring \
     -f prometheus-operator-values.yaml

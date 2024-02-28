@@ -11,7 +11,50 @@ keywords:
 
 ## Repository
 
-- https://argo-cd.readthedocs.io/en/stable/user-guide/private-repositories
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories
+
+`repository` Secret에 모든 정보를 선언하는 방식과 `repository` Secret에 `type`, `url`만 선언하고 `repo-creds` Secret에 인증 정보만 선언하는 방식이 있습니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-<user>-<repository>-repo
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repository
+type: Opaque
+stringData:
+  type: git
+  url: <ssh>:<user>/<repository>.git
+  # url: <url>/<user>/<repsitory>
+
+  # username: <username>
+  # password: <password>
+
+  # sshPrivateKey: <sshPrivateKey>
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-<user>-creds
+  namespace: argo-cd
+  labels:
+    argocd.argoproj.io/secret-type: repo-creds
+type: Opaque
+stringData:
+  type: git
+  # <repsitory>는 선언하지 않습니다.
+  url: <ssh>:<user>
+  # url: <url>/<user>
+
+  # username: <username>
+  # password: <password>
+
+  # sshPrivateKey: <sshPrivateKey>
+```
 
 ### SSH
 
@@ -37,22 +80,11 @@ stringData:
     -----BEGIN OPENSSH PRIVATE KEY-----
     ...
     -----END OPENSSH PRIVATE KEY-----
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: github-<user>-<repository>-repo
-  namespace: argo-cd
-  labels:
-    argocd.argoproj.io/secret-type: repository
-type: Opaque
-stringData:
-  type: git
-  url: git@github.com:<user>/<repository>.git
 ```
 
 ## Cluster
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#clusters
 
 ### External
 
@@ -139,6 +171,8 @@ stringData:
 
 ## AppProject
 
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#projects
+
 ```yaml
 apiVersion: argoproj.io/v1alpha1
 kind: AppProject
@@ -161,7 +195,35 @@ spec:
       kind: <kind>
 ```
 
+- `sourceRepos`
+  - 해당 AppProject에서 허용하는 리포지토리 목록입니다.
+  - `*`을 사용하면 모든 리포지토리를 허용합니다.
+- `destinations`
+  - 해당 AppProject에서 허용하는 클러스터 목록입니다.
+  - `name`
+    - 허용할 클러스터의 이름입니다.
+    - `*`을 사용하면 모든 클러스터를 허용합니다.
+  - `namespace`
+    - 허용할 네임스페이스입니다.
+    - `*`을 사용하면 모든 네임스페이스를 허용합니다.
+  - `server`
+    - 허용할 클러스터의 kube-apiserver의 URL입니다.
+    - `*`을 사용하면 모든 클러스터를 허용합니다.
+- `clusterResourceWhitelist`
+  - 해당 AppProject에서 허용하는 클러스터 스코프의 리소스 리스트입니다.
+  - `group`
+    - 허용할 리소스의 그룹입니다.
+    - `*`을 사용하면 모든 그룹을 허용합니다.
+  - `kind`
+    - 허용할 리소스의 종류입니다.
+    - `*`을 사용하면 모든 종류를 허용합니다.
+- `namespaceResourceBlacklist`
+- `namespaceResourceWhitelist`
+- `roles`
+
 ## Application
+
+- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#applications
 
 ```yaml
 apiVersion: argoproj.io/v1alpha1
