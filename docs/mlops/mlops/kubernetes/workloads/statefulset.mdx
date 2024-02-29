@@ -1,0 +1,55 @@
+---
+id: statefulset
+title: StatefulSet
+sidebar_label: StatefulSet
+description: kubernetes statefulset
+keywords:
+  - kubernetes
+  - statefulset
+---
+
+## StatefulSet
+
+- https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
+
+stateless인 Deployment와 달리 StatefulSet는 Pod의 순서와 고유성을 보장합니다.
+
+- Pod이 리스케줄링 되더라도 이전과 동일한 name, 동일한 volume, 동일한 FQDN을 사용합니다.
+- headless Service를 사용하여 각 Pod에 고유한 FQDN을 부여할 수 있습니다.
+- StatefulSet을 삭제해도 PersistentVolume은 삭제되지 않습니다.
+
+```yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  replicas: <replicas>
+  serviceName: <headlessServiceName>
+  selector:
+    matchLabels:
+      <key>: <value>
+  template:
+    # Pod template
+    metadata:
+      labels:
+        <key>: <value>
+    spec:
+      containers:
+        - volumeMounts:
+            - name: <volumeName>
+              mountPath: <path>
+  volumeClaimTemplates:
+    - metadata:
+        name: <volumeName>
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: <size>
+```
+
+## volumeClaimTemplates
+
+- [StatefulSet PersistentVolume](/docs/mlops/mlops/kubernetes/storage/persistent-volume#statefulset에서-미리-생성된-pv-사용하기)

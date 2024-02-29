@@ -538,14 +538,29 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/kubernetes/tools/etc",
 					],
 				},
-				"mlops/mlops/kubernetes/deployment",
-				"mlops/mlops/kubernetes/service",
-				"mlops/mlops/kubernetes/persistent-volume",
-				"mlops/mlops/kubernetes/label",
+				{
+					type: "category",
+					label: "Object Management",
+					items: ["mlops/mlops/kubernetes/object-management/label"],
+				},
 				{
 					type: "category",
 					label: "Workloads",
-					items: ["mlops/mlops/kubernetes/workloads/pod-lifecycle"],
+					items: [
+						"mlops/mlops/kubernetes/workloads/pod-lifecycle",
+						"mlops/mlops/kubernetes/workloads/deployment",
+						"mlops/mlops/kubernetes/workloads/statefulset",
+					],
+				},
+				{
+					type: "category",
+					label: "Network",
+					items: ["mlops/mlops/kubernetes/network/service"],
+				},
+				{
+					type: "category",
+					label: "Storage",
+					items: ["mlops/mlops/kubernetes/storage/persistent-volume"],
 				},
 				{
 					type: "category",

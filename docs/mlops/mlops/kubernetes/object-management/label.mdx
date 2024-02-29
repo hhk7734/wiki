@@ -1,0 +1,47 @@
+---
+id: label
+title: Label
+sidebar_label: Label
+description: kubernetes label
+keywords:
+  - kubernetes
+  - label
+---
+
+## Labels
+
+- https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+
+<br />
+
+- `<label>: <value>` 형태로 구성됩니다.
+  - `<label>`
+    - `[<prefix>/]<name>`으로 설정합니다.
+    - 253 자 이하로 설정합니다.
+    - `<prefix>`
+      - DNS 서브도메인을 사용합니다.
+    - `<name>`
+      - 63 자 이하로 설정합니다.
+      - `[a-z0-9A-Z]`로 시작하고 끝나야 합니다.
+      - `-`, `_`, `.`을 사용할 수 있습니다.
+  - `<value>`
+    - 63 자 이하로 설정합니다.
+    - `[a-z0-9A-Z]`로 시작하고 끝나야 합니다.
+    - `-`, `_`, `.`을 사용할 수 있습니다.
+- 유일한 값을 가질 수 있는 속성에 대해서는 `<label>`를 타입으로, `<value>`를 값으로 사용하는 것이 좋습니다.
+  - ex) `kubernetes.io/arch=amd64`
+- 여러개의 값을 가질 수 있는 속성에 대해서는 `<label>`를 타입+구분자+값으로, `<value>`는 true|false, enabled|disalbed 등을 사용하는 것이 좋습니다.
+  - ex) `node-role.kubernetes.io/control-plane=`, `node-role.kubernetes.io/storage=`
+
+## 권장 Labels
+
+- https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
+
+<br />
+
+- `app.kubernetes.io/name: <app-name>`
+- `app.kubernetes.io/instance: <resource-id>`
+- `app.kubernetes.io/version: <version>`
+- `app.kubernetes.io/component: <database/storage/server/...>`
+- `app.kubernetes.io/part-of: <project>`
+- `app.kubernetes.io/managed-by: <helm/pulumi/...>`
