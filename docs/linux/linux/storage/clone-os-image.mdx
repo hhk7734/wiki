@@ -101,7 +101,7 @@ sudo xz -vk -T$(($(nproc) - 2)) clone.img
 
 ```shell
 xzcat -dvk -T$(($(nproc) - 2)) clone.img.xz \
-| sudo dd of=/dev/sdb bs=4M status=progress
+| sudo dd of=/dev/sdb bs=4M status=progress conv=fsync
 ```
 
 or Use Etcher.

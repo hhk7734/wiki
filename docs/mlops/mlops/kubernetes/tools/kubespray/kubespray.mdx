@@ -182,7 +182,8 @@ k8s_cluster:
   - `node_taints: ["<key>=<value>:<effect>"]`
 
 ```shell
-ansible-playbook -i inventory -b cluster.yml
+ansible-playbook -i inventory -b cluster.yml \
+  -e kubeconfig_localhost=true
 ```
 
 ## 클러스터 삭제

@@ -269,8 +269,15 @@ const sidebars: SidebarsConfig = {
 						"lang/etc/command-line-tools/git/lfs",
 					],
 				},
-				"lang/etc/command-line-tools/iptables",
-				"lang/etc/command-line-tools/ip",
+				{
+					type: "category",
+					label: "Network",
+					items: [
+						"lang/etc/command-line-tools/network/ip",
+						"lang/etc/command-line-tools/network/iptables",
+						"lang/etc/command-line-tools/network/nmap",
+					],
+				},
 				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",
@@ -441,15 +448,7 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 	],
-	"linux-tools": [
-		"linux/linux-tools/progress-bar",
-		{
-			type: "category",
-			label: "Network",
-			items: ["linux/linux-tools/network/nmap"],
-		},
-		"linux/linux-tools/linux-tools-etc",
-	],
+	"linux-tools": ["linux/linux-tools/linux-tools-etc"],
 	"linux-uboot": [
 		"linux/linux-uboot/embedded-linux-boot-process",
 		"linux/linux-uboot/build-uboot",

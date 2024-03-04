@@ -38,53 +38,7 @@ const config: Config = {
 		[
 			"@docusaurus/plugin-client-redirects",
 			{
-				redirects: [
-					// DEPRECATED: 2025-01-01
-					{
-						from: "/docs/linux/linux-tools/zsh-and-utility",
-						to: "/docs/lang/etc/command-line-tools/utility",
-					},
-					{
-						from: "/docs/lang/cpp/build/cpp-cmake",
-						to: "/docs/lang/cpp/build/cmake",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/git-basics",
-						to: "/docs/lang/etc/command-line-tools/git",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/git-commit-message",
-						to: "/docs/lang/etc/command-line-tools/git/commit-message",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/git-fork-pull-request",
-						to: "/docs/lang/etc/command-line-tools/git/fork-pull-request",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/git-submodule",
-						to: "/docs/lang/etc/command-line-tools/git/submodule",
-					},
-					{
-						from: "/dcos/linux/linux-tools/git/git-tag",
-						to: "/docs/lang/etc/command-line-tools/git/tag",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/git-create-apply-patch",
-						to: "/docs/lang/etc/command-line-tools/git/patch",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/pre-commit",
-						to: "/docs/lang/etc/command-line-tools/git/pre-commit",
-					},
-					{
-						from: "/docs/linux/linux-tools/git/lfs",
-						to: "/docs/lang/etc/command-line-tools/git/lfs",
-					},
-					{
-						from: "/docs/mlops/mlops/network/cni-calico",
-						to: "/docs/mlops/mlops/network/cni",
-					},
-				],
+				redirects: [],
 			},
 		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
@@ -139,8 +93,9 @@ const config: Config = {
 						Linux: "linux",
 						Package: "linux-package",
 						Kernel: "linux-kernel",
-						Tools: "linux-tools",
 						"u-boot": "linux-uboot",
+						ShellScript: "shellscript",
+						Etc: "programmingetc",
 					},
 					MCU: {
 						STM32: "stm32",
