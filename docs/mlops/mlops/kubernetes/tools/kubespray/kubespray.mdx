@@ -185,7 +185,7 @@ k8s_cluster:
       - Ansibl control 노드에서 컨테이너 런타임 실행이 가능해야합니다.
         - `container_manager_on_localhost: docker|nerdctl|crictl`
         - `image_command_tool_on_localhost: docker|nerdctl|crictl`
-      - ansible_user가 암호 없이 sudo를 실행할 수 있어야합니다.
+      - 컨테이너 런타임을 실행하기 위해 유저가 docker 그룹에 속해있거나 암호 없이 sudo를 실행할 수 있어야합니다.
     - `false`로 설정하면 `kube_control_plane[0]` 노드에 다운로드 받습니다.
   - `retry_stagger: <seconds>`: 다운로드 실패 시 재시도 간격을 설정합니다.
 - 기타
