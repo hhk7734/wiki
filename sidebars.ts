@@ -278,6 +278,7 @@ const sidebars: SidebarsConfig = {
 						"lang/etc/command-line-tools/network/nmap",
 					],
 				},
+				"lang/etc/command-line-tools/user-management",
 				"lang/etc/command-line-tools/utility",
 				{
 					type: "link",

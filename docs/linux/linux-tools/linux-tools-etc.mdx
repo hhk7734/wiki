@@ -29,67 +29,6 @@ wget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .cla
 clang-format -style=file -i -verbose [file]
 ```
 
-## User and Group
-
-### User
-
-```shell
-sudo useradd <user>
-```
-
-- `--create-home`
-- `--shell <shell>`
-- `--uid <uid>`
-
-```shell
-cat /etc/passwd
-```
-
-```shell
-sudo passwd <user>
-```
-
-```shell
-sudo usermod -aG <group> <user>
-```
-
-```shell
-sudo groups <user>
-```
-
-```shell
-sudo visudo
-```
-
-```shell
-# user host=(target_user:target_group)[option:] command
-# %group host=(target_user:target_group)[option:] command
-
-# ex
-# hhk7734는 접속위치에 관계없이, 어떤 유저나 그룹의 소유에 관계없이
-# 환경 변수를 유지하고, 암호 입력 없이 모든 명령어를 sudo로 실행 가능
-# 추가 위치를 모르면 맨 아랫줄에 추가하시기 바랍니다.
-# hhk7734 ALL=(ALL:ALL) NOPASSWD:SETENV: ALL
-```
-
-```shell
-sudo userdel -r <user>
-```
-
-### Group
-
-```shell
-sudo groupadd <group>
-```
-
-```shell
-cat /etc/group
-```
-
-```shell
-sudo groupdel <group>
-```
-
 ## systemd service
 
 시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.

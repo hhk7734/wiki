@@ -1,0 +1,72 @@
+---
+id: user-management
+title: user/group 관리
+sidebar_label: user/group 관리
+description: user/group 관리
+keywords:
+  - user
+  - group
+  - management
+---
+
+## Group
+
+```shell
+sudo groupadd <group>
+```
+
+```shell
+cat /etc/group
+```
+
+```shell
+sudo groupdel <group>
+```
+
+## User
+
+```shell
+sudo useradd <user>
+```
+
+- `--create-home`
+- `--shell <shell>`
+- `--uid <uid>`
+
+```shell
+cat /etc/passwd
+```
+
+```shell
+sudo passwd <user>
+```
+
+```shell
+sudo usermod -aG <group> <user>
+```
+
+```shell
+sudo groups <user>
+```
+
+```shell
+sudo visudo
+```
+
+```shell
+# user host=(target_user:target_group)[option:] command
+# %group host=(target_user:target_group)[option:] command
+
+# ex
+# hhk7734는 접속위치에 관계없이, 어떤 유저나 그룹의 소유에 관계없이
+# 환경 변수를 유지하고, 암호 입력 없이 모든 명령어를 sudo로 실행 가능
+# hhk7734 ALL=(ALL:ALL) NOPASSWD:SETENV: ALL
+```
+
+:::warning
+`sudoer` 파일은 선언 순서대로 적용됩니다. 특정 유저에 대한 설정 후 해당 유저가 속한 그룹에 대한 설정이 나오면 먼저 선언된 설정이 무시되므로 그룹에 대한 설정만 적용됩니다.
+:::
+
+```shell
+sudo userdel -r <user>
+```
