@@ -46,9 +46,14 @@ helm show values rook-ceph-v1.13.4.tgz > rook-ceph-v1.13.4.yaml
 crds:
   enabled: true
 
+tolerations: []
+
 csi:
   enableRbdDriver: false
   enableCephfsDriver: true
+
+  # csi-detect-version-
+  provisionerTolerations: []
 
   kubeletDirPath: /var/lib/kubelet
 ```
@@ -68,9 +73,9 @@ helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
     -f rook-ceph-values.yaml
 ```
 
-## Cluster
+### Cluster
 
-### Device 준비
+#### Device 준비
 
 아래 중 하나는 존재해야 합니다.
 
@@ -79,7 +84,7 @@ helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
 - LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
 - `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
 
-### Cluster 설치
+#### Cluster 설치
 
 - helm repo update rook-release \
 
@@ -112,6 +117,12 @@ cephClusterSpec:
     enabled: true
     ssl: false
 
+  placement:
+    all:
+      tolerations:
+        - key: "loliot.net/storage"
+          operator: "NoSchedule"
+
   resources: {}
 
   storage:
@@ -142,4 +153,27 @@ helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.4.tgz \
     --history-max 5 \
     -n rook-ceph \
     -f rook-ceph-cluster-values.yaml
+```
+
+## 삭제
+
+```shell
+helm uninstall rook-ceph-cluster -n rook-ceph
+```
+
+```shell
+helm uninstall rook-ceph -n rook-ceph
+```
+
+```shell
+for crd in $(kubectl get crd -o name); do
+    case $crd in
+        *ceph.rook.io)
+            kubectl delete $crd
+            ;;
+        *objectbucket.io)
+            kubectl delete $crd
+            ;;
+    esac
+done
 ```

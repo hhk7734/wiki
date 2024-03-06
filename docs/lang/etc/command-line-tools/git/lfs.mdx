@@ -8,13 +8,39 @@ keywords:
   - LFS
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
 - https://github.com/git-lfs/git-lfs#getting-started
 
+<Tabs
+    groupId="os"
+    defaultValue="debian"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
 ```shell
 sudo pacman -S git-lfs
 ```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install git-lfs
+```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 git lfs install [--local]

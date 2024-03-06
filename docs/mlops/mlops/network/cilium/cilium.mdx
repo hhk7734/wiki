@@ -94,3 +94,19 @@ cilium status --wait
 ```shell
 cilium connectivity test
 ```
+
+## 삭제
+
+```shell
+helm uninstall cilium -n kube-system
+```
+
+```shell
+for crd in $(kubectl get crd -o name); do
+    case $crd in
+        *cilium.io)
+            kubectl delete $crd
+            ;;
+    esac
+done
+```

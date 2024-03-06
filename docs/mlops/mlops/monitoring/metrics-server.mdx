@@ -62,7 +62,7 @@ tolerations:
 
 ```shell
 helm template metrics-server metrics-server-3.12.0.tgz \
-    -n monitoring \
+    -n kube-system \
     -f metrics-server-values.yaml \
     > metrics-server.yaml
 ```
@@ -71,14 +71,14 @@ helm template metrics-server metrics-server-3.12.0.tgz \
 helm upgrade metrics-server metrics-server-3.12.0.tgz \
     --install \
     --history-max 5 \
-    -n monitoring \
+    -n kube-system \
     -f metrics-server-values.yaml
 ```
 
-## Removal
+## 삭제
 
 ```shell
-helm uninstall -n monitoring metrics-server
+helm uninstall metrics-server -n kube-system
 ```
 
 ## Troubleshooting

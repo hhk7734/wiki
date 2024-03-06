@@ -170,7 +170,7 @@ k8s_cluster:
       - `kube_network_plugin: <cni>`
         - `calico`: 기본값입니다.
         - `cni`: 기본적으로 필요한 cni 플러그인들만 설치합니다.
-      - `kubeconfig_localhost: <bool>`: kubeconfig 파일을 로컬에 생성할지 여부를 설정합니다.
+      - `supplementary_addresses_in_ssl_keys: []`: api-server 인증서에 추가할 IP 또는 domain 목록입니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
 - HA
   - [kube-apiserver HA](/docs/mlops/mlops/kubernetes/tools/kubespray/ha)
