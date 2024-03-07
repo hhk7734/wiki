@@ -1,0 +1,44 @@
+---
+id: l2
+title: cilium Border Gateway Protocol(BGP) 사용하기
+sidebar_label: Border Gateway Protocol(BGP)
+description: cilium Border Gateway Protocol(BGP) 사용하기
+keywords:
+  - cilium
+  - bgp
+---
+
+## L2 Announcements
+
+- https://docs.cilium.io/en/stable/network/l2-announcements/#sizing-client-rate-limit
+
+```yaml title="cilium-values.yaml"
+k8sServiceHost: "<apiServerHost>"
+k8sServicePort: "<apiServerPort>"
+
+l2announcements:
+  enabled: true
+
+kubeProxyReplacement: true
+```
+
+- 1.14.6 버전 기준으로 IPv6/NDP를 지원하지 않습니다.
+- 하나의 Node가 모든 ARP 요청을 수신합니다.
+- 트래픽이 비대칭적으로 흐를 수 있습니다.
+
+## CiliumL2AnnouncementPolicy
+
+```yaml
+apiVersion: "cilium.io/v2alpha1"
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: <name>
+spec:
+  # externalIPs 또는 loadBalancerIPs 둘 중 하나는 true여야 합니다.
+  externalIPs: true
+  loadBalancerIPs: true
+```
+
+- `serviceSelector`
+- `nodeSelector`
+- `interfaces`

@@ -8,14 +8,12 @@ keywords:
   - submodule
 ---
 
-## A에 B를 submodule로 추가
+- https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88
+
+## submodule 추가하기
 
 ```shell
-cd <path/A>
-```
-
-```shell
-git submodule add <URL/B> <path/A/path/B>
+git submodule add <submoduleURL> [<submodulePath>]
 ```
 
 ```shell
@@ -30,52 +28,20 @@ A
     └── .git
 ```
 
-## submodule B 수정
-
-B 안의 파일을 수정하고 아래와 같이 진행하면 수정한 내용이 B 리포지토리에만 적용됩니다.
+## submodule commit 변경하기
 
 ```shell
-cd <path/A/path/B>
+cd <submodulePath>
 ```
 
 ```shell
-git add <file>
-```
-
-```shell
-git commit -m <commit message>
-```
-
-A 리포지토리에도 변경 사항을 반영합니다.
-
-```shell
-cd <path/A>
-```
-
-```shell
-git commit -am "Update submodule B"
-```
-
-## B 수정 후 A에 적용
-
-B 리포지토리의 업데이트 내용을 먼저 pull 합니다.
-
-```shell
-cd <path/A/path/B>
-```
-
-```shell
-git checkout <branch>
-```
-
-```shell
-git pull
+git switch -d <hash|branch|tag>
 ```
 
 A 리포지토리에 변경 사항을 반영합니다.
 
 ```shell
-cd <path/A>
+popd
 ```
 
 ```shell
@@ -85,29 +51,7 @@ git commit -am "Update submodule B"
 ## submodule이 있는 리포지토리 clone
 
 ```shell
-git clone --recursive <URL/A>
+git clone --recurse-submodules [<submodulePath>] <URL>
 ```
 
-**B는 detached 상태입니다.** 수정이 필요한 경우 checkout을 통해 원하는 브랜치로 변경한 후 작업하시기 바랍니다.
-
-아래 명령어 결과는 `git clone --recursive <URL/A>`와 동일합니다.
-
-```shell
-git clone <URL/A> \
-&& git submodule init \
-&& git submodule update
-```
-
-## submodule이 변경된 A pull
-
-```shell
-cd <path/A>
-```
-
-```shell
-git pull
-```
-
-```shell
-git submodule update
-```
+- `--recurse-submodules [<submodulePath>]`: clone 후 `git submodule update --init --recursive [<submodulePath>]`을 실행하는 옵션입니다.

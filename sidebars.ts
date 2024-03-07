@@ -253,7 +253,11 @@ const sidebars: SidebarsConfig = {
 			label: "Command Line Tools",
 			items: [
 				"lang/etc/command-line-tools/asdf",
-				"lang/etc/command-line-tools/ssh",
+				{
+					type: "category",
+					label: "Remote",
+					items: ["lang/etc/command-line-tools/remote/ssh"],
+				},
 				{
 					type: "category",
 					label: "Git",
@@ -657,6 +661,7 @@ const sidebars: SidebarsConfig = {
 					label: "cilium",
 					items: [
 						"mlops/mlops/network/cilium/cilium",
+						"mlops/mlops/network/cilium/l2",
 						"mlops/mlops/network/cilium/bgp",
 						"mlops/mlops/network/cilium/load-balancer",
 					],

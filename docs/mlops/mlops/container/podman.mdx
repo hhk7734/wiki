@@ -120,6 +120,16 @@ podman cp [options] [<containerID|containerName>:]<srcPath> [<containerID|contai
 
 호스트와 컨테이너 또는 컨테이너와 컨테이너 사이에서 파일을 복사합니다.
 
+## 이미지를 파일로 저장하고 불러오기
+
+```shell
+podman save -o <file>.tar <image>
+```
+
+```shell
+podman load -i <file>.tar
+```
+
 ## 유저 네임스페이스 매핑
 
 - [User Namespace](/docs/linux/kernel/namespace/user)
