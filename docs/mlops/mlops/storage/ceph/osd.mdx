@@ -1,0 +1,101 @@
+---
+id: osd
+title: Ceph OSD 관리
+sidebar_label: OSD 관리
+description: Ceph OSD 관리
+keywords:
+  - ceph
+  - osd
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Disk 준비
+
+아래 중 하나에 해당하는 Disk를 준비해야합니다.
+
+- Raw devices (파티션 또는 파일 시스템이 없는 디바이스)
+- Raw partitions (파일 시스템이 없는 파티션)
+- LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
+- `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
+
+### Raw device를 사용하는 경우
+
+```shell
+sudo wipefs -a /dev/<device>
+```
+
+### Logical Volume(LV)를 사용하는 경우
+
+- [Logical Volume Manager(LVM)](/docs/linux/linux/storage/lvm)
+
+## Data 흐름
+
+<center>
+	<img src={useBaseUrl("img/mlops/mlops/storage/ceph/data_flow.png")} />
+	<br />
+	<sub>
+		https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/4/html/storage_strategies_guide/overview
+	</sub>
+</center>
+
+## OSD 추가하기
+
+- https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd
+- https://rook.io/docs/rook/v1.12/CRDs/specification/#ceph.rook.io/v1.StorageScopeSpec
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+spec:
+  placement:
+    all: {}
+    osd: {}
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+```
+
+- `placement`
+  - `all`
+  - `osd`
+    - `nodeAffinity`
+    - `podAffinity`
+    - `podAntiAffinity`
+    - `tolerations`
+    - `topologySpreadConstraints`
+- `storage`
+  - `useAllNodes: <bool>`: 모든 노드에서 장치를 감지할지 여부입니다.
+  - `nodes: []`
+    - `name: <nodeName>`
+    - `resources: {}`: OSD의 resources 설정입니다.
+    - deviceSelection
+      - 임베딩 되어있습니다.
+  - deviceSelection
+    - 임베딩 되어있습니다.
+    - nodes.deviceSelection이 우선순위가 더 높습니다.
+  - `config: <config>`
+    - 전체 장치에 적용될 설정입니다.
+    - devices.config가 우선순위가 더 높습니다.
+  - `storageClassDeviceSets: []`
+  - `onlyApplyOSDPlacement: <bool>`
+    - PV가 아닌 장치를 사용하는 경우 `.spec.placement.osd`와 `.spec.placement.all`의 병합 여부입니다.
+    - PV 장치를 사용하는 경우 `storageClassDeviceSets`에 정의된 placement와 `.spec.placement.all`의 병합 여부입니다.
+
+<br />
+
+- deviceSelection
+  - `useAllDevices: <bool>`
+  - `deviceFilter: <deviceRegex>`
+    - https://pkg.go.dev/regexp/syntax
+  - `devicePathFilter: <devicePathRegex>`
+    - https://pkg.go.dev/regexp/syntax
+  - `devices: []`
+    - `name: <device|devicePath>`
+    - `config: <config>`
+  - `volumeClaimTemplates: []`
+
+<br />
+
+- config
+  - https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/#osd-configuration-settings

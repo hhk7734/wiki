@@ -616,7 +616,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Ceph",
-					items: ["mlops/mlops/storage/ceph/ceph", "mlops/mlops/storage/ceph/rook-ceph"],
+					items: [
+						"mlops/mlops/storage/ceph/ceph",
+						"mlops/mlops/storage/ceph/rook-ceph",
+						"mlops/mlops/storage/ceph/osd",
+					],
 				},
 				{
 					type: "category",
@@ -661,7 +665,7 @@ const sidebars: SidebarsConfig = {
 					label: "cilium",
 					items: [
 						"mlops/mlops/network/cilium/cilium",
-						"mlops/mlops/network/cilium/l2",
+						"mlops/mlops/network/cilium/arp",
 						"mlops/mlops/network/cilium/bgp",
 						"mlops/mlops/network/cilium/load-balancer",
 					],

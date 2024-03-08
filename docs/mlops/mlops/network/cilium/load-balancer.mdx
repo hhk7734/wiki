@@ -32,25 +32,58 @@ spec:
     - IP를 할당 받을 수 있는 Service들을 선택할 수 있습니다.
     - 선언하지 않으면 모든 Service들이 선택됩니다.
     - `matchExpressions`
+    - `io.kubernetes.service.namespace` 레이블로 `.metadata.namespace`를 선택할 수 있습니다.
+    - `io.kubernetes.service.name` 레이블로 `.metadata.name`을 선택할 수 있습니다.
 
-LB IPAM은 LoadBalancer 타입의 Service들에 ExternalIP를 할당하는 역할만 하고 로드벨런신 기능은 수행하지 않습니다. 때문에 그 외 기능은 cilium이나 다른 툴이 제공하는 것을 사용해야 합니다.
+LB IPAM은 LoadBalancer 타입의 Service들에 ExternalIP를 할당하는 역할만 하고 로드벨런싱 기능은 수행하지 않습니다. 때문에 로드벨런싱 자체는 cilium이 제공하는 BGP 등의 기능을 사용하거나 다른 툴이 제공하는 것을 사용해야 합니다.
 
 ## Node IPAM LB
 
 Service에 아래와 같은 설정을 추가하면 별도의 네트워크 제어 없이 Node IP를 LoadBalancer IP로 사용할 수 있습니다.
 
+```yaml title="cilium-values.yaml"
+nodeIPAM:
+  enabled: true
+```
+
 ```yaml
+apiVersion: v1
+kind: Service
 spec:
-  loadBalancerClass: "io.cilium/node"
+  loadBalancerClass: io.cilium/node
 ```
 
 IP는 `.spec.ipFamilies`, `.spec.ExternalIPs`에 의해 결정됩니다.
+
+## L2 Aware LB
+
+- [ARP/NDP](/docs/mlops/mlops/network/cilium/arp)
+
+```yaml
+apiVersion: v1
+kind: Service
+spec:
+  loadBalancerClass: io.cilium/l2-announcer
+```
+
+## BGP LB
+
+- [BGP](/docs/mlops/mlops/network/cilium/bgp)
+
+```yaml
+apiVersion: v1
+kind: Service
+spec:
+  loadBalancerClass: io.cilium/io.cilium/bgp-control-plane
+```
 
 ## IP 요청
 
 Service는 `.metadata.annotations["io.cilium/lb-ipam-ips"]`에 할당 받고 싶은 IP를 `,`로 구분하여 선언할 수 있습니다.
 
 ```yaml
+apiVersion: v1
+kind: Service
 metadata:
   annotations:
     "io.cilium/lb-ipam-ips": "1.2.3.4,1.2.3.5"

@@ -75,18 +75,7 @@ helm upgrade rook-ceph rook-ceph-v1.13.4.tgz \
 
 ### Cluster
 
-#### Device 준비
-
-아래 중 하나는 존재해야 합니다.
-
-- Raw devices (파티션 또는 파일 시스템이 없는 디바이스)
-- Raw partitions (파일 시스템이 없는 파티션)
-- LVM Logical Volumes (파일 시스템이 없는 논리적 볼륨)
-- `Block`모드로 사용가능한 PV(다른 StorageClass에 의해 프로비저닝 됨)
-
-#### Cluster 설치
-
-- helm repo update rook-release \
+- [Disk 준비](/docs/mlops/mlops/storage/ceph/osd)
 
 Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다.
 
