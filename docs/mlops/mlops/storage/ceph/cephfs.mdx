@@ -1,0 +1,35 @@
+---
+id: cephfs
+title: Ceph File System(CephFS)
+sidebar_label: CephFS
+description: Ceph File System(CephFS)
+keywords:
+  - ceph
+  - cephfs
+---
+
+## CephFilesystem
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+spec:
+  metadataServer:
+    activeCount: 1
+    activeStandby: true
+```
+
+- `metadataServer`
+  - `activeCount: <count>`
+    - active 상태의 MDS의 수입니다.
+    - active MDS + standby MDS 두 개가 쌍으로 생성되므로 총 MDS 수는 `activeCount * 2` 입니다.
+  - `activeStandby: <bool>`
+    - standby MDS를 standby_replay MDS로 설정할지 여부입니다.
+    - standby_replay는 warm 캐시를 유지하므로 더 빠른 failover를 제공합니다.
+  - `placement`
+    - `nodeAffinity`
+    - `podAffinity`
+    - `podAntiAffinity`
+    - `tolerations`
+    - `topologySpreadConstraints`
+  - `resources`

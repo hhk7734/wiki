@@ -620,6 +620,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/storage/ceph/ceph",
 						"mlops/mlops/storage/ceph/rook-ceph",
 						"mlops/mlops/storage/ceph/osd",
+						"mlops/mlops/storage/ceph/cephfs",
 					],
 				},
 				{
