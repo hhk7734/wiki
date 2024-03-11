@@ -46,6 +46,14 @@ helm show values rook-ceph-v1.13.4.tgz > rook-ceph-v1.13.4.yaml
 crds:
   enabled: true
 
+resources:
+  requests:
+    cpu: 200m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
 tolerations: []
 
 csi:
@@ -102,15 +110,11 @@ cephClusterSpec:
   mgr:
     count: 2
 
-  dashboard:
-    enabled: true
-    ssl: false
-
   placement:
     all:
       tolerations:
         - key: "loliot.net/storage"
-          operator: "NoSchedule"
+          operator: "Exists"
 
   resources: {}
 
@@ -118,7 +122,7 @@ cephClusterSpec:
     useAllNodes: false
     useAllDevices: false
     node:
-      - name: "ip-10-255-240-4"
+      - name: "ip-192-168-0-11"
         devices:
           - name: "/dev/vg1/lv1"
 

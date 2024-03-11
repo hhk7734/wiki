@@ -186,25 +186,6 @@ spec:
 
 :::
 
-### Service
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: prometheus
-  namespace: monitoring
-spec:
-  type: ClusterIP
-  ports:
-    - name: http-web
-      port: 9090
-      protocol: TCP
-      target_port: 9090
-  selector:
-    prometheus: prometheus
-```
-
 ## ServiceMonitor
 
 - https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
@@ -332,7 +313,3 @@ spec:
 
 - https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md
 - https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md
-
-```
-
-```

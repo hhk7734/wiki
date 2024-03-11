@@ -39,6 +39,23 @@ sudo wipefs -a /dev/<device>
 	</sub>
 </center>
 
+- Pool
+  - 클라이언트가 인식하는 추상화된 저장공간입니다.
+  - Pool은 Placement Group(PG)들로 나뉩니다.
+  - 하나의 PG는 하나의 Pool에만 속합니다.
+- CRUSH 알고리즘
+  - PG를 OSD에 할당합니다.(primary OSD와 secondary OSDs로 구성)
+  - Object를 PG 중 하나에 할당합니다.
+- CRUSH 맵
+  - Bucket 계층 구조, OSD 리스트, Pool 내에서 데이터를 복제 규칙을 정의한 맵입니다.
+  - OSD가 추가되면 `host` Bucket에 자동으로 추가됩니다.
+  - 기본적으로 `root`-`host`-`osd` 구조가 주어집니다.
+  - `root`-`region`-`zone`-`datacenter`-`room`-`pod`-`pdu`-`row`-`rack`-`chassis`-`host`-`osd` 구조로 확장 가능합니다.
+
+```shell
+kubectl rook-ceph ceph osd tree
+```
+
 ## OSD 추가하기
 
 - https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd

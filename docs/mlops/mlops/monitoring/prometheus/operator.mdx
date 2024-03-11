@@ -7,6 +7,10 @@ keywords:
   - prometheus-operator
 ---
 
+## Kubernetes 호환성
+
+- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix
+
 ## 설치
 
 - https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
@@ -21,13 +25,16 @@ helm repo update prometheus-community \
 ```
 
 ```shell
-helm show values prometheus-community/kube-prometheus-stack \
-    --version 48.2.3 \
-    > prometheus-operator-values.yaml
+helm pull prometheus-community/kube-prometheus-stack --version 57.0.1
 ```
 
-```yaml title="prometheus-operator-values.yaml"
-namespaceOverride: monitoring
+```shell
+helm show values kube-prometheus-stack-57.0.1.tgz \
+    > kube-prometheus-stack-57.0.1.yaml
+```
+
+```yaml title="kube-prometheus-stack-values.yaml"
+fullnameOverride: prometheus-stack
 
 commonLabels: {}
 
@@ -43,6 +50,9 @@ alertmanager:
   enabled: false
 
 grafana:
+  enabled: false
+
+kubernetesServiceMonitors:
   enabled: false
 
 kubeApiServer:
@@ -73,7 +83,7 @@ kubeProxy:
 kubeStateMetrics:
   # -kube-state-metrics 설치, k8s Resource의 metadata, spec 등의 정보
   # https://github.com/kubernetes/kube-state-metrics/tree/master/docs
-  enabled: true
+  enabled: false
 
 nodeExporter:
   # -node-exporter 설치, Node의 Hardware, kernel 관련 정보
@@ -88,34 +98,31 @@ prometheusOperator:
   admissionWebhooks:
     # PrometheusRules의 형식이 올바른지 확인해주는 기능인데 control plane이 webhook 서비스에
     # 접근할 수 있어야하는 문제가 있습니다.
-    enabled: false
-
-  thanosImage:
-    registry: quay.io
-    repository: thanos/thanos
-    tag: v0.30.2
-    sha: ""
+    enabled: true
 
 prometheus:
+  enabled: false
+
+thanosRuler:
   enabled: false
 ```
 
 ```shell
-helm template prometheus-operator prometheus-community/kube-prometheus-stack \
-    --version 48.2.3 \
+helm template prometheus-stack kube-prometheus-stack-57.0.1.tgz \
     -n monitoring \
-    -f prometheus-operator-values.yaml \
-    > prometheus-operator.yaml
+    -f kube-prometheus-stack-values.yaml \
+    > kube-prometheus-stack.yaml
 ```
 
 ```shell
-helm upgrade prometheus-operator prometheus-community/kube-prometheus-stack \
+helm upgrade prometheus-stack kube-prometheus-stack-57.0.1.tgz \
     --install \
     --history-max 5 \
-    --version 48.2.3 \
     -n monitoring \
-    -f prometheus-operator-values.yaml
+    -f kube-prometheus-stack-values.yaml
 ```
+
+## 삭제
 
 ```shell
 helm uninstall -n monitoring prometheus-operator
@@ -124,12 +131,11 @@ helm uninstall -n monitoring prometheus-operator
 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
 
 ```shell
-kubectl delete crd alertmanagerconfigs.monitoring.coreos.com
-kubectl delete crd alertmanagers.monitoring.coreos.com
-kubectl delete crd podmonitors.monitoring.coreos.com
-kubectl delete crd probes.monitoring.coreos.com
-kubectl delete crd prometheuses.monitoring.coreos.com
-kubectl delete crd prometheusrules.monitoring.coreos.com
-kubectl delete crd servicemonitors.monitoring.coreos.com
-kubectl delete crd thanosrulers.monitoring.coreos.com
+for crd in $(kubectl get crd -o name); do
+    case $crd in
+        *monitoring.coreos.com)
+            kubectl delete $crd
+            ;;
+    esac
+done
 ```

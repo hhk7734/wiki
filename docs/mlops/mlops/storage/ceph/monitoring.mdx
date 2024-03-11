@@ -1,0 +1,56 @@
+---
+id: monitoring
+title: Ceph Monitoring
+sidebar_label: Monitoring
+description: Ceph Monitoring
+keywords:
+  - ceph
+  - monitoring
+  - dashboard
+---
+
+## Dashboard
+
+- https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-dashboard/
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+spec:
+  mgr:
+    modules:
+      - name: rook
+        enabled: true
+
+  dashboard:
+    enabled: true
+    ssl: false
+```
+
+- `mgr`
+  - `modules`
+    - `{"name": "rook", "enabled": true}`
+      - rook 관리자 모듈을 활성화 합니다.
+      - rook 관리자 모듈은 대시보드의 `Physical Disks` 섹션을 활성화시킵니다.
+- `dashboard`
+  - `enabled`
+  - `ssl`
+
+:::info
+Physical Disks 표시를 위해 rook 모듈을 활성화 한 경우 discovery daemon이 활성화 되어야 합니다.
+
+```yaml title="rook-ceph-values.yaml"
+enableDiscoveryDaemon: true
+discoveryDaemonInterval: 60m
+
+discover:
+  tolerations:
+    - key: loliot.net/storage
+      operator: Exists
+
+  nodeAffinity: {}
+  podLabels: {}
+  resources: {}
+```
+
+:::
