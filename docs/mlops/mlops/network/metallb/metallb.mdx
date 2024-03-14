@@ -22,9 +22,11 @@ helm repo update metallb \
 ```
 
 ```shell
-helm show values metallb/metallb \
-    --version 0.13.10 \
-    > metallb-values.yaml
+helm pull metallb/metallb --version 0.14.3
+```
+
+```shell
+helm show values metallb-0.14.3.tgz > metallb-0.14.3.yaml
 ```
 
 ```yaml title="metallb-values.yaml"
@@ -38,18 +40,16 @@ speaker:
 ```
 
 ```shell
-helm template metallb metallb/metallb \
-    --version 0.13.10 \
+helm template metallb metallb-0.14.3.tgz \
     -n metallb-system \
     -f metallb-values.yaml \
     > metallb.yaml
 ```
 
 ```shell
-helm upgrade metallb metallb/metallb \
+helm upgrade metallb metallb-0.14.3.tgz \
     --install \
     --history-max 5 \
-    --version 0.13.10 \
     -n metallb-system \
     -f metallb-values.yaml
 ```

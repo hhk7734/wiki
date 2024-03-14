@@ -54,3 +54,77 @@ discover:
 ```
 
 :::
+
+## Prometheus
+
+- https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-monitoring/
+
+### ServiceMonitor
+
+<br />
+
+- MGR의 prometheus 모듈: 데몬들의 성능 counter를 제외한 모든 metrics을 노출시킵니다.
+- Ceph exporter: 데몬들의 성능 counter를 노출시킵니다.
+
+:::warning
+Prometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 안되면 Prometheus도 문제가 발생합니다.
+:::
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: rook-ceph-mgr
+  namespace: rook-ceph
+  labels:
+    loliot.net/prometheus: rook-ceph
+spec:
+  namespaceSelector:
+    matchNames:
+      - rook-ceph
+  selector:
+    matchLabels:
+      app: rook-ceph-mgr
+      rook_cluster: rook-ceph
+  endpoints:
+    - port: http-metrics
+      path: /metrics
+      interval: 10s
+```
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: rook-ceph-exporter
+  namespace: rook-ceph
+  labels:
+    loliot.net/prometheus: rook-ceph
+spec:
+  namespaceSelector:
+    matchNames:
+      - rook-ceph
+  selector:
+    matchLabels:
+      app: rook-ceph-exporter
+      rook_cluster: rook-ceph
+  endpoints:
+    - port: ceph-exporter-http-metrics
+      path: /metrics
+      interval: 10s
+```
+
+### Dashboard 설정
+
+- https://rook.github.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+spec:
+  dashboard:
+    prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+    prometheusEndpointSSLVerify: false
+  monitoring:
+    enabled: true
+```

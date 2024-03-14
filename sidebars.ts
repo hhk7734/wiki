@@ -256,7 +256,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Remote",
-					items: ["lang/etc/command-line-tools/remote/ssh"],
+					items: [
+						"lang/etc/command-line-tools/remote/ssh",
+						"lang/etc/command-line-tools/remote/mosh",
+						"lang/etc/command-line-tools/remote/zellij",
+					],
 				},
 				{
 					type: "category",

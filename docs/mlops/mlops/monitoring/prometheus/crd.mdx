@@ -30,14 +30,14 @@ import Image from "@theme/IdealImage";
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: prometheus
-  namespace: monitoring
+  name: <name>
+  namespace: <namespace>
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: prometheus
+  name: <name>
 rules:
   - apiGroups: [""]
     resources:
@@ -63,15 +63,15 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: prometheus
+  name: <name>
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: prometheus
+  name: <name>
 subjects:
   - kind: ServiceAccount
-    name: prometheus
-    namespace: monitoring
+    name: <name>
+    namespace: <namespace>
 ```
 
 ### Prometheus
@@ -84,30 +84,21 @@ spec에 맞는 prometheus StatefulSets을 생성합니다.
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
-  name: prometheus
-  namespace: monitoring
+  name: <name>
+  namespace: <namespace>
 spec:
-  serviceAccountName: prometheus
+  serviceAccountName: <serviceAccountName>
 
-  podMonitorNamespaceSelector: {}
-  podMonitorSelector: {}
+  podMetadata: {}
 
-  serviceMonitorNamespaceSelector:
-    matchLabels:
-      prometheus: enabled
-  serviceMonitorSelector: {}
+  initContainers:
+    - name: "prometheus-permission",
+      image: "busybox",
+      command: ["/bin/chmod", "-R", "777", "/prometheus"],
+      volumeMounts:
+        - name: "prometheus-<name>-db",
+          mountPath: "/prometheus",
 
-  retention: 10d
-
-  podMetadata:
-    labels:
-      sidecar.istio.io/inject: "true"
-  resources:
-    requests:
-      cpu: "100m"
-      memory: 1500Mi
-    limits:
-      memory: 1500Mi
   storage:
     volumeClaimTemplate:
       spec:
@@ -117,22 +108,31 @@ spec:
         resources:
           requests:
             storage: 30Gi
-
-  initContainers:
-    - name: "prometheus-permission",
-      image: "busybox",
-      command: ["/bin/chmod", "-R", "777", "/prometheus"],
-      volumeMounts:
-        - name: "prometheus-prometheus-db",
-          mountPath: "/prometheus",
-
-  thanos:
-    objectStorageConfig:
-      - key: "objstore.yml",
-        name: "thanos-objstore-secret",
 ```
 
-- `kubectl get namespace -L prometheus` 명령어로 감시 대상 namespace를 확인할 수 있습니다.
+- `serviceAccountName: <serviceAccountName>`
+- `podMetadata`
+  - `labels: {}`
+  - `annotations: {}`
+- `resources: {}`
+- `initContainers: []`
+- `storage`
+  - `volumeClaimTemplate: {}`
+- `affinity: {}`
+- `tolerations: []`
+- `podMonitorNamespaceSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `podMonitorSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `serviceMonitorNamespaceSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `serviceMonitorSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `retention: 24h`
 
 :::info
 

@@ -58,47 +58,36 @@ search <namespace>.svc.cluster.local svc.cluster.local cluster.local us-west-2.c
 
 ### NodePort
 
-NodePort는 `pod ip:targetPort` --- `service ip:port` --- `node ip:nodePort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
+- https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
 
-```shell
-kubectl describe pods -n kubernetes-dashboard kubernetes-dashboard
-```
+NodePort는 `node ip:nodePort` -> `service ip:port` -> `pod ip:targetPort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
 
-```shell
-...
-Labels:       k8s-app=kubernetes-dashboard
-              pod-template-hash=576cb95f94
-...
-Containers:
-  kubernetes-dashboard:
-    ...
-    Port:          8443/TCP
-    ...
-```
-
-```yaml title="kubernetes-dashboard-nodeport.yaml"
+```yaml
 apiVersion: v1
 kind: Service
-metadata:
-  name: kubernetes-dashboard-nodeport
-  namespace: kubernetes-dashboard
 spec:
   type: NodePort
-  selector:
-    k8s-app: kubernetes-dashboard
   ports:
     - port: 443
       targetPort: 8443
-      # nordPort: <30000-32767> # 설정하지 않으면 해당 범위에서 랜덤하게 선택
+      # nodePort: <30000-32767> # 설정하지 않으면 해당 범위에서 랜덤하게 선택
 ```
 
-```shell
-kubectl apply -f kubernetes-dashboard-nodeport.yaml
+NodePort의 범위를 변경하고 싶은 경우 kube-apiserver의 `--service-node-port-range=<startPort>-<endPort>` 옵션을 추가하면 됩니다.
+
+```yaml title="/etc/kubernetes/manifests/kube-apiserver.yaml"
+spec:
+  containers:
+    - command:
+        - kube-apiserver
+        - ...
+        - --service-node-port-range=30000-32767
+        - ...
 ```
 
-```shell
-kubectl describe svc -n kubernetes-dashboard kubernetes-dashboard-nodeport
-```
+- https://kubernetes.io/blog/2023/05/11/nodeport-dynamic-and-static-allocation/
+
+Kubernetes 1.28 부터는 ServiceNodePortStaticSubrange라는 기능이 기본적으로 활성화 됩니다. 이 기능은 NodePort의 시작 포트 부터 `min(max(16, nodeportSize / 32), 128)`개의 포트의 동적 할당 우선순위를 낮춥니다. 예를 들어 30000-32767의 범위를 갖는 경우 30000-30085까지는 다른 포트를 모두 사용하기 전까지는 동적 할당이 되지 않으므로 사용자가 정적 할당으로 사용하기에 좋습니다.
 
 ## Debug
 
