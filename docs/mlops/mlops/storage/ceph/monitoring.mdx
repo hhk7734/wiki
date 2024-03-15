@@ -59,16 +59,20 @@ discover:
 
 - https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-monitoring/
 
+### Prometheus 생성
+
+:::warning
+Prometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 안되면 Prometheus도 문제가 발생합니다.
+:::
+
+[Prometheus CRD](/docs/mlops/mlops/monitoring/prometheus/crd)
+
 ### ServiceMonitor
 
 <br />
 
 - MGR의 prometheus 모듈: 데몬들의 성능 counter를 제외한 모든 metrics을 노출시킵니다.
 - Ceph exporter: 데몬들의 성능 counter를 노출시킵니다.
-
-:::warning
-Prometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 안되면 Prometheus도 문제가 발생합니다.
-:::
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -118,13 +122,34 @@ spec:
 
 - https://rook.github.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/
 
+```yaml title="rook-ceph-values.yaml"
+monitoring:
+  enabled: false
+```
+
+- `monitoring`
+  - `enabled`
+    - operator가 속한 namespace의 ServiceMonitor를 CRUD할 수 있는 Role을 생성하고 바인딩합니다.
+    - ServiceMonitor를 직접 제어하려는 경우 false로 설정합니다.
+
 ```yaml
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 spec:
+  mgr:
+    modules:
+      - name: prometheus
+        enabled: true
+
   dashboard:
-    prometheusEndpoint: http://prometheus-operated.monitoring.svc.cluster.local:9090
+    prometheusEndpoint: http://prometheus-operated:9090
     prometheusEndpointSSLVerify: false
+
   monitoring:
-    enabled: true
+    enabled: false
 ```
+
+- `monitoring`
+  - `enabled`
+    - cluster가 속한 namespace의 ServiceMonitor를 CRUD할 수 있는 Role을 생성하고 바인딩합니다.
+    - ServiceMonitor를 직접 제어하려는 경우 false로 설정합니다.

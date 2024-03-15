@@ -688,7 +688,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "MetalLB",
-					items: ["mlops/mlops/network/metallb/metallb", "mlops/mlops/network/metallb/crds"],
+					items: ["mlops/mlops/network/metallb/metallb", "mlops/mlops/network/metallb/arp"],
 				},
 				{
 					type: "category",

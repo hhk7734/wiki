@@ -28,6 +28,35 @@ helm show values harbor-1.14.0.tgz > harbor-1.14.0.yaml
 ```
 
 ```yaml title="harbor-values.yaml"
+expose:
+  type:
+  tls:
+    enabled: false
+
+# 1) 클라이언트에서 로그인할 때 반환되는 token 서비스의 URL로 사용됩니다.
+# 2) Harbor Portal 페이지의 docker, helm 명령어 도움말에 사용됩니다.
+externalURL: <url>
+
+persistence:
+  enabled: true
+  persistentVolumeClaim:
+    registry:
+      accessMode: ReadWriteMany
+    jobservice:
+      jobLog:
+        accessMode: ReadWriteMany
+    database:
+      accessMode: ReadWriteOnce
+    redis:
+      accessMode: ReadWriteOnce
+    trivy:
+      accessMode: ReadWriteOnce
+
+updateStrategy:
+  # registry와 jobservice PVC의 accessMode가 ReadWriteOnce일 경우
+  # Recreate으로 변경해야합니다.
+  type: RollingUpdate
+
 portal:
   affinity: {}
 
