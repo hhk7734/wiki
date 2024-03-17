@@ -9,17 +9,100 @@ keywords:
 
 ## kube-state-metrics
 
-Kubernetes API를 사용하여 객체의 상태를 수집하는 서비스입니다. `kubectl` 명령어를 통해 얻는 정보를 모니터링 서비스에서 사용할 수 있도록 제공한다고 생각하면 됩니다.
+- https://github.com/kubernetes/kube-state-metrics
+
+Kubernetes API를 사용하여 Deployment, Node, Pod 등과 같은 객체의 상태를 수집하는 서비스입니다.
+
+## 설치
+
+- https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-state-metrics
+
+### Helm
+
+```shell
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+```shell
+helm repo update prometheus-community \
+&& helm search repo prometheus-community/kube-state-metrics -l | head -n 10
+```
+
+```shell
+helm pull prometheus-community/kube-state-metrics --version 5.16.4
+```
+
+```shell
+helm show values kube-state-metrics-5.16.4.tgz \
+    > kube-state-metrics-5.16.4.yaml
+```
+
+```yaml title="kube-state-metrics-values.yaml"
+prometheus:
+  monitor:
+    # ServiceMonitor
+    enabled: true
+
+affinity: {}
+
+tolerations: []
+
+collectors:
+  - certificatesigningrequests
+  - configmaps
+  - cronjobs
+  - daemonsets
+  - deployments
+  - endpoints
+  - horizontalpodautoscalers
+  - ingresses
+  - jobs
+  - leases
+  - limitranges
+  - mutatingwebhookconfigurations
+  - namespaces
+  - networkpolicies
+  - nodes
+  - persistentvolumeclaims
+  - persistentvolumes
+  - poddisruptionbudgets
+  - pods
+  - replicasets
+  - replicationcontrollers
+  - resourcequotas
+  - secrets
+  - services
+  - statefulsets
+  - storageclasses
+  - validatingwebhookconfigurations
+  - volumeattachments
+```
+
+```shell
+helm template kube-state-metrics kube-state-metrics-5.16.4.tgz \
+    -n monitoring \
+    -f kube-state-metrics-values.yaml \
+    > kube-state-metrics.yaml
+```
+
+```shell
+helm upgrade kube-state-metrics kube-state-metrics-5.16.4.tgz \
+    --install \
+    --history-max 5 \
+    -n monitoring \
+    -f kube-state-metrics-values.yaml
+```
+
+### kube-prometheus-stack
+
+```yaml title="kube-prometheus-stack-values.yaml"
+kubeStateMetrics:
+  enabled: true
+
+# Helm kube-state-metrics-values.yaml을 참고하여 작성하면 됩니다.
+kube-state-metrics: {}
+```
 
 ## Metrics
 
 - https://github.com/kubernetes/kube-state-metrics/tree/master/docs
-
-<br />
-
-- CPU
-  - `kube_pod_container_resource_requests{resource="cpu"} <requests.cpu>`
-  - `kube_pod_container_resource_limits{resource="cpu"} <limits.cpu>`
-- Memory
-  - `kube_pod_container_resource_requests{resource="memory"} <requests.memory>`
-  - `kube_pod_container_resource_limits{resource="memory"} <limits.memory>`
