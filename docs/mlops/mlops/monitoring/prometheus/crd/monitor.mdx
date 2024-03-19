@@ -1,0 +1,190 @@
+---
+id: monitor
+title: ServiceMonitor/PodMonitor
+sidebar_label: Monitor
+description: ServiceMonitor/PodMonitor
+keywords:
+  - servicemonitor
+  - podmonitor
+  - Monitor
+  - operator
+  - CRD
+---
+
+## ServiceMonitor
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
+- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
+
+수집하고 싶은 `Service` 정보 등록
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    loliot.net/prometheus: monitoring
+spec:
+  jobLabel: istio
+  selector:
+    matchLabels:
+      <key>: <value>
+  namespaceSelector:
+    any: true
+  endpoints:
+    - port: http-monitoring # Service에서 prometheus를 위해 노출한 port
+      path: /metrics # 기본값: /metrics
+      interval: 15s
+```
+
+- `jobLabel: <labelKey>`
+  - Service.metadata.labels에 매칭되는 labelKey의 값을 job의 값으로 사용합니다.
+  - 선언하지 않으면 Service.metadata.name의 값을 사용합니다.
+- `namespaceSelector`
+  - `any: <bool>`
+  - `matchNames: []`
+  - `any: false`, `matchNames: []`로 설정하면 ServiceMonitor.metadata.namespace에 선언된 Service만 모니터링 합니다.
+- `selector: {}`
+  - LabelSelector
+- `attachMetadata`
+  - 발견된 target에 metadata를 추가합니다.
+  - 해당 metadata를 수집하기 위한 Role이 필요할 수 있습니다.
+  - `node: <bool>`
+- `endpoints: []`
+  - `scheme: http`
+  - `port: <servicePortName>`
+  - `path: /metrics`
+  - `interval: <duration>`
+    - 수집 주기입니다.
+    - 설정하지 않으면 global.scrape_interval을 사용합니다.
+  - `scrapeTimeout: <duration>`
+    - 수집 시간이 설정된 시간을 초과하면 수집을 실패로 간주합니다.
+    - 설정하지 않으면 global.scrape_timeout을 사용합니다.
+  - `honorLabels: false`
+    - metric에 존재하던 label과 설정에 의해 Prometheus에 의해 추가된 label이 충돌할 경우 metric에 존재하던 label을 사용할지 여부입니다.
+    - `true`로 설정하면 Prometheus에 의해 추가된 label은 버려집니다.
+    - `false`로 설정하면 metric에 존재하던 label에 `exported_`를 붙여 보존합니다.
+  - `honorTimestamps: true`
+    - metric에 존재하던 timestamp를 사용할지 여부입니다.
+  - `relabelings: []`
+    - [relabel_configs](#relabel_configs)
+  - `metricRelabelings: []`
+    - [metric_relabel_configs](#metric_relabel_configs)
+
+[kubernetes_sd_configs](#kubernetes_sd_configs)가 자동으로 추가됩니다.
+
+## PodMonitor
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmonitor
+
+수집하고 싶은 `Pod` 정보 등록
+
+:::info
+Service가 없는 Pod나, Service가 있지만 그 중 특정 Label이 있는 Pod를 모니터링할 때만 사용하고, 그 외에는 ServiceMonitor를 사용하시는 것이 좋습니다.
+:::
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: envoy-stats
+  namespace: monitoring
+  labels:
+    app: istio-proxy
+spec:
+  jobLabel: envoy-stats
+  selector:
+    matchExpressions: # labels에 istio-prometheus-ignore 가 없는 모든 Pod를 감시합니다.
+      - { key: istio-prometheus-ignore, operator: DoesNotExist }
+  namespaceSelector:
+    any: true
+  podMetricsEndpoints:
+    - path: /stats/prometheus
+      interval: 15s
+      relabelings:
+        - action: keep
+          sourceLabels: [__meta_kubernetes_pod_container_name]
+          regex: "istio-proxy"
+        - action: keep
+          sourceLabels: [__meta_kubernetes_pod_annotationpresent_prometheus_io_scrape]
+        - sourceLabels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          targetLabel: __address__
+        - action: labeldrop
+          regex: "__meta_kubernetes_pod_label_(.+)"
+        - sourceLabels: [__meta_kubernetes_namespace]
+          action: replace
+          targetLabel: namespace
+        - sourceLabels: [__meta_kubernetes_pod_name]
+          action: replace
+          targetLabel: pod_name
+```
+
+## 설정
+
+### kubernetes_sd_configs
+
+- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config
+
+<br />
+
+- node
+  - `__meta_kubernetes_node_name: <nodeName>`
+  - `__meta_kubernetes_node_provider_id: <providerName>`
+  - `__meta_kubernetes_node_label_<key>: <value>`
+  - `__meta_kubernetes_node_labelpresent_<key>: <bool>`
+  - `__meta_kubernetes_node_annotation_<key>: <value>`
+  - `__meta_kubernetes_node_annotationpresent_<key>: <bool>`
+  - `__meta_kubernetes_node_address_<addressType>: <address>`
+- service
+- pod
+- endpoints
+- endpointslice
+- ingress
+
+### relabel_configs
+
+- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+
+스크랩하기 전에 서비스 디스커버리 등에 의해 설정된 레이블을 조작하는 설정입니다.
+
+```yaml
+spec:
+  endpoints:
+    - relabelings:
+        sourceLabels:
+          - <sourceLabel>
+        separator: ";"
+        action: replace # 기본값: replace
+        regex: (.*) # 기본값: (.+)
+        targetLabel: <targetLabel>
+        # modulus: <int>
+        replacement: $1 # 기본값: $1
+```
+
+- `sourceLabels: []`
+- `separator: ";"`
+  - 값이 여러개인 경우 값을 연결하기 위한 구분자입니다.
+  - `<value><separator><value>`
+- `actions`
+  - `replace`: `sourceLabels`중 값이 `regex`에 맞는 레이블을 찾습니다. 찾은 레이블을 `targetLabel`로 변경하고 값은 `replacement`로 변경합니다.
+  - `keep`: `sourceLabels`중 `regex`와 값이 매칭되는 레이블만 유지합니다
+  - `drop`: `sourceLabels`중 `regex`와 값이 매칭되는 레이블을 제거합니다
+  - `lowercase`
+  - `uppercase`
+  - `hashmod`
+  - `labelmap`
+  - `labeldrop`
+  - `labelkeep`
+
+:::info
+`__`로 시작하는 레이블은 relabel 과정이 모두 끝난 후에는 제거됩니다.
+:::
+
+### metric_relabel_configs
+
+- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs
+
+스크랩한 후 저장하기 전에 레이블을 조작하는 설정입니다.

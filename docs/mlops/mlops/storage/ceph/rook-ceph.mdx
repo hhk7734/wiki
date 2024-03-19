@@ -159,9 +159,26 @@ helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
 
 ## 삭제
 
+### Cluster
+
+- https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/
+- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#cleanup-policy
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+spec:
+  cleanupPolicy:
+    confirmation: yes-really-destroy-data
+```
+
 ```shell
 helm uninstall rook-ceph-cluster -n rook-ceph
 ```
+
+Cluster 운영에 사용된 Node에 접속하여 `/var/lib/rook` 디렉토리를 정리합니다.
+
+### Operator
 
 ```shell
 helm uninstall rook-ceph -n rook-ceph

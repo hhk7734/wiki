@@ -35,3 +35,39 @@ spec:
     - `tolerations`
     - `topologySpreadConstraints`
   - `resources`
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystemSubVolumeGroup
+spec:
+  name: csi # 설정 안하면 .metadata.name이 사용됩니다.
+  filesystemName: <cephFilesystemName>
+  pinning:
+    distributed: 1
+```
+
+## StorageClass
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "false"
+# operator에 CSI_DRIVER_NAME_PREFIX를 설정하지 않았다면 operator가 속한 namespace를 사용합니다.
+provisioner: <operatorNamespace>.cephfs.csi.ceph.com
+volumeBindingMode: Immediate
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  clusterID: <cephClusterNamespace>
+  fsName: <cephFilesystemName>
+  pool: <cephFilesystemName>-<cephFilesystem.spec.dataPools.name>
+  csi.storage.k8s.io/fstype: ext4
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: <cephClusterNamespace>
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: <cephClusterNamespace>
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+  csi.storage.k8s.io/node-stage-secret-namespace: <cephClusterNamespace>
+```

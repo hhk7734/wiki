@@ -850,7 +850,14 @@ const sidebars: SidebarsConfig = {
 					label: "Prometheus",
 					items: [
 						"mlops/mlops/monitoring/prometheus/operator",
-						"mlops/mlops/monitoring/prometheus/crd",
+						{
+							type: "category",
+							label: "CRD",
+							items: [
+								"mlops/mlops/monitoring/prometheus/crd/prometheus",
+								"mlops/mlops/monitoring/prometheus/crd/monitor",
+							],
+						},
 						"mlops/mlops/monitoring/prometheus/promql",
 						"mlops/mlops/monitoring/prometheus/kube-state-metrics",
 						"mlops/mlops/monitoring/prometheus/node-exporter",
@@ -918,6 +925,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/workflow/argo-workflows/garbage-collection",
 						"mlops/mlops/workflow/argo-workflows/client",
 					],
+				},
+				{
+					type: "category",
+					label: "AWX",
+					items: ["mlops/mlops/workflow/awx/awx-operator", "mlops/mlops/workflow/awx/crd"],
 				},
 			],
 		},

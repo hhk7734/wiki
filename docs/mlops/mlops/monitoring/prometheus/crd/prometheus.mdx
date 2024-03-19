@@ -1,0 +1,186 @@
+---
+id: prometheus
+title: Prometheus
+sidebar_label: Prometheus
+description: Prometheus
+keywords:
+  - Prometheus
+  - operator
+  - CRD
+---
+
+import Image from "@theme/IdealImage";
+
+<center>
+	<Image
+		img={require("@site/static/img/mlops/mlops/monitoring/prometheus-operator-architecture.png")}
+		width={750}
+	/>
+</center>
+<center>
+	<strong>Prometheus Operator Architecture</strong>
+</center>
+
+## ServiceAccount
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#enable-rbac-rules-for-prometheus-pods
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: <name>
+  namespace: <namespace>
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: <name>
+rules:
+  - apiGroups: [""]
+    resources:
+      - nodes
+      - nodes/metrics
+      - services
+      - endpoints
+      - pods
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources:
+      - configmaps
+    verbs: ["get"]
+  - apiGroups:
+      - networking.k8s.io
+    resources:
+      - ingresses
+    verbs: ["get", "list", "watch"]
+  - nonResourceURLs: ["/metrics"]
+    verbs: ["get"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: <name>
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: <name>
+subjects:
+  - kind: ServiceAccount
+    name: <name>
+    namespace: <namespace>
+```
+
+## Prometheus
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheus
+
+spec에 맞는 prometheus StatefulSets을 생성합니다.
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  serviceAccountName: <serviceAccountName>
+
+  podMetadata: {}
+
+  initContainers:
+    - name: "prometheus-permission",
+      image: "busybox",
+      command: ["/bin/chmod", "-R", "777", "/prometheus"],
+      volumeMounts:
+        - name: "prometheus-<name>-db",
+          mountPath: "/prometheus",
+
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: gp3
+        accessModes:
+          - "ReadWriteOnce"
+        resources:
+          requests:
+            storage: 30Gi
+```
+
+- `serviceAccountName: <serviceAccountName>`
+- `podMetadata`
+  - `labels: {}`
+  - `annotations: {}`
+- `resources: {}`
+- `initContainers: []`
+- `storage`
+  - `volumeClaimTemplate: {}`
+- `affinity: {}`
+- `tolerations: []`
+- `podMonitorNamespaceSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `podMonitorSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `serviceMonitorNamespaceSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `serviceMonitorSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `retention: 24h`
+
+:::info
+
+Scrape 설정 추가를 아래와 같은 방법으로 직접 작성해 넣을 수 있습니다.
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: additional-scrape-configs
+  namespace: monitoring
+stringData:
+  prometheus-additional.yaml: |
+    - job_name: 'prometheus-other-cluster-1'
+      scheme: http
+      scrape_interval: 23s
+      scrape_timeout: 23s
+      honor_labels: true
+      metrics_path: '/federate'
+
+      params:
+        'match[]':
+          - '{job=~".+", job!="kublet"}'
+
+      static_configs:
+        - targets:
+          - 'prometheus-eks-2.monitoring:9090'
+
+    - job_name: 'prometheus-other-cluster-2'
+      scheme: http
+      scrape_interval: 21s
+      scrape_timeout: 21s
+      honor_labels: true
+      metrics_path: '/federate'
+
+      params:
+        'match[]':
+          - '{job="kublet"}'
+
+      static_configs:
+        - targets:
+          - 'prometheus-eks-2.monitoring:9090'
+```
+
+```yaml
+spec:
+  additionalScrapeConfigs:
+    name: additional-scrape-configs
+    key: prometheus-additional.yaml
+```
+
+:::

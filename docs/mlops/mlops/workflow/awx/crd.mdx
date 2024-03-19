@@ -1,0 +1,61 @@
+---
+id: crd
+title: AWX operator CRD
+sidebar_label: CRD
+description: AWX operator CRD
+keywords:
+  - awx
+  - operator
+  - workflow
+  - CRD
+---
+
+## AWX
+
+```yaml
+apiVersion: awx.ansible.com/v1beta1
+kind: AWX
+spec:
+  secret_key_secret: <secretName>
+  admin_user: admin
+  admin_email: <email>
+  admin_password_secret: ""
+  service_type: ClusterIP
+  service_annotations: "<annotations>"
+  service_labels: "<labels>"
+```
+
+- `secret_key_secret: <secretName>`
+  - `.data.secret_key`를 가진 Secret을 설정합니다.
+  - 빈 문자열인 경우 `<AWXName>-secret-key`를 자동 생성합니다.
+  - 데이터베이스의 민감한 정보를 암호화 하기 위한 키이므로 직접 관리하는 것을 권장합니다.
+- AWX
+  - `affinity: {}`
+  - `tolerations: "<tolerations>"`
+- Admin
+  - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/admin-user-account-configuration.html
+  - `admin_user: admin`
+  - `admin_email: <email>`
+  - `admin_password_secret: <secretName>`
+    - `.data.password`를 가진 Secret을 설정합니다.
+    - 빈 문자열인 경우 `<AWXName>-admin-password`를 자동 생성합니다.
+- Service
+  - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/network-and-tls-configuration.html
+  - `service_type: <serviceType>`
+  - `service_annotations: "<annotations>"`
+  - `service_labels: "<labels>"`
+- PostgreSQL
+  - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/database-configuration.html
+  - [PostgreSQL 설정 변경](/docs/lang/db/sql/postgresql/config)
+  - `postgres_extra_args: []`
+  - `postgres_resource_requirements: {}`
+  - `postgres_storage_requirements: {}`
+  - `postgres_storage_class: <storageClass>`
+  - `postgres_selector: "<nodeSelector>"`
+  - `postgres_tolerations: "<tolerations>`
+- Project volume
+  - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/advanced-configuration/persisting-projects-directory.html
+  - `projects_persistence: <bool>`
+  - `projects_storage_access_mode: <accessMode>`
+  - `projects_storage_class: <storageClass>`
+  - `projects_storage_size: <size>`

@@ -17,14 +17,35 @@ kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics
 kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/cadvisor
 ```
 
-- CPU
-  - `machine_cpu_cores <노드의 코어 수>`
-  - `container_cpu_usage_seconds_total <∑(코어 수/s)*s> <유닉스 타임스탬프(ms)>`
-    - `rate(container_cpu_usage_seconds_total[2m])`: 2분간 평균 CPU 사용량
-- Memory
-  - `machine_memory_bytes <노드의 메모리>`
-  - `container_memory_working_set_bytes <메모리> <유닉스 타임스탬프(ms)>`
-
 ```shell
 kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/probes
 ```
+
+## 설치
+
+### kube-prometheus-stack
+
+```yaml title="kube-prometheus-stack-values.yaml"
+kubernetesServiceMonitors:
+  enabled: true
+
+kubelet:
+  enabled: true
+
+  serviceMonitor:
+    additionalLabels: {}
+
+prometheusOperator:
+  enabled: true
+
+  kubeletService:
+    enabled: true
+    namespace: kube-system
+    # '{{ template "kube-prometheus-stack.fullname" . }}-kubelet' by default
+    name: ""
+```
+
+## Metrics
+
+- https://kubernetes.io/docs/reference/instrumentation/metrics/
+- https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md
