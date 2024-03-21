@@ -49,3 +49,9 @@ prometheusOperator:
 
 - https://kubernetes.io/docs/reference/instrumentation/metrics/
 - https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md
+
+<br />
+
+- container
+  - cpu
+    - CPU 사용량: `sum by(pod) (rate(container_cpu_usage_seconds_total[2m]))`

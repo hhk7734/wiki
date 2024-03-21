@@ -625,6 +625,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/storage/ceph/rook-ceph",
 						"mlops/mlops/storage/ceph/monitoring",
 						"mlops/mlops/storage/ceph/osd",
+						"mlops/mlops/storage/ceph/pg",
 						"mlops/mlops/storage/ceph/cephfs",
 					],
 				},
@@ -842,11 +843,6 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
-					label: "ECK",
-					items: ["mlops/mlops/monitoring/eck/operator"],
-				},
-				{
-					type: "category",
 					label: "Prometheus",
 					items: [
 						"mlops/mlops/monitoring/prometheus/operator",
@@ -867,14 +863,18 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
-					label: "PLG",
+					label: "Grafana",
 					items: [
-						"mlops/mlops/monitoring/plg/loki",
-						"mlops/mlops/monitoring/plg/label",
-						"mlops/mlops/monitoring/plg/grafana",
-						"mlops/mlops/monitoring/plg/dashboard",
-						"mlops/mlops/monitoring/plg/alert",
+						"mlops/mlops/monitoring/grafana/grafana",
+						"mlops/mlops/monitoring/grafana/datasource",
+						"mlops/mlops/monitoring/grafana/dashboard",
+						"mlops/mlops/monitoring/grafana/alert",
 					],
+				},
+				{
+					type: "category",
+					label: "Loki",
+					items: ["mlops/mlops/monitoring/loki/loki", "mlops/mlops/monitoring/loki/label"],
 				},
 				{
 					type: "category",
@@ -885,6 +885,11 @@ const sidebars: SidebarsConfig = {
 					type: "category",
 					label: "OpenSearch",
 					items: ["mlops/mlops/monitoring/opensearch/basics"],
+				},
+				{
+					type: "category",
+					label: "ECK",
+					items: ["mlops/mlops/monitoring/eck/operator"],
 				},
 				"mlops/mlops/monitoring/dcgm-exporter",
 				"mlops/mlops/monitoring/kubernetes-dashboard",

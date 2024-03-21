@@ -1,9 +1,10 @@
 ---
 id: alert
-title: Alert
+title: Grafana Alert
 sidebar_label: Alert
-description: Alert
+description: Grafana Alert
 keywords:
+  - Grafana
   - Alert
 ---
 
@@ -19,7 +20,7 @@ import Image from "@theme/IdealImage";
 - https://grafana.com/docs/grafana/latest/administration/provisioning/#rules
 - Alerting -\> Alert rules -\> New alert rule
 
-```yaml
+```yaml title="grafana-values.yaml"
 alerting:
   rules.yaml:
     apiVersion: 1
@@ -48,7 +49,7 @@ alerting:
 - https://grafana.com/docs/grafana/latest/administration/provisioning/#contact-points
 - Alerting -\> Contact points -\> New contact point
 
-```yaml
+```yaml title="grafana-values.yaml"
 alerting:
   contactpoints.yaml:
     apiVersion: 1
@@ -78,7 +79,7 @@ alerting:
 - https://grafana.com/docs/grafana/latest/administration/provisioning/#notification-policies
 - Alerting -\> Notification policies -\> New specific policy
 
-```yaml
+```yaml title="grafana-values.yaml"
 alerting:
   notificationpolicy.yaml:
     apiVersion: 1

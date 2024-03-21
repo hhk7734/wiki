@@ -1,12 +1,48 @@
 ---
 id: dashboard
 title: Grafana Dashboard
-sidebar_label: Grafana Dashboard
+sidebar_label: Dashboard
 description: Grafana Dashboard
 keywords:
   - Grafana
   - Dashboard
 ---
+
+## Dashboard
+
+```yaml title="grafana-values.yaml"
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+      - name: <provider>
+        folder: ""
+        type: file
+        allowUiUpdates: false
+        options:
+          path: /var/lib/grafana/dashboards/<provider>
+
+dashboards:
+  <provider>:
+    <dashboard>: {}
+```
+
+- `dashboardProviders`
+  - `dashboardproviders.yaml`
+    - `providers: []`
+      - `allowUiUpdates: false`
+- `dashboards`
+  - `<provider>`
+    - `<dashboard>`
+      - `url: <url>`
+      - `gnetId: <gnetId>`: https://grafana.com/grafana/dashboards/ 에 등록된 ID입니다.
+      - `revision: 1`: https://grafana.com/grafana/dashboards/ 에 등록된 버전입니다.
+      - `datasource: <string|[]>`
+        - array일 경우
+          - `name: <name>`
+          - `value: <value>`
+          - `s/${<name>}/<value>/g`로 JSON 내 변수를 치환합니다
+          - Ee) `datasource: [{name: DS_PROMETHEUS, value: <prometheusUID>}]`
 
 ## Variables
 

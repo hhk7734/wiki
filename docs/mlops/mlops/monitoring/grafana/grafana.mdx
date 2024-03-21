@@ -19,9 +19,11 @@ helm repo update grafana \
 ```
 
 ```shell
-helm show values grafana/grafana \
-    --version 7.0.17 \
-    > grafana-values.yaml
+helm pull grafana/grafana --version 7.3.7
+```
+
+```shell
+helm show values grafana-7.3.7.tgz > grafana-7.3.7.yaml
 ```
 
 ```yaml title="grafana-values.yaml"
@@ -39,7 +41,7 @@ resources:
 grafana.ini:
   # users, data sources, and dashboards 같은 설정을 저장합니다.
   database:
-    type: mysql|postgres|sqlite
+    type: mysql|postgres|sqlite3
     host: <host>:<port>
     name: <database>
     user: grafana
@@ -47,18 +49,16 @@ grafana.ini:
 ```
 
 ```shell
-helm template grafana grafana/grafana \
-    --version 7.0.17 \
+helm template grafana grafana-7.3.7.tgz \
     -n monitoring \
     -f grafana-values.yaml \
     > grafana.yaml
 ```
 
 ```shell
-helm upgrade grafana grafana/grafana \
+helm upgrade grafana grafana-7.3.7.tgz \
     --install \
     --history-max 5 \
-    --version 7.0.17 \
     -n monitoring \
     -f grafana-values.yaml
 ```
