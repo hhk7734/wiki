@@ -1,0 +1,54 @@
+---
+id: vector
+title: vector
+sidebar_label: vector
+description: vector
+keywords:
+  - vector
+---
+
+## 설치
+
+- https://vector.dev/docs/setup/installation/package-managers/helm/
+
+```shell
+helm repo add vector https://helm.vector.dev
+```
+
+```shell
+helm repo update vector \
+&& helm search repo vector/vector -l | head -n 10
+```
+
+```shell
+helm pull vector/vector --version 0.32.0
+```
+
+```shell
+helm show values vector-0.32.0.tgz > vector-0.32.0.yaml
+```
+
+```yaml title="vector-values.yaml"
+role: Agent
+```
+
+```shell
+helm template vector vector-0.32.0.tgz \
+  -n monitoring \
+  -f vector-values.yaml \
+  > vector.yaml
+```
+
+```shell
+helm upgrade vector vector-0.32.0.tgz \
+  --install \
+  --max-history 5 \
+  -n monitoring \
+  -f vector-values.yaml
+```
+
+## 삭제
+
+```shell
+helm uninstall -n monitoring vector
+```

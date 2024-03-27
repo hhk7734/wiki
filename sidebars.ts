@@ -627,6 +627,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/storage/ceph/osd",
 						"mlops/mlops/storage/ceph/pg",
 						"mlops/mlops/storage/ceph/cephfs",
+						"mlops/mlops/storage/ceph/object-gateway",
 					],
 				},
 				{
@@ -839,6 +840,11 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/monitoring/collector/fluent-bit",
 						"mlops/mlops/monitoring/collector/fluentd",
+						{
+							type: "category",
+							label: "vector",
+							items: ["mlops/mlops/monitoring/collector/vector/vector"],
+						},
 					],
 				},
 				{

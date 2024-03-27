@@ -1,0 +1,69 @@
+---
+id: object-gateway
+title: Ceph Object Gateway
+sidebar_label: Object Gateway
+description: Ceph Object Gateway
+keywords:
+  - ceph
+  - object gateway
+  - object storage
+---
+
+## CephObjectStore
+
+- https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+spec:
+  metadataPool:
+  dataPool:
+  gateway:
+    port: 80
+    instances: 1
+```
+
+- `metadataPool`
+- `dataPool`
+- `gateway`
+  - `port: <port>`
+  - `instances: <replicas>`
+  - `resources`
+  - `placement`
+    - `nodeAffinity`
+    - `podAffinity`
+    - `podAntiAffinity`
+    - `tolerations`
+    - `topologySpreadConstraints`
+
+## ObjectBucketClaim
+
+- https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+# operator에 CSI_DRIVER_NAME_PREFIX를 설정하지 않았다면 operator가 속한 namespace를 사용합니다.
+provisioner: <operatorNamespace>.ceph.rook.io/bucket
+volumeBindingMode: Immediate
+reclaimPolicy: Delete
+parameters:
+  objectStoreName: <cephObjectStoreName>
+  objectStoreNamespace: <cephObjectStoreNamespace>
+```
+
+```yaml
+apiVersion: objectbucket.io/v1alpha1
+kind: ObjectBucketClaim
+spec:
+  generateBucketName: <bucketNamePrefix>
+  storageClassName: <storageClassName>
+```
+
+- `bucketName: <bucketName>`
+- `generateBucketName: <bucketNamePrefix>`
+- `storageClassName: <storageClassName>`
+- `additionalConfig`
+  - `maxObjects: "1000"`
+  - `maxSize: "2G"`

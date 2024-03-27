@@ -16,13 +16,15 @@ keywords:
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 spec:
+  metadataPool:
+  dataPool:
   metadataServer:
     activeCount: 1
     activeStandby: true
 ```
 
 - `metadataPool`
-- `dataPools`
+- `dataPools: []`
 - `metadataServer`
   - `activeCount: <count>`
     - active 상태의 MDS의 수입니다.
@@ -30,13 +32,13 @@ spec:
   - `activeStandby: <bool>`
     - standby MDS를 standby_replay MDS로 설정할지 여부입니다.
     - standby_replay는 warm 캐시를 유지하므로 더 빠른 failover를 제공합니다.
+  - `resources`
   - `placement`
     - `nodeAffinity`
     - `podAffinity`
     - `podAntiAffinity`
     - `tolerations`
     - `topologySpreadConstraints`
-  - `resources`
 
 ```yaml
 apiVersion: ceph.rook.io/v1
