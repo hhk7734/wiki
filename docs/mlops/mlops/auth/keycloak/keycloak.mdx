@@ -19,13 +19,11 @@ helm repo update bitnami \
 ```
 
 ```shell
-helm pull bitnami/keycloak \
-    --version 15.1.1
+helm pull bitnami/keycloak --version 19.3.4
 ```
 
 ```shell
-helm show values keycloak-15.1.1.tgz \
-    > keycloak-values.yaml
+helm show values keycloak-19.3.4.tgz > keycloak-19.3.4.yaml
 ```
 
 ```yaml title="keycloak-values.yaml"
@@ -48,7 +46,13 @@ service:
   type: ClusterIP
 
 postgresql:
+  # https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
   enabled: false
+  primary:
+    affinity: {}
+    tolerations: []
+    persistence:
+      storageClass: ""
 
 externalDatabase:
   host: <host>
@@ -62,14 +66,14 @@ cache:
 ```
 
 ```shell
-helm template keycloak keycloak-15.1.1.tgz \
+helm template keycloak keycloak-19.3.4.tgz \
     -n auth \
     -f keycloak-values.yaml \
     > keycloak.yaml
 ```
 
 ```shell
-helm upgrade keycloak keycloak-15.1.1.tgz \
+helm upgrade keycloak keycloak-19.3.4.tgz \
     --install \
     --history-max 5 \
     -n auth \
