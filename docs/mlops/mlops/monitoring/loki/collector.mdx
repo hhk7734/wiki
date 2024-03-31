@@ -1,0 +1,71 @@
+---
+id: collector
+title: 로그 수집기에서 Loki로 로그 전송하기
+sidebar_label: 로그 수집기 설정
+description: 로그 수집기에서 Loki로 로그 전송하기
+keywords:
+  - Loki
+  - collector
+---
+
+## vector
+
+- [Vector Loki Sink](/docs/mlops/mlops/monitoring/collector/vector/sink#loki)
+
+## Fluent Bit
+
+- https://docs.fluentbit.io/manual/pipeline/outputs/loki
+
+```yaml title="fluent-bit-values.yaml"
+env:
+  - name: LOKI_HOST
+    value: loki-gateway.monitoring.svc
+  - name: LOKI_PORT
+    value: "80"
+
+config:
+  # indent를 4칸으로 맞춰야 합니다.
+  outputs: |
+    [OUTPUT]
+        name        loki
+        match       *
+        host        ${LOKI_HOST}
+        port        ${LOKI_PORT}
+        labels      job=fluent-bit
+        label_keys  $tag
+        Retry_Limit 5
+```
+
+## Fluentd
+
+- https://grafana.com/docs/loki/latest/clients/fluentd/
+
+```yaml title="fluentd-values.yaml"
+plugins:
+  - fluent-plugin-grafana-loki
+
+env:
+  - name: LOKI_HOST
+    value: loki-gateway.monitoring.svc
+  - name: LOKI_PORT
+    value: "80"
+
+fileConfigs:
+  output-loki.conf: |
+    <match **>
+      @type loki
+      url "http://#{ENV['LOKI_HOST']}:#{ENV['LOKI_PORT']}"
+      insecure_tls true
+      line_format json
+      extra_labels {"job":"fluent-bit"}
+      <label>
+        tag $.tag
+      </label>
+      <buffer>
+        flush_at_shutdown true
+        flush_interval 5s
+        flush_thread_count 4
+        retry_max_interval 30s
+      </buffer>
+    </match>
+```

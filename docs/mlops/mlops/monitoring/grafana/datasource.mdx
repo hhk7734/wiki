@@ -28,17 +28,28 @@ datasources:
   - `isDefault: <bool>`
   - `uid: <uid>`: 해당 데이터 소스를 다른 설정에서 참조할 때 사용되는 고유 식별자를 설정합니다.
 
-### Prometheus
+## Prometheus
 
 ```yaml title="grafana-values.yaml"
 datasources:
   datasources.yaml:
-    apiVersion: 1
-    deleteDatasources: []
     datasources:
       - name: prometheus
         type: prometheus
         url: http://prometheus-operated.monitoring.svc.cluster.local:9090
         isDefault: true
         uid: 194258a3-be9e-407a-a922-f47535e102d3
+```
+
+## Loki
+
+```yaml title="grafana-values.yaml"
+datasources:
+  datasources.yaml:
+    datasources:
+      - name: loki
+        type: loki
+        url: http://loki-query-frontend.monitoring.svc.cluster.local:3100
+        isDefault: false
+        uid: 467772c5-1416-4599-967a-844d3afc17f5
 ```

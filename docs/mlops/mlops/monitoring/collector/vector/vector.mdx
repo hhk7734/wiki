@@ -1,8 +1,8 @@
 ---
 id: vector
-title: vector
-sidebar_label: vector
-description: vector
+title: Vector
+sidebar_label: Vector
+description: Vector
 keywords:
   - vector
 ---
@@ -30,6 +30,33 @@ helm show values vector-0.32.0.tgz > vector-0.32.0.yaml
 
 ```yaml title="vector-values.yaml"
 role: Agent
+
+tolerations: []
+
+customConfig:
+  api:
+    enabled: true
+    address: 127.0.0.1:8686
+    playground: false
+
+  sources: {}
+
+  transforms: {}
+
+  sinks: {}
+
+defaultVolumeMounts:
+  - name: var-log
+    mountPath: "/var/log/"
+    readOnly: true
+  - name: var-lib
+    mountPath: "/var/lib"
+  - name: procfs
+    mountPath: "/host/proc"
+    readOnly: true
+  - name: sysfs
+    mountPath: "/host/sys"
+    readOnly: true
 ```
 
 ```shell

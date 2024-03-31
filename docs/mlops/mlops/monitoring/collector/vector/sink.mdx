@@ -1,0 +1,36 @@
+---
+id: sink
+title: Vector Sink(내보내기)
+sidebar_label: Sink(내보내기)
+description: Vector Sink(내보내기)
+keywords:
+  - vector
+  - sink
+---
+
+## Sink 설정 방법
+
+```yaml
+sinks:
+  <sinkID>:
+    inputs:
+      - <sourceID|transformID>
+    type: <sourceType>
+    <option>: <value>
+```
+
+## Loki
+
+- https://vector.dev/docs/reference/configuration/sinks/loki/
+
+```yaml
+sinks:
+  loki:
+    inputs: []
+    type: loki
+    endpoint: "http://loki-distributor:3100"
+    encoding:
+      codec: json
+    labels:
+      job: vector
+```

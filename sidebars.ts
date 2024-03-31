@@ -495,7 +495,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Terraform",
-					items: ["mlops/mlops/terraform/terraform", "mlops/mlops/terraform/import"],
+					items: [
+						"mlops/mlops/terraform/terraform",
+						"mlops/mlops/terraform/import",
+						"mlops/mlops/terraform/remove",
+					],
 				},
 				{
 					type: "category",
@@ -842,8 +846,12 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/monitoring/collector/fluentd",
 						{
 							type: "category",
-							label: "vector",
-							items: ["mlops/mlops/monitoring/collector/vector/vector"],
+							label: "Vector",
+							items: [
+								"mlops/mlops/monitoring/collector/vector/vector",
+								"mlops/mlops/monitoring/collector/vector/source",
+								"mlops/mlops/monitoring/collector/vector/sink",
+							],
 						},
 					],
 				},
@@ -880,7 +888,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Loki",
-					items: ["mlops/mlops/monitoring/loki/loki", "mlops/mlops/monitoring/loki/label"],
+					items: [
+						"mlops/mlops/monitoring/loki/loki",
+						"mlops/mlops/monitoring/loki/label",
+						"mlops/mlops/monitoring/loki/collector",
+					],
 				},
 				{
 					type: "category",

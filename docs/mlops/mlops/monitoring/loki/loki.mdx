@@ -61,9 +61,11 @@ helm repo update grafana \
 ```
 
 ```shell
-helm show values grafana/loki-distributed \
-    --version 0.77.0 \
-    > loki-distributed-values.yaml
+helm pull grafana/loki-distributed --version 0.78.4
+```
+
+```shell
+helm show values loki-distributed-0.78.4.tgz > loki-distributed-0.78.4.yaml
 ```
 
 ```yaml title="loki-distributed-values.yaml"
@@ -75,12 +77,12 @@ loki:
   schemaConfig:
     configs:
       - # 인덱스 생성 시작일, 스키마가 변경되면 변경이 시작되는 날짜
-        from: 2022-10-19
+        from: 2024-03-31
         store: boltdb-shipper
-        # chunks가 저장되는 저장소로 기본값으로 store 값을 씁니다. aws, azure, gcp,
-        # bigtable, gcs, cassandra, swift or filesystem
+        # chunks가 저장되는 저장소로 기본값으로 store 값을 씁니다. aws(alias s3), azure,
+        # alibabacloud, bos, cos, swift, filesystem, or a named_store
         object_store: s3
-        schema: v11
+        schema: v12
         index:
           prefix: loki_index_
           period: 24h
@@ -88,8 +90,15 @@ loki:
   # -- Check https://grafana.com/docs/loki/latest/configuration/#storage_config
   # for more info on how to configure storages
   storageConfig:
+    # https://grafana.com/docs/loki/latest/configure/#aws_storage_config
     aws:
-      s3: s3://<region>/<bucket>
+      # s3: s3://<region>/<bucket>
+      s3forcepathstyle: true
+      endpoint: "http://${BUCKET_HOST}:${BUCKET_PORT}"
+      region: "${BUCKET_REGION}"
+      bucketnames: "${BUCKET_NAME}"
+      access_key_id: "${AWS_ACCESS_KEY_ID}"
+      secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
 
     boltdb_shipper:
       shared_store: s3
@@ -100,48 +109,57 @@ loki:
   # -- Structured loki configuration, takes precedence over `loki.config`, `loki.schemaConfig`, `loki.storageConfig`
   structuredConfig:
     limits_config:
-      max_entries_limit_per_query: 50000
+      max_entries_limit_per_query: 10000
 
 ingester:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-bucket
+    - configMapRef:
+        name: loki-bucket
+  resources: {}
 
 distributor:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 256Mi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-bucket
+    - configMapRef:
+        name: loki-bucket
+  resources: {}
 
 querier:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 1Gi
-    limits:
-      memory: 1Gi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-bucket
+    - configMapRef:
+        name: loki-bucket
+  resources: {}
 
 queryFrontend:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 1Gi
-    limits:
-      memory: 1Gi
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom:
+    - secretRef:
+        name: loki-bucket
+    - configMapRef:
+        name: loki-bucket
+  resources: {}
 
 gateway:
   podLabels: {}
-  resources:
-    requests:
-      cpu: 100m
-      memory: 1Gi
-    limits:
-      memory: 1Gi
+  resources: {}
+
+compactor:
+  enabled: false
+
+ruler:
+  enabled: false
 ```
 
 :::warning
@@ -149,82 +167,24 @@ gateway:
 :::
 
 ```shell
-helm template loki grafana/loki-distributed \
-    --version 0.77.0 \
+helm template loki loki-distributed-0.78.4.tgz \
     -n monitoring \
     -f loki-distributed-values.yaml \
     > loki-distributed.yaml
 ```
 
 ```shell
-helm upgrade loki grafana/loki-distributed \
+helm upgrade loki loki-distributed-0.78.4.tgz \
     --install \
-    --version 0.77.0 \
-    -n monitoring \
     --history-max 5 \
+    -n monitoring \
     -f loki-distributed-values.yaml
 ```
 
+## 삭제
+
 ```shell
 helm uninstall -n monitoring loki
-```
-
-## Fluent Bit
-
-- https://docs.fluentbit.io/manual/pipeline/outputs/loki
-
-```yaml title="fluent-bit-values.yaml"
-env:
-  - name: LOKI_HOST
-    value: loki-gateway.monitoring.svc
-  - name: LOKI_PORT
-    value: "80"
-
-config:
-  # indent를 4칸으로 맞춰야 합니다.
-  outputs: |
-    [OUTPUT]
-        name        loki
-        match       *
-        host        ${LOKI_HOST}
-        port        ${LOKI_PORT}
-        labels      job=fluent-bit
-        label_keys  $tag
-        Retry_Limit 5
-```
-
-## Fluentd
-
-- https://grafana.com/docs/loki/latest/clients/fluentd/
-
-```yaml title="fluentd-values.yaml"
-plugins:
-  - fluent-plugin-grafana-loki
-
-env:
-  - name: LOKI_HOST
-    value: loki-gateway.monitoring.svc
-  - name: LOKI_PORT
-    value: "80"
-
-fileConfigs:
-  output-loki.conf: |
-    <match **>
-      @type loki
-      url "http://#{ENV['LOKI_HOST']}:#{ENV['LOKI_PORT']}"
-      insecure_tls true
-      line_format json
-      extra_labels {"job":"fluent-bit"}
-      <label>
-        tag $.tag
-      </label>
-      <buffer>
-        flush_at_shutdown true
-        flush_interval 5s
-        flush_thread_count 4
-        retry_max_interval 30s
-      </buffer>
-    </match>
 ```
 
 ## Grafana

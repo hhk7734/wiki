@@ -9,6 +9,13 @@ keywords:
   - object storage
 ---
 
+## Operator
+
+```yaml title="rook-ceph-values.yaml"
+rbacAggregate:
+  enableOBCs: true
+```
+
 ## CephObjectStore
 
 - https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/
@@ -67,3 +74,7 @@ spec:
 - `additionalConfig`
   - `maxObjects: "1000"`
   - `maxSize: "2G"`
+
+:::info
+ObjectBucketClaim namespace와 name이 동일한 ConfigMap, Secret이 생성됩니다. ConfigMap에는 `BUCKET_HOST`, `BUCKET_NAME`, `BUCKET_PORT`, `BUCKET_REGION`, `BUCKET_SUBREGION`이 저장되어 있고, Secret에는 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`가 저장되어 있습니다.
+:::

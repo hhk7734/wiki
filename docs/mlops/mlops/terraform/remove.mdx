@@ -1,0 +1,26 @@
+---
+id: remove
+title: Terraform에서 리소스 삭제하기
+sidebar_label: 리소스 삭제하기
+description: Terraform에서 리소스 삭제하기
+keywords:
+  - terraform
+  - remove
+---
+
+## 실제 리소스와 상태 모두 삭제하기
+
+실제 리소스와 상태 모두 삭제하려면 코드에서 리소스를 삭제하고 `terraform apply`를 실행하면 됩니다.
+
+## 상태만 삭제하기
+
+다른 툴로 리소스 관리를 이전하거나, 다른 프로젝트로 리소스를 이전하는 등의 이유로 실제 리소스는 남겨둔 채로 상태만 삭제해야하는 경우가 있습니다. 이 경우 아래 명령어로 상태만 삭제할 수 있습니다.
+
+```shell
+terraform state rm <resourceAddress>
+```
+
+- `<resourceAddress>`
+  - [리소스 주소(Resource Address)](/docs/mlops/mlops/terraform/import#리소스-주소resource-address)
+
+상태를 삭제한 후, 코드에서도 리소스를 삭제해야합니다.

@@ -1,0 +1,75 @@
+---
+id: source
+title: Vector Source(수집하기)
+sidebar_label: Source(수집하기)
+description: Vector Source(수집하기)
+keywords:
+  - vector
+  - source
+---
+
+## Source 설정 방법
+
+```yaml
+sources:
+  <sourceID>:
+    type: <sourceType>
+    <option>: <value>
+```
+
+## Kubernetes Log
+
+- https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/
+
+```yaml
+sources:
+  <sourceID>:
+    type: kubernetes_logs
+```
+
+- `<option>: <value>`
+  - `include_paths_glob_patterns: []`
+    - `["**/*"]`이 기본값입니다.
+  - `exclude_paths_glob_patterns: []`
+    - `["**/*.gz", "**/*.tmp"]`이 기본값입니다.
+  - `extra_field_selector: <fieldSelector>[,<fieldSelector>]`
+    - [`<fieldSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)
+  - `extra_label_selector: <labelSelector>[,<labelSelector>]`
+    - [`<labelSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+  - `extra_namespace_label_selector: <labelSelector>[,<labelSelector>]`
+    - [`<labelSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+
+<br />
+
+- https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/#output-data
+
+```json
+{
+	"file": "/var/log/pods/...",
+	"kubernetes": {
+		"container_id": "containerd://...",
+		"container_image": "",
+		"container_image_id": "",
+		"container_name": "",
+		"namespace_labels": {
+			"<label>": "<value>"
+		},
+		"node_labels": {
+			"<label>": "<value>"
+		},
+		"pod_ip": "",
+		"pod_ips": [""],
+		"pod_labels": {
+			"<label>": "<value>"
+		},
+		"pod_name": "",
+		"pod_namespace": "",
+		"pod_node_name": "",
+		"pod_owner": "",
+		"pod_uid": ""
+	},
+	"message": "",
+	"source_type": "kubernetes_logs",
+	"stream": "stderr"
+}
+```
