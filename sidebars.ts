@@ -680,6 +680,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/network/cilium/arp",
 						"mlops/mlops/network/cilium/bgp",
 						"mlops/mlops/network/cilium/load-balancer",
+						"mlops/mlops/network/cilium/gateway-api",
 					],
 				},
 				{
