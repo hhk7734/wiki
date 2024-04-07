@@ -178,6 +178,13 @@ helm uninstall rook-ceph-cluster -n rook-ceph
 
 Cluster 운영에 사용된 Node에 접속하여 `/var/lib/rook` 디렉토리를 정리합니다.
 
+```yaml
+- name: Reset | remove /var/lib/rook
+  ansible.builtin.file:
+    path: /var/lib/rook
+    state: absent
+```
+
 ### Operator
 
 ```shell
