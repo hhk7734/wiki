@@ -1,0 +1,43 @@
+---
+id: delegation
+title: Ansible 실행 위치 제어하기
+sidebar_label: 실행 위치 제어하기
+description: Ansible 실행 위치 제어하기
+keywords:
+  - Ansible
+  - task
+  - delegate
+---
+
+## delegate_to
+
+- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html
+
+```yaml
+- name: <description>
+  <module>:
+    <option>: <value>
+  delegate_to: <host>
+```
+
+- `delegate_to: <host>`
+  - 작업을 수행할 호스트를 지정합니다.
+  - `localhost`를 사용하면 Control Node에서 작업을 수행합니다.
+
+:::warning
+`inventory_hostname`을 제외한 모든 변수는 실제 작업을 수행하는 호스트(작업을 위임받은 호스트)의 변수를 사용합니다. 따라서 작업을 위임한 호스트의 변수를 사용하고 싶은 경우 `hostvars[inventory_hostname]['varname']`을 사용해야 합니다.
+:::
+
+## delegate_facts
+
+작업을 위임받은 호스트에서 facts가 생성되더라도 작업을 위임한 호스트에 할당됩니다. 작업을 수행한 호스트에 facts가 할당되도록 하려면 `delegate_facts: true`를 사용하면 됩니다.
+
+## run_once와 register
+
+작업 상황을 가정해보겠습니다.
+
+- Control Node A와 Managed Node a, b, c 가 존재합니다.
+- A에게 작업을 위임한 결과를 이후 작업에서 사용해야합니다.
+- 작업의 결과는 수행 횟수에 상관없이 동일합니다.
+
+이때, `run_once: true`를 사용하면 호스트 수에 상관 없이 1 회 실행됩니다. 이 때, `register: <variable>`을 사용하면 작업을 위임한 호스트 외에 다른 호스트들에도 변수와 해당 값이 동일하게 설정됩니다.

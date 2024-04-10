@@ -510,6 +510,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/ansible/variables",
 						"mlops/mlops/ansible/vault",
 						"mlops/mlops/ansible/roles",
+						"mlops/mlops/ansible/delegation",
 					],
 				},
 			],
