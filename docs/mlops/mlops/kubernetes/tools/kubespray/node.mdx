@@ -70,6 +70,8 @@ ansible-playbook -i inventory -b scale.yml \
 kubespray에서 여러 그룹에 속해있는 Node를 한 그룹에서만 제거하는 방법을 제공하지 않는 것 같습니다.(불확실함)
 :::
 
+### 제거 전 작업
+
 - `groups['etcd'][0]` 또는 `groups['kube_control_plane'][0]`인 Node를 제거하려는 경우 해당 Node의 순서를 변경해야합니다.
 
 ```yaml title="inventory/hosts.yaml"
@@ -90,6 +92,8 @@ etcd:
 ansible-playbook -i inventory -b cluster.yml
 ```
 
+### 제거
+
 ```shell
 ansible-playbook -i inventory -b remove-node.yml \
   -e node=<target>
@@ -102,6 +106,8 @@ ansible-playbook -i inventory -b remove-node.yml \
   - `-e allow_ungraceful_removal=true`
 
 제거가 완료되면 `inventory/hosts.yaml`에서 제거된 Node를 삭제합니다.
+
+### 제거 후 작업
 
 `etcd` 그룹에 포함된 Node가 제거된 경우 Kubernetes 와 네트워크 설정 파일을 업데이트를 위해 `cluster.yml` 플레이북을 실행합니다.
 
