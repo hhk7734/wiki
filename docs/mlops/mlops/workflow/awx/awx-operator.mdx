@@ -23,11 +23,11 @@ helm repo update awx-operator \
 ```
 
 ```shell
-helm pull awx-operator/awx-operator --version 2.13.1
+helm pull awx-operator/awx-operator --version 2.15.0
 ```
 
 ```shell
-helm show values awx-operator-2.13.1.tgz > awx-operator-2.13.1.yaml
+helm show values awx-operator-2.15.0.tgz > awx-operator-2.15.0.yaml
 ```
 
 ```yaml title="awx-operator-values.yaml"
@@ -36,14 +36,14 @@ AWX:
 ```
 
 ```shell
-helm template awx-operator awx-operator-2.13.1.tgz \
+helm template awx-operator awx-operator-2.15.0.tgz \
     -n workflow \
     -f awx-operator-values.yaml \
     > awx-operator.yaml
 ```
 
 ```shell
-helm upgrade awx-operator awx-operator-2.13.1.tgz \
+helm upgrade awx-operator awx-operator-2.15.0.tgz \
     --install \
     --history-max 5 \
     -n workflow \
