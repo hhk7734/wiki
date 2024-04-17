@@ -24,6 +24,7 @@ roles/
 │   ├── handlers/
 │   │   └── main.yaml
 │   ├── meta
+│   │   ├── argument_specs.yaml
 │   │   └── main.yaml
 │   ├── tasks/
 │   │   └── main.yaml
@@ -38,6 +39,14 @@ roles/
 
 ## role 사용하기
 
+### role 경로 설정
+
+- `roles/` 디렉토리를 확인합니다.
+- `ansible.cfg`의 `default.roles_path: <path>[:<path>]` 경로를 확인합니다.
+  - `~/.ansible/roles:/usr/share/ansible/roles:/etc/ansible/roles`이 기본 경로입니다.
+
+### role 호출
+
 ```yaml
 - roles:
     - role: <role> # or <category>/<role>
@@ -50,7 +59,7 @@ roles/
 
 ```yaml
 - tasks:
-    - include_role:
+    - ansible.builtin.include_role:
         name: <role> # or <category>/<role>
       vars:
         <var>: <value>
@@ -64,6 +73,6 @@ roles/
 
 ```yaml
 - tasks:
-    - import_role:
+    - ansible.builtin.import_role:
         name: <role> # or <category>/<role>
 ```

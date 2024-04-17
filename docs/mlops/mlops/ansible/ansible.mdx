@@ -67,6 +67,16 @@ python3 -m pip install ansible
       command: "echo hello"
 ```
 
+실행 순서는 다음과 같습니다.
+
+- `pre_tasks`
+- `pre_tasks`에 의해 호출되는 `handlers`
+- `roles`
+- `tasks`
+- `roles`또는 `tasks`에 의해 호출되는 `handlers`
+- `post_tasks`
+- `post_tasks`에 의해 호출되는 `handlers`
+
 ## Playbook 실행
 
 ```shell

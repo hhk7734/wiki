@@ -1,0 +1,294 @@
+---
+id: cluster
+title: Ceph Cluster
+sidebar_label: Cluster
+description: Ceph Cluster
+keywords:
+  - ceph
+  - cluster
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+- [Disk 준비](/docs/mlops/mlops/storage/ceph/osd)
+
+<Tabs
+    defaultValue="crd"
+    values={[
+        {label: 'CRD', value: 'crd',},
+        {label: 'Helm', value: 'helm',},
+    ]}
+>
+
+<TabItem value="crd">
+
+- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+metadata:
+  name: rook-ceph
+  namespace: rook-ceph
+spec:
+  monitoring:
+    enabled: false
+  cephVersion:
+    allowUnsupported: false
+    image: quay.io/ceph/ceph:v18.2.2
+  cleanupPolicy:
+    allowUninstallWithVolumes: false
+    confirmation: ""
+    sanitizeDisks:
+      dataSource: zero
+      iteration: 1
+      method: quick
+  continueUpgradeAfterChecksEvenIfNotHealthy: false
+  crashCollector:
+    disable: false
+  dashboard:
+    enabled: true
+    ssl: true
+  dataDirHostPath: /var/lib/rook
+  disruptionManagement:
+    managePodBudgets: true
+    osdMaintenanceTimeout: 30
+    pgHealthCheckTimeout: 0
+  healthCheck:
+    daemonHealth:
+      mon:
+        disabled: false
+        interval: 45s
+      osd:
+        disabled: false
+        interval: 60s
+      status:
+        disabled: false
+        interval: 60s
+    livenessProbe:
+      mgr:
+        disabled: false
+      mon:
+        disabled: false
+      osd:
+        disabled: false
+  logCollector:
+    enabled: true
+    maxLogSize: 500M
+    periodicity: daily
+  mgr:
+    allowMultiplePerNode: false
+    count: 2
+    modules:
+      - enabled: true
+        name: pg_autoscaler
+  mon:
+    allowMultiplePerNode: false
+    count: 3
+  network:
+    connections:
+      compression:
+        enabled: false
+      encryption:
+        enabled: false
+      requireMsgr2: false
+  placement:
+    all:
+      tolerations:
+        - key: loliot.net/storage
+          operator: Exists
+  priorityClassNames:
+    mgr: system-cluster-critical
+    mon: system-node-critical
+    osd: system-node-critical
+  removeOSDsIfOutAndSafeToRemove: false
+  resources:
+    cleanup:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 100Mi
+    crashcollector:
+      limits:
+        memory: 60Mi
+      requests:
+        cpu: 100m
+        memory: 60Mi
+    exporter:
+      limits:
+        memory: 128Mi
+      requests:
+        cpu: 50m
+        memory: 50Mi
+    logcollector:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 100m
+        memory: 100Mi
+    mgr:
+      limits:
+        memory: 1Gi
+      requests:
+        cpu: 500m
+        memory: 512Mi
+    mgr-sidecar:
+      limits:
+        memory: 100Mi
+      requests:
+        cpu: 100m
+        memory: 40Mi
+    mon:
+      limits:
+        memory: 2Gi
+      requests:
+        cpu: 1000m
+        memory: 1Gi
+    osd:
+      limits:
+        memory: 4Gi
+      requests:
+        cpu: 1000m
+        memory: 4Gi
+    prepareosd:
+      requests:
+        cpu: 500m
+        memory: 50Mi
+  skipUpgradeChecks: false
+  storage:
+    node:
+      - devices:
+          - name: /dev/vg1/lv1
+        name: ip-192-168-0-11
+    useAllDevices: false
+    useAllNodes: false
+  waitTimeoutForHealthyOSDInMinutes: 10
+```
+
+</TabItem>
+
+<TabItem value="helm">
+
+Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다.
+
+- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
+
+```shell
+helm repo add rook-release https://charts.rook.io/release
+```
+
+```shell
+helm repo update rook-release \
+&& helm search repo rook-release/rook-ceph-cluster -l | head -n 10
+```
+
+```shell
+helm pull rook-release/rook-ceph-cluster --version v1.13.7
+```
+
+```shell
+helm show values rook-ceph-cluster-v1.13.7.tgz > rook-ceph-cluster-v1.13.7.yaml
+```
+
+```yaml title="rook-ceph-cluster-values.yaml"
+operatorNamespace: rook-ceph
+
+cephClusterSpec:
+  mon:
+    count: 3
+
+  mgr:
+    count: 2
+
+  placement:
+    all:
+      tolerations:
+        - key: "loliot.net/storage"
+          operator: "Exists"
+
+  resources: {}
+
+  storage:
+    useAllNodes: false
+    useAllDevices: false
+    node:
+      - name: "ip-192-168-0-11"
+        devices:
+          - name: "/dev/vg1/lv1"
+
+cephBlockPools: []
+
+cephFileSystems: []
+
+cephObjectStores: []
+```
+
+```shell
+helm template rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
+    -n rook-ceph \
+    -f rook-ceph-cluster-values.yaml \
+    > rook-ceph-cluster.yaml
+```
+
+```shell
+helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
+    --install \
+    --history-max 5 \
+    -n rook-ceph \
+    -f rook-ceph-cluster-values.yaml
+```
+
+</TabItem>
+
+</Tabs>
+
+## 삭제
+
+- https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/
+- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#cleanup-policy
+
+```shell
+kubectl patch cephcluster rook-ceph \
+    -n rook-ceph \
+    --type merge \
+    -p '{"spec":{"cleanupPolicy":{"confirmation":"yes-really-destroy-data"}}}'
+```
+
+<Tabs
+    defaultValue="crd"
+    values={[
+        {label: 'CRD', value: 'crd',},
+        {label: 'Helm', value: 'helm',},
+    ]}
+>
+
+<TabItem value="crd">
+
+```shell
+kubectl delete cephcluster rook-ceph -n rook-ceph
+```
+
+</TabItem>
+
+<TabItem value="helm">
+
+```shell
+helm uninstall rook-ceph-cluster -n rook-ceph
+```
+
+</TabItem>
+
+</Tabs>
+
+Cluster 운영에 사용된 Node에 접속하여 `/var/lib/rook` 디렉토리를 정리합니다.
+
+```yaml
+- name: remove /var/lib/rook
+  ansible.builtin.file:
+    path: /var/lib/rook
+    state: absent
+```

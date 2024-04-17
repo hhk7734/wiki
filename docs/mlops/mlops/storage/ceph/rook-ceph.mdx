@@ -21,13 +21,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 설치
 
+- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
+
 ```shell
 helm repo add rook-release https://charts.rook.io/release
 ```
-
-### Operator
-
-- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
 
 ```shell
 helm repo update rook-release \
@@ -81,73 +79,6 @@ helm upgrade rook-ceph rook-ceph-v1.13.7.tgz \
     -f rook-ceph-values.yaml
 ```
 
-### Cluster
-
-- [Disk 준비](/docs/mlops/mlops/storage/ceph/osd)
-
-Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다.
-
-```shell
-helm repo update rook-release \
-&& helm search repo rook-release/rook-ceph-cluster -l | head -n 10
-```
-
-```shell
-helm pull rook-release/rook-ceph-cluster --version v1.13.7
-```
-
-```shell
-helm show values rook-ceph-cluster-v1.13.7.tgz > rook-ceph-cluster-v1.13.7.yaml
-```
-
-```yaml title="rook-ceph-cluster-values.yaml"
-operatorNamespace: rook-ceph
-
-cephClusterSpec:
-  mon:
-    count: 3
-
-  mgr:
-    count: 2
-
-  placement:
-    all:
-      tolerations:
-        - key: "loliot.net/storage"
-          operator: "Exists"
-
-  resources: {}
-
-  storage:
-    useAllNodes: false
-    useAllDevices: false
-    node:
-      - name: "ip-192-168-0-11"
-        devices:
-          - name: "/dev/vg1/lv1"
-
-cephBlockPools: []
-
-cephFileSystems: []
-
-cephObjectStores: []
-```
-
-```shell
-helm template rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
-    -n rook-ceph \
-    -f rook-ceph-cluster-values.yaml \
-    > rook-ceph-cluster.yaml
-```
-
-```shell
-helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
-    --install \
-    --history-max 5 \
-    -n rook-ceph \
-    -f rook-ceph-cluster-values.yaml
-```
-
 ## 업그레이드
 
 - https://rook.io/docs/rook/latest-release/Upgrade/rook-upgrade
@@ -158,34 +89,6 @@ helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
 - rook-ceph-cluster를 업그레이드 합니다.
 
 ## 삭제
-
-### Cluster
-
-- https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/
-- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#cleanup-policy
-
-```yaml
-apiVersion: ceph.rook.io/v1
-kind: CephCluster
-spec:
-  cleanupPolicy:
-    confirmation: yes-really-destroy-data
-```
-
-```shell
-helm uninstall rook-ceph-cluster -n rook-ceph
-```
-
-Cluster 운영에 사용된 Node에 접속하여 `/var/lib/rook` 디렉토리를 정리합니다.
-
-```yaml
-- name: Reset | remove /var/lib/rook
-  ansible.builtin.file:
-    path: /var/lib/rook
-    state: absent
-```
-
-### Operator
 
 ```shell
 helm uninstall rook-ceph -n rook-ceph

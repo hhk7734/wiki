@@ -629,6 +629,7 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/storage/ceph/ceph",
 						"mlops/mlops/storage/ceph/rook-ceph",
+						"mlops/mlops/storage/ceph/cluster",
 						"mlops/mlops/storage/ceph/monitoring",
 						"mlops/mlops/storage/ceph/osd",
 						"mlops/mlops/storage/ceph/pg",
