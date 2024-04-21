@@ -29,10 +29,19 @@ spec:
   gateway:
     port: 80
     instances: 1
+    priorityClassName: system-cluster-critical
 ```
 
 - `metadataPool`
+  - `failureDomain: <crushType|osd>`
+    - 기본 값은 `host`입니다.
+  - `replicated`
+    - `size: <size>`
 - `dataPool`
+  - `failureDomain: <crushType|osd>`
+    - 기본 값은 `host`입니다.
+  - `replicated`
+    - `size: <size>`
 - `gateway`
   - `port: <port>`
   - `instances: <replicas>`
@@ -70,6 +79,7 @@ spec:
 
 - `bucketName: <bucketName>`
 - `generateBucketName: <bucketNamePrefix>`
+  - 동일한 bucketName에 대한 충돌을 방지하려는 경우 권장됩니다.
 - `storageClassName: <storageClassName>`
 - `additionalConfig`
   - `maxObjects: "1000"`
