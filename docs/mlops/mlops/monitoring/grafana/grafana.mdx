@@ -19,11 +19,11 @@ helm repo update grafana \
 ```
 
 ```shell
-helm pull grafana/grafana --version 7.3.7
+helm pull grafana/grafana --version 7.3.9
 ```
 
 ```shell
-helm show values grafana-7.3.7.tgz > grafana-7.3.7.yaml
+helm show values grafana/grafana --version 7.3.9 > grafana-7.3.9.yaml
 ```
 
 ```yaml title="grafana-values.yaml"
@@ -49,14 +49,14 @@ grafana.ini:
 ```
 
 ```shell
-helm template grafana grafana-7.3.7.tgz \
+helm template grafana grafana-7.3.9.tgz \
     -n monitoring \
     -f grafana-values.yaml \
     > grafana.yaml
 ```
 
 ```shell
-helm upgrade grafana grafana-7.3.7.tgz \
+helm upgrade grafana grafana-7.3.9.tgz \
     --install \
     --history-max 5 \
     -n monitoring \
