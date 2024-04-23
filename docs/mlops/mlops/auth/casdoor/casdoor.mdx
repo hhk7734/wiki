@@ -28,7 +28,8 @@ helm pull oci://registry-1.docker.io/casbin/casdoor-helm-charts \
 ```
 
 ```shell
-helm show values casdoor-helm-charts-v1.514.0.tgz \
+helm show values oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v1.514.0 \
     > casdoor-helm-charts-v1.514.0.yaml
 ```
 

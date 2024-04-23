@@ -1,0 +1,52 @@
+---
+id: ingress-controller
+title: Nginx Ingress Controller
+sidebar_label: Ingress Controller
+description: Nginx Ingress Controller
+keywords:
+  - nginx
+  - ingress
+  - controller
+---
+
+## 설치
+
+- https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/
+
+```shell
+helm pull oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.2.0
+```
+
+```shell
+helm show values oci://ghcr.io/nginxinc/charts/nginx-ingress --version 1.2.0 > nginx-ingress-1.2.0.yaml
+```
+
+```yaml title="nginx-ingress-values.yaml"
+controller:
+  affinity: {}
+  tolerations: []
+
+  service:
+    annotations: {}
+```
+
+```shell
+helm template nginx-ingress nginx-ingress-1.2.0.tgz \
+  -n nginx-ingress \
+  -f nginx-ingress-values.yaml \
+  > nginx-ingress.yaml
+```
+
+```shell
+helm upgrade nginx-ingress nginx-ingress-1.2.0.tgz \
+  --install \
+  --history-max 5 \
+  -n nginx-ingress \
+  -f nginx-ingress-values.yaml
+```
+
+## 업그레이드
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/nginxinc/kubernetes-ingress/v3.5.0/deploy/crds.yaml
+```

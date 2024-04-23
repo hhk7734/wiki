@@ -754,6 +754,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/network/istio/jwt",
 					],
 				},
+				{
+					type: "category",
+					label: "Nginx",
+					items: ["mlops/mlops/network/nginx/ingress-controller"],
+				},
 			],
 		},
 		{
