@@ -940,6 +940,7 @@ const sidebars: SidebarsConfig = {
 							items: [
 								"mlops/mlops/workflow/argo-cd/gitops/gitops",
 								"mlops/mlops/workflow/argo-cd/gitops/github-action",
+								"mlops/mlops/workflow/argo-cd/gitops/github-action-runner",
 								"mlops/mlops/workflow/argo-cd/gitops/act",
 							],
 						},

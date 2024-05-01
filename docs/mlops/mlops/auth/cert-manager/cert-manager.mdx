@@ -21,12 +21,11 @@ helm repo update jetstack \
 ```
 
 ```shell
-helm pull jetstack/cert-manager --version v1.13.3
+helm pull jetstack/cert-manager --version v1.14.5
 ```
 
 ```shell
-helm show values cert-manager-v1.13.3.tgz \
-    > cert-manager-v1.13.3.yaml
+helm show values jetstack/cert-manager --version v1.14.5 > cert-manager-v1.14.5.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
@@ -63,14 +62,14 @@ startupapicheck:
 ```
 
 ```shell
-helm template cert-manager cert-manager-v1.13.3.tgz \
+helm template cert-manager cert-manager-v1.14.5.tgz \
     -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
 
 ```shell
-helm upgrade cert-manager cert-manager-v1.13.3.tgz \
+helm upgrade cert-manager cert-manager-v1.14.5.tgz \
     --install \
     --history-max 5 \
     -n auth \
@@ -80,6 +79,10 @@ helm upgrade cert-manager cert-manager-v1.13.3.tgz \
 ## 업그레이드
 
 - https://cert-manager.io/docs/releases/
+
+```shell
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
+```
 
 ## Removal
 
@@ -94,5 +97,5 @@ helm uninstall -n auth cert-manager
 ```
 
 ```shell
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.3/cert-manager.crds.yaml
+kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
 ```
