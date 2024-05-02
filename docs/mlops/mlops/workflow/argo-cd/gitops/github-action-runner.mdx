@@ -11,6 +11,9 @@ keywords:
   - action
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## Action Runner Controller
 
 ### 설치
@@ -19,7 +22,7 @@ keywords:
 
 <br />
 
-- https://github.com/actions/actions-runner-controller/pkgs/container/actions-runner-controller-charts%2Fgha-runner-scale-set-controller
+- [Chart GitHub Package List](https://github.com/actions/actions-runner-controller/pkgs/container/actions-runner-controller-charts%2Fgha-runner-scale-set-controller)
 
 ```shell
 helm pull oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set-controller \
@@ -49,8 +52,45 @@ helm upgrade gha-controller gha-runner-scale-set-controller-0.9.1.tgz \
 
 ### AutoscalingRunnerSet
 
+#### 인증관련 준비
+
+- https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/authenticating-to-the-github-api
+
+<Tabs
+    defaultValue="token"
+    values={[
+        {label: 'Fine-grained token', value: 'token',},
+        {label: 'classic token', value: 'classic-token',}
+    ]}
+>
+
+<TabItem value="token">
+
+- Organization permissions
+  - `Self-hosted runners: Read and write`
+
+권한이 필요합니다.
+
+</TabItem>
+
+<TabItem value="classic-token">
+
+- `repo`
+- `admin:org`
+
+권한이 필요합니다.
+
+</TabItem>
+
+</Tabs>
+
+#### 생성
+
 - https://docs.github.com/en/actions/hosting-your-own-runners/managing-self-hosted-runners-with-actions-runner-controller/deploying-runner-scale-sets-with-actions-runner-controller
-- https://github.com/actions/actions-runner-controller/pkgs/container/actions-runner-controller-charts%2Fgha-runner-scale-set
+
+<br />
+
+- [Chart GitHub Package List](https://github.com/actions/actions-runner-controller/pkgs/container/actions-runner-controller-charts%2Fgha-runner-scale-set)
 
 ```shell
 helm pull oci://ghcr.io/actions/actions-runner-controller-charts/gha-runner-scale-set \
@@ -67,23 +107,64 @@ helm show values oci://ghcr.io/actions/actions-runner-controller-charts/gha-runn
 githubConfigUrl: https://github.com/<repo|org|enter>
 githubConfigSecret:
   github_token: <token>
+
+runnerGroup: "default"
+
+runnerScaleSetName: ""
 ```
 
+- `runnerScaleSetName`
+  - GitHub Action 설정 파일의 `.jobs.<jobName>.runs-on`에 사용될 값입니다.
+  - 설정하지 않으면 `.Release.Name`이 사용됩니다.
+
 ```shell
-helm template <runnerName> gha-runner-scale-set-0.9.1.tgz \
+helm template gha-runner gha-runner-scale-set-0.9.1.tgz \
   -n github \
   -f gha-runner-scale-set-values.yaml \
   > gha-runner.yaml
 ```
 
-:::warning
-`<runnerName>`은 Github Action 설정 파일의 `.jobs.<jobName>.runs-on`에 사용될 값이므로 적절한 이름을 사용해야합니다.
-:::
-
 ```shell
-helm upgrade <runnerName> gha-runner-scale-set-0.9.1.tgz \
+helm upgrade gha-runner gha-runner-scale-set-0.9.1.tgz \
   --install \
   --history-max 5 \
   -n github \
   -f gha-runner-scale-set-values.yaml
+```
+
+#### GitHub 확인
+
+실행 후 AutoscalingRunnerSet 처리가 정상적으로 처리되어 러너가 등록되었는지 확인해야합니다. 러너를 등록한 곳에 따라 사용하기 위한 추가 조치가 필요할 수 있습니다.
+
+- Oraganization
+  - Settings
+    - Actions
+      - Runners
+        - `runnerScaleSetName`에 해당하는 러너가 등록되어 있는지 확인합니다.
+      - Runner groups
+        - `runnerGroup`에 해당하는 러너 그룹이 생성되어 있는지 확인합니다.
+          - 해당 그룹을 클릭하여 러너를 실행할 수 있는 리포지토리와 워크플로우를 설정합니다.
+
+#### 삭제
+
+```shell
+helm uninstall gha-runner -n github
+```
+
+AutoscalingRunnerSet가 삭제되면 자동으로 GitHub에 등록된 러너도 삭제됩니다.
+
+### 삭제
+
+```shell
+helm uninstall gha-controller -n github
+```
+
+```shell
+for crd in $(kubectl get crd -o name); do
+    case $crd in
+        *actions.github.com)
+            kubectl delete $crd
+            ;;
+    esac
+done
 ```

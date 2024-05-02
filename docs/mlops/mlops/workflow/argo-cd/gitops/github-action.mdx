@@ -10,6 +10,10 @@ keywords:
   - action
 ---
 
+## 설정 파일
+
+GitHub Action을 위한 설정파일을 리포지토리의 `.github/workflows` 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어 실행됩니다.
+
 ## 컨텍스트 정보
 
 - https://docs.github.com/en/actions/learn-github-actions/contexts
@@ -53,9 +57,6 @@ jobs:
   hash:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
       - name: Get TAG
         id: tag
         run: |
