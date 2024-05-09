@@ -9,9 +9,11 @@ keywords:
   - connect
 ---
 
-## Client 생성
+## Keycloak 설정
 
-- ## Client
+### Client 생성
+
+- Clients 탭
   - `Create Client`
     - General Settings
       - Client type: `OpenID Connect`
@@ -32,13 +34,14 @@ keywords:
       - Client Authenticator: `Client ID and Secret`
       - Client Secret: `<clientSecret>`
 
-## Acess Token에 groups 추가
+### groups clinet scope 생성
 
-- ## Client Scopes
+- Client Scopes 탭
   - `Create client scope`
     - Name: `groups`
     - Protocol: `OpenID Connect`
     - Include in token scope: `On`
+      - JWT scope에 groups가 추가됩니다.
   - `groups` 선택
     - Mappers
       - `Configure a new mapper`
@@ -46,30 +49,37 @@ keywords:
           - Name: `groups`
           - Token Claim Name: `groups`
           - Full group path: `Off`
+          - Add to ID token: `On`
           - Add to access token: `On`
-- ## Client
+
+### Access/ID Token 설정
+
+- Clients 탭
   - `<clientId>` 선택
     - Client Scopes
-      - `Add client scope`
-        - `groups`
-          - `Add`: `Default`
       - `<clientId>-dedicated` 선택
+        - 해당 클라이언트 전용 설정입니다.
         - `Configure a new mapper`
           - `Audience` 선택
             - Name: `audience`
             - Included Client Audience: `<clientId>`
-            - Included Custom Audience: `<clientId>`
+            - Add to ID token: `On`
             - Add to access token: `On`
+      - `Add client scope`
+        - `groups`
+          - `Add`: `Default`
+      - `email`
+        - Default
 
-## Test
+### Test
 
 - https://www.keycloak.org/docs/latest/server_development/#examples-of-using-curl
 
 ```shell
 curl -k -X POST https://<keycloak-url>/realms/<realm>/protocol/openid-connect/token \
     -H "Content-Type: application/x-www-form-urlencoded" \
-    -d "client_id=<clientId>" \
-    -d "client_secret=<client-secret>" \
+    -d "client_id=<clientID>" \
+    -d "client_secret=<clientSecret>" \
     -d "scope=openid" \
     -d "grant_type=password" \
     -d "username=<user>" \
@@ -77,3 +87,15 @@ curl -k -X POST https://<keycloak-url>/realms/<realm>/protocol/openid-connect/to
     -d "totp=<otp>" \
 | jq '.'
 ```
+
+테스트를 통해 토큰을 획득한 후, 어떤 정보가 들어있는지 https://jwt.io/ 에서 확인해보는 것이 좋습니다.
+
+## 클라이언트 연결
+
+- Issuer URL: `https://<keycloak-url>/realms/<realm>`
+- Client ID: `<clientId>`
+- Client Secret: `<clientSecret>`
+- Username claim
+  - `email`이 많이 사용됩니다.
+  - email을 사용하는 경우 `email_verified`를 확인하는 애플리케이션이 있습니다.
+- Groups claim: `groups`가 많이 사용됩니다.

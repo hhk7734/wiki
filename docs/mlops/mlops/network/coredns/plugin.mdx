@@ -1,0 +1,44 @@
+---
+id: plugin
+title: CoreDNS Plugin
+sidebar_label: Plugin
+description: CoreDNS Plugin
+keywords:
+  - coredns
+  - dns
+  - plugin
+---
+
+## 플러그인
+
+- https://coredns.io/plugins/
+
+플러그인의 실행 순서는 `plugin.cfg` 파일에 정의된 순서대로입니다.
+
+## hosts
+
+- https://github.com/coredns/coredns/tree/master/plugin/hosts
+
+`hosts` 플러그인은 `/etc/hosts` 파일을 사용하거나 인라인으로 정의된 호스트를 사용하여 DNS 쿼리에 응답합니다.
+
+```conf
+hosts [<file>[ <zone>[ <zone>]]] {
+    [<inline>]
+    [ttl <seconds>]
+    [no_reverse]
+    [reload <duration>]
+    [fallthrough [<zone>[ <zone>]]]
+}
+```
+
+- `<file>`
+  - 분석할 호스트 파일입니다. 일정 시간 간격으로 파일을 다시로드합니다.
+  - 기본값은 `/etc/hosts`입니다.
+- `<inline>`: `<ip> hostname[ <alias>[ <alias>]]`로 구성된 인라인 호스트 값입니다.
+- `ttl <seconds>`
+  - DNS TTL 설정입니다.
+  - 기본값은 3600 입니다.
+- `reload <duration>`
+  - 호스트 파일을 다시로드하는 시간 간격입니다.
+  - 기본값은 5m 입니다.
+- `fallthrough`: 일치하는 항목이 없는 경우 다음 플러그인으로 요청을 전달합니다.

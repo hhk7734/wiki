@@ -6,6 +6,8 @@ description: cert-manager CRDs
 keywords:
   - cert-manager
   - CRD
+  - issuer
+  - certificate
 ---
 
 ## Issure
@@ -30,9 +32,42 @@ spec:
   # ca:
 ```
 
-- `selfSigned`: 별도의 인증 가관 없이 인증서 생성 요청이 오면 자체 서명합니다.
-- `ca`: 인증서 생성 요청이 오면 등록된 인증서를 사용하여 서명합니다.
+- `selfSigned`: 별도의 인증 기관 없이 인증서 생성 요청이 오면 자체 서명합니다.
+- `ca`
+  - 인증서 생성 요청이 오면 등록된 인증서를 사용하여 서명합니다.
   - `secretName`: 인증서가 저장된 Secret의 이름을 설정합니다. Issuer는 Issuer가 속한 Namespace에서 Secret을 찾고, ClusterIssuer의 경우 기본적으로 cert-manager가 설치된 Namespace에서 Secret을 찾습니다.(설치 시 clusterResourceNamespace 옵션으로 변경 가능)
+- `acme`
+  - `server: <server>`
+    - ACME 서버의 directory 엔드포인트를 설정합니다.
+    - Ex) https://acme-v02.api.letsencrypt.org/directory
+  - `email: <email>`
+    - ACME 계정과 연결된 이메일 주소를 설정합니다.
+    - 만료 알림 등의 메일을 보내는 데 사용됩니다.
+  - `privateKeySecretRef`
+    - `name: <secretName>`: 자동으로 생성될 ACME 계정의 privateKey를 저장할 Secret의 이름을 설정합니다.
+  - `solvers: []`
+    - `selector`
+      - 설정하지 않으면 가장 낮은 우선순위의 solver가 됩니다.
+      - `dnsNames: [<dnsName>]`
+        - 해당 solver를 사용하여 인증서를 발급할 DNS name 리스트입니다.
+        - `dnsZones`보다 우선순위가 높습니다.
+      - `dnsZones: [<dnsZone>]`
+        - 해당 solver를 사용하여 인증서를 발급할 DNS zone 리스트입니다.
+    - `dns01`
+      - `cloudflare`
+        - [Cloudflare](https://cert-manager.io/docs/reference/api-docs/#acme.cert-manager.io/v1.ACMEIssuerDNS01ProviderCloudflare)
+        - 내장된 Cloudflare solver를 사용합니다.
+      - `webhook`
+        - [Webhook](https://cert-manager.io/docs/reference/api-docs/#acme.cert-manager.io/v1.ACMEIssuerDNS01ProviderWebhook)
+        - 외부 webhook 서버로 구성된 solver를 사용합니다.
+        - `solverName: <solverName>`
+          - webhook solver의 이름을 설정합니다.
+          - webhook 서버에 정의되어 있습니다.
+        - `groupName: <groupName>`
+          - webhook 서버에 `ChallengePayload` 리소스를 POST할 때 사용되는 API group 이름입니다.
+          - webhook 서버에 정의되어 있습니다.
+        - `config: {}`
+          - webhook 서버에 전달할 설정을 설정합니다.
 
 ## Certificate
 

@@ -710,8 +710,8 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
-					label: "DNS",
-					items: ["mlops/mlops/network/dns/coredns"],
+					label: "CoreDNS",
+					items: ["mlops/mlops/network/coredns/coredns", "mlops/mlops/network/coredns/plugin"],
 				},
 				{
 					type: "category",

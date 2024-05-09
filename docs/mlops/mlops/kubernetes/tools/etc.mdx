@@ -63,32 +63,6 @@ kubectl krew install ns
 kubectl ns
 ```
 
-### oidc-login
-
-- https://github.com/int128/kubelogin#getting-started
-
-```shell
-kubectl krew install oidc-login
-```
-
-```yaml title=".kube/config"
-apiVersion: v1
-kind: Config
-preferences: {}
-users:
-  - name: <name>
-    user:
-      exec:
-        apiVersion: client.authentication.k8s.io/v1beta1
-        command: kubectl
-        args:
-          - oidc-login
-          - get-token
-          - --oidc-issuer-url=<issuer-url>
-          - --oidc-client-id=<client-id>
-          - --oidc-client-secret=<client-secret>
-```
-
 ### ksniff
 
 - https://github.com/eldadru/ksniff

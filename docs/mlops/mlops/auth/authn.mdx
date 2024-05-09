@@ -51,6 +51,47 @@ curl --cacert <certificateAuthority> \
 
 - https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens
 
+#### OIDC Login
+
+- https://github.com/int128/kubelogin
+
+```shell
+kubectl krew install oidc-login
+```
+
+oidc-login 플러그인을 사용하면 OIDC 인증을 사용하여 kubectl 같은 툴로 Kubernetes api-server에 접근할 수 있습니다.
+
+```yaml
+users:
+  - name: <name>
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=https://<keycloakHost>/realms/<realm>
+          - --oidc-client-id=<clientID>
+          - --oidc-client-secret=<clientSecret>
+```
+
+- `--grant-type=<grantType>`
+  - 기본값은 `auto`입니다.
+  - `authcode`
+    - 브라우저를 통해 인증하는 방식입니다.
+    - `--listen-address=<host>:<port>`
+      - 기본값은 `localhost:8000` 또는 `localhost:18000`입니다.
+    - `--skip-open-browser`
+      - 자동으로 브라우저를 열지 않습니다.
+      - 브라우저에서 `--listen-address`에 설정한 주소로 접속하면 됩니다.
+  - `password`
+    - 아이디, 암호로 인증하는 방식입니다.
+    - `--username=<username>`
+      - 설정하지 않으면 사용자에게 입력을 받습니다.
+    - `--password=<password>`
+      - 설정하지 않으면 사용자에게 입력을 받습니다.
+
 ## kubeconfig
 
 ```shell
