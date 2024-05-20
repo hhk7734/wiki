@@ -34,7 +34,7 @@ hist = cv.calcHist(images, channels, mask, histSize, ranges, hist=None, accumula
 - @param **ranges**: list [min1, max1,] 분석 범위, np.uint8 을 사용하는 이미지의 경우 최대 분석 범위 [0,256]
 - @param **accumulate**: bool True로 설정하고 여러 이미지를 분석하면 하나의 히스토그램에 데이터가 누적됨
 
-:::caution
+:::danger
 이미지를 여러개 분석하는 경우 입력한 모든 이미지가 하나의 배열이 됩니다. 예를 들어 3 채널 이미지 2 개를 설정하면 크기가 (가로, 세로, 6)로 인식한다고 생각하시면 됩니다.
 
 이미지 1 의 1 번 채널과 이미지 2 의 1 번 채널을 선택하려면 [0, 3+0]을 channels로 설정하면 됩니다.
