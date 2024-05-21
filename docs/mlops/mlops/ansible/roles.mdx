@@ -11,7 +11,9 @@ keywords:
 
 - https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html
 
-## Directory structure
+## Role
+
+### Directory structure
 
 ```shell
 roles/
@@ -36,6 +38,13 @@ roles/
 │   └── ...
 └── ...
 ```
+
+- `defaults/main.yaml`
+  - 우선순위가 상대적으로 낮은 설정 값입니다
+  - [변수 관리](/docs/mlops/mlops/ansible/variables)
+- `vars/main.yaml`
+  - 우선순위가 상대적으로 높은 설정 값입니다.
+  - [변수 관리](/docs/mlops/mlops/ansible/variables)
 
 ## role 사용하기
 
