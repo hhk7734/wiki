@@ -75,11 +75,19 @@ helm template <releaseName> <repositoryName/chartName|chartPath> [flags]
 ### Packaging Chart
 
 ```shell
-helm package <chartPath> [flags]
+helm package <chartPath> --version <version>
 ```
 
 ```shell
-helm pull <repositoryName/chartName> [flags]
+helm pull <repositoryName/chartName> --version <version>
+```
+
+```shell
+helm pull <chartURL> --version <version>
+```
+
+```shell
+helm pull --repo <repoURL> <chartName> --version <version>
 ```
 
 ### Installation
