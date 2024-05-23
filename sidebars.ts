@@ -588,6 +588,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "Security",
+					items: ["mlops/mlops/kubernetes/security/security-context"],
+				},
+				{
+					type: "category",
 					label: "Scheduling",
 					items: [
 						"mlops/mlops/kubernetes/scheduling/affinity",

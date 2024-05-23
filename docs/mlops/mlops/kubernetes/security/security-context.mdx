@@ -1,0 +1,30 @@
+---
+id: security-context
+title: PodSecurityContext와 SecurityContext
+sidebar_label: SecurityContext
+description: PodSecurityContext와 SecurityContext
+keywords:
+  - kubernetes
+  - SecurityContext
+  - PodSecurityContext
+---
+
+## PodSecurityContext
+
+- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecuritycontext-v1-core
+
+PodSecurityContext는 Pod의 `.spec.securityContext`에 적용할 수 있는 내용입니다.
+
+## SecurityContext
+
+- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#securitycontext-v1-core
+
+SecurityContext는 Pod의
+
+- `spec.containers.securityContext`
+- `spec.initContainers.securityContext`
+- `spec.ephemeralContainers.securityContext`
+
+에 적용할 수 있는 내용입니다.
+
+- `privileged: <bool>`

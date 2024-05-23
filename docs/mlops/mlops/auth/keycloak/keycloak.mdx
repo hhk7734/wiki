@@ -19,11 +19,11 @@ helm repo update bitnami \
 ```
 
 ```shell
-helm pull bitnami/keycloak --version 19.3.4
+helm pull bitnami/keycloak --version 21.2.2
 ```
 
 ```shell
-helm show values bitnami/keycloak --version 19.3.4 > keycloak-19.3.4.yaml
+helm show values bitnami/keycloak --version 21.2.2 > keycloak-21.2.2.yaml
 ```
 
 ```yaml title="keycloak-values.yaml"
@@ -66,14 +66,14 @@ cache:
 ```
 
 ```shell
-helm template keycloak keycloak-19.3.4.tgz \
+helm template keycloak keycloak-21.2.2.tgz \
     -n auth \
     -f keycloak-values.yaml \
     > keycloak.yaml
 ```
 
 ```shell
-helm upgrade keycloak keycloak-19.3.4.tgz \
+helm upgrade keycloak keycloak-21.2.2.tgz \
     --install \
     --history-max 5 \
     -n auth \
