@@ -120,15 +120,23 @@ spec:
 - `affinity: {}`
 - `tolerations: []`
 - `podMonitorNamespaceSelector`
+  - `{}`로 설정하면 모든 Namespace에서 PodMonitor를 찾습니다.
+  - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 PodMonitor를 찾습니다.
   - `matchExpressions: []`
   - `matchLabels: {}`
 - `podMonitorSelector`
+  - `{}`로 설정하면 모든 PodMonitor를 찾습니다.
+  - `null`로 설정하면 PodMonitor를 찾지 않습니다.
   - `matchExpressions: []`
   - `matchLabels: {}`
 - `serviceMonitorNamespaceSelector`
+  - `{}`로 설정하면 모든 Namespace에서 ServiceMonitor를 찾습니다.
+  - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 ServiceMonitor를 찾습니다.
   - `matchExpressions: []`
   - `matchLabels: {}`
 - `serviceMonitorSelector`
+  - `{}`로 설정하면 모든 ServiceMonitor를 찾습니다.
+  - `null`로 설정하면 ServiceMonitor를 찾지 않습니다.
   - `matchExpressions: []`
   - `matchLabels: {}`
 - `retention: 24h`
