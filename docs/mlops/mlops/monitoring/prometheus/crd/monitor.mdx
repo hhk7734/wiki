@@ -122,6 +122,26 @@ spec:
           targetLabel: pod_name
 ```
 
+## ScrapeConfig
+
+- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#scrapeconfig
+
+```yaml
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: ScrapeConfig
+spec:
+  staticConfigs:
+    - targets: []
+```
+
+- `staticConfigs: []`
+  - `labels`
+  - `targets: []`
+- `metricRelabelings`
+  - [metric_relabel_configs](#metric_relabel_configs)
+- `relabelings: []`
+  - [relabel_configs](#relabel_configs)
+
 ## 설정
 
 ### kubernetes_sd_configs

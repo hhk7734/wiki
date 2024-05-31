@@ -7,6 +7,9 @@ keywords:
   - label
 ---
 
+## Label
+
+- [Label best practices](https://grafana.com/docs/loki/latest/get-started/labels/bp-labels/)
 - https://grafana.com/blog/2020/04/21/how-labels-in-loki-can-make-log-queries-faster-and-easier/
 - https://grafana.com/blog/2020/08/27/the-concise-guide-to-labels-in-loki/
 
@@ -14,15 +17,23 @@ keywords:
 
 Loki는 레이블 키와 값의 조합으로 스트림(`chunk`-\>`stream`-\>`storage`)을 정의합니다. 여러 스트림에 걸쳐 쿼리해야하는 상황에서 Loki의 성능은 떨어집니다. 레이블이 적어진 다는 것은 스트림이 적어진다는 것을 의미하므로 따라서 성능이 좋아질 확률이 높아집니다.
 
-## Cardinality
+### Cardinality
 
 Loki에서 카디널리티는 레이블과 키의 조합과 그에 따라 생성되는 스트림의 수를 의미합니다.
 
 쿼리를 위해 높은 카디널리티를 가지는 `ip`와 같은 키는 레이블을 사용하지 않고 시간에 따른 샤딩, 병렬화, 필터 표현식(`|=`, `!=`, `|~`, `!~`)을 사용하는 것이 좋습니다.
 
-## Static Labels
+### Static Labels
 
 `env`, `app`, `tag` 등 주어진 시스템/앱에 대한 정적인 레이블은 여러 스트림에 걸쳐 쿼리해야하는 상황이 적기 때문에 카디널리티에 따른 성능 영향을 덜 받습니다.
+
+## Structured metadata
+
+- [What is structured metadata](https://grafana.com/docs/loki/latest/get-started/labels/structured-metadata/)
+
+메타데이터는 레이블에 포함시키기엔 카디널리티가 높아질 것 같고, 매번 로그로부터 추출하기에는 비용이 많이들 수 있는 데이터입니다. 메타데이터를 활용하면 쿼리 비용을 최적화 할 수 있습니다.
+
+로그에 이미 존재하는 정보를 추출하여 메타데이터에 중복으로 저장하는 것은 안티패턴입니다.
 
 ## chunk_target_size
 

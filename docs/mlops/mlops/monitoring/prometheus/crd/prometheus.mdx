@@ -139,6 +139,16 @@ spec:
   - `null`로 설정하면 ServiceMonitor를 찾지 않습니다.
   - `matchExpressions: []`
   - `matchLabels: {}`
+- `scrapeConfigNamespaceSelector`
+  - `{}`로 설정하면 모든 Namespace에서 ScrapeConfig를 찾습니다.
+  - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 ScrapeConfig를 찾습니다.
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `scrapeConfigSelector`
+  - `{}`로 설정하면 모든 ScrapeConfig를 찾습니다.
+  - `null`로 설정하면 ScrapeConfig를 찾지 않습니다.
+  - `matchExpressions: []`
+  - `matchLabels: {}`
 - `retention: 24h`
 
 :::info
