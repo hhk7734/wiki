@@ -28,3 +28,13 @@ SecurityContext는 Pod의
 에 적용할 수 있는 내용입니다.
 
 - `privileged: <bool>`
+  - host의 root와 같은 권한을 갖게 됩니다.
+  - host의 모든 device에 접근할 수 있습니다.
+  - host 시스템/커널에 대한 거의 모든 접근을 허용합니다.
+  - 모든 capability를 가집니다.
+- `capabilities`
+  - [capability.h](https://github.com/torvalds/linux/blob/master/include/uapi/linux/capability.h)
+    - `CAP_` 접두사로 시작되는 값과 `ALL`을 사용할 수 있습니다.
+    - `CAP_` 접두사는 생략해서 사용합니다. ex) CAP_SYS_ADMIN -> SYS_ADMIN
+  - `add: []`
+  - `drop: []`
