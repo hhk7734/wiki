@@ -52,6 +52,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   hash:
@@ -60,7 +61,7 @@ jobs:
       - name: Get TAG
         id: tag
         run: |
-          TAG=$(echo ${{ github.sha }} | cut -c1-8)
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
           echo TAG=$TAG
           echo "tag=$TAG" >> $GITHUB_OUTPUT
 ```
@@ -178,14 +179,13 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
-permissions:
-  contents: write
-
 jobs:
   release:
     name: Publish auto release
     runs-on: ubuntu-latest
     needs: [build]
+    permissions:
+      contents: write
     steps:
       - name: Release
         uses: softprops/action-gh-release@v2
