@@ -151,13 +151,13 @@ Argo CD가 설치된 클러스터에 아래와 같이 제어하고싶은 클러�
 apiVersion: v1
 kind: Secret
 metadata:
-  name: <cluster-name>-cluster
+  name: <clusterName>-cluster
   namespace: argo-cd
   labels:
     argocd.argoproj.io/secret-type: cluster
 type: Opaque
 stringData:
-  name: <cluster-name>
+  name: <clusterName>
   server: <url>
   config: |
     {
@@ -187,7 +187,7 @@ spec:
   sourceRepos:
     - git@github.com:<user>/<repository>.git
   destinations:
-    - name: <cluster-name>
+    - name: <clusterName>
       namespace: <namespace>
   # 클러스터 스코프에서 허용되는 리소스 리스트입니다.
   clusterResourceWhitelist:
@@ -240,7 +240,7 @@ spec:
   project: <project>
   sources: []
   destination:
-    name: <cluster-name>
+    name: <clusterName>
     namespace: <namespace>
   revisionHistoryLimit: <limit>
   syncPolicy:
@@ -252,6 +252,16 @@ spec:
 - `sources: []`
   - `repoURL: <git|helm>`
   - `targetRevision: <branch|tag|version>`
+  - `directory`
+    - [User Guide: Directory](https://argo-cd.readthedocs.io/en/stable/user-guide/directory/)
+    - `include: <pattern>`
+      - 배포할 리소스 파일 패턴입니다.
+      - glob(`*`)를 사용할 수 있습니다.
+      - `{<pattern>,<pattern>}`을 사용할 수 있습니다.
+    - `exclude: <pattern>`
+    - `recurse: <bool>`
+  - `helm`
+    - [Helm](#helm)
 - `syncPolicy`
   - `automated`
     - https://argo-cd.readthedocs.io/en/stable/user-guide/auto_sync/
@@ -264,13 +274,15 @@ spec:
 
 ### Helm
 
+- [User Guide: Helm](https://argo-cd.readthedocs.io/en/stable/user-guide/helm/)
+
 argo-cd는 차트의 apiVersion이 v2더라도 v3를 사용합니다. v2를 사용하려면 `.spec.sources.helm.version`을 v2라고 명시해야 합니다.
 
 ```yaml
 spec:
   sources:
     - repoURL: git@github.com:<user>/<repository>.git
-      path: <path>
+      path: <path> # Chart.yaml이 있는 디렉토리 경로
       targetRevision: <branch|tag>
       helm:
         valueFiles:
