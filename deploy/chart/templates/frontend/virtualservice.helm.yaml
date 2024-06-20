@@ -1,0 +1,28 @@
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: {{ include "wiki.frontend.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "wiki.frontend.labels" . | nindent 4 }}
+spec:
+  gateways:
+    - loliot/gateway
+  hosts:
+    - wiki.loliot.net
+    - loliot.net
+  http:
+    - match:
+        - authority:
+            exact: loliot.net
+      redirect:
+        authority: wiki.loliot.net
+    - match:
+        - uri:
+            prefix: /
+      route:
+        - destination:
+            host: {{ include "wiki.frontend.fullname" . }}.{{ .Release.Namespace }}.svc.cluster.local
+            port:
+              number: {{ .Values.frontend.service.port }}

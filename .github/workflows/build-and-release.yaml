@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - .github/**
+      - README.md
   workflow_dispatch:
 
 concurrency:
@@ -24,9 +27,8 @@ jobs:
       - name: Set image Repository and Tag
         id: image
         run: |
-          IMAGE_REPOSITORY=ghcr.io/${{ github.repository_owner }}/wiki
+          IMAGE_REPOSITORY=ghcr.io/hhk7734/wiki
           IMAGE_TAG=$(echo ${{ github.sha }} | cut -c1-7)
-          # IMAGE_TAG=${{ github.ref_name }}
 
           echo IMAGE_REPOSITORY=$IMAGE_REPOSITORY
           echo IMAGE_TAG=$IMAGE_TAG
@@ -38,11 +40,11 @@ jobs:
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: hhk7734
           password: ${{ secrets.PAT }}
 
       - name: Build and Push
-        uses: docker/build-push-action@v4
+        uses: docker/build-push-action@v5
         with:
           context: .
           file: ./deploy/Dockerfile
@@ -50,18 +52,27 @@ jobs:
           tags: |
             ${{ steps.image.outputs.repository }}:${{ steps.image.outputs.tag }}
 
-  argo-cd:
-    name: Update ArgoCD Repository
+  gitops:
+    name: Update GitOps Repository
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: Checkout argo-cd
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout gitops
         uses: actions/checkout@v4
         with:
-          repository: ${{ github.repository_owner }}/argo-cd
+          repository: hhk7734/gitops
           ref: main
           token: ${{ secrets.PAT }}
-          path: argo-cd
+          path: gitops
+
+      - name: Set chart version and copy to gitops
+        run: |
+          rm -rf gitops/gen/wiki
+          mkdir -p gitops/gen
+          cp -r deploy/chart gitops/gen/wiki
 
       - name: Update helm values
         uses: mikefarah/yq@master
@@ -70,19 +81,20 @@ jobs:
             yq -i '
               .frontend.image.repository = "${{ needs.build.outputs.imageRepository }}" |
               .frontend.image.tag = "${{ needs.build.outputs.imageTag }}"
-            ' argo-cd/wiki/cd/prod-values.yaml
+            ' gitops/values/wiki/values.yaml
 
       - name: Commit files
         run: |
-          cd argo-cd
+          cd gitops
+          git add .
           git config --global user.name "${{ github.event.head_commit.author.name }}"
           git config --global user.email "${{ github.event.head_commit.author.email }}"
-          git commit -am "feat(wiki): set tag to ${{ needs.build.outputs.imageTag }}"
+          git commit -m "feat(wiki): bump to ${{ needs.build.outputs.imageTag }}"
 
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          repository: ${{ github.repository_owner }}/argo-cd
-          github_token: ${{ secrets.PAT }}
+          repository: hhk7734/gitops
           branch: main
-          directory: argo-cd
+          github_token: ${{ secrets.PAT }}
+          directory: gitops

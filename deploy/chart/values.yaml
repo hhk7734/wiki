@@ -1,0 +1,36 @@
+nameOverride: ""
+fullnameOverride: ""
+
+commonLabels: {}
+
+imagePullSecrets: []
+
+frontend:
+  image:
+    repository: ghcr.io/hhk7734/wiki
+    tag: ""
+    pullPolicy: IfNotPresent
+
+  serviceAccount:
+    create: true
+    name: ""
+
+  podLabels: {}
+
+  resources: {}
+
+  affinity: {}
+
+  tolerations: []
+
+  service:
+    type: ClusterIP
+    port: 80
+
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage:
