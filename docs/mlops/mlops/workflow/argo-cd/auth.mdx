@@ -56,11 +56,12 @@ argocd account update-password --account <user>
 - https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#existing-oidc-provider
 
 ```yaml title="argo-cd-values.yaml"
+global:
+  # argo-cd의 외부 접속 주소입니다.
+  domain: <argoCDDomain>
+
 configs:
   cm:
-    # argo-cd의 외부 접속 주소입니다.
-    url: <argoCDURL>
-
     oidc.config: |
       name: <IdP>
       issuer: <IdPURL>
@@ -135,11 +136,12 @@ configs:
 `redirectURI`은 `argocd-cm`의 `<.data.url>/api/dex/callback`으로 자동 설정 되기 때문에 따로 설정하지 않아도 됩니다.
 
 ```yaml title="argo-cd-values.yaml"
+global:
+  # argo-cd의 외부 접속 주소입니다.
+  domain: <argoCDDomain>
+
 configs:
   cm:
-    # argo-cd의 외부 접속 주소입니다.
-    url: <argoCDURL>
-
     dex.config: |
       connectors:
         - type: <type>

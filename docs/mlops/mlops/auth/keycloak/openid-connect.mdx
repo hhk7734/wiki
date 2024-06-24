@@ -17,14 +17,14 @@ keywords:
   - `Create Client`
     - General Settings
       - Client type: `OpenID Connect`
-      - Client ID: `<clientId>`
+      - Client ID: `<clientID>`
     - Capability config
       - Client authenticatoion: `On` (`secret` or `jwt` or `secret-jwt` 중 하나로 클라이언트 인증을 수행하는 기능)
       - Authorization: `Off` (keycloak의 정책을 통해 접근 제어를 수행하는 기능)
       - Authentication flow
         - `Standard flow`
         - `Direct access grants`
-  - `<clientId>` 선택
+  - `<clientID>` 선택
     - Settings
       - Enabled: `On`
       - Valid Redirect URIs
@@ -55,14 +55,14 @@ keywords:
 ### Access/ID Token 설정
 
 - Clients 탭
-  - `<clientId>` 선택
+  - `<clientID>` 선택
     - Client Scopes
-      - `<clientId>-dedicated` 선택
+      - `<clientID>-dedicated` 선택
         - 해당 클라이언트 전용 설정입니다.
         - `Configure a new mapper`
           - `Audience` 선택
             - Name: `audience`
-            - Included Client Audience: `<clientId>`
+            - Included Client Audience: `<clientID>`
             - Add to ID token: `On`
             - Add to access token: `On`
       - `Add client scope`
@@ -93,7 +93,7 @@ curl -k -X POST https://<keycloak-url>/realms/<realm>/protocol/openid-connect/to
 ## 클라이언트 연결
 
 - Issuer URL: `https://<keycloak-url>/realms/<realm>`
-- Client ID: `<clientId>`
+- Client ID: `<clientID>`
 - Client Secret: `<clientSecret>`
 - Username claim
   - `email`이 많이 사용됩니다.

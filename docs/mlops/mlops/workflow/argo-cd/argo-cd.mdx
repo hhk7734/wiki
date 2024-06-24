@@ -20,12 +20,12 @@ helm repo update argo \
 ```
 
 ```shell
-helm pull argo/argo-cd --version 5.53.13
+helm pull argo/argo-cd --version 7.2.1
 ```
 
 ```shell
-helm show values argo-cd-5.53.13.tgz \
-    > argo-cd-5.53.13.yaml
+helm show values argo/argo-cd --version 7.2.1 \
+    > argo-cd-7.2.1.yaml
 ```
 
 ```yaml title="argo-cd-values.yaml"
@@ -39,11 +39,13 @@ configs:
   cm:
     # `argocd-cm` ConfigMap의 `.data` 값으로 설정됩니다.
 
-    server.rbac.log.enforce.enable: "true"
+    server.rbac.log.enforce.enable: true
     # Web UI에서 터미널 접속
-    exec.enabled: "true"
+    exec.enabled: true
     # admin 사용시 암호는 argocd-initial-admin-secret Secret에 있습니다.
-    admin.enabled: "false"
+    admin.enabled: false
+
+    statusbadge.enabled: false
 
 dex:
   enabled: false
@@ -64,14 +66,14 @@ kubectl create namespace argo-cd
 ```
 
 ```shell
-helm template argo-cd argo-cd-5.53.13.tgz \
+helm template argo-cd argo-cd-7.2.1.tgz \
     -n argo-cd \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
 ```
 
 ```shell
-helm upgrade argo-cd argo-cd-5.53.13.tgz \
+helm upgrade argo-cd argo-cd-7.2.1.tgz \
     --install \
     --history-max 5 \
     -n argo-cd \
