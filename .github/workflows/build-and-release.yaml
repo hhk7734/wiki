@@ -87,8 +87,13 @@ jobs:
         run: |
           cd gitops
           git add .
-          git config --global user.name "${{ github.event.head_commit.author.name }}"
-          git config --global user.email "${{ github.event.head_commit.author.email }}"
+          if [ ${{ github.event_name }} = "workflow_dispatch" ] ; then
+            git config --global user.name "${{ github.actor }}"
+            git config --global user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
+          else
+            git config --global user.name "${{ github.event.head_commit.author.name }}"
+            git config --global user.email "${{ github.event.head_commit.author.email }}"
+          fi
           git commit -m "feat(wiki): bump to ${{ needs.build.outputs.imageTag }}"
 
       - name: Push changes
