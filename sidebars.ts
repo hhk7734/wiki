@@ -835,6 +835,7 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/mlops/auth/keycloak/keycloak",
 						"mlops/mlops/auth/keycloak/realm",
+						"mlops/mlops/auth/keycloak/keycloak-config-cli",
 						"mlops/mlops/auth/keycloak/openid-connect",
 						"mlops/mlops/auth/keycloak/identity-providers",
 					],
