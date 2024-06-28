@@ -574,7 +574,10 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Storage",
-					items: ["mlops/mlops/kubernetes/storage/persistent-volume"],
+					items: [
+						"mlops/mlops/kubernetes/storage/volumes",
+						"mlops/mlops/kubernetes/storage/persistent-volume",
+					],
 				},
 				{
 					type: "category",
@@ -625,6 +628,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Storage",
 			items: [
+				"mlops/mlops/storage/csi",
 				"mlops/mlops/storage/local-path-provisioner",
 				"mlops/mlops/storage/aws-ebs-csi-driver",
 				"mlops/mlops/storage/aws-efs-csi-driver",

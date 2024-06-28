@@ -1,0 +1,47 @@
+---
+id: volumes
+title: volumes
+sidebar_label: volumes
+description: kubernetes pod.spec.volumes
+keywords:
+  - kubernetes
+  - volumes
+---
+
+## hostPath
+
+- https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
+
+```yaml
+spec:
+  volumes:
+    - name: <volumeName>
+      hostPath:
+        path: <path>
+        type: ""
+```
+
+## persistentVolumeClaim
+
+```yaml
+spec:
+  volumes:
+    - name: <volumeName>
+      persistentVolumeClaim:
+        claimName: <claimName>
+        readOnly: false
+```
+
+## csi
+
+- https://kubernetes.io/docs/concepts/storage/volumes/#csi
+
+```yaml
+spec:
+  volumes:
+    - name: <volumeName>
+      csi:
+        driver: <driver>
+        volumeAttributes:
+          <key>: <value>
+```
