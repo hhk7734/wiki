@@ -36,6 +36,11 @@ const sidebars: SidebarsConfig = {
 	cpp: [
 		{
 			type: "category",
+			label: "ENV",
+			items: ["lang/cpp/env/vcpkg"],
+		},
+		{
+			type: "category",
 			label: "Build",
 			items: [
 				{
