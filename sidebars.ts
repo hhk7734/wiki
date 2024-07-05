@@ -37,7 +37,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "ENV",
-			items: ["lang/cpp/env/vcpkg"],
+			items: ["lang/cpp/env/vcpkg", "lang/cpp/env/clangd"],
 		},
 		{
 			type: "category",

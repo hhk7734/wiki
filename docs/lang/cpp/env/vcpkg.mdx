@@ -30,6 +30,15 @@ export PATH=$VCPKG_ROOT:$PATH
 vcpkg new --application
 ```
 
+:::info
+
+```shell
+cmake -S . -G Ninja -B build \
+  -DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
+```
+
+vcpkg를 사용하는 CMake 빌드 시스템 생성 시 위와 같은 옵션의 명령어를 사용해야합니다. 이를 preset으로 저장하면 아래와 같은 방식으로 사용할 수 있습니다.
+
 ```json title="CMakePresets.json"
 {
 	"version": 2,
@@ -50,7 +59,7 @@ vcpkg new --application
 cmake --preset=default
 ```
 
-CMakeLists.txt 작성 후 위 명령어를 실행하면 빌드 시 vcpkg를 사용하는 build 디렉토리가 생성됩니다.
+:::
 
 ## 패키지 관리
 
@@ -59,6 +68,8 @@ CMakeLists.txt 작성 후 위 명령어를 실행하면 빌드 시 vcpkg를 사�
 ```shell
 vcpkg search [<portName>]
 ```
+
+https://vcpkg.link/ 에서 검색이 가능합니다.
 
 ```shell
 vcpkg add port [<option>] <portName> [<portName> ...]
