@@ -70,7 +70,7 @@ poetry env remove <env>
 ## Dependency
 
 ```shell
-poetry add <package|git|path>
+poetry add [<flags>] <package|git|path>
 ```
 
 - `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>[<options>]`
@@ -79,8 +79,9 @@ poetry add <package|git|path>
   - `<options>`
     - `@<tag|rev|branch>`
     - `#subdirectory=<path>`
-- `--group=<group>`: `<group>` 의존성에 추가합니다.
-- `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
+- `<flags>`
+  - `--group=<group>`: `<group>` 의존성에 추가합니다.
+  - `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
 
 ```shell
 poetry update <package>
@@ -95,7 +96,7 @@ poetry remove <package>
 - https://python-poetry.org/docs/repositories/
 
 ```shell
-poetry add <source> <url> [<flags>]
+poetry source add [<flags>] <source> <url>
 ```
 
 - `<flags>`
