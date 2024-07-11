@@ -10,87 +10,152 @@ keywords:
   - formatting
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## ESLint
 
 - https://eslint.org/docs/latest/use/getting-started
 
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
+
 ```shell
-yarn add -D eslint
+yarn create @eslint/config@latest
 ```
 
-```javascript title=".eslintrc.cjs"
-module.exports = {
-	root: true,
-	extends: ["eslint:recommended"],
-	parserOptions: {
-		ecmaVersion: "latest",
-		sourceType: "module",
-	},
-	env: {
-		browser: true,
-		es2021: true,
-	},
-};
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm init @eslint/config@latest
 ```
 
-```ignore title=".eslintignore"
-### macOS ###
-# General
-.DS_Store
+</TabItem>
 
-### JavaScript ###
-# Dependencies
-node_modules
-pnpm-lock.yaml
-package-lock.json
-yarn.lock
-
-# Build
-dist
-build
-```
+</Tabs>
 
 ### Prettier
 
 - https://github.com/prettier/eslint-config-prettier?tab=readme-ov-file#installation
 
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
+
 ```shell
 yarn add -D eslint-config-prettier
 ```
 
-```javascript title=".eslintrc.cjs"
-module.exports = {
-	extends: ["prettier"],
-};
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm install -D eslint-config-prettier
+```
+
+</TabItem>
+
+</Tabs>
+
+```javascript title="eslint.config.mjs"
+import eslintConfigPrettier from "eslint-config-prettier";
+
+export default [
+	// ...
+	eslintConfigPrettier,
+];
 ```
 
 ### Typescript
 
 - https://typescript-eslint.io/getting-started
 
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
+
 ```shell
-yarn add -D @typescript-eslint/eslint-plugin @typescript-eslint/parser
+yarn add -D typescript-eslint
 ```
 
-```javascript title=".eslintrc.cjs"
-module.exports = {
-	extends: ["plugin:@typescript-eslint/recommended"],
-	parser: "@typescript-eslint/parser",
-	plugins: ["@typescript-eslint"],
-};
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm install -D typescript-eslint
+```
+
+</TabItem>
+
+</Tabs>
+
+```javascript title="eslint.config.mjs"
+import eslint from "@eslint/js";
+import tseslint from "typescript-eslint";
+
+export default tseslint.config(eslint.configs.recommended, ...tseslint.configs.recommended);
 ```
 
 ## Prettier
+
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
 
 ```shell
 yarn add -D prettier
 ```
 
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm install -D prettier
+```
+
+</TabItem>
+
+</Tabs>
+
 - https://prettier.io/docs/en/configuration.html
 
-```javascript title=".prettierrc.cjs"
-module.exports = {
-	printWidth: 100,
+```javascript title="prettier.config.mjs"
+export default {
+	printWidth: 120,
 	singleQuote: false,
 	trailingComma: "all",
 	useTabs: true,
@@ -122,12 +187,35 @@ prettier --write .
 
 - https://github.com/tailwindlabs/prettier-plugin-tailwindcss
 
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
+
 ```shell
 yarn add -D prettier-plugin-tailwindcss
 ```
 
-```javascript title=".prettierrc.cjs"
-module.exports = {
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm install -D prettier-plugin-tailwindcss
+```
+
+</TabItem>
+
+</Tabs>
+
+```javascript title="prettier.config.mjs"
+export default {
 	plugins: [
 		"prettier-plugin-tailwindcss", // 다른 플러그인과 호환성을 위해 마지막에 추가
 	],
