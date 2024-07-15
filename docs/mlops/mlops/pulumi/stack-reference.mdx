@@ -14,3 +14,16 @@ keywords:
 ## StackReference
 
 - https://www.pulumi.com/docs/intro/concepts/stack/#stackreferences
+
+:::info
+Self-Managed Backend(S3, local filesystem, ...)를 사용할 때, 조직은 `organization`으로 고정됩니다.
+
+backend.url을 공유하는 여러 프로젝트는, `pulumi.StackReference`로 다른 스택에 접근이 가능합니다.
+
+```python
+import pulumi
+
+other = pulumi.StackReference("organization/<project>/<stack>")
+```
+
+:::
