@@ -46,10 +46,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Makefile",
-					items: [
-						"lang/cpp/build/makefile/makefile-basics",
-						"lang/cpp/build/makefile/makefile-avr-example",
-					],
+					items: ["lang/cpp/build/makefile/makefile-basics", "lang/cpp/build/makefile/makefile-avr-example"],
 				},
 				{
 					type: "category",
@@ -102,10 +99,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: 'extern "C"',
-					items: [
-						"lang/cpp/advanced-cpp/extern-c/extern-c",
-						"lang/cpp/advanced-cpp/extern-c/class",
-					],
+					items: ["lang/cpp/advanced-cpp/extern-c/extern-c", "lang/cpp/advanced-cpp/extern-c/class"],
 				},
 			],
 		},
@@ -306,10 +300,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Engine",
-			items: [
-				"lang/flutter/engine/flutter-engine-for-linux-arm64",
-				"lang/flutter/engine/flutter-app-for-linux-arm64",
-			],
+			items: ["lang/flutter/engine/flutter-engine-for-linux-arm64", "lang/flutter/engine/flutter-app-for-linux-arm64"],
 		},
 		{
 			type: "category",
@@ -360,11 +351,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "gRPC",
-					items: [
-						"lang/go/libraries/grpc/protobuf",
-						"lang/go/libraries/grpc/type",
-						"lang/go/libraries/grpc/grpc",
-					],
+					items: ["lang/go/libraries/grpc/protobuf", "lang/go/libraries/grpc/type", "lang/go/libraries/grpc/grpc"],
 				},
 				"lang/go/libraries/time",
 				"lang/go/libraries/validator",
@@ -500,11 +487,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Terraform",
-					items: [
-						"mlops/mlops/terraform/terraform",
-						"mlops/mlops/terraform/import",
-						"mlops/mlops/terraform/remove",
-					],
+					items: ["mlops/mlops/terraform/terraform", "mlops/mlops/terraform/import", "mlops/mlops/terraform/remove"],
 				},
 				{
 					type: "category",
@@ -579,10 +562,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Storage",
-					items: [
-						"mlops/mlops/kubernetes/storage/volumes",
-						"mlops/mlops/kubernetes/storage/persistent-volume",
-					],
+					items: ["mlops/mlops/kubernetes/storage/volumes", "mlops/mlops/kubernetes/storage/persistent-volume"],
 				},
 				{
 					type: "category",
@@ -811,10 +791,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Nvidia",
-					items: [
-						"mlops/mlops/provisioning/nvidia/k8s-device-plugin",
-						"mlops/mlops/provisioning/nvidia/gpu-operator",
-					],
+					items: ["mlops/mlops/provisioning/nvidia/k8s-device-plugin", "mlops/mlops/provisioning/nvidia/gpu-operator"],
 				},
 			],
 		},
@@ -1102,10 +1079,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "node-addon-api",
-			items: [
-				"lang/javascript/node-addon-api/basics",
-				"lang/javascript/node-addon-api/class-binding",
-			],
+			items: ["lang/javascript/node-addon-api/basics", "lang/javascript/node-addon-api/class-binding"],
 		},
 		{
 			type: "category",
@@ -1130,10 +1104,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "React Query",
-					items: [
-						"lang/javascript/react/react-query/use-query",
-						"lang/javascript/react/react-query/use-mutation",
-					],
+					items: ["lang/javascript/react/react-query/use-query", "lang/javascript/react/react-query/use-mutation"],
 				},
 				{
 					type: "category",
@@ -1162,6 +1133,11 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Libraries",
 			items: [
+				{
+					type: "category",
+					label: "Prisma",
+					items: ["lang/javascript/libraries/prisma/prisma", "lang/javascript/libraries/prisma/migrate"],
+				},
 				{
 					type: "category",
 					label: "Firebase",
@@ -1294,10 +1270,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "FastAPI",
-					items: [
-						"lang/python/libraries/fastapi/fastapi",
-						"lang/python/libraries/fastapi/lifespan",
-					],
+					items: ["lang/python/libraries/fastapi/fastapi", "lang/python/libraries/fastapi/lifespan"],
 				},
 				{
 					type: "category",

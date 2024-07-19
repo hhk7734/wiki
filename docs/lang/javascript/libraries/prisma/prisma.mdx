@@ -1,0 +1,71 @@
+---
+id: prisma
+title: Prisma ORM
+sidebar_label: Prisma ORM
+description: Prisma ORM
+keywords:
+  - prisma
+  - orm
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+	groupId="jsPackageManager"
+	defaultValue="yarn"
+	values={[
+		{label: 'Yarn', value: 'yarn',},
+		{label: 'npm', value: 'npm',},
+	]}
+>
+
+<TabItem value="yarn">
+
+```shell
+yarn add -D prisma
+```
+
+```shell
+yarn add @prisma/client
+```
+
+</TabItem>
+
+<TabItem value="npm">
+
+```shell
+npm install -D prisma
+```
+
+```shell
+npm install @prisma/client
+```
+
+</TabItem>
+
+</Tabs>
+
+## 설정
+
+- [Prisma Schema Overview](https://www.prisma.io/docs/orm/prisma-schema/overview)
+
+```hcl title="prisma/schema.prisma"
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "<provider>"
+  url      = env("DATABASE_URL")
+}
+```
+
+- [Connection URLs](https://www.prisma.io/docs/orm/reference/connection-urls)
+- [Databases](https://www.prisma.io/docs/orm/overview/databases)
+
+```shell title=".env"
+DATABASE_URL=<provider>://<user>:<password>@<host>:<port>/<database>?<option>
+```
