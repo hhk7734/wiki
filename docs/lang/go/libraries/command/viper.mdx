@@ -16,13 +16,22 @@ keywords:
 1. 키/값 저장소
 1. 기본값
 
+:::info
+
+- 설정 key는 대소문자를 구분하지 않습니다.
+- 설정을 전달하는 방식마다 설정값을 따로 저장하고 있다가 값을 가져오는 순간 우선순위를 평가하여 값을 가져옵니다.
+- `viper.Debug()`: viper 설정을 출력합니다.
+- `viper.AllSettings()`: 최종 설정값을 리턴합니다.
+
+:::
+
 ## 설정파일
 
 ```go
-viper.SetConfigName(".env") // 확장자를 제외한 파일명을 적습니다.
+viper.SetConfigName("config") // 확장자를 제외한 파일명을 적습니다.
 // 확장자가 없다면 명시적으로 설정해줘야 합니다.
 // "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
-viper.SetConfigType("dotenv")
+viper.SetConfigType("yaml")
 viper.AddConfigPath(".") // 설정파일을 찾을 경로를 추가합니다.
 
 if err := viper.ReadInConfig(); err != nil {
@@ -48,6 +57,12 @@ viper.BindEnv("c") // viper.BindEnv("c", "B_C")
 viper.BindEnv("f") // viper.BindEnv("f", "B_F")
 
 // viper.BindEnv("c", "A_C", "B_C")
+```
+
+```go
+// 환경변수를 읽을 때 key의 `.` 또는 `-`을 `_`로 변환하여 읽어옵니다.
+// viper.Get("a.b") 를 호출하면 A_B 환경변수를 읽어옵니다.
+viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
 ```
 
 ```go
