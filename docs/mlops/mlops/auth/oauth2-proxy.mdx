@@ -181,16 +181,27 @@ spec:
 ## Keycloak OIDC
 
 - [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
-- https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/oauth_provider/#keycloak-oidc-auth-provider
+- [OAuth2 Proxy Keycloak OIDC](https://oauth2-proxy.github.io/oauth2-proxy/configuration/providers/keycloak_oidc)
+- [OIDC Authorization Code Flow](/docs/mlops/mlops/auth/oidc#authorization-code-flow)
 
 <br />
 
-- `--redirect-url=<client-url>/oauth2/callback`
-- `--oidc-issuer-url=https://<keycloak-url>/realms/<realm>`
+- `--redirect-url=<clientURL>/oauth2/callback`
+- `--oidc-issuer-url=<keycloakURL>/realms/<realm>`
 - `--allowed-group=<group>`
 - `--email-domain=*`
-- `--cookie-secret=<cookie-secret>`
-  - https://oauth2-proxy.github.io/oauth2-proxy/docs/configuration/overview#generating-a-cookie-secret
+- `--cookie-secret=<cookieSecret>`
+
+:::info
+
+```hcl
+resource "random_password" "cookie_secret" {
+  length           = 32
+  override_special = "-_"
+}
+```
+
+:::
 
 ```yaml title="oauth2-proxy.yaml"
 providers:
@@ -216,54 +227,3 @@ providers:
 :::info
 `allowedGroups`로 `role:<role>`을 사용할 수 있습니다.
 :::
-
-<center>
-
-```mermaid
-sequenceDiagram
-  participant Client
-  participant Oauth2Proxy as oauth2-proxy
-  participant OIDCProvider as Keycloak
-  participant Upstream
-
-  Client ->> Oauth2Proxy: /path
-  Oauth2Proxy -->> Client: redirect GET /keycloak/auth
-  Client ->> OIDCProvider: GET /keycloak/auth
-  activate OIDCProvider
-  note over Client,OIDCProvider: login
-  OIDCProvider -->> Client: redirect GET /oauth2/callback
-  deactivate OIDCProvider
-  Client ->> Oauth2Proxy: GET /oauth2/callback
-  Oauth2Proxy ->> OIDCProvider: POST /keycloak/token
-  OIDCProvider ->> Oauth2Proxy: response
-  Oauth2Proxy -->> Client: redirect /path
-  Client ->> Oauth2Proxy: /path
-  Oauth2Proxy ->> Upstream: /path
-  Upstream -->> Oauth2Proxy: response
-  Oauth2Proxy -->> Client: response
-```
-
-</center>
-
-- /keycloak/auth
-  - path: `<keycloakURL>/realms/<realm>/protocol/openid-connect/auth`
-  - query
-    - `client_id=<clientID>`
-    - `oauth2/callback=<redirectURI>`
-    - `response_type=code`
-    - `scope=<scope>`: openid+profile+email+groups
-    - `state=<state>`
-    - `nonce=<nonce>`
-- /oauth2/callback
-  - path: `<oauth2ProxyURL>/oauth2/callback`
-  - query
-    - `state=<state>`
-    - `session_state=<sessionState>`
-    - `code=<code>`
-- /keycloak/token
-  - path: `<keycloakURL>/realms/<realm>/protocol/openid-connect/token`
-  - header
-    - `Authorization: Basic <base64(<clientID>:<clientSecret>)>`
-    - `Content-Type: application/x-www-form-urlencoded`
-  - body
-    - `"grant_type=authorization_code&code=<code>&redirect_rui=<redirectURI>"`

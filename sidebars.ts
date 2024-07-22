@@ -801,6 +801,7 @@ const sidebars: SidebarsConfig = {
 			items: [
 				"mlops/mlops/auth/authn",
 				"mlops/mlops/auth/rbac",
+				"mlops/mlops/auth/oidc",
 				{
 					type: "category",
 					label: "TLS",
@@ -829,7 +830,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Casdoor",
-					items: ["mlops/mlops/auth/casdoor/casdoor", "mlops/mlops/auth/casdoor/oidc"],
+					items: ["mlops/mlops/auth/casdoor/casdoor"],
 				},
 				"mlops/mlops/auth/oauth2-proxy",
 			],
