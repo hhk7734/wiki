@@ -15,10 +15,10 @@ keywords:
 - https://dev.mysql.com/doc/refman/8.0/en/account-names.html
 
 ```sql
-CREATE USER <user>@<host> [<auth_option>]
+CREATE USER <user>[@<host>] [<authOption>]
 ```
 
-- `<auth_option>`
+- `<authOption>`
   - `IDENTIFIED BY <password>`
 
 ## CREATE ROLE
@@ -36,17 +36,17 @@ CREATE ROLE <role>
 
 ```sql
 GRANT
-    <privilege_type> [(<column> [, <column>])]
-    , [<privilege_type> [(<column> [, <column>])]]
-    ON [TABLE | FUNCTION | PROCEDURE] <privilege_level>
-    TO <user | role>
+    <privilegeType> [(<column> [, <column>])]
+    , [<privilegeType> [(<column> [, <column>])]]
+    ON [TABLE | FUNCTION | PROCEDURE] <privilegeLevel>
+    TO <user[@<host>] | role>
     [WITH GRANT OPTION]
 ```
 
-- `<privilege_type>`
+- `<privilegeType>`
   - https://dev.mysql.com/doc/refman/8.0/en/privileges-provided.html
   - `ALL`
-- `<privilege_level>`
+- `<privilegeLevel>`
   - `<table>`
   - `<database>.<table>`
   - `<database>.<routine>`
@@ -55,7 +55,7 @@ GRANT
 
 ```sql
 GRANT <role>, [,<role>]
-    TO <user | role>, [,<user | role>]
+    TO <user[@<host>] | role>, [,<user[@<host>] | role>]
     [WITH ADMIN OPTION]
 ```
 
@@ -63,9 +63,13 @@ GRANT <role>, [,<role>]
 FLUSH PRIVILEGES
 ```
 
+```sql
+SHOW GRANTS FOR <user[@<host>] | role>
+```
+
 ## REVOKE
 
-## 권한 관리
+## 권한 관리 예시
 
 ### `<database>_admin`
 

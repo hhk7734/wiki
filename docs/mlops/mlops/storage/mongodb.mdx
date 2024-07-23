@@ -1,0 +1,49 @@
+---
+id: mongodb
+title: MongoDB
+sidebar_label: MongoDB
+description: MongoDB
+keywords:
+  - mongodb
+---
+
+## 설치
+
+- https://github.com/mongodb/helm-charts
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+```shell
+helm repo update bitnami \
+&& helm search repo bitnami/mongodb -l
+```
+
+```shell
+helm pull bitnami/mongodb --version 15.6.14
+```
+
+```shell
+helm show values mongodb-15.6.14.tgz \
+  > mongodb-15.6.14.yaml
+```
+
+```yaml title="mongodb-values.yaml"
+
+```
+
+```shell
+helm template mongodb mongodb-15.6.14.tgz \
+  -n storage \
+  -f mongodb-values.yaml \
+  > mongodb.yaml
+```
+
+```shell
+helm upgrade mongodb mongodb-15.6.14.tgz \
+  --install \
+  --history-max 5 \
+  -n storage \
+  -f mongodb-values.yaml \
+```
