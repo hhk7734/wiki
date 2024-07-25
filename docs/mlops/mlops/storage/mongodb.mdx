@@ -30,7 +30,11 @@ helm show values mongodb-15.6.14.tgz \
 ```
 
 ```yaml title="mongodb-values.yaml"
+useStatefulSet: true
 
+resourcesPreset: none
+
+resources: {}
 ```
 
 ```shell
@@ -45,5 +49,5 @@ helm upgrade mongodb mongodb-15.6.14.tgz \
   --install \
   --history-max 5 \
   -n storage \
-  -f mongodb-values.yaml \
+  -f mongodb-values.yaml
 ```

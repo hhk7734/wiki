@@ -1,0 +1,39 @@
+---
+id: user
+title: MongoDB User(Role)
+sidebar_label: User(Role)
+description: MongoDB User(Role)
+keywords:
+  - user
+  - role
+  - MongoDB
+---
+
+## User
+
+### User 생성
+
+- [createUser](https://www.mongodb.com/docs/manual/reference/method/db.createUser/)
+
+```js
+// use <database>
+
+db.createUser({
+	user: "<user>",
+	pwd: "<password>", // or passwordPrompt()
+	roles: [
+		// "<role>",
+		{ role: "<role>", db: "<database>" },
+	],
+});
+```
+
+### User에 Role 부여하기
+
+- [grantRolesToUser](https://www.mongodb.com/docs/manual/reference/method/db.grantRolesToUser/)
+
+## Role
+
+### 사전 정의된 Role
+
+- [Built-In Roles](https://www.mongodb.com/docs/manual/reference/built-in-roles/)

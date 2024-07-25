@@ -12,7 +12,7 @@ keywords:
 
 ## SQS 생성
 
-```typescript
+```ts
 import * as aws from "@pulumi/aws";
 import * as variable from "@src/variable";
 
@@ -28,31 +28,28 @@ export const karpenterInterruptionQueue = new aws.sqs.Queue(karpenterInterruptio
 });
 
 const karpenterInterruptionQueuePolicyName = "karpenter-interruption-queue-policy";
-const karpenterInterruptionQueuePolicy = new aws.sqs.QueuePolicy(
-	karpenterInterruptionQueuePolicyName,
-	{
-		queueUrl: karpenterInterruptionQueue.id,
-		policy: {
-			Id: "EC2InterruptionPolicy",
-			Version: "2012-10-17",
-			Statement: [
-				{
-					Effect: "Allow",
-					Principal: {
-						Service: ["sqs.amazonaws.com", "events.amazonaws.com"],
-					},
-					Action: "sqs:SendMessage",
-					Resource: [karpenterInterruptionQueue.arn],
+const karpenterInterruptionQueuePolicy = new aws.sqs.QueuePolicy(karpenterInterruptionQueuePolicyName, {
+	queueUrl: karpenterInterruptionQueue.id,
+	policy: {
+		Id: "EC2InterruptionPolicy",
+		Version: "2012-10-17",
+		Statement: [
+			{
+				Effect: "Allow",
+				Principal: {
+					Service: ["sqs.amazonaws.com", "events.amazonaws.com"],
 				},
-			],
-		},
+				Action: "sqs:SendMessage",
+				Resource: [karpenterInterruptionQueue.arn],
+			},
+		],
 	},
-);
+});
 ```
 
 ## EventBridge 추가
 
-```typescript
+```ts
 const targetId = "KarpenterInterruptionQueueTarget";
 
 const scheduledChangeRuleName = "scheduled-change-rule";
@@ -138,7 +135,7 @@ new aws.cloudwatch.EventTarget(`${instanceStateChangeRuleName}-target`, {
 
 ### Karpenter 설정
 
-```typescript
+```ts
 const controllerPolicyName = "karpenter-controller-policy";
 const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
 	namePrefix: `${controllerPolicyName}-`,
@@ -150,12 +147,7 @@ const controllerPolicy = new aws.iam.Policy(controllerPolicyName, {
 				Sid: "AllowInterruptionQueueActions",
 				Effect: "Allow",
 				Resource: karpenterInterruptionQueue.arn,
-				Action: [
-					"sqs:DeleteMessage",
-					"sqs:GetQueueAttributes",
-					"sqs:GetQueueUrl",
-					"sqs:ReceiveMessage",
-				],
+				Action: ["sqs:DeleteMessage", "sqs:GetQueueAttributes", "sqs:GetQueueUrl", "sqs:ReceiveMessage"],
 			},
 		],
 	},

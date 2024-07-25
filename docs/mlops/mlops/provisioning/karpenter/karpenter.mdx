@@ -17,7 +17,7 @@ keywords:
 
 ### NodeGroup Role
 
-```typescript
+```ts
 const nodeGroupRoleName = "karpenter-ng-role";
 const nodeGroupRole = new aws.iam.Role(
 	nodeGroupRoleName,
@@ -81,7 +81,7 @@ const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
 
 - https://github.com/aws/karpenter-provider-aws/blob/main/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml
 
-```typescript
+```ts
 const controllerRoleName = "karpenter-controller-role";
 const controllerRole = new aws.iam.Role(
 	controllerRoleName,
@@ -293,11 +293,7 @@ const controllerPolicy = new aws.iam.Policy(
 					Sid: "AllowScopedInstanceProfileActions",
 					Effect: "Allow",
 					Resource: "*",
-					Action: [
-						"iam:AddRoleToInstanceProfile",
-						"iam:RemoveRoleFromInstanceProfile",
-						"iam:DeleteInstanceProfile",
-					],
+					Action: ["iam:AddRoleToInstanceProfile", "iam:RemoveRoleFromInstanceProfile", "iam:DeleteInstanceProfile"],
 					Condition: {
 						StringEquals: {
 							[`aws:ResourceTag/kubernetes.io/cluster/${variable.eksClusterName}`]: "owned",

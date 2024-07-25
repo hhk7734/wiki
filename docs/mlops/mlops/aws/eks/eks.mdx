@@ -17,7 +17,7 @@ keywords:
 
 ### Role
 
-```typescript
+```ts
 const roleName = "eks-role";
 const role = new aws.iam.Role(
 	roleName,
@@ -62,7 +62,7 @@ const rpas = Object.entries(clusterPolicyARNs).map(
 
 ### Cluster
 
-```typescript
+```ts
 const clusterName = "eks";
 export const cluster = new aws.eks.Cluster(
 	clusterName,
@@ -72,12 +72,7 @@ export const cluster = new aws.eks.Cluster(
 		roleArn: role.arn,
 		vpcConfig: {
 			endpointPublicAccess: true,
-			subnetIds: [
-				vpc.privateSubnet1.id,
-				vpc.privateSubnet2.id,
-				vpc.privateSubnet3.id,
-				vpc.privateSubnet4.id,
-			],
+			subnetIds: [vpc.privateSubnet1.id, vpc.privateSubnet2.id, vpc.privateSubnet3.id, vpc.privateSubnet4.id],
 		},
 		kubernetesNetworkConfig: { serviceIpv4Cidr: "10.96.0.0/16" },
 		tags: {
@@ -123,7 +118,7 @@ export KUBECONFIG=<config-path>[:<config-path>]
   - 공급자 URL 붙여넣기
   - 지문 가져오기
 
-```typescript
+```ts
 const oidcProviderName = "eks-oidc-provider";
 export const oidcProvider = new aws.iam.OpenIdConnectProvider(
 	oidcProviderName,

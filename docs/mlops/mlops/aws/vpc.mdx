@@ -54,7 +54,7 @@ flowchart
 - 리전당 생성가능한 VPC 수는 5 개로 설정되어 있습니다.(Quota 변경 가능)
 - VPC당 생성 가능한 Subnet 수는 200 개로 설정되어 있습니다.(Quota 변경 가능)
 
-```typescript
+```ts
 // 172.16.0.1 ~ 172.16.255.255
 const vpcName = "vpc";
 const vpc = new aws.ec2.Vpc(
@@ -108,7 +108,7 @@ const igwRouteTable = new aws.ec2.RouteTable(
 :::info
 VPC에 IP가 부족한 경우 CIDR 블록을 추가할 수 있습니다.
 
-```typescript
+```ts
 const secondaryCIDRName = "vpc-secondary-cidr";
 const secondaryCIDR = new aws.ec2.VpcIpv4CidrBlockAssociation(
 	secondaryCIDRName,
@@ -133,7 +133,7 @@ const secondaryCIDR = new aws.ec2.VpcIpv4CidrBlockAssociation(
 
 ## Public Subnet && NAT Gateway
 
-```typescript
+```ts
 // 172.16.0.1 ~ 172.16.0.255
 const publicSubnet1Name = "public-subnet-1";
 const publicSubnet1 = new aws.ec2.Subnet(
@@ -202,7 +202,7 @@ const ngw1RouteTable = new aws.ec2.RouteTable(
 
 ## Private Subnet
 
-```typescript
+```ts
 // 172.16.32.1 ~ 172.16.47.255
 const privateSubnet1Name = "private-subnet-1";
 export const privateSubnet1 = new aws.ec2.Subnet(

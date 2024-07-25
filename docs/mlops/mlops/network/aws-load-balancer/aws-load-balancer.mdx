@@ -14,7 +14,7 @@ keywords:
 
 ### AWS Load Balancer Controller Role
 
-```typescript
+```ts
 const controllerRoleName = "aws-load-balancer-controller-role";
 const controllerRole = new aws.iam.Role(
 	controllerRoleName,
@@ -53,7 +53,7 @@ const controllerRole = new aws.iam.Role(
 curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.6.1/docs/install/iam_policy.json
 ```
 
-```typescript
+```ts
 const controllerPolicyName = "aws-load-balancer-controller-policy";
 const controllerPolicy = new aws.iam.Policy(
 	controllerPolicyName,

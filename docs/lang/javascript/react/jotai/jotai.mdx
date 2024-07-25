@@ -11,7 +11,7 @@ keywords:
 
 ## primitive Atom 사용하기
 
-```typescript
+```ts
 import { atom, useAtom } from "jotai";
 
 const countAtom = atom(0);
@@ -30,7 +30,7 @@ function Counter() {
 
 ## primitive Atom -> 읽기 전용 Atom
 
-```typescript
+```ts
 import { atom, useAtom, useAtomValue } from "jotai";
 
 const countAtom = atom(0);
@@ -60,7 +60,7 @@ function Counter() {
 
 비동기 읽기를 하는 Atom은 `Suspense`를 활용할 수 있습니다
 
-```typescript
+```ts
 import { atom, useAtomValue, useSetAtom } from "jotai";
 import { Suspense } from "react";
 
@@ -101,7 +101,7 @@ function Counter() {
 
 ## 쓰기 전용 Atom -> primitive Atom
 
-```typescript
+```ts
 import { atom, useAtomValue, useSetAtom } from "jotai";
 
 const countAtom = atom(0);

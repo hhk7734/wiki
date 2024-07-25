@@ -35,7 +35,7 @@ keywords:
 
 ### 이메일 인증 페이지
 
-```typescript
+```ts
 import { applyActionCode, AuthError, AuthErrorCodes } from "firebase/auth";
 
 // ...
@@ -57,13 +57,8 @@ applyActionCode(auth, oobCode)
 
 ### 비밀번호 재설정 페이지
 
-```typescript
-import {
-	confirmPasswordReset,
-	verifyPasswordResetCode,
-	AuthError,
-	AuthErrorCodes,
-} from "firebase/auth";
+```ts
+import { confirmPasswordReset, verifyPasswordResetCode, AuthError, AuthErrorCodes } from "firebase/auth";
 
 // ...
 
@@ -83,11 +78,7 @@ verifyPasswordResetCode(auth, oobCode)
 
 // ...
 
-if (
-	isVerified &&
-	passwordValidator.status === "valid" &&
-	confirmPasswordValidator.status === "valid"
-) {
+if (isVerified && passwordValidator.status === "valid" && confirmPasswordValidator.status === "valid") {
 	confirmPasswordReset(auth, oobCode, passwordValidator.value)
 		.then(() => {
 			// 비밀번호 재설정 성공

@@ -305,7 +305,7 @@ from src import ec2
 
 <TabItem value="typescript">
 
-```typescript title="src/variable.ts"
+```ts title="src/variable.ts"
 import * as pulumi from "@pulumi/pulumi";
 
 export const stackName = pulumi.getStack();
@@ -313,7 +313,7 @@ export const stackName = pulumi.getStack();
 // const config = new pulumi.Config();
 ```
 
-```typescript title="src/ec2/ec2.ts"
+```ts title="src/ec2/ec2.ts"
 import * as aws from "@pulumi/aws";
 
 import * as variable from "@src/variable";
@@ -329,7 +329,7 @@ new aws.ec2.Instance(appServerName, {
 });
 ```
 
-```typescript title="src/ec2/index.ts"
+```ts title="src/ec2/index.ts"
 import * as ec2_ from "./ec2";
 
 ec2_;
@@ -337,7 +337,7 @@ ec2_;
 export const ec2 = {};
 ```
 
-```typescript title="src/index.ts"
+```ts title="src/index.ts"
 import { loadConfig, register } from "tsconfig-paths";
 
 const tsConfig = loadConfig(".");

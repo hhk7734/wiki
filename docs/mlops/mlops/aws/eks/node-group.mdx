@@ -10,7 +10,7 @@ keywords:
 
 ## Role
 
-```typescript
+```ts
 const nodeGroupRoleName = "eks-ng-role";
 const nodeGroupRole = new aws.iam.Role(
 	nodeGroupRoleName,
@@ -76,7 +76,7 @@ const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
 EBS 암호화가 필요한 경우 진행 전에 EC2 계정 속성의 EBS 암호화 기본 설정을 활성화하면 됩니다.
 :::
 
-```typescript
+```ts
 const nodeGroupName = "eks-ng";
 const nodeGroup = new aws.eks.NodeGroup(
 	nodeGroupName,

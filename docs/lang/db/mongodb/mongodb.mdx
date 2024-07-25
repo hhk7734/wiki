@@ -1,0 +1,23 @@
+---
+id: mongodb
+title: MongoDB
+sidebar_label: MongoDB
+description: MongoDB
+keywords:
+  - MongoDB
+---
+
+## MongoDB Shell(mongosh)
+
+- [MongoDB Shell](https://www.mongodb.com/docs/mongodb-shell/)
+- [MongoDB Standard Connection String Format](https://www.mongodb.com/docs/manual/reference/connection-string/#standard-connection-string-format)
+
+```shell
+mongosh mongodb://<user>:<password>@<host>:<port>[/<database>][?<options>]
+```
+
+- `<options>`
+  - `authSource=<authDatabase>`
+    - 인증 정보가 있는 데이터베이스를 선택합니다.
+    - `<database>`설정도 없고 authSource 설정도 없으면 admin이 기본값으로 사용됩니다.
+    - `<database>`설정이 있고 authSource 설정이 없으면 `<database>`가 사용됩니다.

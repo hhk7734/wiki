@@ -12,7 +12,7 @@ keywords:
 
 - https://tanstack.com/query/latest/docs/react/reference/useQuery
 
-```typescript
+```ts
 import { useQuery } from "@tanstack/react-query";
 
 const query = useQuery({
@@ -85,7 +85,7 @@ const {
 
 따라서 아래와 같은 경우 모두 같은 `queryKey`로 취급되며
 
-```typescript
+```ts
 useQuery({ queryKey: ['todos', { status, page }], ... })
 useQuery({ queryKey: ['todos', { page, status }], ...})
 useQuery({ queryKey: ['todos', { page, status, other: undefined }], ... })
@@ -93,7 +93,7 @@ useQuery({ queryKey: ['todos', { page, status, other: undefined }], ... })
 
 아래와 같은 경우는 모두 다른 `queryKey`로 취급됩니다.
 
-```typescript
+```ts
 useQuery({ queryKey: ['todos', status, page], ... })
 useQuery({ queryKey: ['todos', page, status], ...})
 useQuery({ queryKey: ['todos', undefined, page, status], ...})
@@ -101,7 +101,7 @@ useQuery({ queryKey: ['todos', undefined, page, status], ...})
 
 ## Query Function
 
-```typescript
+```ts
 useQuery({
   queryFn: async (context) => {
     const {

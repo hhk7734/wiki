@@ -148,6 +148,11 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
+			label: "MongoDB",
+			items: ["lang/db/mongodb/mongodb", "lang/db/mongodb/user"],
+		},
+		{
+			type: "category",
 			label: "S3",
 			items: ["lang/db/s3/basics"],
 		},
