@@ -1,9 +1,10 @@
 FROM node:18-alpine AS builder
 WORKDIR /app
 
-COPY . .
-RUN yarn
+COPY package.json yarn.lock ./
+RUN yarn install --production
 
+COPY . .
 RUN yarn build
 
 FROM nginx:stable-alpine
