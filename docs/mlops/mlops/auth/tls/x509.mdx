@@ -37,7 +37,7 @@ utf8 = yes
 req_extensions = req_ext
 x509_extensions = req_ext
 
-distinguished_name = req_dn
+distinguished_name = req_distinguished_name
 
 [ req_ext ]
 basicConstraints = critical, CA:true
@@ -49,18 +49,26 @@ subjectAltName=@san
 [ san ]
 DNS.1 = loliot.net
 
-[ req_dn ]
+[ req_distinguished_name ]
 organizationName = lol-iot
 organizationalUnitName = devops
 countryName = KR
 ```
 
-- organizationName -\> O, 쿠버네티스에서 Group으로 인식
+- commonName -\> CN
+- organizationName -\> O
 - organizationalUnitName -\> OU
 - localityName -\> L
 - stateOrProvinceName -\> ST
 - countryName -\> C
 - emailAddress -\> EMAIL
+
+:::info
+
+- 인증서의 CN(Common Name)이 User로 인식됩니다.
+- 인증서의 O(Organization)가 Group으로 인식됩니다.
+
+:::
 
 ### root-ca.csr(CSR, 인증 서명 요청서)
 
@@ -105,7 +113,7 @@ utf8 = yes
 req_extensions = req_ext
 x509_extensions = req_ext
 
-distinguished_name = req_dn
+distinguished_name = req_distinguished_name
 
 [ req_ext ]
 basicConstraints = critical, CA:true, pathlen:0
@@ -117,7 +125,7 @@ subjectAltName=@san
 [ san ]
 DNS.1 = loliot.net
 
-[ req_dn ]
+[ req_distinguished_name ]
 organizationName = lol-iot
 organizationalUnitName = devops
 countryName = KR

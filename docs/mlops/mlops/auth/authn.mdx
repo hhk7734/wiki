@@ -9,6 +9,9 @@ keywords:
   - kubeconfig
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## User
 
 - 추상적인 개념으로 User를 명시하는 리소스는 없습니다.
@@ -25,13 +28,80 @@ keywords:
 
 ### X.509 인증서로 인증하기
 
-- 인증서의 `CN(Common Name)`이 User로 인식됩니다.
-- 인증서의 `O(Organization)`가 Group으로 인식됩니다.
+:::info
+Root CA 파일은 Control plane Node의 `/etc/kubernetes/pki/` 또는 `/etc/kubernetes/ssl/` 디렉토리에 위치합니다.
+:::
+
+- [X.509 인증서](/docs/mlops/mlops/auth/tls/x509)
 
 ```shell
-curl --cacert <certificateAuthority> \
-    --cert <clientCertificate> \
-    --key <clientKey> \
+openssl genrsa -out <clientKeyPath> 2048
+```
+
+```shell
+openssl req -new -key <clientKeyPath> \
+  -subj "/CN=<user>/O=<group>/O=<group>" \
+  -out <clientCSRPAth>
+```
+
+<Tabs
+  defaultValue="csr"
+  values={[
+    { label: "CertificateSigningRequest", value: "csr" },
+    { label: "openssl", value: "openssl" },
+  ]}
+>
+
+<TabItem value="csr">
+
+```yaml
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: <user>
+spec:
+  request: <clientCSR | base64 -w 0>
+  signerName: kubernetes.io/kube-apiserver-client
+  # expirationSeconds: 31536000 # 1 년
+  usages:
+    - client auth
+```
+
+```shell
+kubectl certificate approve <user>
+```
+
+```shell
+kubectl get csr <user> -o jsonpath='{.status.certificate}' \
+  | base64 -d > <clientCertPath>
+```
+
+:::warning
+`kube-controller-manager` 의 옵션에 영향을 받습니다.
+
+- `--cluster-signing-key-file=/etc/kubernetes/pki/ca.key`
+- `--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt`
+- `--cluster-signing-duration=8760h`
+
+:::
+
+</TabItem>
+
+<TabItem value="openssl">
+
+```shell
+openssl x509 -req -days 1825 -CA <caCertPath> -CAkey <caKey> \
+  -CAcreateserial -in <clientCSRPAth> -out <clientCertPath>
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+curl --cacert <caCertPath> \
+    --cert <clientCertPath> \
+    --key <clientKeyPath> \
     <apiServerURL>
 ```
 
@@ -40,7 +110,7 @@ curl --cacert <certificateAuthority> \
 - 토큰의 `sub`가 User로 인식됩니다.
 
 ```shell
-curl --cacert <certificateAuthority> \
+curl --cacert <caCertPath> \
     -H "Authorization: Bearer <jwt>" \
     <apiServerURL>
 ```
@@ -106,15 +176,15 @@ clusters:
   - name: cluster-1
     cluster:
       server: <apiServerURL>
-      certificate-authority-data: <base64EncodedCertificate> # root ca 인증서
-      # certificate-authority: <ca-path>
+      certificate-authority-data: <caCert | base64 -w 0> # root ca 인증서
+      # certificate-authority: <caCertPath>
 users:
   - name: user-1
     user:
-      client-certificate-data: <base64EncodedCertificate> # client 인증서
-      # client-certificate: <client-ca-path>
-      client-key-data: <base64EncodedPrivateKey> # client 개인키
-      # client-key: <client-key-path>
+      client-certificate-data: <clientCert | base64 -w 0> # client 인증서
+      # client-certificate: <clientCertPath>
+      client-key-data: <clientKey | base64 -w 0> # client 개인키
+      # client-key: <clientKeyPath>
   - name: user-2
     user:
       token: <jwt> # ServiceAccount의 토큰
@@ -152,7 +222,7 @@ current-context: context-1 # 현재 설정된 접속 정보입니다.
 kubectl config set-cluster \
     <cluster> \
     --server=<apiServerURL> \
-    --certificate-authority=<certificateAuthorityPath> \
+    --certificate-authority=<caCertPath> \
     --embed-certs=true
 ```
 
@@ -161,7 +231,7 @@ kubectl config set-cluster \
 ```shell
 kubectl config set-credentials \
     <user> \
-    --client-certificate=<clientCertificatePath> \
+    --client-certificate=<clientCertPath> \
     --client-key=<clientKeyPath> \
     --embed-certs=true
 ```
