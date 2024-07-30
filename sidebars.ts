@@ -665,6 +665,16 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/device/cdi",
 				{
 					type: "category",
+					label: "NVIDIA",
+					items: ["mlops/mlops/device/nvidia/k8s-device-plugin", "mlops/mlops/device/nvidia/gpu-operator"],
+				},
+				{
+					type: "category",
+					label: "AMD",
+					items: ["mlops/mlops/device/amd/k8s-device-plugin"],
+				},
+				{
+					type: "category",
 					label: "InfiniBand",
 					items: ["mlops/mlops/device/infiniband/rdma-shared-device-plugin"],
 				},
@@ -798,11 +808,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/provisioning/knative/serving-crds",
 						"mlops/mlops/provisioning/knative/autoscaling",
 					],
-				},
-				{
-					type: "category",
-					label: "Nvidia",
-					items: ["mlops/mlops/provisioning/nvidia/k8s-device-plugin", "mlops/mlops/provisioning/nvidia/gpu-operator"],
 				},
 			],
 		},

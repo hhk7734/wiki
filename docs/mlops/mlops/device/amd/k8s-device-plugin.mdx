@@ -1,0 +1,55 @@
+---
+id: k8s-device-plugin
+title: AMD Kubernetes Device Plugin
+sidebar_label: Device Plugin
+description: AMD Kubernetes Device Plugin
+keywords:
+  - amd
+  - kubernetes
+  - device plugin
+---
+
+## amd.com/gpu 자원
+
+- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.
+- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.
+  - `amd-smi` 명령어를 통해 GPU 정보를 확인할 수 있습니다.
+
+## 설치
+
+```shell
+helm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/
+```
+
+```shell
+helm repo update amd-gpu \
+&& helm search repo amd-gpu/amd-gpu -l | head -n 10
+```
+
+```shell
+helm pull amd-gpu/amd-gpu --version 0.13.0
+```
+
+```shell
+helm show values amd-gpu/amd-gpu --version 0.13.0 > amd-gpu-0.13.0.yaml
+```
+
+```yaml title="amd-gpu-values.yaml"
+labeller:
+  enabled: true
+```
+
+```shell
+helm template amd-gpu amd-gpu-0.13.0.tgz \
+    -n kube-system \
+    -f amd-gpu-values.yaml \
+    > amd-gpu.yaml
+```
+
+```shell
+helm upgrade amd-gpu amd-gpu-0.13.0.tgz \
+    --install \
+    --history-max 5 \
+    -n kube-system \
+    -f amd-gpu-values.yaml
+```
