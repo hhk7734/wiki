@@ -30,5 +30,18 @@ awk [<flag>] '<script>' <input> [<input> ...]
 awk [<flag>] -f <scriptFile> <input> [<input> ...]
 ```
 
+- `<pattern>`
+  - `BEGIN`: 첫 번째 `<input>`을 읽기 전에 실행됩니다.
+  - `END`: 모든 `<input>`을 읽은 후 실행됩니다.
 - `<flag>`
   - `-F|--field-separator <regex>`: 필드 구분자를 정규식으로 지정합니다. 기본값은 연속된 공백입니다.
+
+## action
+
+### 내장 변수
+
+- `FS`
+  - 필드 구분자입니다.
+  - `$0`: 라인 한 줄 전체입니다.
+  - `$n`: `FS`로 구분된 n 번째 필드, 없으면 빈 문자열입니다.
+  - `echo ' a  b  c  d ' | awk 'BEGIN { FS = "[ \t]+" } { print $2 }'`의 결과는 a 입니다.

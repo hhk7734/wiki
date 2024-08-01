@@ -163,6 +163,7 @@ const config: Config = {
 				"ignore",
 				"ini",
 				"json",
+				"makefile",
 				"nginx",
 				"promql",
 				"protobuf",

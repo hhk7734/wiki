@@ -46,7 +46,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Makefile",
-					items: ["lang/cpp/build/makefile/makefile-basics", "lang/cpp/build/makefile/makefile-avr-example"],
+					items: [
+						"lang/cpp/build/makefile/makefile-basics",
+						"lang/cpp/build/makefile/help",
+						"lang/cpp/build/makefile/makefile-avr-example",
+					],
 				},
 				{
 					type: "category",
@@ -554,6 +558,11 @@ const sidebars: SidebarsConfig = {
 					type: "category",
 					label: "Object Management",
 					items: ["mlops/mlops/kubernetes/object-management/label"],
+				},
+				{
+					type: "category",
+					label: "Architecture",
+					items: ["mlops/mlops/kubernetes/architecture/controller"],
 				},
 				{
 					type: "category",

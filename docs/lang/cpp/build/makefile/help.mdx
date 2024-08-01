@@ -1,3 +1,20 @@
+---
+id: help
+title: Makefile help target
+sidebar_label: make help
+description: Makefile help target
+keywords:
+  - Makefile
+  - help
+---
+
+## make help
+
+operator-sdk로 생성된 프로젝트를 보다가 Makefile에 help target이 있었는데, 간편하게 도움말을 작성할 수 있어서 복사해왔습니다.
+
+사용법은 `##@ <category>` 아래에 해당 카테고리에 맞는 타겟을 `<target>: [dependency] ## <description>` 형식으로 나열하면 됩니다. 설명이 없는 타겟은 무시됩니다.
+
+```makefile
 ##@ General
 
 # The help target prints out all targets with their descriptions organized
@@ -33,3 +50,17 @@ remove_local: ## Update remote branches and remove local branches
 	git remote update --prune
 	git switch --detach origin/main
 	@git for-each-ref --format '%(refname:short)' refs/heads | xargs -r -t git branch -D
+```
+
+```shell
+$ make help
+
+Usage:
+  make <target>
+
+General
+  help             Display this help.
+
+Development
+  remove_local     Update remote branches and remove local branches
+```
