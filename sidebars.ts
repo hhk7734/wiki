@@ -37,7 +37,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "ENV",
-			items: ["lang/cpp/env/vcpkg", "lang/cpp/env/clangd"],
+			items: ["lang/cpp/env/vcpkg", "lang/cpp/env/clangd", "lang/cpp/env/linting-formatting"],
 		},
 		{
 			type: "category",
@@ -263,6 +263,11 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
+			label: "Systemd",
+			items: ["lang/etc/systemd/service"],
+		},
+		{
+			type: "category",
 			label: "Command Line Tools",
 			items: [
 				"lang/etc/command-line-tools/asdf",
@@ -463,7 +468,6 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 	],
-	"linux-tools": ["linux/linux-tools/linux-tools-etc"],
 	"linux-uboot": [
 		"linux/linux-uboot/embedded-linux-boot-process",
 		"linux/linux-uboot/build-uboot",
@@ -508,6 +512,7 @@ const sidebars: SidebarsConfig = {
 					label: "Ansible",
 					items: [
 						"mlops/mlops/ansible/ansible",
+						"mlops/mlops/ansible/config",
 						"mlops/mlops/ansible/inventory",
 						"mlops/mlops/ansible/variables",
 						"mlops/mlops/ansible/vault",

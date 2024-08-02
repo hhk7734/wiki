@@ -1,0 +1,33 @@
+---
+id: linting-formatting
+title: Linting & Formatting
+sidebar_label: Linting & Formatting
+description: Linting & Formatting
+keywords:
+  - c++
+  - linting
+  - formatting
+---
+
+## clang-format
+
+### Installation
+
+```shell
+sudo apt install -y clang-format-9 \
+&& sudo update-alternatives --install /usr/bin/clang-format clang-format $(which clang-format-9) 1
+```
+
+### Option
+
+[https://clang.llvm.org/docs/ClangFormatStyleOptions.html](https://clang.llvm.org/docs/ClangFormatStyleOptions.html)
+
+```shell
+wget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format
+```
+
+### Usage
+
+```shell
+clang-format -style=file -i -verbose [file]
+```

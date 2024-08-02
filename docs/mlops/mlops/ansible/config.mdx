@@ -1,0 +1,49 @@
+---
+id: config
+title: Ansible 설정
+sidebar_label: 설정
+description: Ansible 설정
+keywords:
+  - Ansible
+  - 설정
+---
+
+## 설정 파일
+
+ansible은 아래 순서로 설정 파일을 찾습니다.
+
+- `ANSIBLE_CONFIG=<configPath>`
+- `$PWD/ansible.cfg`
+- `$HOME/.ansible.cfg`
+- `/etc/ansible/ansible.cfg`
+
+이 중 하나라도 찾으면 그 다음 설정 파일은 찾지 않습니다. 설정 파일이 없는 경우 아래 명령어를 통해 생성할 수 있습니다.
+
+- [ansible-config](https://docs.ansible.com/ansible/latest/cli/ansible-config.html)
+
+```shell
+ansible-config init <flags> > ansible.cfg
+```
+
+- `<flags>`
+  - `--disabled`: 모든 설정을 주석 처리합니다.
+
+```shell
+ansible-config dump <flags>
+```
+
+`ansible-config dump`는 환경변수와 파일 등에 의해 설정된 현재 설정을 출력합니다.
+
+- `<flags>`
+  - `--changed-only`: 기본값과 다른 설정만 출력합니다.
+
+## 설정
+
+- `stdout_callback = <callback>`
+  - ansible 실행시 출력을 변환하는 콜백 설정입니다.
+  - `ANSIBLE_STDOUT_CALLBACK`
+  - `ansible-doc -t callback -l`: 사용 가능한 콜백 리스트
+- `jinja2_native = <bool>`
+  - 템플레이팅 시 변수의 타입을 유지할지 설정합니다.
+  - `ANSIBLE_JINJA2_NATIVE`
+  - 타입을 유지 안하는 경우 `"{{ '1' | int }}"`는 `'1'`이 됩니다.

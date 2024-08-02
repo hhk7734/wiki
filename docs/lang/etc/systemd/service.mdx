@@ -1,0 +1,66 @@
+---
+id: service
+title: Systemd Service
+sidebar_label: Service
+description: Systemd Service
+keywords:
+  - systemd
+  - service
+---
+
+## Systemd Service
+
+시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.
+
+```shell
+sudo vim /etc/systemd/system/<service_name>.service
+```
+
+```shell
+sudo chmod +x /etc/systemd/system/<service_name>.service
+```
+
+### \<service_name\>.service
+
+```makefile
+[Unit]
+Description=
+
+# 의존
+Requires=
+
+# 약한 의존
+Wants=
+
+# 작성 중인 서비스 A before B
+# B 이전에 A 실행
+Before=
+
+# 작성 중인 서비스 A after C
+# C 이후에 A 실행
+After=
+
+# C -> A -> B 순으로 실행 됨
+
+[Service]
+User=
+Group=
+
+# 실행 위치
+WorkingDirectory=
+
+# 환경 변수
+# 파이썬 가상환경 사용 시 "PATH=가상환경/bin" 추가
+# 여러번 선언 가능
+Environment=
+
+# 여러번 선언 가능
+ExecStart=
+ExecStop=
+Restart=[no|on-success|on-failure|on-watchdog|on-abort|always]
+
+[Install]
+# 유닛을 등록할때 등록에 필요한 유닛
+WantedBy=default.target
+RequiredBy=
+```
