@@ -29,6 +29,7 @@ jobs:
 
       - name: Build and Release
         env:
+          GIT_USER: hhk7734
           GIT_PASS: ${{ secrets.PAT }}
         run: |
           if [ ${{ github.event_name }} = "workflow_dispatch" ] ; then
