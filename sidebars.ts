@@ -663,7 +663,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Harbor",
-					items: ["mlops/mlops/storage/harbor/harbor"],
+					items: [
+						"mlops/mlops/storage/harbor/harbor",
+						"mlops/mlops/storage/harbor/auth",
+						"mlops/mlops/storage/harbor/proxy-cache",
+					],
 				},
 			],
 		},

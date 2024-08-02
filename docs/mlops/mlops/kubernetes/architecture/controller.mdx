@@ -26,30 +26,30 @@ Kubernetes에서 컨트롤러는 리소스를 원하는 상태로 유지하기 �
 
 ```mermaid
 sequenceDiagram
-  Note right of apiserver: User creates Deployment
-  apiserver -->> DeploymentController: Deployment Create Event
+  Note right of kube-apiserver: User creates Deployment
+  kube-apiserver -->> DeploymentController: Deployment Create Event
   DeploymentController ->> DeploymentController: Reconcile Deployment
-  DeploymentController ->> apiserver: Create ReplicaSet
+  DeploymentController ->> kube-apiserver: Create ReplicaSet
 
-  apiserver -->> ReplicaSetController: ReplicaSet Create Event
+  kube-apiserver -->> ReplicaSetController: ReplicaSet Create Event
   ReplicaSetController ->> ReplicaSetController: Reconcile ReplicaSet
-  ReplicaSetController ->> apiserver: Create Pod
+  ReplicaSetController ->> kube-apiserver: Create Pod
 
-  apiserver -->> Scheduler: Pod Create Event
-  Scheduler ->> Scheduler: Reconcile Pod
-  Scheduler ->> apiserver: Schedule Pod to Node
+  kube-apiserver -->> kube-scheduler: Pod Create Event
+  kube-scheduler ->> kube-scheduler: Reconcile Pod
+  kube-scheduler ->> kube-apiserver: Schedule Pod to Node
 
-  participant Kubelet as Node(Kubelet)
+  participant kubelet as Node(kubelet)
 
-  apiserver -->> Kubelet: Pod Update Event
-  Kubelet ->> Kubelet: Reconcile Pod(Start Container)
-  Kubelet ->> apiserver: Update Pod Status
+  kube-apiserver -->> kubelet: Pod Update Event
+  kubelet ->> kubelet: Reconcile Pod(Start Container)
+  kubelet ->> kube-apiserver: Update Pod Status
 
-  apiserver -->> ReplicaSetController: Pod Update Event
+  kube-apiserver -->> ReplicaSetController: Pod Update Event
   ReplicaSetController ->> ReplicaSetController: Reconcile ReplicaSet
-  ReplicaSetController ->> apiserver: Update ReplicaSet Status
+  ReplicaSetController ->> kube-apiserver: Update ReplicaSet Status
 
-  apiserver -->> DeploymentController: ReplicaSet Update Event
+  kube-apiserver -->> DeploymentController: ReplicaSet Update Event
   DeploymentController ->> DeploymentController: Reconcile Deployment
-  DeploymentController ->> apiserver: Update Deployment Status
+  DeploymentController ->> kube-apiserver: Update Deployment Status
 ```
