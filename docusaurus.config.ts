@@ -12,8 +12,10 @@ const config: Config = {
 	url: "https://wiki.loliot.net",
 	baseUrl: "/",
 	favicon: "img/favicon.ico",
-	organizationName: "HandS",
+	organizationName: "hhk7734",
 	projectName: "wiki.loliot.net",
+	deploymentBranch: "main",
+	trailingSlash: false,
 	markdown: {
 		mermaid: true,
 	},
