@@ -372,6 +372,11 @@ const sidebars: SidebarsConfig = {
 					label: "gRPC",
 					items: ["lang/go/libraries/grpc/protobuf", "lang/go/libraries/grpc/type", "lang/go/libraries/grpc/grpc"],
 				},
+				{
+					type: "category",
+					label: "Kubebuilder",
+					items: ["lang/go/libraries/kubebuilder/controller-gen"],
+				},
 				"lang/go/libraries/time",
 				"lang/go/libraries/validator",
 				"lang/go/libraries/swagger",

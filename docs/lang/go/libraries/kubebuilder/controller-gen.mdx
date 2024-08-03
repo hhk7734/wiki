@@ -1,0 +1,81 @@
+---
+id: controller-gen
+title: Kubebuilder controller-gen CLI
+sidebar_label: controller-gen
+description: Kubebuilder controller-gen CLI
+keywords:
+  - kubebuilder
+  - controller-gen
+---
+
+## controller-gen
+
+- [controller-gen](https://book.kubebuilder.io/reference/controller-gen)
+
+```shell
+controller-gen [<option>]
+```
+
+- `<option>`
+  - `output:<generator>:<rule>`
+    - `artifacts:<option>`
+      - `config=<path>`: 파일이 생성될 디렉토리 경로 설정입니다.
+  - `output:<rule>`: `output:<generator>:<rule>` 설정이 없으면 사용하는 전역 설정입니다.
+
+## CRD 생성
+
+- [kubebuilder CRD Generation](https://book.kubebuilder.io/reference/markers/crd)
+
+<br />
+
+- `package` 주석
+  - `// +groupName=<group>`
+- `type` 주석
+  - `// +kubebuilder:subresource:status`: `spec.versions.subresources.status` 생성 여부입니다.
+
+```shell
+controller-gen paths=./... \
+  crd[:<option>[,<option>]] output:crd:<rule>
+```
+
+- `crd:<option>`
+
+## RBAC 생성
+
+- [kubebuilder RBAC Generation](https://book.kubebuilder.io/reference/markers/rbac)
+
+<br />
+
+- `package` 주석
+  - `// +kubebuilder:rbac:<option>[,<option>]`
+    - `groups=<group>[,<group>]`
+    - `resources=<resource>[,<resource>]`
+    - `verbs=<verb>[,<verb>]`
+    - ex) `groups="",resources=pods,verbs=get;list;watch;create;update;patch;delete`
+
+```shell
+controller-gen paths=./... \
+  rbac:roleName=<name>[,<option>]]  output:rbac:<rule>
+```
+
+- `rbac:<option>`
+
+## Object/DeepCopy 코드 생성
+
+- [kubebuilder Object/DeepCopy](https://book.kubebuilder.io/reference/markers/object)
+
+<br />
+
+- `package` 주석
+  - `// +kubebuilder:object:generate=<bool>`: package에 존재하는 모든 `type`에 `DeepCopy` 관련 메서드 생성 여부입니다.
+- `type` 주석
+  - `// +kubebuilder:object:generate=<bool>`: `DeepCopy` 관련 메서드 생성 여부입니다.
+  - `// +kubebuilder:object:root=true`: `runtime.Object` 관련 메서드 생성 여부입니다.
+
+```shell
+controller-gen paths=./... object[:<option>[,<option>]]
+```
+
+- `object:<option>`
+  - `headerFile=<path>`: 생성된 파일 상단에 추가할 내용을 포함한 파일 경로 설정입니다.
+  - `year=<year>`: headerFile의 `YEAR`을 `<year>`로 변경합니다.
