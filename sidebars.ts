@@ -887,6 +887,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/monitoring/collector/fluentd",
 						{
 							type: "category",
+							label: "Promtail",
+							items: ["mlops/mlops/monitoring/collector/promtail/pipeline"],
+						},
+						{
+							type: "category",
 							label: "Vector",
 							items: [
 								"mlops/mlops/monitoring/collector/vector/vector",

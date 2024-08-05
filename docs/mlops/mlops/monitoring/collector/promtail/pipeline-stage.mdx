@@ -1,0 +1,109 @@
+---
+id: pipeline
+title: Promtail Pipeline(로그 변환)
+sidebar_label: Pipeline(로그 변환)
+description: Promtail Pipeline(로그 변환)
+keywords:
+  - promtail
+  - pipeline
+---
+
+## Pipeline
+
+- [Pipeline](https://grafana.com/docs/loki/latest/send-data/promtail/pipelines/)
+
+promtail 시작 시 discovery(or static) -\> relabel -\> pipeline 순으로 진행되며, pipeline이 무한 반복되면서 로그를 수집하게 됩니다.
+
+pipeline에는 stage라는 단계가 있고, 선언된 순서로 실행됩니다. stage에서는 [Parsing](#parsing-stage), [Transform](#transform-stage), [Action](action-stage), [Filtering](#filtering-stage) 작업을 수행합니다.
+
+pipeline에서 사용할 수 있는 데이터는 다음과 같습니다.
+
+- Labels
+  - discovery(or static) + relabel 단계에서 생성된 labels
+  - 앞선 stage에서 생성된 labels
+- Extracted Map
+  - 앞선 stage에서 생성된 key-value map
+- timestamp
+- log line
+
+```yaml
+pipeline_stages:
+  - <stage>:
+      <option>: <value>
+```
+
+## Parsing stage
+
+### cri
+
+- [Pipeline cri](https://grafana.com/docs/loki/latest/send-data/promtail/stages/cri/)
+
+```yaml
+cri: {}
+```
+
+cri는 아래와 같은 작업을 수행합니다.
+
+```yaml
+- regex:
+    expression: "^(?s)(?P<time>\\S+?) (?P<stream>stdout|stderr) (?P<flags>\\S+?) (?P<content>.*)$"
+- labels:
+    stream:
+- timestamp:
+    source: time
+    format: RFC3339Nano
+- output:
+    source: content
+```
+
+### multiline
+
+- [Pipeline multiline](https://grafana.com/docs/loki/latest/send-data/promtail/stages/multiline/)
+
+```yaml
+multiline:
+  # https://github.com/google/re2/wiki/Syntax
+  firstline: <re2>
+  # https://pkg.go.dev/time#ParseDuration
+  max_wait_time: 3s
+  max_lines: 128
+```
+
+## Transform stage
+
+### template
+
+- [Pipeline template](https://grafana.com/docs/loki/latest/send-data/promtail/stages/template/)
+
+```yaml
+template:
+  source: <key>
+  # https://pkg.go.dev/text/template
+  # https://masterminds.github.io/sprig/
+  template: <template>
+```
+
+- `<key>`
+  - Extracted Map에 있으면 해당 key의 value를 템플레이팅 된 값으로 대체합니다.
+  - Extracted Map에 없으면 해당 key를 생성하고 템플레이팅 된 값으로 대체합니다.
+- `<template>`
+  - 변수
+    - `{{ .Value }}`: Extracted Map에서 source에 설정된 `<key>`에 매핑된 값을 가져옵니다.
+    - `{{ .<key> }}`: Extracted Map에서 `key`에 해당하는 값을 가져옵니다.
+
+## Action stage
+
+## Filtering stage
+
+### match
+
+- [Pipeline match](https://grafana.com/docs/loki/latest/send-data/promtail/stages/match/)
+
+```yaml
+match:
+  # https://grafana.com/docs/loki/latest/query/log_queries/#log-stream-selector
+  # https://grafana.com/docs/loki/latest/query/log_queries/#line-filter-expression
+  selector: <logql>
+  action: keep
+  stages: []
+```
