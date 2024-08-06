@@ -1,0 +1,68 @@
+---
+id: layer
+title: Container Layer
+sidebar_label: Layer
+description: Container Layer
+keywords:
+  - container
+  - layer
+---
+
+## Layer
+
+- [Docker Layers](https://docs.docker.com/build/guide/layers/)
+- [Docker Storage drivers](https://docs.docker.com/storage/storagedriver/)
+
+```dockerfile
+# layer 1
+FROM ubuntu:20.04
+
+WORKDIR /app
+
+# layer 2
+COPY . /app/
+
+# layer 3
+RUN mkdir dir1
+# layer 4
+RUN mkdir dir2
+# layer 5
+RUN rm -rf dir1
+
+ENTRYPOINT ["ls", "-al"]
+```
+
+```json
+{
+  "RootFS": {
+    "Type": "layers",
+    "Layers": [
+      "sha256:3ec3ded77c0ce89e931f92aed086b2a2c774a6fbd51617853decc8afa4e1087a",
+      "sha256:2acd838b0b722ea6e1730147db1fed9fae1729d710bb67577f921e98e64361df",
+      "sha256:bdb23ac052fd3592738f389ded25dfee6ad69705c97f7aa9a02314b0390c2796",
+      "sha256:41f871dc3a5f1da52091d0d44f9bc34fa7680101dbdd4ed205e59a24458f9014",
+      "sha256:e05ec9099223d403f2c5d59354943ac33142d88f44915bc57e79119991399196"
+    ]
+  },
+}
+```
+
+```shell
+ID            CREATED         CREATED BY                                     SIZE        COMMENT
+7d7d623e1099  18 minutes ago  /bin/sh -c #(nop) ENTRYPOINT ["ls", "-al"]     0 B
+<missing>     18 minutes ago  /bin/sh -c rm -rf dir1                         10.8 kB
+ae7a5d9de5cb  18 minutes ago  /bin/sh -c mkdir dir2                          10.8 kB
+0cd4ed3e91a2  18 minutes ago  /bin/sh -c mkdir dir1                          9.73 kB
+243895a3dab2  18 minutes ago  /bin/sh -c #(nop) COPY dir:de7d0e927e0ce73...  2.56 kB
+5f5250218d28  42 minutes ago  /bin/sh -c #(nop) WORKDIR /app                 0 B         FROM docker.io/library/ubuntu:20.04
+<missing>     2 months ago    /bin/sh -c #(nop)  CMD ["/bin/bash"]           0 B
+<missing>     2 months ago    /bin/sh -c #(nop) ADD file:e7cff353f027ecf...  75.2 MB
+<missing>     2 months ago    /bin/sh -c #(nop)  LABEL org.opencontainer...  0 B
+<missing>     2 months ago    /bin/sh -c #(nop)  LABEL org.opencontainer...  0 B
+<missing>     2 months ago    /bin/sh -c #(nop)  ARG LAUNCHPAD_BUILD_ARCH    0 B
+<missing>     2 months ago    /bin/sh -c #(nop)  ARG RELEASE                 0 B
+```
+
+container builder의 변화에 따라 달라질 수 있지만 기본적으로 `FROM`, `COPY`, `RUN` 처럼 파일 시스템에 변화를 주는 명령어는 새로운 레이어를 생성하고, `ENV`, `ARG`, `LABEL`, `ENTRYPOINT`, `CMD` 등의 명령어 처럼 파일 시스템에 변화를 주지 않는 명령어는 메타데이터만 변경하므로 새로운 레이어를 생성하지 않습니다.
+
+여기서 주목할 점은 overlayfs의 규칙에 따라 `layer 3`에 있는 dir1은 `layer 5`에서 whiteout 처리되어 최종적으로 삭제되어 보이기만 하고 실제로는 삭제되지 않았기 때문에 `layer 5`가 이미지 크기에 영향을 주지 않습니다.

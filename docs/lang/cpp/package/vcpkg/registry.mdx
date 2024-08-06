@@ -1,0 +1,27 @@
+---
+id: registry
+title: vcpkg registry 만들기
+sidebar_label: registry 만들기
+description: vcpkg registry 만들기
+keywords:
+  - vcpkg
+  - registry
+---
+
+## registry 생성
+
+- [자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시](https://learn.microsoft.com/ko-kr/vcpkg/produce/publish-to-a-git-registry)
+
+```shell
+vcpkg-registry/
+├── ports/
+├── README.md
+└── versions/
+    └── baseline.json
+```
+
+```json title="versions/baseline.json"
+{
+	"default": {}
+}
+```

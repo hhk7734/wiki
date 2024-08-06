@@ -37,7 +37,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "ENV",
-			items: ["lang/cpp/env/vcpkg", "lang/cpp/env/clangd", "lang/cpp/env/linting-formatting"],
+			items: ["lang/cpp/env/vcpkg", "lang/cpp/env/linting-formatting"],
 		},
 		{
 			type: "category",
@@ -104,6 +104,17 @@ const sidebars: SidebarsConfig = {
 					type: "category",
 					label: 'extern "C"',
 					items: ["lang/cpp/advanced-cpp/extern-c/extern-c", "lang/cpp/advanced-cpp/extern-c/class"],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Custom Package",
+			items: [
+				{
+					type: "category",
+					label: "vcpkg",
+					items: ["lang/cpp/package/vcpkg/registry"],
 				},
 			],
 		},
@@ -536,6 +547,11 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/container/buildah-skopeo",
 				"mlops/mlops/container/podman",
 				"mlops/mlops/container/nvidia-container-toolkit",
+				{
+					type: "category",
+					label: "Build",
+					items: ["mlops/mlops/container/build/layer", "mlops/mlops/container/build/cache"],
+				},
 			],
 		},
 		{

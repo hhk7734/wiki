@@ -1,0 +1,51 @@
+---
+id: cache
+title: Cache를 사용하여 Container 빌드하기
+sidebar_label: Build Cache
+description: Cache를 사용하여 Container 빌드하기
+keywords:
+  - container
+  - cache
+---
+
+## Build Cache
+
+- [Docker Build Cache](https://docs.docker.com/build/cache/)
+- [Layer](/docs/mlops/mlops/container/build/layer)
+
+Dockerfile의 명령어들은 레이어를 생성합니다. 레이어는 이전 레이어에서 명령어를 실행시켜 발생한 변화를 기록한 것입니다. Build Cache는 명령어 실행 시 **이전 레이어가 같고, 변화의 내용이 같다고 판단될 때** 해당 명령어를 실행하지 않고 저장된 레이어를 재사용하는 것을 말합니다. 명령어를 실행하게 되면 해당 레이어는 항상 새로운 레이어로 교체됩니다.
+
+따라서 어떤 명령어가 캐싱되기 위해서는 **해당 명령어 이전 명령어들의 변경이 없고, 모두 캐싱되어야 합니다.** 중간에 하나라도 변경되면 이후 명령어들은 모두 새로운 레이어로 저장되기 때문에 캐싱되지 않습니다.
+
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 파일 변경이 생기면 이전 레이어를 재사용하지 않고 명령어를 실행시킵니다.
+COPY . .
+RUN npm install
+RUN npm run build
+```
+
+위 Dockerfile은 자주 바뀌는 부분 `COPY . .` 이후로는 항상 캐시 없이 실행된다고 봐야합니다. 의존성의 변경은 코드의 변경보다 자주 일어나는 일이 아니므로 의존성 설치를 캐싱할 수 있다면 빌드 시간을 단축할 수 있습니다.
+
+:::warning
+로컬에서는 캐싱이 항상 빠를 수 있지만, CI/CD 파이프라인에서는 캐싱을 저장하는 시간보다 명령어를 실행시키는 시간이 빠를 수 있으므로 빌드 시간을 확인해보고 캐싱을 사용해야합니다.
+:::
+
+```dockerfile
+FROM node:20-alpine
+
+WORKDIR /app
+
+# 의존성 변경이 없으면 캐싱됩니다.
+COPY package*.json ./
+RUN npm install
+
+# 파일 변경이 없으면 캐싱됩니다.
+COPY . .
+RUN npm run build
+```
+
+## Cache Mount
