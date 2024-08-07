@@ -92,7 +92,6 @@ const config: Config = {
 						NueralNetwork: "nn",
 					},
 					Linux: {
-						Linux: "linux",
 						Package: "linux-package",
 						Kernel: "linux-kernel",
 						"u-boot": "linux-uboot",
@@ -151,7 +150,7 @@ const config: Config = {
 		},
 		prism: {
 			// https://prismjs.com/#supported-languages
-			// https://github.com/FormidableLabs/prism-react-renderer/blob/prism-react-renderer%402.1.0/packages/generate-prism-languages/index.ts
+			// https://github.com/FormidableLabs/prism-react-renderer/blob/e6d323332b0363a633407fabab47b608088e3a4d/packages/generate-prism-languages/index.ts#L9-L25
 			additionalLanguages: [
 				"apacheconf",
 				"awk",
@@ -165,6 +164,7 @@ const config: Config = {
 				"ignore",
 				"ini",
 				"json",
+				"lua",
 				"makefile",
 				"nginx",
 				"promql",

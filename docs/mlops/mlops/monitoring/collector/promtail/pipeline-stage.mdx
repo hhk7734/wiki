@@ -22,6 +22,7 @@ pipeline에서 사용할 수 있는 데이터는 다음과 같습니다.
   - discovery(or static) + relabel 단계에서 생성된 labels
   - 앞선 stage에서 생성된 labels
 - Extracted Map
+  - discovery(or static) + relabel 단계에서 생성된 labels
   - 앞선 stage에서 생성된 key-value map
 - timestamp
 - log line
@@ -74,6 +75,7 @@ multiline:
 ### template
 
 - [Pipeline template](https://grafana.com/docs/loki/latest/send-data/promtail/stages/template/)
+- [stages/template.go](https://github.com/grafana/loki/blob/7683a791912ba128ce8af88b294ae3722330dfa2/clients/pkg/logentry/stages/template.go#L110-L150)
 
 ```yaml
 template:
@@ -88,8 +90,9 @@ template:
   - Extracted Map에 없으면 해당 key를 생성하고 템플레이팅 된 값으로 대체합니다.
 - `<template>`
   - 변수
-    - `{{ .Value }}`: Extracted Map에서 source에 설정된 `<key>`에 매핑된 값을 가져옵니다.
-    - `{{ .<key> }}`: Extracted Map에서 `key`에 해당하는 값을 가져옵니다.
+    - `{{ .Value }}`: Extracted Map에서 source `<key>`에 해당하는 값을 가져옵니다.
+    - `{{ .Entry }}`: 로그 라인 전체를 가져옵니다.
+    - `{{ .<key> }}`: Extracted Map에서 `<key>`에 해당하는 값을 가져옵니다.
 
 ## Action stage
 

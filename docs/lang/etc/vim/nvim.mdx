@@ -15,7 +15,7 @@ import TabItem from "@theme/TabItem";
 
 <Tabs
     groupId="os"
-    defaultValue="debian"
+    defaultValue="arch"
     values={[
         {label: 'Arch Linux', value: 'arch',},
         {label: 'Debian', value: 'debian',}
@@ -51,58 +51,35 @@ sudo snap alias nvim vim
 ## NvChad
 
 ```shell
-git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
+git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
 ```
 
+:::info
+starter를 수정해서 git에 저장해두고 사용해도 됩니다. Ex) https://github.com/hhk7734/custom.nvim
+:::
+
 ```shell
-.config/nvim
+./
 ├── init.lua
-├── lazy-lock.json
 ├── LICENSE
-└── lua/
-    ├── core/
-    │   ├── bootstrap.lua
-    │   ├── default_config.lua
-    │   ├── init.lua
-    │   ├── mappings.lua
-    │   └── utils.lua
-    ├── custom/
-    │   ├── chadrc.lua
-    │   ├── configs/
-    │   │   ├── lspconfig.lua
-    │   │   ├── null-ls.lua
-    │   │   └── overrides.lua
-    │   ├── highlights.lua
-    │   ├── init.lua
-    │   ├── mappings.lua
-    │   ├── plugins.lua
-    │   └── README.md
-    └── plugins/
-        ├── configs/
-        │   ├── cmp.lua
-        │   ├── lazy_nvim.lua
-        │   ├── lspconfig.lua
-        │   ├── mason.lua
-        │   ├── nvimtree.lua
-        │   ├── others.lua
-        │   ├── telescope.lua
-        │   └── treesitter.lua
-        └── init.lua
+├── lua/
+│   ├── chadrc.lua
+│   ├── configs/
+│   │   ├── conform.lua
+│   │   ├── lazy.lua
+│   │   └── lspconfig.lua
+│   ├── mappings.lua
+│   ├── options.lua
+│   └── plugins/
+│       └── init.lua
+└── README.md
 ```
 
 - https://nvchad.com/docs/config/walkthrough
 
-`~/.config/nvim/lua/core/default_config.lua`에 `~/.config/nvim/lua/custom/chadrc.lua`를 병합한 설정이 사용됩니다.
-
-### .config/nvim/lua/custom
-
-- https://github.com/hhk7734/custom.nvim
-
 ### 키 매핑
 
 - https://nvchad.com/docs/config/mappings
-
-`~/.config/nvim/lua/core/mappings.lua`에 `~/.config/nvim/lua/custom/mappings.lua`를 병합한 설정이 사용됩니다.
 
 <br />
 
@@ -116,20 +93,6 @@ git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1 && nvim
 
 - https://nvchad.com/docs/config/lsp
 - https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-
-```lua title="~/.config/nvim/lua/custom/configs/lspconfig.lua"
-local on_attach = require("plugins.configs.lspconfig").on_attach
-local capabilities = require("plugins.configs.lspconfig").capabilities
-
-local lspconfig = require "lspconfig"
-local root_pattern = lspconfig.util.root_pattern
-
-lspconfig.gopls.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  root_dir = root_pattern("go.mod")
-}
-```
 
 ### Nvterm
 

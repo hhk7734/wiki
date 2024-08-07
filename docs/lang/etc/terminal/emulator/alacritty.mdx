@@ -14,13 +14,7 @@ sudo pacman -S alacritty
 ```
 
 ```shell
-curl -sSL https://github.com/alacritty/alacritty/releases/download/v0.12.2/alacritty.yml \
-    --create-dirs \
-    -o ~/.config/alacritty/alacritty.yml
-```
-
-```shell
-curl -sSL https://github.com/alacritty/alacritty/releases/download/v0.12.2/alacritty.info \
+curl -sSL https://github.com/alacritty/alacritty/releases/download/v0.13.2/alacritty.info \
     | tic -x -
 ```
 
@@ -29,6 +23,8 @@ tic 명령어를 사용할 수 없는 원격 서버에 접속하는 경우 `TERM
 :::
 
 ## 설정
+
+- [Alacritty Configuration](https://alacritty.org/config-alacritty.html)
 
 ### font
 
@@ -44,10 +40,17 @@ fc-list
 ...
 ```
 
+```toml title="~/.config/alacritty/alacritty.toml"
+[font]
+normal = { family = "MesloLGM Nerd Font", style = "Regular" }
+```
+
+### window
+
 ```yaml title="~/.config/alacritty/alacritty.yml"
-font:
-  normal:
-    family: "MesloLGM Nerd Font"
+[window]
+dimensions = { columns = 120, lines = 50 }
+padding = { x = 5, y = 5 }
 ```
 
 ### theme
@@ -60,16 +63,8 @@ mkdir -p ~/.config/alacritty/themes
 git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/themes
 ```
 
-```yaml title="~/.config/alacritty/alacritty.yml"
-import:
-  - ~/.config/alacritty/themes/themes/github_dark.yaml
-```
-
-### window size
-
-```yaml title="~/.config/alacritty/alacritty.yml"
-window:
-  dimensions:
-    columns: 120
-    lines: 40
+```toml title="~/.config/alacritty/alacritty.toml"
+import = [
+  "~/.config/alacritty/themes/themes/github_dark.yaml",
+]
 ```

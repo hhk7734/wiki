@@ -440,6 +440,7 @@ const sidebars: SidebarsConfig = {
 		"linux/linux-kernel/linux-kernel-ftrace",
 		"linux/linux-kernel/linux-kernel-how-to-contribute",
 		"linux/linux-kernel/linux-kernel-tty0uart",
+		"linux/kernel/udev",
 		{
 			type: "category",
 			label: "Module",
@@ -458,17 +459,14 @@ const sidebars: SidebarsConfig = {
 			label: "Namespace",
 			items: ["linux/kernel/namespace/namespace", "linux/kernel/namespace/user"],
 		},
-	],
-	linux: [
-		"linux/linux/udev",
 		{
 			type: "category",
 			label: "Storage",
 			items: [
-				"linux/linux/storage/lvm",
-				"linux/linux/storage/swap",
-				"linux/linux/storage/fstab",
-				"linux/linux/storage/clone-os-image",
+				"linux/kernel/storage/lvm",
+				"linux/kernel/storage/swap",
+				"linux/kernel/storage/fstab",
+				"linux/kernel/storage/clone-os-image",
 			],
 		},
 	],
