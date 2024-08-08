@@ -185,7 +185,7 @@ podman system migrate
 
 NFS 프로토콜에는 사용자 네임스페이스 개념이 없습니다. rootless podman을 사용할 때 기본 graphroot는 `$HOME/.local/share/containers/storage`인데, NFS로 홈 디렉토리를 공유하고 있다면 문제가 발생할 수 있습니다.
 
-```ini title="$HOME/.config/containers/storage.conf"
+```ini title="~/.config/containers/storage.conf"
 [storage]
 driver = "overlay"
 runroot = "/run/user/2081"

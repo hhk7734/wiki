@@ -82,7 +82,12 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Eigen",
-					items: ["lang/cpp/libraries/Eigen/eigen-basics"],
+					items: ["lang/cpp/libraries/eigen/eigen-basics"],
+				},
+				{
+					type: "category",
+					label: "gRPC",
+					items: ["lang/cpp/libraries/grpc/grpc"],
 				},
 			],
 		},
@@ -270,7 +275,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Vim",
-			items: ["lang/etc/vim/nvim", "lang/etc/vim/nvim-tree", "lang/etc/vim/regex"],
+			items: ["lang/etc/vim/nvim", "lang/etc/vim/lua", "lang/etc/vim/nvim-tree", "lang/etc/vim/regex"],
 		},
 		{
 			type: "category",

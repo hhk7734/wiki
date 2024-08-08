@@ -11,6 +11,10 @@ keywords:
 
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
 
+```shell
+asdf plugin add kubectl
+```
+
 ```shell title=".zshrc"
 # kubectl
 source <(kubectl completion zsh)
@@ -100,6 +104,10 @@ kubectl node-shell <node>
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
 
 ```shell
+asdf plugin add k9s
+```
+
+```shell
 k9s info
 ```
 
@@ -107,7 +115,7 @@ k9s info
 
 - https://k9scli.io/topics/plugins/
 
-```yaml title="$HOME/.config/k9s/plugins.yaml"
+```yaml title="~/.config/k9s/plugins.yaml"
 plugins:
   log2jq:
     shortCut: Shift-L
@@ -120,13 +128,28 @@ plugins:
     args:
       - -c
       - |
-        echo 'kubectl logs -f --since=10m --context $CONTEXT -n $NAMESPACE $NAME \\
+        echo 'kubectl logs -f --context $CONTEXT -n $NAMESPACE $NAME \\
           | jq -rRC --unbuffered '"'"'. as $line | try fromjson catch $line'"'"' \\
           | sed '"'"'s/\\\\n/\\n/g; s/\\\\t/\\t/g'"'\n\n"
 
-        kubectl logs -f --since=10m --context $CONTEXT -n $NAMESPACE $NAME \
+        kubectl logs -f --context $CONTEXT -n $NAMESPACE $NAME \
           | jq -rRC --unbuffered '. as $line | try fromjson catch $line' \
           | sed 's/\\n/\n/g; s/\\t/\t/g'
+
+  node-shell:
+    shortCut: s
+    confirm: false
+    background: false
+    description: Shell
+    scopes:
+      - nodes
+    command: sh
+    args:
+      - -c
+      - |
+        echo 'kubectl node-shell --context $CONTEXT $NAME'
+
+        kubectl node-shell --context $CONTEXT $NAME
 ```
 
 ## Popeye
@@ -151,3 +174,7 @@ export PATH=/opt/popeye/0.10.1:$PATH
 <br />
 
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
+
+```shell
+asdf plugin add kubent
+```

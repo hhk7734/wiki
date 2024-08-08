@@ -15,9 +15,32 @@ keywords:
 
 > A File Explorer For Neovim Written In Lua
 
+```lua
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = {
+      git = {
+        enable = true,
+      },
+
+      renderer = {
+        highlight_git = true,
+        icons = {
+          show = {
+            git = true,
+          },
+        },
+      },
+    },
+  },
+```
+
 ## 단축키
 
-- NvChad
-  - `<C-n>`: NvimTreeToggle
-  - `<leader>e`: NvimTreeFocus
+- `<C-n>`: NvimTreeToggle
+- `H`: 숨김 파일 on/off
+- `<C-]>`: 포커스된 디렉토리를 root로 변경(`cd`)
+- `-`: 상위 디렉토리를 root로 변경(`cd`)
+- `:cd <path>`: 워킹 디렉토리 변경
+- `<leader>e`: NvimTreeFocus
 - `g?`: nvim-tree 단축키 정보 보기

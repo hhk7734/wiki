@@ -8,7 +8,7 @@ keywords:
   - submodule
 ---
 
-- https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88
+- [Git Submodules](https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88)
 
 ## submodule 추가하기
 
@@ -54,4 +54,13 @@ git commit -am "Update submodule B"
 git clone --recurse-submodules [<submodulePath>] <URL>
 ```
 
-- `--recurse-submodules [<submodulePath>]`: clone 후 `git submodule update --init --recursive [<submodulePath>]`을 실행하는 옵션입니다.
+- `--recurse-submodules [<submodulePath>]`: clone 후 submodule을 초기화하고 해당 데이터를 가져옵니다.
+
+:::tip
+clone 때 submodule을 가져오지 못한 경우 아래 명령어를 실행하면 됩니다.
+
+```shell
+git submodule update --init --recursive [<submodulePath>]
+```
+
+:::
