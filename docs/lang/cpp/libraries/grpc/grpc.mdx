@@ -8,3 +8,14 @@ keywords:
 ---
 
 ## 컴파일
+
+- [Protobuf 컴파일](/docs/lang/cpp/libraries/grpc/protobuf#컴파일)
+
+```shell
+protoc \
+  --proto_path=<protoRoot> \
+  --cpp_out=<cppRoot> \
+  --grpc_out=<cppRoot> \
+  --plugin=protoc-gen-grpc="$(which grpc_cpp_plugin)" \
+  <protoFile>
+```

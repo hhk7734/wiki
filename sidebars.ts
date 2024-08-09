@@ -87,7 +87,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "gRPC",
-					items: ["lang/cpp/libraries/grpc/grpc"],
+					items: ["lang/cpp/libraries/grpc/protobuf", "lang/cpp/libraries/grpc/grpc"],
 				},
 			],
 		},

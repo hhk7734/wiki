@@ -62,7 +62,7 @@ cmake --help-variable-list
 ## Build
 
 <Tabs
-    defaultValue="makefile"
+    defaultValue="ninja"
     values={[
         {label: 'Ninja', value: 'ninja',},
         {label: 'Makefile', value: 'makefile',},
@@ -96,5 +96,6 @@ cmake --build build -j$(expr $(expr $(nproc) \* 6) \/ 5)
 </Tabs>
 
 ```shell
+# cmake --build build --target install
 cmake --install build
 ```

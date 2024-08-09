@@ -1,0 +1,31 @@
+---
+id: protobuf
+title: Protobuf
+sidebar_label: Protobuf
+description: Protocol Buffers
+keywords:
+  - Protobuf
+---
+
+## Protobuf
+
+- [Protobuf](/docs/lang/design/protocol/protobuf)
+- [Version Support](https://protobuf.dev/support/version-support/#cpp)
+
+## 컴파일
+
+- [C++ Generated Code Guide](https://protobuf.dev/reference/cpp/cpp-generated/)
+
+<br />
+
+- `package <package>;`는 `.`으로 구분되어 namespace로 사용됩니다.
+  - Ex) `package foo.bar;` -\> `foo::bar`
+- `import "<path>/<proto>.proto";`는 디렉토리 경로와 파일명으로 사용됩니다.
+  - Ex) `import "foo/bar.proto";` -\> `foo/bar[.grpc].pb<.h|.ccc>`
+
+```shell
+protoc \
+  --proto_path=<protoRoot> \
+  --cpp_out=<cppRoot> \
+  <protoFile>
+```
