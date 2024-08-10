@@ -25,3 +25,68 @@ vcpkg-registry/
 	"default": {}
 }
 ```
+
+## port 추가하기
+
+### GitHub
+
+- [GitHub 리포지토리 패키징](https://learn.microsoft.com/ko-kr/vcpkg/examples/packaging-github-repos)
+
+```json title="ports/<package>/vcpkg.json"
+{
+	"name": "<package>",
+	"version-string": "<version>",
+	"description": "<description>",
+	"homepage": "<url>",
+	"dependencies": [
+		{
+			"name": "vcpkg-cmake",
+			"host": true
+		},
+		{
+			"name": "vcpkg-cmake-config",
+			"host": true
+		}
+	]
+}
+```
+
+```shell
+vcpkg format-manifest ports/<package>/vcpkg.json
+```
+
+```cmake title="ports/<package>/portfile.cmake"
+vcpkg_from_github(
+  OUT_SOURCE_PATH SOURCE_PATH
+  REPO <user|organization>/<repository>
+  REF <commit|tag>
+  SHA512 0
+  HEAD_REF main
+)
+
+vcpkg_cmake_configure(
+  SOURCE_PATH "${SOURCE_PATH}"
+  PREFER_NINJA
+)
+vcpkg_install_cmake()
+vcpkg_cmake_config_fixup()
+
+file(
+  INSTALL "${SOURCE_PATH}/LICENSE"
+  DESTINATION "${CURRENT_PACKAGES_DIR}/share/${PORT}"
+  RENAME copyright
+)
+```
+
+- [vcpkg_from_github](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_from_github)
+  - `OUT_SOURCE_PATH SOURCE_PATH`
+    - `SOURCE_PATH` 변수에 다운로드한 소스 경로를 저장합니다.
+  - `REF <commit|tag>`
+    - commit hash를 사용하고 tag를 주석으로 남기는 방식을 추천합니다.
+  - `SHA512 <hash>`
+- [vcpkg_cmake_configure](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_configure)
+  - `SOURCE_PATH <path>`
+    - CMakeLists.txt 파일이 있는 경로를 설정합니다.
+    - Ex) `"${SOURCE_PATH}"`, `"${SOURCE_PATH}/<subdir>"`
+- [vcpkg_install_cmake](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_install)
+- [vcpkg_cmake_config_fixup](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_config_fixup)
