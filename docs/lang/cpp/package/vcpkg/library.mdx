@@ -1,0 +1,96 @@
+---
+id: library
+title: vcpkg Library 만들기
+sidebar_label: Library 만들기
+description: vcpkg Library 만들기
+keywords:
+  - vcpkg
+  - library
+---
+
+## 초기화
+
+vcpkg Registry에 Port로 인식 가능한 빌드 시스템은 MSBuild, CMake, GN 등이 있습니다.
+
+의존성 설치를 위해 vcpkg와 CMake를 사용하는 경우 [vcpkg 환경 설정](/docs/lang/cpp/env/vcpkg)을 참고해주세요.
+
+## CMake
+
+```cmake title="CMakeLists.txt"
+cmake_minimum_required(VERSION 3.15)
+
+project(
+    <package>
+    VERSION <version>
+    DESCRIPTION "<description>"
+    HOMEPAGE_URL "<url>"
+    LANGUAGES CXX
+)
+string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
+
+include(CMakePackageConfigHelpers)
+include(GNUInstallDirs)
+
+#
+# 라이브러리 설정
+#
+
+add_library(
+    ${PROJECT_NAME_LOWER}
+    # ...
+)
+
+# ...
+
+#
+# install 설정
+#
+
+install(
+    TARGETS ${PROJECT_NAME_LOWER}
+    EXPORT ${PROJECT_NAME}Targets
+)
+
+# ...
+
+# ${PROJECT_NAME}Targets.cmake
+install(
+    EXPORT ${PROJECT_NAME}Targets
+    NAMESPACE ${PROJECT_NAME}::
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME_LOWER}
+)
+
+#
+# find_package를 위한 설정
+#
+
+configure_package_config_file(
+    "cmake/${PROJECT_NAME}Config.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+    INSTALL_DESTINATION ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME_LOWER}
+    NO_SET_AND_CHECK_MACRO
+)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    VERSION <version>
+    COMPATIBILITY SameMajorVersion
+)
+
+install(
+    FILES
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake"
+        "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake"
+    DESTINATION
+        ${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME_LOWER}
+)
+```
+
+```cmake title="cmake/<package>Config.cmake.in"
+@PACKAGE_INIT@
+
+# ...
+
+include("${CMAKE_CURRENT_LIST_DIR}/<project>Targets.cmake")
+check_required_components(<package>)
+```

@@ -119,7 +119,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "vcpkg",
-					items: ["lang/cpp/package/vcpkg/registry"],
+					items: ["lang/cpp/package/vcpkg/library", "lang/cpp/package/vcpkg/registry"],
 				},
 			],
 		},
