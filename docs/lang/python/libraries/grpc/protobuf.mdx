@@ -19,7 +19,11 @@ python3 -m pip install protobuf
 ```
 
 ```shell
-protoc
+protoc \
+  --proto_path=<protoRoot> \
+  --python_out=<pythonRoot> \
+  --pyi_out=<pythonRoot> \
+  <protoFile>
 ```
 
 - `<flogs>`

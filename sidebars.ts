@@ -1339,7 +1339,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "gRPC",
-					items: ["lang/python/libraries/grpc/protobuf", "lang/python/libraries/grpc/type"],
+					items: [
+						"lang/python/libraries/grpc/protobuf",
+						"lang/python/libraries/grpc/type",
+						"lang/python/libraries/grpc/grpc",
+					],
 				},
 			],
 		},

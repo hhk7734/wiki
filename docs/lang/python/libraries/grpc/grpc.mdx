@@ -1,0 +1,26 @@
+---
+id: grpc
+title: gRPC
+sidebar_label: gRPC
+description: gRPC
+keywords:
+  - grpc
+---
+
+## 컴파일
+
+- [Protobuf 컴파일](/docs/lang/python/libraries/grpc/protobuf#컴파일)
+
+```shell
+protoc \
+  --proto_path=<protoRoot> \
+  --python_out=<pythonRoot> \
+  --pyi_out=<pythonRoot> \
+  --grpc_out=<pythonRoot> \
+  --plugin=protoc-gen-grpc="$(which grpc_python_plugin)" \
+  <protoFile>
+```
+
+:::info
+[Python Quick start](https://grpc.io/docs/languages/python/quickstart/)에서는 `grpcio-tools`를 사용합니다.
+:::

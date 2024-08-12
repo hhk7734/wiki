@@ -170,3 +170,21 @@ vcpkg \
 ```
 
 버전을 업데이트한 후 git commit을 생성해야합니다.
+
+### 프로젝트에 Registry 추가
+
+- [registries Reference](https://learn.microsoft.com/ko-kr/vcpkg/reference/vcpkg-configuration-json#registry)
+
+```json title="vcpkg-configration.json"
+{
+	"registries": [
+		{
+			"kind": "git",
+			"repository": "<repositoryURL>",
+			"reference": "<branch>",
+			"baseline": "<commitHash>",
+			"packages": ["<package>"]
+		}
+	]
+}
+```
