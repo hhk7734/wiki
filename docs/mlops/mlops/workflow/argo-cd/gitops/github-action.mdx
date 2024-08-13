@@ -192,3 +192,37 @@ jobs:
         with:
           generate_release_notes: true
 ```
+
+## Required
+
+Required job이 `paths`나 `paths-ignore` 같은 옵션으로 인해 실행되지 않으면 `Pending` 상태에 빠져서 PR을 완료할 수 없습니다. 이를 해결하기 위해서는 반대되는 두 workflow를 만들되 job 이름을 같게 하는 방법과 [dorny/paths-filter](https://github.com/dorny/paths-filter)를 사용하는 방법이 있습니다.
+
+### paths-filter
+
+```yaml
+jobs:
+  tests:
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Path filter
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'backend/**'
+            frontend:
+              - 'frontend/**'
+
+      - name: Test backend
+        if: steps.filter.outputs.backend == 'true'
+        run: |
+          # ...
+
+      - name: Test frontend
+        if: steps.filter.outputs.frontend == 'true'
+        run: |
+          # ...
+```

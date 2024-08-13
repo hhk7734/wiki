@@ -553,7 +553,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Build",
-					items: ["mlops/mlops/container/build/layer", "mlops/mlops/container/build/cache"],
+					items: [
+						"mlops/mlops/container/build/layer",
+						"mlops/mlops/container/build/cache",
+						"mlops/mlops/container/build/dockerignore",
+					],
 				},
 			],
 		},
