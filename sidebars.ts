@@ -549,6 +549,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/container/apptainer",
 				"mlops/mlops/container/buildah-skopeo",
 				"mlops/mlops/container/podman",
+				"mlops/mlops/container/docker",
 				"mlops/mlops/container/nvidia-container-toolkit",
 				{
 					type: "category",

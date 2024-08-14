@@ -1,0 +1,39 @@
+---
+id: docker
+title: Docker
+sidebar_label: Docker
+description: Docker
+keywords:
+  - docker
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S docker
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+sudo systemctl enable --now docker.service
+```
+
+```shell
+sudo usermod -aG docker $USER
+```
