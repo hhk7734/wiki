@@ -10,13 +10,13 @@ keywords:
   - action
 ---
 
-## 설정 파일
+## Workflow 파일
 
-GitHub Action을 위한 설정파일을 리포지토리의 `.github/workflows` 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어 실행됩니다.
+GitHub Action을 위한 Workflow yaml파일을 리포지토리의 `.github/workflows` 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어 실행됩니다.
 
 ## 컨텍스트 정보
 
-- https://docs.github.com/en/actions/learn-github-actions/contexts
+- [Accessing contextual information](https://docs.github.com/en/actions/learn-github-actions/contexts)
 
 사용할 수 있는 컨텍스트 정보를 아래 Action을 통해 확인 할 수 있습니다.
 
@@ -193,36 +193,114 @@ jobs:
           generate_release_notes: true
 ```
 
-## Required
+## 필터를 사용하는 Required Job
 
-Required job이 `paths`나 `paths-ignore` 같은 옵션으로 인해 실행되지 않으면 `Pending` 상태에 빠져서 PR을 완료할 수 없습니다. 이를 해결하기 위해서는 반대되는 두 workflow를 만들되 job 이름을 같게 하는 방법과 [dorny/paths-filter](https://github.com/dorny/paths-filter)를 사용하는 방법이 있습니다.
+Required job이 `paths`나 `paths-ignore` 같은 옵션으로 인해 실행되지 않으면 `Pending` 상태에 빠져서 PR을 완료할 수 없습니다. 이를 해결하기 위해서는
 
-### paths-filter
+- 반대되는 필터를 갖는 Workflow를 만들고 Job 이름이 같은 dummy Job을 만드는 방법
+- [dorny/paths-filter](https://github.com/dorny/paths-filter)를 사용하는 방법
+
+이 있습니다.
+
+:::info
+Job 실행 결과는 `success`, `failure`, `cancelled`, `skipped` 중 하나입니다. `Pending`은 실행 자체가 안된 상태입니다.
+
+`success`와 `skipped`는 Required 검사를 통과합니다.
+:::
+
+### Dummy Job 만들기
+
+```yaml title=".github/workflows/job.yaml"
+name: job
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test backend
+        run: |
+          # ...
+```
+
+```yaml title=".github/workflows/job-dummy.yaml"
+name: job
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "backend/**"
+
+jobs:
+  tests:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Unreachable"
+```
+
+### paths-filter 사용하기
+
+- [paths-filter Usage](https://github.com/dorny/paths-filter?tab=readme-ov-file#usage)
 
 ```yaml
 jobs:
-  tests:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      backend_files: ${{ steps.filter.outputs.backend_files }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      # PR에 대한 filter의 경우 checkout이 필요 없습니다.
+      - name: Find changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: shell
+          filters: |
+            backend:
+              - "backend/**"
+            frontend:
+              - "frontend/**"
+
+  backend-tests:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Path filter
-        uses: dorny/paths-filter@v3
-        id: filter
-        with:
-          filters: |
-            backend:
-              - 'backend/**'
-            frontend:
-              - 'frontend/**'
-
       - name: Test backend
-        if: steps.filter.outputs.backend == 'true'
         run: |
           # ...
 
+      - name: Lint backend
+        run: |
+          for file in ${{ needs.changes.outputs.backend_files }}; do
+            # ...
+          done
+
+  frontend-tests:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Test frontend
-        if: steps.filter.outputs.frontend == 'true'
         run: |
           # ...
 ```
