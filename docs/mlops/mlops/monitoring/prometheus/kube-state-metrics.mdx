@@ -33,7 +33,8 @@ helm pull prometheus-community/kube-state-metrics --version 5.16.4
 ```
 
 ```shell
-helm show values kube-state-metrics-5.16.4.tgz \
+helm show values prometheus-community/kube-state-metrics \
+    --version 5.16.4 \
     > kube-state-metrics-5.16.4.yaml
 ```
 

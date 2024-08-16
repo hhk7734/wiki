@@ -43,6 +43,20 @@ jobs:
         run: echo '${{ toJSON(matrix) }}'
 ```
 
+## 동시성 제어
+
+- [Control the concurrency](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/control-the-concurrency-of-workflows-and-jobs#example-concurrency-groups)
+
+같은 Workflow, 같은 브랜치에서 실행되는 Workflow는 마지막에 제출된 것만 실행되도록하는 설정은 아래와 같습니다.
+
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+`concurrency`는 Job에 선언할 수 있습니다. `group`은 대소문자를 구분하지 않습니다.
+
 ## 버전 태그
 
 ```yaml

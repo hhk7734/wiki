@@ -13,7 +13,7 @@ keywords:
 
 ## 설치
 
-- https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
+- [kube-prometheus-stack Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -29,7 +29,8 @@ helm pull prometheus-community/kube-prometheus-stack --version 57.0.1
 ```
 
 ```shell
-helm show values kube-prometheus-stack-57.0.1.tgz \
+helm show values prometheus-community/kube-prometheus-stack \
+    --version 57.0.1 \
     > kube-prometheus-stack-57.0.1.yaml
 ```
 

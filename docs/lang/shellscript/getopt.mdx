@@ -44,6 +44,8 @@ echo $OPTIND # 다음 인자의 인덱스
 getopt -o <shortOptString> -l <longOptString> -- <parameters>
 ```
 
+- `-n | --name <name>`: 프로그램 이름을 설정합니다
+
 ### shortOptString
 
 ```shell
@@ -105,9 +107,12 @@ helpMsg() {
 END
 }
 
-if [ $# -eq 0 ] || ! options=$(getopt -o ab:c -l aaa,bbb:,ccc,help \
-    -n $(basename "$0") -- "$@"); then
-    printf "%s\n" "${RED}${BOLD}${helpMsg}${DEFAULT}" >&2
+if [ $# -eq 0 ] || ! options=$(getopt \
+    -o ab:ch \
+    -l aaa,bbb:,ccc,help \
+    -n "$COMMAND" \
+    -- "$@"); then
+    printf "%s\n" "${RED}${BOLD}$(helpMsg)${DEFAULT}" >&2
     exit 1
 fi
 
@@ -127,16 +132,15 @@ while true; do
         echo "$1"
         shift
         ;;
-    --help)
+    -h | --help)
         helpMsg
         exit 0
         ;;
     --)
-        shift
+        echo "$@"
+        shift $#
         break
         ;;
     esac
 done
-
-echo "$@"
 ```
