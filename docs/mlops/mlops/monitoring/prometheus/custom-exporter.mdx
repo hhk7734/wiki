@@ -14,13 +14,13 @@ keywords:
 
 ## metric 이름
 
-`<namespace>_<metric>[_<unit>]`의 형식을 주로 사용하는 것 같습니다.
+`<namespace>[_<subsystem>]_<metric>`의 형식이 많이 사용됩니다.
 
 - `container_cpu_usage_seconds_total`
   - namespace: `container`
-  - metric: `cpu_usage`
-  - unit: `seconds_total`
+  - subsystem: `cpu`
+  - metric: `usage_seconds_total`
 - `container_memory_working_set_bytes`
   - namespace: `container`
-  - metric: `memory_working_set`
-  - unit: `bytes`
+  - subsystem: `memory`
+  - metric: `working_set_bytes`

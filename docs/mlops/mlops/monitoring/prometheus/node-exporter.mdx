@@ -144,3 +144,35 @@ spec:
 ```
 
 ## Metrics
+
+### CPU
+
+- `node` `_cpu` `_seconds_total`
+  - 각 mode 별 CPU 사용 누적 시간입니다.
+  - 1 초가 지났을 때 각 mode 별 CPU 사용 시간의 총 합은 1 이 증가합니다.
+    - `sum by (cpu) (rate(node_cpu_seconds_total[1m]))` == 1
+  - labels
+    - cpu
+    - mode
+      - idle, iowait, irq, nice, sftirq, steal, system, user
+      - idle은 CPU를 사용하지 않는 상태를 의미합니다.
+  - CPU 사용률: `1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m]))`
+
+### Memory
+
+- `node` `_memory` `_MemTotal_bytes`
+- `node` `_memory` `_MemFree_bytes`
+  - 메모리 사용률: `1 - (node_memory_MemFree_bytes / node_memory_MemTotal_bytes)`
+- `node` `_memory` `_MemAvailable_bytes`
+- `node` `_memory` `_Cached_bytes`
+- `node` `_memory` `_Buffers_bytes`
+- `node` `_memory` `_SReclaimable_bytes`
+- 사용중 메모리
+  - `(MemTotal - MemFree - (Buffers + Cached + SReclaimable))`
+
+### FileSystem
+
+- `node` `_filesystem` `_size_bytes`
+- `node` `_filesystem` `_free_bytes`
+- `node` `_filesystem` `_avail_bytes`
+  - non-root 유저가 사용 가능한 공간입니다.

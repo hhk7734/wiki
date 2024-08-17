@@ -66,6 +66,28 @@ keywords:
 
 - https://prometheus.io/docs/prometheus/latest/querying/operators/
 
+#### Aggregation Operators
+
+- [Aggregation Operators](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators)
+
+```promql
+<operator> [without|by (<label>[,<label>])] ([parameter,] <instantVector>)
+```
+
+또는
+
+```promql
+<operator> ([parameter,] <instantVector>) [without|by (<label>[,<label>])]
+```
+
+- `sum (<instantVector>)`: 메트릭의 총합을 구합니다.
+- `sum by (<label>[,<label>]) (<instantVector>)`: `<label>[,<label>]`이 같은 메트릭의 총합을 구합니다.
+- `sum without (<label>[,<label>]) (<instantVector>)`: `<label>[,<label>]`이 다른 메트릭의 총합을 구합니다.
+
 ### Functions
 
-- https://prometheus.io/docs/prometheus/latest/querying/functions/
+- [Functions](https://prometheus.io/docs/prometheus/latest/querying/functions/)
+
+<br />
+
+- `rate(<rangeVector>)`: x축을 timestamp로하는 그래프의 평균 변화율을 계산합니다.

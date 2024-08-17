@@ -52,6 +52,5 @@ prometheusOperator:
 
 <br />
 
-- container
-  - cpu
-    - CPU 사용량: `sum by(pod) (rate(container_cpu_usage_seconds_total[2m]))`
+- `container` `_cpu` `_usage_seconds_total`
+  - CPU 사용량: `sum by(pod) (rate(container_cpu_usage_seconds_total[1m]))`
