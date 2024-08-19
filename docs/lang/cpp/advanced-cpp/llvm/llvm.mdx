@@ -1,18 +1,20 @@
 ---
-id: llvm-basics
-title: LLVM Basics
-description: LLVM Basics
+id: llvm
+title: LLVM
+description: LLVM
 keywords:
   - C++
   - LLVM
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
-
-Ref: [http://llvm.org/](http://llvm.org/)
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 <center>
 	<img src={useBaseUrl("img/lang/cpp/advanced-cpp/llvm/llvm-llvm.png")} />
+	<br />
+	<strong>https://llvm.org/</strong>
 </center>
 
 ## Terms
@@ -21,9 +23,8 @@ Ref: [http://llvm.org/](http://llvm.org/)
 
 > The LLVM Core libraries provide a modern source- and target-independent optimizer, along with code generation support for many popular CPUs (as well as some less common ones!) These libraries are built around a well specified code representation known as the LLVM intermediate representation ("LLVM IR"). The LLVM Core libraries are well documented, and it is particularly easy to invent your own language (or port an existing compiler) to use LLVM as an optimizer and code generator.
 
-- **Build platform**: The platform on which the compilation tools are executed
-- **Host platform**: The platform on which the code will run
-- **Target platform**: Only when building a compiler, this is the platform that the compiler will generate code for
+- **Host platform**: 컴파일러가 실행되는 플랫폼
+- **Target platform**: 빌드의 결과물이 실행되는 플랫폼
 - **Native compilation**: Host == Target
 - **Cross compilation**: Host != Target
 
@@ -47,7 +48,56 @@ Ref: [http://llvm.org/](http://llvm.org/)
 
 > libc++abi is a new implementation of low level support for a standard C++ library.
 
-## Clang + LLVM
+## 설치
 
-- [https://github.com/llvm/llvm-project](https://github.com/llvm/llvm-project)
-- [https://llvm.org/docs/GettingStarted.html](https://llvm.org/docs/GettingStarted.html)
+### Package Manager
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S clang
+```
+
+</TabItem>
+
+</Tabs>
+
+### Build from Source
+
+- [LLVM CMake](https://llvm.org/docs/CMake.html)
+- [LLVM Build libc++](https://libcxx.llvm.org//BuildingLibcxx.html)
+
+```shell
+git clone --branch=llvmorg-18.1.8 --depth=1 https://github.com/llvm/llvm-project.git
+```
+
+```shell
+cmake -G Ninja \
+    -S llvm \
+    -B build_llvm \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX=/opt/toolchain/clang/18.1.8 \
+    -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra"
+```
+
+- `LLVM_ENABLE_PROJECTS=<project>[;<project>]`
+  - `clang`
+    - clang-format
+  - `clang-tools-extra`
+    - clang-tidy, clangd
+
+```shell
+cmake --build build_llvm
+```
+
+```shell
+sudo cmake --install build_llvm
+```

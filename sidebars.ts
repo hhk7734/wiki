@@ -99,11 +99,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "LLVM",
-					items: [
-						"lang/cpp/advanced-cpp/llvm/llvm-basics",
-						"lang/cpp/advanced-cpp/llvm/llvm-build-from-source",
-						"lang/cpp/advanced-cpp/llvm/llvm-cross-compile",
-					],
+					items: ["lang/cpp/advanced-cpp/llvm/llvm", "lang/cpp/advanced-cpp/llvm/cross-compile"],
 				},
 				{
 					type: "category",
