@@ -31,5 +31,5 @@ help: ## Display this help.
 .PHONY: remove-local-branch
 remove-local-branch: ## Update remote branches and remove local branches.
 	git remote update --prune
-	git switch --detach origin/main
+	git switch --detach origin/HEAD
 	@git for-each-ref --format '%(refname:short)' refs/heads | xargs -r -t git branch -D

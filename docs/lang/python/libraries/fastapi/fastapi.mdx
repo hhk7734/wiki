@@ -15,65 +15,6 @@ keywords:
 python3 -m pip install fastapi uvicron
 ```
 
-## Config
+## Example
 
-- https://docs.pydantic.dev/latest/concepts/pydantic_settings/
-
-```shell
-python3 -m pip install pydantic-settings python-dotenv
-```
-
-```shell title=".env"
-DEBUG=true
-POD_NAME=fastapi-test
-POD_NAMESPACE=localhost
-```
-
-```python title="app/config.py"
-from pydantic_settings import BaseSettings, SettingsConfigDict
-
-
-class K8sConfig(BaseSettings):
-    pod_name: str
-    pod_namespace: str
-
-    model_config = SettingsConfigDict(env_file=".env")
-
-
-class Config(BaseSettings):
-    debug: bool = False
-    k8s = K8sConfig()
-
-    model_config = SettingsConfigDict(env_file=".env")
-
-
-config = Config()
-```
-
-## Dockerfile
-
-```shell title=".dockerignore"
-.env
-```
-
-```dockerfile title="Dockerfile"
-FROM python:3.12-alpine as requirements-stage
-
-WORKDIR /app
-
-RUN pip install poetry
-COPY pyproject.toml poetry.lock* /app/
-RUN poetry export -f requirements.txt  --output /app/requirements.txt --without-hashes
-
-FROM python:3.12-alpine as runtime
-
-WORKDIR /app
-
-COPY ./app /app/app
-COPY --from=requirements-stage /app/requirements.txt /app/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-
-ENV PORT 8000
-
-CMD ["uvicorn", "app.test.main:app", "--host", "0.0.0.0", "--port", "${PORT}", "--no-access-log", "--no-use-colors"]
-```
+- [fastapi_test.py](https://github.com/hhk7734/fastapi_test.py)

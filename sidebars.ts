@@ -30,7 +30,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "KiCad",
-			items: ["etc/circuit/kicad/kicad-basics"],
+			items: ["etc/circuit/kicad/kicad"],
 		},
 	],
 	cpp: [
@@ -1335,7 +1335,11 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "FastAPI",
-					items: ["lang/python/libraries/fastapi/fastapi", "lang/python/libraries/fastapi/lifespan"],
+					items: [
+						"lang/python/libraries/fastapi/fastapi",
+						"lang/python/libraries/fastapi/lifespan",
+						"lang/python/libraries/fastapi/middleware",
+					],
 				},
 				{
 					type: "category",

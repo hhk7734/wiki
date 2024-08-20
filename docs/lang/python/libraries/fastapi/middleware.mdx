@@ -1,0 +1,59 @@
+---
+id: middleware
+title: FastAPI Middleware
+sidebar_label: Middleware
+description: FastAPI Middleware
+keywords:
+  - fastapi
+  - middleware
+---
+
+## 호출 순서
+
+미들웨어 호출 순서는 `FastAPI.user_middleware`에 들어있는 순서대로 실행됩니다.
+
+1. 인스턴스 생성 시 `middleware`가 `FastAPI.user_middleware`가 됩니다.
+1. `FastAPI.add_middleware` 또는 `@FastAPI.middleware` 실행 시 `FastAPI.user_middleware`의 맨 앞에 미들웨어를 추가합니다.
+
+```python
+from fastapi import FastAPI, Request, Response
+from fastapi.middleware import Middleware
+from starlette.middleware.base import BaseHTTPMiddleware, RequestResponseEndpoint
+
+
+async def middleware1(request: Request, call_next: RequestResponseEndpoint) -> Response:
+    print("Middleware 1")
+    response = await call_next(request)
+    print("Middleware 1")
+    return response
+
+async def middleware2(request: Request, call_next: RequestResponseEndpoint) -> Response:
+    print("Middleware 2")
+    response = await call_next(request)
+    print("Middleware 2")
+    return response
+
+app = FastAPI(
+    middleware=[
+        Middleware(BaseHTTPMiddleware, dispatch=middleware1),
+    ]
+)
+
+app.add_middleware(BaseHTTPMiddleware, dispatch=middleware2)
+
+@app.middleware("http")
+async def middleware3(request: Request, call_next: RequestResponseEndpoint) -> Response:
+    print("Middleware 3")
+    response = await call_next(request)
+    print("Middleware 3")
+    return response
+```
+
+```shell
+Middleware 3
+Middleware 2
+Middleware 1
+Middleware 1
+Middleware 2
+Middleware 3
+```

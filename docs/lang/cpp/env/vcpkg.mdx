@@ -71,13 +71,39 @@ cmake --preset=default
 ### 추가
 
 ```shell
-vcpkg search [<portName>]
+vcpkg search [<port>]
 ```
 
 https://vcpkg.io/ 에서 검색이 가능합니다.
 
 ```shell
-vcpkg add port [<option>] <portName> [<portName> ...]
+vcpkg add port [<option>] <port> [<port> ...]
+```
+
+```json title="vcpkg.json"
+{
+	"dependencies": ["<port>"]
+}
 ```
 
 설정된 패키지를 다운받을 때, `vcpkg-configuration.json` registry 정보를 바탕으로 다운받게 됩니다.
+
+### 버전 관리
+
+- [vcpkg 버전](https://learn.microsoft.com/en-us/vcpkg/users/versioning)
+
+```json title="vcpkg.json"
+{
+	"dependencies": [{ "name": "<port>", "version>=": "<version>" }]
+}
+```
+
+```json title="vcpkg.json"
+{
+	"dependencies": ["<port>"],
+	"overrides": [{ "name": "<port>", "version": "<version>" }]
+}
+```
+
+- `version>=`을 사용하면 다운로드 가능한 최소 버전을 사용합니다.
+- `overrides`를 사용하면 설정된 버전만 사용합니다.

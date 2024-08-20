@@ -1,22 +1,58 @@
 ---
-id: kicad-basics
-title: KiCad basics
-sidebar_label: Basics
-description: KiCad basics
+id: kicad
+title: KiCad
+sidebar_label: KiCad
+description: KiCad
 keywords:
   - KiCad
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
-## Download
+## 설치
 
-Download: [https://www.kicad-pcb.org/download](https://www.kicad-pcb.org/download)
+- [KiCad Install on Linux](https://www.kicad.org/download/linux/)
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S kicad
+sudo pacman -S --asdeps kicad-library kicad-library-3d
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo add-apt-repository ppa:kicad/kicad-8.0-releases
+sudo apt update
+sudo apt install kicad
+```
+
+</TabItem>
+
+</Tabs>
 
 ## Flowchart
 
 <center>
 	<img src={useBaseUrl("img/etc/circuit/kicad/kicad-flowchart.png")} />
+	<br />
+	<strong>
+		https://docs.kicad.org/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow-overview
+	</strong>
 </center>
 
 ## Creating project
@@ -52,7 +88,3 @@ Download: [https://www.kicad-pcb.org/download](https://www.kicad-pcb.org/downloa
 - File -\> Plot
   - Generate Drill Files
   - Plot
-
-## Reference
-
-- [https://docs.kicad.org/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow](https://docs.kicad.org/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow)
