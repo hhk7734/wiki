@@ -9,11 +9,37 @@ keywords:
   - formatting
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## ruff
+
+<Tabs
+    groupId="pyPackageManager"
+    defaultValue="poetry"
+    values={[
+        {label: 'pip', value: 'pip',},
+        {label: 'Poetry', value: 'poetry',},
+    ]}
+>
+
+<TabItem value="poetry">
+
+```shell
+poetry add --group dev ruff
+```
+
+</TabItem>
+
+<TabItem value="pip">
 
 ```shell
 python3 -m pip install ruff
 ```
+
+</TabItem>
+
+</Tabs>
 
 - https://docs.astral.sh/ruff/configuration/
 
@@ -68,14 +94,49 @@ line-ending = "auto"
 ```
 
 ```shell
+ruff check --fix **/*.py
+```
+
+```shell
 ruff format **/*.py
+```
+
+### inline 오류 무시
+
+부분적으로만 무시하고 싶은 경우에는 에러가 발생하는 줄에 `# noqa` or `# noqa: <code>` 주석을 추가하면 됩니다.
+
+```python
+from logging import *  # noqa: F403
 ```
 
 ## mypy
 
+<Tabs
+    groupId="pyPackageManager"
+    defaultValue="poetry"
+    values={[
+        {label: 'pip', value: 'pip',},
+        {label: 'Poetry', value: 'poetry',},
+    ]}
+>
+
+<TabItem value="poetry">
+
+```shell
+poetry add --group dev mypy
+```
+
+</TabItem>
+
+<TabItem value="pip">
+
 ```shell
 python3 -m pip install mypy
 ```
+
+</TabItem>
+
+</Tabs>
 
 - https://mypy.readthedocs.io/en/stable/config_file.html#example-pyproject-toml
 
@@ -99,9 +160,32 @@ a: int = 1.0  # type: ignore[assignment]
 
 ### pylint
 
+<Tabs
+    groupId="pyPackageManager"
+    defaultValue="poetry"
+    values={[
+        {label: 'pip', value: 'pip',},
+        {label: 'Poetry', value: 'poetry',},
+    ]}
+>
+
+<TabItem value="poetry">
+
+```shell
+poetry add --group dev pylint
+```
+
+</TabItem>
+
+<TabItem value="pip">
+
 ```shell
 python3 -m pip install pylint
 ```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 pylint --generate-toml-config >> pyproject.toml
@@ -152,9 +236,32 @@ a._b = 1  # pylint: disable=protected-access
 
 ### black
 
+<Tabs
+    groupId="pyPackageManager"
+    defaultValue="poetry"
+    values={[
+        {label: 'pip', value: 'pip',},
+        {label: 'Poetry', value: 'poetry',},
+    ]}
+>
+
+<TabItem value="poetry">
+
+```shell
+poetry add --group dev black
+```
+
+</TabItem>
+
+<TabItem value="pip">
+
 ```shell
 python3 -m pip install black
 ```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 black **/*.py
@@ -183,9 +290,32 @@ line-length = 100
 
 ### isort
 
+<Tabs
+    groupId="pyPackageManager"
+    defaultValue="poetry"
+    values={[
+        {label: 'pip', value: 'pip',},
+        {label: 'Poetry', value: 'poetry',},
+    ]}
+>
+
+<TabItem value="poetry">
+
+```shell
+poetry add --group dev isort
+```
+
+</TabItem>
+
+<TabItem value="pip">
+
 ```shell
 python3 -m pip install isort
 ```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 isort --profile black **/*.py
