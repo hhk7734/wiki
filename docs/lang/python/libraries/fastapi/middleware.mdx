@@ -10,10 +10,13 @@ keywords:
 
 ## 호출 순서
 
+- [Starlette build_middleware_stack](https://github.com/encode/starlette/blob/master/starlette/applications.py#L84-L110)
+
 미들웨어 호출 순서는 `FastAPI.user_middleware`에 들어있는 순서대로 실행됩니다.
 
-1. 인스턴스 생성 시 `middleware`가 `FastAPI.user_middleware`가 됩니다.
+1. 인스턴스 생성 시 설정한 `middleware`가 `FastAPI.user_middleware`의 기본값으로 설정됩니다.
 1. `FastAPI.add_middleware` 또는 `@FastAPI.middleware` 실행 시 `FastAPI.user_middleware`의 맨 앞에 미들웨어를 추가합니다.
+1. 모든 설정이 완료된 후 `ServerErrorMiddleware` -\> `FastAPI.user_middleware` -\> `ExceptionMiddleware` 순으로 미들웨어가 설정됩니다.
 
 ```python
 from fastapi import FastAPI, Request, Response
