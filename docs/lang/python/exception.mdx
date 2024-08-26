@@ -30,8 +30,11 @@ finally:
 
 ## Exception hierarchy
 
+- [Built-in Exceptions](https://docs.python.org/3.12/library/exceptions.html)
+
 ```shell
 BaseException # 사용하지 말 것
+├── BaseExceptionGroup
 ├── SystemExit # sys.exit(), Exception을 잡는 코드를 피하기 위해 BaseException 상속
 ├── KeyboardInterrupt
 ├── GeneratorExit
@@ -46,6 +49,7 @@ BaseException # 사용하지 말 것
     ├── AttributeError
     ├── BufferError
     ├── EOFError
+    ├── ExceptionGroup [BaseExceptionGroup]
     ├── ImportError
     │   └── ModuleNotFoundError
     ├── LookupError
@@ -79,7 +83,7 @@ BaseException # 사용하지 말 것
     │        └── TabError
     ├── SystemError
     ├── TypeError
-    ├── ValueError # 연산이나 함수가 올바른 형이지만 부적절한 값
+    ├── ValueError # 연산이나 함수가 올바른 형이지만 부적절한 인자를 받았을 때
     │   └── UnicodeError
     │        ├── UnicodeDecodeError
     │        ├── UnicodeEncodeError
@@ -97,7 +101,3 @@ BaseException # 사용하지 말 것
         ├── EncodingWarning
         └── ResourceWarning
 ```
-
-## Reference
-
-- [https://docs.python.org/3.10/library/exceptions.html](https://docs.python.org/3.10/library/exceptions.html)
