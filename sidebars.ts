@@ -706,6 +706,7 @@ const sidebars: SidebarsConfig = {
 			label: "Device",
 			items: [
 				"mlops/mlops/device/cdi",
+				"mlops/mlops/device/node-feature-discovery",
 				{
 					type: "category",
 					label: "NVIDIA",
