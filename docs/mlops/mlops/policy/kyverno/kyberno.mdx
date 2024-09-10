@@ -1,0 +1,49 @@
+---
+id: kyverno
+title: Kyverno for Kubernetes Policy Management
+sidebar_label: Kyverno
+description: Kyverno for Kubernetes Policy Management
+keywords:
+  - kyverno
+  - policy
+---
+
+## 설치
+
+- [Kyverno 설치 방법](https://kyverno.io/docs/installation/methods/)
+
+```shell
+helm repo add kyverno https://kyverno.github.io/kyverno/
+```
+
+```shell
+helm repo update kyverno \
+&& helm search repo kyverno/kyverno -l | head -n 10
+```
+
+```shell
+helm pull kyverno/kyverno --version 3.2.6
+```
+
+```shell
+helm show values kyverno/kyverno --version 3.2.6 > kyverno-3.2.6.yaml
+```
+
+```yaml title="kyverno-values.yaml"
+
+```
+
+```shell
+helm template kyverno kyverno-3.2.6.tgz \
+    -n kyverno \
+    -f kyverno-values.yaml \
+    > kyverno.yaml
+```
+
+```shell
+helm upgrade kyverno kyverno-3.2.6.tgz \
+    --install \
+    --history-max 5 \
+    -n kyverno \
+    -f kyverno-values.yaml
+```

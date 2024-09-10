@@ -1052,6 +1052,17 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
+			label: "Policy",
+			items: [
+				{
+					type: "category",
+					label: "Kyverno",
+					items: ["mlops/mlops/policy/kyverno/kyverno"],
+				},
+			],
+		},
+		{
+			type: "category",
 			label: "AWS",
 			items: [
 				{
