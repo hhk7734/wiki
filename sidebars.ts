@@ -152,11 +152,6 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
-					label: "Atlas",
-					items: ["lang/db/sql/atlas/atlas"],
-				},
-				{
-					type: "category",
 					label: "Design",
 					items: ["lang/db/sql/design/pagination", "lang/db/sql/design/user-defined-order"],
 				},
