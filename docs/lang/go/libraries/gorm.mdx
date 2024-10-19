@@ -83,7 +83,7 @@ go get -u gorm.io/driver/postgres
 
 ```sql
 CREATE TABLE accounts (
-    account_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
     phone_number VARCHAR(20) NOT NULL DEFAULT '',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -95,7 +95,7 @@ CREATE TABLE accounts (
 
 ```go
 type Account struct {
-	AccountID   uint64    `gorm:"not null;autoIncrement;primaryKey"`
+	ID          uint64    `gorm:"not null;autoIncrement;primaryKey"`
 	Email       string    `gorm:"size:255;not null;unique"`
 	PhoneNumber string    `gorm:"size:20;not null;default:''"`
 	CreatedAt   time.Time `gorm:"type:TIMESTAMP;not null;default:CURRENT_TIMESTAMP"`

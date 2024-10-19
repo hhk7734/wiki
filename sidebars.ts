@@ -1357,6 +1357,11 @@ const sidebars: SidebarsConfig = {
 						"lang/python/libraries/grpc/grpc",
 					],
 				},
+				{
+					type: "category",
+					label: "SQLAlchemy",
+					items: ["lang/python/libraries/sqlalchemy/atlas"],
+				},
 			],
 		},
 		{

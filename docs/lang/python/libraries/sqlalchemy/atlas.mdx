@@ -1,0 +1,75 @@
+---
+id: atlas
+title: Atlas와 SQLAlchemy 연동하기
+sidebar_label: Atlas
+description: Atlas와 SQLAlchemy 연동하기
+keywords:
+  - atlas
+  - sqlalchemy
+---
+
+- [Automatic migration planning for SQLAlchemy](https://atlasgo.io/guides/orms/sqlalchemy)
+
+```shell
+python3 -m pip install atlas-provider-sqlalchemy
+```
+
+```hcl
+data "external_schema" "sqlalchemy" {
+  # 아래 명령어를 실행하면 SQL 문이 출력됩니다.
+  program = [
+    "atlas-provider-sqlalchemy",
+    "--path",
+    "./db",
+    "--dialect",
+    "postgresql"
+  ]
+}
+
+env "sqlalchemy" {
+  src = data.external_schema.sqlalchemy.url
+  dev = "docker://mysql/8/dev"
+  migration {
+    dir = "file://migrations"
+  }
+  format {
+    migrate {
+      diff = "{{ sql . \"  \" }}"
+    }
+  }
+}
+```
+
+:::info
+
+```python title="atlas_models.py"
+# import one of the models
+from models import User
+from atlas_provider_sqlalchemy.ddl import print_ddl
+
+print_ddl("mysql", [User])
+```
+
+```hcl
+data "external_schema" "sqlalchemy" {
+  # 아래 명령어를 실행하면 SQL 문이 출력됩니다.
+  program = [
+    "python3",
+    "atlas_models.py"
+  ]
+}
+```
+
+위와 같은 방법을 사용할 수도 있습니다.
+
+:::
+
+```shell
+atlas migrate diff --env sqlalchemy
+```
+
+SQLAlchemy 모델을 변경하고 위 명령어를 실행할때마다 적용해야할 SQL파일을 migrations 디렉토리에 생성합니다. 생성된 파일을 직접 수정해야하는 경우, 수정 후 아래 명령어를 통해 `atlas.sum` 파일을 업데이트해야합니다.
+
+```shell
+atlas migrate hash
+```

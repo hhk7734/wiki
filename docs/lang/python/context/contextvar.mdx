@@ -182,7 +182,7 @@ _num_step = ContextVar[int]("num_step", default=0)
 
 @contextmanager
 def with_next_step() -> Generator[None, Any, None]:
-    token = _num_step.set(num_step.get() + 1)
+    token = _num_step.set(_num_step.get() + 1)
     try:
         yield
     finally:
