@@ -1,0 +1,146 @@
+---
+id: sqlalchemy
+title: SQLAlchemy
+sidebar_label: SQLAlchemy
+description: SQLAlchemy
+keywords:
+  - sqlalchemy
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+- [SQLAlchemy 2.0 Docs](https://docs.sqlalchemy.org/en/20)
+
+## 설치
+
+```shell
+python3 -m pip install sqlalchemy
+```
+
+<Tabs
+    groupId="db"
+    defaultValue="postgresql"
+    values={[
+        {label: 'PostgreSQL', value: 'postgresql',},
+        {label: 'MySQL', value: 'mysql',}
+    ]}
+>
+
+<TabItem value="postgresql">
+
+```shell
+python3 -m pip install psycopg
+```
+
+</TabItem>
+
+<TabItem value="mysql">
+
+```shell
+python3 -m pip install pymysql
+```
+
+</TabItem>
+
+</Tabs>
+
+## Engine 생성
+
+<Tabs
+    groupId="db"
+    defaultValue="postgresql"
+    values={[
+        {label: 'PostgreSQL', value: 'postgresql',},
+        {label: 'MySQL', value: 'mysql',}
+    ]}
+>
+
+<TabItem value="postgresql">
+
+```python
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlalchemy import Engine
+from sqlalchemy import create_engine as _create_engine
+
+
+class DBConfig(BaseSettings):
+    host: str = "localhost"
+    port: int = 5432
+    user: str = "postgres"
+    password: str = Field(exclude=True)
+    database: str
+    connection_options: str | None = None
+
+    model_config = SettingsConfigDict(env_prefix="db_", env_file=(".env", ".env.local"), extra="ignore")
+
+    def to_url(self) -> str:
+        url = f"postgresql+psycopg://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+        if self.connection_options:
+            url += f"?{self.connection_options}"
+        return url
+
+
+def create_engine(config: DBConfig) -> Engine:
+    return _create_engine(config.to_url())
+```
+
+</TabItem>
+
+<TabItem value="mysql">
+
+```python
+from pydantic import Field
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from sqlalchemy import Engine
+from sqlalchemy import create_engine as _create_engine
+
+
+class DBConfig(BaseSettings):
+    host: str = "localhost"
+    port: int = 3306
+    user: str = "root"
+    password: str = Field(exclude=True)
+    database: str
+    connection_options: str | None = None
+
+    model_config = SettingsConfigDict(env_prefix="db_", env_file=(".env", ".env.local"), extra="ignore")
+
+    def to_url(self) -> str:
+        url = f"mysql+pymysql://{self.user}:{self.password}@{self.host}:{self.port}/{self.database}"
+        if self.connection_options:
+            url += f"?{self.connection_options}"
+        return url
+
+
+def create_engine(config: DBConfig) -> Engine:
+    return _create_engine(config.to_url())
+```
+
+</TabItem>
+
+</Tabs>
+
+## Session 생성
+
+- [SQLAlchemy 2.0: Session Basics](https://docs.sqlalchemy.org/en/20/orm/session_basics.html)
+
+```python
+# from sqlalchemy.orm import Session
+from sqlalchemy.orm import sessionmaker
+
+
+engine = create_engine(DBConfig())
+# Session == sessionmaker(engine)
+SessionLocal = sessionmaker(engine, autocommit=False, autoflush=False)
+
+# session을 열고, 닫음
+with SessionLocal() as session:
+    ...
+
+with SessionLocal() as session:
+    # 에러 발생 시 rollback, 성공 시 commit
+    with session.begin()
+        ...
+```

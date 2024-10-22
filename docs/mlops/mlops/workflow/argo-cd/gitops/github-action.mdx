@@ -318,3 +318,32 @@ jobs:
         run: |
           # ...
 ```
+
+## workflow_dispatch
+
+- [workflow_dispatch](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch)
+
+```yaml
+on:
+  workflow_dispatch:
+```
+
+`inputs`를 선언하지 않더라도 브랜치 또는 태그 선택은 가능합니다.
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      <name>:
+        ## input 창에 표시되는 내용입니다.
+        description: <description>
+        # required: false
+        type: <string|boolean|environment|choice>
+        # default:
+        ## type이 choice인 경우 선택지입니다.
+        # options: []
+```
+
+:::info
+`type: environment`를 사용하려면, Settings에서 Environments를 먼저 설정해야합니다.
+:::

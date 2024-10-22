@@ -1360,7 +1360,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "SQLAlchemy",
-					items: ["lang/python/libraries/sqlalchemy/atlas"],
+					items: ["lang/python/libraries/sqlalchemy/sqlalchemy", "lang/python/libraries/sqlalchemy/atlas"],
 				},
 			],
 		},

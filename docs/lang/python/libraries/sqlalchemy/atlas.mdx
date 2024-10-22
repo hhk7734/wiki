@@ -6,7 +6,11 @@ description: Atlas와 SQLAlchemy 연동하기
 keywords:
   - atlas
   - sqlalchemy
+  - schema
+  - migration
 ---
+
+## 스키마 마이그레이션 파일 생성
 
 - [Automatic migration planning for SQLAlchemy](https://atlasgo.io/guides/orms/sqlalchemy)
 
@@ -28,7 +32,7 @@ data "external_schema" "sqlalchemy" {
 
 env "sqlalchemy" {
   src = data.external_schema.sqlalchemy.url
-  dev = "docker://mysql/8/dev"
+  dev = "docker://postgresql/15/dev"
   migration {
     dir = "file://migrations"
   }
@@ -47,7 +51,7 @@ env "sqlalchemy" {
 from models import User
 from atlas_provider_sqlalchemy.ddl import print_ddl
 
-print_ddl("mysql", [User])
+print_ddl("postgresql", [User])
 ```
 
 ```hcl

@@ -1,17 +1,23 @@
 ---
 id: migrate
-title: Prisma Migrate
+title: Prisma로 스키마 마이그레이션 하기
 sidebar_label: Migrate
-description: Prisma Migrate
+description: Prisma로 스키마 마이그레이션 하기
 keywords:
   - prisma
+  - schema
   - migrate
+  - migration
 ---
 
-## 마이그레이션 이력 관리
+## 스키마 마이그레이션 관리
 
 :::warning
-MongoDB는 `prisma db push`만 지원하므로 이 문서가 적용되지 않습니다.
+MongoDB는
+
+- `prisma db push`만 지원하므로 이 문서가 적용되지 않습니다.
+- standalone인 경우 트랜잭션을 지원하지 않으므로 정상 작동하지 않을 수 있습니다.
+
 :::
 
 - `prisma/migrations` 디렉토리의 `<migration>/migration.sql` 파일을 통해 스키마 변경 이력을 관리합니다.
