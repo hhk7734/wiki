@@ -46,12 +46,36 @@ env "sqlalchemy" {
 
 :::info
 
-```python title="atlas_models.py"
-# import one of the models
-from models import User
-from atlas_provider_sqlalchemy.ddl import print_ddl
+```shell
+db/
+├── __init__.py
+├── base.py
+└── ...
+```
 
-print_ddl("postgresql", [User])
+```python title="atlas_models.py"
+import importlib
+import inspect
+from pathlib import Path
+
+from atlas_provider_sqlalchemy.ddl import print_ddl  # type: ignore[import-untyped]
+
+import db
+
+models = []
+
+db_dir = Path(db.__file__).parent
+
+for script in db_dir.glob("*.py"):
+    if script.suffix == ".py" and script.stem not in ["__init__", "base"]:
+        module_name = f"{db.__name__}.{script.stem}"
+        module = importlib.import_module(module_name)
+
+        for name, obj in inspect.getmembers(module):
+            if inspect.isclass(obj) and obj != db.base.Base and issubclass(obj, db.base.Base):
+                models.append(obj)
+
+print_ddl("postgresql", models)
 ```
 
 ```hcl
@@ -69,7 +93,7 @@ data "external_schema" "sqlalchemy" {
 :::
 
 ```shell
-atlas migrate diff --env sqlalchemy
+atlas migrate diff --env sqlalchemy [title]
 ```
 
 SQLAlchemy 모델을 변경하고 위 명령어를 실행할때마다 적용해야할 SQL파일을 migrations 디렉토리에 생성합니다. 생성된 파일을 직접 수정해야하는 경우, 수정 후 아래 명령어를 통해 `atlas.sum` 파일을 업데이트해야합니다.
