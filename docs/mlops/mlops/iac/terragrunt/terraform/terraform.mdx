@@ -35,27 +35,11 @@ aws configure --profile <profile>
 
 ### Terraform
 
-- https://developer.hashicorp.com/terraform/install
-
-<Tabs
-    groupId="os"
-    defaultValue="debian"
-    values={[
-        {label: 'Debian', value: 'debian',}
-    ]}
->
-
-<TabItem value="debian">
+- [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
 
 ```shell
-wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
-echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install terraform
+asdf plugin add terragrunt
 ```
-
-</TabItem>
-
-</Tabs>
 
 ```shell
 terraform -install-autocomplete

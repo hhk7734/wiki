@@ -514,8 +514,19 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
-					label: "Terraform",
-					items: ["mlops/mlops/terraform/terraform", "mlops/mlops/terraform/import", "mlops/mlops/terraform/remove"],
+					label: "Terragrunt",
+					items: [
+						"mlops/mlops/iac/terragrunt/terragrunt",
+						{
+							type: "category",
+							label: "Terraform",
+							items: [
+								"mlops/mlops/iac/terragrunt/terraform/terraform",
+								"mlops/mlops/iac/terragrunt/terraform/import",
+								"mlops/mlops/iac/terragrunt/terraform/remove",
+							],
+						},
+					],
 				},
 				{
 					type: "category",
