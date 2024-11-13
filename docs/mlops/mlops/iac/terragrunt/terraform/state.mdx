@@ -1,0 +1,21 @@
+---
+id: state
+title: Terraform State 수정하기
+sidebar_label: State 수정하기
+description: Terraform State 수정하기
+keywords:
+  - terraform
+  - state
+---
+
+## tfstate 파일 직접 수정
+
+```shell
+terraform state pull > terraform.tfstate
+```
+
+`terraform.tfstate` 파일은 JSON 형식으로 되어 있습니다. 수정이 필요한 부분을 수정하고 저장합니다.
+
+```shell
+terraform state push terraform.tfstate
+```
