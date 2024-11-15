@@ -31,12 +31,12 @@ helm repo update metrics-server \
 ```
 
 ```shell
-helm pull metrics-server/metrics-server --version 3.12.0
+helm pull metrics-server/metrics-server --version 3.12.2
 ```
 
 ```shell
-helm show values metrics-server-3.12.0.tgz \
-    > metrics-server-3.12.0.yaml
+helm show values metrics-server-3.12.2.tgz \
+    > metrics-server-3.12.2.yaml
 ```
 
 ```yaml title="metrics-server-values.yaml"
@@ -61,14 +61,14 @@ tolerations:
 :::
 
 ```shell
-helm template metrics-server metrics-server-3.12.0.tgz \
+helm template metrics-server metrics-server-3.12.2.tgz \
     -n kube-system \
     -f metrics-server-values.yaml \
     > metrics-server.yaml
 ```
 
 ```shell
-helm upgrade metrics-server metrics-server-3.12.0.tgz \
+helm upgrade metrics-server metrics-server-3.12.2.tgz \
     --install \
     --history-max 5 \
     -n kube-system \
