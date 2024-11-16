@@ -1,8 +1,8 @@
 ---
 id: keycloak
-title: keycloak
-sidebar_label: keycloak
-description: keycloak
+title: Keycloak
+sidebar_label: Keycloak
+description: Keycloak
 keywords:
   - keycloak
 ---
@@ -19,16 +19,17 @@ helm repo update bitnami \
 ```
 
 ```shell
-helm pull bitnami/keycloak --version 21.2.2
+helm pull bitnami/keycloak --version 24.2.0
 ```
 
 ```shell
-helm show values bitnami/keycloak --version 21.2.2 > keycloak-21.2.2.yaml
+helm show values bitnami/keycloak --version 24.2.0 > keycloak-24.2.0.yaml
 ```
 
 ```yaml title="keycloak-values.yaml"
 commonLabels: {}
 
+# 새로운 계정을 생성하고, admin role을 부여한 후 이 계정을 삭제하세요.
 auth:
   adminUser: <user>
   adminPassword: <password>
@@ -42,17 +43,9 @@ resources:
 
 podLabels: {}
 
-service:
-  type: ClusterIP
-
 postgresql:
   # https://github.com/bitnami/charts/blob/main/bitnami/postgresql/values.yaml
   enabled: false
-  primary:
-    affinity: {}
-    tolerations: []
-    persistence:
-      storageClass: ""
 
 externalDatabase:
   host: <host>
@@ -65,15 +58,28 @@ cache:
   enabled: false
 ```
 
+- [Keycloak / All Configuration](https://www.keycloak.org/server/all-config)
+
+<br />
+
+- `ingress`
+  - `enabled: false`
+  - `hostname: <hostname>`
+  - `tls: false`
+- `adminIngress`
+  - `enabled: false`
+  - `hostname: <hostname>`
+  - `tls: false`
+
 ```shell
-helm template keycloak keycloak-21.2.2.tgz \
+helm template keycloak keycloak-24.2.0.tgz \
     -n auth \
     -f keycloak-values.yaml \
     > keycloak.yaml
 ```
 
 ```shell
-helm upgrade keycloak keycloak-21.2.2.tgz \
+helm upgrade keycloak keycloak-24.2.0.tgz \
     --install \
     --history-max 5 \
     -n auth \

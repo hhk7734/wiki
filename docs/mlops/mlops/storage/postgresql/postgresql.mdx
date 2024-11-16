@@ -24,12 +24,11 @@ helm repo update bitnami \
 ```
 
 ```shell
-helm pull bitnami/postgresql --version 13.4.2
+helm pull bitnami/postgresql --version 16.2.1
 ```
 
 ```shell
-helm show values postgresql-13.4.2.tgz \
-  > postgresql-13.4.2.yaml
+helm show values bitnami/postgresql --version 16.2.1 > postgresql-16.2.1.yaml
 ```
 
 - [PostgreSQL 설정 변경](/docs/lang/db/sql/postgresql/config)
@@ -41,6 +40,9 @@ commonLabels: {}
 global:
   storageClass: ""
 
+auth:
+  postgresPassword: ""
+
 primary:
   affinity: {}
 
@@ -50,19 +52,23 @@ primary:
     size: 5Gi
 ```
 
+- `auth`
+  - `enablePostgresUser: true`
+    - `false`로 설정하면 postgres 유저로 접속할 때 암호 없이 접속할 수 있지만, 원격 접속이 제한됩니다.
+
 :::warning
 `PGDATA`로 `/var/lib/postgresql/data`를 설정하면 볼륨을 `/var/lib/postgresql`에 마운트하더라도 로컬 볼륨을 사용하므로 이를 바꾸지 않으면 데이터가 삭제됩니다.
 :::
 
 ```shell
-helm template postgresql postgresql-13.4.2.tgz \
+helm template postgresql postgresql-16.2.1.tgz \
   -n storage \
   -f postgresql-values.yaml \
   > postgresql.yaml
 ```
 
 ```shell
-helm upgrade postgresql postgresql-13.4.2.tgz \
+helm upgrade postgresql postgresql-16.2.1.tgz \
   --install \
   --history-max 5 \
   -n storage \

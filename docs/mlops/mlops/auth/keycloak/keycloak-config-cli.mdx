@@ -25,3 +25,10 @@ yq -Poy realm-export.json > realm-export.yaml
 yaml파일로 keycloak 설정을 관리할 수 있는 도구입니다.
 
 설정을 잘 모르는 경우, keycloak에서 원하는 설정을 진행하고 realm 설정 값을 export하여 참고하면 됩니다. 단 UUID 등은 모두 삭제하고 사용해야 합니다.
+
+```yaml title="keycloak-values.yaml"
+keycloakConfigCli:
+  configuration:
+    realm.yaml: |
+      ...
+```
