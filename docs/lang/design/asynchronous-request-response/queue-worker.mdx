@@ -25,9 +25,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 ## Workflow orchestrator + ResponseQueue
 
 <center>
-	<img
-		src={useBaseUrl("img/lang/design/asynchronous-request-response/workflow-orchestrator.jpg")}
-	/>
+	<img src={useBaseUrl("img/lang/design/asynchronous-request-response/workflow-orchestrator.jpg")} />
 </center>
 
 <br />
@@ -42,10 +40,10 @@ Queue와 Worker들의 조합으로 한 Worker의 ResponseQueue가 다른 Worker�
 
 ## ? + Worker
 
-비지니스 모델에 따른 요구사항이나 서버 자원의 제약으로 인해
+비즈니스 모델에 따른 요구사항이나 서버 자원의 제약으로 인해
 
 - 요청량에 따라 Consumer 또는 실행되는 DAG의 수를 조절
 - 과다 사용자의 자원 독점 방지(사용자별 최소 실행 보장)
-- 비지니스 모델에 따른 사용자별 최대 동시 실행 제한
+- 비즈니스 모델에 따른 사용자별 최대 동시 실행 제한
 
 해야하는 등의 경우가 생깁니다.
