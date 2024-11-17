@@ -1,75 +1,43 @@
-/**
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
-
 import React from "react";
-import clsx from "clsx";
-import { ThemeClassNames } from "@docusaurus/theme-common";
-import { useDoc } from "@docusaurus/plugin-content-docs/client";
-import Heading from "@theme/Heading";
-import MDXContent from "@theme/MDXContent";
-import type { Props } from "@theme/DocItem/Content";
+import Content from "@theme-original/DocItem/Content";
+import type ContentType from "@theme/DocItem/Content";
+import type { WrapperProps } from "@docusaurus/types";
 
 import AdSense from "react-adsense";
-import Comment from "../../../component/Comment";
+import Comment from "@site/src/components/Comment";
 
-/**
- Title can be declared inside md content or declared through
- front matter and added manually. To make both cases consistent,
- the added title is added under the same div.markdown block
- See https://github.com/facebook/docusaurus/pull/4882#issuecomment-853021120
+type Props = WrapperProps<typeof ContentType>;
 
- We render a "synthetic title" if:
- - user doesn't ask to hide it with front matter
- - the markdown content does not already contain a top-level h1 heading
-*/
-function useSyntheticTitle(): string | null {
-	const { metadata, frontMatter, contentTitle } = useDoc();
-	const shouldRender = !frontMatter.hide_title && typeof contentTitle === "undefined";
-	if (!shouldRender) {
-		return null;
-	}
-	return metadata.title;
-}
-
-export default function DocItemContent({ children }: Props): JSX.Element {
-	const syntheticTitle = useSyntheticTitle();
+export default function ContentWrapper(props: Props): JSX.Element {
 	return (
-		<div className={clsx(ThemeClassNames.docs.docMarkdown, "markdown")}>
-			{syntheticTitle && (
-				<header>
-					<Heading as="h1">{syntheticTitle}</Heading>
-				</header>
-			)}
-			<MDXContent>
-				<div>
-					<AdSense.Google
-						client="ca-pub-5199357432848758"
-						slot="5326538900"
-						style={{ display: "block" }}
-						format="auto"
-						responsive="true"
-					/>
-				</div>
-				<br />
+		<>
+			<div>
+				<AdSense.Google
+					client="ca-pub-5199357432848758"
+					slot="5326538900"
+					style={{ display: "block" }}
+					format="auto"
+					responsive="true"
+				/>
+			</div>
 
-				{children}
+			<br />
 
-				<br />
-				<div>
-					<AdSense.Google
-						client="ca-pub-5199357432848758"
-						slot="5326538900"
-						style={{ display: "block" }}
-						format="auto"
-						responsive="true"
-					/>
-				</div>
-				<Comment />
-			</MDXContent>
-		</div>
+			<Content {...props} />
+
+			<br />
+
+			<div>
+				<AdSense.Google
+					client="ca-pub-5199357432848758"
+					slot="5326538900"
+					style={{ display: "block" }}
+					format="auto"
+					responsive="true"
+				/>
+			</div>
+
+			<Comment />
+		</>
 	);
 }
