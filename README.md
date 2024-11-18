@@ -44,3 +44,13 @@ import TabItem from "@theme/TabItem";
 
 </Tabs>
 ````
+
+## swizzle
+
+```shell
+yarn swizzle --list
+```
+
+```shell
+yarn swizzle @docusaurus/theme-classic DocItem/Content --wrap
+```

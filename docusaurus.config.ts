@@ -9,17 +9,55 @@ import { themes } from "prism-react-renderer";
 const config: Config = {
 	title: "lol-IoT by HHK",
 	tagline: "lol-IoT",
+	favicon: "img/favicon.ico",
+
 	url: "https://wiki.loliot.net",
 	baseUrl: "/",
-	favicon: "img/favicon.ico",
+
 	organizationName: "hhk7734",
 	projectName: "wiki.loliot.net",
 	deploymentBranch: "main",
 	trailingSlash: false,
+
+	onBrokenLinks: "throw",
+	onBrokenMarkdownLinks: "warn",
+
+	i18n: {
+		defaultLocale: "ko",
+		locales: ["ko"],
+	},
+
 	markdown: {
 		mermaid: true,
 	},
 	themes: ["@docusaurus/theme-mermaid"],
+
+	presets: [
+		[
+			"classic",
+			{
+				docs: {
+					sidebarPath: "./sidebars.ts",
+					showLastUpdateTime: true,
+					remarkPlugins: [remarkMath],
+					rehypePlugins: [[rehypeKatex, { strict: false }]],
+					editUrl: "https://github.com/hhk7734/wiki/tree/main",
+				},
+				theme: {
+					customCss: "./src/css/custom.css",
+				},
+				sitemap: {
+					changefreq: EnumChangefreq.WEEKLY,
+					priority: 0.5,
+				},
+				googleAnalytics: {
+					trackingID: "UA-82937088-4",
+					anonymizeIP: true,
+				},
+			} satisfies Preset.Options,
+		],
+	],
+
 	plugins: [
 		"docusaurus-plugin-google-adsense",
 		[
@@ -46,6 +84,7 @@ const config: Config = {
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
 		"docusaurus-plugin-image-zoom",
 	],
+
 	stylesheets: [
 		{
 			href: "https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css",
@@ -54,6 +93,7 @@ const config: Config = {
 			crossorigin: "anonymous",
 		},
 	],
+
 	themeConfig: {
 		colorMode: {
 			defaultMode: "dark",
@@ -130,22 +170,20 @@ const config: Config = {
 					};
 				});
 
-				navbarItems.concat([
+				return navbarItems.concat([
 					{
+						"aria-label": "LinkedIn",
 						href: "https://www.linkedin.com/in/hyeonki-hong/",
 						position: "right",
 						className: "header-linkedin-link",
-						"aria-label": "LinkedIn",
 					},
 					{
+						"aria-label": "GitHub",
 						href: "https://github.com/hhk7734/wiki.loliot.net",
 						position: "right",
 						className: "header-github-link",
-						"aria-label": "GitHub",
 					},
 				]);
-
-				return navbarItems;
 			})(),
 		},
 		prism: {
@@ -202,30 +240,6 @@ const config: Config = {
 			},
 		},
 	} satisfies Preset.ThemeConfig,
-	presets: [
-		[
-			"@docusaurus/preset-classic",
-			{
-				docs: {
-					sidebarPath: "./sidebars.ts",
-					showLastUpdateTime: true,
-					remarkPlugins: [remarkMath],
-					rehypePlugins: [[rehypeKatex, { strict: false }]],
-				},
-				theme: {
-					customCss: "./src/css/custom.css",
-				},
-				sitemap: {
-					changefreq: EnumChangefreq.WEEKLY,
-					priority: 0.5,
-				},
-				googleAnalytics: {
-					trackingID: "UA-82937088-4",
-					anonymizeIP: true,
-				},
-			} satisfies Preset.Options,
-		],
-	],
 };
 
 export default config;
