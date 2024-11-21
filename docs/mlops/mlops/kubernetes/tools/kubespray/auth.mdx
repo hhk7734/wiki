@@ -1,0 +1,50 @@
+---
+id: auth
+title: Kubespray 인증/인가 변경
+sidebar_label: 인증/인가 변경
+description: Kubespray 인증/인가 변경
+keywords:
+  - kubespray
+  - cert
+  - authn
+  - authz
+---
+
+## apiserver에 SAN 추가
+
+SAN(Subject Alternative Name)
+
+```yaml title="group_vars/k8s_cluster/k8s-cluster.yml"
+supplementary_addresses_in_ssl_keys:
+  - <ip|hostname>
+```
+
+```shell
+ansible-playbook -i <inventory> -b upgrade-cluster.yml --tags master
+```
+
+작업이 완료되고 아래 명령어를 통해 설정이 변경되었는지 확인하세요.
+
+```shell
+kubectl get configmap -n kube-system kubeadm-config -o jsonpath='{.data.ClusterConfiguration}'
+```
+
+## OIDC 설정
+
+```yaml title="group_vars/k8s_cluster/k8s-cluster.yml"
+kube_oidc_auth: true
+
+kube_oidc_url: ""
+kube_oidc_client_id: ""
+# kube_oidc_ca_file: "{{ kube_cert_dir }}/ca.pem"
+kube_oidc_username_claim: email
+# kube_oidc_username_prefix: 'oidc:'
+kube_oidc_groups_claim: groups
+# kube_oidc_groups_prefix: 'oidc:'
+```
+
+```shell
+ansible-playbook -i <inventory> -b upgrade-cluster.yml --tags master
+```
+
+클라이언트 설정은 [Kubernetes 인증(Authn)](/docs/mlops/mlops/auth/authn)을 참고하세요.

@@ -1,10 +1,11 @@
 ---
 id: helm
-title: Helm
-sidebar_label: Helm
-description: Helm
+title: Helm 명령어로 애플리케이션 배포하기
+sidebar_label: Helm으로 배포하기
+description: Helm 명령어로 애플리케이션 배포하기
 keywords:
   - helm
+  - release
 ---
 
 ## 설치
@@ -16,6 +17,8 @@ curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 ```
 
 ## Repository
+
+### 클라이언트에서 Repository 관리
 
 ```shell
 helm repo add <repositoryName> <URL> [flags]
@@ -37,9 +40,13 @@ helm search repo <keyword> [flags]
 helm repo update [repositoryName1 [repositoryName2 ...]] [flags]
 ```
 
+### Repository 서버
+
+e.g. https://github.com/hhk7734/helm-charts
+
 ## Chart
 
-### Creating Chart
+### Custom Chart 만들기
 
 ```shell
 helm create <chartName> [flags]
@@ -66,13 +73,13 @@ helm create <chartName> [flags]
 └──
 ```
 
-### Templating Chart
+### 배포될 리소스 미리보기
 
 ```shell
 helm template <releaseName> <repositoryName/chartName|chartPath> [flags]
 ```
 
-### Packaging Chart
+### Chart 패키징
 
 ```shell
 helm package <chartPath> --version <version>
@@ -90,7 +97,7 @@ helm pull <chartURL> --version <version>
 helm pull --repo <repoURL> <chartName> --version <version>
 ```
 
-### Installation
+### Chart로 배포
 
 ```shell
 helm show values <repositoryName/chartName|chartPath> [flags]
@@ -108,13 +115,6 @@ helm install <releaseName> <repositoryName/chartName|chartPath> [flags]
 - `--set <name>=<value>`: 오버라이드 할 설정
 
 ```shell
-helm list [flags]
-```
-
-- 설치된 릴리즈의 NAME, NAMESPACE, REVISION, UPDATED, STATUS, CHART, APP VERSION 표시
-- `-A | --all-namespaces`
-
-```shell
 helm status <releaseName> [flags]
 ```
 
@@ -122,7 +122,14 @@ helm status <releaseName> [flags]
 helm test <releaseName> [flags]
 ```
 
-### Management
+### 배포 관리
+
+```shell
+helm list [flags]
+```
+
+- 설치된 릴리즈의 NAME, NAMESPACE, REVISION, UPDATED, STATUS, CHART, APP VERSION 표시
+- `-A | --all-namespaces`
 
 ```shell
 helm upgrade <releaseName> <repositoryName/chartName|chartPath> [flags]
@@ -146,7 +153,7 @@ helm history <releaseName> [flags]
 helm rollback <releaseName> <revision> [flags]
 ```
 
-### Uninstallation
+### 배포 삭제
 
 ```shell
 helm uninstall <releaseName> [flags]

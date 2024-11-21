@@ -60,7 +60,7 @@ search <namespace>.svc.cluster.local svc.cluster.local cluster.local us-west-2.c
 
 - https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
 
-NodePort는 `node ip:nodePort` -> `service ip:port` -> `pod ip:targetPort` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다.
+NodePort는 `<nodeIP>:<nodePort>` -> `<serviceIP>:<port>` -> `<podIP>:<targetPort>` 연결을 통해 외부에서 pod로 접근 할 수 있게 만들어주는 서비스 입니다. `<nodeIP>`는 클러스터에 있는 Node라면 어느 Node에서든 접근이 가능합니다.
 
 ```yaml
 apiVersion: v1
@@ -88,6 +88,50 @@ spec:
 - https://kubernetes.io/blog/2023/05/11/nodeport-dynamic-and-static-allocation/
 
 Kubernetes 1.28 부터는 ServiceNodePortStaticSubrange라는 기능이 기본적으로 활성화 됩니다. 이 기능은 NodePort의 시작 포트 부터 `min(max(16, nodeportSize / 32), 128)`개의 포트의 동적 할당 우선순위를 낮춥니다. 예를 들어 30000-32767의 범위를 갖는 경우 30000-30085까지는 다른 포트를 모두 사용하기 전까지는 동적 할당이 되지 않으므로 사용자가 정적 할당으로 사용하기에 좋습니다.
+
+## Selector 없이 Service 생성
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: <serviceName>
+  namespace: <namespace>
+spec:
+  ports:
+    - name: <portName>
+      port: <port>
+      targetPort: <targetPort>
+```
+
+- [EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/)
+
+```yaml
+apiVersion: discovery.k8s.io/v1
+kind: EndpointSlice
+metadata:
+  name: <name>
+  namespace: <namespace>
+  labels:
+    kubernetes.io/service-name: <serviceName>
+addressType: <addressType>
+ports:
+  - name: <portName>
+    appProtocol: <appProtocol>
+    protocol: TCP
+    port: <targetPort>
+endpoints:
+  - addresses:
+      - <IP>
+```
+
+- `addressType: <addressType>`: IPv4, IPv6, FQDN
+- `ports`
+  - `appProtocol: <appProtocol>`
+    - 어떤 프로토콜을 쓰는지에 대한 힌트입니다.
+- `endpoints`
+  - `conditions`
+    - `ready: <bool>`: Pod의 Ready와 매핑되는 값으로 외부 주소를 설정한 경우 직접 `true`로 설정해야 합니다.
 
 ## Debug
 
