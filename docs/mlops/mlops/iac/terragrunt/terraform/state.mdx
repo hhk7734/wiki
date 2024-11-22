@@ -19,3 +19,13 @@ terraform state pull > terraform.tfstate
 ```shell
 terraform state push terraform.tfstate
 ```
+
+## `state mv`
+
+### 리소스 이름 바꾸기
+
+```shell
+terraform state mv <resourceType>.<resourceName> <resourceType>.<newResourceName>
+```
+
+변경이 완료되면 리소스 선언과 리소스를 변수로 사용하고 있는 부분을 찾아서 모두 수정해야 합니다.
