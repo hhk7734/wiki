@@ -6,8 +6,7 @@ import type {
 	SidebarItemLink,
 	SidebarItemCategory,
 } from "@docusaurus/plugin-content-docs/src/sidebars/types.js";
-import React, { useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useEffect, useRef, useState } from "react";
 
 interface TreeData {
 	name: string;
@@ -59,14 +58,33 @@ function categoryToTreeData(category: SidebarItemCategory): TreeData {
 
 export default function RadialTree() {
 	const svgRef = useRef(null);
+	const [windowWidth, setDimensions] = useState(0);
 
 	useEffect(() => {
+		// Function to update dimensions based on the current window size
+		const updateDimensions = () => {
+			const width = window.innerWidth;
+			setDimensions(width);
+		};
+
+		// Initialize dimensions and set resize event listener
+		updateDimensions();
+		window.addEventListener("resize", updateDimensions);
+
+		return () => {
+			window.removeEventListener("resize", updateDimensions);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (!windowWidth) return;
+
 		const svg = d3.select(svgRef.current);
-		const width = 1920;
+		const width = windowWidth;
 		const height = width;
 		const cx = width * 0.5; // adjust as needed to fit
 		const cy = height * 0.5; // adjust as needed to fit
-		const radius = Math.min(width, height) / 2 - 30;
+		const radius = width / 2 - 30;
 
 		// Create a radial tree layout. The layout’s first dimension (x)
 		// is the angle, while the second (y) is the radius.
@@ -85,10 +103,11 @@ export default function RadialTree() {
 		});
 
 		const root = tree(
-			d3
-				.hierarchy({ name: "lol-IoT", children: sidebarData })
-				.sort((a, b) => d3.ascending(a.data.name, b.data.name)),
+			d3.hierarchy({ name: "lol-IoT", children: sidebarData }).sort((a, b) => d3.ascending(a.data.name, b.data.name)),
 		);
+
+		// Clear previous SVG content
+		svg.selectAll("*").remove();
 
 		svg
 			.attr("width", width)
@@ -128,10 +147,7 @@ export default function RadialTree() {
 			.join("text")
 			.attr(
 				"transform",
-				(d) =>
-					`rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0) rotate(${
-						d.x >= Math.PI ? 180 : 0
-					})`,
+				(d) => `rotate(${(d.x * 180) / Math.PI - 90}) translate(${d.y},0) rotate(${d.x >= Math.PI ? 180 : 0})`,
 			)
 			.attr("dy", "0.31em")
 			.attr("x", (d) => (d.x < Math.PI === !d.children ? 6 : -6))
@@ -140,14 +156,11 @@ export default function RadialTree() {
 			.attr("stroke", "white")
 			.attr("fill", "currentColor")
 			.text((d) => d.data.name);
-	}, []);
+	}, [windowWidth]);
 
-	return <RadialTreeSVG ref={svgRef} />;
+	return (
+		<div className={`h-[${windowWidth}px] bg-white`}>
+			<svg className="text-black" ref={svgRef} />
+		</div>
+	);
 }
-
-const RadialTreeSVG = styled.svg`
-	color: black;
-	position: relative;
-	left: 50%;
-	transform: translate(-50%, 0%);
-`;

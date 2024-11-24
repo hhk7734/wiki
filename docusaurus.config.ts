@@ -5,6 +5,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
+import tailwindPlugin from "./plugins/tailwind-config";
 
 const config: Config = {
 	title: "lol-IoT by HHK",
@@ -83,6 +84,7 @@ const config: Config = {
 		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
 		"docusaurus-plugin-image-zoom",
+		tailwindPlugin,
 	],
 
 	stylesheets: [

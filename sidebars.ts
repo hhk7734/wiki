@@ -1233,6 +1233,11 @@ const sidebars: SidebarsConfig = {
 						"lang/javascript/libraries/firebase/custom-email-handler",
 					],
 				},
+				{
+					type: "category",
+					label: "Three.js",
+					items: ["lang/javascript/libraries/threejs/fundamentals"],
+				},
 				"lang/javascript/libraries/github-probot",
 			],
 		},
