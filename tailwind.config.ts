@@ -7,7 +7,7 @@ export default {
 		container: false,
 	},
 	darkMode: ["class", '[data-theme="dark"]'],
-	content: ["./src/**/*.{jsx,tsx,html}"],
+	content: ["./src/**/*.{tsx,html}", "./docs/**/*.{tsx,mdx}"],
 	theme: {
 		extend: {
 			fontFamily: {

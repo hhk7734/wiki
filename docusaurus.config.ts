@@ -181,7 +181,7 @@ const config: Config = {
 					},
 					{
 						"aria-label": "GitHub",
-						href: "https://github.com/hhk7734/wiki.loliot.net",
+						href: "https://github.com/hhk7734/wiki",
 						position: "right",
 						className: "header-github-link",
 					},
