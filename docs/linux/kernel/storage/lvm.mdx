@@ -8,18 +8,45 @@ keywords:
   - lvm
 ---
 
-## LVM
+## Logical Volume Manager(LVM)
 
-- Physical Volume(PV)
-- Volume Group(VG)
-- Logical Volume(LV)
+<strong>Logical Volume Manager(LVM)</strong>는 물리적 볼륨들 위에 추상 계층을 생성한 후 그 위에 논리적인 볼륨을 만들어
+관리하는 도구입니다. 논리적 볼륨을 사용하면 시스템 중단 없이 디스크 크기를 조정할 수 있고, 여러 디스크를 하나의 큰
+디스크인 것처럼 사용할 수 있습니다.
 
-## PV
+```mermaid
+flowchart BT
+  PV1[(Physical Volume)] --> VG[(Volume Group)]
+  PV2[(Physical Volume)] --> VG
+  PV3[(Physical Volume)] --> VG
+  VG --> LV1[(Logical Volume)]
+  VG --> LV2[(Logical Volume)]
+```
+
+- [Physical Volume(PV)](#physical-volumepv): 실제 디스크나 디스크의 파티션을 의미합니다.
+- [Volume Group(VG)](#volume-groupvg): 여러 PV를 하나의 큰 논리적 저장 공간으로 묶은 것입니다.
+- [Logical Volume(LV)](#logical-volumelv): 사용자가 사용할 수 있는 논리적 파티션입니다.
+
+## Physical Volume(PV)
 
 ### PV 생성
 
+`lvmdiskscan` 명령어로 PV로 사용가능한 디스크 또는 파티션을 확인할 수 있습니다.
+
 ```shell
-sudo pvcreate <pv>
+$ sudo lvmdiskscan
+  /dev/sda1 [     465.76 GiB] LVM physical volume
+  /dev/sdb  [      <3.64 TiB]
+  /dev/sdc1 [     237.47 GiB]
+  /dev/sdc2 [       1.00 GiB]
+  1 disk
+  2 partitions
+  0 LVM physical volume whole disks
+  1 LVM physical volumes
+```
+
+```shell
+sudo pvcreate <pv> [<pv>...]
 ```
 
 - `<pv>`: `/dev/<blockDevice>`
@@ -34,12 +61,12 @@ sudo pvdisplay
 sudo pvs
 ```
 
-## VG
+## Volume Group(VG)
 
 ### VG 생성
 
 ```shell
-sudo vgcreate <vgName> <pv>
+sudo vgcreate <vgName> <pv> [<pv>...]
 ```
 
 ### VG 조회
@@ -52,7 +79,7 @@ sudo vgdisplay
 sudo vgs
 ```
 
-## LV
+## Logical Volume(LV)
 
 ### LV 생성
 
