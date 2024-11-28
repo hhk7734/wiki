@@ -10,24 +10,9 @@ keywords:
   - authz
 ---
 
-## apiserver에 SAN 추가
+## kube-apiserver 인증서에 SAN 추가
 
-SAN(Subject Alternative Name)
-
-```yaml title="group_vars/k8s_cluster/k8s-cluster.yml"
-supplementary_addresses_in_ssl_keys:
-  - <ip|hostname>
-```
-
-```shell
-ansible-playbook -i <inventory> -b upgrade-cluster.yml --tags master
-```
-
-작업이 완료되고 아래 명령어를 통해 설정이 변경되었는지 확인하세요.
-
-```shell
-kubectl get configmap -n kube-system kubeadm-config -o jsonpath='{.data.ClusterConfiguration}'
-```
+[HA / 사용자 정의 네트워크](/docs/mlops/mlops/kubernetes/tools/kubespray/ha#사용자-정의-네트워크)
 
 ## OIDC 설정
 

@@ -37,8 +37,7 @@ spec:
   monitoring:
     enabled: false
   cephVersion:
-    allowUnsupported: false
-    image: quay.io/ceph/ceph:v18.2.2
+    image: quay.io/ceph/ceph:v18.2.4
   cleanupPolicy:
     allowUninstallWithVolumes: false
     confirmation: ""
@@ -46,12 +45,8 @@ spec:
       dataSource: zero
       iteration: 1
       method: quick
-  continueUpgradeAfterChecksEvenIfNotHealthy: false
-  crashCollector:
-    disable: false
   dashboard:
     enabled: true
-    ssl: true
   dataDirHostPath: /var/lib/rook
   disruptionManagement:
     managePodBudgets: true
@@ -68,105 +63,72 @@ spec:
       status:
         disabled: false
         interval: 60s
-    livenessProbe:
-      mgr:
-        disabled: false
-      mon:
-        disabled: false
-      osd:
-        disabled: false
   logCollector:
     enabled: true
     maxLogSize: 500M
     periodicity: daily
   mgr:
-    allowMultiplePerNode: false
     count: 2
-    modules:
-      - enabled: true
-        name: pg_autoscaler
   mon:
-    allowMultiplePerNode: false
     count: 3
-  network:
-    connections:
-      compression:
-        enabled: false
-      encryption:
-        enabled: false
-      requireMsgr2: false
   placement:
     all:
-      tolerations:
-        - key: loliot.net/storage
-          operator: Exists
+      tolerations: []
   priorityClassNames:
     mgr: system-cluster-critical
     mon: system-node-critical
     osd: system-node-critical
-  removeOSDsIfOutAndSafeToRemove: false
   resources:
     cleanup:
       limits:
         memory: 1Gi
       requests:
-        cpu: 500m
         memory: 100Mi
     crashcollector:
       limits:
         memory: 60Mi
       requests:
-        cpu: 100m
         memory: 60Mi
     exporter:
       limits:
         memory: 128Mi
       requests:
-        cpu: 50m
         memory: 50Mi
     logcollector:
       limits:
         memory: 1Gi
       requests:
-        cpu: 100m
         memory: 100Mi
     mgr:
       limits:
         memory: 1Gi
       requests:
-        cpu: 500m
         memory: 512Mi
     mgr-sidecar:
       limits:
         memory: 100Mi
       requests:
-        cpu: 100m
         memory: 40Mi
     mon:
       limits:
         memory: 2Gi
       requests:
-        cpu: 1000m
         memory: 1Gi
     osd:
       limits:
         memory: 4Gi
       requests:
-        cpu: 1000m
         memory: 4Gi
     prepareosd:
       requests:
-        cpu: 500m
         memory: 50Mi
-  skipUpgradeChecks: false
   storage:
-    node:
-      - devices:
+    nodes:
+      - name: ip-192-168-0-11
+        devices:
           - name: /dev/vg1/lv1
-        name: ip-192-168-0-11
     useAllDevices: false
     useAllNodes: false
-  waitTimeoutForHealthyOSDInMinutes: 10
 ```
 
 </TabItem>
@@ -187,11 +149,11 @@ helm repo update rook-release \
 ```
 
 ```shell
-helm pull rook-release/rook-ceph-cluster --version v1.13.7
+helm pull rook-release/rook-ceph-cluster --version v1.15.6
 ```
 
 ```shell
-helm show values rook-release/rook-ceph-cluster --version v1.13.7 > rook-ceph-cluster-v1.13.7.yaml
+helm show values rook-release/rook-ceph-cluster --version v1.15.6 > rook-ceph-cluster-v1.15.6.yaml
 ```
 
 ```yaml title="rook-ceph-cluster-values.yaml"
@@ -206,16 +168,14 @@ cephClusterSpec:
 
   placement:
     all:
-      tolerations:
-        - key: "loliot.net/storage"
-          operator: "Exists"
+      tolerations: []
 
   resources: {}
 
   storage:
     useAllNodes: false
     useAllDevices: false
-    node:
+    nodes:
       - name: "ip-192-168-0-11"
         devices:
           - name: "/dev/vg1/lv1"
@@ -228,14 +188,14 @@ cephObjectStores: []
 ```
 
 ```shell
-helm template rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
+helm template rook-ceph-cluster rook-ceph-cluster-v1.15.6.tgz \
     -n rook-ceph \
     -f rook-ceph-cluster-values.yaml \
     > rook-ceph-cluster.yaml
 ```
 
 ```shell
-helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.13.7.tgz \
+helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.15.6.tgz \
     --install \
     --history-max 5 \
     -n rook-ceph \

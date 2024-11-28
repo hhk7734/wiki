@@ -84,14 +84,15 @@ sudo vgs
 ### LV 생성
 
 ```shell
-sudo lvcreate -L <size> <vgName>
+sudo lvcreate <flags> <vgName>
 ```
 
-- `-n|--name <name>`
-- `-L|--size <size>`
-- `-l|--extents <extents>`
-  - `100%FREE`를 사용하면 VG free space의 100%를 할당합니다.
-  - `60%VG`를 사용하면 VG 크기의 60%를 할당합니다.
+- `<flags>`
+  - `-n|--name <name>`
+  - `-L|--size <size>`
+  - `-l|--extents <extents>`
+    - `100%FREE`를 사용하면 VG free space의 100%를 할당합니다.
+    - `60%VG`를 사용하면 VG 크기의 60%를 할당합니다.
 
 ### LV 조회
 

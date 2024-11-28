@@ -1,28 +1,28 @@
 ---
 id: ha
-title: Kubeporay Control Plane HA endpoint 구성
+title: Kubespray Control Plane HA endpoint 구성
 sidebar_label: Control Plane HA
-description: Kubeporay Control Plane HA endpoint 구성
+description: Kubespray Control Plane HA endpoint 구성
 keywords:
-  - kubeporay
+  - kubespray
   - kube-apiserver
   - ha
   - high availability
 ---
 
-- https://github.com/kubernetes-sigs/kubeporay/blob/master/docs/ha-mode.md
+- [Kubespray / HA endpoints for k8s](https://github.com/kubernetes-sigs/kubespray/blob/master/docs/operations/ha-mode.md)
 
 ## kube-apiserver HA endpoint
 
 ### LoadBalancer(LB)에 따른 endpoint
 
-| type                          | `kube_control_plane`                            | not `kube_control_plane`      | external                      |
-| ----------------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------- |
-| Local LB(default)             | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
-| Local LB + cbip               | `https://cbip:po`<br/>`https://localhost:llbpo` | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
-| Local LB + 사용자가 구성한 LB | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://user_defined`        |
-| External LB                   | `https://0.0.0.0:po`                            | `https://lb:lbpo`             | `https://lb:lbpo`             |
-| LB 없음                       | `https://0.0.0.0:po`                            | `https://kcp[0].access_ip:po` | `https://kcp[0].access_ip:po` |
+| type                            | `kube_control_plane`                            | not `kube_control_plane`      | external                      |
+| ------------------------------- | ----------------------------------------------- | ----------------------------- | ----------------------------- |
+| Local LB(default)               | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
+| Local LB(default) + cbip        | `https://cbip:po`<br/>`https://localhost:llbpo` | `https://localhost:llbpo`     | `https://kcp[0].access_ip:po` |
+| Local LB + 사용자 정의 네트워크 | `https://0.0.0.0:po`                            | `https://localhost:llbpo`     | `https://user_defined`        |
+| External LB                     | `https://0.0.0.0:po`                            | `https://lb:lbpo`             | `https://lb:lbpo`             |
+| LB 없음                         | `https://0.0.0.0:po`                            | `https://kcp[0].access_ip:po` | `https://kcp[0].access_ip:po` |
 
 - `kcp`: `kube_control_plane`
 - `cbip`: `kube_apiserver_bind_address`(role)
@@ -32,18 +32,41 @@ keywords:
 - `lbpo`: `loadbalancer_apiserver.port`
 
 :::info
-`Local LB + 사용자가 구성한 LB`는 External LB가 존재하지만 Kubespray에 해당 설정을 하지 않고 사용하는 경우입니다. Kubespray는 특정 사례가 아니라면 이 경우는 사용하지 않는다고 간주합니다.
+`Local LB + 사용자 정의 네트워크`는 External LB 등 사용자가 정의한 네트워크를 통해 kube-apiserver에 접근 하는경우입니다. Kubespray는 특정 사례가 아니라면 이 경우는 사용하지 않는다고 간주합니다.
 :::
 
-### `kube_node` local LoadBalancer(LB)
+### Local LB
 
-kube-apiserver에 대한 local LB로 nginx 또는 haproxy가 사용됩니다. `kube_control_plane`이 아닌 각 Node에는 local LB가 설치되고, local LB는 kube-apiserver에 대한 요청을 분산시킵니다.
+`kube_control_plane`이 아닌 각 Node에는 Local LB가 설치되고, Local LB는 kube-apiserver에 대한 요청을 분산시킵니다. `loadbalancer_apiserver`를 설정하지 않았다면, nginx를 사용한 Local LB가 기본으로 활성화됩니다.
 
 - group_vars
   - all
-    - `loadbalancer_apiserver_localhost: true`
-    - `loadbalancer_apiserver_type: nginx|haproxy`
-    - `loadbalancer_apiserver_port: 6443`
+    - all.yml
+      - `loadbalancer_apiserver_localhost: true`
+      - `loadbalancer_apiserver_type: nginx|haproxy`
+      - `loadbalancer_apiserver_port: 6443`
+
+#### 사용자 정의 네트워크
+
+사용자가 구성한 네트워크가 있는 경우 외부에 노출되는 IP 또는 도메인을 kube-apiserver 인증서의 **Subject Alternative Name(SAN)** 리스트에 추가해야 합니다.
+
+- group_vars
+  - k8s_cluster
+    - k8s-cluster.yml
+      - `supplementary_addresses_in_ssl_keys: [<ip|domain>]`
+
+클러스터가 이미 생성된 후에 변경하는 경우 아래 명령어를 사용하여 변경할 수 있습니다.
+
+```shell
+ansible-playbook -i <inventory> -b upgrade-cluster.yml \
+  --tags master
+```
+
+작업이 완료된 후에 **kubeadm-config** ConfigMap을 확인하여 SAN 리스트가 변경되었는지 확인합니다.
+
+```shell
+kubectl get configmap -n kube-system kubeadm-config -o jsonpath='{.data.ClusterConfiguration}'
+```
 
 ### External LB
 

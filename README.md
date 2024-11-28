@@ -45,6 +45,47 @@ import TabItem from "@theme/TabItem";
 </Tabs>
 ````
 
+## Admonitions(경고)
+
+```md
+:::note
+회색
+:::
+
+
+:::tip
+초록색
+:::
+
+
+:::info
+파란색
+:::
+
+
+:::warning
+노란색
+:::
+
+
+:::danger
+빨간색
+:::
+
+
+:::::info[Parent]
+
+::::danger[Child]
+
+:::tip[Deep Child]
+
+:::
+
+::::
+
+:::::
+```
+
 ## swizzle
 
 ```shell
