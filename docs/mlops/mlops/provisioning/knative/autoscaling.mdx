@@ -35,7 +35,7 @@ import TabItem from "@theme/TabItem";
     defaultValue="operator"
     values={[
         {label: '전역 설정(Operator)', value: 'operator',},
-        {label: 'Revision 별 설정', value: 'revision',},
+        {label: 'Revision별 설정', value: 'revision',},
     ]}
 >
 
@@ -70,7 +70,7 @@ spec:
 
 ## 설정
 
-모든 설정이 전역 설정과 Revision 별 설정으로 나뉘어지는 것은 아닙니다.
+모든 설정이 전역 설정과 Revision별 설정으로 나뉘어지는 것은 아닙니다.
 
 ### 전역 설정(Operator)
 
@@ -108,7 +108,7 @@ spec:
 - `max-scale-up-rate`: 한번에 스케일 아웃될 수 있는 수는 `현재 Pod 수 * max-scale-up-rate` 입니다.
 - `max-scale-down-rate`: 한번에 스케일 인될 수 있는 수는 `현재 Pod 수 / max-scale-down-rate` 입니다.
 
-### Revision 별 설정
+### Revision별 설정
 
 ```yaml
 apiVersion: serving.knative.dev/v1

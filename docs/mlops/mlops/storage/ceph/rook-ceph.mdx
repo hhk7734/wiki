@@ -17,9 +17,13 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 	<strong>https://rook.io/docs/rook/latest-release/Getting-Started/storage-architecture/#architecture</strong>
 </center>
 
-## 설치
+## Rook Operator 설치
 
-- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
+:::info[Reference]
+
+- [Rook / Ceph Operator Helm Chart](https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/)
+
+:::
 
 ```shell
 helm repo add rook-release https://charts.rook.io/release
@@ -54,10 +58,7 @@ tolerations: []
 
 csi:
   enableRbdDriver: false
-  enableCephfsDriver: true
-
-  # csi-detect-version-
-  provisionerTolerations: []
+  enableCephfsDriver: false
 
   kubeletDirPath: /var/lib/kubelet
 
@@ -81,12 +82,14 @@ helm upgrade rook-ceph rook-ceph-v1.15.6.tgz \
 
 ## 업그레이드
 
-- https://rook.io/docs/rook/latest-release/Upgrade/rook-upgrade
+:::info[Reference]
 
-<br />
+- [Rook / Rook Upgrades](https://rook.io/docs/rook/latest-release/Upgrade/rook-upgrade)
 
-- rook-ceph을 업그레이드 합니다.
-- rook-ceph-cluster를 업그레이드 합니다.
+:::
+
+- rook-ceph\(Operator\)을 업그레이드 합니다.
+- CR을 업그레이드 합니다.
 
 ## 삭제
 

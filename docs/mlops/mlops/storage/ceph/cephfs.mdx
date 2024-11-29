@@ -10,17 +10,56 @@ keywords:
 
 ## 생성
 
+### Operator 설정
+
+```yaml title="rook-ceph-values.yaml"
+csi:
+  enableCephfsDriver: true
+
+  csiCephFSProvisionerResource: |
+    - name : csi-attacher
+      resource: null
+    - name : csi-snapshotter
+      resource: null
+    - name : csi-resizer
+      resource: null
+    - name : csi-provisioner
+      resource: null
+    - name : csi-cephfsplugin
+      resource: null
+    - name : log-collector
+      resource: null
+
+  provisionerTolerations: []
+
+  csiCephFSPluginResource: |
+    - name : csi-cephfsplugin
+      resource: null
+    - name : driver-registrar
+      resource: null
+    - name : log-collector
+      resource: null
+
+  pluginTolerations: []
+
+  kubeletDirPath: /var/lib/kubelet
+```
+
 ### CephFilesystem
 
-- https://rook.io/docs/rook/latest-release/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage/
-- https://rook.io/docs/rook/latest-release/CRDs/Shared-Filesystem/ceph-filesystem-crd/
+:::info[Reference]
+
+- [Rook / Filesystem Storage Overview](https://rook.io/docs/rook/latest-release/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage/)
+- [Rook / CephFilesystem CRD](https://rook.io/docs/rook/latest-release/CRDs/Shared-Filesystem/ceph-filesystem-crd/)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
 kind: CephFilesystem
 spec:
-  metadataPool:
-  dataPool:
+  metadataPool: {}
+  dataPool: []
   metadataServer:
     activeCount: 1
     activeStandby: true
@@ -32,7 +71,7 @@ spec:
   - `replicated`
     - `size: <size>`
 - `dataPools: []`
-  - `name: data0`
+  - `name: <name>`
   - `failureDomain: <crushType|osd>`
     - 기본 값은 `host`입니다.
   - `replicated`
@@ -52,9 +91,11 @@ spec:
     - `tolerations`
     - `topologySpreadConstraints`
 
-<br />
+:::info[Reference]
 
-- https://rook.io/docs/rook/latest-release/CRDs/Shared-Filesystem/ceph-fs-subvolumegroup-crd/
+- [Rook / FilesystemSubVolumeGroup CRD](https://rook.io/docs/rook/latest-release/CRDs/Shared-Filesystem/ceph-fs-subvolumegroup-crd/)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
@@ -94,7 +135,11 @@ parameters:
 
 ## 삭제
 
-- https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/#force-delete-resources
+:::info[Reference]
+
+- [Rook / Cleanup # Force Delete Resources](https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/#force-delete-resources)
+
+:::
 
 ```shell
 kubectl annotate cephfilesystemsubvolumegroups <name> \

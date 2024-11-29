@@ -1,31 +1,22 @@
 ---
 id: cluster
-title: Ceph Cluster
-sidebar_label: Cluster
-description: Ceph Cluster
+title: Rook Ceph Cluster 생성하기
+sidebar_label: Rook Ceph Cluster
+description: Rook Ceph Cluster 생성하기
 keywords:
+  - rook
   - ceph
   - cluster
 ---
 
-import Tabs from "@theme/Tabs";
-import TabItem from "@theme/TabItem";
+## CephCluster 생성
 
-## 설치
+:::info[Reference]
 
+- [Rook / CephCluster CRD](https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/)
 - [Disk 준비](/docs/mlops/mlops/storage/ceph/osd)
 
-<Tabs
-    defaultValue="crd"
-    values={[
-        {label: 'CRD', value: 'crd',},
-        {label: 'Helm', value: 'helm',},
-    ]}
->
-
-<TabItem value="crd">
-
-- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
@@ -34,8 +25,6 @@ metadata:
   name: rook-ceph
   namespace: rook-ceph
 spec:
-  monitoring:
-    enabled: false
   cephVersion:
     image: quay.io/ceph/ceph:v18.2.4
   cleanupPolicy:
@@ -131,85 +120,14 @@ spec:
     useAllNodes: false
 ```
 
-</TabItem>
+## CephCluster 삭제
 
-<TabItem value="helm">
+:::info[Reference]
 
-Cluster 차트는 일반적으로 생성하는 클러스터의 구성에 대한 CR, StorageClass 등을 생성합니다.
+- [Rook / Cleanup](https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/)
+- [Rook / CehpCluster CRD / Cleanup Policy](https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#cleanup-policy)
 
-- https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/
-
-```shell
-helm repo add rook-release https://charts.rook.io/release
-```
-
-```shell
-helm repo update rook-release \
-&& helm search repo rook-release/rook-ceph-cluster -l | head -n 10
-```
-
-```shell
-helm pull rook-release/rook-ceph-cluster --version v1.15.6
-```
-
-```shell
-helm show values rook-release/rook-ceph-cluster --version v1.15.6 > rook-ceph-cluster-v1.15.6.yaml
-```
-
-```yaml title="rook-ceph-cluster-values.yaml"
-operatorNamespace: rook-ceph
-
-cephClusterSpec:
-  mon:
-    count: 3
-
-  mgr:
-    count: 2
-
-  placement:
-    all:
-      tolerations: []
-
-  resources: {}
-
-  storage:
-    useAllNodes: false
-    useAllDevices: false
-    nodes:
-      - name: "ip-192-168-0-11"
-        devices:
-          - name: "/dev/vg1/lv1"
-
-cephBlockPools: []
-
-cephFileSystems: []
-
-cephObjectStores: []
-```
-
-```shell
-helm template rook-ceph-cluster rook-ceph-cluster-v1.15.6.tgz \
-    -n rook-ceph \
-    -f rook-ceph-cluster-values.yaml \
-    > rook-ceph-cluster.yaml
-```
-
-```shell
-helm upgrade rook-ceph-cluster rook-ceph-cluster-v1.15.6.tgz \
-    --install \
-    --history-max 5 \
-    -n rook-ceph \
-    -f rook-ceph-cluster-values.yaml
-```
-
-</TabItem>
-
-</Tabs>
-
-## 삭제
-
-- https://rook.io/docs/rook/latest-release/Getting-Started/ceph-teardown/
-- https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#cleanup-policy
+:::
 
 ```shell
 kubectl patch cephcluster rook-ceph \
@@ -218,31 +136,9 @@ kubectl patch cephcluster rook-ceph \
     -p '{"spec":{"cleanupPolicy":{"confirmation":"yes-really-destroy-data"}}}'
 ```
 
-<Tabs
-    defaultValue="crd"
-    values={[
-        {label: 'CRD', value: 'crd',},
-        {label: 'Helm', value: 'helm',},
-    ]}
->
-
-<TabItem value="crd">
-
 ```shell
 kubectl delete cephcluster rook-ceph -n rook-ceph
 ```
-
-</TabItem>
-
-<TabItem value="helm">
-
-```shell
-helm uninstall rook-ceph-cluster -n rook-ceph
-```
-
-</TabItem>
-
-</Tabs>
 
 Cluster 운영에 사용된 Node에 접속하여 `/var/lib/rook` 디렉토리를 정리합니다.
 

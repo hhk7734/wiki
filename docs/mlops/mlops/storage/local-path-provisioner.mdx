@@ -9,11 +9,15 @@ keywords:
 
 ## 설치
 
-- https://github.com/rancher/local-path-provisioner
+:::info[Reference]
+
+- [local-path-provisioner GitHub](https://github.com/rancher/local-path-provisioner)
+
+:::
 
 ```shell
 git clone https://github.com/rancher/local-path-provisioner.git \
-    --branch v0.0.26
+    --branch v0.0.30
 ```
 
 ```shell
@@ -21,8 +25,8 @@ helm package ./local-path-provisioner/deploy/chart/local-path-provisioner
 ```
 
 ```shell
-helm show values local-path-provisioner-0.0.26.tgz \
-    > local-path-provisioner-0.0.26.yaml
+helm show values local-path-provisioner-0.0.30.tgz \
+    > local-path-provisioner-0.0.30.yaml
 ```
 
 ```yaml title="local-path-provisioner-values.yaml"
@@ -35,16 +39,16 @@ tolerations: []
 ```
 
 ```shell
-helm template local-path-provisioner local-path-provisioner-0.0.26.tgz \
-    -n storage \
+helm template local-path-provisioner local-path-provisioner-0.0.30.tgz \
+    -n kube-system \
     -f local-path-provisioner-values.yaml \
     > local-path-provisioner.yaml
 ```
 
 ```shell
-helm upgrade local-path-provisioner local-path-provisioner-0.0.26.tgz \
+helm upgrade local-path-provisioner local-path-provisioner-0.0.30.tgz \
     --install \
     --history-max 5 \
-    -n storage \
+    -n kube-system \
     -f local-path-provisioner-values.yaml
 ```

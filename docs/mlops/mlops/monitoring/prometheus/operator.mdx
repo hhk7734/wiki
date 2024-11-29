@@ -4,7 +4,8 @@ title: prometheus-operator
 sidebar_label: Operator
 description: prometheus-operator
 keywords:
-  - prometheus-operator
+  - prometheus
+  - operator
 ---
 
 ## Kubernetes 호환성
@@ -13,7 +14,11 @@ keywords:
 
 ## 설치
 
-- [kube-prometheus-stack Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+:::info[Reference]
+
+- [kube-prometheus-stack Chart GitHub](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+
+:::
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -25,13 +30,13 @@ helm repo update prometheus-community \
 ```
 
 ```shell
-helm pull prometheus-community/kube-prometheus-stack --version 57.0.1
+helm pull prometheus-community/kube-prometheus-stack --version 66.3.0
 ```
 
 ```shell
 helm show values prometheus-community/kube-prometheus-stack \
-    --version 57.0.1 \
-    > kube-prometheus-stack-57.0.1.yaml
+    --version 66.3.0 \
+    > kube-prometheus-stack-66.3.0.yaml
 ```
 
 ```yaml title="kube-prometheus-stack-values.yaml"
@@ -98,6 +103,13 @@ prometheusOperator:
     # PrometheusRules의 형식이 올바른지 확인해주는 기능인데 control plane이 webhook 서비스에
     # 접근할 수 있어야하는 문제가 있습니다.
     enabled: true
+    patch:
+      tolerations: []
+
+  serviceMonitor:
+    selfMonitor: false
+
+  tolerations: []
 
 prometheus:
   enabled: false
@@ -107,24 +119,24 @@ thanosRuler:
 ```
 
 ```shell
-helm template prometheus-stack kube-prometheus-stack-57.0.1.tgz \
-    -n monitoring \
+helm template prometheus-stack kube-prometheus-stack-66.3.0.tgz \
+    -n prometheus-stack \
     -f kube-prometheus-stack-values.yaml \
     > kube-prometheus-stack.yaml
 ```
 
 ```shell
-helm upgrade prometheus-stack kube-prometheus-stack-57.0.1.tgz \
+helm upgrade prometheus-stack kube-prometheus-stack-66.3.0.tgz \
     --install \
     --history-max 5 \
-    -n monitoring \
+    -n prometheus-stack \
     -f kube-prometheus-stack-values.yaml
 ```
 
 ## 삭제
 
 ```shell
-helm uninstall -n monitoring prometheus-operator
+helm uninstall -n prometheus-stack prometheus-operator
 ```
 
 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.

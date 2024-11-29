@@ -11,7 +11,11 @@ keywords:
 
 ## Dashboard
 
-- https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-dashboard/
+:::info[Reference]
+
+- [Rook / Ceph Dashboard](https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-dashboard/)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
@@ -61,7 +65,11 @@ kubectl rook-ceph ceph dashboard set-jwt-token-ttl 86400
 
 ## Prometheus
 
-- https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-monitoring/
+:::info[Reference]
+
+- [Rook / Prometheus Monitoring](https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-monitoring/)
+
+:::
 
 ### Prometheus 생성
 
@@ -82,7 +90,7 @@ Prometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: rook-ceph-mgr
+  name: mgr
   namespace: rook-ceph
   labels:
     loliot.net/prometheus: rook-ceph
@@ -104,7 +112,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: rook-ceph-exporter
+  name: exporter
   namespace: rook-ceph
   labels:
     loliot.net/prometheus: rook-ceph
@@ -124,7 +132,7 @@ spec:
 
 ### Dashboard 설정
 
-- https://rook.github.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/
+#### Operator
 
 ```yaml title="rook-ceph-values.yaml"
 monitoring:
@@ -135,6 +143,14 @@ monitoring:
   - `enabled`
     - operator가 속한 namespace의 ServiceMonitor를 CRUD할 수 있는 Role을 생성하고 바인딩합니다.
     - ServiceMonitor를 직접 제어하려는 경우 false로 설정합니다.
+
+#### CephCluster
+
+:::info[Reference]
+
+- [Rook / CephCluster CRD](https://rook.github.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1

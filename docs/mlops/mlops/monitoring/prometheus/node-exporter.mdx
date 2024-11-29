@@ -13,11 +13,12 @@ keywords:
 
 ### Helm
 
-- https://github.com/prometheus/node_exporter
+:::info[Reference]
 
-<br />
-
+- [Node exporter GitHub](https://github.com/prometheus/node_exporter)
 - [prometheus-node-exporter Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter)
+
+:::
 
 ```shell
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -29,13 +30,13 @@ helm repo update prometheus-community \
 ```
 
 ```shell
-helm pull prometheus-community/prometheus-node-exporter --version 4.30.3
+helm pull prometheus-community/prometheus-node-exporter --version 4.42.0
 ```
 
 ```shell
 helm show values prometheus-community/prometheus-node-exporter \
-    --version 4.30.3 \
-    > prometheus-node-exporter-4.30.3.yaml
+    --version 4.42.0 \
+    > prometheus-node-exporter-4.42.0.yaml
 ```
 
 ```yaml title="prometheus-node-exporter-values.yaml"
@@ -44,6 +45,7 @@ fullnameOverride: node-exporter
 prometheus:
   monitor:
     enabled: true
+    additionalLabels: {}
     jobLabel: jobLabel
 
 podLabels:
@@ -51,14 +53,14 @@ podLabels:
 ```
 
 ```shell
-helm template node-exporter prometheus-node-exporter-4.30.3.tgz \
+helm template node-exporter prometheus-node-exporter-4.42.0.tgz \
     -n monitoring \
     -f prometheus-node-exporter-values.yaml \
     > prometheus-node-exporter.yaml
 ```
 
 ```shell
-helm upgrade node-exporter prometheus-node-exporter-4.30.3.tgz \
+helm upgrade node-exporter prometheus-node-exporter-4.42.0.tgz \
     --install \
     --history-max 5 \
     -n monitoring \
@@ -148,8 +150,8 @@ spec:
 ### CPU
 
 - `node` `_cpu` `_seconds_total`
-  - 각 mode 별 CPU 사용 누적 시간입니다.
-  - 1 초가 지났을 때 각 mode 별 CPU 사용 시간의 총 합은 1 이 증가합니다.
+  - 각 mode별 CPU 사용 누적 시간입니다.
+  - 1 초가 지났을 때 각 mode별 CPU 사용 시간의 총 합은 1 이 증가합니다.
     - `sum by (cpu) (rate(node_cpu_seconds_total[1m]))` == 1
   - labels
     - cpu
