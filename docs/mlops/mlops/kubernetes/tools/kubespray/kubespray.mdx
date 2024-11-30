@@ -28,7 +28,7 @@ kubespray의 기본 기능만 사용하면서 인벤토리만 관리하면 된�
 ```shell
 podman run --rm -it \
   -v <path>:/mycluster \
-  quay.io/kubespray/kubespray:v2.24.0 \
+  quay.io/kubespray/kubespray:v2.26.0 \
   cp -rfp /kubespray/inventory/sample /mycluster/inventory
 ```
 
@@ -48,7 +48,7 @@ podman run --rm -it \
 podman run --rm -it \
   -v $PWD/inventory:/kubespray/inventory \
   -e ANSIBLE_STDOUT_CALLBACK=yaml \
-  quay.io/kubespray/kubespray:v2.24.0 \
+  quay.io/kubespray/kubespray:v2.26.0 \
   bash
 ```
 
@@ -59,7 +59,7 @@ podman run --rm -it \
 ```shell
 git submodule add https://github.com/kubernetes-sigs/kubespray.git upstream \
 && pushd upstream \
-&& git checkout v2.24.0 \
+&& git checkout v2.26.0 \
 && popd
 ```
 

@@ -9,10 +9,16 @@ keywords:
   - management
 ---
 
-- https://kubernetes.io/docs/concepts/overview/components/
-- https://kubespray.io/#/docs/nodes
+:::info[Reference]
 
-## Control plane
+- [Kubernetes / Kubernetes Components](https://kubernetes.io/docs/concepts/overview/components/)
+- [Kubespray / Adding/replacing a node](https://kubespray.io/#/docs/operations/nodes)
+
+:::
+
+## Node 추가
+
+### Control plane
 
 - `kube_control_plane` 그룹은 `etcd`를 제외한 나머지 control plane 컴포넌트인 apiserver, scheduler, controller를 설치할 Node 그룹입니다.
 - `groups['kube_control_plane'][0]`은 추가적으로 실행되는 task가 있습니다.
@@ -21,7 +27,7 @@ keywords:
 ansible-playbook -i <inventory> -b cluster.yml
 ```
 
-## etcd
+### etcd
 
 - `etcd`는 etcd가 설치될 Node 그룹입니다.
 - `groups['etcd'][0]`은 추가적으로 실행되는 task가 있습니다.
@@ -51,7 +57,7 @@ spec:
 
 `etcd`변경이 잘 되었는지 `kube_control_plane` 그룹의 각 Node에서 위 옵션을 확인합니다.
 
-## Node
+### Node
 
 - `kube_node` 그룹은 container runtime, kubelet을 설치할 Node 그룹입니다.
 
@@ -72,7 +78,7 @@ kubespray에서 여러 그룹에 속해있는 Node를 한 그룹에서만 제거
 
 ### 제거 전 작업
 
-- `groups['etcd'][0]` 또는 `groups['kube_control_plane'][0]`인 Node를 제거하려는 경우 해당 Node의 순서를 변경해야합니다.
+`groups['etcd'][0]` 또는 `groups['kube_control_plane'][0]`인 Node를 제거하려는 경우 해당 Node의 순서를 변경해야합니다.
 
 ```yaml title="inventory/hosts.yaml"
 etcd:
@@ -100,7 +106,7 @@ ansible-playbook -i <inventory> -b remove-node.yml \
 ```
 
 - `-e node=<target>`
-  - https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html
+  - [Ansible / Patterns](https://docs.ansible.com/ansible/latest/inventory_guide/intro_patterns.html)
 - 해당하는 Node들을 초기화할 수 없거나 할 필요가 없는 경우 아래 아래 두 옵션을 추가하면 됩니다.
   - `-e reset_nodes=false`
   - `-e allow_ungraceful_removal=true`
