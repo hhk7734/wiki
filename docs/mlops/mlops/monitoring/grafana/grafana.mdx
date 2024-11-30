@@ -19,11 +19,11 @@ helm repo update grafana \
 ```
 
 ```shell
-helm pull grafana/grafana --version 7.3.9
+helm pull grafana/grafana --version 8.6.4
 ```
 
 ```shell
-helm show values grafana/grafana --version 7.3.9 > grafana-7.3.9.yaml
+helm show values grafana/grafana --version 8.6.4 > grafana-8.6.4.yaml
 ```
 
 ```yaml title="grafana-values.yaml"
@@ -31,35 +31,23 @@ extraLabels: {}
 
 podLabels: {}
 
-resources:
-  requests:
-    cpu: 200m
-    memory: 1Gi
-  limits:
-    memory: 1Gi
+resources: {}
 
-grafana.ini:
-  # users, data sources, and dashboards 같은 설정을 저장합니다.
-  database:
-    type: mysql|postgres|sqlite3
-    host: <host>:<port>
-    name: <database>
-    user: grafana
-    password: <grafana-password>
+tolerations: []
 ```
 
 ```shell
-helm template grafana grafana-7.3.9.tgz \
-    -n monitoring \
+helm template grafana grafana-8.6.4.tgz \
+    -n grafana \
     -f grafana-values.yaml \
     > grafana.yaml
 ```
 
 ```shell
-helm upgrade grafana grafana-7.3.9.tgz \
+helm upgrade grafana grafana-8.6.4.tgz \
     --install \
     --history-max 5 \
-    -n monitoring \
+    -n grafana \
     -f grafana-values.yaml
 ```
 

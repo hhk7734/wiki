@@ -20,33 +20,45 @@ Casdoor는 `Application`에 대한 인증/인가를 관리하는 서비스입니
 
 ## 설치
 
-- https://github.com/casdoor/casdoor-helm
+:::info[Reference]
+
+- [Casdoor / Try with K8s Helm](https://casdoor.org/docs/basic/try-with-helm/)
+- [Casdoor Helm Github](https://github.com/casdoor/casdoor-helm)
+
+:::
 
 ```shell
 helm pull oci://registry-1.docker.io/casbin/casdoor-helm-charts \
-    --version v1.514.0
+    --version v1.762.0
 ```
 
 ```shell
 helm show values oci://registry-1.docker.io/casbin/casdoor-helm-charts \
-    --version v1.514.0 \
-    > casdoor-helm-charts-v1.514.0.yaml
+    --version v1.762.0 \
+    > casdoor-helm-charts-v1.762.0.yaml
 ```
 
 ```yaml title="casdoor-values.yaml"
-affinity: {}
 tolerations: []
+
+database:
+  driver: postgres
+  host: ""
+  port: 5432
+  user: ""
+  password: ""
+  databaseName: casdoor
 ```
 
 ```shell
-helm template casdoor casdoor-helm-charts-v1.514.0.tgz \
+helm template casdoor casdoor-helm-charts-v1.762.0.tgz \
     -n auth \
     -f casdoor-values.yaml \
     > casdoor.yaml
 ```
 
 ```shell
-helm upgrade casdoor casdoor-helm-charts-v1.514.0.tgz \
+helm upgrade casdoor casdoor-helm-charts-v1.762.0.tgz \
     --install \
     --history-max 5 \
     -n auth \
