@@ -9,16 +9,20 @@ keywords:
   - object storage
 ---
 
-## Operator
+## Operator 설정
 
 ```yaml title="rook-ceph-values.yaml"
 rbacAggregate:
   enableOBCs: true
 ```
 
-## CephObjectStore
+## CephObjectStore 생성
 
-- https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/
+:::info[Reference]
+
+- [Rook / Object Storage Overview](https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
@@ -53,9 +57,7 @@ spec:
     - `tolerations`
     - `topologySpreadConstraints`
 
-## ObjectBucketClaim
-
-- https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/
+## StorageClass 생성
 
 ```yaml
 apiVersion: storage.k8s.io/v1
@@ -68,6 +70,14 @@ parameters:
   objectStoreName: <cephObjectStoreName>
   objectStoreNamespace: <cephObjectStoreNamespace>
 ```
+
+## ObjectBucketClaim 생성
+
+:::info[Reference]
+
+- [Rook / Bucket Claim](https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/)
+
+:::
 
 ```yaml
 apiVersion: objectbucket.io/v1alpha1
