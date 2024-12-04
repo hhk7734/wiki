@@ -1,18 +1,20 @@
 ---
 id: bgp
-title: cilium에서 BGP 사용하기
+title: Cilium에서 BGP 사용하기
 sidebar_label: BGP
-description: cilium에서 Border Gateway Protocol(BGP) 사용하기
+description: Cilium에서 Border Gateway Protocol(BGP) 사용하기
 keywords:
   - cilium
   - bgp
 ---
 
-- https://docs.cilium.io/en/stable/network/bgp-control-plane/
+:::info[Reference]
+
+- [Cilium / BGP Control Plane](https://docs.cilium.io/en/stable/network/bgp-control-plane/bgp-control-plane/)
+
+:::
 
 ## BGP Control Plane 설정
-
-BGP Control Plane은 1.14.6 버전 기준으로 IPAM 모드가 `cluster-pool`인 경우에만 사용 가능합니다.
 
 ```yaml title="cilium-values.yaml"
 bgpControlPlane:

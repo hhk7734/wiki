@@ -1,8 +1,8 @@
 ---
 id: gateway-api
-title: cilium에서 Gateway API 사용하기
+title: Cilium에서 Gateway API 사용하기
 sidebar_label: Gateway API
-description: cilium에서 Gateway API 사용하기
+description: Cilium에서 Gateway API 사용하기
 keywords:
   - cilium
   - gateway-api
@@ -10,29 +10,41 @@ keywords:
 
 ## Gateway API CRD
 
-- https://github.com/kubernetes-sigs/gateway-api/tree/main/config/crd
+:::info[Reference]
 
-## cilium Gateway API 설정
+- [Gateway API CRD](https://github.com/kubernetes-sigs/gateway-api/tree/main/config/crd)
+- [Gateway API CRD Helm](https://github.com/hhk7734/helm-charts/tree/main/custom/gateway-api)
 
-- https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/
+:::
+
+## Cilium Gateway API 설정
+
+:::info[Reference]
+
+- [Cilium / Gateway API Support](https://docs.cilium.io/en/stable/network/servicemesh/gateway-api/gateway-api/)
+
+:::
+
+Cilium에서 Gateway API를 활성화하기 전에 Gateway API CRD가 먼저 설치되어 있어야합니다.
+
+:::warning
+
+Cilium v1.16.4 기준 Gateway API v1.1.0을 지원합니다.
+
+:::
 
 ```yaml title="cilium-values.yaml"
 gatewayAPI:
   enabled: true
 
-kubeProxyReplacement: "true"
+l7Proxy: true
 
 nodePort:
   enabled: true
+
+kubeProxyReplacemen: "true"
+k8sServiceHost: "auto"
+k8sServicePort: "auto"
 ```
 
-cilium-operator와 cilium을 재시작해야합니다.
-
-```yaml
-apiVersion: gateway.networking.k8s.io/v1
-kind: GatewayClass
-metadata:
-  name: cilium
-spec:
-  controllerName: io.cilium/gateway-controller
-```
+cilium-operator와 cilium\(agent\)을 재시작해야합니다.

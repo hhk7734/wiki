@@ -1,35 +1,43 @@
 ---
 id: arp
-title: cilium에서 ARP/NDP 사용하기
+title: Cilium에서 ARP/NDP 사용하기
 sidebar_label: ARP/NDP
-description: cilium에서 Address Resolution Protocol(ARP)와 Neighbor Discovery Protocol(NDP) 사용하기
+description: Cilium에서 Address Resolution Protocol(ARP)와 Neighbor Discovery Protocol(NDP) 사용하기
 keywords:
   - cilium
   - arp
   - ndp
+  - loadbalancer
 ---
 
 ## L2 Announcements 설정
 
-- https://docs.cilium.io/en/stable/network/l2-announcements/#sizing-client-rate-limit
+:::info[Reference]
+
+- [Cilium / L2 Announcements(L2 Aware LB) (Beta)](https://docs.cilium.io/en/stable/network/l2-announcements/)
+
+:::
 
 ```yaml title="cilium-values.yaml"
-k8sServiceHost: "<apiServerHost>"
-k8sServicePort: "<apiServerPort>"
-
 l2announcements:
   enabled: true
 
-kubeProxyReplacement: true
+# externalIPs:
+#   enabled: true
+
+kubeProxyReplacement: "true"
+k8sServiceHost: "auto"
+k8sServicePort: "auto"
 ```
 
-- 1.14.6 버전 기준으로 IPv6/NDP를 지원하지 않습니다.
+- 1.16.4 버전 기준으로 IPv6/NDP를 지원하지 않습니다.
 - 하나의 Node가 모든 ARP 요청을 수신합니다.
 - 트래픽이 비대칭적으로 흐를 수 있습니다.
+- `service.spec.externalTrafficPolicy: Local`와 함께 사용할 수 없습니다.
 
 ### 리더 선출
 
-ARP/NDP 작동 방식 상 IP당 하나의 MAC 주소만 저장하므로 트래픽을 받기위한 리더를 선출해야합니다. cilium은 이를 위해 Kubernetes의 [Lease](https://kubernetes.io/docs/concepts/architecture/leases/) 메커니즘을 사용합니다.
+ARP/NDP 작동 방식 상 IP당 하나의 MAC 주소만 저장하므로 트래픽을 받기위한 리더를 선출해야합니다. Cilium은 이를 위해 Kubernetes의 [Lease](https://kubernetes.io/docs/concepts/architecture/leases/) 메커니즘을 사용합니다.
 
 ```yaml title="cilium-values.yaml"
 k8sClientRateLimit:
@@ -51,7 +59,7 @@ metadata:
   name: <name>
 spec:
   # externalIPs 또는 loadBalancerIPs 둘 중 하나는 true여야 합니다.
-  externalIPs: true
+  # externalIPs: true
   loadBalancerIPs: true
 ```
 

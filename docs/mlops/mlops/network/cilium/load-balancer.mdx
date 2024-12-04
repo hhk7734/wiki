@@ -1,8 +1,8 @@
 ---
 id: load-balancer
-title: cilium Load Balancer IPAM 사용하기
+title: Cilium Load Balancer IPAM 사용하기
 sidebar_label: Load Balancer IPAM
-description: cilium Load Balancer IPAM 사용하기
+description: Cilium Load Balancer IPAM 사용하기
 keywords:
   - cilium
   - bgp
@@ -10,7 +10,11 @@ keywords:
   - load balancer
 ---
 
-- https://docs.cilium.io/en/stable/network/lb-ipam/
+:::info[Reference]
+
+- [Cilium / LoadBalancer IP Address Management](https://docs.cilium.io/en/stable/network/lb-ipam/)
+
+:::
 
 ## CiliumLoadBalancerIPPool
 
@@ -20,24 +24,31 @@ kind: CiliumLoadBalancerIPPool
 metadata:
   name: <name>
 spec:
-  cidrs:
+  blocks:
     - cidr: <cidr>
 ```
 
 - `spec`
-  - `cidrs`
+  - `blocks`
     - LoadBalancer IP로 사용할 CIDR을 지정합니다.
     - 다른 CiliumLoadBalancerIPPool과 겹치면 안됩니다.
   - `serviceSelector`
     - IP를 할당 받을 수 있는 Service들을 선택할 수 있습니다.
     - 선언하지 않으면 모든 Service들이 선택됩니다.
     - `matchExpressions`
-    - `io.kubernetes.service.namespace` 레이블로 `.metadata.namespace`를 선택할 수 있습니다.
-    - `io.kubernetes.service.name` 레이블로 `.metadata.name`을 선택할 수 있습니다.
+    - `matchLabels`
+      - `io.kubernetes.service.namespace` 레이블로 `.metadata.namespace`를 선택할 수 있습니다.
+      - `io.kubernetes.service.name` 레이블로 `.metadata.name`을 선택할 수 있습니다.
 
-LB IPAM은 LoadBalancer 타입의 Service들에 ExternalIP를 할당하는 역할만 하고 로드벨런싱 기능은 수행하지 않습니다. 때문에 로드벨런싱 자체는 cilium이 제공하는 BGP 등의 기능을 사용하거나 다른 툴이 제공하는 것을 사용해야 합니다.
+LB IPAM은 LoadBalancer 타입의 Service들에 ExternalIP를 할당하는 역할만 하고 로드벨런싱 기능은 수행하지 않습니다. 때문에 로드벨런싱 자체는 Cilium이 제공하는 BGP 등의 기능을 사용하거나 다른 툴이 제공하는 것을 사용해야 합니다.
 
 ## Node IPAM LB
+
+:::info[Reference]
+
+- [Cilium / Node IPAM LB](https://docs.cilium.io/en/stable/network/node-ipam/)
+
+:::
 
 Service에 아래와 같은 설정을 추가하면 별도의 네트워크 제어 없이 Node IP를 LoadBalancer IP로 사용할 수 있습니다.
 
@@ -57,7 +68,7 @@ IP는 `.spec.ipFamilies`, `.spec.ExternalIPs`에 의해 결정됩니다.
 
 ## L2 Aware LB
 
-- [ARP/NDP](/docs/mlops/mlops/network/cilium/arp)
+[ARP/NDP](/docs/mlops/mlops/network/cilium/arp) 설정이 활성화되어 있어야 합니다.
 
 ```yaml
 apiVersion: v1
@@ -68,7 +79,7 @@ spec:
 
 ## BGP LB
 
-- [BGP](/docs/mlops/mlops/network/cilium/bgp)
+[BGP](/docs/mlops/mlops/network/cilium/bgp) 설정이 활성화되어 있어야 합니다.
 
 ```yaml
 apiVersion: v1

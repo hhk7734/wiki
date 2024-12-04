@@ -1,8 +1,8 @@
 ---
 id: cilium
-title: cilium
-sidebar_label: cilium
-description: cilium
+title: Cilium
+sidebar_label: Cilium
+description: Cilium
 keywords:
   - cilium
   - cni
@@ -20,9 +20,13 @@ keywords:
 asdf plugin add cilium-cli
 ```
 
-### Helm으로 cilium 설치하기
+### Helm으로 Cilium 설치하기
 
-- https://docs.cilium.io/en/stable/installation/k8s-install-helm/
+:::info[Reference]
+
+- [Cilium / Installation using Helm](https://docs.cilium.io/en/stable/installation/k8s-install-helm/)
+
+:::
 
 ```shell
 helm repo add cilium https://helm.cilium.io/
@@ -34,24 +38,14 @@ helm repo update cilium \
 ```
 
 ```shell
-helm pull cilium/cilium \
-    --version 1.14.6
+helm pull cilium/cilium --version 1.16.4
 ```
 
 ```shell
-helm show values cilium/cilium \
-    --version 1.14.6 \
-    > cilium-1.14.6.yaml
+helm show values cilium/cilium --version 1.16.4 > cilium-1.16.4.yaml
 ```
 
 ```yaml tilte="cilium-values.yaml"
-k8sServiceHost: "<apiServerHost>"
-k8sServicePort: "<apiServerPort>"
-
-# mesh
-cluster:
-  name: <name>
-
 ipam:
   # -- Configure IP Address Management mode.
   # ref: https://docs.cilium.io/en/stable/network/concepts/ipam/
@@ -66,25 +60,23 @@ ipam:
     # -- IPv6 CIDR mask size to delegate to individual nodes for IPAM.
     clusterPoolIPv6MaskSize: 120
 
-kubeProxyReplacement: "true"
-
 operator:
   replicas: 1
 ```
 
 ```shell
-helm template cilium cilium-1.14.6.tgz \
-    --version 1.14.6 \
+helm template cilium cilium-1.16.4.tgz \
+    --version 1.16.4 \
     -n kube-system \
     -f cilium-values.yaml \
     > cilium.yaml
 ```
 
 ```shell
-helm upgrade cilium cilium-1.14.6.tgz \
+helm upgrade cilium cilium-1.16.4.tgz \
     --install \
     --history-max 5 \
-    --version 1.14.6 \
+    --version 1.16.4 \
     -n kube-system \
     -f cilium-values.yaml
 ```

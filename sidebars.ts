@@ -747,7 +747,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/network/cni",
 				{
 					type: "category",
-					label: "cilium",
+					label: "Cilium",
 					items: [
 						"mlops/mlops/network/cilium/cilium",
 						"mlops/mlops/network/cilium/arp",

@@ -131,13 +131,9 @@ kube_node:
 bastion:
   hosts: {}
 
-# Calico Route Reflector
-calico_rr:
-  hosts: {}
-
 k8s_cluster:
-  # 수정하지 마세요.
   children:
+    # 수정하지 마세요.
     kube_control_plane:
     kube_node:
 ```
