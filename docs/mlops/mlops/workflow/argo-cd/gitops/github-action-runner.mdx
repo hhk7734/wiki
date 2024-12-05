@@ -160,11 +160,5 @@ helm uninstall gha-controller -n github
 ```
 
 ```shell
-for crd in $(kubectl get crd -o name); do
-    case $crd in
-        *actions.github.com)
-            kubectl delete $crd
-            ;;
-    esac
-done
+kubectl get crd -oname | grep --color=never 'actions.github.com' | xargs kubectl delete
 ```

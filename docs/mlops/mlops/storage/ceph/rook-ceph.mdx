@@ -98,14 +98,5 @@ helm uninstall rook-ceph -n rook-ceph
 ```
 
 ```shell
-for crd in $(kubectl get crd -o name); do
-    case $crd in
-        *ceph.rook.io)
-            kubectl delete $crd
-            ;;
-        *objectbucket.io)
-            kubectl delete $crd
-            ;;
-    esac
-done
+kubectl get crd -oname | grep --color=never 'ceph.rook.io\|objectbucket.io' | xargs kubectl delete
 ```

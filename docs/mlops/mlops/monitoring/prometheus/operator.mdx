@@ -142,11 +142,5 @@ helm uninstall -n prometheus-stack prometheus-operator
 helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
 
 ```shell
-for crd in $(kubectl get crd -o name); do
-    case $crd in
-        *monitoring.coreos.com)
-            kubectl delete $crd
-            ;;
-    esac
-done
+kubectl get crd -oname | grep --color=never 'monitoring.coreos.com' | xargs kubectl delete
 ```

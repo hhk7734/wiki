@@ -9,7 +9,11 @@ keywords:
 
 ## 설치
 
-- https://cert-manager.io/docs/installation/helm/
+:::info[Reference]
+
+- [cert-manager / Helm](https://cert-manager.io/docs/installation/helm/)
+
+:::
 
 ```shell
 helm repo add jetstack https://charts.jetstack.io
@@ -21,18 +25,19 @@ helm repo update jetstack \
 ```
 
 ```shell
-helm pull jetstack/cert-manager --version v1.14.5
+helm pull jetstack/cert-manager --version v1.16.2
 ```
 
 ```shell
-helm show values jetstack/cert-manager --version v1.14.5 > cert-manager-v1.14.5.yaml
+helm show values jetstack/cert-manager --version v1.16.2 > cert-manager-v1.16.2.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
 global:
   commonLabels: {}
 
-installCRDs: true
+crds:
+  enabled: true
 
 enableCertificateOwnerRef: true
 
@@ -62,14 +67,14 @@ startupapicheck:
 ```
 
 ```shell
-helm template cert-manager cert-manager-v1.14.5.tgz \
+helm template cert-manager cert-manager-v1.16.2.tgz \
     -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
 
 ```shell
-helm upgrade cert-manager cert-manager-v1.14.5.tgz \
+helm upgrade cert-manager cert-manager-v1.16.2.tgz \
     --install \
     --history-max 5 \
     -n auth \
@@ -78,10 +83,14 @@ helm upgrade cert-manager cert-manager-v1.14.5.tgz \
 
 ## 업그레이드
 
-- https://cert-manager.io/docs/releases/
+:::info[Reference]
+
+- [cert-manager / Supported Releases](https://cert-manager.io/docs/releases/)
+
+:::
 
 ```shell
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.2/cert-manager.crds.yaml
 ```
 
 ## Removal
@@ -97,5 +106,5 @@ helm uninstall -n auth cert-manager
 ```
 
 ```shell
-kubectl delete -f https://github.com/cert-manager/cert-manager/releases/download/v1.14.5/cert-manager.crds.yaml
+kubectl get crd -oname | grep --color=never 'cert-manager.io' | xargs kubectl delete
 ```

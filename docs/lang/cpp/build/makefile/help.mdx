@@ -12,7 +12,7 @@ keywords:
 
 operator-sdk로 생성된 프로젝트를 보다가 Makefile에 help target이 있었는데, 간편하게 도움말을 작성할 수 있어서 복사해왔습니다.
 
-사용법은 `##@ <category>` 아래에 해당 카테고리에 맞는 타겟을 `<target>: [dependency] ## <description>` 형식으로 나열하면 됩니다. 설명이 없는 타겟은 무시됩니다.
+사용법은 `##@ <category>` 아래에 해당 카테고리에 맞는 타겟을 `<target>: [dependency] ## <description>` 형식으로 나열하면 됩니다. `<description>`에 백틱\(<code>`</code>\)으로 감싸진 부분은 초록색으로 출력됩니다. 설명이 없는 경우 무시됩니다.
 
 ```makefile
 ##@ General
@@ -36,7 +36,11 @@ help: ## Display this help.
 			printf "\nUsage:\n  make \033[36m<target>\033[0m\n" \
 		} \
 		/^[a-zA-Z_0-9-]+:.*?##/ { \
-			printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 \
+			target = $$1; \
+			help_msg = $$2; \
+			gsub(/`[^`]+`/, "\033[32m&\033[0m", help_msg); \
+			gsub(/`/, "", help_msg); \
+			printf "  \033[36m%-15s\033[0m %s\n", target, help_msg \
 		} \
 		/^##@/ { \
 			printf "\n\033[1m%s\033[0m\n", substr($$0, 5) \
@@ -45,11 +49,9 @@ help: ## Display this help.
 
 ##@ Development
 
-.PHONY: remove-local-branch
-remove-local-branch: ## Update remote branches and remove local branches.
-	git remote update --prune
-	git switch --detach origin/HEAD
-	@git for-each-ref --format '%(refname:short)' refs/heads | xargs -r -t git branch -D
+.PHONY: echo
+echo: ## Echo value. Usage: `make echo value=<value>`
+	@echo "value: $(value)"
 ```
 
 ```shell
@@ -62,5 +64,5 @@ General
   help             Display this help.
 
 Development
-  remove-local-branch  Update remote branches and remove local branches.
+  echo             Echo value. Usage: make echo value=<value>
 ```
