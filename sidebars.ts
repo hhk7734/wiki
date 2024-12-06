@@ -959,6 +959,7 @@ const sidebars: SidebarsConfig = {
 					label: "Grafana",
 					items: [
 						"mlops/mlops/monitoring/grafana/grafana",
+						"mlops/mlops/monitoring/grafana/auth",
 						"mlops/mlops/monitoring/grafana/datasource",
 						"mlops/mlops/monitoring/grafana/dashboard",
 						"mlops/mlops/monitoring/grafana/alert",

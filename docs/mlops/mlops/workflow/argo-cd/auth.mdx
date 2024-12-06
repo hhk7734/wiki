@@ -63,10 +63,10 @@ global:
 configs:
   cm:
     oidc.config: |
-      name: <IdP>
-      issuer: <IdPURL>
+      name: <IDP>
+      issuer: <IDPURL>
       clientID: <clientID>
-      clientSecret: $argo-cd-client-secret:oidc.<IdP>.clientSecret
+      clientSecret: $argo-cd-client-secret:oidc.<IDP>.clientSecret
 
       # Optional
       requestedScopes: ["openid", "profile", "email", "groups"]
@@ -97,7 +97,7 @@ metadata:
     app.kubernetes.io/part-of: argocd # 이 label이 있어야 설정이 적용됩니다.
 type: Opaque
 stringData:
-  oidc.<IdP>.clientSecret: <clientSecret>
+  oidc.<IDP>.clientSecret: <clientSecret>
 ```
 
 #### Keycloak

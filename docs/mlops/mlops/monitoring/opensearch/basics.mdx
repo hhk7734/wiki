@@ -245,7 +245,7 @@ stringData:
               config:
                 subject_key: email
                 roles_key: groups
-                openid_connect_url: <keycloak-url>/auth/realms/<realm>/.well-known/openid-configuration
+                openid_connect_url: <keycloakURL>/realms/<realm>/.well-known/openid-configuration
             authentication_backend:
               type: noop
 ```
@@ -264,7 +264,7 @@ config:
   # https://github.com/opensearch-project/OpenSearch-Dashboards/blob/main/config/opensearch_dashboards.yml
   opensearch_dashboards.yml: |-
     opensearch_security.auth.type: openid
-    opensearch_security.openid.connect_url: <keycloak-url>/auth/realms/<realm>/.well-known/openid-configuration
+    opensearch_security.openid.connect_url: <keycloakURL>/realms/<realm>/.well-known/openid-configuration
     opensearch_security.openid.base_redirect_url: <dashboards-url>
     opensearch_security.openid.client_id: <client-id>
     opensearch_security.openid.client_secret: <client-secrret>

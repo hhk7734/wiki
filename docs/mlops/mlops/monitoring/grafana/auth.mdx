@@ -1,0 +1,57 @@
+---
+id: auth
+title: Grafana 인증/인가
+sidebar_label: 인증/인가
+description: Grafana 인증/인가
+keywords:
+  - grafana
+  - auth
+---
+
+## OpenID Connect\(OIDC\)
+
+:::info[Reference]
+
+- [Grafana / Configure generic OAuth2 authentication](https://grafana.com/docs/grafana/latest/setup-grafana/configure-security/configure-authentication/generic-oauth/)
+- [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
+
+:::
+
+사용하려는 OpenID Connect Provider\(OP\)에 클라이언트를 생성해서 클라이언트 ID와 Secret을 발급받아야 합니다. OIDC discovery를 지원하는 OP의 경우 `GET <issuer>/.well-known/openid-configuration`를 통해 엔드포인트 정보를 확인할 수 있습니다.
+
+```yaml title="grafana-values.yaml"
+envFromSecret: <secretName>
+
+grafana.ini:
+  server:
+    root_url: <grafanaURL>
+  auth.generic_oauth:
+    enabled: true
+    name: Keycloak
+    client_id: <clientID>
+    client_secret: ${OIDC_CLIENT_SECRET} # 환경변수에서 읽어옵니다.
+    scopes: openid profile email groups
+    auth_url: <authorizationEndpoint>
+    token_url: <tokenEndpoint>
+    api_url: <userinfoEndpoint>
+    role_attribute_path: <path>
+    allow_sign_up: true
+    auto_login: true
+    use_refresh_token: true
+```
+
+- `auth.generic_oauth`
+  - `allow_sign_up: true`
+    - Grafana 사용자 리스트에 없는 경우 자동으로 사용자를 생성할지 결정합니다.
+    - `false`인 경우 Grafana에 존재하는 사용자만 로그인할 수 있습니다.
+  - `auto_login: false`
+    - Grafana 로그인 페이지를 건너뛰고 OP로 리다이렉트 시킬지 결정합니다.
+  - `role_attribute_path: <role>`
+    - 사용자의 Role을 결정하는 방법입니다.
+    - `None`, `Viewer`, `Editor`, `Admin`, `GrafanaAdmin` 중 하나를 반환해야 합니다.
+    - [Grafana / Roles and permissions](https://grafana.com/docs/grafana/latest/administration/roles-and-permissions)
+    - [JMESPath](http://jmespath.org/examples.html) 표현식을 사용할 수 있습니다.
+      - `contains(groups[*], 'devops') && 'GrafanaAdmin' || contains(groups[*], 'backend') && 'Editor' || 'Viewer'`
+  - `allow_assign_grafana_admin: false`
+    - GrafanaAdmin이 할당되는 경우 Server 관리자 권한을 부여할지 결정합니다.
+    - `false`인 경우 Admin과 동일한 권한을 가집니다.
