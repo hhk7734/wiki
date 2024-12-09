@@ -10,27 +10,56 @@ keywords:
 
 ## Sink 설정 방법
 
-```yaml
-sinks:
-  <sinkID>:
-    inputs:
-      - <sourceID|transformID>
-    type: <sourceType>
-    <option>: <value>
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: <sinkType>
+      inputs:
+        - <sourceID|transformID>
+      <option>: <value>
+```
+
+## Console\(for Debug\)
+
+:::info[Reference]
+
+- [Vector / Console](https://vector.dev/docs/reference/configuration/sinks/console/)
+
+:::
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: console
+      inputs:
+        - <sourceID|transformID>
+      encoding:
+        codec: json
+      <option>: <value>
 ```
 
 ## Loki
 
-- https://vector.dev/docs/reference/configuration/sinks/loki/
+:::info[Reference]
 
-```yaml
-sinks:
-  loki:
-    inputs: []
-    type: loki
-    endpoint: "http://loki-distributor:3100"
-    encoding:
-      codec: json
-    labels:
-      job: vector
+- [Vector / Loki](https://vector.dev/docs/reference/configuration/sinks/loki/)
+
+:::
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: loki
+      endpoint: "http://loki-distributor.loki.svc:3100"
+      inputs:
+        - <sourceID|transformID>
+      encoding:
+        codec: json
+      labels:
+        # Label Expansion
+        <label>: <value>
+      <option>: <value>
 ```

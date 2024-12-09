@@ -1,0 +1,43 @@
+---
+id: transform
+title: Vector Transform(변환하기)
+sidebar_label: Transform(변환하기)
+description: Vector Transform(변환하기)
+keywords:
+  - vector
+  - transform
+---
+
+## Transform 설정 방법
+
+```yaml title="vector-values.yaml"
+customConfig:
+  transforms:
+    <transformID>:
+      type: <transformType>
+      inputs:
+        - <sourceID|transformID>
+      <option>: <value>
+```
+
+## Remap with VRL
+
+:::info[Reference]
+
+- [Vector / Remap with VRL](https://vector.dev/docs/reference/configuration/transforms/remap/)
+
+:::
+
+[Vector Remap Language\(VRL\)](https://vector.dev/docs/reference/vrl/)을 사용하여 데이터를 수정하는 기능입니다.
+
+```yaml title="vector-values.yaml"
+customConfig:
+  transforms:
+    <transformID>:
+      type: remap
+      inputs:
+        - <sourceID|transformID>
+      source: |
+        <VRL>
+      <option>: <value>
+```

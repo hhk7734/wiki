@@ -928,6 +928,7 @@ const sidebars: SidebarsConfig = {
 							items: [
 								"mlops/mlops/monitoring/collector/vector/vector",
 								"mlops/mlops/monitoring/collector/vector/source",
+								"mlops/mlops/monitoring/collector/vector/transform",
 								"mlops/mlops/monitoring/collector/vector/sink",
 							],
 						},

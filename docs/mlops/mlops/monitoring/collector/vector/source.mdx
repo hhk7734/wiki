@@ -10,21 +10,30 @@ keywords:
 
 ## Source 설정 방법
 
-```yaml
-sources:
-  <sourceID>:
-    type: <sourceType>
-    <option>: <value>
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: <sourceType>
+      <option>: <value>
 ```
 
 ## Kubernetes Log
 
-- https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/
+:::info[Reference]
 
-```yaml
-sources:
-  <sourceID>:
-    type: kubernetes_logs
+- [Vector / Kubernetes logs](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/)
+
+:::
+
+### 설정
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: kubernetes_logs
+      <option>: <value>
 ```
 
 - `<option>: <value>`
@@ -41,7 +50,7 @@ sources:
 
 <br />
 
-- https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/#output-data
+### 수집 데이터 예시
 
 ```json
 {
@@ -71,5 +80,58 @@ sources:
 	"message": "",
 	"source_type": "kubernetes_logs",
 	"stream": "stderr"
+}
+```
+
+## File
+
+:::info[Reference]
+
+- [Vector / File](https://vector.dev/docs/reference/configuration/sources/file/)
+
+:::
+
+### 설정
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: file
+      include:
+        - <mountPath>/...
+      <option>: <value>
+
+extraVolumes:
+  - name: <volumeName>
+    hostPath:
+      path: <hostPath>
+
+extraVolumeMounts:
+  - name: <volumeName>
+    mountPath: <mountPath>
+    readOnly: true
+```
+
+- `<option>: <value>`
+  - `multiline`
+    - `mode: <mode>`
+      - `continue_past`: `start_pattern`에서 시작해서 연속적으로 `condition_pattern`에 매칭되는 줄과 그 다음 줄을 multiline으로 처리합니다.
+      - `continue_through`: `start_pattern`에서 시작해서 연속적으로 `condition_pattern`에 매칭되는 로그들을 multiline으로 처리합니다.
+      - `halt_before`: `start_pattern`에서 시작해서 `condition_pattern` 전까지를 multiline으로 처리합니다.
+      - `hart_with`: `start_pattern`에서 `condition_pattern`까지를 multiline으로 처리합니다.
+    - `start_pattern: <pattern>`
+    - `condition_pattern: <pattern>`
+    - `timeout_ms: <timeout>`
+
+### 수집 데이터 예시
+
+```json
+{
+	"file": "",
+	"host": "",
+	"message": "<log>",
+	"source_type": "file",
+	"timestamp": "2006-01-02T15:04:05.000000000Z"
 }
 ```

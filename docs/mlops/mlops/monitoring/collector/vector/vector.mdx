@@ -9,7 +9,11 @@ keywords:
 
 ## 설치
 
-- https://vector.dev/docs/setup/installation/package-managers/helm/
+:::info[Reference]
+
+- [Vector / Install Vector using Helm](https://vector.dev/docs/setup/installation/package-managers/helm/)
+
+:::
 
 ```shell
 helm repo add vector https://helm.vector.dev
@@ -21,11 +25,11 @@ helm repo update vector \
 ```
 
 ```shell
-helm pull vector/vector --version 0.32.0
+helm pull vector/vector --version 0.38.0
 ```
 
 ```shell
-helm show values vector/vector --version 0.32.0 > vector-0.32.0.yaml
+helm show values vector/vector --version 0.38.0 > vector-0.38.0.yaml
 ```
 
 ```yaml title="vector-values.yaml"
@@ -34,9 +38,10 @@ role: Agent
 tolerations: []
 
 customConfig:
+  data_dir: /vector-data
   api:
     enabled: true
-    address: 127.0.0.1:8686
+    address: 0.0.0.0:8686
     playground: false
 
   sources: {}
@@ -44,38 +49,25 @@ customConfig:
   transforms: {}
 
   sinks: {}
-
-defaultVolumeMounts:
-  - name: var-log
-    mountPath: "/var/log/"
-    readOnly: true
-  - name: var-lib
-    mountPath: "/var/lib"
-  - name: procfs
-    mountPath: "/host/proc"
-    readOnly: true
-  - name: sysfs
-    mountPath: "/host/sys"
-    readOnly: true
 ```
 
 ```shell
-helm template vector vector-0.32.0.tgz \
-  -n monitoring \
+helm template vector vector-0.38.0.tgz \
+  -n vector \
   -f vector-values.yaml \
   > vector.yaml
 ```
 
 ```shell
-helm upgrade vector vector-0.32.0.tgz \
+helm upgrade vector vector-0.38.0.tgz \
   --install \
   --max-history 5 \
-  -n monitoring \
+  -n vector \
   -f vector-values.yaml
 ```
 
 ## 삭제
 
 ```shell
-helm uninstall -n monitoring vector
+helm uninstall -n vector vector
 ```
