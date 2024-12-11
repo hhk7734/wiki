@@ -1,0 +1,32 @@
+---
+id: minio
+title: MinIO, S3 호환 Object Storage
+sidebar_label: MinIO
+description: MinIO, S3 호환 Object Storage
+keywords:
+  - minio
+  - object storage
+---
+
+## MinIO
+
+:::info[Reference]
+
+- [MinIO / Docs / Install and Deploy MinIO ](https://min.io/docs/minio/linux/operations/installation.html)
+
+:::
+
+설치 방식은 아래와 같이 크게 3가지로 나눌 수 있습니다.
+
+- Single-Node Single-Drive\(SNSD\) or Standalone
+  - 하나의 MinIO 서버와 하나의 드라이브로 구성된 모드입니다.
+  - RAID 등의 기술을 사용하지 않는 한 서비스와 데이터 장애 모두에 취약합니다.
+- Single-Node Multi-Drive\(SNMD\) or Standalone Multi-Drive
+  - 하나의 MinIO 서버와 여러 드라이브로 구성된 모드입니다.
+  - Erasure coding이나 데이터 복제를 사용하여 데이터에 대한 가용성을 높일 수 있습니다.
+- Multi-Node Multi-Drive\(MNMD\) or Distributed
+  - 여러 MinIO 서버와 여러 드라이브로 구성된 모드입니다.
+  - 로드 밸런서를 사용하여 서비스에 가용성을 높일 수 있습니다.
+  - Erasure coding이나 데이터 복제를 사용하여 데이터에 대한 가용성을 높일 수 있습니다.
+
+## Single-Node Single-Drive 설치

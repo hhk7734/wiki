@@ -693,6 +693,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "MinIO",
+					items: ["mlops/mlops/storage/minio/minio"],
+				},
+				{
+					type: "category",
 					label: "PostgresSQL",
 					items: [
 						"mlops/mlops/storage/postgresql/postgresql",
