@@ -962,6 +962,20 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "Loki",
+					items: [
+						"mlops/mlops/monitoring/loki/loki",
+						"mlops/mlops/monitoring/loki/label",
+						"mlops/mlops/monitoring/loki/collector",
+					],
+				},
+				{
+					type: "category",
+					label: "Tempo",
+					items: ["mlops/mlops/monitoring/tempo/tempo"],
+				},
+				{
+					type: "category",
 					label: "Grafana",
 					items: [
 						"mlops/mlops/monitoring/grafana/grafana",
@@ -969,15 +983,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/monitoring/grafana/datasource",
 						"mlops/mlops/monitoring/grafana/dashboard",
 						"mlops/mlops/monitoring/grafana/alert",
-					],
-				},
-				{
-					type: "category",
-					label: "Loki",
-					items: [
-						"mlops/mlops/monitoring/loki/loki",
-						"mlops/mlops/monitoring/loki/label",
-						"mlops/mlops/monitoring/loki/collector",
 					],
 				},
 				{

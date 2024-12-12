@@ -25,6 +25,7 @@ customConfig:
 :::info[Reference]
 
 - [Vector / Remap with VRL](https://vector.dev/docs/reference/configuration/transforms/remap/)
+- [Vector Remap Language\(VRL\)](https://vector.dev/docs/reference/vrl/)
 - [Rust Regex Playground](https://rregex.dev/)
 
 :::
@@ -42,3 +43,32 @@ customConfig:
         <VRL>
       <option>: <value>
 ```
+
+## Reduce
+
+:::info[Reference]
+
+- [Vector / Reduce](https://vector.dev/docs/reference/configuration/transforms/reduce/)
+- [Vector Remap Language\(VRL\)](https://vector.dev/docs/reference/vrl/)
+
+:::
+
+조건에 따라 여러 이벤트를 하나로 합치는 기능입니다.
+
+```yaml title="vector-values.yaml"
+customConfig:
+  transforms:
+    <transformID>:
+      type: reduce
+      inputs:
+        - <sourceID|transformID>
+      <option>: <value>
+```
+
+- `<option>: <value>`
+  - `merge_strategies`
+    - `<field>: <strategy>`
+  - `starts_when`
+    - `type: vrl|datadog_search|is_log|is_metric|is_trace`
+    - `source: <condition>`
+    - 짧은 형태로 `starts_when: <VRL>`를 사용할 수 있습니다.

@@ -29,4 +29,41 @@ keywords:
   - 로드 밸런서를 사용하여 서비스에 가용성을 높일 수 있습니다.
   - Erasure coding이나 데이터 복제를 사용하여 데이터에 대한 가용성을 높일 수 있습니다.
 
-## Single-Node Single-Drive 설치
+## Bitnami로 배포
+
+```shell
+helm repo add bitnami https://charts.bitnami.com/bitnami
+```
+
+```shell
+helm repo update bitnami \
+&& helm search repo bitnami/minio -l | head -n 10
+```
+
+```shell
+helm pull bitnami/minio --version 14.9.0
+```
+
+```shell
+helm show values bitnami/minio --version 14.9.0 > minio-14.9.0.yaml
+```
+
+```yaml title="minio-values.yaml"
+mode: standalone
+
+auth:
+  rootUser: admin
+  rootPassword: ""
+  existingSecret: ""
+
+persistence:
+  storageClass: ""
+```
+
+## Operator로 배포
+
+:::info[Reference]
+
+- [MinIO / Docs / Deploy Operator With Helm](https://min.io/docs/minio/kubernetes/upstream/operations/install-deploy-manage/deploy-operator-helm.html)
+
+:::
