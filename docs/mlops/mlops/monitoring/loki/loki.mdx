@@ -69,7 +69,7 @@ helm show values grafana/loki-distributed --version 0.79.0 > loki-distributed-0.
 ```
 
 ```yaml title="loki-distributed-values.yaml"
-fullnameOverride: "loki"
+fullnameOverride: loki
 
 global:
   dnsService: coredns
@@ -117,46 +117,21 @@ loki:
 ingester:
   extraArgs:
     - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-bucket
-    - configMapRef:
-        name: loki-bucket
-  resources: {}
 
 distributor:
   extraArgs:
     - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-bucket
-    - configMapRef:
-        name: loki-bucket
-  resources: {}
 
 querier:
   extraArgs:
     - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-bucket
-    - configMapRef:
-        name: loki-bucket
-  resources: {}
 
 queryFrontend:
   extraArgs:
     - -config.expand-env=true
-  extraEnvFrom:
-    - secretRef:
-        name: loki-bucket
-    - configMapRef:
-        name: loki-bucket
-  resources: {}
 
 gateway:
   podLabels: {}
-  resources: {}
 
 compactor:
   enabled: false
@@ -171,7 +146,7 @@ ruler:
 
 ```shell
 helm template loki loki-distributed-0.79.0.tgz \
-    -n monitoring \
+    -n loki \
     -f loki-distributed-values.yaml \
     > loki-distributed.yaml
 ```
@@ -180,21 +155,21 @@ helm template loki loki-distributed-0.79.0.tgz \
 helm upgrade loki loki-distributed-0.79.0.tgz \
     --install \
     --history-max 5 \
-    -n monitoring \
+    -n loki \
     -f loki-distributed-values.yaml
 ```
 
 ## 삭제
 
 ```shell
-helm uninstall -n monitoring loki
+helm uninstall -n loki loki
 ```
 
 ## Grafana
 
 - Configuration -\> Data sources -\> Add data source -\> Loki
   - HTTP
-    - URL: `http://loki-querier.monitoring.svc:3100`
+    - URL: `http://loki-querier.loki.svc:3100`
 - Explore -\> Loki -\> Add query
   - Builder
     - Label filters
