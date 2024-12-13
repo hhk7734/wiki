@@ -911,99 +911,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},
-		{
-			type: "category",
-			label: "Monitoring",
-			items: [
-				"mlops/mlops/monitoring/metrics-server",
-				{
-					type: "category",
-					label: "Collector",
-					items: [
-						"mlops/mlops/monitoring/collector/fluent-bit",
-						"mlops/mlops/monitoring/collector/fluentd",
-						{
-							type: "category",
-							label: "Promtail",
-							items: ["mlops/mlops/monitoring/collector/promtail/pipeline"],
-						},
-						{
-							type: "category",
-							label: "Vector",
-							items: [
-								"mlops/mlops/monitoring/collector/vector/vector",
-								"mlops/mlops/monitoring/collector/vector/source",
-								"mlops/mlops/monitoring/collector/vector/transform",
-								"mlops/mlops/monitoring/collector/vector/sink",
-							],
-						},
-					],
-				},
-				{
-					type: "category",
-					label: "Prometheus",
-					items: [
-						"mlops/mlops/monitoring/prometheus/operator",
-						{
-							type: "category",
-							label: "CRD",
-							items: [
-								"mlops/mlops/monitoring/prometheus/crd/prometheus",
-								"mlops/mlops/monitoring/prometheus/crd/monitor",
-							],
-						},
-						"mlops/mlops/monitoring/prometheus/promql",
-						"mlops/mlops/monitoring/prometheus/custom-exporter",
-						"mlops/mlops/monitoring/prometheus/kube-state-metrics",
-						"mlops/mlops/monitoring/prometheus/node-exporter",
-						"mlops/mlops/monitoring/prometheus/kubelet",
-						"mlops/mlops/monitoring/prometheus/thanos",
-					],
-				},
-				{
-					type: "category",
-					label: "Loki",
-					items: [
-						"mlops/mlops/monitoring/loki/loki",
-						"mlops/mlops/monitoring/loki/label",
-						"mlops/mlops/monitoring/loki/collector",
-					],
-				},
-				{
-					type: "category",
-					label: "Tempo",
-					items: ["mlops/mlops/monitoring/tempo/tempo"],
-				},
-				{
-					type: "category",
-					label: "Grafana",
-					items: [
-						"mlops/mlops/monitoring/grafana/grafana",
-						"mlops/mlops/monitoring/grafana/auth",
-						"mlops/mlops/monitoring/grafana/datasource",
-						"mlops/mlops/monitoring/grafana/dashboard",
-						"mlops/mlops/monitoring/grafana/alert",
-					],
-				},
-				{
-					type: "category",
-					label: "k6",
-					items: ["mlops/mlops/monitoring/k6/load-test", "mlops/mlops/monitoring/k6/extensions"],
-				},
-				{
-					type: "category",
-					label: "OpenSearch",
-					items: ["mlops/mlops/monitoring/opensearch/basics"],
-				},
-				{
-					type: "category",
-					label: "ECK",
-					items: ["mlops/mlops/monitoring/eck/operator"],
-				},
-				"mlops/mlops/monitoring/dcgm-exporter",
-				"mlops/mlops/monitoring/kubernetes-dashboard",
-			],
-		},
+
 		{
 			type: "category",
 			label: "Workflow",
@@ -1141,6 +1049,95 @@ const sidebars: SidebarsConfig = {
 				},
 			],
 		},
+	],
+	monitoring: [
+		"mlops/monitoring/metrics-server",
+		{
+			type: "category",
+			label: "Collector",
+			items: [
+				"mlops/monitoring/collector/fluent-bit",
+				"mlops/monitoring/collector/fluentd",
+				{
+					type: "category",
+					label: "Promtail",
+					items: ["mlops/monitoring/collector/promtail/pipeline"],
+				},
+				{
+					type: "category",
+					label: "Vector",
+					items: [
+						"mlops/monitoring/collector/vector/vector",
+						"mlops/monitoring/collector/vector/source",
+						"mlops/monitoring/collector/vector/transform",
+						"mlops/monitoring/collector/vector/sink",
+					],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Prometheus",
+			items: [
+				"mlops/monitoring/prometheus/operator",
+				{
+					type: "category",
+					label: "CRD",
+					items: [
+						"mlops/monitoring/prometheus/crd/prometheus",
+						"mlops/monitoring/prometheus/crd/monitor",
+					],
+				},
+				"mlops/monitoring/prometheus/promql",
+				"mlops/monitoring/prometheus/custom-exporter",
+				"mlops/monitoring/prometheus/kube-state-metrics",
+				"mlops/monitoring/prometheus/node-exporter",
+				"mlops/monitoring/prometheus/kubelet",
+				"mlops/monitoring/prometheus/thanos",
+			],
+		},
+		{
+			type: "category",
+			label: "Loki",
+			items: [
+				"mlops/monitoring/loki/loki",
+				"mlops/monitoring/loki/label",
+				"mlops/monitoring/loki/collector",
+			],
+		},
+		{
+			type: "category",
+			label: "Tempo",
+			items: ["mlops/monitoring/tempo/tempo"],
+		},
+		{
+			type: "category",
+			label: "Grafana",
+			items: [
+				"mlops/monitoring/grafana/grafana",
+				"mlops/monitoring/grafana/auth",
+				"mlops/monitoring/grafana/datasource",
+				"mlops/monitoring/grafana/dashboard",
+				"mlops/monitoring/grafana/alert",
+			],
+		},
+		{
+			type: "category",
+			label: "k6",
+			items: ["mlops/monitoring/k6/load-test", "mlops/monitoring/k6/extensions"],
+		},
+		{
+			type: "category",
+			label: "OpenSearch",
+			items: ["mlops/monitoring/opensearch/basics"],
+		},
+		{
+			type: "category",
+			label: "ECK",
+			items: ["mlops/monitoring/eck/operator"],
+		},
+		"mlops/monitoring/dcgm-exporter",
+		"mlops/monitoring/kubernetes-dashboard",
 	],
 	nn: [
 		{

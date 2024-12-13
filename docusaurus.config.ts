@@ -79,7 +79,12 @@ const config: Config = {
 		[
 			"@docusaurus/plugin-client-redirects",
 			{
-				redirects: [],
+				createRedirects(existingPath: string) {
+					if (existingPath.startsWith("/docs/mlops/mlops/monitoring")) {
+						return existingPath.replace("/docs/mlops/mlops/monitoring", "/docs/mlops/monitoring");
+					}
+					return undefined;
+				}
 			},
 		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
@@ -131,6 +136,7 @@ const config: Config = {
 					},
 					MLOps: {
 						MLOps: "mlops",
+						Monitoring: "monitoring",
 						NueralNetwork: "nn",
 					},
 					Linux: {
