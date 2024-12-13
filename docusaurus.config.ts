@@ -6,6 +6,8 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
 import tailwindPlugin from "./plugins/tailwind-config";
+import { navbarItems } from "./navbar";
+
 
 const config: Config = {
 	title: "lol-IoT by HHK",
@@ -76,17 +78,6 @@ const config: Config = {
 				anonymizeIP: false,
 			},
 		],
-		[
-			"@docusaurus/plugin-client-redirects",
-			{
-				createRedirects(existingPath: string) {
-					if (existingPath.startsWith("/docs/mlops/mlops/monitoring")) {
-						return existingPath.replace("/docs/mlops/mlops/monitoring", "/docs/mlops/monitoring");
-					}
-					return undefined;
-				}
-			},
-		],
 		["@easyops-cn/docusaurus-search-local", { hashed: true }],
 		"docusaurus-plugin-image-zoom",
 		tailwindPlugin,
@@ -120,64 +111,6 @@ const config: Config = {
 				src: "img/logo.svg",
 			},
 			items: (() => {
-				const links = {
-					Programming: {
-						Design: "design",
-						"C++": "cpp",
-						Go: "go",
-						Rust: "rust",
-						Python: "python",
-						Database: "db",
-						JavaScript: "javascript",
-						Flutter: "flutter",
-						ShellScript: "shellscript",
-						LabVIEW: "labview",
-						Etc: "programmingetc",
-					},
-					MLOps: {
-						MLOps: "mlops",
-						Monitoring: "monitoring",
-						NueralNetwork: "nn",
-					},
-					Linux: {
-						Package: "linux-package",
-						Kernel: "linux-kernel",
-						"u-boot": "linux-uboot",
-						ShellScript: "shellscript",
-						Etc: "programmingetc",
-					},
-					MCU: {
-						STM32: "stm32",
-						AVR: "avr",
-						Arduino: "arduino",
-						Espressif: "espressif",
-						SAM: "sam",
-						Infineon: "infineon",
-						Nordic: "nordic",
-					},
-					Etc: {
-						BioChemistry: "biochemistry",
-						Circuit: "circuit",
-						Memo: "memo",
-						Project: "project",
-					},
-				};
-
-				const navbarItems: NavbarItem[] = Object.entries(links).map(([key, categories]) => {
-					return {
-						type: "dropdown",
-						label: key,
-						position: "left",
-						items: Object.entries(categories).map(([label, to]) => {
-							return {
-								type: "docSidebar",
-								label: label,
-								sidebarId: to,
-							};
-						}),
-					};
-				});
-
 				return navbarItems.concat([
 					{
 						"aria-label": "LinkedIn",

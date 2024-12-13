@@ -10,6 +10,12 @@ yarn install
 yarn start
 ```
 
+## Redirect
+
+Cloudflare
+
+- /docs/mlops/mlops/monitoring/* -> /docs/mlops/monitoring/${1}
+
 ## Tab
 
 

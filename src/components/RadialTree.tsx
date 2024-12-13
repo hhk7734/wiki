@@ -1,4 +1,5 @@
 import sidebarList from "../../sidebars";
+import {navbar} from "../../navbar";
 import * as d3 from "d3";
 import type {
 	SidebarItem,
@@ -98,8 +99,15 @@ export default function RadialTree() {
 		// key is the name of the category
 		// value is an array of objects
 
-		const sidebarData = Object.entries(sidebarList).map(([key, value]) => {
-			return { name: key, children: value.map((item) => itemToTreeData(item)) };
+		// // 2024-12-13 까지
+		// const sidebarData = Object.entries(sidebarList).map(([key, value]) => {
+		// 	return { name: key, children: value.map((item) => itemToTreeData(item)) };
+		// });
+
+		const sidebarData = Object.entries(navbar).map(([key, items]) => {
+			return { name: key, children: Object.entries(items).map(([label, sidebarID])=> {
+				return { name: label, children: sidebarList[sidebarID].map((item) => itemToTreeData(item)) };
+			})}
 		});
 
 		const root = tree(
