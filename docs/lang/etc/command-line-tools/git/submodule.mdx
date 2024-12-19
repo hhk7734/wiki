@@ -64,3 +64,21 @@ git submodule update --init --recursive [<submodulePath>]
 ```
 
 :::
+
+## submodule 삭제하기
+
+```shell
+git submodule deinit -f <submodulePath>
+```
+
+```shell
+git config -f .git/config --remove-section submodule.<submodulePath>
+```
+
+```shell
+git rm -f <submodulePath>
+```
+
+```shell
+rm -rf .git/modules/<submodulePath>
+```

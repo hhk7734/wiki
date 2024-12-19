@@ -107,7 +107,7 @@ DEFAULT=$(tput sgr0)
 
 COMMAND=$(basename "$0")
 
-helpMsg() {
+help_msg() {
     cat <<END
 사용법:
     $COMMAND [옵션] [인자]
@@ -121,12 +121,23 @@ helpMsg() {
 END
 }
 
-if [ $# -eq 0 ] || ! options=$(getopt \
-    -o ab:ch \
-    -l aaa,bbb:,ccc,help \
-    -n "$COMMAND" \
-    -- "$@"); then
-    printf "%s\n" "${RED}${BOLD}$(helpMsg)${DEFAULT}" >&2
+if ! getopt -T >/dev/null; then
+    options=$(getopt \
+        -o ab:ch \
+        -l aaa,bbb:,ccc,help \
+        -n "$COMMAND" \
+        -- "$@")
+else
+    eval set -- "$(echo "$@" | sed -E 's/--([a-z])[a-z]*/-\1/g')"
+    options=$(getopt \
+        ab:ch \
+        "$@")
+fi
+
+IS_PARSED=$?
+
+if [ $# -eq 0 ] || [ $IS_PARSED -ne 0 ]; then
+    printf "%s\n" "${RED}${BOLD}$(help_msg)${DEFAULT}" >&2
     exit 1
 fi
 
@@ -147,7 +158,7 @@ while true; do
         shift
         ;;
     -h | --help)
-        helpMsg
+        help_msg
         exit 0
         ;;
     --)

@@ -1,22 +1,23 @@
 #!/bin/sh
 
+set -e
+
 realpath2() (
-    OURPWD=$PWD
+    WORKINGDIR=$PWD
+
     cd "$(dirname "$1")"
-    LINK=$(readlink "$(basename "$1")")
+    FILENAME=$(basename "$1")
+    LINK=$(readlink "$FILENAME" || true)
     while [ "$LINK" ]; do
         cd "$(dirname "$LINK")"
-        LINK=$(readlink "$(basename "$1")")
+        FILENAME=$(basename "$LINK")
+        LINK=$(readlink "$FILENAME" || true)
     done
-    REALPATH="$PWD/$(basename "$1")"
-    cd "$OURPWD"
+
+    REALPATH="$PWD/$FILENAME"
+
+    cd "$WORKINGDIR"
     echo "$REALPATH"
 )
 
-BASEDIR=$(dirname $(realpath2 "$0"))
-
-set -e
-
-skopeo login docker.io
-buildah bud --tag wiki-loliot-net:1.0 -f $BASEDIR/../deploy/Dockerfile $BASEDIR/../
-skopeo copy containers-storage:localhost/wiki-loliot-net:1.0 docker://hhk7734/wiki-loliot-net:1.0
+BASEDIR=$(dirname "$(realpath2 "$0")")

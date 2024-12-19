@@ -1,0 +1,90 @@
+---
+id: rbd
+title: Ceph Rados Block Device(RBD)
+sidebar_label: Block Device
+description: Ceph Rados Block Device(RBD)
+keywords:
+  - ceph
+  - rbd
+---
+
+## Operator 설정
+
+```yaml title="rook-ceph-values.yaml"
+csi:
+  enableRbdDriver: true
+
+  csiRBDProvisionerResource: |
+    - name : csi-provisioner
+      resource: null
+    - name : csi-resizer
+      resource: null
+    - name : csi-attacher
+      resource: null
+    - name : csi-snapshotter
+      resource: null
+    - name : csi-rbdplugin
+      resource: null
+    - name : csi-omap-generator
+      resource: null
+    - name : liveness-prometheus
+      resource: null
+
+  provisionerTolerations: []
+
+  csiRBDPluginResource: |
+    - name : driver-registrar
+      resource: null
+    - name : csi-rbdplugin
+      resource: null
+    - name : liveness-prometheus
+      resource: null
+
+  pluginTolerations: []
+
+  kubeletDirPath: /var/lib/kubelet
+```
+
+## CephBlockPool 생성
+
+:::info[Reference]
+
+- [Rook / Block Storage Overview](https://rook.io/docs/rook/latest/Storage-Configuration/Block-Storage-RBD/block-storage/)
+- [Rook / CephBlockPool CRD](https://rook.io/docs/rook/latest/CRDs/Block-Storage/ceph-block-pool-crd/)
+
+:::
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+spec:
+  failureDomain: host
+  replicated:
+    size: 3
+```
+
+## StorageClass 생성
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: <operatorNamespace>.rbd.csi.ceph.com
+volumeBindingMode: Immediate
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+parameters:
+  clusterID: <cephClusterNamespace>
+  pool: <cephBlockPoolName>
+  imageFormat: "2"
+  imageFeatures: "layering"
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: <operatorNamespace>
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: <operatorNamespace>
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+  csi.storage.k8s.io/node-stage-secret-namespace: <operatorNamespace>
+  csi.storage.k8s.io/fstype: ext4
+```

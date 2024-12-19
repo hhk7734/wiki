@@ -1,12 +1,16 @@
 ---
 id: cephfs
 title: Ceph File System(CephFS)
-sidebar_label: CephFS
+sidebar_label: File System
 description: Ceph File System(CephFS)
 keywords:
   - ceph
   - cephfs
 ---
+
+:::warning
+Ceph File System은 메타데이터 관리를 위해 MDS(Metadata Server)와 통신해야하므로 Ceph Rados Block Device(RBD)에 비해 성능이 떨어집니다. 특히 랜덤 I/O에 취약합니다.
+:::
 
 ## 생성
 
@@ -17,27 +21,27 @@ csi:
   enableCephfsDriver: true
 
   csiCephFSProvisionerResource: |
+    - name : csi-provisioner
+      resource: null
+    - name : csi-resizer
+      resource: null
     - name : csi-attacher
       resource: null
     - name : csi-snapshotter
       resource: null
-    - name : csi-resizer
-      resource: null
-    - name : csi-provisioner
-      resource: null
     - name : csi-cephfsplugin
       resource: null
-    - name : log-collector
+    - name : liveness-prometheus
       resource: null
 
   provisionerTolerations: []
 
   csiCephFSPluginResource: |
-    - name : csi-cephfsplugin
-      resource: null
     - name : driver-registrar
       resource: null
-    - name : log-collector
+    - name : csi-cephfsplugin
+      resource: null
+    - name : liveness-prometheus
       resource: null
 
   pluginTolerations: []
