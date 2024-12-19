@@ -16,6 +16,7 @@ export const navbar = {
     },
     MLOps: {
         MLOps: "mlops",
+        Storage: "storage",
         Monitoring: "monitoring",
         NueralNetwork: "nn",
     },

@@ -246,81 +246,6 @@ const sidebars: SidebarsConfig = {
 			items: ["lang/design/limited-resources/request-rate-limit"],
 		},
 	],
-	programmingetc: [
-		{
-			type: "category",
-			label: "Terminal",
-			items: [
-				{
-					type: "category",
-					label: "Emulator",
-					items: ["lang/etc/terminal/emulator/alacritty"],
-				},
-				{
-					type: "category",
-					label: "Shell",
-					items: ["lang/etc/terminal/shell/zsh"],
-				},
-			],
-		},
-		{
-			type: "category",
-			label: "Vim",
-			items: ["lang/etc/vim/nvim", "lang/etc/vim/lua", "lang/etc/vim/nvim-tree", "lang/etc/vim/regex"],
-		},
-		{
-			type: "category",
-			label: "Systemd",
-			items: ["lang/etc/systemd/service"],
-		},
-		{
-			type: "category",
-			label: "Command Line Tools",
-			items: [
-				"lang/etc/command-line-tools/asdf",
-				{
-					type: "category",
-					label: "Remote",
-					items: [
-						"lang/etc/command-line-tools/remote/ssh",
-						"lang/etc/command-line-tools/remote/mosh",
-						"lang/etc/command-line-tools/remote/zellij",
-					],
-				},
-				{
-					type: "category",
-					label: "Git",
-					items: [
-						"lang/etc/command-line-tools/git/git",
-						"lang/etc/command-line-tools/git/config",
-						"lang/etc/command-line-tools/git/commit-message",
-						"lang/etc/command-line-tools/git/fork-pull-request",
-						"lang/etc/command-line-tools/git/submodule",
-						"lang/etc/command-line-tools/git/tag",
-						"lang/etc/command-line-tools/git/patch",
-						"lang/etc/command-line-tools/git/pre-commit",
-						"lang/etc/command-line-tools/git/lfs",
-					],
-				},
-				{
-					type: "category",
-					label: "Network",
-					items: [
-						"lang/etc/command-line-tools/network/ip",
-						"lang/etc/command-line-tools/network/iptables",
-						"lang/etc/command-line-tools/network/nmap",
-					],
-				},
-				"lang/etc/command-line-tools/user-management",
-				"lang/etc/command-line-tools/utility",
-				{
-					type: "link",
-					label: "Etc",
-					href: "/docs/lang/shellscript/command-line-tools/xargs",
-				},
-			],
-		},
-	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
 	flutter: [
 		{
@@ -421,6 +346,91 @@ const sidebars: SidebarsConfig = {
 		"mcu/infineon/tricore-tc27d-asc",
 		"mcu/infineon/tricore-tc27d-terminal",
 		"mcu/infineon/tricore-tc27d-vadc",
+	],
+	javascript: [
+		{
+			type: "category",
+			label: "ENV",
+			items: ["lang/javascript/env/version", "lang/javascript/env/linting-formatting"],
+		},
+		{
+			type: "category",
+			label: "node-addon-api",
+			items: ["lang/javascript/node-addon-api/basics", "lang/javascript/node-addon-api/class-binding"],
+		},
+		{
+			type: "category",
+			label: "Emscripten",
+			items: ["lang/javascript/emscripten/basics"],
+		},
+		{
+			type: "category",
+			label: "React",
+			items: [
+				"lang/javascript/react/lifecycle",
+				{
+					type: "category",
+					label: "Redux",
+					items: ["lang/javascript/react/redux/redux-toolkit"],
+				},
+				{
+					type: "category",
+					label: "Jotai",
+					items: ["lang/javascript/react/jotai/jotai"],
+				},
+				{
+					type: "category",
+					label: "React Query",
+					items: ["lang/javascript/react/react-query/use-query", "lang/javascript/react/react-query/use-mutation"],
+				},
+				{
+					type: "category",
+					label: "Next.js",
+					items: ["lang/javascript/react/nextjs/nextjs", "lang/javascript/react/nextjs/env"],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Svelte",
+			items: [
+				{
+					type: "category",
+					label: "SvelteKit",
+					items: ["lang/javascript/svelte/sveltekit/routing"],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Components",
+			items: ["lang/javascript/components/semantic-elements"],
+		},
+		{
+			type: "category",
+			label: "Libraries",
+			items: [
+				{
+					type: "category",
+					label: "Prisma",
+					items: ["lang/javascript/libraries/prisma/prisma", "lang/javascript/libraries/prisma/migrate"],
+				},
+				{
+					type: "category",
+					label: "Firebase",
+					items: [
+						"lang/javascript/libraries/firebase/authentication",
+						"lang/javascript/libraries/firebase/custom-email-handler",
+					],
+				},
+				{
+					type: "category",
+					label: "Three.js",
+					items: ["lang/javascript/libraries/threejs/fundamentals"],
+				},
+				"lang/javascript/libraries/github-probot",
+			],
+		},
 	],
 	labview: [
 		"lang/labview/labview-creating-project-and-vi",
@@ -663,57 +673,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/kubernetes/upgrade/1-21-1-22",
 						"mlops/mlops/kubernetes/upgrade/1-22-1-23",
 						"mlops/mlops/kubernetes/upgrade/1-24-1-25",
-					],
-				},
-			],
-		},
-		{
-			type: "category",
-			label: "Storage",
-			items: [
-				"mlops/mlops/storage/csi",
-				"mlops/mlops/storage/local-path-provisioner",
-				"mlops/mlops/storage/aws-ebs-csi-driver",
-				"mlops/mlops/storage/aws-efs-csi-driver",
-				{
-					type: "category",
-					label: "Ceph",
-					items: [
-						"mlops/mlops/storage/ceph/ceph",
-						"mlops/mlops/storage/ceph/rook-ceph",
-						"mlops/mlops/storage/ceph/cluster",
-						"mlops/mlops/storage/ceph/monitoring",
-						"mlops/mlops/storage/ceph/osd",
-						"mlops/mlops/storage/ceph/pg",
-						"mlops/mlops/storage/ceph/cephfs",
-						"mlops/mlops/storage/ceph/rbd",
-						"mlops/mlops/storage/ceph/object-gateway",
-						"mlops/mlops/storage/ceph/central-storage-cluster",
-						"mlops/mlops/storage/ceph/reboot",
-					],
-				},
-				{
-					type: "category",
-					label: "MinIO",
-					items: ["mlops/mlops/storage/minio/minio"],
-				},
-				{
-					type: "category",
-					label: "PostgresSQL",
-					items: [
-						"mlops/mlops/storage/postgresql/postgresql",
-						"mlops/mlops/storage/postgresql/pgbouncer",
-						"mlops/mlops/storage/postgresql/ha",
-					],
-				},
-				"mlops/mlops/storage/mongodb",
-				{
-					type: "category",
-					label: "Harbor",
-					items: [
-						"mlops/mlops/storage/harbor/harbor",
-						"mlops/mlops/storage/harbor/auth",
-						"mlops/mlops/storage/harbor/proxy-cache",
 					],
 				},
 			],
@@ -1168,92 +1127,83 @@ const sidebars: SidebarsConfig = {
 			items: ["mlops/nn/gnn/gnn"],
 		},
 	],
-	javascript: [
+	nordic: ["mcu/nordic/nrf-development-environment"],
+
+	programmingetc: [
 		{
 			type: "category",
-			label: "ENV",
-			items: ["lang/javascript/env/version", "lang/javascript/env/linting-formatting"],
-		},
-		{
-			type: "category",
-			label: "node-addon-api",
-			items: ["lang/javascript/node-addon-api/basics", "lang/javascript/node-addon-api/class-binding"],
-		},
-		{
-			type: "category",
-			label: "Emscripten",
-			items: ["lang/javascript/emscripten/basics"],
-		},
-		{
-			type: "category",
-			label: "React",
+			label: "Terminal",
 			items: [
-				"lang/javascript/react/lifecycle",
 				{
 					type: "category",
-					label: "Redux",
-					items: ["lang/javascript/react/redux/redux-toolkit"],
+					label: "Emulator",
+					items: ["lang/etc/terminal/emulator/alacritty"],
 				},
 				{
 					type: "category",
-					label: "Jotai",
-					items: ["lang/javascript/react/jotai/jotai"],
-				},
-				{
-					type: "category",
-					label: "React Query",
-					items: ["lang/javascript/react/react-query/use-query", "lang/javascript/react/react-query/use-mutation"],
-				},
-				{
-					type: "category",
-					label: "Next.js",
-					items: ["lang/javascript/react/nextjs/nextjs", "lang/javascript/react/nextjs/env"],
+					label: "Shell",
+					items: ["lang/etc/terminal/shell/zsh"],
 				},
 			],
 		},
 		{
 			type: "category",
-			label: "Svelte",
-			items: [
-				{
-					type: "category",
-					label: "SvelteKit",
-					items: ["lang/javascript/svelte/sveltekit/routing"],
-				},
-			],
+			label: "Vim",
+			items: ["lang/etc/vim/nvim", "lang/etc/vim/lua", "lang/etc/vim/nvim-tree", "lang/etc/vim/regex"],
 		},
 		{
 			type: "category",
-			label: "Components",
-			items: ["lang/javascript/components/semantic-elements"],
+			label: "Systemd",
+			items: ["lang/etc/systemd/service"],
 		},
 		{
 			type: "category",
-			label: "Libraries",
+			label: "Command Line Tools",
 			items: [
+				"lang/etc/command-line-tools/asdf",
 				{
 					type: "category",
-					label: "Prisma",
-					items: ["lang/javascript/libraries/prisma/prisma", "lang/javascript/libraries/prisma/migrate"],
-				},
-				{
-					type: "category",
-					label: "Firebase",
+					label: "Remote",
 					items: [
-						"lang/javascript/libraries/firebase/authentication",
-						"lang/javascript/libraries/firebase/custom-email-handler",
+						"lang/etc/command-line-tools/remote/ssh",
+						"lang/etc/command-line-tools/remote/mosh",
+						"lang/etc/command-line-tools/remote/zellij",
 					],
 				},
 				{
 					type: "category",
-					label: "Three.js",
-					items: ["lang/javascript/libraries/threejs/fundamentals"],
+					label: "Git",
+					items: [
+						"lang/etc/command-line-tools/git/git",
+						"lang/etc/command-line-tools/git/config",
+						"lang/etc/command-line-tools/git/commit-message",
+						"lang/etc/command-line-tools/git/fork-pull-request",
+						"lang/etc/command-line-tools/git/submodule",
+						"lang/etc/command-line-tools/git/tag",
+						"lang/etc/command-line-tools/git/patch",
+						"lang/etc/command-line-tools/git/pre-commit",
+						"lang/etc/command-line-tools/git/lfs",
+					],
 				},
-				"lang/javascript/libraries/github-probot",
+				{
+					type: "category",
+					label: "Network",
+					items: [
+						"lang/etc/command-line-tools/network/ip",
+						"lang/etc/command-line-tools/network/iptables",
+						"lang/etc/command-line-tools/network/nmap",
+					],
+				},
+				"lang/etc/command-line-tools/user-management",
+				"lang/etc/command-line-tools/utility",
+				{
+					type: "link",
+					label: "Etc",
+					href: "/docs/lang/shellscript/command-line-tools/xargs",
+				},
 			],
 		},
 	],
-	nordic: ["mcu/nordic/nrf-development-environment"],
 	project: [
 		{
 			type: "category",
@@ -1462,6 +1412,53 @@ const sidebars: SidebarsConfig = {
 		"mcu/stm32/stm32-spi",
 		"mcu/stm32/stm32-low-power-modes",
 	],
+	storage: [
+		"mlops/storage/csi",
+		"mlops/storage/local-path-provisioner",
+		"mlops/storage/aws-ebs-csi-driver",
+		"mlops/storage/aws-efs-csi-driver",
+		{
+			type: "category",
+			label: "Ceph",
+			items: [
+				"mlops/storage/ceph/ceph",
+				"mlops/storage/ceph/rook-ceph",
+				"mlops/storage/ceph/cluster",
+				"mlops/storage/ceph/monitoring",
+				"mlops/storage/ceph/osd",
+				"mlops/storage/ceph/pg",
+				"mlops/storage/ceph/cephfs",
+				"mlops/storage/ceph/rbd",
+				"mlops/storage/ceph/object-gateway",
+				"mlops/storage/ceph/central-storage-cluster",
+				"mlops/storage/ceph/reboot",
+			],
+		},
+		{
+			type: "category",
+			label: "MinIO",
+			items: ["mlops/storage/minio/minio"],
+		},
+		{
+			type: "category",
+			label: "PostgresSQL",
+			items: [
+				"mlops/storage/postgresql/postgresql",
+				"mlops/storage/postgresql/pgbouncer",
+				"mlops/storage/postgresql/ha",
+			],
+		},
+		"mlops/storage/mongodb",
+		{
+			type: "category",
+			label: "Harbor",
+			items: [
+				"mlops/storage/harbor/harbor",
+				"mlops/storage/harbor/auth",
+				"mlops/storage/harbor/proxy-cache",
+			],
+		},
+	]
 };
 
 export default sidebars;
