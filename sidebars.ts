@@ -702,102 +702,6 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Network",
-			items: [
-				{
-					type: "category",
-					label: "WireGuard",
-					items: ["mlops/mlops/network/wireguard/wireguard"],
-				},
-				"mlops/mlops/network/cni",
-				{
-					type: "category",
-					label: "Cilium",
-					items: [
-						"mlops/mlops/network/cilium/cilium",
-						"mlops/mlops/network/cilium/arp",
-						"mlops/mlops/network/cilium/bgp",
-						"mlops/mlops/network/cilium/load-balancer",
-						"mlops/mlops/network/cilium/gateway-api",
-					],
-				},
-				{
-					type: "category",
-					label: "Multus",
-					items: [
-						"mlops/mlops/network/multus/multus",
-						"mlops/mlops/network/multus/network-attachment-definition",
-						"mlops/mlops/network/multus/ipoib",
-					],
-				},
-				{
-					type: "category",
-					label: "MetalLB",
-					items: ["mlops/mlops/network/metallb/metallb", "mlops/mlops/network/metallb/arp"],
-				},
-				{
-					type: "category",
-					label: "AWS Load BAlancer",
-					items: [
-						"mlops/mlops/network/aws-load-balancer/aws-load-balancer",
-						"mlops/mlops/network/aws-load-balancer/create",
-					],
-				},
-				{
-					type: "category",
-					label: "CoreDNS",
-					items: ["mlops/mlops/network/coredns/coredns", "mlops/mlops/network/coredns/plugin"],
-				},
-				{
-					type: "category",
-					label: "Istio",
-					items: [
-						"mlops/mlops/network/istio/istio",
-						"mlops/mlops/network/istio/istio-csr",
-						"mlops/mlops/network/istio/multi-cluster",
-						"mlops/mlops/network/istio/upgrade",
-						{
-							type: "category",
-							label: "Traffic Management",
-							items: [
-								"mlops/mlops/network/istio/traffic-management/gateway",
-								"mlops/mlops/network/istio/traffic-management/virtual-service",
-								{
-									type: "category",
-									label: "EnvoyFilter",
-									items: [
-										"mlops/mlops/network/istio/traffic-management/envoy-filter/envoy-filter",
-										"mlops/mlops/network/istio/traffic-management/envoy-filter/auth",
-										"mlops/mlops/network/istio/traffic-management/envoy-filter/compression",
-									],
-								},
-							],
-						},
-						{
-							type: "category",
-							label: "Security",
-							items: [
-								{
-									type: "category",
-									label: "Authorization",
-									items: ["mlops/mlops/network/istio/security/authorization/authorization"],
-								},
-							],
-						},
-						"mlops/mlops/network/istio/kiali",
-						"mlops/mlops/network/istio/jaeger",
-						"mlops/mlops/network/istio/jwt",
-					],
-				},
-				{
-					type: "category",
-					label: "Nginx",
-					items: ["mlops/mlops/network/nginx/ingress-controller"],
-				},
-			],
-		},
-		{
-			type: "category",
 			label: "Provisioning",
 			items: [
 				{
@@ -1099,6 +1003,98 @@ const sidebars: SidebarsConfig = {
 		"mlops/monitoring/dcgm-exporter",
 		"mlops/monitoring/kubernetes-dashboard",
 	],
+	network: [
+		{
+			type: "category",
+			label: "WireGuard",
+			items: ["mlops/network/wireguard/wireguard"],
+		},
+		"mlops/network/cni",
+		{
+			type: "category",
+			label: "Cilium",
+			items: [
+				"mlops/network/cilium/cilium",
+				"mlops/network/cilium/arp",
+				"mlops/network/cilium/bgp",
+				"mlops/network/cilium/load-balancer",
+				"mlops/network/cilium/gateway-api",
+			],
+		},
+		{
+			type: "category",
+			label: "Multus",
+			items: [
+				"mlops/network/multus/multus",
+				"mlops/network/multus/network-attachment-definition",
+				"mlops/network/multus/ipoib",
+			],
+		},
+		{
+			type: "category",
+			label: "MetalLB",
+			items: ["mlops/network/metallb/metallb", "mlops/network/metallb/arp"],
+		},
+		{
+			type: "category",
+			label: "AWS Load BAlancer",
+			items: [
+				"mlops/network/aws-load-balancer/aws-load-balancer",
+				"mlops/network/aws-load-balancer/create",
+			],
+		},
+		{
+			type: "category",
+			label: "CoreDNS",
+			items: ["mlops/network/coredns/coredns", "mlops/network/coredns/plugin"],
+		},
+		{
+			type: "category",
+			label: "Istio",
+			items: [
+				"mlops/network/istio/istio",
+				"mlops/network/istio/istio-csr",
+				"mlops/network/istio/multi-cluster",
+				"mlops/network/istio/upgrade",
+				{
+					type: "category",
+					label: "Traffic Management",
+					items: [
+						"mlops/network/istio/traffic-management/gateway",
+						"mlops/network/istio/traffic-management/virtual-service",
+						{
+							type: "category",
+							label: "EnvoyFilter",
+							items: [
+								"mlops/network/istio/traffic-management/envoy-filter/envoy-filter",
+								"mlops/network/istio/traffic-management/envoy-filter/auth",
+								"mlops/network/istio/traffic-management/envoy-filter/compression",
+							],
+						},
+					],
+				},
+				{
+					type: "category",
+					label: "Security",
+					items: [
+						{
+							type: "category",
+							label: "Authorization",
+							items: ["mlops/network/istio/security/authorization/authorization"],
+						},
+					],
+				},
+				"mlops/network/istio/kiali",
+				"mlops/network/istio/jaeger",
+				"mlops/network/istio/jwt",
+			],
+		},
+		{
+			type: "category",
+			label: "Nginx",
+			items: ["mlops/network/nginx/ingress-controller"],
+		},
+	],
 	nn: [
 		{
 			type: "category",
@@ -1128,7 +1124,6 @@ const sidebars: SidebarsConfig = {
 		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
-
 	programmingetc: [
 		{
 			type: "category",
