@@ -1,0 +1,168 @@
+---
+id: fio
+title: fio로 스토리지 I/O 성능 테스트하기
+sidebar_label: fio
+description: fio로 스토리지 I/O 성능 테스트하기
+keywords:
+  - storage
+  - fio
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S fio
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install fio
+```
+
+</TabItem>
+
+</Tabs>
+
+## 옵션
+
+- `<int>`
+  - K, M, G, T, P는 1000 기준입니다.
+  - Ki, Mi, Gi, Ti, Pi는 1024 기준입니다.
+  - kb_base=1024 일때 k == Ki 입니다.
+  - D\(day\), H\(hour\), M\(minute\), s, ms, us
+- `<irange>`
+  - `<int>-<int>[,<int>-<int>]` 범위를 나타냅니다.
+  - `-` 대신 `:`, `,` 대신 `/`를 사용할 수 있습니다.
+
+### Job 설정
+
+:::info[Reference]
+
+- [fio # Job Description](https://fio.readthedocs.io/en/latest/fio_doc.html#job-description)
+
+:::
+
+- `name=<name>`
+- `loops=1`: Job을 반복하는 횟수입니다.
+- `numjobs=1`: 동시에 실행되는 Job의 수로 각각 다른 thread 또는 process에서 실행됩니다.
+
+### 시간 관련 설정
+
+:::info[Reference]
+
+- [fio # Time related parameters](https://fio.readthedocs.io/en/latest/fio_doc.html#time-related-parameters)
+
+:::
+
+- `runtime=<int>`
+  - 단위가 생략되면 s 단위를 사용합니다.
+  - fio 실행 시간에 대한 제한입니다.
+
+### 타겟 설정
+
+:::info[Reference]
+
+- [fio # Target file/device](https://fio.readthedocs.io/en/latest/fio_doc.html#target-file-device)
+
+:::
+
+- `directory=./`
+  - 파일이 생성될 디렉토리입니다.
+- `filename_format=$jobname.$jobnum.$filenum`
+  - 생성되는 파일의 이름 형식입니다.
+  - `$jobname`, `$clientuid`, `$jobnum`, `$filenum` 변수를 활용할 수 있습니다.
+- `nrfiles=1`
+  - Job을 위해 사용될 파일 수입니다.
+
+### I/O type
+
+:::info[Reference]
+
+- [fio # I/O types](https://fio.readthedocs.io/en/latest/fio_doc.html#i-o-type)
+
+:::
+
+- `direct=0`
+  - `0`: buffered I/O
+  - `1`: direct I/O
+- `readwrite|rw=read[:<nr>]`
+  - `read`: 연속 읽기
+  - `write`: 연속 쓰기
+  - `trim`
+  - `randread`
+  - `randwrite`
+  - `randtrim`
+  - `rw|readwrite`
+  - `randrw`
+  - `trimwrite`
+  - `randtrimwrite`
+
+### Block size
+
+:::info[Reference]
+
+- [fio # Block size](https://fio.readthedocs.io/en/latest/fio_doc.html#block-size)
+
+:::
+
+- `blocksize|bs=4k[,<int>][,<int>]`
+  - `<readWriteTrim>`
+  - `<read>,<writeTrim>` e.g. `8k,32k`, `,8k`
+  - `<read>,<write>,<trim>` e.g. `,8k,`
+  - 빈 값은 4k를 의미합니다.
+
+### I/O size
+
+:::info[Reference]
+
+- [fio # I/O size](https://fio.readthedocs.io/en/latest/fio_doc.html#i-o-size)
+
+:::
+
+- `size=<int>`
+  - 파일 I/O의 총 크기입니다.
+  - 기본값으로 주어진 파일 또는 디바이스의 크기를 사용합니다.
+  - `n%`를 사용하면 주어진 파일 또는 디바이스 크기의 n%를 사용합니다.
+- `filesize=<irange>`
+  - 각 파일의 크기입니다.
+  - `size`보다 우선합니다.
+
+### I/O engine
+
+:::info[Reference]
+
+- [fio # I/O engines](https://fio.readthedocs.io/en/latest/fio_doc.html#i-o-engine)
+
+:::
+
+- `ioengine=<engine>`
+  - `libaio`: Linux native aio, `direct=1` or `buffered=0` 옵션과 함께 사용해야합니다.
+
+### I/O depth
+
+:::info[Reference]
+
+- [fio # I/O depth](https://fio.readthedocs.io/en/latest/fio_doc.html#i-o-depth)
+
+:::
+
+- `iodepth=<int>`
+  - 파일에 대해 동시에 실행되는 I/O 요청 수입니다.
+  - 비동기 I/O engine에서만 유효합니다.

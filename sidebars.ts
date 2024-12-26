@@ -1453,6 +1453,13 @@ const sidebars: SidebarsConfig = {
 				"mlops/storage/harbor/proxy-cache",
 			],
 		},
+		{
+			type: "category",
+			label: "Etc",
+			items: [
+				"mlops/storage/etc/fio",
+			],
+		},
 	]
 };
 
