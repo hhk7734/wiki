@@ -1,15 +1,15 @@
 ---
 id: cephfs
-title: Ceph File System(CephFS)
-sidebar_label: File System
-description: Ceph File System(CephFS)
+title: Ceph Shared File System(CephFS)
+sidebar_label: Shared File System
+description: Ceph Shared File System(CephFS)
 keywords:
   - ceph
   - cephfs
 ---
 
 :::warning
-Ceph File System을 사용하면 클라이언트는 메타데이터 관리를 위해 MDS(Metadata Server)와 통신해야하므로 Ceph Rados Block Device(RBD)를 사용하는 것에 비해 성능이 떨어집니다.
+Ceph Shared File System을 사용하면 클라이언트는 메타데이터 관리를 위해 MDS(Metadata Server)와 통신해야하므로 Ceph Rados Block Device(RBD)를 사용하는 것에 비해 성능이 떨어집니다.
 :::
 
 ## 생성
@@ -72,12 +72,14 @@ spec:
 - `metadataPool`
   - `failureDomain: <crushType|osd>`
     - 기본 값은 `host`입니다.
+  - `deviceClass: <deviceClass>`
   - `replicated`
     - `size: <size>`
 - `dataPools: []`
   - `name: <name>`
   - `failureDomain: <crushType|osd>`
     - 기본 값은 `host`입니다.
+  - `deviceClass: <deviceClass>`
   - `replicated`
     - `size: <size>`
 - `metadataServer`
@@ -88,6 +90,7 @@ spec:
     - standby MDS를 standby_replay MDS로 설정할지 여부입니다.
     - standby_replay는 warm 캐시를 유지하므로 더 빠른 failover를 제공합니다.
   - `resources`
+    - `limits.memory`설정은 `mds_cache_memory_limit`설정에 반영됩니다.
   - `placement`
     - `nodeAffinity`
     - `podAffinity`

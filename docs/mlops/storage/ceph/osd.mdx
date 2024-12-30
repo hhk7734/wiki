@@ -60,13 +60,19 @@ kubectl rook-ceph ceph osd tree
 
 ## OSD 추가하기
 
-- https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd
-- https://rook.io/docs/rook/v1.12/CRDs/specification/#ceph.rook.io/v1.StorageScopeSpec
+:::info[Reference]
+
+- [Rook / CephCluster CRD](https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd)
+- [Rook / Speicification # StorageScopeSpec](https://rook.io/docs/rook/latest/CRDs/specification/#ceph.rook.io/v1.StorageScopeSpec)
+
+:::
 
 ```yaml
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 spec:
+  resources:
+    osd: {}
   placement:
     all: {}
     osd: {}
@@ -75,6 +81,17 @@ spec:
     useAllDevices: false
 ```
 
+:::warning
+
+동일한 설정이 있는 경우 범위가 좁은 것이 적용됩니다. 예를 들어 `storage.config`와 `storage.nodes.config`가 있고 해당 장치가 속한 Node에 config가 있는 경우 `storage.nodes.config`가 적용됩니다.
+
+:::
+
+- `resources`
+  - `osd: {}`
+  - `osd-<deviceClass>: {}`
+    - `<deviceClass>`에는 `hdd`, `ssd`, `nvme` 등이 올 수 있습니다.
+  - 메모리 설정은 자동으로 `osd_memory_target` 설정에 적용됩니다.
 - `placement`
   - `all`
   - `osd`
@@ -84,26 +101,24 @@ spec:
     - `tolerations`
     - `topologySpreadConstraints`
 - `storage`
-  - `useAllNodes: <bool>`: 모든 노드에서 장치를 감지할지 여부입니다.
-  - `nodes: []`
-    - `name: <nodeName>`
-    - `resources: {}`: OSD의 resources 설정입니다.
-    - deviceSelection
-      - 임베딩 되어있습니다.
-  - deviceSelection
-    - 임베딩 되어있습니다.
-    - nodes.deviceSelection이 우선순위가 더 높습니다.
   - `config: <config>`
-    - 전체 장치에 적용될 설정입니다.
-    - devices.config가 우선순위가 더 높습니다.
+  - **deviceSelection**\(임베딩\)
   - `storageClassDeviceSets: []`
   - `onlyApplyOSDPlacement: <bool>`
     - PV가 아닌 장치를 사용하는 경우 `.spec.placement.osd`와 `.spec.placement.all`의 병합 여부입니다.
     - PV 장치를 사용하는 경우 `storageClassDeviceSets`에 정의된 placement와 `.spec.placement.all`의 병합 여부입니다.
+  - `useAllNodes: <bool>`: 모든 노드에서 장치를 감지할지 여부입니다.
+  - `nodes: []`
+    - `name: <nodeName>`
+    - `config: <config>`
+      - 노드에 있는 모든 장치에 적용될 설정입니다.
+    - **deviceSelection**\(임베딩\)
+    - `resources: {}`
+      - 메모리 설정은 자동으로 `osd_memory_target` 설정에 적용됩니다.
 
 <br />
 
-- deviceSelection
+- **deviceSelection**
   - `useAllDevices: <bool>`
   - `deviceFilter: <deviceRegex>`
     - https://pkg.go.dev/regexp/syntax
@@ -116,5 +131,7 @@ spec:
 
 <br />
 
-- config
+- `<config>`
   - https://rook.io/docs/rook/latest/CRDs/Cluster/ceph-cluster-crd/#osd-configuration-settings
+
+resources에 memory 설정을 하는 경우 `osd_memory_target` 설정에 반영됩니다. 스토리지만을 위한 Node의 경우 `osd_memory_target_autotune`와 `autotune_memory_target_ratio`을 활용하는 것이 좋습니다.

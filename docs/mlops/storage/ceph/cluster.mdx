@@ -103,11 +103,6 @@ spec:
         memory: 2Gi
       requests:
         memory: 1Gi
-    osd:
-      limits:
-        memory: 4Gi
-      requests:
-        memory: 4Gi
     prepareosd:
       requests:
         memory: 50Mi
@@ -119,6 +114,37 @@ spec:
     useAllDevices: false
     useAllNodes: false
 ```
+
+### cephConfig
+
+:::info[Reference]
+
+- [Rook / CephCluster CRD # Ceph Config](https://rook.io/docs/rook/latest-release/CRDs/Cluster/ceph-cluster-crd/#ceph-config)
+- [Rook / Configuring Ceph](https://docs.ceph.com/en/reef/rados/configuration/ceph-conf/)
+
+:::
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephCluster
+spec:
+  cephConfig:
+    <section>:
+      <key>: <value>
+```
+
+`cephConfig`는 MON이 실행된 후 적용됩니다.
+
+- `<section>`
+  - `global`, `mon`, `mgr`, `osd`, `mds`, `client` 등
+  - `osd.<osdID>`, `mon.<monName>` 등 특정 Daemon을 지정할 수 있습니다.
+  - 옵션이 중복되는 경우 범위가 좁은 것이 적용됩니다. 예를 들어 `global`, `osd`, `osd.1`에 중복 옵션이 있는 경우 `osd.1`이 적용됩니다.
+
+<br />
+
+- `kubectl rook-ceph ceph config dump`: MON 설정 DB를 출력합니다.
+- `kubectl rook-ceph ceph config get <section> [<option>]`: MON 설정 DB나 컴파일 시 결정된 기본 값을 출력합니다.
+- `kubectl rook-ceph ceph config show <section>`: 실행 중인 데몬의 설정을 출력합니다.
 
 ## CephCluster 삭제
 
