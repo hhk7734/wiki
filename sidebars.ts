@@ -1458,6 +1458,7 @@ const sidebars: SidebarsConfig = {
 			label: "Etc",
 			items: [
 				"mlops/storage/etc/fio",
+				"mlops/storage/etc/mdtest",
 			],
 		},
 	]

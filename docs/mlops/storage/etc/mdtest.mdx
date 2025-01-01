@@ -1,0 +1,108 @@
+---
+id: mdtest
+title: mdtest로 스토리지 metadata 작업 성능 테스트하기
+sidebar_label: mdtest
+description: mdtest로 스토리지 metadata 작업 성능 테스트하기
+keywords:
+  - storage
+  - mdtest
+  - metadata
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S openmpi
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+git clone https://github.com/hpc/ior.git
+```
+
+```shell
+cd ior \
+&& ./bootstrap \
+&& ./configure \
+&& make
+```
+
+## 옵션
+
+```shell
+./src/mdtest <flags>
+```
+
+- `-n <num>`
+  - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수
+  - `-I`와 함께 사용할 수 없습니다.
+  - `-z 2 -b 2 -n 20`이면 노드는 7\(1 + 2 + 4\) 개가 생성되므로 각 노드당 파일/디렉토리는 2\(20/7\) 개씩 생성됩니다.
+- `-i <iter>`
+  - 반복할 태스크 수입니다.
+  - 기본값은 1 입니다.
+- `-z <depth>`
+  - 디렉토리 트리의 깊이입니다.
+  - 기본값은 0 입니다.
+- `-b <branch>`
+  - 디렉토리 트리의 가지 수입니다.
+  - 기본값은 1 입니다.
+- `-I <num>`
+  - 한 태스크에서 디렉토리 노드당 파일/디렉토리 수
+  - `-n`과 함께 사용할 수 없습니다.
+- `-L`: leaf 노드에만 파일/디렉토리를 생성합니다.
+- `-d <dir>`
+  - 테스트가 실행될 디렉토리를 설정합니다.
+  - 기본값은 `./out`입니다.
+
+```shell
+                 Hierarchical directory structure (tree)
+
+                               =======
+                              |       |  (tree node)
+                               =======
+                              /   |   \
+                        ------    |    ------
+                       /          |          \
+                   =======     =======     =======
+                  |       |   |       |   |       |    (leaf level)
+                   =======     =======     =======
+
+In this example, the tree has a depth of one (z=1) and branching factor of
+three (b=3).  The node at the top of the tree is the root node.  The level
+of nodes furthest from the root is the leaf level.  All trees created by
+mdtest are balanced.
+
+To see how mdtest operates, do a simple run like the following:
+
+    mdtest -z 1 -b 3 -I 10 -C -i 3
+
+This command will create a tree like the one above, then each task will
+create 10 files/dirs per tree node.  Three of these trees will be created
+(one for each iteration).
+```
+
+<center>
+	<strong>https://github.com/LLNL/mdtest/blob/master/README.md</strong>
+</center>
+
+## 병렬 실행
+
+```shell
+mpirun -n <num> ./src/mdtest <flags>
+```
