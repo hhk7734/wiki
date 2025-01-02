@@ -1122,6 +1122,11 @@ const sidebars: SidebarsConfig = {
 			label: "GNN",
 			items: ["mlops/nn/gnn/gnn"],
 		},
+		{
+			type: "category",
+			label: "Large Model",
+			items: ["mlops/nn/large-model/parallelism"],
+		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
 	programmingetc: [

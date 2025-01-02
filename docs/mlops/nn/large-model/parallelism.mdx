@@ -1,0 +1,122 @@
+---
+id: parallelism
+title: 대규모 모델 학습에서의 병렬화(Parallelism) 기법
+sidebar_label: Parallelism
+description: 대규모 모델 학습에서의 병렬화(Parallelism) 기법
+keywords:
+  - Neural Network
+  - Large Model
+  - Parallelism
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Data Parallelism(DP)
+
+```mermaid
+graph LR
+  batch0@{ shape: procs, label: Batch0 }
+  batch1@{ shape: procs, label: Batch1 }
+  batch2@{ shape: procs, label: Batch2 }
+  batch3@{ shape: procs, label: Batch3 }
+
+  subgraph calc0[forward & backward]
+    gpu0-0[GPU0]
+    gpu1-0[GPU1]
+  end
+
+  batch0 --> gpu0-0
+  Weight0 --> gpu0-0
+
+  batch1 --> gpu1-0
+  Weight0 --> gpu1-0
+
+  gpu0-0 --> Weight1
+  gpu1-0 --> Weight1
+
+  subgraph calc1[forward & backward]
+    gpu0-1[GPU0]
+    gpu1-1[GPU1]
+  end
+
+  batch2 --> gpu0-1
+  Weight1 --> gpu0-1
+
+  batch3 --> gpu1-1
+  Weight1 --> gpu1-1
+
+  gpu0-1 --> Weight2
+  gpu1-1 --> Weight2
+```
+
+Multi GPU 환경에서 데이터를 병렬화하여 모델을 학습하는 방법입니다. 매 스텝마다 $\Delta \mathbf{w}$를 집계하여 $W$를 업데이트하는 비용이 추가적으로 발생합니다.
+
+모델이 커짐에 따라 발생하는 메모리 문제를 해결하기 위해 [ZeRO](https://www.microsoft.com/en-us/research/blog/zero-deepspeed-new-system-optimizations-enable-training-models-with-over-100-billion-parameters/)를 함께 사용할 수 있습니다.
+
+## Pipeline Parallelism(PP)
+
+```mermaid
+graph LR
+  batch0@{ shape: procs, label: Batch0 }
+  batch1@{ shape: procs, label: Batch1 }
+
+  subgraph calc0[forward & backward]
+    direction LR
+    gpu0-0[GPU0] -- feature --> gpu0-1[GPU0]
+  end
+
+  batch0 --> gpu0-0
+  Weight0 --> Weight0-0
+  Weight0 --> Weight0-1
+  Weight0-0 --> gpu0-0
+  Weight0-1 --> gpu0-1
+
+  gpu0-0 --> Weight1-0
+  gpu0-1 --> Weight1-1
+
+  subgraph calc1[forward & backward]
+    direction LR
+    gpu0-2[GPU0] -- feature --> gpu0-3[GPU0]
+  end
+
+  batch1 --> gpu0-2
+  Weight1-0 --> gpu0-2
+
+  Weight1-1 --> gpu0-3
+
+  gpu0-2 --> Weight2-0
+  gpu0-3 --> Weight2-1
+
+  Weight2-0 --> Weight2
+  Weight2-1 --> Weight2
+```
+
+Multi GPU 환경에서 모델을 레이어 단위로 분할하여 병렬화하는 방법입니다.
+
+<center>
+	<img src={useBaseUrl("img/mlops/nn/large-model/bubble.png")} />
+	<figcaption>
+		[Figure 2 - GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism](https://arxiv.org/pdf/1811.06965)
+	</figcaption>
+</center>
+
+각 레이어는 이전 레이어의 출력을 입력으로 받아야하므로 일부 GPU가 아무일도 하지 않는 Bubble이라는 문제가 발생합니다.
+
+## Tensor Parallelism(TP)
+
+Multi GPU 환경에서 레이어 자체를 분할하여 병렬화하는 방법입니다.
+
+## 3D Parallelism
+
+<center>
+	<img className="bg-white" src={useBaseUrl("img/mlops/nn/large-model/3d-parallelism-1.png")} />
+	<figcaption>
+		[Figure 1 - DeepSpeed: Extreme-scale model training for
+		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
+	</figcaption>
+	<img className="bg-white" src={useBaseUrl("img/mlops/nn/large-model/3d-parallelism-2.png")} />
+	<figcaption>
+		[Figure 2 - DeepSpeed: Extreme-scale model training for
+		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
+	</figcaption>
+</center>
