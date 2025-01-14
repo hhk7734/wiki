@@ -40,7 +40,7 @@ openssl genrsa -out <clientKeyPath> 2048
 
 ```shell
 openssl req -new -key <clientKeyPath> \
-  -subj "/CN=<user>/O=<group>/O=<group>" \
+  -subj "/CN=<user>/O=<group>" \
   -out <clientCSRPAth>
 ```
 
@@ -54,17 +54,21 @@ openssl req -new -key <clientKeyPath> \
 
 <TabItem value="csr">
 
-```yaml
+```yaml title="<user>-csr.yaml"
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
   name: <user>
 spec:
-  request: <clientCSR | base64 -w 0>
+  request: <clientCSR | base64 | tr -d '\n'>
   signerName: kubernetes.io/kube-apiserver-client
   # expirationSeconds: 31536000 # 1 년
   usages:
     - client auth
+```
+
+```shell
+kubectl apply -f <user>-csr.yaml
 ```
 
 ```shell
@@ -91,7 +95,7 @@ kubectl get csr <user> -o jsonpath='{.status.certificate}' \
 
 ```shell
 openssl x509 -req -days 1825 -CA <caCertPath> -CAkey <caKey> \
-  -CAcreateserial -in <clientCSRPAth> -out <clientCertPath>
+  -CAcreateserial -in <clientCSRPath> -out <clientCertPath>
 ```
 
 </TabItem>
@@ -176,14 +180,14 @@ clusters:
   - name: cluster-1
     cluster:
       server: <apiServerURL>
-      certificate-authority-data: <caCert | base64 -w 0> # root ca 인증서
+      certificate-authority-data: <caCert | base64 | tr -d '\n'> # root ca 인증서
       # certificate-authority: <caCertPath>
 users:
   - name: user-1
     user:
-      client-certificate-data: <clientCert | base64 -w 0> # client 인증서
+      client-certificate-data: <clientCert | base64 | tr -d '\n'> # client 인증서
       # client-certificate: <clientCertPath>
-      client-key-data: <clientKey | base64 -w 0> # client 개인키
+      client-key-data: <clientKey | base64 | tr -d '\n'> # client 개인키
       # client-key: <clientKeyPath>
   - name: user-2
     user:

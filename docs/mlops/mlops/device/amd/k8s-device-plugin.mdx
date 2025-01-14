@@ -27,11 +27,11 @@ helm repo update amd-gpu \
 ```
 
 ```shell
-helm pull amd-gpu/amd-gpu --version 0.13.0
+helm pull amd-gpu/amd-gpu --version 0.14.0
 ```
 
 ```shell
-helm show values amd-gpu/amd-gpu --version 0.13.0 > amd-gpu-0.13.0.yaml
+helm show values amd-gpu/amd-gpu --version 0.14.0 > amd-gpu-0.14.0.yaml
 ```
 
 ```yaml title="amd-gpu-values.yaml"
@@ -40,14 +40,15 @@ labeller:
 ```
 
 ```shell
-helm template amd-gpu amd-gpu-0.13.0.tgz \
+helm template amd-gpu amd-gpu/amd-gpu \
+    --version 0.14.0 \
     -n kube-system \
     -f amd-gpu-values.yaml \
     > amd-gpu.yaml
 ```
 
 ```shell
-helm upgrade amd-gpu amd-gpu-0.13.0.tgz \
+helm upgrade amd-gpu amd-gpu-0.14.0.tgz \
     --install \
     --history-max 5 \
     -n kube-system \
