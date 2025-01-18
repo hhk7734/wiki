@@ -1,0 +1,68 @@
+---
+id: dex
+title: Dex
+sidebar_label: Dex
+description: Dex
+keywords:
+  - dex
+  - oidc
+---
+
+## 설치
+
+```shell
+helm repo add dex https://charts.dexidp.io
+```
+
+```shell
+helm repo update dex \
+&& helm search repo dex/dex -l | head -n 10
+```
+
+```shell
+helm pull dex/dex --version 0.19.1
+```
+
+```shell
+helm show values dex/dex --version 0.19.1 > dex-0.19.1.yaml
+```
+
+```yaml title="dex-values.yaml"
+config:
+  issuer: <uri>
+
+  storage:
+    type: <type>
+    config:
+      <key>: <value>
+
+  connectors:
+    - type: <type>
+      id: <id>
+      name: <name>
+      config:
+        <key>: <value>
+
+  staticClients:
+    - name: <name>
+      id: <id>
+      secret: <secret>
+      redirectURIs:
+        - <uri>
+```
+
+```shell
+helm template dex dex/dex \
+    --version 0.19.1 \
+    -n dex \
+    -f dex-values.yaml \
+    > dex.yaml
+```
+
+```shell
+helm upgrade dex dex-0.19.1.tgz \
+    --install \
+    --history-max 5 \
+    -n dex \
+    -f dex-values.yaml
+```

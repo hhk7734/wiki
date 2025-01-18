@@ -75,6 +75,12 @@ kubectl apply -f <user>-csr.yaml
 kubectl certificate approve <user>
 ```
 
+:::warning
+
+`approve`하면 `deny`할 수 없습니다.
+
+:::
+
 ```shell
 kubectl get csr <user> -o jsonpath='{.status.certificate}' \
   | base64 -d > <clientCertPath>

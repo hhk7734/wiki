@@ -772,6 +772,13 @@ const sidebars: SidebarsConfig = {
 					label: "Casdoor",
 					items: ["mlops/mlops/auth/casdoor/casdoor"],
 				},
+				{
+					type: "category",
+					label: "Dex",
+					items: [
+						"mlops/mlops/auth/dex/dex"
+					],
+				},
 				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},
