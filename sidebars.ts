@@ -1356,6 +1356,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Custom Package",
 			items: [
+				"lang/python/package/repository",
 				{
 					type: "category",
 					label: "Pybind11",

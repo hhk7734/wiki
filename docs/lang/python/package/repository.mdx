@@ -1,0 +1,48 @@
+---
+id: repository
+title: Python Package Repository
+sidebar_label: Repository
+description: Repository
+keywords:
+  - python
+  - package
+  - repository
+  - wheel
+---
+
+## Repository
+
+:::info[Reference]
+
+- [PEP 503 – Simple Repository API](https://peps.python.org/pep-0503/)
+- [PEP 691 – JSON-based Simple API for Python Package Indexes](https://peps.python.org/pep-0691/)
+
+:::
+
+## Wheel Binary Package
+
+:::info[Reference]
+
+- [PEP 427 – The Wheel Binary Package Format 1.0](https://peps.python.org/pep-0427/)
+- [PEP 491 – The Wheel Binary Package Format 1.9](https://peps.python.org/pep-0491/)
+- [PEP 425 – Compatibility Tags for Built Distributions](https://peps.python.org/pep-0425/)
+
+:::
+
+### 파일 이름 규칙
+
+wheel 파일의 이름은 `<distribution>-<version>[-<buildTag>]-<pythonTag>-<abiTag>-<platformTag>.whl` 형식을 따릅니다.
+
+- `<pythonTag>`
+  - Python 구현과 버전을 나타내며, `<implementation><version>` 형식을 따릅니다.
+  - `<implementation>`: py\(Generic Python\), cp\(CPython\), ip\(IronPython\), pp\(PyPy\), jp\(Jython\), ...
+  - `<version>`에는 `.` 대신 `_`을 사용하지만 생략하는 경우도 있습니다.
+  - CPython: `cp311`, ...
+- `<abiTag>`
+  - Pure Python: none
+- `<platformTag>`
+  - 실행 가능한 플랫폼을 나타내며, `<os>_<arch>` 형식을 따릅니다.
+  - Pure Python: any
+  - Linux: linux_x86_64, linux_aarch64, manylinux_2_40_x86_64, ...
+  - MacOS: macosx_13_0_x86_64, ...
+  - Windows: win_amd64, ...
