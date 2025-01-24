@@ -7,6 +7,12 @@ keywords:
   - viper
 ---
 
+## 설치
+
+```shell
+go get -u github.com/spf13/viper
+```
+
 ## viper 설정 우선순위
 
 1. `Set`으로 설정한 값
@@ -33,6 +39,8 @@ viper.SetConfigName("config") // 확장자를 제외한 파일명을 적습니�
 // "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 viper.SetConfigType("yaml")
 viper.AddConfigPath(".") // 설정파일을 찾을 경로를 추가합니다.
+
+// viper.SetConfigFile("./config.yaml")
 
 if err := viper.ReadInConfig(); err != nil {
 	if errors.As(err, &viper.ConfigFileNotFoundError{}) {
