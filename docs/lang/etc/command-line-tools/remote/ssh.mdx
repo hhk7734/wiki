@@ -84,31 +84,75 @@ ssh <flag> <user>@<host> [<command>]
 
 ## SSH Tunnel
 
-```shell title="/etc/ssh/sshd_config"
-AllowTcpForwarding yes
-PermitTunnel yes
-```
+:::info[Reference]
+
+- [A Visual Guide to SSH Tunnels](https://iximiuz.com/en/posts/ssh-tunnels/)
+
+:::
+
+### Local Port Forwarding
 
 ```shell
-ssh -f -N \
-    -L <localPort>:<host>:<port> \
-    -p <tunnelPort> <tunnelUser>@<tunnelHost>
+ssh [-f] -N \
+  -L [<localHost>:]<localPort>:<remoteHost>:<remotePort> \
+  [-p <sshdPort>] <user>@<host>
 ```
 
-암호 입력이 나오면 `<tunnelHost>`의 암호를 입력합니다.
+```mermaid
+sequenceDiagram
+  participant client as 클라이언트
+  box rgb(130, 160, 200)
+    participant ssh as SSH 클라이언트
+    participant sshd as SSH 서버
+    participant server as 서버
+  end
+
+  client->>ssh: Request to [<localHost>:]<localPort>
+  ssh->>sshd: SSH Tunnel (Forwarding)
+  sshd->>server: Request to <remoteHost>:<remotePort>
+  server-->>sshd: Response
+  sshd-->>ssh: SSH Tunnel (Forwarding)
+  ssh-->>client: Response
+```
+
+- `-f`: 백그라운드로 실행합니다.
+- `-L [<localHost>:]<localPort>:<remoteHost>:<remotePort>`
+  - `<localHost>`: 생략되면 `localhost`로 설정됩니다.
+  - `<remoteHost>`
+    - sshd가 접근 가능한 호스트를 설정하면됩니다.
+    - sshd가 bastion 서버와 같은 역할을 할 수 있습니다.
+
+### Remote Port Forwarding
 
 ```shell
-lsof -i4 -P | grep -i "listen" | grep <localPort>
+ssh [-f] -N \
+  -R [<remoteHost>:]<remotePort>:<localHost>:<localPort> \
+  [-p <sshdPort>] <user>@<host>
 ```
 
-```shell
-nc -zv 127.0.0.1 <localPort>
+```mermaid
+sequenceDiagram
+  box rgb(130, 160, 200)
+    participant server as 서버
+    participant ssh as SSH 클라이언트
+    participant sshd as SSH 서버
+  end
+  participant client as 클라이언트
+
+  client->>sshd: Request to [<remoteHost>:]<remotePort>
+  sshd->>ssh: SSH Tunnel (Forwarding)
+  ssh->>server: Request to <localHost>:<localPort>
+  server-->>ssh: Response
+  ssh-->>sshd: SSH Tunnel (Forwarding)
+  sshd-->>client: Response
 ```
 
-```shell
-ps -lef | grep ssh | grep "\-L \?<localPort>" \
-    | awk '{print $4}' | xargs kill -9
-```
+- `-f`: 백그라운드로 실행합니다.
+- `-R [<remoteHost>:]<remotePort>:<localHost>:<localPort>`
+  - `<remoteHost>`: 생략되면 `0.0.0.0`으로 설정됩니다.
+  - `<localHost>`
+    - SSH 클라이언트가 접근 가능한 호스트를 설정하면됩니다.
+    - SSH 클라이언트가 bastion 서버와 같은 역할을 할 수 있습니다.
 
 ## SSH ProxyJump
 

@@ -20,12 +20,12 @@ helm repo update argo \
 ```
 
 ```shell
-helm pull argo/argo-cd --version 7.2.1
+helm pull argo/argo-cd --version 7.7.23
 ```
 
 ```shell
-helm show values argo/argo-cd --version 7.2.1 \
-    > argo-cd-7.2.1.yaml
+helm show values argo/argo-cd --version 7.7.23 \
+    > argo-cd-7.7.23.yaml
 ```
 
 ```yaml title="argo-cd-values.yaml"
@@ -63,14 +63,14 @@ kubectl create namespace argo-cd
 ```
 
 ```shell
-helm template argo-cd argo-cd-7.2.1.tgz \
+helm template argo-cd argo-cd-7.7.23.tgz \
     -n argo-cd \
     -f argo-cd-values.yaml \
     > argo-cd.yaml
 ```
 
 ```shell
-helm upgrade argo-cd argo-cd-7.2.1.tgz \
+helm upgrade argo-cd argo-cd-7.7.23.tgz \
     --install \
     --history-max 5 \
     -n argo-cd \

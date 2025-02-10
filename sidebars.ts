@@ -1044,7 +1044,7 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "AWS Load BAlancer",
+			label: "AWS Load Balancer",
 			items: [
 				"mlops/network/aws-load-balancer/aws-load-balancer",
 				"mlops/network/aws-load-balancer/create",

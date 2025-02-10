@@ -14,14 +14,19 @@ import TabItem from "@theme/TabItem";
 
 ## 설치
 
-- https://asdf-vm.com/guide/getting-started.html
+:::info[Reference]
+
+- [Getting Started](https://asdf-vm.com/guide/getting-started.html)
+
+:::
 
 <Tabs
     groupId="os"
     defaultValue="arch"
     values={[
         {label: 'Arch Linux', value: 'arch',},
-        {label: 'Debian', value: 'debian',}
+        {label: 'Debian', value: 'debian',},
+        {label: 'macOS', value: 'mac',}
     ]}
 >
 
@@ -29,6 +34,11 @@ import TabItem from "@theme/TabItem";
 
 ```shell
 sudo pacman -S curl git
+```
+
+```shell
+curl -L https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-amd64.tar.gz \
+  | sudo tar xz -C /usl/local/bin
 ```
 
 </TabItem>
@@ -39,13 +49,22 @@ sudo pacman -S curl git
 sudo apt install curl git
 ```
 
+```shell
+curl -L https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-amd64.tar.gz \
+  | sudo tar xz -C /usl/local/bin
+```
+
+</TabItem>
+
+<TabItem value="mac">
+
+```shell
+brew install asdf
+```
+
 </TabItem>
 
 </Tabs>
-
-```shell
-git clone https://github.com/asdf-vm/asdf.git ~/.asdf
-```
 
 <Tabs
     defaultValue="zsh"
@@ -57,10 +76,18 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf
 
 <TabItem value="zsh">
 
+```shell
+mkdir -p "${ASDF_DATA_DIR:-$HOME/.asdf}/completions"
+```
+
+```shell
+asdf completion zsh > "${ASDF_DATA_DIR:-$HOME/.asdf}/completions/_asdf"
+```
+
 ```shell title=".zshrc"
 # asdf
-. $HOME/.asdf/asdf.sh
-fpath=(${ASDF_DIR}/completions $fpath)
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+fpath=(${ASDF_DATA_DIR:-$HOME/.asdf}/completions $fpath)
 
 # 마지막 줄에 추가
 autoload -Uz compinit && compinit
@@ -70,10 +97,14 @@ autoload -Uz compinit && compinit
 
 <TabItem value="bash">
 
+```shell title=".bash_profile"
+# asdf
+export PATH="${ASDF_DATA_DIR:-$HOME/.asdf}/shims:$PATH"
+```
+
 ```shell title=".bashrc"
 # asdf
-. "$HOME/.asdf/asdf.sh"
-. "$HOME/.asdf/completions/asdf.bash"
+. <(asdf completion bash)
 ```
 
 </TabItem>
@@ -82,12 +113,6 @@ autoload -Uz compinit && compinit
 
 ```shell
 asdf info
-```
-
-## 업그레이드
-
-```shell
-asdf update
 ```
 
 ## 플러그인
@@ -108,8 +133,7 @@ asdf plugin add <plugin> [<url>]
 asdf plugin list [<flag>]
 ```
 
-- `<flag>`
-  - `--urls`: 플러그인 URL 출력
+- `--urls`: 플러그인 URL 출력
 
 ### 업그레이드
 
@@ -117,8 +141,7 @@ asdf plugin list [<flag>]
 asdf plugin update [<plugin>] [<flag>]
 ```
 
-- `<flag>`
-  - `--all`: 모든 플러그인 업그레이드
+- `--all`: 모든 플러그인 업그레이드
 
 ### 삭제
 
@@ -149,28 +172,23 @@ asdf list <plugin>
 ### 설치 위치 확인
 
 ```shell
-asdf which <plugin>
+asdf where <plugin>
+```
+
+```shell
+asdf which <command>
 ```
 
 ### 버전 설정
 
 ```shell
-asdf global <plugin> <version>
+asdf set [<flags>] <plugin> <version>
 ```
 
-전역 버전은 `$HOME/.tool-versions`에 저장됩니다.
+`$PWD/.tool-versions`에 설정을 저장하지만 해당 경로의 하위 경로에도 적용됩니다.
 
-```shell
-asdf local <plugin> <version>
-```
-
-로컬 버전은 `$PWD/.tool-versions`에 저장되지만 해당 경로의 하위 경로에도 적용됩니다.
-
-```shell
-asdf shell <plugin> <version>
-```
-
-특정 쉘에서만 일시적으로 사용할 버전은 `ASDF_${TOOL}_VERSION` 환경 변수값으로 결정됩니다.
+- `--home | -u`: `$HOME/.tool-versions`에 설정을 저장합니다.
+- `--parent | -p`: 부모 디렉토리 중 가장 가까운 `.tool-versions` 파일을 찾아 설정을 저장합니다.
 
 ```shell
 asdf current [<plugin>]
