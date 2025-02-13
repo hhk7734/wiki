@@ -52,3 +52,18 @@ kubectl rook-ceph ceph osd pool autoscale-status
 - `NEW PG_NUM`
 - `AUTOSCALE`: `on`|`warning`|`off`
 - `BULK`: `True`|`False`
+
+## PG State
+
+- creating
+- peering
+- active
+- clean: PG에 있는 모든 Object의 복제본이 일치하는 상태입니다.
+- degraded: PG에 있는 Object의 복제본이 일치하지 않는 상태입니다.
+- recovering: OSD가 down되었다가 up되었을 때, 최신 상태로 복구하는 중인 상태입니다.
+- backfilling
+  - PG가 다른 OSD로 재배치되었을 때, 기존 OSD에서 변경된 OSD로 데이터를 복사하는 중인 상태입니다.
+  - OSD가 새로 추가되었을 때, CRUSH는 PG들을 재배치하여 새로운 OSD를 바로 쓸 수 있도록 만듭니다.
+  - 부하가 큰 작업입니다.
+- remapped: Acting Set을 변경하는 중인 상태입니다.
+- stale
