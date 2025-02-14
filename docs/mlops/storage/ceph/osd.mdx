@@ -174,8 +174,36 @@ kubectl rook-ceph ceph osd df osd.<OSDID>
 kubectl rook-ceph rook purge-osd <OSDID> --force
 ```
 
-OSD가 제거된 후 클러스터 상태가 **HEALTH_OK**인지 확인합니다.
+OSD가 제거된 후 클러스터 상태가 **HEALTH_OK**인지 확인합니다. `failureDomain`이 `host`인 경우 최대 Node 하나, `osd`인 경우 OSD 하나만 제거한 후 모든 작업이 끝날 때까지 기다렸다가 다음 작업을 진행해야합니다.
 
 ```shell
 kubectl rook-ceph ceph status
 ```
+
+:::tip
+
+backfilling 속도를 높이기 위해 아래와 같은 설정을 적용할 수 있습니다.
+
+```shell
+kubectl rook-ceph ceph config set osd osd_mclock_profile high_recovery_ops
+```
+
+```shell
+kubectl rook-ceph ceph tell 'osd.*' injectargs '--osd-max-backfills 20'
+```
+
+```shell
+kubectl rook-ceph ceph config show osd.<OSDID> osd_max_backfills
+```
+
+작업이 끝나면 초기 설정으로 되돌려야합니다.
+
+```shell
+kubectl rook-ceph ceph tell 'osd.*' injectargs '--osd-max-backfills 1'
+```
+
+```shell
+kubectl rook-ceph ceph config rm osd osd_mclock_profile
+```
+
+:::

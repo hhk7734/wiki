@@ -12,9 +12,23 @@ keywords:
 
 - [Data 흐름](/docs/mlops/storage/ceph/osd#data-흐름)
 
+OSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.
+
+```shell
+            (OSDs) * 100
+Total PGs = ------------
+              pool size
+```
+
+pool size는 복제본 수 또는 EC의 K+M 값입니다. OSD 200 개에 복제본 3 개를 갖는 pool의 PG는 `(200 * 100)/ 3 = 6667 <= 8192`으로 계산될 수 있습니다.
+
 ## PG AutoScale
 
-- https://docs.ceph.com/en/latest/rados/operations/placement-groups/#viewing-pg-scaling-recommendations
+:::info[Reference]
+
+- [Ceph / Operations / Placement Groups # Autoscaling placement groups](https://docs.ceph.com/en/latest/rados/operations/placement-groups/#autoscaling-placement-groups)
+
+:::
 
 ```shell
 kubectl rook-ceph ceph osd pool set <pool> <option> <value>
@@ -27,6 +41,10 @@ kubectl rook-ceph ceph osd pool set <pool> <option> <value>
     - `target_size_bytes`보다 우선 순위가 높으므로, 둘 다 선언하면 `target_size_bytes`는 무시됩니다.
   - `bulk`: `<bool>`
     - `true`: 규모가 클 것으로 예상되는 pool이라는 설정입니다.
+
+```shell
+kubectl rook-ceph ceph config set global mon_target_pg_per_osd 100
+```
 
 ```shell
 kubectl rook-ceph ceph osd pool autoscale-status
