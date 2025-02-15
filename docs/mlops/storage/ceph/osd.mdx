@@ -160,6 +160,12 @@ OSD를 제거하는 동안 operator가 제거된 device를 검색해서 다시 �
 
 :::
 
+:::danger
+
+`failureDomain`이 `host`인 경우 최대 같은 Node에 있는 OSD 전부, `osd`인 경우 OSD 하나만 제거한 후 모든 작업이 끝날 때까지 기다렸다가 다음 작업을 진행해야합니다.
+
+:::
+
 아래 명령어를 통해 OSD를 **down** 상태로 변경합니다.
 
 ```shell
@@ -174,7 +180,7 @@ kubectl rook-ceph ceph osd df osd.<OSDID>
 kubectl rook-ceph rook purge-osd <OSDID> --force
 ```
 
-OSD가 제거된 후 클러스터 상태가 **HEALTH_OK**인지 확인합니다. `failureDomain`이 `host`인 경우 최대 Node 하나, `osd`인 경우 OSD 하나만 제거한 후 모든 작업이 끝날 때까지 기다렸다가 다음 작업을 진행해야합니다.
+OSD가 제거된 후 클러스터 상태가 **HEALTH_OK**인지 확인합니다.
 
 ```shell
 kubectl rook-ceph ceph status
@@ -203,7 +209,7 @@ kubectl rook-ceph ceph tell 'osd.*' injectargs '--osd-max-backfills 1'
 ```
 
 ```shell
-kubectl rook-ceph ceph config rm osd osd_mclock_profile
+kubectl rook-ceph ceph config set osd osd_mclock_profile balanced
 ```
 
 :::

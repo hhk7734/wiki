@@ -1438,6 +1438,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/storage/ceph/cephfs",
 				"mlops/storage/ceph/rbd",
 				"mlops/storage/ceph/object-gateway",
+				"mlops/storage/ceph/provisioning",
 				"mlops/storage/ceph/central-storage-cluster",
 				"mlops/storage/ceph/reboot",
 			],

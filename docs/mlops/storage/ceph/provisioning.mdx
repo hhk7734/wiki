@@ -1,0 +1,117 @@
+---
+id: provisioning
+title: Rook Ceph에서 정적/동적으로 Volume 생성하기
+sidebar_label: Provisioning
+description: Rook Ceph에서 정적/동적으로 Volume 생성하기
+keywords:
+  - rook
+  - ceph
+  - filesystem
+  - block
+  - static provisioning
+  - dynamic provisioning
+---
+
+## Ceph Filesystem
+
+### Static Provisioning
+
+:::info[Reference]
+
+- [Ceph CSI GitHub / static-pvc.md # CephFS static PVC](https://github.com/ceph/ceph-csi/blob/devel/docs/static-pvc.md#cephfs-static-pvc)
+
+:::
+
+Ceph Filesystem에서 정적으로 Volume을 생성하려면 **adminID/adminKey**와 **userID/userKey**가 있어야합니다. 아래 명령어로 모든 Filesystem을 읽을 수 있는 유저를 생성하고 그 외 정보는 rook 배포시 생성된 Secret에서 가져옵니다.
+
+```shell
+kubectl rook-ceph ceph fs authorize '*' client.root / rw
+```
+
+```shell
+kubectl get secret -n rook-ceph rook-csi-cephfs-node -o jsonpath='{.data.adminID}' \
+  | base64 -d
+```
+
+```shell
+kubectl get secret -n rook-ceph rook-csi-cephfs-node -o jsonpath='{.data.adminKey}' \
+  | base64 -d
+```
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rook-csi-cephfs-node-user
+  namespace: rook-ceph
+type: kubernetes.io/rook
+stringData:
+  adminID: <adminID>
+  adminKey: <adminKey>
+  userID: <userID>
+  userKey: <userKey>
+```
+
+Secret 생성 후 아래와 같이 PersistentVolume과 PersistentVolumeClaim을 생성합니다.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: <name>
+  annotations:
+    pv.kubernetes.io/provisioned-by: rook-ceph.cephfs.csi.ceph.com
+    volume.kubernetes.io/provisioner-deletion-secret-name: rook-csi-cephfs-provisioner
+    volume.kubernetes.io/provisioner-deletion-secret-namespace: rook-ceph
+spec:
+  storageClassName: <storageClassName>
+  accessModes:
+    - ReadWriteMany
+  capacity:
+    storage: 5Gi
+  csi:
+    driver: rook-ceph.cephfs.csi.ceph.com
+    # 아무 값이나 넣어도 됨
+    volumeHandle: cephfs-static-pv
+    volumeAttributes:
+      clusterID: rook-ceph
+      fsName: <cephFilesystemName>
+      # pool: <poolName>
+      staticVolume: "true"
+      # 원하는 경로로 수정
+      rootPath: /volumes
+    nodeStageSecretRef:
+      name: rook-csi-cephfs-node-user
+      namespace: rook-ceph
+    controllerExpandSecretRef:
+      name: rook-csi-cephfs-provisioner
+      namespace: rook-ceph
+```
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  storageClassName: <storageClassName>
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: <persistentVolumeName>
+```
+
+### Dynamic Provisioning
+
+Ceph Filesystem에 대한 설정이 있는 StorageClass를 사용한 PersistentVolumeClaim을 생성하면 동적으로 PersistentVolume이 생성됩니다.
+
+## Ceph Block
+
+### Static Provisioning
+
+### Dynamic Provisioning
+
+Ceph Block에 대한 설정이 있는 StorageClass를 사용한 PersistentVolumeClaim을 생성하면 동적으로 PersistentVolume이 생성됩니다.
