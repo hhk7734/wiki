@@ -432,6 +432,103 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 	],
+	kubernetes: [
+		{
+			type: "category",
+			label: "Tools",
+			items: [
+				"mlops/kubernetes/tools/kubeadm",
+				{
+					type: "category",
+					label: "Kubespray",
+					items: [
+						"mlops/kubernetes/tools/kubespray/kubespray",
+						"mlops/kubernetes/tools/kubespray/ha",
+						"mlops/kubernetes/tools/kubespray/etcd",
+						"mlops/kubernetes/tools/kubespray/node",
+						"mlops/kubernetes/tools/kubespray/auth",
+						"mlops/kubernetes/tools/kubespray/download",
+					],
+				},
+				"mlops/kubernetes/tools/kustomize",
+				"mlops/kubernetes/tools/helm",
+				"mlops/kubernetes/tools/k0s",
+				"mlops/kubernetes/tools/etc",
+			],
+		},
+		{
+			type: "category",
+			label: "Object Management",
+			items: ["mlops/kubernetes/object-management/label"],
+		},
+		{
+			type: "category",
+			label: "Architecture",
+			items: ["mlops/kubernetes/architecture/controller"],
+		},
+		{
+			type: "category",
+			label: "Workloads",
+			items: [
+				"mlops/kubernetes/workloads/pod-lifecycle",
+				"mlops/kubernetes/workloads/deployment",
+				"mlops/kubernetes/workloads/statefulset",
+			],
+		},
+		{
+			type: "category",
+			label: "Network",
+			items: ["mlops/kubernetes/network/service"],
+		},
+		{
+			type: "category",
+			label: "Storage",
+			items: ["mlops/kubernetes/storage/volumes", "mlops/kubernetes/storage/persistent-volume"],
+		},
+		{
+			type: "category",
+			label: "Configuration",
+			items: [
+				"mlops/kubernetes/configuration/env",
+				"mlops/kubernetes/configuration/configmap",
+				"mlops/kubernetes/configuration/secret",
+				"mlops/kubernetes/configuration/replicator",
+			],
+		},
+		{
+			type: "category",
+			label: "Security",
+			items: ["mlops/kubernetes/security/security-context"],
+		},
+		{
+			type: "category",
+			label: "Scheduling",
+			items: [
+				"mlops/kubernetes/scheduling/affinity",
+				"mlops/kubernetes/scheduling/taint-toleration",
+				"mlops/kubernetes/scheduling/topology-spread-constraints",
+			],
+		},
+		{
+			type: "category",
+			label: "API Access Control",
+			items: ["mlops/kubernetes/api-access-control/admission-controller"],
+		},
+		{
+			type: "category",
+			label: "Administer a Cluster",
+			items: ["mlops/kubernetes/administer-cluster/drain-node"],
+		},
+		{
+			type: "category",
+			label: "Upgrade",
+			items: [
+				"mlops/kubernetes/upgrade/1-21-1-22",
+				"mlops/kubernetes/upgrade/1-22-1-23",
+				"mlops/kubernetes/upgrade/1-24-1-25",
+			],
+		},
+	],
 	labview: [
 		"lang/labview/labview-creating-project-and-vi",
 		"lang/labview/labview-basic-terms",
@@ -572,107 +669,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/container/build/layer",
 						"mlops/mlops/container/build/cache",
 						"mlops/mlops/container/build/dockerignore",
-					],
-				},
-			],
-		},
-		{
-			type: "category",
-			label: "Kubernetes",
-			items: [
-				{
-					type: "category",
-					label: "Tools",
-					items: [
-						"mlops/mlops/kubernetes/tools/kubeadm",
-						{
-							type: "category",
-							label: "Kubespray",
-							items: [
-								"mlops/mlops/kubernetes/tools/kubespray/kubespray",
-								"mlops/mlops/kubernetes/tools/kubespray/ha",
-								"mlops/mlops/kubernetes/tools/kubespray/etcd",
-								"mlops/mlops/kubernetes/tools/kubespray/node",
-								"mlops/mlops/kubernetes/tools/kubespray/auth",
-								"mlops/mlops/kubernetes/tools/kubespray/download",
-							],
-						},
-						"mlops/mlops/kubernetes/tools/kustomize",
-						"mlops/mlops/kubernetes/tools/helm",
-						"mlops/mlops/kubernetes/tools/k0s",
-						"mlops/mlops/kubernetes/tools/etc",
-					],
-				},
-				{
-					type: "category",
-					label: "Object Management",
-					items: ["mlops/mlops/kubernetes/object-management/label"],
-				},
-				{
-					type: "category",
-					label: "Architecture",
-					items: ["mlops/mlops/kubernetes/architecture/controller"],
-				},
-				{
-					type: "category",
-					label: "Workloads",
-					items: [
-						"mlops/mlops/kubernetes/workloads/pod-lifecycle",
-						"mlops/mlops/kubernetes/workloads/deployment",
-						"mlops/mlops/kubernetes/workloads/statefulset",
-					],
-				},
-				{
-					type: "category",
-					label: "Network",
-					items: ["mlops/mlops/kubernetes/network/service"],
-				},
-				{
-					type: "category",
-					label: "Storage",
-					items: ["mlops/mlops/kubernetes/storage/volumes", "mlops/mlops/kubernetes/storage/persistent-volume"],
-				},
-				{
-					type: "category",
-					label: "Configuration",
-					items: [
-						"mlops/mlops/kubernetes/configuration/env",
-						"mlops/mlops/kubernetes/configuration/configmap",
-						"mlops/mlops/kubernetes/configuration/secret",
-						"mlops/mlops/kubernetes/configuration/replicator",
-					],
-				},
-				{
-					type: "category",
-					label: "Security",
-					items: ["mlops/mlops/kubernetes/security/security-context"],
-				},
-				{
-					type: "category",
-					label: "Scheduling",
-					items: [
-						"mlops/mlops/kubernetes/scheduling/affinity",
-						"mlops/mlops/kubernetes/scheduling/taint-toleration",
-						"mlops/mlops/kubernetes/scheduling/topology-spread-constraints",
-					],
-				},
-				{
-					type: "category",
-					label: "API Access Control",
-					items: ["mlops/mlops/kubernetes/api-access-control/admission-controller"],
-				},
-				{
-					type: "category",
-					label: "Administer a Cluster",
-					items: ["mlops/mlops/kubernetes/administer-cluster/drain-node"],
-				},
-				{
-					type: "category",
-					label: "Upgrade",
-					items: [
-						"mlops/mlops/kubernetes/upgrade/1-21-1-22",
-						"mlops/mlops/kubernetes/upgrade/1-22-1-23",
-						"mlops/mlops/kubernetes/upgrade/1-24-1-25",
 					],
 				},
 			],
