@@ -69,6 +69,7 @@ spec:
     - ReadWriteMany
   capacity:
     storage: 5Gi
+  persistentVolumeReclaimPolicy: Retain
   csi:
     driver: rook-ceph.cephfs.csi.ceph.com
     # 아무 값이나 넣어도 됨
@@ -103,6 +104,14 @@ spec:
       storage: 1Gi
   volumeName: <persistentVolumeName>
 ```
+
+:::tip
+
+- [Rook / Filesystem Storage Overview # Consume the Shared Filesystem across namespaces](https://rook.io/docs/rook/latest/Storage-Configuration/Shared-Filesystem-CephFS/filesystem-storage/#consume-the-shared-filesystem-across-namespaces)
+
+Dynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 namespace에서 접근할 수 있습니다.
+
+:::
 
 ### Dynamic Provisioning
 
