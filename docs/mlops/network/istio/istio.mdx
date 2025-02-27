@@ -42,18 +42,22 @@ kubectl create namespace istio-system
 base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니다.
 
 ```shell
+helm pull istio/base --version 1.24.3
+```
+
+```shell
 helm show values istio/base \
-    --version 1.20.2 \
+    --version 1.24.3 \
     > istio-base-values.yaml
 ```
 
 ```yaml title="istio-base-values.yaml"
-defaultRevision: 1-20-2
+defaultRevision: 1-24-3
 ```
 
 ```shell
 helm template istio-base istio/base \
-    --version 1.20.2 \
+    --version 1.24.3 \
     -n istio-system \
     -f istio-base-values.yaml \
     > istio-base.yaml
@@ -63,7 +67,7 @@ helm template istio-base istio/base \
 helm upgrade istio-base istio/base \
     --install \
     --history-max 5 \
-    --version 1.20.2 \
+    --version 1.24.3 \
     -n istio-system \
     -f istio-base-values.yaml
 ```
@@ -73,48 +77,46 @@ helm upgrade istio-base istio/base \
 - https://istio.io/latest/docs/setup/install/helm/
 
 ```shell
+helm pull istio/istiod --version 1.24.3
+```
+
+```shell
 helm show values istio/istiod \
-    --version 1.20.2 \
+    --version 1.24.3 \
     > istiod-values.yaml
 ```
 
 ```yaml title="istiod-values.yaml"
-pilot:
-  resources:
-    requests:
-      cpu: 100m
-      memory: 512Mi
-    limits:
-      memory: 512Mi
+resources:
+  requests:
+    cpu: 500m
+    memory: 2048Mi
 
-  tolerations: []
-  affinity: {}
+affinity: {}
 
-revision: 1-20-2
+tolerations: []
+
+revision: 1-24-3
 ```
 
 ```shell
-helm template istiod-1-20-2 istio/istiod \
-    --version 1.20.2 \
+helm template istiod-1-24-3 istio/istiod \
+    --version 1.24.3 \
     -n istio-system \
     -f istiod-values.yaml \
     > istiod.yaml
 ```
 
 ```shell
-helm upgrade istiod-1-20-2 istio/istiod \
+helm upgrade istiod-1-24-3 istio/istiod \
     --install \
     --history-max 5 \
-    --version 1.20.2 \
+    --version 1.24.3 \
     -n istio-system \
     -f istiod-values.yaml
 ```
 
 ## Removal
-
-```shell
-helm uninstall -n istio-system istio-ingress
-```
 
 ```shell
 helm uninstall -n istio-system istiod
@@ -204,8 +206,8 @@ revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활�
 
 | Resource  | Enabled label       | Disabled label                  |
 | --------- | ------------------- | ------------------------------- |
-| Namespace | istio.io/rev=1-20-2 | istio-injection=disabled        |
-| Pod       | istio.io/rev=1-20-2 | sidecar.istio.io/inject="false" |
+| Namespace | istio.io/rev=1-24-3 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-24-3 | sidecar.istio.io/inject="false" |
 
 :::warning
 

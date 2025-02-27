@@ -33,13 +33,17 @@ flowchart LR
 ### 설치
 
 ```shell
+helm pull istio/gateway --version 1.24.3
+```
+
+```shell
 helm show values istio/gateway \
-    --version 1.20.2 \
+    --version 1.24.3 \
     > ingress-values.yaml
 ```
 
 ```yaml title="ingress-values.yaml"
-revision: 1-20-2
+revision: 1-24-3
 
 service:
   ports:
@@ -68,11 +72,11 @@ service:
 
 resources:
   requests:
-    cpu: 100m
-    memory: 128Mi
+    cpu: 500m
+    memory: 512Mi
   limits:
-    cpu: 2000m
-    memory: 1024Mi
+    cpu: "2"
+    memory: 1Gi
 
 autoscaling:
   enabled: true
@@ -114,7 +118,7 @@ https://istio.io/latest/docs/tasks/security/authorization/authz-ingress/#source-
 
 ```shell
 helm template istio-ingress istio/gateway \
-    --version 1.20.2 \
+    --version 1.24.3 \
     -n istio-system \
     -f ingress-values.yaml \
     > ingress.yaml
@@ -124,7 +128,7 @@ helm template istio-ingress istio/gateway \
 helm upgrade istio-ingress istio/gateway \
     --install \
     --history-max 5 \
-    --version 1.20.2 \
+    --version 1.24.3 \
     -n istio-system \
     -f ingress-values.yaml
 ```
