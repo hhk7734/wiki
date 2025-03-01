@@ -63,7 +63,7 @@ ssh-copy-id -i ~/.ssh/<public> [<flag>] <user>@<host>
     - `/etc/ssh/ssh_config`
   - 파일 내에서 여러번 선언된 옵션은 처음 선언된 값이 사용됩니다.
 
-```shell
+```shell title="~/.ssh/config"
 # 전역 설정
 IdentityFile <path>
 
@@ -187,8 +187,15 @@ SSH 서버에 최초 접속 시 인증을 통과하면 공개 키는 SSH 클라�
 
 상황에 따라 Host Key를 무시하고 접속해야할 때가 있는데, 아래와 같이 옵션을 설정할 수 있습니다.
 
-```shell
+```shell title="~/.ssh/config"
 Host 192.168.*
   StrictHostKeyChecking no
   UserKnownHostsFile=/dev/null
+```
+
+### SSH 환경변수 설정
+
+```shell title="~/.ssh/config"
+Host *
+  SetEnv TERM=xterm-256color
 ```

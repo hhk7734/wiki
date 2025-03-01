@@ -159,7 +159,7 @@ skopeo login <url>
 ### ECR
 
 ```shell
-aws ecr get-login-password | skopeo login --username AWS --password-stdin <account>.dkr.ecr.<region>.amazonaws.com
+aws ecr get-login-password | skopeo login --username AWS --password-stdin <awsAccountID>.dkr.ecr.<region>.amazonaws.com
 ```
 
 ```shell
@@ -169,9 +169,12 @@ aws ecr-public get-login-password --region us-east-1 | skopeo login --username A
 ## copy
 
 ```shell
-skopeo copy <src-image> <dst-image>
+skopeo copy [<flag>] <srcImage> <dstImage>
 ```
 
+- flag
+  - `--dest-creds=<username>:<password>`
+  - `--dest-tls-verify=treu`
 - image
   - `containers-storage:localhost/<image>[:tag]`
   - `docker://<url>/<image>[:tag]`

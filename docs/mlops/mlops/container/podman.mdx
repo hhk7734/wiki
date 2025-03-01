@@ -51,6 +51,13 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 
 ## 명령어
 
+### login
+
+```shell
+aws ecr get-login-password --region <region> \
+  | podman login --username AWS --password-stdin <awsAccountID>.dkr.ecr.<region>.amazonaws.com
+```
+
 ### run
 
 ```shell
