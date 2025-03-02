@@ -448,6 +448,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/kubernetes/tools/kubespray/node",
 						"mlops/kubernetes/tools/kubespray/auth",
 						"mlops/kubernetes/tools/kubespray/download",
+						"mlops/kubernetes/tools/kubespray/offline",
 					],
 				},
 				"mlops/kubernetes/tools/kustomize",
