@@ -659,7 +659,6 @@ const sidebars: SidebarsConfig = {
 			items: [
 				"mlops/mlops/container/cri-containerd",
 				"mlops/mlops/container/apptainer",
-				"mlops/mlops/container/buildah-skopeo",
 				"mlops/mlops/container/podman",
 				"mlops/mlops/container/docker",
 				"mlops/mlops/container/nvidia-container-toolkit",

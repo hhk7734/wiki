@@ -7,6 +7,9 @@ keywords:
   - etc
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## kubectl
 
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
@@ -15,12 +18,38 @@ keywords:
 asdf plugin add kubectl
 ```
 
+<Tabs
+    groupId="shell"
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',}
+    ]}
+>
+
+<TabItem value="zsh">
+
 ```shell title=".zshrc"
 # kubectl
 source <(kubectl completion zsh)
 alias k=kubectl
 complete -o default -F __start_kubectl k
 ```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title=".bashrc"
+# kubectl
+source <(kubectl completion bash)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+```
+
+</TabItem>
+
+</Tabs>
 
 ## krew
 

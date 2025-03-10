@@ -12,10 +12,7 @@ keywords:
 import Image from "@theme/IdealImage";
 
 <center>
-	<Image
-		img={require("@site/static/img/mlops/monitoring/prometheus-operator-architecture.png")}
-		width={750}
-	/>
+	<Image img={require("@site/static/img/mlops/monitoring/prometheus-operator-architecture.png")} width={750} />
 </center>
 <center>
 	<strong>Prometheus Operator Architecture</strong>
@@ -91,12 +88,12 @@ spec:
   podMetadata: {}
 
   initContainers:
-    - name: "prometheus-permission",
-      image: "busybox",
-      command: ["/bin/chmod", "-R", "777", "/prometheus"],
+    - name: "prometheus-permission"
+      image: "busybox"
+      command: ["/bin/chmod", "-R", "777", "/prometheus"]
       volumeMounts:
-        - name: "prometheus-<name>-db",
-          mountPath: "/prometheus",
+        - name: "prometheus-<name>-db"
+          mountPath: "/prometheus"
 
   storage:
     volumeClaimTemplate:

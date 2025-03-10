@@ -1,10 +1,13 @@
 ---
 id: podman
-title: Podman
+title: Podman, Buildah, Skopeo
 sidebar_label: Podman
-description: Podman
+description: Podman, Buildah, Skopeo를 사용해서 컨테이너 관리하기
 keywords:
   - podman
+  - buildah
+  - skopeo
+  - container
 ---
 
 import Tabs from "@theme/Tabs";
@@ -12,7 +15,12 @@ import TabItem from "@theme/TabItem";
 
 ## 설치
 
-- https://podman.io/getting-started/installation
+:::info[Reference]
+
+- [Podman Installation Instructions](https://podman.io/docs/installation)
+- [buildah Installation Instructions](https://github.com/containers/buildah/blob/main/install.md)
+
+:::
 
 <Tabs
     groupId="os"
@@ -26,7 +34,7 @@ import TabItem from "@theme/TabItem";
 <TabItem value="arch">
 
 ```shell
-sudo pacman -S podman
+sudo pacman -S podman buildah skopeo
 ```
 
 ```shell
@@ -38,7 +46,7 @@ yay -S podman-desktop
 <TabItem value="debian">
 
 ```shell
-sudo apt install podman
+sudo apt install podman buildah skopeo
 ```
 
 ```shell
@@ -49,24 +57,118 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 
 </Tabs>
 
-## 명령어
-
-### login
-
-```shell
-aws ecr get-login-password --region <region> \
-  | podman login --username AWS --password-stdin <awsAccountID>.dkr.ecr.<region>.amazonaws.com
+```ini title="/etc/containers/registries.conf"
+unqualified-search-registries = ['docker.io', 'quay.io', 'registry.fedoraproject.org']
 ```
 
-### run
+## 이미지 빌드
+
+### Dockerfile
 
 ```shell
-podman run [<options>] <image> [<command> [<arg> ...]]
+buildah bud [<flags>] [<context>]
+```
+
+- flags
+  - `-f|--file <path|url>`: Dockerfile 경로
+  - `-t|--tag <tag>`
+
+### ShellScript
+
+```shell title="containerize.sh"
+#!/usr/bin/env bash
+
+set -x
+
+build=$(buildah from golang:1.17)
+build_root=$(buildah mount $build)
+
+buildah copy $build . /app
+buildah config --workingdir /app $build
+buildah run $build go get -u github.com/gin-gonic/gin
+buildah run $build env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -ldflags '-s' -o app
+
+runtime=$(buildah from scratch)
+
+buildah copy $runtime $build_root/app/app /usr/bin/
+buildah config --cmd "app" $runtime
+buildah commit $runtime ping:1.0.0
+
+buildah rm $runtime
+
+buildah unmount $build_root
+buildah rm $build
+```
+
+```shell
+buildah unshare sh containerize.sh
+```
+
+## 이미지 관리
+
+### 레지스트리에 로그인
+
+```shell
+skopeo login [<flags>] <host>
+```
+
+```shell
+aws ecr get-login-password --region <region> | skopeo login --username AWS --password-stdin <awsAccountID>.dkr.ecr.<region>.amazonaws.com
+```
+
+```shell
+aws ecr-public get-login-password --region <region> | skopeo login --username AWS --password-stdin public.ecr.aws/<alias>
+```
+
+### 이미지 삭제
+
+```shell
+podman image rm [<flags>] [<image> ...]
+```
+
+- `-a|--all`
+- `-f|--force`
+
+### 이미지 옮기기
+
+```shell
+skopeo copy [<flags>] <srcImage> <dstImage>
+```
+
+- flags
+  - `--dest-creds=<username>:<password>`
+  - `--dest-tls-verify=treu`
+- image
+  - `containers-storage:localhost/<image>[:tag]`
+  - `docker://<url>/<image>[:tag]`
+
+### inspect
+
+```shell
+skopeo inspect [<flags>] <image>
+```
+
+### 파일로 저장하고 불러오기
+
+```shell
+podman save -o <file>.tar <image>
+```
+
+```shell
+podman load -i <file>.tar
+```
+
+## 컨테이너 관리
+
+### 컨테이너 실행하기
+
+```shell
+podman run [<flags>] <image> [<command> [<arg> ...]]
 ```
 
 새로운 컨테이너에 명령어를 실행합니다.
 
-- `<options>`
+- `<flags>`
   - `--cpus <number>`: CPU limit
   - `-d|--detach`: 컨테이너를 백그라운드에서 실행하고 컨테이너 ID를 프린트
   - `--entrypoint <command>|'["<command>", "<arg>", ..."]'`: Dockerfile의 `ENTRYPOINT`에 해당합니다.
@@ -88,54 +190,45 @@ podman run [<options>] <image> [<command> [<arg> ...]]
 - `[<command> [<arg> ...]]`
   - Dockerfile의 `CMD`에 해당합니다.
 
-### ps
+### 컨테이너 리스트
 
 ```shell
-podman ps [options]
+podman ps [<flags>]
 ```
 
-- options
-  - `-a|--all`: 모든 컨테이너 출력
-  - `-l|--latest`: 마지막 컨테이너 출력
+- `-a|--all`: 모든 컨테이너 출력
+- `-l|--latest`: 마지막 컨테이너 출력
+- `-q|--quiet`: 컨테이너 ID만 출력
 
-### exec
+### 실행중 컨테이너에 명령어 실행
 
 ```shell
-podman exec [options] <containerID|containerName> <command> [arg ...]
+podman exec [<flags>] <container> <command> [arg ...]
 ```
 
 실행중인 컨테이너에 명령어를 실행합니다.
 
-- options
+- flags
   - `-it`: STDIN을 열고 컨테이너에 가상 터미널 할당
+- container
+  - container ID 또는 이름
 
-### rm
+### 컨테이너 삭제
 
 ```shell
-podman rm [options] <containerID|containerName>
+podman rm [<flags>] <container>
 ```
 
-- options
-  - `-f|--force`: running 또는 unstable 상태의 컨테이너도 삭제
-  - `-a|--all`: 모든 컨테이너 삭제
+- `-f|--force`: running 또는 unstable 상태의 컨테이너도 삭제
+- `-a|--all`: 모든 컨테이너 삭제
 
-### cp
+### 컨테이너 파일 전송
 
 ```shell
-podman cp [options] [<containerID|containerName>:]<srcPath> [<containerID|containerName>:]<destPath>
+podman cp [<flags>] [<containerID|containerName>:]<srcPath> [<containerID|containerName>:]<destPath>
 ```
 
 호스트와 컨테이너 또는 컨테이너와 컨테이너 사이에서 파일을 복사합니다.
-
-## 이미지를 파일로 저장하고 불러오기
-
-```shell
-podman save -o <file>.tar <image>
-```
-
-```shell
-podman load -i <file>.tar
-```
 
 ## 유저 네임스페이스 매핑
 

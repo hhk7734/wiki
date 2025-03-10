@@ -87,12 +87,12 @@ sudo vgs
 sudo lvcreate <flags> <vgName>
 ```
 
-- `<flags>`
-  - `-n|--name <name>`
-  - `-L|--size <size>`
-  - `-l|--extents <extents>`
-    - `100%FREE`를 사용하면 VG free space의 100%를 할당합니다.
-    - `60%VG`를 사용하면 VG 크기의 60%를 할당합니다.
+- `-n|--name <name>`
+- `-L|--size <size>[B|S|K|M|G|T|P|E]`
+  - S = 512 bytes
+- `-l|--extents <extents>[%<VG|LV|PVS|FREE|ORIGIN>]`
+  - `100%FREE`를 사용하면 VG free space의 100%를 할당합니다.
+  - `60%VG`를 사용하면 VG 크기의 60%를 할당합니다.
 
 ### LV 조회
 
@@ -103,3 +103,19 @@ sudo lvdisplay
 ```shell
 sudo lvs
 ```
+
+### LV 확장
+
+```shell
+sudo lvextend <flags> <lvPath>
+```
+
+- `-L|--size [+]<size>[B|S|K|M|G|T|P|E]`
+  - `+`는 현재 크기에 설정한 값만큼 추가한다는 것을 의미합니다.
+  - S = 512 bytes
+- `-l|--extents [+]<extents>[%<VG|LV|PVS|FREE|ORIGIN>]`
+  - `+`는 현재 크기에 설정한 값만큼 추가한다는 것을 의미합니다.
+  - `+50%FREE`를 사용하면 VG free space의 50%를 추가합니다.
+- `-r|--resizefs`
+  - fsadm을 사용하여 파일 시스템 크기를 자동으로 조정합니다.
+  - ext2, ext3, ext4, ReiserFS, XFS을 지원합니다.
