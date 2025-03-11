@@ -37,7 +37,11 @@ git config --global url.ssh://git@github.com/.insteadOf https://github.com/
 
 ## 기타
 
-- `git config --global diff.algorithm histogram`: diff 알고리즘을 histogram으로 변경합니다.
-- `git config --global push.autoSetupRemote true`: `git push` 사용 시, 원격지 정보를 자동으로 설정합니다.
-- `git config --global push.default current`: `git push` 사용 시 브랜치를 현재 브랜치로 설정합니다.
-- `git config --global status.submoduleSummary true`: submodule을 사용할 때, `git status`에서 submodule 변경사항을 요약해서 보여줍니다.
+- `git config --global branch.sort -committerdate`
+- `git config --global diff.algorithm histogram`
+- `git config --global pull.rebase true`
+- `git config --global push.autoSetupRemote true`
+- `git config --global push.default simple`: 브랜치를 현재 브랜치와 같은 이름의 원격 브랜치를 설정합니다.
+- `git config --global rebase.autoStash true`
+- `git config --global status.submoduleSummary true`: submodule을 사용할 때, status에서 submodule 변경사항을 요약해서 보여줍니다.
+- `git config --global tag.sort version:refname`: tag를 정렬할 때, 버전 순으로 정렬합니다.

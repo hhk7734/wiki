@@ -33,3 +33,13 @@ ansible-playbook -i <inventory> -b upgrade-cluster.yml --tags master
 ```
 
 클라이언트 설정은 [Kubernetes 인증(Authn)](/docs/mlops/mlops/auth/authn)을 참고하세요.
+
+:::info
+
+`/etc/kubernetes/kubeadm-config.yaml`에 OIDC 설정이 반영되었지만 kube-apiserver에 옵션이 추가되지 않은 경우 kube_control_plane 노드에 접속하여 아래 명령어를 실행합니다.
+
+```shell
+kubeadm init phase control-plane apiserver --config=/etc/kubernetes/kubeadm-config.yaml
+```
+
+:::
