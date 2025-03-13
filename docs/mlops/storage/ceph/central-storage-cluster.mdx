@@ -42,7 +42,7 @@ kubectl -n rook-ceph cp create-external-cluster-resources.py $toolbox:/etc/ceph
 
 ```shell
 python3 create-external-cluster-resources.py \
-  --namespace rook-ceph \
+  --namespace <consumerNamespace> \
   --rbd-data-pool-name <poolName> \
   --cephfs-filesystem-name <filesystemName> \
   --rgw-endpoint <ip>:<port> \
@@ -62,8 +62,8 @@ python3 create-external-cluster-resources.py \
 apiVersion: ceph.rook.io/v1
 kind: CephCluster
 metadata:
-  name: rook-ceph-external
-  namespace: rook-ceph
+  name: <consumerNamespace>
+  namespace: <consumerNamespace>
 spec:
   external:
     enable: true
