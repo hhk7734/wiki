@@ -1,0 +1,61 @@
+---
+id: stack
+title: Terragrunt Stack
+sidebar_label: Stack
+description: Terragrunt Stack을 사용하여 모듈 재사용하기
+keywords:
+  - terragrunt
+  - unit
+  - stack
+---
+
+## Unit 만들기
+
+## Stack 만들기
+
+:::info[Reference]
+
+- [Terragrunt / Configuration Blocks and Attributes # unit](https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#unit)
+- [Terragrunt / Configuration Blocks and Attributes # stack](https://terragrunt.gruntwork.io/docs/reference/config-blocks-and-attributes/#stack)
+
+:::
+
+```hcl title="terragrunt.stack.hcl"
+unit "<unit>" {
+  source = "<unitPath>"
+  path   = "<generatedPath>"
+}
+```
+
+- `source = <unitPath>`
+  - [Terraform / Module Sources](https://developer.hashicorp.com/terraform/language/modules/sources)를 참고하면 됩니다.
+- `path = <generatedPath>`
+  - `.terraform-stack/<generatedPath>`에 `source`에서 가져온 unit을 저장합니다.
+- `values = { <key> = <value> }`
+  - 선택사항입니다.
+  - unit에 `variable`로 선언한 변수에 값을 전달할 수 있습니다.
+
+:::tip
+
+`values` 대신 `terraform.tfvars` 파일을 사용하여 변수를 관리할 수 있습니다. 공통 변수가 많은 경우 `terraform.tfvars` 파일을 사용하는 것이 효율적입니다.
+
+```hcl title="base.hcl"
+terraform {
+  extra_arguments "common_vars" {
+    commands           = get_terraform_commands_that_need_vars()
+    arguments          = []
+    required_var_files = [find_in_parent_folders("terraform.tfvars")]
+    # optional_var_files = [find_in_parent_folders("terraform.tfvars")]
+  }
+}
+```
+
+:::
+
+## Stack 사용하기
+
+```shell
+terragrunt --experiment stacks stack generate
+```
+
+stack을 생성한 이후에는 `terragrunt run-all <cmd>` 명령어로 terragrunt를 직접 구성했을 때와 동일하게 사용하면 됩니다.

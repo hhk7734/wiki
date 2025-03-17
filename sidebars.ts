@@ -636,6 +636,7 @@ const sidebars: SidebarsConfig = {
 								"mlops/mlops/iac/terragrunt/terraform/secret",
 							],
 						},
+						"mlops/mlops/iac/terragrunt/stack",
 					],
 				},
 				{

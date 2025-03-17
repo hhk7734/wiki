@@ -18,10 +18,16 @@ go mod init <pacakge>
   - 예를 들어 `github.com/hhk7734/example-go`라고 하면 `go.mod` 파일은 해당 리포지토리의 루트 디렉토리에 있어야합니다.
   - 하위 폴더를 사용하는 경우 `github.com/hhk7734/example-go/<subDirectoryPath>`와 같은 형식으로 지정하고 `go.mod` 파일을 해당 디렉토리에 저장합니다.
 
-:::info
-패키지의 버전은 git tag로 관리할 수 있는데, 루트 경로에 `go.mod`가 있는 경우 `v[0-9]+.[0-9]+.[0-9]+` 형식과 같이 시멘틱 버전을 사용하고, 하위 폴더를 사용하는 경우 `<subDirectoryPath>/v[0-9]+.[0-9]+.[0-9]+`로 태그를 지정합니다.
-:::
-
 :::warning
 프라이빗 리포지토리에 저장되어 있는 패키지의 경우 다른 프로젝트에서 해당 패키지를 사용하기 위해서는 `go env -w GOPRIVATE="github.com/hhk7734[,<url>]"`와 같이 `GOPRIVATE` 환경변수를 설정해야합니다.
 :::
+
+## Version
+
+:::info[Reference]
+
+- [Go / Module version numbering](https://go.dev/doc/modules/version-numbers)
+
+:::
+
+패키지의 버전은 git tag로 관리할 수 있는데, 루트 경로에 `go.mod`가 있는 경우 `v[0-9]+.[0-9]+.[0-9]+` 형식과 같이 시멘틱 버전을 사용하고, 하위 폴더를 사용하는 경우 `<subDirectoryPath>/v[0-9]+.[0-9]+.[0-9]+`로 태그를 지정합니다.
