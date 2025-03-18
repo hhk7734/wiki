@@ -22,18 +22,22 @@ keywords:
 
 ```hcl title="terragrunt.stack.hcl"
 unit "<unit>" {
-  source = "<unitPath>"
-  path   = "<generatedPath>"
+  source                  = "<unitPath>"
+  path                    = "<generatedPath>"
+  no_dot_terragrunt_stack = true
 }
 ```
 
 - `source = <unitPath>`
   - [Terraform / Module Sources](https://developer.hashicorp.com/terraform/language/modules/sources)를 참고하면 됩니다.
 - `path = <generatedPath>`
-  - `.terraform-stack/<generatedPath>`에 `source`에서 가져온 unit을 저장합니다.
+  - `.terraform-stack/<generatedPath>`에 `source`에서 가져온 unit을 복사합니다.
 - `values = { <key> = <value> }`
   - 선택사항입니다.
   - unit에 `variable`로 선언한 변수에 값을 전달할 수 있습니다.
+- `no_dot_terragrunt_stack = true`
+  - 선택사항입니다.
+  - `.terraform-stack/<generatedPath>` 대신 `<generatedPath>`에 unit을 복사합니다.
 
 :::tip
 
