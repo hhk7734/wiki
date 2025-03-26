@@ -1,0 +1,62 @@
+---
+id: certs
+title: kubeadm certs로 인증서 관리하기
+sidebar_label: 인증서 관리
+description: kubeadm certs로 인증서 관리하기
+keywords:
+  - kubeadm
+  - certs
+---
+
+:::info[Reference]
+
+- [Certificate Management with kubeadm](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/)
+
+:::
+
+## 인증서 설정
+
+```yaml
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+```
+
+- `encryptionAlgorithm: <algorithm>`
+  - `RSA-2048`, `RSA-3072`, `RSA-4096`, `ECDSA-P256`
+  - 기본값: `RSA-2048`
+- `certificatesDir: <dir>`
+  - 기본값: `/etc/kubernetes/pki`
+  - `ca.crt`와 `ca.key`가 존재하는 경우 덮어쓰지 않습니다.
+- `certificateValidityPeriod: <duration>`
+  - 기본값: `8760h` (1년)
+- `caCertificateValidityPeriod: <duration>`
+  - 기본값: `87600h` (10년)
+
+## 인증서 만료 확인
+
+```shell
+kubeadm certs check-expiration
+```
+
+## 인증서 갱신
+
+:::info
+
+`kubeadm`으로 클러스터를 업그레이드하면 인증서가 갱신됩니다.
+
+:::
+
+```shell
+kubeadm certs renew all
+```
+
+위 명령어는 CA 또는 front-proxy-CA 인증서를 사용하여 apiserver 등 컴포넌트의 인증서를 갱신합니다. 인증서가 갱신된 후 해당 컴포넌트를 재시작해야합니다.
+
+Static Pod의 경우 로컬 kubelet에 의해 관리되므로, kubectl 명령어로 재시작할 수 없습니다. 아래 명령어로 재시작할 수 있습니다.
+
+```shell
+crictl pods --namespace kube-system --name 'kube-scheduler-*|kube-controller-manager-*|kube-apiserver-*|etcd-*' -q \
+    | xargs crictl rmp -f
+```
+
+Control Plane의 모든 노드에서 인증서를 갱신해야합니다.

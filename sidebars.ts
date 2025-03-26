@@ -437,7 +437,14 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Tools",
 			items: [
-				"mlops/kubernetes/tools/kubeadm",
+				{
+					type: "category",
+					label: "Kubeadm",
+					items: [
+						"mlops/kubernetes/tools/kubeadm/kubeadm",
+						"mlops/kubernetes/tools/kubeadm/certs",
+					],
+				},
 				{
 					type: "category",
 					label: "Kubespray",
