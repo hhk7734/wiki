@@ -1,0 +1,133 @@
+---
+id: ofed
+title: OpenFabrics Enterprise Distribution
+sidebar_label: OFED
+description: OpenFabrics Enterprise Distribution
+keywords:
+  - ofed
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## OFED Stack
+
+:::info[Reference]
+
+- [NVIDIA DOCS HUB / Adapter Software / NLNX_OFED](https://docs.nvidia.com/networking/software/adapter-software/index.html)
+
+:::
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/device/infiniband/ofed-stack.png")} />
+		<br />
+		<figcaption>
+			[OFED
+			Stack](https://docs.nvidia.com/networking/display/mlnxofedv24100700/introduction#src-704873640_Introduction-StackArchitecture)
+		</figcaption>
+	</center>
+</figure>
+
+- HCA(Host Channel Adapter)
+- SRP(SCSI RDMA Protocol)
+  - SCSI(Small Computer System Interface)(skʌzi)
+- iSER(iSCSI Extensions for RDMA)
+  - iSCSI(internet Small Computer System Interface)
+- IPoIB(IP over InfiniBand)
+
+## 설치
+
+:::info[Reference]
+
+- [NVIDIA DOCS HUB / Adapter Software / NLNX_OFED / Installing the Driver](https://docs.nvidia.com/networking/display/mlnxofedv24100700/installing+the+driver)
+
+:::
+
+[NVIDIA Networking / Adapter IB/VPI SW / Linux Drivers](https://network.nvidia.com/products/infiniband-drivers/linux/mlnx_ofed/)에서 설치 파일을 다운로드 받고, 압축을 해제합니다.
+
+```shell
+sudo su
+```
+
+```shell
+./mlnxofedinstall <flags>
+```
+
+- `-k|--kernel <kernel>`: `$(uname -r)`가 기본값으로 설정됩니다.
+- `-s|--kernel-source <kernelSource>`: `/lib/modules/$(uname -r)/build` 디렉토리가 기본값으로 설정됩니다.
+- 펌웨어
+  - `--without-fw-update`
+- 패키지 선택
+  - `--all`
+- 추가 패키지 필터
+  - `--kernel-only`
+  - `--user-space-only`: container에서 관련 파일을 설치할 때 유용합니다.
+  - `--without-<package>`
+  - `--with-<package>`
+    - openmpi
+    - ucx
+    - perftest
+      - ib_write_bw
+    - infiniband-diags
+      - ibstat
+- 기타
+  - `-p|--print-available`
+
+```shell
+/etc/init.d/openibd restart
+```
+
+```shell
+lspci -v | grep -i Mellanox
+```
+
+```shell
+ibdev2netdev -v
+```
+
+:::info
+
+network interface 이름을 변경하고싶은 경우 [udev 규칙](/docs/linux/kernel/udev)을 작성합니다.
+
+```shell title="/etc/udev/rules.d/10-ib0.rules"
+SUBSYSTEMS=="pci", KERNELS=="0000:<bus>:<device>.<function>", DRIVERS=="mlx5_core", NAME="ib0"
+```
+
+```shell
+udevadm trigger --action=add
+```
+
+:::
+
+### Kubernetes를 위한 최소 설치
+
+```shell
+./mlnxofedinstall \
+    --without-fw-update \
+    --kernel-only \
+    --without-iser-dkms \
+    --without-isert-dkms \
+    --without-srp-dkms \
+    --without-kernel-mft-dkms
+```
+
+```shell
+ofed-scripts
+mlnx-tools
+mlnx-ofed-kernel-utils
+mlnx-ofed-kernel-dkms
+knem-dkms
+knem
+```
+
+## 삭제
+
+:::info[Reference]
+
+- [NVIDIA DOCS HUB / Adapter Software / NLNX_OFED / Uninstalling the Driver](https://docs.nvidia.com/networking/display/mlnxofedv24100700/uninstalling+the+driver)
+
+:::
+
+```shell
+/usr/sbin/ofed_uninstall.sh
+```

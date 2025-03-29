@@ -20,16 +20,13 @@ import Image from "@theme/IdealImage";
 
 ## ServiceAccount
 
-- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/user-guides/getting-started.md#enable-rbac-rules-for-prometheus-pods
+:::info[Reference]
+
+- [Prometheus Operator / Getting Started](https://prometheus-operator.dev/docs/platform/platform-guide/)
+
+:::
 
 ```yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: <name>
-  namespace: <namespace>
-
----
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -48,12 +45,25 @@ rules:
       - configmaps
     verbs: ["get"]
   - apiGroups:
+      - discovery.k8s.io
+    resources:
+      - endpointslices
+    verbs: ["get", "list", "watch"]
+  - apiGroups:
       - networking.k8s.io
     resources:
       - ingresses
     verbs: ["get", "list", "watch"]
   - nonResourceURLs: ["/metrics"]
     verbs: ["get"]
+```
+
+```yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: <name>
+  namespace: <namespace>
 
 ---
 apiVersion: rbac.authorization.k8s.io/v1
@@ -72,7 +82,11 @@ subjects:
 
 ## Prometheus
 
-- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#prometheus
+:::info[Reference]
+
+- [Prometheus Operator / API reference # Prometheus](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Prometheus)
+
+:::
 
 spec에 맞는 prometheus StatefulSets을 생성합니다.
 
@@ -199,3 +213,20 @@ spec:
 ```
 
 :::
+
+### Alertmanager 연결하기
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+spec:
+  alerting:
+    alertmanagers:
+      - namespace: <namespace>
+        name: <name>
+        port: <port>
+```
+
+- `alerting`
+  - `alertmanagers: []`
+    - Alertmanager Service의 정보를 설정합니다.

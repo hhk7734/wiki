@@ -1,0 +1,83 @@
+---
+id: alertmanager
+title: Prometheus Operator Alertmanager CR 생성하기
+sidebar_label: Alertmanager
+description: Prometheus Operator Alertmanager CR 생성하기
+keywords:
+  - prometheus
+  - operator
+  - CR
+  - alertmanager
+---
+
+## Alertmanager
+
+:::info[Reference]
+
+- [Prometheus Operator / API reference # Alertmanager](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.Alertmanager)
+
+:::
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  affinity: {}
+  storage:
+    volumeClaimTemplate:
+      spec:
+        storageClassName: ceph-block
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 5Gi
+```
+
+Alertmanager CR을 생성하고 Service를 확인(또는 생성)한 후, 이를 사용할 [Prometheus에 관련 정보를 설정](/docs/mlops/monitoring/prometheus/crd/prometheus#alertmanager-연결하기)합니다.
+
+### AlertmanagerConfig 수집하기
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Alertmanager
+spec:
+  alertmanagerConfigSelector: {}
+```
+
+- `alertmanagerConfigNamespaceSelector`
+  - `null`로 설정하면 `Alertmanager`가 선언된 Namespace에서만 AlertmanagerConfig를 찾습니다.
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+- `alertmanagerConfigSelector`
+  - `matchExpressions: []`
+  - `matchLabels: {}`
+
+## AlertmanagerConfig
+
+:::info[Reference]
+
+- [Prometheus Operator / API reference # AlertmanagerConfig](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1beta1.AlertmanagerConfig)
+
+:::
+
+```yaml
+apiVersion: monitoring.coreos.com/v1beta1
+kind: AlertmanagerConfig
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  route:
+    receiver: <receiver>
+  receivers:
+    - name: <receiver>
+      <receiverConfig>: []
+```
+
+- `receivers: []`
+  - `name: <receiver>`
+  - `slackConfigs: []`
+    - [Prometheus / Configuration # slack_config](https://prometheus.io/docs/alerting/latest/configuration/#slack_config)

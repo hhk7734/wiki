@@ -19,6 +19,7 @@ export const navbar = {
         Kubernetes: "kubernetes",
         Storage: "storage",
         Network: "network",
+        Device: "device",
         Monitoring: "monitoring",
         NueralNetwork: "nn",
     },

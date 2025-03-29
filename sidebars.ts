@@ -246,6 +246,25 @@ const sidebars: SidebarsConfig = {
 			items: ["lang/design/limited-resources/request-rate-limit"],
 		},
 	],
+	device: [
+		"mlops/device/cdi",
+		"mlops/device/node-feature-discovery",
+		{
+			type: "category",
+			label: "NVIDIA",
+			items: ["mlops/device/nvidia/k8s-device-plugin", "mlops/device/nvidia/gpu-operator"],
+		},
+		{
+			type: "category",
+			label: "AMD",
+			items: ["mlops/device/amd/k8s-device-plugin"],
+		},
+		{
+			type: "category",
+			label: "InfiniBand",
+			items: ["mlops/device/infiniband/ofed", "mlops/device/infiniband/rdma-shared-device-plugin"],
+		},
+	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
 	flutter: [
 		{
@@ -683,29 +702,6 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Device",
-			items: [
-				"mlops/mlops/device/cdi",
-				"mlops/mlops/device/node-feature-discovery",
-				{
-					type: "category",
-					label: "NVIDIA",
-					items: ["mlops/mlops/device/nvidia/k8s-device-plugin", "mlops/mlops/device/nvidia/gpu-operator"],
-				},
-				{
-					type: "category",
-					label: "AMD",
-					items: ["mlops/mlops/device/amd/k8s-device-plugin"],
-				},
-				{
-					type: "category",
-					label: "InfiniBand",
-					items: ["mlops/mlops/device/infiniband/rdma-shared-device-plugin"],
-				},
-			],
-		},
-		{
-			type: "category",
 			label: "Provisioning",
 			items: [
 				{
@@ -961,6 +957,7 @@ const sidebars: SidebarsConfig = {
 					items: [
 						"mlops/monitoring/prometheus/crd/prometheus",
 						"mlops/monitoring/prometheus/crd/monitor",
+						"mlops/monitoring/prometheus/crd/alertmanager",
 					],
 				},
 				"mlops/monitoring/prometheus/promql",
