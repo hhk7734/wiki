@@ -825,6 +825,11 @@ const sidebars: SidebarsConfig = {
 					label: "AWX",
 					items: ["mlops/mlops/workflow/awx/awx-operator", "mlops/mlops/workflow/awx/crd"],
 				},
+				{
+					type: "category",
+					label: "mpi-operator",
+					items: ["mlops/mlops/workflow/mpi-operator/mpijob",],
+				},
 			],
 		},
 		{
@@ -1036,6 +1041,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/network/multus/multus",
 				"mlops/network/multus/network-attachment-definition",
 				"mlops/network/multus/ipoib",
+				"mlops/network/multus/whereabouts",
 			],
 		},
 		{

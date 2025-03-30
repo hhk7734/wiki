@@ -1,0 +1,68 @@
+---
+id: mpijob
+title: MPIJob
+sidebar_label: MPIJob
+description: MPIJob
+keywords:
+  - mpi
+  - operator
+  - mpijob
+---
+
+## MPIJob
+
+```yaml
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+spec:
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: mpi-launcher
+              image: ""
+              command: [mpirun]
+              args: []
+    Worker:
+      replicas: 2
+      template:
+        spec:
+          containers:
+            - name: mpi-worker
+              image: ""
+```
+
+- `sshAuthMountPath: <dir>`
+  - 생성된 SSH Secret의 공개키와 개인키가 각각 `authorized_keys`, `id_rsa`로 마운트됩니다.
+  - 기본값은 `/root/.ssh`입니다.
+- `launcherCreationPolicy: AtStartup|WaitForWorkersReady`
+- `runLauncherAsWorker: false`
+- `slotsPerWorker: 1`
+  - hostfile에 설정될 slot 수입니다.
+- `runPolicy`
+  - `backoffLimit: <number>`
+    - Job을 Failed로 간주하기 전에 재시도하는 횟수입니다.
+    - 기본값은 6입니다.
+  - `ttlSecondsAfterFinished: <seconds>`
+    - Job이 완료된 후 삭제되기까지 대기하는 시간입니다.
+    - 기본값은 무한입니다.
+  - `cleanPodPolicy: Running|All|None`
+    - Job이 완료된 후 Pod을 정리하는 정책입니다.
+    - `Running`: Running 상태인 Pod을 정리합니다. 기본값입니다.
+- `mpiReplicaSpecs`
+  - `Launcher`
+    - Job이 생성됩니다.
+    - `replicas: <replicas>`
+      - 기본값은 1 입니다.
+    - `restartPolicy: Always|OnFailure|Never`
+      - 기본값은 `Nerver`입니다.
+    - `template: <core/v1.PodTemplateSpec>`
+  - `Worker`
+    - Pod이 생성됩니다.
+    - `template`
+      - `spec`
+        - `containers`
+          - `command: []`
+            - 기본 값으로 `[/usr/sbin/sshd, -De]`가 설정됩니다.

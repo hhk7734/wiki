@@ -176,8 +176,8 @@ plugins:
     args:
       - -c
       - |
-        echo 'kubectl node-shell --context $CONTEXT $NAME'
-
+        export KUBECONFIG=$KUBECONFIG
+        echo "kubectl node-shell --context $CONTEXT $NAME"
         kubectl node-shell --context $CONTEXT $NAME
 ```
 

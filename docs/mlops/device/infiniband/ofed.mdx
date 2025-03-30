@@ -120,6 +120,32 @@ knem-dkms
 knem
 ```
 
+## 성능 테스트
+
+### Bandwidth
+
+서버와 클라이언트에서 아래 명령어를 각각 실행합니다.
+
+```shell
+ib_write_bw -F --report_gbits -a
+```
+
+```shell
+ib_write_bw -F --report_gbits -a <ip>
+```
+
+### Latency
+
+서버와 클라이언트에서 아래 명령어를 각각 실행합니다.
+
+```shell
+ib_write_lat -F --report_gbits -a
+```
+
+```shell
+ib_write_lat -F --report_gbits -a <ip>
+```
+
 ## 삭제
 
 :::info[Reference]

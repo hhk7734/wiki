@@ -10,7 +10,11 @@ keywords:
 
 ## IPoIB CNI
 
-- https://github.com/Mellanox/ipoib-cni
+:::info[Reference]
+
+- [ipoib-cni GitHub](https://github.com/Mellanox/ipoib-cni)
+
+:::
 
 IPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.
 
@@ -19,29 +23,36 @@ IPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  name: ipoib
+  name: ipoib-cni
   namespace: kube-system
   labels:
-    app.kubernetes.io/name: ipoib
-    app: ipoib
+    app.kubernetes.io/name: ipoib-cni
+    app: ipoib-cni
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: ipoib
-      app: ipoib
+      app.kubernetes.io/name: ipoib-cni
+      app: ipoib-cni
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: ipoib
-        app: ipoib
+        app.kubernetes.io/name: ipoib-cni
+        app: ipoib-cni
     spec:
       hostNetwork: true
       tolerations:
         - operator: Exists
       containers:
         - name: main
-          image: mellanox/ipoib-cni:latest
+          image: ghcr.io/mellanox/ipoib-cni:v1.2.1
           imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+            limits:
+              cpu: "100m"
+              memory: "50Mi"
           securityContext:
             privileged: true
           volumeMounts:
@@ -55,24 +66,30 @@ spec:
 
 ## CNI 설정
 
-```json
-{
-	"name": "ipoib-26bit",
-	"type": "ipoib",
-	"master": "ib0",
-	"ipam": {
-		"type": "host-local",
-		"subnet": "172.16.0.0/16",
-		"rangeStart": "172.16.2.2",
-		"rangeEnd": "172.16.2.63"
-	}
-}
+```yaml
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: ipoib-cni
+  namespace: kube-system
+spec:
+  config: |
+    {
+      "name": "ipoib-cni",
+      "type": "ipoib",
+      "master": "ib0",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "172.16.0.0/16"
+      }
+    }
 ```
 
-- `name`
-- `type`: `ipoib`
-- `master`: Host interface 이름입니다.
+- `name: <name>`: NetworkAttachmentDefinition의 name과 일치해야 합니다.
+- `type: ipoib`
+- `master: <interface>`
 - `ipam`
-  - `type`: IP 관리에 사용할 바이너리입니다.
+  - `type: <type>`: IP 관리에 사용할 바이너리입니다.
     - https://www.cni.dev/plugins/current/ipam/
     - `dhcp`는 지원되지 않습니다.
+    - [whereabouts](/docs/mlops/network/multus/whereabouts)
