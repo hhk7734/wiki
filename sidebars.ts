@@ -828,7 +828,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "mpi-operator",
-					items: ["mlops/mlops/workflow/mpi-operator/mpijob",],
+					items: ["mlops/mlops/workflow/mpi-operator/mpijob", "mlops/mlops/workflow/mpi-operator/openmpi"],
 				},
 			],
 		},

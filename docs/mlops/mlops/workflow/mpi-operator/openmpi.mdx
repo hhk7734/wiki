@@ -1,0 +1,53 @@
+---
+id: openmpi
+title: OpenMPI
+sidebar_label: OpenMPI
+description: OpenMPI
+keywords:
+  - mpi
+  - openmpi
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## OpenMPI Architecture
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/mlops/workflow/mpi-ooerator/mpi-architecture.jpg")} />
+		<br />
+		<figcaption>OpenMPI Architecture</figcaption>
+	</center>
+</figure>
+
+- Frameworks
+  - [OpenMPI / Internal frameworks](https://docs.open-mpi.org/en/v5.0.x/developers/frameworks.html)
+  - `btl`: Point-to-point Byte Transfer Layer
+
+## 설치
+
+:::info[Reference]
+
+- [OpenMPI / Download](https://www-lb.open-mpi.org/software/ompi)
+
+:::
+
+```shell
+tar xf openmpi-5.0.7.tar.bz2
+```
+
+```shell
+cd openmpi-5.0.7
+```
+
+```shell
+./configure --prefix=/usr <flags>
+```
+
+```shell
+make -j $(nproc) all
+```
+
+```shell
+make install
+```

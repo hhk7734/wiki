@@ -11,37 +11,7 @@ keywords:
 
 ### OpenMPI
 
-```shell
-sudo apt-get install flex
-```
-
-```shell
-git clone --branch=v4.1.2 --depth=1 https://github.com/open-mpi/ompi.git \
-&& cd ompi
-```
-
-```shell
-./autogen.pl
-```
-
-```shell
-sudo mkdir -p /opt/openmpi-4.1.2
-```
-
-```shell
-mkdir build && cd build \
-&& ../configure --prefix=/opt/openmpi-4.1.2
-```
-
-```shell
-make -j$(expr $(expr $(nproc) \* 6) \/ 5) \
-&& sudo make install
-```
-
-```shell title=".zshrc"
-export PATH=/opt/openmpi-4.1.2/bin:$PATH
-export LD_LIBRARY_PATH=/opt/openmpi-4.1.2/lib:$LD_LIBRARY_PATH
-```
+[OpenMPI](/docs/mlops/mlops/workflow/mpi-operator/openmpi)
 
 ### MPI4PY
 
@@ -62,5 +32,4 @@ mpiexec -n 5 python -m mpi4py.bench helloworld
 
 ## Reference
 
-- [https://github.com/open-mpi/ompi](https://github.com/open-mpi/ompi)
 - [https://github.com/mpi4py/mpi4py](https://github.com/mpi4py/mpi4py)
