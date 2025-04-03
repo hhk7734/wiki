@@ -130,37 +130,70 @@ spec:
   - `volumeClaimTemplate: {}`
 - `affinity: {}`
 - `tolerations: []`
-- `podMonitorNamespaceSelector`
-  - `{}`로 설정하면 모든 Namespace에서 PodMonitor를 찾습니다.
-  - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 PodMonitor를 찾습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
-- `podMonitorSelector`
-  - `{}`로 설정하면 모든 PodMonitor를 찾습니다.
-  - `null`로 설정하면 PodMonitor를 찾지 않습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
+- `retention: 24h`
+
+### ServiceMonitor 수집하기
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+spec:
+  serviceMonitorNamespaceSelector: {}
+  serviceMonitorSelector:
+    matchLabels:
+      loliot.net/<namespace>/<name>: enabled
+```
+
 - `serviceMonitorNamespaceSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
   - `{}`로 설정하면 모든 Namespace에서 ServiceMonitor를 찾습니다.
   - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 ServiceMonitor를 찾습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
 - `serviceMonitorSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
   - `{}`로 설정하면 모든 ServiceMonitor를 찾습니다.
   - `null`로 설정하면 ServiceMonitor를 찾지 않습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
+
+### PodMonitor 수집하기
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+spec:
+  podMonitorNamespaceSelector: {}
+  podMonitorSelector:
+    matchLabels:
+      loliot.net/<namespace>/<name>: enabled
+```
+
+- `podMonitorNamespaceSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+  - `{}`로 설정하면 모든 Namespace에서 PodMonitor를 찾습니다.
+  - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 PodMonitor를 찾습니다.
+- `podMonitorSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+  - `{}`로 설정하면 모든 PodMonitor를 찾습니다.
+  - `null`로 설정하면 PodMonitor를 찾지 않습니다.
+
+### ScrapeConfig 수집하기
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+spec:
+  scrapeConfigNamespaceSelector: {}
+  scrapeConfigSelector:
+    matchLabels:
+      loliot.net/<namespace>/<name>: enabled
+```
+
 - `scrapeConfigNamespaceSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
   - `{}`로 설정하면 모든 Namespace에서 ScrapeConfig를 찾습니다.
   - `null`로 설정하면 Prometheus가 선언된 Namespace에서만 ScrapeConfig를 찾습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
 - `scrapeConfigSelector`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
   - `{}`로 설정하면 모든 ScrapeConfig를 찾습니다.
   - `null`로 설정하면 ScrapeConfig를 찾지 않습니다.
-  - `matchExpressions: []`
-  - `matchLabels: {}`
-- `retention: 24h`
 
 :::info
 

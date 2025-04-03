@@ -81,10 +81,15 @@ Prometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨
 
 ### ServiceMonitor
 
-<br />
+:::info[Reference]
+
+- [Rook GitHub / deploy / examples / monitoring](https://github.com/rook/rook/tree/master/deploy/examples/monitoring)
+
+:::
 
 - MGR의 prometheus 모듈: 데몬들의 성능 counter를 제외한 모든 metrics을 노출시킵니다.
 - Ceph exporter: 데몬들의 성능 counter를 노출시킵니다.
+- node-exporter
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -129,6 +134,14 @@ spec:
       path: /metrics
       interval: 10s
 ```
+
+### PrometheusRule
+
+:::info[Reference]
+
+- [Rook GitHub / deploy / charts / rook-ceph-cluster / prometheus](https://github.com/rook/rook/tree/master/deploy/charts/rook-ceph-cluster/prometheus)
+
+:::
 
 ### Dashboard 설정
 

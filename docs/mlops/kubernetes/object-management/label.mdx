@@ -45,3 +45,15 @@ keywords:
 - `app.kubernetes.io/component: <database/storage/server/...>`
 - `app.kubernetes.io/part-of: <project>`
 - `app.kubernetes.io/managed-by: <helm/pulumi/...>`
+
+## Label Selector
+
+```yaml
+<selector>:
+  matchLabels:
+    <key>: <value>
+  matchExpressions:
+    - key: <key>
+      operator: In|NotIn|Exists|DoesNotExist
+      values: [<value>, ...]
+```
