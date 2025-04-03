@@ -9,6 +9,7 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## Kubernetes network
 
@@ -117,9 +118,9 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 ## Example(Calico)
 
 <center>
-	<img src={useBaseUrl("img/mlops/network/calico/cni-with-calico-ipam.png")} />
-	<br />
-	<strong>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</strong>
-	<br />
-	https://www.youtube.com/watch?v=JyLtg_SJ1lo
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/network/calico/cni-with-calico-ipam.drawio")} />
+		<figcaption>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</figcaption>
+		<figcaption>https://www.youtube.com/watch?v=JyLtg_SJ1lo</figcaption>
+	</figure>
 </center>

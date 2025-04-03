@@ -82,7 +82,12 @@ const config: Config = {
 		"docusaurus-plugin-image-zoom",
 		tailwindPlugin,
 	],
-
+	scripts: [
+		{
+			src: "https://www.draw.io/js/viewer.min.js",
+			async: true
+		}
+	],
 	stylesheets: [
 		{
 			href: "https://cdn.jsdelivr.net/npm/katex@0.13.24/dist/katex.min.css",

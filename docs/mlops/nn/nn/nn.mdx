@@ -8,16 +8,25 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/nn-nn.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/nn-nn.drawio")} />
+		<figcaption>Neural Network</figcaption>
+	</figure>
 </center>
 
 ## Neuron(Perceptron)
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/nn-neuron.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/nn-neuron.drawio")} />
+		<figcaption>Neuron(Perceptron)</figcaption>
+	</figure>
 </center>
+
+<br />
 
 $$
 z^l_j = \sum_k{\omega^l_{jk}a^{l-1}_k} + b^l_j
@@ -89,8 +98,13 @@ $$
 ### Back-propagation
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/nn-back-propagation.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/nn-back-propagation.drawio")} />
+		<figcaption>Back propagation</figcaption>
+	</figure>
 </center>
+
+<br />
 
 $$
 z^l_j = \sum_k{\omega^l_{jk}a^{l-1}_k} + b^l_j

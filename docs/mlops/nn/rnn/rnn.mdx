@@ -9,6 +9,7 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## RNN(Recurrent Neural Network)
 
@@ -18,8 +19,13 @@ output = Dim(batch\_size, timesteps, hidden\_size)
 $$
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-simple.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-simple.drawio")} />
+		<figcaption>RNN</figcaption>
+	</figure>
 </center>
+
+<br />
 
 $$
 h_t = \tanh(W_{hx} x_t + W_{hh} h_{t-1} + b_h)
@@ -37,8 +43,13 @@ $$
 긴 시퀀스를 처리하는 RNN은 순환이 반복되면서 상대적으로 앞쪽 값의 영향이 줄어들 수 있습니다. 이를 `Long-Term Dependency`라고 합니다. LSTM 셀을 사용하면, Long-Term Dependency 문제가 완화되며 훈련 시 빠르게 수렴합니다.
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-lstm.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-lstm.drawio")} />
+		<figcaption>LSTM</figcaption>
+	</figure>
 </center>
+
+<br />
 
 $$
 \begin{aligned}
@@ -62,8 +73,13 @@ $$
 LSTM variants 중 하나입니다.
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-gru.jpg")} />
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-gru.drawio")} />
+		<figcaption>GRU</figcaption>
+	</figure>
 </center>
+
+<br />
 
 $$
 \begin{aligned}
