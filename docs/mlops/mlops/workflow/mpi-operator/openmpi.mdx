@@ -53,8 +53,17 @@ cd openmpi-5.0.7
 ```
 
 ```shell
-./configure --prefix=/usr <flags>
+mkdir build && cd build \
+&& ../configure --prefix=/usr \
+    <flags>
 ```
+
+- `--with-ucx=<ucxInstallPrefix>`
+  - [UCX](/docs/lang/design/protocol/ucx/ucx)
+  - btl_uct 관련 컴파일 에러가 발생하면 `--enable-mca-no-build=btl-uct`를 추가하고 mpirun 사용시 `--mca btl ^uct`를 추가합니다.
+  - 추가 오버헤드가 있다면 `--mca btl ^vader,tcp,openib,uct` 옵션으로 기본 btl을 제외시켜볼 수 있습니다.
+- `--with-platform=contrib/platform/mellanox/optimized`
+- `--with-knem=<knemInstallPrefix>`
 
 ```shell
 make -j $(nproc) all

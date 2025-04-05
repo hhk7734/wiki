@@ -182,8 +182,12 @@ configs:
 
 ## 인가(Authz)
 
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/
-- https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
+:::info[Reference]
+
+- [Argo CD / RBAC Configuration](https://argo-cd.readthedocs.io/en/stable/operator-manual/rbac/)
+- [Argo CD GitHub / builtin-poilicy.csv](https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv)
+
+:::
 
 Argo CD는 casbin RBAC를 사용하여 권한을 제어합니다.
 
@@ -191,11 +195,7 @@ Argo CD는 casbin RBAC를 사용하여 권한을 제어합니다.
 configs:
   rbac:
     # https://github.com/argoproj/argo-cd/blob/master/docs/operator-manual/rbac.md
-    policy.csv: |
-      p, <role/user/group>, <resource>, <action>, <object>
-      p, <role/user/group>, <resource>, <action>, <appproject>/<object>
-
-      g, <role/user/group>, role:<role>
+    policy.csv: ""
 
     # role:readonly, role:admin
     # https://github.com/argoproj/argo-cd/blob/master/assets/builtin-policy.csv
@@ -207,3 +207,30 @@ configs:
     # glob or regex
     policy.matchMode: "glob"
 ```
+
+- `user`
+  - JWT에서 `sub`의 값입니다.
+- `group`
+  - JWT에서 `configs.rbac.scopes`에 설정된 key에 매칭되는 값입니다.
+  - `g, <user|group>, <role>`
+- `policy`
+  - `p, <role|user|group>, <resource>, <action>, <object>, <alloy|deny>`
+  - `<object>`
+    - `<resource>`가 applications, applicationsets, logs, exec인 경우
+      - `<appProject>/<application>`을 사용합니다.
+      - 여러 namespace를 사용하는 경우 `<appProject>/<applicationNamespace>/<applicationName>`을 사용합니다.
+    - `*`, `*/*`, `*/default/*` 등을 허용합니다.
+
+| Resource\Action | get | create | update | delete | sync | action | override | invoke |
+| --------------- | :-: | :----: | :----: | :----: | :--: | :----: | :------: | :----: |
+| applications    | ✅  |   ✅   |   ✅   |   ✅   |  ✅  |   ✅   |    ✅    |   ❌   |
+| applicationsets | ✅  |   ✅   |   ✅   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| clusters        | ✅  |   ✅   |   ✅   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| projects        | ✅  |   ✅   |   ✅   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| repositories    | ✅  |   ✅   |   ✅   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| accounts        | ✅  |   ❌   |   ✅   |   ❌   |  ❌  |   ❌   |    ❌    |   ❌   |
+| certificates    | ✅  |   ✅   |   ❌   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| gpgkeys         | ✅  |   ✅   |   ❌   |   ✅   |  ❌  |   ❌   |    ❌    |   ❌   |
+| logs            | ✅  |   ❌   |   ❌   |   ❌   |  ❌  |   ❌   |    ❌    |   ❌   |
+| exec            | ❌  |   ✅   |   ❌   |   ❌   |  ❌  |   ❌   |    ❌    |   ❌   |
+| extensions      | ❌  |   ❌   |   ❌   |   ❌   |  ❌  |   ❌   |    ❌    |   ✅   |

@@ -226,6 +226,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "UCX",
+					items: ["lang/design/protocol/ucx/ucx"],
+				},
+				{
+					type: "category",
 					label: "Email",
 					items: ["lang/design/protocol/email/authentication"],
 				},
@@ -1017,11 +1022,6 @@ const sidebars: SidebarsConfig = {
 		"mlops/monitoring/kubernetes-dashboard",
 	],
 	network: [
-		{
-			type: "category",
-			label: "WireGuard",
-			items: ["mlops/network/wireguard/wireguard"],
-		},
 		"mlops/network/cni",
 		{
 			type: "category",
@@ -1107,6 +1107,11 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Nginx",
 			items: ["mlops/network/nginx/ingress-controller"],
+		},
+		{
+			type: "category",
+			label: "WireGuard",
+			items: ["mlops/network/wireguard/wireguard"],
 		},
 	],
 	nn: [
