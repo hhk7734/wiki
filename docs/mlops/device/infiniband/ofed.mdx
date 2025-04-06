@@ -8,6 +8,8 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
 
 ## OFED Stack
 
@@ -43,6 +45,24 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::
 
+<Tabs
+    groupId="os"
+    defaultValue="debian"
+    values={[
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="debian">
+
+```shell
+sudo apt-get install -y perl pkg-config
+```
+
+</TabItem>
+
+</Tabs>
+
 [NVIDIA Networking / Adapter IB/VPI SW / Linux Drivers](https://network.nvidia.com/products/infiniband-drivers/linux/mlnx_ofed/)에서 설치 파일을 다운로드 받고, 압축을 해제합니다.
 
 ```shell
@@ -59,6 +79,7 @@ sudo su
   - `--without-fw-update`
 - 패키지 선택
   - `--all`
+  - `--basic`
 - 추가 패키지 필터
   - `--kernel-only`
   - `--user-space-only`: container에서 관련 파일을 설치할 때 유용합니다.
@@ -79,16 +100,16 @@ sudo su
 ```
 
 ```shell
-lspci -v | grep -i Mellanox
-```
-
-```shell
-ibdev2netdev -v
+ibstat
 ```
 
 :::info
 
 network interface 이름을 변경하고싶은 경우 [udev 규칙](/docs/linux/kernel/udev)을 작성합니다.
+
+```shell
+ibdev2netdev -v
+```
 
 ```shell title="/etc/udev/rules.d/10-ib0.rules"
 SUBSYSTEMS=="pci", KERNELS=="0000:<bus>:<device>.<function>", DRIVERS=="mlx5_core", NAME="ib0"
@@ -100,7 +121,11 @@ udevadm trigger --action=add
 
 :::
 
-### Kubernetes를 위한 최소 설치
+:::tip
+
+Kubernetes를 위한 최소 설치 예시입니다.
+
+Host OS
 
 ```shell
 ./mlnxofedinstall \
@@ -112,14 +137,17 @@ udevadm trigger --action=add
     --without-kernel-mft-dkms
 ```
 
+container
+
 ```shell
-ofed-scripts
-mlnx-tools
-mlnx-ofed-kernel-utils
-mlnx-ofed-kernel-dkms
-knem-dkms
-knem
+./mlnxofedinstall \
+    --without-fw-update \
+    --user-space-only \
+    --basic \
+    --with-perftest
 ```
+
+:::
 
 ## 성능 테스트
 
