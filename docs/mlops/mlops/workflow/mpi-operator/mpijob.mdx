@@ -43,14 +43,16 @@ spec:
   - hostfile에 설정될 slot 수입니다.
 - `runPolicy`
   - `backoffLimit: <number>`
-    - Job을 Failed로 간주하기 전에 재시도하는 횟수입니다.
+    - Failed로 간주하기 전에 Launcher를 재시도하는 횟수입니다.
     - 기본값은 6입니다.
   - `ttlSecondsAfterFinished: <seconds>`
-    - Job이 완료된 후 삭제되기까지 대기하는 시간입니다.
+    - Launcher가 완료된 후 삭제되기까지 대기하는 시간입니다.
     - 기본값은 무한입니다.
   - `cleanPodPolicy: Running|All|None`
-    - Job이 완료된 후 Pod을 정리하는 정책입니다.
+    - Launcher가 완료된 후 Pod을 정리하는 정책입니다.
     - `Running`: Running 상태인 Pod을 정리합니다. 기본값입니다.
+  - `suspend: true|false`
+    - Launcher, Worker를 중지할지 여부입니다.
 - `mpiReplicaSpecs`
   - `Launcher`
     - Job이 생성됩니다.
@@ -66,3 +68,88 @@ spec:
         - `containers`
           - `command: []`
             - 기본 값으로 `[/usr/sbin/sshd, -De]`가 설정됩니다.
+
+:::warning
+
+`Launcher.template` 설정을 변경하면 생성된 launcher Job을 삭제해야 변경된 설정이 적용됩니다.
+
+:::
+
+## Container Base
+
+:::info[Reference]
+
+- [mpi-operator GitHub / build / base ](https://github.com/kubeflow/mpi-operator/tree/master/build/base)
+
+:::
+
+```shell title="build/base/sshd_config"
+PidFile /home/mpiuser/sshd.pid
+HostKey /home/mpiuser/.ssh/id_rsa
+StrictModes no
+```
+
+```dockerfile title="build/base/Dockerfile"
+FROM debian:trixie
+
+ARG port=2222
+
+RUN apt update && apt install -y --no-install-recommends \
+    openssh-server \
+    openssh-client \
+    libcap2-bin \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+# Add priviledge separation directoy to run sshd as root.
+RUN mkdir -p /var/run/sshd
+# Add capability to run sshd as non-root.
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/sshd
+RUN apt remove libcap2-bin -y
+
+# Allow OpenSSH to talk to containers without asking for confirmation
+# by disabling StrictHostKeyChecking.
+# mpi-operator mounts the .ssh folder from a Secret. For that to work, we need
+# to disable UserKnownHostsFile to avoid write permissions.
+# Disabling StrictModes avoids directory and files read permission checks.
+RUN sed -i "s/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g" /etc/ssh/ssh_config \
+    && echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config \
+    && sed -i "s/[ #]\(.*Port \).*/ \1$port/g" /etc/ssh/ssh_config \
+    && sed -i "s/#\(StrictModes \).*/\1no/g" /etc/ssh/sshd_config \
+    && sed -i "s/#\(Port \).*/\1$port/g" /etc/ssh/sshd_config
+
+RUN useradd -m mpiuser
+WORKDIR /home/mpiuser
+# Configurations for running sshd as non-root.
+COPY --chown=mpiuser sshd_config .sshd_config
+RUN echo "Port $port" >> /home/mpiuser/.sshd_config
+```
+
+이를 바탕으로 이미지를 만드는 경우 MPIJob에는 아래와 같은 설정들이 반영되어야 합니다.
+
+```yaml
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+spec:
+  sshAuthMountPath: /home/mpiuser/.ssh
+  mpiReplicaSpecs:
+    Launcher:
+      template:
+        spec:
+          containers:
+            - name: mpi-launcher
+              securityContext:
+                runAsUser: 1000
+    Worker:
+      template:
+        spec:
+          containers:
+            - name: mpi-worker
+              securityContext:
+                runAsUser: 1000
+              command:
+                - /usr/sbin/sshd
+              args:
+                - -De
+                - -f
+                - /home/mpiuser/.sshd_config
+```

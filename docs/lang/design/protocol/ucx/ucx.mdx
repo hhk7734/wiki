@@ -42,6 +42,7 @@ mkdir build && cd build \
 ```
 
 - `--with-knem=<knemInstallPrefix>`
+- `--enable-mt`: multithreading 지원을 활성화합니다.
 
 ```shell
 make -j $(nproc)
@@ -49,6 +50,10 @@ make -j $(nproc)
 
 ```shell
 make install
+```
+
+```shell
+ldconfig
 ```
 
 ## 설정
@@ -74,5 +79,5 @@ make install
   - 기본적으로 2 개의 가장 좋은 네트워크 장치를 선택합니다.
   - 1 로 설정하면 NUMA locality를 고려하여 1 개의 장치만 사용합니다.
   - `UCX_NET_DEVICES=<dev>`하나만 설정하면 1 개의 장치만 사용합니다.
-- `UCX_LOG_LEVEL=info`
-- `UCX_PROTO_ENABLE=y`, `UCX_PROTO_INFO=y`
+- `UCX_LOG_LEVEL=info`, `UCX_PROTO_ENABLE=y`, `UCX_PROTO_INFO=y`
+  - UCX 관련 로그가 출력됩니다.
