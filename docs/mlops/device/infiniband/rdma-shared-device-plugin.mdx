@@ -56,7 +56,7 @@ kubelet에 디바이스 리소스의 존재를 알리고, Host의 RDMA 디바이
   - `selectors`: 디바이스를 선택하는 데 사용되는 필터입니다.
     - Optional
     - 선언되지 않은 필드는 무시됩니다.
-    - 선언된 필드들은 AND 조건으로 사용되고, 필드의 값들은 OR 조건으로 사용됩니다. EX) vendor "15b3" && deviceID "1017" && (ifName "ib3" || ifName "ib4")
+    - 선언된 필드들은 AND 조건으로 사용되고, 필드의 값들은 OR 조건으로 사용됩니다. e.g., vendor "15b3" && deviceID "1017" && (ifName "ib3" || ifName "ib4")
     - `vendors`: 벤더를 Hex 코드로 표현한 문자열입니다.
       - `cat /sys/class/net/<ifName>/device/vendor`
     - `deviceIDs`: 디바이스 ID를 Hex 코드로 표현한 문자열입니다.

@@ -62,7 +62,7 @@ go mod tidy
     - `//go:build <tagCondition>`에 true로 평가할 태그를 선언합니다.
     - `<tagCondition>`은 괄호`()`, 논리 연산자 `&&`, `||`, `!`, 태그 이름으로 구성됩니다.
 
-Ex) `CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-s' -o app`
+e.g., `CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -a -ldflags '-s' -o app`
 
 :::info
 사용 가능한 `GOOS`와 `GOARCH`는 `go tool dist list | column -c 75 | column -t` 명령어로 알 수 있습니다.

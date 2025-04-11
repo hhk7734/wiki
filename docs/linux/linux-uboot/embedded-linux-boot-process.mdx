@@ -41,7 +41,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 - BL3-2 (Secure-EL1 Payload) image load
   - BL2 loads **the optional BL3-2 image** from platform storage into a platform- specific region of secure memory
 - BL3-3 (Non-trusted Firmware) image load
-  - BL2 loads the BL3-3 image (e.g. **UEFI or other test or boot software**) from platform storage into **non-secure memory** as defined by the platform (0x88000000 for FVPs)
+  - BL2 loads the BL3-3 image (e.g., **UEFI or other test or boot software**) from platform storage into **non-secure memory** as defined by the platform (0x88000000 for FVPs)
 - BL3-1 (EL3 Runtime Firmware) execution
   - BL1 passes control to BL3-1 at the specified entrypoint at EL3
   - BL2 relies on BL3-1 to pass control to BL3-3 once secure state initialization is complete

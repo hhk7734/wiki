@@ -689,7 +689,7 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Container",
 			items: [
-				"mlops/mlops/container/cri-containerd",
+				"mlops/mlops/container/containerd",
 				"mlops/mlops/container/apptainer",
 				"mlops/mlops/container/podman",
 				"mlops/mlops/container/docker",

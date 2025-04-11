@@ -39,7 +39,7 @@ sudo dd if=/dev/zero of=/dev/<device> bs=1M count=100 oflag=direct,dsync
 
 - Data
   - block device image(RBD), object(RGW), file(CephFS)
-  - Data는 저장을 위한 Object로 분할되고(e.g. 4 MB), Object는 stripe unit으로 분할됩니다(e.g. 64 KB).
+  - Data는 저장을 위한 Object로 분할되고(e.g., 4 MB), Object는 stripe unit으로 분할됩니다(e.g., 64 KB).
   - [Data Striping](https://docs.ceph.com/en/reef/architecture/#data-striping)
 - Pool
   - 클라이언트가 인식하는 추상화된 저장공간입니다.

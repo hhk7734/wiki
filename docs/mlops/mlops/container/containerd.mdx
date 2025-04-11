@@ -1,0 +1,101 @@
+---
+id: containerd
+title: containerd
+sidebar_label: containerd
+description: containerd
+keywords:
+  - containerd
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Architecture
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/mlops/mlops/container/containerd-architecture.png")} />
+		<figcaption>containerd Architecture</figcaption>
+	</figure>
+</center>
+
+## 설치
+
+:::info[Reference]
+
+- [containerd GitHub / getting-started.md](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
+
+:::
+
+### 바이너리 설치
+
+```shell
+wget https://github.com/containerd/containerd/releases/download/v2.0.4/containerd-2.0.4-linux-amd64.tar.gz
+```
+
+```shell
+sudo tar xzf containerd-2.0.4-linux-amd64.tar.gz -C /usr/local
+```
+
+```shell
+sudo mkdir -p /usr/local/lib/systemd/system
+```
+
+```shell
+sudo wget https://raw.githubusercontent.com/containerd/containerd/main/containerd.service \
+    -O /usr/local/lib/systemd/system/containerd.service
+```
+
+```shell
+sudo mkdir -p /etc/containerd
+```
+
+```shell
+containerd config default | sudo tee /etc/containerd/config.toml
+```
+
+```shell
+systemctl daemon-reload \
+&& systemctl enable --now containerd
+```
+
+```shell
+wget https://github.com/opencontainers/runc/releases/download/v1.2.6/runc.amd64
+```
+
+```shell
+sudo install -m 755 runc.amd64 /usr/local/sbin/runc
+```
+
+```shell
+wget https://github.com/containernetworking/plugins/releases/download/v1.6.2/cni-plugins-linux-amd64-v1.6.2.tgz
+```
+
+```shell
+sudo mkdir -p /opt/cni/bin
+```
+
+```shell
+sudo tar xzf cni-plugins-linux-amd64-v1.6.2.tgz -C /opt/cni/bin
+```
+
+```shell
+wget https://github.com/containerd/nerdctl/releases/download/v2.0.4/nerdctl-2.0.4-linux-amd64.tar.gz
+```
+
+```shell
+sudo tar xzf nerdctl-2.0.4-linux-amd64.tar.gz -C /usr/local/bin
+```
+
+:::tip
+
+nerdctl-full을 설치하면 containerd, runc, CNI plugins, BuildKit, RootlessKit, slirp4netns, bypass4netns, containerd-fuse-overlayfs 등을 모두 설치합니다.
+
+```shell
+wget https://github.com/containerd/nerdctl/releases/download/v2.0.4/nerdctl-full-2.0.4-linux-amd64.tar.gz
+```
+
+```shell
+sudo tar xzf nerdctl-full-2.0.4-linux-amd64.tar.gz -C /usr/local
+```
+
+:::

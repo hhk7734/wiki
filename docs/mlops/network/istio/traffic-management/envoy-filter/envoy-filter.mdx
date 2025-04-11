@@ -9,6 +9,22 @@ keywords:
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+## Terminology
+
+:::info[Reference]
+
+- [Envoy / Terminology](https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/intro/terminology)
+
+:::
+
+- **Host**: 네트워크 통신이 가능한 Entity로 Envoy 문서에서는 하나의 논리적 네트워크 애플리케이션을 의미합니다.
+- **Downstream**: Envoy에 요청을 보내고 응답을 받는 host입니다.
+- **Upstream**: Envoy로부터 요청을 받고 응답을 보내는 host입니다.
+- **Listener**: downstream에 연결될 수 있는 네임드 네트워크 위치입니다. e.g., port, unix domain socket
+- **Cluster**: Envoy에 연결되는 논리적으로 유사한 upstream host 그룹입니다.
+- **Mesh**: 일관된 네트워크 topology를 제공하기 위해 조정되는 호스트 그룹으로 Envoy 문서에서는 Envoy proxy 그룹입니다.
+- **Runtime configuration**: 실시간으로 변경가능한 설정입니다.
+
 ## EnvoyFilter
 
 - https://istio.io/latest/docs/reference/config/networking/envoy-filter/
