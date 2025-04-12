@@ -99,3 +99,44 @@ sudo tar xzf nerdctl-full-2.0.4-linux-amd64.tar.gz -C /usr/local
 ```
 
 :::
+
+## 설정
+
+### Registry 설정
+
+:::info[Reference]
+
+- [containerd GitHub / hosts.md](https://github.com/containerd/containerd/blob/main/docs/hosts.md)
+
+:::
+
+```toml title="/etc/containerd/config.toml"
+version = 3
+
+[plugins]
+  [plugins.'io.containerd.cri.v1.images']
+    [plugins.'io.containerd.cri.v1.images'.registry]
+      config_path = "/etc/containerd/certs.d"
+```
+
+```toml title="/etc/containerd/certs.d/<registry>/hosts.toml"
+server = "<registryURL>"
+
+[host."<registryURL|mirrorURL>"]
+  capabilities = ["pull", "resolve", "push"]
+  skip_verify = false
+  override_path = false
+```
+
+:::tip[Example]
+
+```toml title="/etc/containerd/certs.d/quay.io/hosts.toml"
+server = "https://quay.io"
+
+[host."http://192.168.31.250:5000/v2/quai.io"]
+  capabilities = ["pull", "resolve", "push"]
+  skip_verify = true
+  override_path = true
+```
+
+:::

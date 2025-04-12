@@ -24,7 +24,25 @@ spec:
             - name: mpi-launcher
               image: ""
               command: [mpirun]
-              args: []
+              args:
+                - -n
+                - "2"
+                - --bind-to
+                - none
+                - --map-by
+                - slot
+                - --mca
+                - pml
+                - ob1
+                - --mca
+                - btl
+                - ^openib
+                - -x
+                - LD_LIBRARY_PATH
+                - -x
+                - PATH
+                - python3
+                - train.py
     Worker:
       replicas: 2
       template:
