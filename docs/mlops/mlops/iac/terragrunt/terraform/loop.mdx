@@ -1,0 +1,52 @@
+---
+id: loop
+title: 반복되는 패턴의 리소스를 count나 for_each로 생성하기
+sidebar_label: count 또는 for_each 사용하기
+description: 반복되는 패턴의 리소스를 count나 for_each로 생성하기
+keywords:
+  - terraform
+  - count
+  - for_each
+---
+
+## count
+
+:::info[Reference]
+
+- [Terraform / Meta-Arguments / count](https://developer.hashicorp.com/terraform/language/meta-arguments/count)
+
+:::
+
+```hcl
+resource "<type>" "<name>" {
+  count = <number>
+
+  # ...
+}
+```
+
+`count.index` 변수는 반복되는 리소스의 인덱스를 나타내며, `0`부터 시작합니다. 예를 들어, `count = 3`으로 설정하면 `count.index`는 순서에 따라 `0`, `1`, `2`의 값을 갖습니다.
+
+count에 의해 생성된 리소스는 `<type>.<name>[<index>]`로 접근할 수 있습니다.
+
+## for_each
+
+:::info[Reference]
+
+- [Terraform / Meta-Arguments / for_each](https://developer.hashicorp.com/terraform/language/meta-arguments/for_each)
+
+:::
+
+```hcl
+resource "<type>" "<name>" {
+  for_each = <map|set>
+
+  # ...
+}
+```
+
+map을 사용하는 경우 `each.key`는 반복되는 리소스에 해당하는 map의 key를 나타내며, `each.value` 변수는 map의 value를 나타냅니다. 예를 들어 `for_each = tomap({a = 1, b = 2 })`로 설정하면 순서에 따라 `each.key`는 `a`와 `b`의 값을 갖고, `each.value`는 `1`과 `2`의 값을 갖습니다.
+
+set을 사용하는 경우 `each.key`와 `each.value`는 반복되는 리소스에 해당하는 set의 member를 나타냅니다. 예를 들어 `for_each = toset(["a", "b"])`로 설정하면 `each.key`와 `each.value`는 같은 값을 가지며, 순서에 따라 `a`와 `b`의 값을 갖습니다.
+
+for_each에 의해 생성된 리소스는 `<type>.<name>[<key>]`로 접근할 수 있습니다.

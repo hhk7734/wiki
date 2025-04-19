@@ -664,6 +664,7 @@ const sidebars: SidebarsConfig = {
 								"mlops/mlops/iac/terragrunt/terraform/import",
 								"mlops/mlops/iac/terragrunt/terraform/remove",
 								"mlops/mlops/iac/terragrunt/terraform/state",
+								"mlops/mlops/iac/terragrunt/terraform/loop",
 								"mlops/mlops/iac/terragrunt/terraform/secret",
 							],
 						},
