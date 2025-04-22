@@ -40,7 +40,6 @@ kubectl rook-ceph ceph osd pool set <pool> <option> <value>
   - `target_size_ratio`: `<targetRatio>`
     - `target_size_bytes`보다 우선 순위가 높으므로, 둘 다 선언하면 `target_size_bytes`는 무시됩니다.
   - `bulk`: `<bool>`
-    - `true`: 규모가 클 것으로 예상되는 pool이라는 설정입니다.
 
 ```shell
 kubectl rook-ceph ceph config set global mon_target_pg_per_osd 100
@@ -50,26 +49,28 @@ kubectl rook-ceph ceph config set global mon_target_pg_per_osd 100
 kubectl rook-ceph ceph osd pool autoscale-status
 ```
 
-- `POOL`
-- `SIZE`: 사용자가 저장한 데이터 크기입니다.
-- `TARGET SIZE`
+- **POOL**
+- **SIZE**: 사용자가 저장한 데이터 크기입니다.
+- **TARGET SIZE**
   - 관리자가 예상하는 `SIZE`입니다.
   - autoscaler는 max(targetSize, `실제 사용자가 저장한 데이터 크기`) 값을 고려합니다.
-- `RATE`
+- **RATE**
   - `복제본 등을 포함한 데이터 크기`/`사용자가 저장한 데이터 크기` 입니다.
   - 단순히 `사용자가 저장한 데이터` + `복제본 1개`인 경우 2.0이 됩니다.
-- `RAW CAPACITY`: CRUSH에 의해 pool이 매핑된 저장 장치의 총 용량입니다.
-- `RATIO`: `SIZE` \* `RATE` / `RAW CAPACITY`
-- `TARGET RATIO`: 관리자가 예상하는 `RATIO`입니다.
-- `EFFECTIVE RATIO`
+- **RAW CAPACITY**: CRUSH에 의해 pool이 매핑된 저장 장치의 총 용량입니다.
+- **RATIO**: `SIZE` \* `RATE` / `RAW CAPACITY`
+- **TARGET RATIO**: 관리자가 예상하는 `RATIO`입니다.
+- **EFFECTIVE RATIO**
   - `TARGET SIZE`가 설정된 경우 예상되는 용량을 고려합니다.
   - `TARGET RATIO`값들을 정규화 합니다.
   - e.g., `TARGET RATIO`가 1.0인 pool이 2개가 있다면, 각각의 `EFFECTIVE RATIO`는 0.5가 됩니다.
-- `BIAS`: 예상되는 PG_NUM에 곱하
-- `PG_NUM`
-- `NEW PG_NUM`
-- `AUTOSCALE`: `on`|`warning`|`off`
-- `BULK`: `True`|`False`
+- **BIAS**: 예상되는 PG_NUM에 곱해지는 가중치로, 1 보다 크면 더 많은 PG_NUM을 할당합니다.
+- **PG_NUM**
+- **NEW PG_NUM**
+- **AUTOSCALE**: `on`|`warning`|`off`
+- **BULK**
+  - `True`|`False`
+  - `BULK` 설정되면 최대치에 가까운 PG_NUM을 할당하고, 상황에 따라 PG_NUM을 줄입니다.
 
 ## PG State
 

@@ -71,6 +71,7 @@ ansible <flags> -m <module> -a <args> '<hostPattern>'
   - `ansible -i <inventory> -m ping '<hostPattern>'`: ansible 실행이 가능한 상태인지 확인합니다.
   - `ansible -i <inventory> -m debug -a "var=hostvars[inventory_hostname]" '<hostPattern>'`: 해당 host들의 변수를 출력합니다.
   - `ansible -i <inventory> -m shell -a "<shellScript>" '<hostPattern>'`: `<shellScript>`를 실행합니다.
+  - `ansible -i <inventory> -b -f 20 -m reboot all`: 모든 host를 20개씩 재부팅합니다.
 
 ## Playbook
 
