@@ -7,6 +7,38 @@ keywords:
   - ip
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S iproute2
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install iproute2
+```
+
+</TabItem>
+
+</Tabs>
+
 ## ip
 
 - https://man7.org/linux/man-pages/man8/ip.8.html

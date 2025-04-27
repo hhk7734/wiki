@@ -1,0 +1,121 @@
+---
+id: audit
+title: Kubernetes Audit 정책 설정하기
+sidebar_label: Audit 정책 설정
+description: Kubernetes Audit 정책 설정하기
+keywords:
+  - kubernetes
+  - audit
+---
+
+## Audit(감사)
+
+Audit 기록은 누가 무엇을 언제 어디서 요청했는지, 그리고 그 요청이 어떻게 처리되었는지를 알 수 있도록 시간순으로 정리한 것입니다.
+
+**kube-apiserver**는 Audit 정책 설정에 따라 Audit 이벤트를 전처리한 후 설정된 백엔드에 저장합니다. 현재는 **log**와 **webhook** 백엔드만 지원합니다.
+
+## Audit 정책
+
+:::info[Reference]
+
+- [Kubernetes / Docs / Auditing](https://kubernetes.io/docs/tasks/debug/debug-cluster/audit/)
+
+:::
+
+```yaml
+apiVersion: audit.k8s.io/v1
+kind: Policy
+# omitStages: []
+# omitManagedFields: false
+rules:
+  - level: <level>
+    users: [<user>]
+    userGroups: [<userGroup>]
+    omitStages: []
+    resources:
+      - group: <group>
+        resources: [<resource>]
+        resourceNames: [<resourceName>]
+    verbs: [<verb>]
+    namespaces: [<namespace>]
+    nonResourceURLs: [<nonResourceURL>]
+```
+
+- `omitStages: []`
+  - 생략하거나 `[]`로 설정하면 적용되지 않습니다.
+  - `RequestReceived`: request는 받았지만 처리하지 않은 상태입니다.
+  - `ResponseStarted`: response header는 보냈지만 body은 보내지 않은 상태로 watch 같은 long-running task에만 사용됩니다.
+  - `ResponseComplete`: response body을 모두 보낸 상태입니다.
+  - `Panic`
+- `omitManagedFields: false`
+  - `true`로 설정하면 managedFields를 기록하지 않습니다.
+  - `false`로 설정하면 managedFields를 기록합니다.
+- `rules: []`
+  - 선언 순서에 맞춰 Audit 이벤트를 매칭시켜보고 첫 번째로 매칭되는 규칙에 따라 Audit 이벤트를 처리합니다.
+  - `level: <level>`
+    - `None`: 매칭되는 이벤트를 기록하지 않습니다.
+    - `Metadata`: user, timestamp, resource, verb 등만 기록합니다.
+    - `Request`: request metadata와 body만 기록합니다. non-resource request는 기록하지 않습니다.
+    - `RequestResponse`: request metadata와 body, response body를 기록합니다.
+  - `users: []`
+    - 생략하거나 `[]`로 설정하면 모든 user에 대해 매칭됩니다.
+  - `userGroups: []`
+    - 생략하거나 `[]`로 설정하면 모든 userGroup에 대해 매칭됩니다.
+  - `verb: []`
+    - 생략하거나 `[]`로 설정하면 모든 verb에 대해 매칭됩니다.
+  - `resources: []`
+    - 선언하언지 않거나 `[]`로 설정하면 모든 resource에 대해 매칭됩니다.
+    - `group: <group>`
+      - 생략하거나 `""`로 설정하면 core API group을 의미합니다.
+    - `resources: []`
+      - 생략, `[]`, `["*"]`로 설정하면 모든 resource와 subresources 대해 매칭됩니다.
+      - `pods`은 pods resource만 의미하며 subresource를 포함하지 않습니다.
+      - `pods/*`은 pods의 모든 subresource를 의미합니다.
+      - `*/scale`은 모든 resource의 scale subresource를 의미합니다.
+    - `resourceNames: []`
+      - 생략하거나 `[]`로 설정하면 모든 resourceName에 대해 매칭됩니다.
+  - `namespaces: []`
+    - 생략하거나 `[]`로 설정하면 모든 namespace에 대해 매칭됩니다.
+    - `""`은 non-namespaced resource를 의미합니다.
+  - `nonResourceURLs: []`
+    - `*`을 쓸 수 있지만 마지막에만 써야합니다.
+      - e.g., `/healthz*`
+  - `omitStages: []`
+    - 생략하거나 `[]`로 설정하면 적용되지 않습니다.
+    - `.omitStages`와의 합집합으로 적용됩니다.
+  - `omitManagedFields: false`
+    - `true`로 설정하면 managedFields를 기록하지 않습니다.
+    - `false`로 설정하면 managedFields를 기록합니다.
+    - 생략하면 `.omitManagedFields` 설정을 따릅니다.
+
+## log 백엔드 설정
+
+```yaml title="/etc/kubernetes/kubeadm-config.yaml"
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+apiServer:
+  extraArgs:
+    - name: audit-policy-file
+      value: /etc/kubernetes/audit-policy/apiserver-audit-policy.yaml
+    - name: audit-log-path
+      value: /var/log/audit/kube-apiserver-audit.log
+    - name: audit-log-maxage
+      value: "30"
+    - name: audit-log-maxbackup
+      value: "10"
+    - name: audit-log-maxsize
+      value: "100"
+  extraVolumes:
+    - name: audit-policy
+      hostPath: /etc/kubernetes/audit-policy
+      mountPath: /etc/kubernetes/audit-policy
+    - name: audit-logs
+      hostPath: /var/log/kubernetes/audit/
+      mountPath: /var/log/audit/
+```
+
+- `--audit-log-maxage=<days>`
+- `--audit-log-maxbackup=<number>`
+- `--audit-log-maxsize=<MB>`
+
+변경 후 [Kubeadm으로 Control Plane 관리하기](/docs/mlops/kubernetes/tools/kubeadm/control-plane)를 참고하여 kube-apiserver를 재시작합니다.

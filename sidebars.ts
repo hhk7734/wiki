@@ -466,6 +466,7 @@ const sidebars: SidebarsConfig = {
 					label: "Kubeadm",
 					items: [
 						"mlops/kubernetes/tools/kubeadm/kubeadm",
+						"mlops/kubernetes/tools/kubeadm/control-plane",
 						"mlops/kubernetes/tools/kubeadm/certs",
 					],
 				},
@@ -530,7 +531,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Security",
-			items: ["mlops/kubernetes/security/security-context"],
+			items: ["mlops/kubernetes/security/security-context", "mlops/kubernetes/security/audit"],
 		},
 		{
 			type: "category",
@@ -1186,8 +1187,8 @@ const sidebars: SidebarsConfig = {
 					label: "Remote",
 					items: [
 						"lang/etc/command-line-tools/remote/ssh",
-						"lang/etc/command-line-tools/remote/mosh",
 						"lang/etc/command-line-tools/remote/zellij",
+						"lang/etc/command-line-tools/remote/rsync",
 					],
 				},
 				{
@@ -1434,10 +1435,15 @@ const sidebars: SidebarsConfig = {
 		"mcu/stm32/stm32-low-power-modes",
 	],
 	storage: [
-		"mlops/storage/csi",
-		"mlops/storage/local-path-provisioner",
-		"mlops/storage/aws-ebs-csi-driver",
-		"mlops/storage/aws-efs-csi-driver",
+		{
+			type: "category",
+			label: "CSI",
+			items: [
+				"mlops/storage/csi/csi",
+				"mlops/storage/csi/aws-ebs-csi-driver",
+				"mlops/storage/csi/aws-efs-csi-driver",
+			],
+		},
 		{
 			type: "category",
 			label: "Ceph",
@@ -1488,6 +1494,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/storage/etc/mdtest",
 			],
 		},
+		"mlops/storage/local-path-provisioner",
 	]
 };
 

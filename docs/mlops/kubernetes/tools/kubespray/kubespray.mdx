@@ -176,6 +176,13 @@ k8s_cluster:
   - `auto_renew_certificates: false`
   - `auto_renew_certificates_systemd_calendar: "*-01,07-01 03:{{ groups['kube_control_plane'].index(inventory_hostname) }}0:00"`
     - [systemd.time](https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html)
+- Audit 로그
+  - [Kubernetes Audit 정책 설정하기](/docs/mlops/kubernetes/security/audit)
+  - `kubernetes_audit: false`
+  - `audit_log_maxage: 30`
+  - `audit_log_maxbackups: 10`
+  - `audit_log_maxsize: 100`
+  - `audit_policy_custom_rules: <rules>`
 - 기타
   - `kubelet_fail_swap_on: <bool>`
   - `kubelet_swap_behavior: UnlimitedSwap|LimitedSwap`

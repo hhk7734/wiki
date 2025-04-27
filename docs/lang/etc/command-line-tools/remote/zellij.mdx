@@ -4,15 +4,52 @@ title: zellij 사용법
 sidebar_label: zellij 사용법
 description: zellij 사용법
 keywords:
-  - ssh
   - zellij
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
-- https://zellij.dev/documentation/installation
+<Tabs
+    defaultValue="asdf"
+    values={[
+        {label: 'asdf', value: 'asdf',},
+        {label: 'Binary', value: 'binary',}
+    ]}
+>
+
+<TabItem value="asdf">
+
+:::info[Reference]
+
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
+
+:::
 
 ```shell
 asdf plugin add zellij
 ```
+
+</TabItem>
+
+<TabItem value="binary">
+
+:::info[Reference]
+
+- [Zellij / Installation](https://zellij.dev/documentation/installation)
+
+:::
+
+```shell
+wget https://github.com/zellij-org/zellij/releases/download/v0.42.2/zellij-x86_64-unknown-linux-musl.tar.gz
+```
+
+```shell
+tar xzf zellij-x86_64-unknown-linux-musl.tar.gz
+```
+
+</TabItem>
+
+</Tabs>

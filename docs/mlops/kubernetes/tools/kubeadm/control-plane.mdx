@@ -1,0 +1,95 @@
+---
+id: control-plane
+title: Kubeadm으로 Control Plane 관리하기
+sidebar_label: Control Plane 관리
+description: Kubeadm으로 Control Plane 관리하기
+keywords:
+  - Kubeadm
+  - Control Plane
+---
+
+## ClusterConfiguration 설정하기
+
+:::info[Reference]
+
+- [Kubernetes / Docs / kubeadm Configuration](https://kubernetes.io/docs/reference/config-api/kubeadm-config.v1beta4/)
+
+:::
+
+```yaml title="/etc/kubernetes/kubeadm-config.yaml"
+apiVersion: kubeadm.k8s.io/v1beta4
+kind: ClusterConfiguration
+```
+
+- `apiServer`
+  - `extraArgs: []`
+    - `name: <name>`
+    - `value: <value>`
+  - `extraEnvs: []`
+    - `name: <name>`
+    - `value: <value>`
+    - `valueFrom`
+  - `extraVolumes: []`
+    - `name: <name>`
+    - `hostPath: <hostPath>`
+    - `mountPath: <mountPath>`
+    - `readOnly: <bool>`
+      - 기본값: `false`
+    - `pathType: DirectoryOrCreate|Directory|FileOrCreate|File|Socket|CharDevice|BlockDevice`
+      - 기본값: `""`
+  - `certSANs: []`
+    - kube-apiserver의 인증서에 추가할 Subject Alternative Name을 설정합니다.
+    - IP 또는 domain을 설정할 수 있습니다.
+- `etcd`
+  - `external`
+    - 외부 etcd를 사용합니다.
+  - `local`
+    - etcd를 static Pod으로 실행합니다.
+- `controllerManager`
+  - `extraArgs: []`
+  - `extraEnvs: []`
+  - `extraVolumes: []`
+- `scheduler`
+  - `extraArgs: []`
+  - `extraEnvs: []`
+  - `extraVolumes: []`
+
+## 설정 적용하기
+
+설정을 변경한 후 아래 명령어를 실행하면 static Pod manifest가 변경되고, kubelet이 이를 감지하여 static Pod를 재시작합니다.
+
+```shell
+kubeadm init phase control-plane <command> \
+  --config kubeadm-config.yaml \
+  [<flag> ...]
+```
+
+- `<command>`
+  - `apiserver`: kube-apiserver static Pod manifest를 생성합니다.
+  - `controller-manager`: kube-controller-manager static Pod manifest를 생성합니다.
+  - `scheduler`: kube-scheduler static Pod manifest를 생성합니다.
+  - `all`
+
+```shell
+kubeadm init phase etcd local \
+  --config kubeadm-config.yaml \
+  [<flag> ...]
+```
+
+:::warning
+
+설정은 변경되지 않았지만, 설정에서 사용된 파일이 변경되어 kube-apiserver를 재시작해야하는 경우 아래 명령어를 사용합니다.
+
+```shell
+crictl pods --namespace kube-system --name 'kube-apiserver-*' -q \
+    | xargs crictl rmp -f
+```
+
+모든 컴포넌트를 재시작해야하는 경우 아래 명령어를 사용합니다.
+
+```shell
+crictl pods --namespace kube-system --name 'kube-scheduler-*|kube-controller-manager-*|kube-apiserver-*|etcd-*' -q \
+    | xargs crictl rmp -f
+```
+
+:::

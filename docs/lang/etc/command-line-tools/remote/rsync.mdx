@@ -1,0 +1,42 @@
+---
+id: rsync
+title: rsync 사용법
+sidebar_label: rsync 사용법
+description: rsync 사용법
+keywords:
+  - rsync
+---
+
+## 사용법
+
+```shell
+rsync [<flag> ...] <src> [<src> ...] <dst>
+```
+
+- `<flag>`
+  - `-a|--archive`: archive 모드(`-rlptgoD`)
+  - `-v|--verbose`
+  - `-h|--human-readable`
+  - `-P|--partial --progress`
+  - `-e|--rsh=<remoteShellCommand>`
+    - 원격 접속을 위한 명령어를 설정합니다.
+    - e.g., `ssh -J <user>@<proxyHost>`
+  - `-z|--compress`
+    - 파일을 압축해서 전송합니다.
+    - 네트워크 속도가 느릴 때 유용하며, 네트워크 속도가 빠른경우 오히려 느려질 수 있습니다.
+  - `--include=<pattern>`
+  - `--exclude=<pattern>`
+  - `--delete`: `<src>`에 없는 파일을 `<dst>`에서 삭제합니다.
+- `<src>`
+  - `<dir>`: 디렉토리 자체를 복사합니다.
+  - `<dir>/`: 디렉토리 안의 파일들을 복사합니다.
+  - `[<user>@]<host>:<path>`
+- `<dst>`
+  - 경로 마지막의 `/`가 영향을 주지 않는다는 점을 제외하면 `<src>`와 같습니다.
+
+## include/exclude pattern
+
+- `/`로 끝나면 디렉토리만 매치시킵니다.
+- `*`는 0개 이상의 문자와 매치되며 `/`를 포함하지 않습니다.
+- `**`는 0개 이상의 문자와 매치되며 `/`를 포함합니다.
+- `?`는 `/`를 제외한 1개 문자와 매치됩니다.
