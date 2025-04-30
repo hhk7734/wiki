@@ -20,13 +20,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 설치
 
+### 바이너리 설치
+
 :::info[Reference]
 
 - [containerd GitHub / getting-started.md](https://github.com/containerd/containerd/blob/main/docs/getting-started.md)
+- [nerdctl GitHub / README.md # Install](https://github.com/containerd/nerdctl?tab=readme-ov-file#install)
+- [BuildKit GitHub / README.md # Systemd socket activation](https://github.com/moby/buildkit?tab=readme-ov-file#systemd-socket-activation)
+- [BuildKit GitHub / docs / buildkitd.toml.md](https://github.com/moby/buildkit/blob/master/docs/buildkitd.toml.md)
 
 :::
 
-### 바이너리 설치
+#### containerd
 
 ```shell
 wget https://github.com/containerd/containerd/releases/download/v2.0.4/containerd-2.0.4-linux-amd64.tar.gz
@@ -58,6 +63,8 @@ systemctl daemon-reload \
 && systemctl enable --now containerd
 ```
 
+#### runc
+
 ```shell
 wget https://github.com/opencontainers/runc/releases/download/v1.2.6/runc.amd64
 ```
@@ -65,6 +72,8 @@ wget https://github.com/opencontainers/runc/releases/download/v1.2.6/runc.amd64
 ```shell
 sudo install -m 755 runc.amd64 /usr/local/sbin/runc
 ```
+
+#### CNI plugins
 
 ```shell
 wget https://github.com/containernetworking/plugins/releases/download/v1.6.2/cni-plugins-linux-amd64-v1.6.2.tgz
@@ -77,6 +86,8 @@ sudo mkdir -p /opt/cni/bin
 ```shell
 sudo tar xzf cni-plugins-linux-amd64-v1.6.2.tgz -C /opt/cni/bin
 ```
+
+#### nerdctl
 
 ```shell
 wget https://github.com/containerd/nerdctl/releases/download/v2.0.4/nerdctl-2.0.4-linux-amd64.tar.gz
@@ -99,6 +110,64 @@ sudo tar xzf nerdctl-full-2.0.4-linux-amd64.tar.gz -C /usr/local
 ```
 
 :::
+
+#### BuildKit
+
+```shell
+wget https://github.com/moby/buildkit/releases/download/v0.21.0/buildkit-v0.21.0.linux-amd64.tar.gz
+```
+
+```shell
+sudo tar xzf buildkit-v0.21.0.linux-amd64.tar.gz -C /usr/local
+```
+
+```shell
+sudo mkdir -p /etc/buildkit
+```
+
+```toml title="/etc/buildkit/buildkitd.toml"
+[worker.oci]
+  enabled = false
+
+[worker.containerd]
+  enabled = true
+  namespace = "k8s.io"
+
+[registry."<registry>"]
+  http = true
+```
+
+:::note[Example]
+
+```toml title="/etc/buildkit/buildkitd.toml"
+[registry."quay.io"]
+  mirrors = ["192.168.31.250:5000/quai.io"]
+
+[registry."192.168.31.250:5000"]
+  http = true
+```
+
+:::
+
+```shell
+sudo mkdir -p /usr/local/lib/systemd/system
+```
+
+```shell
+sudo wget https://raw.githubusercontent.com/moby/buildkit/refs/heads/master/examples/systemd/system/buildkit.socket \
+    -O /usr/local/lib/systemd/system/buildkit.socket
+```
+
+```shell
+sudo wget https://raw.githubusercontent.com/moby/buildkit/refs/heads/master/examples/systemd/system/buildkit.service \
+    -O /usr/local/lib/systemd/system/buildkit.service
+```
+
+```shell
+systemctl daemon-reload \
+&& systemctl enable --now buildkit.socket \
+&& systemctl enable --now buildkit.service
+```
 
 ## 설정
 
@@ -128,7 +197,7 @@ server = "<registryURL>"
   override_path = false
 ```
 
-:::tip[Example]
+:::note[Example]
 
 ```toml title="/etc/containerd/certs.d/quay.io/hosts.toml"
 server = "https://quay.io"

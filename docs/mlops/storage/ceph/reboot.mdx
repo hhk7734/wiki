@@ -11,14 +11,18 @@ keywords:
 ## 재시작 전 설정
 
 ```shell
-kubectl rook-ceph ceph osd set --help
+kubectl rook-ceph ceph osd set <option>
 ```
 
-- `<flag>`
-  - `pause`: 읽기/쓰기 작업을 중지합니다.(in, out, up, down 상태에 영향을 주진 않습니다.)
-  - `noout`: OSD가 out으로 처리되는 것을 막습니다.
+- `<option>`
+  - `pause`
+    - 읽기/쓰기 작업을 중지합니다.(in, out, up, down 상태에 영향을 주진 않습니다.)
+    - 스토리지 클러스터 **전체를 종료해야하는 경우**에만 사용합니다.
+  - `noout`
+    - OSD가 out으로 처리되는 것을 막습니다.
     - OSD가 MON에게 report하지 않으면 `out`으로 처리됩니다.
-  - `nodown`: OSD가 down으로 처리되는 것을 막습니다.
+  - `nodown`
+    - OSD가 down으로 처리되는 것을 막습니다.
     - 네트워크 이슈 등으로 인해 heartbeat 문제가 생기면 `down`으로 처리됩니다.
   - `nobackfill`
   - `norebalance`
@@ -31,7 +35,7 @@ kubectl rook-ceph ceph osd set --help
 ## 재시작 후 설정
 
 ```shell
-kubectl rook-ceph ceph osd unset --help
+kubectl rook-ceph ceph osd unset <option>
 ```
 
 재시작 후 k8s 상태를 확인합니다. 문제가 없으면 재시작 전에 `set`했던 플래그들을 모두 `unset` 명령어로 해제합니다.
