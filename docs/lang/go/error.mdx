@@ -77,6 +77,18 @@ func (e *CustomError) Error() string {
 	}
 ```
 
+## Error 합치기(Join)
+
+```go
+import (
+	"errors"
+)
+
+	// ...
+	err := errors.Join(err1, err2)
+	// ...
+```
+
 ## Panic And Recover
 
 ```go

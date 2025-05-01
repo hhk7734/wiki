@@ -16,6 +16,11 @@ keywords:
 asdf plugin add golang
 ```
 
+```shell title="~/.zshrc"
+export ASDF_GOLANG_MOD_VERSION_ENABLED="false"
+. ${ASDF_DATA_DIR:-$HOME/.asdf}/plugins/golang/set-env.zsh
+```
+
 :::info
 `go get`이나 `go install`을 사용한 후에는 `asdf reshim golang` 명령어를 실행해야 합니다.
 :::

@@ -13,10 +13,14 @@ keywords:
 
 ## ServiceMonitor
 
-- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#servicemonitor
-- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
+:::info[Reference]
 
-수집하고 싶은 `Service` 정보 등록
+- [Prometheus Operator / Docs / API reference # ServiceMonitor](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.ServiceMonitor)
+- [Prometheus / Docs / Configuration # scrape_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
+
+:::
+
+ServiceMonitor는 수집하고 싶은 `Service`를 등록하는 CRD입니다. [kubernetes_sd_configs](#kubernetes_sd_configs)가 `role: endpoints` 설정과 함께 자동으로 추가되고 관련 label이 추가됩니다.
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -71,17 +75,33 @@ spec:
   - `metricRelabelings: []`
     - [metric_relabel_configs](#metric_relabel_configs)
 
-[kubernetes_sd_configs](#kubernetes_sd_configs) `role: endpoints`가 자동으로 추가됩니다.
+:::tip
+
+자동으로 추가된 label을 제거하려면 아래 설정을 추가하면 됩니다.
+
+```yaml
+spec:
+  endpoints:
+    - relabelings:
+        - action: labeldrop
+          regex: (container|endpoint|namespace|pod|service)
+      metricRelabelings:
+        - action: labeldrop
+          regex: instance
+```
+
+:::
 
 ## PodMonitor
 
-- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#podmonitor
+:::info[Reference]
 
-수집하고 싶은 `Pod` 정보 등록
+- [Prometheus Operator / Docs / API reference # PodMonitor](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1.PodMonitor)
+- [Prometheus / Docs / Configuration # scrape_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
 
-:::info
-Service가 없는 Pod나, Service가 있지만 그 중 특정 Label이 있는 Pod를 모니터링할 때만 사용하고, 그 외에는 ServiceMonitor를 사용하시는 것이 좋습니다.
 :::
+
+PodMonitor는 수집하고 싶은 `Pod`을 등록하는 CRD입니다. Service가 없는 Pod이나, Service가 있지만 그 중 특정 Label이 있는 Pod을 모니터링할 때만 사용하고, 그 외에는 ServiceMonitor를 사용하시는 것이 좋습니다.
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1
@@ -124,7 +144,14 @@ spec:
 
 ## ScrapeConfig
 
-- https://github.com/prometheus-operator/prometheus-operator/blob/main/Documentation/api.md#scrapeconfig
+:::info[Reference]
+
+- [Prometheus Operator / Docs / API reference # ScrapeConfig](https://prometheus-operator.dev/docs/api-reference/api/#monitoring.coreos.com/v1alpha1.ScrapeConfig)
+- [Prometheus / Docs / Configuration # scrape_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)
+
+:::
+
+ScrapeConfig는 ServiceMonitor나 PodMonitor로 설정하기 어려운 경우에 사용하는 CRD입니다.
 
 ```yaml
 apiVersion: monitoring.coreos.com/v1alpha1
@@ -146,7 +173,11 @@ spec:
 
 ### kubernetes_sd_configs
 
-- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config
+:::info[Reference]
+
+- [Prometheus / Docs / Configuration # kubernetes_sd_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#kubernetes_sd_config)
+
+:::
 
 <br />
 
@@ -164,7 +195,11 @@ spec:
 
 ### relabel_configs
 
-- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config
+:::info[Reference]
+
+- [Prometheus / Docs / Configuration # relabel_config](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#relabel_config)
+
+:::
 
 스크랩하기 전에 서비스 디스커버리 등에 의해 설정된 레이블을 조작하는 설정입니다. 설정된 순서로 실행됩니다. `__`로 시작하는 레이블은 리레이블링 후 제거됩니다.
 
@@ -203,7 +238,11 @@ spec:
 
 ### metric_relabel_configs
 
-- https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs
+:::info[Reference]
+
+- [Prometheus / Docs / Configuration # metric_relabel_configs](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#metric_relabel_configs)
+
+:::
 
 스크랩한 후 저장하기 전에 레이블을 조작하는 설정입니다. 설정 방법은 `relabel_configs`와 같습니다.
 
