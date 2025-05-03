@@ -468,6 +468,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/kubernetes/tools/kubeadm/kubeadm",
 						"mlops/kubernetes/tools/kubeadm/control-plane",
 						"mlops/kubernetes/tools/kubeadm/certs",
+						"mlops/kubernetes/tools/kubeadm/upgrade",
 					],
 				},
 				{

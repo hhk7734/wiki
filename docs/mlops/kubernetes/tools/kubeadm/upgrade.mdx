@@ -1,0 +1,131 @@
+---
+id: upgrade
+title: Kubeadm으로 Kubernetes Cluster 업그레이드하기
+sidebar_label: Cluster 업그레이드
+description: Kubeadm으로 Kubernetes Cluster 업그레이드하기
+keywords:
+  - Kubeadm
+  - kubernetes
+  - upgrade
+---
+
+:::info[Reference]
+
+- [Kubernetes / Docs / Upgrading kubeadm clusters](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
+
+:::
+
+## 사전 준비 사항
+
+업그레이드할 버전을 선택합니다. [Kubernetes / Version Skew Policy](https://kubernetes.io/releases/version-skew-policy/)에 따라 minor 버전 1 증가 또는 patch 버전 증가만 가능합니다.
+
+[Kubernetes GitHub / CHANGELOG](https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG)를 읽고 어떤 기능이 추가되고 제거되었는지 확인합니다.
+
+:::tip
+
+[kubent](https://github.com/doitintl/kube-no-trouble)는 Kubernetes 클러스터에 deprecated된 API를 사용하는지 확인하는 도구입니다.
+[asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)를 참고하여 kubent를 설치합니다.
+
+```shell
+asdf plugin add kubent
+```
+
+아래 명령어를 실행하여 deprecated된 API를 사용하는지 확인합니다.
+
+```shell
+kubent
+```
+
+:::
+
+## Control Plane Node 업그레이드
+
+### 첫 번째 Control Plane Node
+
+타겟 버전의 kubeadm을 설치한 후 아래 명령어를 실행하여 업그레이드 계획을 확인합니다.
+
+```shell
+kubeadm upgrade plan
+```
+
+```shell
+sudo kubeadm upgrade apply v<version>
+```
+
+위 명령어가 실행되면
+
+- 클러스터가 업그레이드 가능한 상태인지 확인합니다.
+- Version Skey Policy를 따르는지 확인합니다.
+- control plane component들의 이미지가 있는지 또는 pull 가능한지 확인합니다.
+- control plane component들의 설정이 업그레이드가 필요한 경우 생성하거나 유저가 제공한 설정을 사용합니다.
+- control plane component들을 업그레이드합니다. 실패하면 롤백합니다.
+- 새로운 CoreDNS, kube-proxy manifest를 적용하고, 필요한 RBAC 설정을 생성합니다.
+- apiserver의 인증서 만료가 180일 이내인 경우 인증서를 갱신합니다.
+
+### 추가된 Control Plane Node
+
+타겟 버전의 kubeadm을 설치한 후 아래 명령어를 실행하여 업그레이드합니다.
+
+```shell
+sudo kubeadm upgrade node
+```
+
+위 명령어가 실행되면
+
+- 클러스터에서 ClusterConfiguration을 가져옵니다.
+- 상황에 따라 kube-apiserver의 인증서를 백업합니다.
+- control plane component들의 static Pod manifest를 업그레이드합니다.
+- kubelet 설정을 업그레이드합니다.
+
+### kubelet/kubectl 업그레이드
+
+kubelet을 업그레이드하기 전에 해당 노드의 Pod을 모두 축출합니다.
+
+```shell
+kubectl drain <node> --ignore-daemonsets
+```
+
+타겟 버전의 kubelet/kubectl을 설치하고 kubelet을 재시작합니다.
+
+```shell
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+```
+
+업그레이드된 Node를 다시 스케줄 가능 상태로 변경합니다.
+
+```shell
+kubectl uncordon <node>
+```
+
+## Worker Node 업그레이드
+
+타겟 버전의 kubeadm을 설치한 후 아래 명령어를 실행합니다.
+
+```shell
+sudo kubeadm upgrade node
+```
+
+위 명령어가 실행되면
+
+- 클러스터에서 ClusterConfiguration을 가져옵니다.
+- kubelet 설정을 업그레이드합니다.
+
+kubelet을 업그레이드하기 전에 해당 노드의 Pod을 모두 축출합니다.
+
+```shell
+kubectl drain <node> --ignore-daemonsets
+```
+
+타겟 버전의 kubelet/kubectl을 설치하고 kubelet을 재시작합니다.
+
+```shell
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+```
+
+업그레이드된 Node를 다시 스케줄 가능 상태로 변경합니다.
+
+```shell
+kubectl uncordon <node>
+```
