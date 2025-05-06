@@ -1,0 +1,56 @@
+---
+id: upgrade
+title: Kubespray로 Kubernetes Cluster 업그레이드하기
+sidebar_label: Cluster 업그레이드
+description: Kubespray로 Kubernetes Cluster 업그레이드하기
+keywords:
+  - Kubespray
+  - kubernetes
+  - upgrade
+---
+
+## 사전 준비 사항
+
+[Kubeadm으로 Kubernetes Cluster 업그레이드하기](/docs/mlops/kubernetes/tools/kubeadm/upgrade)의 사전 준비 사항을 참고해주세요.(업그레이드 과정을 읽어보는 것도 좋습니다.)
+
+Kubernetes 버전만 업그레이드하면 되는 경우 `kube_version` 설정만 변경하고, Kubespray도 업그레이드해야하는 경우 타겟 버전의 **kubespray/inventory/sample**의 변경사항을 기존 inventory 디렉토리에 반영합니다.
+
+## Cluster 업그레이드
+
+:::info[Reference]
+
+- [Kubespray / Operations / Upgrading Kubernetes](https://kubespray.io/#/docs/operations/upgrades)
+
+:::
+
+`facts.yml` 플레이북을 실행하여 클러스터 정보를 수집합니다.
+
+```shell
+ansible-playbook -i <inventory> -b playbooks/facts.yml
+```
+
+:::warning
+
+업그레이드를 진행하는 Node는 drain되므로, Pod이 축출됩니다. Pod이 축출되면 서비스가 중단될 수 있으므로 주의해야합니다.
+
+:::
+
+kube_control_plane, etcd로 범위를 설정하여 control plane Node만 먼저 업그레이드합니다. 하나씩 업그레이드 되며, 각 Node의 업그레이드 간격은 길어도 문제 없습니다.
+
+```shell
+ansible-playbook -i <inventory> -b upgrade-cluster.yml --limit "kube_control_plane:etcd"
+```
+
+worker Node를 업그레이드합니다.
+
+```shell
+ansible-playbook -i <inventory> -b upgrade-cluster.yml --limit <node>
+```
+
+`upgrade-cluster.yml` 플레이북 사용 시 아래 변수들을 사용할 수 있습니다.
+
+- `serial: 20%`: 1 로 설정하면 worker Node를 1 개씩 업그레이드합니다.
+- `upgrade_node_confirm: false`: `true`로 설정 시 Node를 drain하기 전에 진행 여부를 확인합니다.
+- `upgrade_node_pause_seconds: 0`: `upgrade_node_confirm`가 `false`인 경우 Node를 drain하기 전에 대기하는 시간입니다.
+- `upgrade_node_post_upgrade_confirm: false`: `true`로 설정 시 Node를 uncordon하기 전에 진행 여부를 확인합니다.
+- `upgrade_node_post_upgrade_pause_seconds: 0`: `upgrade_node_post_upgrade_confirm`가 `false`인 경우 Node를 uncordon하기 전에 대기하는 시간입니다.

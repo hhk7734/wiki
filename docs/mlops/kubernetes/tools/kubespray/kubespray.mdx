@@ -192,7 +192,8 @@ k8s_cluster:
 
 ```shell
 ansible-playbook -i <inventory> -b cluster.yml \
-  -e kubeconfig_localhost=true
+  -e kubeconfig_localhost=true \
+  -e kubectl_localhost=true
 ```
 
 ## 클러스터 삭제

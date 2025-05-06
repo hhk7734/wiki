@@ -17,11 +17,26 @@ keywords:
 
 :::
 
+:::warning
+
+kube-system Namespace의 **kubeadm-config** ConfigMap에 저장된 설정이 SSOT입니다.
+
+**/etc/kubernetes/kubeadm-config.yaml**을 사용하기 전/후에 `ClusterConfiguration`이 kubeadm-config의 내용과 같은지 확인해야합니다.
+
+파일을 변경한 경우에는 아래 명령어를 사용하여 kubeadm-config에 변경사항을 반영합니다.
+
+```shell
+kubeadm init phase upload-config kubeadm --config=/etc/kubernetes/kubeadm-config.yaml
+```
+
+:::
+
 ```yaml title="/etc/kubernetes/kubeadm-config.yaml"
 apiVersion: kubeadm.k8s.io/v1beta4
 kind: ClusterConfiguration
 ```
 
+- `kubernetesVersion: <version>`
 - `apiServer`
   - `extraArgs: []`
     - `name: <name>`
@@ -61,7 +76,7 @@ kind: ClusterConfiguration
 
 ```shell
 kubeadm init phase control-plane <command> \
-  --config kubeadm-config.yaml \
+  --config=/etc/kubernetes/kubeadm-config.yaml \
   [<flag> ...]
 ```
 
@@ -70,12 +85,16 @@ kubeadm init phase control-plane <command> \
   - `controller-manager`: kube-controller-manager static Pod manifest를 생성합니다.
   - `scheduler`: kube-scheduler static Pod manifest를 생성합니다.
   - `all`
+- `<flag>`
+  - `--config=<file>`: `ClusterConfiguration` 설정 파일을 지정합니다.
 
 ```shell
 kubeadm init phase etcd local \
-  --config kubeadm-config.yaml \
+  --config=/etc/kubernetes/kubeadm-config.yaml \
   [<flag> ...]
 ```
+
+- `--config=<file>`: `ClusterConfiguration` 설정 파일을 지정합니다.
 
 :::warning
 

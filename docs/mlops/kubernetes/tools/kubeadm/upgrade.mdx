@@ -9,6 +9,9 @@ keywords:
   - upgrade
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 :::info[Reference]
 
 - [Kubernetes / Docs / Upgrading kubeadm clusters](https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/)
@@ -40,17 +43,38 @@ kubent
 
 ## Control Plane Node 업그레이드
 
-### 첫 번째 Control Plane Node
+:::tip
+
+control plane component들을 업그레이드하기 전에 drain을 먼저 실행하여 Pod을 모두 축출하고, kubelet 업그레이드까지 완료한 후에 uncordon을 실행해도 됩니다.
+
+:::
+
+한 번에 하나씩, 첫 번째 Node부터 업그레이드를 진행해야 합니다.
+
+<Tabs
+    defaultValue="firstNode"
+    values={[
+        {label: 'First Node', value: 'firstNode',},
+        {label: 'The Other Nodes', value: 'theOtherNodes',}
+    ]}
+>
+
+<TabItem value="firstNode">
 
 타겟 버전의 kubeadm을 설치한 후 아래 명령어를 실행하여 업그레이드 계획을 확인합니다.
 
 ```shell
-kubeadm upgrade plan
+kubeadm upgrade plan [<version>]
 ```
 
 ```shell
-sudo kubeadm upgrade apply v<version>
+sudo kubeadm upgrade apply <version> [<flag> ...]
 ```
+
+- `--config=<file>`: `UpgradeConfiguration` 설정 파일을 지정합니다.
+- `--ignore-preflight-errors=all`
+
+<br />
 
 위 명령어가 실행되면
 
@@ -62,13 +86,20 @@ sudo kubeadm upgrade apply v<version>
 - 새로운 CoreDNS, kube-proxy manifest를 적용하고, 필요한 RBAC 설정을 생성합니다.
 - apiserver의 인증서 만료가 180일 이내인 경우 인증서를 갱신합니다.
 
-### 추가된 Control Plane Node
+</TabItem>
+
+<TabItem value="theOtherNodes">
 
 타겟 버전의 kubeadm을 설치한 후 아래 명령어를 실행하여 업그레이드합니다.
 
 ```shell
-sudo kubeadm upgrade node
+sudo kubeadm upgrade node [<flag> ...]
 ```
+
+- `--config=<file>`: `UpgradeConfiguration` 설정 파일을 지정합니다.
+- `--ignore-preflight-errors=all`
+
+<br />
 
 위 명령어가 실행되면
 
@@ -77,19 +108,28 @@ sudo kubeadm upgrade node
 - control plane component들의 static Pod manifest를 업그레이드합니다.
 - kubelet 설정을 업그레이드합니다.
 
-### kubelet/kubectl 업그레이드
+</TabItem>
+
+</Tabs>
 
 kubelet을 업그레이드하기 전에 해당 노드의 Pod을 모두 축출합니다.
 
 ```shell
-kubectl drain <node> --ignore-daemonsets
+kubectl drain \
+  --ignore-daemonsets \
+  --delete-emptydir-data \
+  <node>
+```
+
+```shell
+sudo systemctl stop kubelet
 ```
 
 타겟 버전의 kubelet/kubectl을 설치하고 kubelet을 재시작합니다.
 
 ```shell
 sudo systemctl daemon-reload
-sudo systemctl restart kubelet
+sudo systemctl start kubelet
 ```
 
 업그레이드된 Node를 다시 스케줄 가능 상태로 변경합니다.
@@ -114,14 +154,21 @@ sudo kubeadm upgrade node
 kubelet을 업그레이드하기 전에 해당 노드의 Pod을 모두 축출합니다.
 
 ```shell
-kubectl drain <node> --ignore-daemonsets
+kubectl drain \
+  --ignore-daemonsets \
+  --delete-emptydir-data \
+  <node>
+```
+
+```shell
+sudo systemctl stop kubelet
 ```
 
 타겟 버전의 kubelet/kubectl을 설치하고 kubelet을 재시작합니다.
 
 ```shell
 sudo systemctl daemon-reload
-sudo systemctl restart kubelet
+sudo systemctl start kubelet
 ```
 
 업그레이드된 Node를 다시 스케줄 가능 상태로 변경합니다.
