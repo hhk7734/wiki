@@ -65,4 +65,4 @@ ae7a5d9de5cb  18 minutes ago  /bin/sh -c mkdir dir2                          10.
 
 container builder의 변화에 따라 달라질 수 있지만 기본적으로 `FROM`, `COPY`, `RUN` 처럼 파일 시스템에 변화를 주는 명령어는 새로운 레이어를 생성하고, `ENV`, `ARG`, `LABEL`, `ENTRYPOINT`, `CMD` 등의 명령어 처럼 파일 시스템에 변화를 주지 않는 명령어는 메타데이터만 변경하므로 새로운 레이어를 생성하지 않습니다.
 
-여기서 주목할 점은 overlayfs의 규칙에 따라 `layer 3`에 있는 dir1은 `layer 5`에서 whiteout 처리되어 최종적으로 삭제되어 보이기만 하고 실제로는 삭제되지 않았기 때문에 `layer 5`가 이미지 크기에 영향을 주지 않습니다.
+여기서 주목할 점은 overlayfs의 규칙에 따라 `layer 3`에 있는 dir1은 `layer 5`에서 whiteout 처리되어 삭제된 것 처럼 보이지만 실제로는 삭제되지 않았습니다.
