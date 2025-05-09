@@ -707,6 +707,7 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/container/build/dockerignore",
 					],
 				},
+				"mlops/mlops/container/s6-overlay",
 			],
 		},
 		{

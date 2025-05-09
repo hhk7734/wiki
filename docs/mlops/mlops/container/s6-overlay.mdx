@@ -1,0 +1,126 @@
+---
+id: s6-overlay
+title: s6-overlay로 컨테이너 프로세스 관리하기
+sidebar_label: s6-overlay
+description: s6-overlay로 컨테이너 프로세스 관리하기
+keywords:
+  - s6-overlay
+  - s6
+  - container
+---
+
+:::info[Reference]
+
+- [s6-overlay GitHub](https://github.com/just-containers/s6-overlay)
+
+:::
+
+## s6-overlay
+
+> s6 is a collection of utilities revolving around process supervision and management, logging, and system initialization.
+
+s6-overlay는 s6를 사용하여 컨테이너의 **프로세스들**을 관리하도록 도와주는 도구 모음입니다.
+
+컨테이너를 실행 후 프로세스를 보면 아래와 같은 구조와 로그를 확인할 수 있습니다.
+
+```shell
+root@6a91358e31c0:/# pstree
+s6-svscan-+-rc.init---<mainService>
+          |-s6-supervise---s6-linux-init-s
+          |-s6-supervise---<service>
+          |-s6-supervise
+          `-s6-supervise---s6-ipcserverd
+```
+
+```shell
+s6-rc: info: service s6rc-oneshot-runner: starting
+s6-rc: info: service s6rc-oneshot-runner successfully started
+s6-rc: info: service fix-attrs: starting
+s6-rc: info: service fix-attrs successfully started
+s6-rc: info: service legacy-cont-init: starting
+s6-rc: info: service legacy-cont-init successfully started
+s6-rc: info: service test-service: starting
+s6-rc: info: service test-service successfully started
+s6-rc: info: service legacy-services: starting
+s6-rc: info: service legacy-services successfully started
+
+# 메인 서비스 실행
+# ...
+
+s6-rc: info: service legacy-services: stopping
+s6-rc: info: service legacy-services successfully stopped
+s6-rc: info: service test-service: stopping
+s6-rc: info: service test-service successfully stopped
+s6-rc: info: service legacy-cont-init: stopping
+s6-rc: info: service legacy-cont-init successfully stopped
+s6-rc: info: service fix-attrs: stopping
+s6-rc: info: service fix-attrs successfully stopped
+s6-rc: info: service s6rc-oneshot-runner: stopping
+s6-rc: info: service s6rc-oneshot-runner successfully stopped
+```
+
+## 설치
+
+```dockerfile
+FROM ubuntu:22.04
+
+ARG S6_OVERLAY_VERSION=3.2.1.0
+
+# 2: Stop the container
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    xz-utils \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz \
+    && curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz \
+    && tar -C / -Jxpf s6-overlay-noarch.tar.xz \
+    && tar -C / -Jxpf s6-overlay-x86_64.tar.xz \
+    && rm s6-overlay-noarch.tar.xz \
+    && rm s6-overlay-x86_64.tar.xz
+
+ENTRYPOINT [ "/init" ]
+```
+
+## 서비스 설정
+
+### 디렉토리 구조
+
+```shell
+/etc/s6-overlay/s6-rc.d/
+├── user/
+│   ├── contents.d/
+│   │   ├── <service>
+│   │   └── ...
+│   └── ...
+├── <service>/
+│   ├── type
+│   ├── run
+│   ├── dependencies.d/
+│   │   ├── base
+│   │   ├── <dependency>
+│   │   └── ...
+│   └── ...
+└── ...
+```
+
+- `/etc/s6-overlay/s6-rc.d`
+  - `user`
+    - 항상 실행되는 서비스입니다.
+    - `contents.d`에 있는 파일들의 이름에 해당한는 서비스가 의존성에 따라 실행됩니다.
+  - `<service>`
+    - 사용자 정의 서비스입니다.
+    - `type`
+      - oneshot 또는 longrun을 파일에 작성합니다.
+      - `user`는 bundle입니다.
+    - `run`: 실행될 스크립트를 작성합니다.
+    - `dependencies.d`
+      - 해당 서비스가 실행되기 전에 실행될 서비스 리스트를 파일명으로 작성합니다.
+      - `base`
+        - 의존성으로 가져야 race condition을 피할 수 있습니다.
+        - ~~legacy-cont-init이 모두 실행된 이후에 실행되도록 해주는 것 같습니다.~~
