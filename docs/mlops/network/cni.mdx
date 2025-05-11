@@ -11,36 +11,17 @@ keywords:
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
-## Kubernetes network
-
-Kubernetes network 기본 요구 사항
-
-- 노드의 파드는 NAT 없이 모든 노드의 모든 파드와 통신할 수 있다.
-- 노드의 에이전트(예: 시스템 데몬, kubelet)는 해당 노드의 모든 파드와 통신할 수 있다.
-- 노드의 호스트 네트워크에 있는 파드는 NAT 없이 모든 노드에 있는 모든 파드와 통신할 수 있다.
-
-### Pod
-
-Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유합니다. `Pause`라는 container가 생성되며 이 컨테이너가 IPC, Network namespace를 생성하고 유지합니다.
-
 ## CNI
 
-- https://github.com/containernetworking/cni/blob/main/SPEC.md
+<center>
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/network/calico/cni-with-calico-ipam.drawio")} />
+		<figcaption>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</figcaption>
+		<figcaption>https://www.youtube.com/watch?v=JyLtg_SJ1lo</figcaption>
+	</figure>
+</center>
 
-<br />
-
-요약
-
-- 관리자가 네트워크 설정을 정의하는 형식입니다.
-- 컨테이너 런타임이 네트워크 플러그인에 요청을 보내는 프로토콜입니다.
-- 제공된 구성을 기반으로 플러그인을 실행하는 절차입니다.
-- 플러그인이 다른 플러그인에 기능을 위임하는 절차입니다.
-- 결과를 런타임에 반환하는 플러그인의 데이터 유형입니다.
-
-<br />
-
-- Network configuration format
-  - `cniVersion`, `cniVersions`, `name`, `disableCheck`, `plugins` 등을 포함한 JSON 객체로 구성됩니다.
+- [Network configuration format](#cni-설정)
 - Execution Protocol
   - 플러그인은 실행파일이어야 합니다.
   - 플러그인은 환경 변수와 stdin을 통해 설정값을 받습니다.
@@ -59,9 +40,58 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 - Result Types
   - CNI 플러그인의 실행 결과에 대한 JSON 형식의 스키마가 있습니다.
 
+Pod을 생성하면 CNI plugin은 아래와 같은 절차로 호출되어 네트워크를 설정합니다.
+
+```mermaid
+sequenceDiagram
+  participant kubelet
+  participant CR as Container Runtime
+  participant CNI as CNI Plugin
+
+  kubelet ->> CR: RunPodSandbox
+
+  create participant Sandbox
+
+  CR ->> Sandbox: create
+
+  CR ->> CNI: CNI_COMMAND=ADD
+  CNI ->> Sandbox: configure network
+
+  Note over kubelet, Sandbox: ...
+```
+
+- Container Runtime은
+  - Sandbox 컨테이너를 생성하고 Network Namespace를 생성합니다.
+  - `/etc/cni/net.d/`에서 알파벳순으로 첫번째 CNI 설정 파일(`.conf`, `.conflist`)을 읽습니다.
+  - 설정에 맞춰 CNI plugin의 `ADD` 명령어를 호출합니다.
+
 ## CNI 설정
 
-- https://github.com/containernetworking/cni/blob/main/SPEC.md#section-1-network-configuration-format
+### 규칙
+
+:::info[Reference]
+
+- [CNI GitHub / SPEC.md # Network Configuration Format](https://github.com/containernetworking/cni/blob/main/SPEC.md#section-1-network-configuration-format)
+
+:::
+
+- `cniVersion`, `cniVersions`
+- `name`
+- `plugins`
+  - https://www.cni.dev/plugins/current/
+  - https://github.com/containernetworking/plugins
+  - plugin이 하나인 경우 `plugins`없이 상위에 임베딩 할 수 있습니다.
+  - `type`을 제외한 나머지 필드는 플러그인마다 다르며, 정해진 값이 없습니다.
+  - `type`: CNI 바이너리 이름과 매칭되는 값입니다.
+    - `ls /opt/cni/bin`
+  - `ipam`
+    - `type`: IPAM 바이너리 이름과 매칭되는 값입니다.
+      - https://www.cni.dev/plugins/current/ipam/
+      - `dhcp`
+      - `host-local`
+      - `static`
+
+### 예시
 
 ```json title="/etc/cni/net.d/10-calico.conflist"
 {
@@ -101,26 +131,3 @@ Docker 의 host 방식으로 pod 내의 컨테이너간 네트워크를 공유�
 	"clusterNetwork": "/host/etc/cni/net.d/10-calico.conflist"
 }
 ```
-
-- `plugins`
-  - https://www.cni.dev/plugins/current/
-  - https://github.com/containernetworking/plugins
-  - `type`을 제외한 나머지 필드는 플러그인마다 다르며, 정해진 값이 없습니다.
-  - `type`: CNI 바이너리 이름과 매칭되는 값입니다.
-    - `ls /opt/cni/bin`
-  - `ipam`
-    - `type`: IPAM 바이너리 이름과 매칭되는 값입니다.
-      - https://www.cni.dev/plugins/current/ipam/
-      - `dhcp`
-      - `host-local`
-      - `static`
-
-## Example(Calico)
-
-<center>
-	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/network/calico/cni-with-calico-ipam.drawio")} />
-		<figcaption>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</figcaption>
-		<figcaption>https://www.youtube.com/watch?v=JyLtg_SJ1lo</figcaption>
-	</figure>
-</center>
