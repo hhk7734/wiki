@@ -25,11 +25,11 @@ helm repo update jetstack \
 ```
 
 ```shell
-helm pull jetstack/cert-manager --version v1.16.2
+helm pull jetstack/cert-manager --version v1.17.2
 ```
 
 ```shell
-helm show values jetstack/cert-manager --version v1.16.2 > cert-manager-v1.16.2.yaml
+helm show values jetstack/cert-manager --version v1.17.2 > cert-manager-v1.17.2.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
@@ -38,8 +38,6 @@ global:
 
 crds:
   enabled: true
-
-enableCertificateOwnerRef: true
 
 # cert-manager
 
@@ -66,15 +64,17 @@ startupapicheck:
   affinity: {}
 ```
 
+- `enableCertificateOwnerRef: false`: 생성된 `Secret`의 `ownerReferences`에 `Certificate`를 추가할지 여부입니다.
+
 ```shell
-helm template cert-manager cert-manager-v1.16.2.tgz \
+helm template cert-manager cert-manager-v1.17.2.tgz \
     -n auth \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
 
 ```shell
-helm upgrade cert-manager cert-manager-v1.16.2.tgz \
+helm upgrade cert-manager cert-manager-v1.17.2.tgz \
     --install \
     --history-max 5 \
     -n auth \
@@ -90,10 +90,10 @@ helm upgrade cert-manager cert-manager-v1.16.2.tgz \
 :::
 
 ```shell
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.16.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.crds.yaml
 ```
 
-## Removal
+## 삭제
 
 사용된 CRD가 있는지 확인합니다.
 
