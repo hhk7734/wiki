@@ -990,6 +990,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/monitoring/loki/loki",
 				"mlops/monitoring/loki/label",
 				"mlops/monitoring/loki/collector",
+				"mlops/monitoring/loki/compactor",
 			],
 		},
 		{

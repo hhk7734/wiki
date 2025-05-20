@@ -1,0 +1,34 @@
+---
+id: compactor
+title: Loki Compactor로 로그 저장량 조절하기
+sidebar_label: Compactor
+description: Loki Compactor로 로그 저장량 조절하기
+keywords:
+  - Loki
+  - compactor
+---
+
+## Log Retention
+
+:::info[Reference]
+
+- [Loki Docs / Configuration parameters # compactor](https://grafana.com/docs/loki/latest/configure/#compactor)
+
+:::
+
+```yaml title="loki-distributed-values.yaml"
+loki:
+  structuredConfig:
+    limits_config:
+      retention_period: 744h
+
+    compactor:
+      shared_store: s3
+      retention_enabled: true
+      delete_request_store: s3
+
+compactor:
+  enabled: true
+  extraArgs:
+    - -config.expand-env=true
+```
