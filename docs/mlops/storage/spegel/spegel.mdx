@@ -1,0 +1,71 @@
+---
+id: spegel
+title: Spegel, 클러스터 노드를 캐시로 사용하는 P2P 컨테이너 레지스트리
+sidebar_label: Spegel
+description: Spegel, 클러스터 노드를 캐시로 사용하는 P2P 컨테이너 레지스트리
+keywords:
+  - spegel
+  - p2p
+  - registry
+  - container
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Spegel
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/storage/spegel/overview.gif")} />
+		<br />
+		<figcaption>[Spegel GitHub / README.md](https://github.com/spegel-org/spegel)</figcaption>
+	</center>
+</figure>
+
+## containerd 설정
+
+```toml title="/etc/containerd/config.toml"
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+   config_path = "/etc/containerd/certs.d"
+[plugins."io.containerd.grpc.v1.cri".containerd]
+   discard_unpacked_layers = false
+```
+
+## 설치
+
+:::info[Reference]
+
+- [Spegel Docs / Getting Started](https://spegel.dev/docs/getting-started/)
+- [Spegel GitHub / Releases](https://github.com/spegel-org/spegel/releases)
+
+:::
+
+```shell
+helm pull oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0
+```
+
+```shell
+helm show values oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0 > spegel-0.2.0.yaml
+```
+
+```yaml title="spegel-values.yaml"
+spegel:
+```
+
+```shell
+helm template spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
+  --version 0.2.0 \
+  -n spegel \
+  -f spegel-values.yaml > spegel.yaml
+```
+
+```shell
+helm upgrade spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
+  --install \
+  --history-max 5 \
+  --version 0.2.0 \
+  -n spegel \
+  -f spegel-values.yaml
+```

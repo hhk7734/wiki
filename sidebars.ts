@@ -1492,6 +1492,13 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
+			label: "Spegel",
+			items: [
+				"mlops/storage/spegel/spegel",
+			],
+		},
+		{
+			type: "category",
 			label: "Etc",
 			items: [
 				"mlops/storage/etc/fio",
