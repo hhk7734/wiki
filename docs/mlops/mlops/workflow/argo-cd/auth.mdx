@@ -9,6 +9,9 @@ keywords:
   - auth
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 인증(Authn)
 
 ### ConfigMap, Secret으로 계정 관리
@@ -54,7 +57,17 @@ argocd account update-password --account <user>
 
 ### OIDC
 
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#existing-oidc-provider
+:::info[Reference]
+
+- [Argo CD Docs / Operator Manual / User Management / Overview # Existing OIDC Provider](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#existing-oidc-provider)
+
+:::
+
+:::warning
+
+`argocd` 명령어로 sso login을 하려면 PKCE를 사용해야 합니다. `http://localhost:8085/auth/callback` 리다이렉트 URL이 사용됩니다.
+
+:::
 
 ```yaml title="argo-cd-values.yaml"
 global:
@@ -86,7 +99,12 @@ configs:
       logoutURL: <logoutURL>?id_token_hint={{token}}&post_logout_redirect_uri={{logoutRedirectURL}}
 ```
 
-- callback 주소는: `<argoCDURL>/auth/callback` 입니다.
+- `clientSecret: <clientSecret> or $[<clientSecretName>:]<key>`
+  - 리다이렉트 URL로 `<argoCDURL>/auth/callback`를 사용합니다.
+- `enablePKCEAuthentication: true`
+  - PKCE Code Challenge Method로 **S256**을 사용합니다.
+  - 리다이렉트 URL로 `<argoCDURL>/pkce/verify`를 사용합니다.
+  - PKCE를 사용하면 `clientSecret`가 필요하지 않습니다.
 
 ```yaml
 apiVersion: v1
@@ -103,8 +121,22 @@ stringData:
 
 #### Keycloak
 
+:::info[Reference]
+
 - [Keycloak OIDC](/docs/mlops/mlops/auth/keycloak/openid-connect)
-- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/
+- [Argo CD Docs / Operator Manual / User Management / Keycloak](https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/keycloak/)
+
+:::
+
+<Tabs
+    defaultValue="keycloak-client-auth"
+    values={[
+        {label: 'Client Authentication', value: 'keycloak-client-auth',},
+        {label: 'PKCE', value: 'keycloak-pkce',}
+    ]}
+>
+
+<TabItem value="keycloak-client-auth">
 
 ```yaml title="argo-cd-values.yaml"
 configs:
@@ -115,6 +147,24 @@ configs:
       clientID: <clientID>
       clientSecret: $argo-cd-client-secret:oidc.keycloak.clientSecret
 ```
+
+</TabItem>
+
+<TabItem value="keycloak-pkce">
+
+```yaml title="argo-cd-values.yaml"
+configs:
+  cm:
+    oidc.config: |
+      name: keycloak
+      issuer: <keycloakURL>/realms/<realm>
+      clientID: <clientID>
+      enablePKCEAuthentication: true
+```
+
+</TabItem>
+
+</Tabs>
 
 #### Casdoor
 

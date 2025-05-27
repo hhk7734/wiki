@@ -226,6 +226,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "OAuth",
+					items: ["lang/design/protocol/oauth/oidc", "lang/design/protocol/oauth/client-authentication"],
+				},
+				{
+					type: "category",
 					label: "UCX",
 					items: ["lang/design/protocol/ucx/ucx"],
 				},
@@ -751,7 +756,6 @@ const sidebars: SidebarsConfig = {
 			items: [
 				"mlops/mlops/auth/authn",
 				"mlops/mlops/auth/rbac",
-				"mlops/mlops/auth/oidc",
 				{
 					type: "category",
 					label: "TLS",

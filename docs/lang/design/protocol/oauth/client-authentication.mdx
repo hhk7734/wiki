@@ -1,0 +1,64 @@
+---
+id: client-authentication
+title: Client Authentication
+sidebar_label: Client Authentication
+description: Client Authentication
+keywords:
+  - oauth
+  - client secret
+---
+
+## Authorization Code Grant
+
+<center>
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant RP
+    participant OP
+    participant ResourceServer
+
+    Client->>RP: 인증 요청 or 리소스 요청
+    RP-->>Client: 리다이렉트 <auth>
+
+    Client->>OP: <auth>
+    note over Client,OP: 인증 및 동의
+    OP-->>Client: 리다이렉트 <authCallback>
+
+    Client->>RP: <authCallback>
+    RP->>OP: <token>
+    OP-->>RP: access_token, id_token, refresh_token
+    RP-->>Client: 리다이렉트
+
+    Client->>RP: 리소스 요청
+    RP->>RP: 토큰 검증(JWK or userinfo)
+    RP->>ResourceServer: 리소스 요청
+    ResourceServer-->>RP: 리소스 응답
+    RP-->>Client: 리소스 응답
+```
+
+</center>
+
+- `<auth>`
+  - `GET <authorizationEndpoint>`
+    - Query
+      - `client_id=<clientID>`
+      - `redirect_uri=<authCallbackURL>`
+      - `response_type=code`
+      - `scope=<scope>`
+      - `state=<state>`
+      - `nonce=<nonce>`
+- `<authCallback>`
+  - `GET <authCallbackURL>`
+    - Query
+      - `code=<code>`
+      - `state=<state>`
+- `<token>`
+  - `POST <tokenEndpoint>`
+    - Header
+      - `Authorization: Basic <base64(<clientID>:<clientSecret>)>`
+    - Body
+      - `grant_type=authorization_code`
+      - `code=<code>`
+      - `redirect_rui=<redirectURI>`
