@@ -258,7 +258,11 @@ const sidebars: SidebarsConfig = {
 	],
 	device: [
 		"mlops/device/cdi",
-		"mlops/device/node-feature-discovery",
+		{
+			type: "category",
+			label: "Node Feature Discovery",
+			items: ["mlops/device/node-feature-discovery/node-feature-discovery"],
+		},
 		{
 			type: "category",
 			label: "NVIDIA",

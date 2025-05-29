@@ -1,8 +1,8 @@
 ---
 id: gpu-operator
-title: Nvidia GPU Operator
+title: NVIDIA GPU Operator
 sidebar_label: GPU Operator
-description: Nvidia GPU Operator
+description: NVIDIA GPU Operator
 keywords:
   - gpu-operator
   - nvidia
@@ -10,67 +10,72 @@ keywords:
 
 ## 설치
 
+:::info[Reference]
+
+- [NVIDIA Docs / GPU Operator / About the NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html)
+
+:::
+
 ```shell
-helm repo add nvidia https://nvidia.github.io/gpu-operator \
-&& helm repo update nvidia
+helm repo add nvidia https://helm.ngc.nvidia.com/nvidia
 ```
 
 ```shell
-helm search repo gpu-operator -l | head -n 10
+helm repo update nvidia \
+&& helm search repo nvidia/gpu-operator -l | head -n 10
 ```
 
 ```shell
-mkdir -p node/gpu-operator/helm
+helm pull nvidia/gpu-operator --version v25.3.0
 ```
 
 ```shell
-helm show values nvidia/gpu-operator \
-    --version v1.9.1 \
-    > node/gpu-operator/helm/values.yaml
+helm show values nvidia/gpu-operator --version v25.3.0 > gpu-operator-v25.3.0.yaml
 ```
-
-[https://github.com/NVIDIA/gpu-operator/blob/master/deployments/gpu-operator/values.yaml](https://github.com/NVIDIA/gpu-operator/blob/master/deployments/gpu-operator/values.yaml)
-
-- NVIDIA driver
-- NVIDIA driver manager
-- NVIDIA container toolkit
-- NVIDIA k8s device plugin
-- NVIDIA dcgm-exporter
-- NFD(Node Feature Discovery)
-- NVIDIA GPU Feature Discovery # NFD가 설치되어 있어야 함
-- NVIDIA MIG(Multi-Instance GPU) manager
-- NVIDIA DCGM(Data Center GPU Manager)
 
 ```yaml title="node/gpu-operator/helm/values.yaml"
+nfd:
+  enabled: true
+
+daemonsets:
+  tolerations: []
+
 driver:
-  # NVIDIA driver가 Node에 설치되어 실행되는 경우 false로 설정
-  enabled: fasle
+  enabled: true
 
 toolkit:
-  # nvidia-docker2가 Node에 설치되어 실행되는 경우 false로 설정
-  enabled: false
+  enabled: true
+```
+
+- `driver`
+  - `enabled: true`
+    - NVIDIA GPU driver가 Node에 설치되어 실행되는 경우 `false`로 설정해야 합니다.
+  - `version: <version>`
+- `toolkit`
+  - `enabled: true`
+    - NVIDIA Container Toolkit이 Node에 설치되어 실행되는 경우 `false`로 설정해야 합니다.
+
+```shell
+helm template gpu-operator nvidia/gpu-operator \
+  --version v25.3.0 \
+  -n nvidia-gpu \
+  -f gpu-operator-values.yaml \
+  > gpu-operator.yaml
 ```
 
 ```shell
 helm upgrade gpu-operator nvidia/gpu-operator \
-    --install \
-    --version v1.9.1 \
-    -n nvidia \
-    --create-namespace \
-    -f node/gpu-operator/helm/values.yaml
+  --install \
+  --history-max 5 \
+  --version v25.3.0 \
+  -n nvidia-gpu \
+  -f gpu-operator-values.yaml
 ```
 
 :::info
-NFD와 GFD에 의해 Node label에 시스템 정보가 추가되며, 이를 `nodeAffinity`에 설정하여 사용할 수 있습니다.
+NFD(Node Feature Discovery)와 GFD(GPU Feature Discovery)에 의해 Node label에 시스템 정보가 추가되며, 이를 `nodeAffinity`에 설정하여 사용할 수 있습니다.
 
-```shell
-kubectl get node -o json | jq '.items[].metadata.labels'
-```
-
-```shell
-kubectl get node -o json | jq '.items[].metadata.annotations'
-```
-
+NFD의 PCI의 `deviceLabelFields`가 `[class, vendor]`로 설정되어 있는 경우, PCI에 NVIDIA 장치가 있다면 `feature.node.kubernetes.io/pci-0302_10de.present: "true"`같은 Node label로 추가될 수 있습니다.
 :::
 
 ## Removal
@@ -78,8 +83,3 @@ kubectl get node -o json | jq '.items[].metadata.annotations'
 ```shell
 helm uninstall gpu-operator -n nvidia
 ```
-
-## Reference
-
-- [https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/getting-started.html#install-nvidia-gpu-operator)
-- [https://github.com/NVIDIA/gpu-operator](https://github.com/NVIDIA/gpu-operator)
