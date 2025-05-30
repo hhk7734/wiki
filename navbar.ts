@@ -21,6 +21,7 @@ export const navbar = {
         Network: "network",
         Device: "device",
         Monitoring: "monitoring",
+        Workflow: "workflow",
         NueralNetwork: "nn",
     },
     Linux: {

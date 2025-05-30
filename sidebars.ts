@@ -800,56 +800,6 @@ const sidebars: SidebarsConfig = {
 				"mlops/mlops/auth/oauth2-proxy",
 			],
 		},
-
-		{
-			type: "category",
-			label: "Workflow",
-			items: [
-				{
-					type: "category",
-					label: "Argo CD",
-					items: [
-						"mlops/mlops/workflow/argo-cd/argo-cd",
-						"mlops/mlops/workflow/argo-cd/auth",
-						"mlops/mlops/workflow/argo-cd/crd",
-						"mlops/mlops/workflow/argo-cd/annotations",
-						{
-							type: "category",
-							label: "GitOps",
-							items: [
-								"mlops/mlops/workflow/argo-cd/gitops/gitops",
-								"mlops/mlops/workflow/argo-cd/gitops/github-action",
-								"mlops/mlops/workflow/argo-cd/gitops/github-action-runner",
-								"mlops/mlops/workflow/argo-cd/gitops/act",
-							],
-						},
-					],
-				},
-				{
-					type: "category",
-					label: "Argo Workflows",
-					items: [
-						"mlops/mlops/workflow/argo-workflows/argo-workflows",
-						"mlops/mlops/workflow/argo-workflows/crd",
-						"mlops/mlops/workflow/argo-workflows/entrypoint-templates",
-						"mlops/mlops/workflow/argo-workflows/dag",
-						"mlops/mlops/workflow/argo-workflows/variables",
-						"mlops/mlops/workflow/argo-workflows/garbage-collection",
-						"mlops/mlops/workflow/argo-workflows/client",
-					],
-				},
-				{
-					type: "category",
-					label: "AWX",
-					items: ["mlops/mlops/workflow/awx/awx-operator", "mlops/mlops/workflow/awx/crd"],
-				},
-				{
-					type: "category",
-					label: "mpi-operator",
-					items: ["mlops/mlops/workflow/mpi-operator/mpijob", "mlops/mlops/workflow/mpi-operator/openmpi"],
-				},
-			],
-		},
 		{
 			type: "category",
 			label: "Event",
@@ -1514,6 +1464,51 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 		"mlops/storage/local-path-provisioner",
+	],
+	workflow: [
+		{
+			type: "category",
+			label: "Argo CD",
+			items: [
+				"mlops/workflow/argo-cd/argo-cd",
+				"mlops/workflow/argo-cd/auth",
+				"mlops/workflow/argo-cd/crd",
+				"mlops/workflow/argo-cd/annotations",
+				{
+					type: "category",
+					label: "GitOps",
+					items: [
+						"mlops/workflow/argo-cd/gitops/gitops",
+						"mlops/workflow/argo-cd/gitops/github-action",
+						"mlops/workflow/argo-cd/gitops/github-action-runner",
+						"mlops/workflow/argo-cd/gitops/act",
+					],
+				},
+			],
+		},
+		{
+			type: "category",
+			label: "Argo Workflows",
+			items: [
+				"mlops/workflow/argo-workflows/argo-workflows",
+				"mlops/workflow/argo-workflows/crd",
+				"mlops/workflow/argo-workflows/entrypoint-templates",
+				"mlops/workflow/argo-workflows/dag",
+				"mlops/workflow/argo-workflows/variables",
+				"mlops/workflow/argo-workflows/garbage-collection",
+				"mlops/workflow/argo-workflows/client",
+			],
+		},
+		{
+			type: "category",
+			label: "AWX",
+			items: ["mlops/workflow/awx/awx-operator", "mlops/workflow/awx/crd"],
+		},
+		{
+			type: "category",
+			label: "mpi-operator",
+			items: ["mlops/workflow/mpi-operator/mpijob", "mlops/workflow/mpi-operator/openmpi"],
+		},
 	]
 };
 
