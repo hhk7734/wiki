@@ -78,8 +78,13 @@ NFD(Node Feature Discovery)와 GFD(GPU Feature Discovery)에 의해 Node label�
 NFD의 PCI의 `deviceLabelFields`가 `[class, vendor]`로 설정되어 있는 경우, PCI에 NVIDIA 장치가 있다면 `feature.node.kubernetes.io/pci-0302_10de.present: "true"`같은 Node label로 추가될 수 있습니다.
 :::
 
-## Removal
+## 삭제
 
 ```shell
-helm uninstall gpu-operator -n nvidia
+helm uninstall gpu-operator -n nvidia-gpu
+```
+
+```shell
+kubectl delete crd nvidiadrivers.nvidia.com
+kubectl delete crd clusterpolicies.nvidia.com
 ```

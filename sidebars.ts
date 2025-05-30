@@ -1506,8 +1506,13 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "mpi-operator",
+			label: "MPI Operator",
 			items: ["mlops/workflow/mpi-operator/mpijob", "mlops/workflow/mpi-operator/openmpi"],
+		},
+		{
+			type: "category",
+			label: "Kubeflow Trainer",
+			items: ["mlops/workflow/kubeflow-trainer/kubeflow-trainer"],
 		},
 	]
 };
