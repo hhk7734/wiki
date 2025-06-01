@@ -18,17 +18,10 @@ keywords:
 
 ```yaml title="loki-distributed-values.yaml"
 loki:
-  structuredConfig:
-    limits_config:
-      retention_period: 744h
+  compactor:
+    retention_enabled: true
+    delete_request_store: s3
 
-    compactor:
-      shared_store: s3
-      retention_enabled: true
-      delete_request_store: s3
-
-compactor:
-  enabled: true
-  extraArgs:
-    - -config.expand-env=true
+  limits_config:
+    retention_period: 4320h
 ```

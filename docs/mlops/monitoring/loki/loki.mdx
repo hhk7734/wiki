@@ -7,32 +7,40 @@ keywords:
   - Loki
 ---
 
-import Image from "@theme/IdealImage";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 배포 Mode
 
-- https://grafana.com/docs/loki/latest/fundamentals/architecture/deployment-modes/
+:::info[Reference]
 
-<br />
+- [Loki Docs / Deployment Modes](https://grafana.com/docs/loki/latest/get-started/deployment-modes/)
+
+:::
 
 - Monolithic
   - 모든 컴포넌트를 하나의 인스턴스에 배포
-  - 하루에 100GB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+  - 하루에 20GB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
 - Simple scalable
   - 읽기 컴포넌트들과 쓰기 컴포넌트들로 분리하여 배포
-  - 하루에 100GB ~ 10TB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+  - 하루에 ~ 10TB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
 - Microservices
   - 모든 컴포넌트를 분리하여 배포, 가장 자유도가 높지만 유지보수도 어려움
 
 ## 컴포넌트
 
+:::info[Reference]
+
+- [Loki Docs / Components](https://grafana.com/docs/loki/latest/get-started/components/)
+
+:::
+
 <center>
-	<Image
-		img={require("@site/static/img/mlops/monitoring/plg/loki_architecture_components.png")}
-		width={750}
-	/>
+	<figure>
+		<img src={useBaseUrl("img/mlops/monitoring/plg/loki_architecture_components.png")} />
+		<figcaption>[Loki Docs / Architecture](https://grafana.com/docs/loki/latest/get-started/architecture/)</figcaption>
+	</figure>
 </center>
-<center>https://grafana.com/docs/loki/latest/fundamentals/architecture/components/</center>
+
 <br />
 
 - Distributor: 클라이언트에서 들어오는 로그를 검증 후 Ingester로 전달
@@ -40,16 +48,24 @@ import Image from "@theme/IdealImage";
 - Query Frontend: 쿼리를 조정, 쿼리 대기열 관리 등을 수행
 - Querier: Ingester 또는 장기 저장소에서 로그를 쿼리
 
-<center>
-	<Image
-		img={require("@site/static/img/mlops/monitoring/plg/simple-scalable-test-environment.png")}
-		width={750}
-	/>
-</center>
-<center>https://grafana.com/docs/loki/latest/getting-started/</center>
-<br />
+| Component       | microservice | single | read | write | backend |
+| --------------- | :----------: | :----: | :--: | :---: | :-----: |
+| Distributor     |      O       |   O    |  -   |   O   |    -    |
+| Ingester        |      O       |   O    |  -   |   O   |    -    |
+| Query Frontend  |      O       |   O    |  O   |   -   |    -    |
+| Query Scheduler |      O       |   O    |  -   |   -   |    O    |
+| Querier         |      O       |   O    |  O   |   -   |    -    |
+| Index Gateway   |      O       |   -    |  -   |   -   |    O    |
+| Compactor       |      O       |   O    |  -   |   -   |    O    |
+| Ruler           |      O       |   O    |  -   |   -   |    O    |
 
 ## 설치
+
+:::info[Reference]
+
+- [Loki Docs / Install the simple scalable Helm chart](https://grafana.com/docs/loki/latest/setup/install/helm/install-scalable/)
+
+:::
 
 ```shell
 helm repo add grafana https://grafana.github.io/helm-charts
@@ -57,26 +73,28 @@ helm repo add grafana https://grafana.github.io/helm-charts
 
 ```shell
 helm repo update grafana \
-&& helm search repo grafana/loki-distributed -l | head -n 10
+&& helm search repo grafana/loki -l | head -n 10
 ```
 
 ```shell
-helm pull grafana/loki-distributed --version 0.79.0
+helm pull grafana/loki --version 6.30.1
 ```
 
 ```shell
-helm show values grafana/loki-distributed --version 0.79.0 > loki-distributed-0.79.0.yaml
+helm show values grafana/loki --version 6.30.1 > loki-6.30.1.yaml
 ```
 
-```yaml title="loki-distributed-values.yaml"
-fullnameOverride: loki
+```yaml title="loki-values.yaml"
+deploymentMode: SimpleScalable
 
 global:
-  dnsService: coredns
+  extraArgs:
+    - -config.expand-env=true
+  extraEnvFrom: []
 
 loki:
-  # -- Check https://grafana.com/docs/loki/latest/configuration/#schema_config
-  # for more info on how to configure schemas
+  auth_enabled: false
+
   schemaConfig:
     configs:
       - # 인덱스 생성 시작일, 스키마가 변경되면 변경이 시작되는 날짜
@@ -90,86 +108,86 @@ loki:
           prefix: loki_index_
           period: 24h
 
-  # -- Check https://grafana.com/docs/loki/latest/configuration/#storage_config
-  # for more info on how to configure storages
-  storageConfig:
-    # https://grafana.com/docs/loki/latest/configure/#aws_storage_config
-    aws:
-      # s3: s3://<region>/<bucket>
-      s3forcepathstyle: true
+  storage:
+    bucketNames:
+      chunks: loki
+      ruler: loki
+      admin: loki
+    type: s3
+    s3:
+      s3ForcePathStyle: true
       endpoint: "http://${BUCKET_HOST}:${BUCKET_PORT}"
       region: "${BUCKET_REGION}"
-      bucketnames: "${BUCKET_NAME}"
-      access_key_id: "${AWS_ACCESS_KEY_ID}"
-      secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+      accessKeyId: "${AWS_ACCESS_KEY_ID}"
+      secretAccessKey: "${AWS_SECRET_ACCESS_KEY}"
 
+  storage_config:
     tsdb_shipper:
-      shared_store: s3
       active_index_directory: /var/loki/tsdb-index
       cache_location: /var/loki/tsdb-cache
       cache_ttl: 168h
 
-  # -- Structured loki configuration, takes precedence over `loki.config`, `loki.schemaConfig`, `loki.storageConfig`
-  structuredConfig:
-    limits_config:
-      max_entries_limit_per_query: 10000
+  ingester:
+    chunk_encoding: snappy
 
-ingester:
-  extraArgs:
-    - -config.expand-env=true
+  querier:
+    max_concurrent: 4
 
-distributor:
-  extraArgs:
-    - -config.expand-env=true
+  limits_config:
+    max_entries_limit_per_query: 10000
 
-querier:
-  extraArgs:
-    - -config.expand-env=true
+read:
 
-queryFrontend:
-  extraArgs:
-    - -config.expand-env=true
+backend:
+  persistence:
+    storageClass: ""
+
+write:
+  persistence:
+    storageClass: ""
 
 gateway:
   podLabels: {}
-
-compactor:
-  enabled: false
-
-ruler:
-  enabled: false
 ```
 
 :::warning
-`querier`, `queryFrontend`, `gateway`는 쿼리되는 로그의 양에 따라 **OOMKilled**가 발생할 수 있으므로 모니터링을 통해 적절한 값을 설정해야 합니다.
+`read`(`querier`, `queryFrontend`), `gateway`는 쿼리되는 로그의 양에 따라 **OOMKilled**가 발생할 수 있으므로 모니터링을 통해 적절한 값을 설정해야 합니다.
 :::
 
+- `loki`
+  - [Loki Docs / Configure](https://grafana.com/docs/loki/latest/configure)
+  - `storage`
+  - `storage_config`
+  - `ingester`
+  - `querier`
+    - `max_concurrent: 4`
+      - 성능 개선이 필요하고, 리소스가 충분하다면 늘려볼 수 있습니다.
+      - OOM 등 문제가 발생하면 줄여볼 수 있습니다.
+  - `compactor`
+  - `limits_config`
+
 ```shell
-helm template loki loki-distributed-0.79.0.tgz \
+helm template loki grafana/loki \
+    --version 6.30.1 \
     -n loki \
-    -f loki-distributed-values.yaml \
-    > loki-distributed.yaml
+    -f loki-values.yaml \
+    > loki.yaml
 ```
 
 ```shell
-helm upgrade loki loki-distributed-0.79.0.tgz \
+helm upgrade loki grafana/loki \
     --install \
     --history-max 5 \
+    --version 6.30.1 \
     -n loki \
-    -f loki-distributed-values.yaml
-```
-
-## 삭제
-
-```shell
-helm uninstall -n loki loki
+    -f loki-values.yaml
 ```
 
 ## Grafana
 
 - Configuration -\> Data sources -\> Add data source -\> Loki
   - HTTP
-    - URL: `http://loki-querier.loki.svc:3100`
+    - URL: `http://loki-gateway.loki.svc`
 - Explore -\> Loki -\> Add query
   - Builder
     - Label filters
