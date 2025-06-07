@@ -71,8 +71,12 @@ spec:
 
 ## Certificate
 
-- https://cert-manager.io/docs/usage/certificate/
-- https://cert-manager.io/docs/reference/api-docs/#cert-manager.io%2fv1
+:::info[Reference]
+
+- [cert-manager Docs / Certificate](https://cert-manager.io/docs/usage/certificate/)
+- [cert-manager Docs / Reference # cert-manager.io/v1.Certificate](https://cert-manager.io/docs/reference/api-docs/#cert-manager.io/v1.Certificate)
+
+:::
 
 ```yaml
 apiVersion: cert-manager.io/v1
@@ -123,3 +127,13 @@ data:
   tls.key: <PEM private key>
   tls.crt: <PEM signed certificate chain>
 ```
+
+:::info
+
+직접 인증서 갱신을 트리거하려면 아래 명령어를 사용합니다.
+
+```shell
+cmctl renew -n <namespace> <certificateName>
+```
+
+:::

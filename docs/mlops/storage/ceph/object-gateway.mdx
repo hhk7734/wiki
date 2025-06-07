@@ -24,6 +24,8 @@ rbacAggregate:
 
 :::
 
+### Local Object Store
+
 ```yaml
 apiVersion: ceph.rook.io/v1
 kind: CephObjectStore
@@ -31,7 +33,7 @@ spec:
   metadataPool:
   dataPool:
   gateway:
-    port: 80
+    port: 9000
     instances: 1
     priorityClassName: system-cluster-critical
 ```
@@ -57,27 +59,70 @@ spec:
     - `tolerations`
     - `topologySpreadConstraints`
 
+### External Object Store
+
+```yaml
+apiVersion: ceph.rook.io/v1
+kind: CephObjectStore
+spec:
+  gateway:
+    port: 9000
+    externalRgwEndpoints:
+      - ip: <objectStoreIP>
+        # hostname: <objectStoreHostname>
+```
+
+- `gateway`
+  - `port: <port>`
+  - `externalRgwEndpoints: []`
+    - ip 또는 hostname을 지정합니다.
+    - `ip: <objectStoreIP>`
+    - `hostname: <objectStoreHostname>`
+
+:::note
+
+`externalRgwEndpoints`의 첫번째 ip 또는 hostname을 참조하는 리소스들이 많으므로, Provider Storage Cluster에 Object Store에 대한 LoadBalancer 또는 NodePort 타입의 Service를 만들어서 하나만 설정하는 것을 권장합니다.
+
+:::
+
 ## StorageClass 생성
 
 ```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
-# operator에 CSI_DRIVER_NAME_PREFIX를 설정하지 않았다면 operator가 속한 namespace를 사용합니다.
-provisioner: <operatorNamespace>.ceph.rook.io/bucket
-volumeBindingMode: Immediate
+provisioner: <cephClusterNamespace>.ceph.rook.io/bucket
 reclaimPolicy: Delete
 parameters:
   objectStoreName: <cephObjectStoreName>
   objectStoreNamespace: <cephObjectStoreNamespace>
 ```
 
+:::warning
+
+문서상에 `provisioner`로 `<operatorNamespace>.ceph.rook.io/bucket`을 사용하라고 되어 있지만, `<cephClusterNamespace>.ceph.rook.io/bucket`을 사용해야 작동합니다.
+
+:::
+
 ## ObjectBucketClaim 생성
 
 :::info[Reference]
 
-- [Rook / Bucket Claim](https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/)
+- [Rook / Object Storage / Overview](https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/object-storage/)
+- [Rook / Object Storage / Bucket Claim](https://rook.io/docs/rook/latest-release/Storage-Configuration/Object-Storage-RGW/ceph-object-bucket-claim/)
 
 :::
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: rgw-admin-ops-user
+  namespace: <cephClusterNamespace>
+type: kubernetes.io/rook
+data:
+  accessKey: <accessKey | base64>
+  secretKey: <secretKey | base64>
+```
 
 ```yaml
 apiVersion: objectbucket.io/v1alpha1
@@ -97,4 +142,25 @@ spec:
 
 :::info
 ObjectBucketClaim namespace와 name이 동일한 ConfigMap, Secret이 생성됩니다. ConfigMap에는 `BUCKET_HOST`, `BUCKET_NAME`, `BUCKET_PORT`, `BUCKET_REGION`, `BUCKET_SUBREGION`이 저장되어 있고, Secret에는 `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`가 저장되어 있습니다.
+
+```yaml
+apiVersion: v1
+kind: Pod
+spec:
+  containers:
+    - name: s5cmd
+      image: docker.io/peakcom/s5cmd:v2.3.0
+      imagePullPolicy: IfNotPresent
+      command: [sleep, infinity]
+      envFrom:
+        - secretRef:
+            name: <objectBucketClaimName>
+        - configMapRef:
+            name: <objectBucketClaimName>
+```
+
+```shell
+/s5cmd --endpoint-url http://$BUCKET_HOST:$BUCKET_PORT ls
+```
+
 :::

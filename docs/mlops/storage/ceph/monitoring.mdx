@@ -14,6 +14,7 @@ keywords:
 :::info[Reference]
 
 - [Rook / Ceph Dashboard](https://rook.io/docs/rook/latest/Storage-Configuration/Monitoring/ceph-dashboard/)
+- [Ceph Docs / Manager Daemon / Dashboard](https://docs.ceph.com/en/latest/mgr/dashboard/)
 
 :::
 
@@ -60,8 +61,11 @@ discover:
 :::
 
 ```shell
-kubectl rook-ceph ceph dashboard set-jwt-token-ttl 86400
+kubectl rook-ceph ceph dashboard <key> <value>
 ```
+
+- `set-jwt-token-ttl: <seconds>`
+- `set-pwd-policy-enabled: true`
 
 ## Prometheus
 

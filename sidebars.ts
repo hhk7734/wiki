@@ -797,7 +797,13 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/auth/dex/dex"
 					],
 				},
-				"mlops/mlops/auth/oauth2-proxy",
+				{
+					type: "category",
+					label: "Oauth2 Proxy",
+					items: [
+						"mlops/mlops/auth/oauth2-proxy/oauth2-proxy",
+					],
+				},
 			],
 		},
 		{
