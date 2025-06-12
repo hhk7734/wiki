@@ -11,7 +11,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## 설치
 
-- https://github.com/istio/istio/tree/master/manifests/charts
+:::info[Reference]
+
+- [Istio / Sidecar Mode / Install with Helm](https://istio.io/latest/docs/setup/install/helm/)
+
+:::
 
 ```shell
 helm repo add istio https://istio-release.storage.googleapis.com/charts
@@ -97,6 +101,10 @@ affinity: {}
 tolerations: []
 
 revision: 1-24-3
+
+pilot:
+  env:
+    PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
 ```
 
 ```shell
