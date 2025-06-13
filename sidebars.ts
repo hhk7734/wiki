@@ -995,6 +995,13 @@ const sidebars: SidebarsConfig = {
 		"mlops/network/cni",
 		{
 			type: "category",
+			label: "Gateway API",
+			items: [
+				"mlops/network/gateway-api/gateway-api",
+			],
+		},
+		{
+			type: "category",
 			label: "Cilium",
 			items: [
 				"mlops/network/cilium/cilium",
