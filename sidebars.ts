@@ -1429,6 +1429,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/storage/ceph/monitoring",
 				"mlops/storage/ceph/osd",
 				"mlops/storage/ceph/pg",
+				"mlops/storage/ceph/tuning",
 				"mlops/storage/ceph/cephfs",
 				"mlops/storage/ceph/rbd",
 				"mlops/storage/ceph/object-gateway",

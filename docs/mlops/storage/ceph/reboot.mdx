@@ -8,34 +8,131 @@ keywords:
   - reboot
 ---
 
-## 재시작 전 설정
+## 노드 한 대 재시작
 
 ```shell
-kubectl rook-ceph ceph osd set <option>
+for _option in noout; do
+    kubectl rook-ceph ceph osd set ${_option}
+done
 ```
 
-- `<option>`
-  - `pause`
-    - 읽기/쓰기 작업을 중지합니다.(in, out, up, down 상태에 영향을 주진 않습니다.)
-    - 스토리지 클러스터 **전체를 종료해야하는 경우**에만 사용합니다.
-  - `noout`
-    - OSD가 out으로 처리되는 것을 막습니다.
-    - OSD가 MON에게 report하지 않으면 `out`으로 처리됩니다.
-  - `nodown`
-    - OSD가 down으로 처리되는 것을 막습니다.
-    - 네트워크 이슈 등으로 인해 heartbeat 문제가 생기면 `down`으로 처리됩니다.
-  - `nobackfill`
-  - `norebalance`
-  - `norecover`
-  - `noscrub`
-  - `nodeep-scrub`
+```shell
+kubectl cordon <node>
+```
+
+```shell
+kubectl drain <node> --ignore-daemonsets --delete-emptydir-data
+```
+
+해당 노드에 접속하거나 IPMI 등을 통해 노드를 재시작합니다.
+
+```shell
+kubectl uncordon <node>
+```
+
+```shell
+for _option in noout; do
+    kubectl rook-ceph ceph osd unset ${_option}
+done
+```
+
+## 전체 노드 재시작
+
+:::info[Reference]
+
+- [Rook / Upgrade / Node Maintenance](https://rook.io/docs/rook/latest-release/Upgrade/node-maintenance)
+
+:::
+
+### 스토리지를 사용하는 모든 서비스 scale down
+
+### Ceph OSD 설정
+
+```shell
+for _option in noout nodown norebalance nobackfill norecover pause; do
+    kubectl rook-ceph ceph osd set ${_option}
+done
+```
 
 노드 재시작 전에 ceph이 OSD 상태를 체크하거나 복구하려는 시도를 위의 명령어로 막아야합니다.
 
-## 재시작 후 설정
+### Rook 컴포넌트 scale down
+
+1. Rook Operator
+1. CephFS plugin provisioner
+1. RBD plugin provisioner
+1. OSD
+1. MON
+1. MGR
+1. Etc.
 
 ```shell
-kubectl rook-ceph ceph osd unset <option>
+kubectl -n rook-ceph scale deployment rook-ceph-operator --replicas=0
+```
+
+```shell
+for _category in rook-ceph-rgw csi-cephfsplugin-provisioner csi-rbdplugin-provisioner rook-ceph-osd rook-ceph-mon rook-ceph-mgr rook-ceph-exporter rook-ceph-crashcollector; do
+    for _item in $(kubectl get deployment -n rook-ceph | awk '/^'"${_category}"'/{print $1}'); do
+        kubectl -n rook-ceph scale deployment ${_item} --replicas=0;
+        while [[ $(kubectl get deployment -n rook-ceph ${_item} -o jsonpath='{.status.readyReplicas}') != "" ]]; do
+            sleep 5;
+        done;
+    done;
+done
+```
+
+### 노드 정비/재시작
+
+### Rook 컴포넌트 scale up
+
+1. MON
+1. OSD, MGR
+1. Etc.
+1. Rook Operator
+
+```shell
+for _item in $(kubectl get deployment -n rook-ceph | awk '/^rook-ceph-mon/{print $1}'); do
+    kubectl -n rook-ceph scale deployment ${_item} --replicas=1;
+    while [[ $(kubectl get deployment -n rook-ceph ${_item} -o jsonpath='{.status.replicas}') != "1" ]]; do
+        sleep 5;
+    done;
+done
+```
+
+```shell
+for _category in rook-ceph-mgr rook-ceph-osd; do
+    for _item in $(kubectl get deployment -n rook-ceph | awk '/^'"${_category}"'/{print $1}'); do
+        kubectl -n rook-ceph scale deployment ${_item} --replicas=1;
+        while [[ $(kubectl get deployment -n rook-ceph ${_item} -o jsonpath='{.status.replicas}') != "1" ]]; do
+            sleep 5;
+        done;
+    done;
+done
+```
+
+```shell
+for _category in rook-ceph-exporter rook-ceph-crashcollector; do
+    for _item in $(kubectl get deployment -n rook-ceph | awk '/^'"${_category}"'/{print $1}'); do
+        kubectl -n rook-ceph scale deployment ${_item} --replicas=1;
+        while [[ $(kubectl get deployment -n rook-ceph ${_item} -o jsonpath='{.status.replicas}') != "1" ]]; do
+            sleep 5;
+        done;
+    done;
+done
+```
+
+```shell
+kubectl -n rook-ceph scale deployment rook-ceph-operator --replicas=1
+```
+
+Operator가 실행되면 자동으로 컴포넌트들을 복구합니다.
+
+### Ceph OSD 설정
+
+```shell
+for _option in noout nodown norebalance nobackfill norecover pause; do
+    kubectl rook-ceph ceph osd unset ${_option}
+done
 ```
 
 재시작 후 k8s 상태를 확인합니다. 문제가 없으면 재시작 전에 `set`했던 플래그들을 모두 `unset` 명령어로 해제합니다.
