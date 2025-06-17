@@ -42,6 +42,9 @@ spec:
 `kubectl explain [--recursive] service[.<fieldName>]` 을 통해 자세한 설명을 볼 수 있습니다.
 :::
 
+- `externalTrafficPolicy: Cluster|Local`
+  - [externalTrafficPolicy](#externaltrafficpolicy)
+
 ### FQDN
 
 `<name>.<namespace>.svc.cluster.local`이 Kubernetes DNS에 등록됩니다.
@@ -88,6 +91,26 @@ spec:
 - https://kubernetes.io/blog/2023/05/11/nodeport-dynamic-and-static-allocation/
 
 Kubernetes 1.28 부터는 ServiceNodePortStaticSubrange라는 기능이 기본적으로 활성화 됩니다. 이 기능은 NodePort의 시작 포트 부터 `min(max(16, nodeportSize / 32), 128)`개의 포트의 동적 할당 우선순위를 낮춥니다. 예를 들어 30000-32767의 범위를 갖는 경우 30000-30085까지는 다른 포트를 모두 사용하기 전까지는 동적 할당이 되지 않으므로 사용자가 정적 할당으로 사용하기에 좋습니다.
+
+### externalTrafficPolicy
+
+:::info[Reference]
+
+- [Kubernetes / Network Reference / Virtual IPs and Service Proxies # Traffic Polices](https://kubernetes.io/docs/reference/networking/virtual-ips/#traffic-policies)
+
+:::
+
+`externalTrafficPolicy`는 Cluster와 Local 두 가지 옵션이 있습니다.
+
+- `Cluster`
+  - Service로 external source 트래픽이 들어오면 Cluster의 모든 ready endpoint로 분산시킵니다.
+  - kube-proxy에 의해 load balancing되면서 source IP를 Node IP로 가리게 됩니다.
+  - 트래픽 분산은 잘 되지만 트래픽 흐름이 비효율적일 수 있습니다.
+- `Local`
+  - Service로 external source 트래픽이 들어오면 해당 Node 내의 ready endpoint로 분산시킵니다.
+  - 해당 Node에 ready endpoint가 없는 경우 kube-proxy가 트래픽을 드랍합니다.
+  - source IP를 유지합니다.
+  - 트래픽 분산은 잘 안되지만 트래픽 흐름이 효율적입니다.
 
 ## Selector 없이 Service 생성
 

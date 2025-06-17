@@ -1,0 +1,83 @@
+---
+id: load-balancer
+title: MetalLB Load Balancer 사용하기
+sidebar_label: Load Balancer
+description: MetalLB Load Balancer 사용하기
+keywords:
+  - metallb
+  - load balancer
+---
+
+## IPAddressPool
+
+:::info[Reference]
+
+- [MetalLB / API reference # IPAddressPoolSpec](https://metallb.io/apis/#ipaddresspoolspec)
+
+:::
+
+```yaml
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: <name>
+  namespace: metallb-system
+  labels:
+    # ipAddressPoolSelectors 활용을 위해 label을 설정합니다.
+    zone: <zone>
+spec:
+  addresses:
+    - <ip>/<cidr>
+    - <ip>-<ip>
+  autoAssign: false
+  avoidBuggyIPs: true
+```
+
+- `serviceAllocation`
+  - `priority: <int>`
+    - 값이 낮을수록 우선순위가 높습니다.
+    - 설정하지 않으면 가장 낮은 우선순위로 설정됩니다.
+  - `namespaces: []`
+  - `namespaceSelectors: []`
+    - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+  - `serviceSelectors: []`
+    - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+
+## Advertisement
+
+- [L2Advertisement](/docs/mlops/network/metallb/arp)
+- [BGPAdvertisement](/docs/mlops/network/metallb/bgp)
+
+## LoadBalancer Service
+
+:::info[Reference]
+
+- [MetalLB / Usage](https://metallb.universe.tf/usage/)
+
+:::
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    metallb.io/<key>: <value>
+spec:
+  loadBalancerClass: metallb
+  type: LoadBalancer
+```
+
+- `annotations`
+  - `metallb.io/<key>: <value>`
+    - `loadBalancerIPs: <ip>`
+    - `address-pool: <ipAddressPoolName>`
+    - `allow-shared-ip: <keyToShare>`
+      - 같은 `<keyToShare>`를 갖는 Service들은 특정 조건을 만족할 경우 같은 IP를 할당받을 수 있습니다.
+      - 조건
+        - 다른 Port를 사용해야합니다.
+        - `externalTrafficPolicy: Cluster`를 사용하거나 `.spec.selector`가 같아야합니다.
+        - e.g., 각각 `tcp/53`, `udp/53`를 사용하면서 같은 Pod을 선택하는 Service의 경우 같은 IP를 할당받을 수 있습니다.
+- `spec`
+  - `externalTrafficPolicy: Cluster`
+    - [Service # externalTrafficPolicy](/docs/mlops/kubernetes/network/service#externaltrafficpolicy)
+    - BGP + `Local` + [affinity](/docs/mlops/kubernetes/scheduling/affinity) 설정으로 최적의 트래픽 흐름을 만들 수 있습니다.

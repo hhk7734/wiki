@@ -793,16 +793,12 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Dex",
-					items: [
-						"mlops/mlops/auth/dex/dex"
-					],
+					items: ["mlops/mlops/auth/dex/dex"],
 				},
 				{
 					type: "category",
 					label: "Oauth2 Proxy",
-					items: [
-						"mlops/mlops/auth/oauth2-proxy/oauth2-proxy",
-					],
+					items: ["mlops/mlops/auth/oauth2-proxy/oauth2-proxy"],
 				},
 			],
 		},
@@ -996,18 +992,16 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Gateway API",
-			items: [
-				"mlops/network/gateway-api/gateway-api",
-			],
+			items: ["mlops/network/gateway-api/gateway-api"],
 		},
 		{
 			type: "category",
 			label: "Cilium",
 			items: [
 				"mlops/network/cilium/cilium",
+				"mlops/network/cilium/load-balancer",
 				"mlops/network/cilium/arp",
 				"mlops/network/cilium/bgp",
-				"mlops/network/cilium/load-balancer",
 				"mlops/network/cilium/gateway-api",
 			],
 		},
@@ -1024,15 +1018,17 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "MetalLB",
-			items: ["mlops/network/metallb/metallb", "mlops/network/metallb/arp"],
+			items: [
+				"mlops/network/metallb/metallb",
+				"mlops/network/metallb/load-balancer",
+				"mlops/network/metallb/arp",
+				"mlops/network/metallb/bgp",
+			],
 		},
 		{
 			type: "category",
 			label: "AWS Load Balancer",
-			items: [
-				"mlops/network/aws-load-balancer/aws-load-balancer",
-				"mlops/network/aws-load-balancer/create",
-			],
+			items: ["mlops/network/aws-load-balancer/aws-load-balancer", "mlops/network/aws-load-balancer/create"],
 		},
 		{
 			type: "category",
@@ -1413,11 +1409,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "CSI",
-			items: [
-				"mlops/storage/csi/csi",
-				"mlops/storage/csi/aws-ebs-csi-driver",
-				"mlops/storage/csi/aws-efs-csi-driver",
-			],
+			items: ["mlops/storage/csi/csi", "mlops/storage/csi/aws-ebs-csi-driver", "mlops/storage/csi/aws-efs-csi-driver"],
 		},
 		{
 			type: "category",
@@ -1456,26 +1448,17 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Harbor",
-			items: [
-				"mlops/storage/harbor/harbor",
-				"mlops/storage/harbor/auth",
-				"mlops/storage/harbor/proxy-cache",
-			],
+			items: ["mlops/storage/harbor/harbor", "mlops/storage/harbor/auth", "mlops/storage/harbor/proxy-cache"],
 		},
 		{
 			type: "category",
 			label: "Spegel",
-			items: [
-				"mlops/storage/spegel/spegel",
-			],
+			items: ["mlops/storage/spegel/spegel"],
 		},
 		{
 			type: "category",
 			label: "Etc",
-			items: [
-				"mlops/storage/etc/fio",
-				"mlops/storage/etc/mdtest",
-			],
+			items: ["mlops/storage/etc/fio", "mlops/storage/etc/mdtest"],
 		},
 		"mlops/storage/local-path-provisioner",
 	],
@@ -1528,7 +1511,7 @@ const sidebars: SidebarsConfig = {
 			label: "Kubeflow Trainer",
 			items: ["mlops/workflow/kubeflow-trainer/kubeflow-trainer"],
 		},
-	]
+	],
 };
 
 export default sidebars;

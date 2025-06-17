@@ -9,32 +9,14 @@ keywords:
   - ndp
 ---
 
-## IPAddressPool
-
-```yaml
-apiVersion: metallb.io/v1beta1
-kind: IPAddressPool
-metadata:
-  name: <name>
-  namespace: metallb-system
-spec:
-  addresses:
-    - <ip>/<cidr>
-    - <ip>-<ip>
-```
-
-:::warning
-클라우드의 경우 Public IP가 노드 내에 확인이 안되기 때문에 Private IP를 사용합니다. Private IP의 특정 포트에 로드밸런싱되는 서비스가 바인딩되었을 때, Public IP에 해당 포트로 접근하면 됩니다.
-
-단 Service에 할당된 External IP는 Private IP기 때문에 이를 검색하여 사용하는 프로그램이 있다면 문제가 발생합니다.
-
-- https://metallb.universe.tf/installation/clouds/
-
-:::
-
 ## L2Advertisement
 
-- https://metallb.universe.tf/configuration/_advanced_l2_configuration/
+:::info[Reference]
+
+- [MetalLB / Configuration / Advanced L2 configuration](https://metallb.universe.tf/configuration/_advanced_l2_configuration/)
+- [MetalLB / API reference # L2AdvertisementSpec](https://metallb.io/apis/#l2advertisementspec)
+
+:::
 
 ```yaml
 apiVersion: metallb.io/v1beta1
@@ -48,6 +30,8 @@ spec:
 ```
 
 - `ipAddressPools: []`
+- `ipAddressPoolSelectors: []`
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
 - `nodeSelectors: []`
 - `interfaces: []`
 
@@ -56,28 +40,3 @@ spec:
 
 `node.kubernetes.io/exclude-from-external-load-balancers`가 있는 노드를 사용하고 싶은 경우 speaker의 `--ignore-exclude-lb` 옵션을 활성화해야합니다.
 :::
-
-## LoadBalancer Service
-
-- https://metallb.universe.tf/usage/
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  annotations:
-    metallb.universe.tf/<key>: <value>
-spec:
-  type: LoadBalancer
-  # externalTrafficPolicy: Cluster # Cluster|Local
-```
-
-- `<key>: <value>`
-  - `loadBalancerIPs: <ip>`
-  - `address-pool: <ipAddressPoolName>`
-  - `allow-shared-ip: <keyToShare>`
-    - 같은 `<keyToShare>`를 갖는 Service들은 특정 조건을 만족할 경우 같은 IP를 할당받을 수 있습니다.
-    - 조건
-      - 다른 Port를 사용해야합니다.
-      - `externalTrafficPolicy: Cluster`를 사용하거나 `.spec.selector`가 같아야합니다.
-      - e.g., 각각 `tcp/53`, `udp/53`를 사용하면서 같은 Pod을 선택하는 Service의 경우 같은 IP를 할당받을 수 있습니다.
