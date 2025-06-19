@@ -522,7 +522,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Network",
-			items: ["mlops/kubernetes/network/service"],
+			items: ["mlops/kubernetes/network/service", "mlops/kubernetes/network/konnectivity"],
 		},
 		{
 			type: "category",
