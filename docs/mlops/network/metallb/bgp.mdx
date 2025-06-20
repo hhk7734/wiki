@@ -8,39 +8,17 @@ keywords:
   - bgp
 ---
 
-## BGP 사용하기
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
-```mermaid
-flowchart BT
-    subgraph "Node 1"
-      metallbA("MetalLB<br>Speaker")
-    end
-    subgraph "Node 2"
-      metallbB("MetalLB<br>Speaker")
-    end
+<center>
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/network/metallb/bgp.drawio")} />
+		<figcaption>eBGP</figcaption>
+	</figure>
+</center>
 
-    subgraph "Node 3"
-      metallbC("MetalLB<br>Speaker")
-    end
-    subgraph "Node 4"
-      metallbD("MetalLB<br>Speaker")
-    end
-
-    torA(ToR Router)
-    torB(ToR Router)
-
-    metallbA-->torA
-    metallbB-->torA
-    metallbC-->torB
-    metallbD-->torB
-
-    spine(Spine Router)
-
-    torA-->spine
-    torB-->spine
-```
-
-### L3 스위치 설정
+## L3 스위치 설정
 
 :::info[Reference]
 
@@ -141,7 +119,7 @@ Device# show run interface <interface>
 
 :::
 
-### BFDProfile
+## BFDProfile
 
 :::info[Reference]
 
@@ -154,7 +132,7 @@ apiVersion: metallb.io/v1beta1
 kind: BFDProfile
 metadata:
   name: <name>
-  namespace: metallb-system
+  namespace: metallb
 spec:
   detectMultiplier: 4
 ```
@@ -163,7 +141,7 @@ spec:
 - `transmitInterval: 300ms`
 - `detectMultiplier: <int>`: 몇 번 실패하면 링크 끊김으로 판단할지에 대한 값입니다.
 
-### BGPPeer
+## BGPPeer
 
 :::info[Reference]
 
@@ -176,7 +154,7 @@ apiVersion: metallb.io/v1beta2
 kind: BGPPeer
 metadata:
   name: <name>
-  namespace: metallb-system
+  namespace: metallb
 spec:
   myASN: <ASN>
   peerASN: <peerASN>
@@ -192,7 +170,7 @@ spec:
 - `ebgpMultiHop: false`
 - `bfdProfile: <bfdProfileName>`
 
-### BGPAdvertisement
+## BGPAdvertisement
 
 :::info[Reference]
 
@@ -205,7 +183,7 @@ apiVersion: metallb.io/v1beta1
 kind: BGPAdvertisement
 metadata:
   name: <name>
-  namespace: metallb-system
+  namespace: metallb
 spec:
   ipAddressPools:
     - <ipAddressPool>
@@ -217,7 +195,7 @@ spec:
   - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
 
 ```shell
-for speaker in $(kubectl get pods -n metallb-system -l app.kubernetes.io/component=speaker -o name); do
-  kubectl exec -n metallb-system $speaker -c frr -- vtysh -c "show ip bgp summary"
+for speaker in $(kubectl get pods -n metallb -l app.kubernetes.io/component=speaker -o name); do
+  kubectl exec -n metallb $speaker -c frr -- vtysh -c "show ip bgp summary"
 done
 ```

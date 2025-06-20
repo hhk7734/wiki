@@ -56,11 +56,13 @@ frrk8s:
 ```
 
 - `loadBalancerClass: <loadBalancerClass>`: 설정한 경우 Service의 `.spec.loadBalancerClass`가 이 값과 일치해야 합니다.
+- `speaker`
+  - `ignoreExcludeLB: false`: `node.kubernetes.io/exclude-from-external-load-balancers` 레이블을 무시할지 여부입니다.
 
 ```shell
 helm template metallb metallb/metallb \
     --version 0.15.2 \
-    -n metallb-system \
+    -n metallb \
     -f metallb-values.yaml \
     > metallb.yaml
 ```
@@ -70,6 +72,6 @@ helm upgrade metallb metallb/metallb \
     --install \
     --history-max 5 \
     --version 0.15.2 \
-    -n metallb-system \
+    -n metallb \
     -f metallb-values.yaml
 ```
