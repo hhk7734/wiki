@@ -1,0 +1,47 @@
+---
+id: route
+title: Gateway API로 라우팅 관리하기
+sidebar_label: 라우팅 관리하기
+description: Gateway API로 라우팅 관리하기
+keywords:
+  - gateway-api
+  - route
+---
+
+## Gateway
+
+:::info[Reference]
+
+- [Gateway API / API specification / Standard # Gateway](https://gateway-api.sigs.k8s.io/reference/spec/#gateway)
+
+:::
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+spec:
+  gatewayClassName: <gatewayClassName>
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        name: Terminate
+        certificateRefs:
+          - name: <secretName>
+      allowedRoutes:
+        namespaces:
+          from: Same
+```
+
+## HTTPRoute
+
+## TCPRoute
+
+## ReferenceGrant

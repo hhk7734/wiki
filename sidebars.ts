@@ -494,6 +494,11 @@ const sidebars: SidebarsConfig = {
 						"mlops/kubernetes/tools/kubespray/upgrade",
 					],
 				},
+				{
+					type: "category",
+					label: "Cluster API",
+					items: ["mlops/kubernetes/tools/cluster-api/cluster-api"],
+				},
 				"mlops/kubernetes/tools/kustomize",
 				"mlops/kubernetes/tools/helm",
 				"mlops/kubernetes/tools/k0s",
@@ -522,7 +527,19 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Network",
-			items: ["mlops/kubernetes/network/service", "mlops/kubernetes/network/konnectivity"],
+			items: [
+				"mlops/kubernetes/network/service",
+				{
+					type: "category",
+					label: "Gateway API",
+					items: [
+						"mlops/kubernetes/network/gateway-api/gateway-api",
+						"mlops/kubernetes/network/gateway-api/role",
+						"mlops/kubernetes/network/gateway-api/route",
+					],
+				},
+				"mlops/kubernetes/network/konnectivity",
+			],
 		},
 		{
 			type: "category",
@@ -989,11 +1006,6 @@ const sidebars: SidebarsConfig = {
 	],
 	network: [
 		"mlops/network/cni",
-		{
-			type: "category",
-			label: "Gateway API",
-			items: ["mlops/network/gateway-api/gateway-api"],
-		},
 		{
 			type: "category",
 			label: "Cilium",

@@ -1,0 +1,56 @@
+---
+id: cluster-api
+title: Cluster API Operator 설치 가이드
+sidebar_label: 설치 가이드
+description: Cluster API Operator 설치 가이드
+keywords:
+  - cluster-api
+  - operator
+  - helm
+---
+
+## 설치
+
+:::info[Reference]
+
+- [Cluster API Operator / Installation / Using Helm Charts](https://cluster-api-operator.sigs.k8s.io/02_installation/04_helm-chart-installation)
+
+:::
+
+```shell
+helm repo add capi-operator https://kubernetes-sigs.github.io/cluster-api-operator
+```
+
+```shell
+helm repo update capi-operator \
+&& helm search repo capi-operator/cluster-api-operator -l | head -n 10
+```
+
+```shell
+helm pull capi-operator/cluster-api-operator --version 0.21.0
+```
+
+```shell
+helm show values capi-operator/cluster-api-operator --version 0.21.0 > cluster-api-operator-0.21.0.yaml
+```
+
+```yaml title="cluster-api-operator-values.yaml"
+
+```
+
+```shell
+helm template cluster-api-operator capi-operator/cluster-api-operator \
+    --version 0.21.0 \
+    -n cluster-api-operator \
+    -f cluster-api-operator-values.yaml \
+    > cluster-api-operator.yaml
+```
+
+```shell
+helm upgrade cluster-api-operator capi-operator/cluster-api-operator \
+    --install \
+    --history-max 5 \
+    --version 0.21.0 \
+    -n cluster-api-operator \
+    -f cluster-api-operator-values.yaml
+```
