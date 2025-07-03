@@ -97,20 +97,14 @@ spec:
 
 :::info[Reference]
 
-- [mpi-operator GitHub / build / base ](https://github.com/kubeflow/mpi-operator/tree/master/build/base)
+- [mpi-operator GitHub / build / base](https://github.com/kubeflow/mpi-operator/tree/master/build/base)
 
 :::
 
-```shell title="build/base/sshd_config"
-PidFile /home/mpiuser/sshd.pid
-HostKey /home/mpiuser/.ssh/id_rsa
-StrictModes no
-```
-
 ```dockerfile title="build/base/Dockerfile"
-FROM debian:trixie
+FROM ubuntu:22.04
 
-ARG port=2222
+ARG PORT=2222
 
 RUN apt update && apt install -y --no-install-recommends \
     openssh-server \
@@ -118,31 +112,38 @@ RUN apt update && apt install -y --no-install-recommends \
     libcap2-bin \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
 # Add priviledge separation directoy to run sshd as root.
 RUN mkdir -p /var/run/sshd
 # Add capability to run sshd as non-root.
 RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/sshd
-RUN apt remove libcap2-bin -y
+RUN apt remove -y libcap2-bin
 
-# Allow OpenSSH to talk to containers without asking for confirmation
-# by disabling StrictHostKeyChecking.
-# mpi-operator mounts the .ssh folder from a Secret. For that to work, we need
-# to disable UserKnownHostsFile to avoid write permissions.
-# Disabling StrictModes avoids directory and files read permission checks.
-RUN sed -i "s/[ #]\(.*StrictHostKeyChecking \).*/ \1no/g" /etc/ssh/ssh_config \
-    && echo "    UserKnownHostsFile /dev/null" >> /etc/ssh/ssh_config \
-    && sed -i "s/[ #]\(.*Port \).*/ \1$port/g" /etc/ssh/ssh_config \
-    && sed -i "s/#\(StrictModes \).*/\1no/g" /etc/ssh/sshd_config \
-    && sed -i "s/#\(Port \).*/\1$port/g" /etc/ssh/sshd_config
+RUN cat <<EOF > /etc/ssh/ssh_config.d/50-mpiuser.conf
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    Port $PORT
+EOF
 
-RUN useradd -m mpiuser
+RUN cat <<EOF > /etc/ssh/sshd_config.d/50-mpiuser.conf
+StrictModes no
+Port $PORT
+EOF
+
+RUN useradd -m -u 1000 mpiuser
+
 WORKDIR /home/mpiuser
-# Configurations for running sshd as non-root.
-COPY --chown=mpiuser sshd_config .sshd_config
-RUN echo "Port $port" >> /home/mpiuser/.sshd_config
+
+RUN cat <<EOF > /home/mpiuser/.sshd_config
+PidFile /home/mpiuser/sshd.pid
+HostKey /home/mpiuser/.ssh/id_rsa
+StrictModes no
+Port $PORT
+EOF
 ```
 
-이를 바탕으로 이미지를 만드는 경우 MPIJob에는 아래와 같은 설정들이 반영되어야 합니다.
+이 이미지에 MPI 라이브러리 등을 설치하여 이미지를 만든 경우, 아래와 같은 설정들을 사용하여 MPIJob을 실행하면 됩니다.
 
 ```yaml
 apiVersion: kubeflow.org/v2beta1
@@ -157,6 +158,11 @@ spec:
             - name: mpi-launcher
               securityContext:
                 runAsUser: 1000
+              command:
+                - mpirun
+              args:
+                - -n
+                # ...
     Worker:
       template:
         spec:
