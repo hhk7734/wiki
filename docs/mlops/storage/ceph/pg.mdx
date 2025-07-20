@@ -74,10 +74,18 @@ kubectl rook-ceph ceph osd pool autoscale-status
 
 ## PG State
 
+:::info[Reference]
+
+- [Ceph / Operations / Placement Group States](https://docs.ceph.com/en/reef/rados/operations/pg-states/)
+
+:::
+
 - creating
 - peering
 - active
 - clean: PG에 있는 모든 Object의 복제본이 일치하는 상태입니다.
+- scrubbing: PG에 있는 Object의 모든 복제본들의 메타데이터가 일치하는지 확인하는 중인 상태입니다.
+- scrubbing+deep: PG에 있는 Object의 모든 복제본들의 checksum이 일치하는지 확인하는 중인 상태입니다.
 - degraded: PG에 있는 Object의 복제본이 일치하지 않는 상태입니다.
 - recovering: OSD가 down되었다가 up되었을 때, 최신 상태로 복구하는 중인 상태입니다.
 - backfilling
