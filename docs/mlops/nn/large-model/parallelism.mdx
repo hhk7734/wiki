@@ -15,38 +15,40 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ```mermaid
 graph LR
-  batch0@{ shape: procs, label: Batch0 }
-  batch1@{ shape: procs, label: Batch1 }
-  batch2@{ shape: procs, label: Batch2 }
-  batch3@{ shape: procs, label: Batch3 }
+  batch0-0@{ shape: procs, label: Batch0-0 }
+  batch1-0@{ shape: procs, label: Batch1-0 }
+  batch0-1@{ shape: procs, label: Batch0-1 }
+  batch1-1@{ shape: procs, label: Batch1-1 }
 
   subgraph calc0[forward & backward]
     gpu0-0[GPU0]
     gpu1-0[GPU1]
   end
 
-  batch0 --> gpu0-0
-  Weight0 --> gpu0-0
+  batch0-0 --> gpu0-0
+  Weight-0 --> gpu0-0
 
-  batch1 --> gpu1-0
-  Weight0 --> gpu1-0
+  batch1-0 --> gpu1-0
+  Weight-0 --> gpu1-0
 
-  gpu0-0 --> Weight1
-  gpu1-0 --> Weight1
+  Weight-0 --> Weight-1
+  gpu0-0 --> Weight-1
+  gpu1-0 --> Weight-1
 
   subgraph calc1[forward & backward]
     gpu0-1[GPU0]
     gpu1-1[GPU1]
   end
 
-  batch2 --> gpu0-1
-  Weight1 --> gpu0-1
+  batch0-1 --> gpu0-1
+  Weight-1 --> gpu0-1
 
-  batch3 --> gpu1-1
-  Weight1 --> gpu1-1
+  batch1-1 --> gpu1-1
+  Weight-1 --> gpu1-1
 
-  gpu0-1 --> Weight2
-  gpu1-1 --> Weight2
+  Weight-1 --> Weight-2
+  gpu0-1 --> Weight-2
+  gpu1-1 --> Weight-2
 ```
 
 Multi GPU 환경에서 데이터를 병렬화하여 모델을 학습하는 방법입니다. 매 스텝마다 $\Delta \mathbf{w}$를 집계하여 $W$를 업데이트하는 비용이 추가적으로 발생합니다.
@@ -57,38 +59,45 @@ Multi GPU 환경에서 데이터를 병렬화하여 모델을 학습하는 방�
 
 ```mermaid
 graph LR
-  batch0@{ shape: procs, label: Batch0 }
-  batch1@{ shape: procs, label: Batch1 }
+  batch-0@{ shape: procs, label: Batch-0 }
+  batch-1@{ shape: procs, label: Batch-1 }
 
   subgraph calc0[forward & backward]
     direction LR
-    gpu0-0[GPU0] -- feature --> gpu0-1[GPU0]
+    gpu0-0[GPU0] -- feature --> gpu1-0[GPU1]
   end
 
-  batch0 --> gpu0-0
-  Weight0 --> Weight0-0
-  Weight0 --> Weight0-1
+  batch-0 --> gpu0-0
+  Weight-0 --> Weight0-0[weight0-0]
+  Weight-0 --> Weight1-0
   Weight0-0 --> gpu0-0
-  Weight0-1 --> gpu0-1
+  Weight1-0 --> gpu1-0
 
-  gpu0-0 --> Weight1-0
-  gpu0-1 --> Weight1-1
+
+  Weight0-0 --> Weight0-1
+  gpu0-0 --> Weight0-1
+
+  Weight1-0 --> Weight1-1
+  gpu1-0 --> Weight1-1
 
   subgraph calc1[forward & backward]
     direction LR
-    gpu0-2[GPU0] -- feature --> gpu0-3[GPU0]
+    gpu0-1[GPU0] -- feature --> gpu1-1[GPU1]
   end
 
-  batch1 --> gpu0-2
-  Weight1-0 --> gpu0-2
+  batch-1 --> gpu0-1
+  Weight0-1 --> gpu0-1
 
-  Weight1-1 --> gpu0-3
+  Weight1-1 --> gpu1-1
 
-  gpu0-2 --> Weight2-0
-  gpu0-3 --> Weight2-1
+  Weight0-1 --> Weight0-2
+  gpu0-1 --> Weight0-2
 
-  Weight2-0 --> Weight2
-  Weight2-1 --> Weight2
+  Weight1-1 --> Weight1-2
+  gpu1-1 --> Weight1-2
+
+  Weight0-2 --> Weight-2
+  Weight1-2 --> Weight-2
 ```
 
 Multi GPU 환경에서 모델을 레이어 단위로 분할하여 병렬화하는 방법입니다.

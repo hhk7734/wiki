@@ -94,3 +94,17 @@ kubectl rook-ceph ceph osd pool autoscale-status
   - 부하가 큰 작업입니다.
 - remapped: Acting Set을 변경하는 중인 상태입니다.
 - stale
+
+## PG 복구
+
+```shell
+kubectl rook-ceph ceph pg dump
+```
+
+```shell
+kubectl rook-ceph ceph pg repair <pgID>
+```
+
+```shell
+kubectl rook-ceph ceph pg repeer <pgID>
+```
