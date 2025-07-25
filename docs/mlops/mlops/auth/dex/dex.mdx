@@ -20,11 +20,11 @@ helm repo update dex \
 ```
 
 ```shell
-helm pull dex/dex --version 0.19.1
+helm pull dex/dex --version 0.23.0
 ```
 
 ```shell
-helm show values dex/dex --version 0.19.1 > dex-0.19.1.yaml
+helm show values dex/dex --version 0.23.0 > dex-0.23.0.yaml
 ```
 
 ```yaml title="dex-values.yaml"
@@ -53,16 +53,31 @@ config:
 
 ```shell
 helm template dex dex/dex \
-    --version 0.19.1 \
+    --version 0.23.0 \
     -n dex \
     -f dex-values.yaml \
     > dex.yaml
 ```
 
 ```shell
-helm upgrade dex dex-0.19.1.tgz \
+helm upgrade dex dex/dex \
     --install \
     --history-max 5 \
+    --version 0.23.0 \
     -n dex \
     -f dex-values.yaml
+```
+
+## 삭제
+
+```shell
+helm uninstall dex -n dex
+```
+
+```shell
+kubectl delete namespace dex
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'dex.coreos.com' | xargs kubectl delete
 ```

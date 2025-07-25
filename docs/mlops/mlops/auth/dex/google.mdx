@@ -1,0 +1,130 @@
+---
+id: google
+title: Dex에 Google 연결하기
+sidebar_label: Google Connector
+description: Dex에 Google 연결하기
+keywords:
+  - dex
+  - google
+  - connector
+---
+
+:::info[Reference]
+
+- [Dex Docs / Connectors / Authentication Through Google](https://dexidp.io/docs/connectors/google/)
+
+:::
+
+## OAuth client 생성
+
+1. https://console.cloud.google.com/
+1. APIs & Services -\> Credentials 페이지로 이동합니다.
+1. `Create credentials` -\> `OAuth client ID`를 클릭합니다.
+1. `Application type`으로 Web application을 선택합니다.
+1. Name, Authorized redirect URIs를 입력합니다.
+1. `Create`를 클릭합니다.
+
+## 설정
+
+```yaml title="dex-values.yaml"
+config:
+  connectors:
+    - type: google
+      id: google
+      name: Google
+      config:
+        clientID: <clientID>
+        clientSecret: <clientSecret>
+        redirectURI: <issuerURI>/callback
+        promptType: ""
+```
+
+## groups 가져오기
+
+### Service account 생성
+
+:::info[Reference]
+
+- [Google Workspace / Guide / Create access credentials # Service account credentials](https://developers.google.com/workspace/guides/create-credentials#service-account)
+
+:::
+
+1. https://console.cloud.google.com/
+1. IAM & Admin -\> Service Accounts 페이지로 이동합니다.
+1. `Create service account`를 클릭합니다.
+1. Service account name을 입력하고 `Create and continue`를 클릭합니다.
+1. `Done`을 클릭합니다.
+
+### Credential 생성
+
+1. https://console.cloud.google.com/
+1. IAM & Admin -\> Service Accounts 페이지로 이동합니다.
+1. 생성한 Service account를 클릭합니다.
+1. Keys 탭으로 이동합니다.
+1. `Add Key` -\> `Create new key`를 클릭합니다.
+1. JSON을 선택 후 `Create`를 클릭합니다.
+
+생성하면 자동으로 JSON 파일이 다운로드됩니다.
+
+### Domain-wide delegation 설정
+
+1. https://console.cloud.google.com/
+1. IAM & Admin -\> Service Accounts 페이지로 이동합니다.
+1. 생성한 Service account를 클릭합니다.
+1. `Advanced settings`를 확장합니다.
+1. Client ID를 복사합니다.
+1. `View Google Workspace Admin Console`을 클릭합니다.(super administrator)
+1. Security -\> Access and data control -\> API controls 페이지로 접속합니다.
+1. `MANAGE DOMAIN WIDE DELEGATION`을 클릭합니다.
+1. `Add new`를 클릭한 후 복사한 Client ID를 입력합니다.
+1. OAuth scopes에 `https://www.googleapis.com/auth/admin.directory.group.readonly`를 입력합니다.
+1. `AUTHORIZE`를 클릭합니다.
+
+### Admin SDK API 활성화
+
+1. https://console.cloud.google.com/
+1. APIs & Services -\> Enabled APIs & services 페이지로 이동합니다.
+1. `Enable APIs and services`를 클릭합니다.
+1. Admin SDK를 검색합니다.
+1. `Admin SDK API`를 클릭합니다.
+1. `Enable`을 클릭합니다.
+
+### Admin Email 설정
+
+1. https://admin.google.com/
+1. Account -\> Admin roles 페이지로 이동합니다.
+1. `Groups Reader`를 클릭합니다.
+1. 사용할 Email을 추가합니다.
+
+### 설정 적용하기
+
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dex-google-service-account
+  namespace: dex
+type: Opaque
+data:
+  googleAuth.json: <googleAuth.json | base64 | tr -d '\n'>
+```
+
+```yaml title="dex-values.yaml"
+config:
+  connectors:
+    - type: google
+      config:
+        serviceAccountFilePath: /etc/dex/google-auth/googleAuth.json
+        domainToAdminEmail:
+          # example.com: admin@example.com
+          <domain>: <adminEmail>
+
+volumes:
+  - name: google-auth
+    secret:
+      secretName: dex-google-service-account
+
+volumeMounts:
+  - name: google-auth
+    mountPath: /etc/dex/google-auth
+```

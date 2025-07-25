@@ -810,7 +810,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Dex",
-					items: ["mlops/mlops/auth/dex/dex"],
+					items: ["mlops/mlops/auth/dex/dex", "mlops/mlops/auth/dex/google"],
 				},
 				{
 					type: "category",
