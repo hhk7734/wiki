@@ -1128,8 +1128,8 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Large Model",
-			items: ["mlops/nn/large-model/parallelism"],
+			label: "Large Language Model",
+			items: ["mlops/nn/llm/parallelism"],
 		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
