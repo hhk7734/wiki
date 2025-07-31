@@ -658,7 +658,11 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Dev-Lead",
-			items: ["etc/memo/dev-lead/role-and-responsibility", "etc/memo/dev-lead/scrum"],
+			items: [
+				"etc/memo/dev-lead/role-and-responsibility",
+				"etc/memo/dev-lead/scrum",
+				"etc/memo/dev-lead/team-management",
+			],
 		},
 	],
 	mlops: [
@@ -1118,18 +1122,13 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Transformer",
-			items: ["mlops/nn/transformer/transformer"],
-		},
-		{
-			type: "category",
 			label: "GNN",
 			items: ["mlops/nn/gnn/gnn"],
 		},
 		{
 			type: "category",
 			label: "Large Language Model",
-			items: ["mlops/nn/llm/parallelism"],
+			items: ["mlops/nn/llm/transformer", "mlops/nn/llm/parallelism"],
 		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],
