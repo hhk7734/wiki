@@ -1128,7 +1128,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Large Language Model",
-			items: ["mlops/nn/llm/transformer", "mlops/nn/llm/parallelism"],
+			items: ["mlops/nn/llm/transformer", "mlops/nn/llm/deepseek-v3", "mlops/nn/llm/parallelism"],
 		},
 	],
 	nordic: ["mcu/nordic/nrf-development-environment"],

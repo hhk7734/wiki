@@ -10,12 +10,6 @@ yarn install
 yarn start
 ```
 
-## Redirect
-
-Cloudflare
-
-- /docs/mlops/mlops/monitoring/* -> /docs/mlops/monitoring/${1}
-
 ## Tab
 
 
@@ -90,6 +84,20 @@ import TabItem from "@theme/TabItem";
 ::::
 
 :::::
+```
+
+## Draw.io
+
+```tsx
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
+
+<center>
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/<path>/example.drawio")} />
+		<figcaption>Example</figcaption>
+	</figure>
+</center>
 ```
 
 ## swizzle

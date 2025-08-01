@@ -20,6 +20,8 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 	</center>
 </figure>
 
+왼쪽의 동일한 Layer를 반복적으로 쌓은 구조가 Encoder이고, 오른쪽의 동일한 Layer를 반복적으로 쌓은 구조가 Decoder입니다. Transformer는 Encoder와 Decoder로 구성되어 있습니다. Encoder는 입력된 문장을 이해하고, Decoder는 이해한 내용을 바탕으로 출력 문장을 생성합니다.
+
 ## Tokenizer
 
 Tokenizer는 문장을 입력하면 입력된 문장을 분리하여 토큰(Token)으로 변환합니다.
@@ -68,7 +70,7 @@ $p_i = \left\{ sin\left(\frac{i}{10000^{2*1/d}}\right), cos\left(\frac{i}{10000^
 </figure>
 
 - Input
-  - 토큰 n 개
+  - $x_i \in \mathbb{R}^d$
   - $X = \left\{ x_1, x_2, \cdots, x_n \right\} \in \mathbb{R}^{n \times d}$
 - Query
   - $q_i = x_i W_q \in \mathbb{R}^{d_k}$
@@ -85,7 +87,7 @@ $p_i = \left\{ sin\left(\frac{i}{10000^{2*1/d}}\right), cos\left(\frac{i}{10000^
 - Output
   - $\text{Attention}(Q, K, V) = A V \in \mathbb{R}^{n \times d}$
 
-## Multi-Head Attention
+## Multi-Head Attention(MHA)
 
 <figure>
 	<center>
@@ -130,7 +132,7 @@ $$
 
 ## Cross Attention
 
-Decoder에서 Cross Attention은 이전 출력으로 Query를 만들고 Encoder의 출력으로 Key, Value를 만들어서 계산하는 Attention입니다.
+Decoder에서 Cross Attention은 이전 레이어의 출력으로 Query를 만들고 Encoder의 출력으로 Key, Value를 만들어서 계산하는 Attention입니다.
 
 - $Q_i = X_{decoder} W_i^Q \in \mathbb{R}^{n \times d_k}$
 - $K_i = X_{encoder} W_i^K \in \mathbb{R}^{m \times d_k}$
@@ -139,4 +141,4 @@ Decoder에서 Cross Attention은 이전 출력으로 Query를 만들고 Encoder�
 
 ## Feed-Forward Network
 
-- $FFN(X) = \text{ReLU}(X W_1 + b_1) W_2 + b_2 \in \mathbb{R}^{n \times d}$
+- $\text{FFN}(X) = \text{ReLU}(X W_1 + b_1) W_2 + b_2 \in \mathbb{R}^{n \times d}$

@@ -46,7 +46,7 @@ export default function DrawIOViewer({ src }: { src: string }) {
 	}, [src]);
 
 	return (
-		<div className="w-full">
+		<div className="w-full p-4">
 			{tip && <p>{tip}</p>}
 			<div className="w-full bg-white" ref={el} />
 		</div>

@@ -1,0 +1,79 @@
+---
+id: deepseek-v3
+title: DeepSeek V3
+sidebar_label: DeepSeek V3
+description: DeepSeek V3
+keywords:
+  - Neural Network
+  - DeepSeek
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
+
+## DeepSeek V3
+
+<center>
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/llm/deepseek-v3.drawio")} />
+		<figcaption>DeepSeek V3 Transformer Block</figcaption>
+	</figure>
+</center>
+
+DeepSeek V3는 Masked Self Attention으로 Multi-Head Latent Attention을 사용하고, Feed-Forward Network으로 DeepSeekMoE를 사용하는 Transformer Block을 쌓은 Decoder-Only Transformer 구조의 LLM입니다.
+
+## Rotary Positional Embedding(RoPE)
+
+## Multi-Head Latent Attention(MLA)
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/multi-head-latent-attention.png")} />
+		<br />
+		<figcaption>[Figure 2. Multi-Head Latent Attention(MLA)](https://arxiv.org/html/2412.19437v1)</figcaption>
+	</center>
+</figure>
+
+Latent를 도입하여 MHA를 사용할 때 보다 연산 효율, 메모리 사용량, KV cache 크기 등에서 향상된 성능을 보이는 Attention입니다.
+
+- Latent
+  - $C^{KV} = X W^{DKV} \in \mathbb{R}^{n \times d_{c}} ~ (d_c \ll d_h n_h)$
+  - $C^Q = X W^{DQ} \in \mathbb{R}^{n \times d_c'} ~ (d_c' \ll d_h n_h)$
+- Query
+  - $Q_i^C = C^Q W_i^{UQ} \in \mathbb{R}^{n \times d_h n_h}$
+  - $Q_i^R = \text{RoPE}(C^Q W_i^{QR}) \in \mathbb{R}^{n \times d_h^R n_h}$
+  - $Q_i = \text{Concat}(Q_i^C, Q_i^R) \in \mathbb{R}^{n \times (d_h + d_h^R) n_h}$
+- Key
+  - $K_i^C = C^{KV} W_i^{UK} \in \mathbb{R}^{n \times d_h n_h}$
+  - $K^R = K_i^R = \text{RoPE}(C^{KV} W^{KR}) \in \mathbb{R}^{n \times d_h^R n_h}$
+  - $K_i = \text{Concat}(K_i^C, K_i^R) \in \mathbb{R}^{n \times (d_h + d_h^R) n_h}$
+- Value
+  - $V_i^C = C^{KV} W_i^{UV} \in \mathbb{R}^{n \times d_h n_h}$
+
+## Mixture of Experts(MoE)
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/mixture-of-experts.png")} />
+		<br />
+		<figcaption>[Figure 2. DeepSeekMoE](https://arxiv.org/html/2412.19437v1)</figcaption>
+	</center>
+</figure>
+
+- $s_{it} = \text{Sigmoid}(x_t^T e_i)$
+- $g_{it}' = \begin{cases}s_{it} & , s_{it} \in \text{Topk}(\{s_{jt} | 1 \leqslant j \leqslant N_r\}, K_r) \\ 0 & \text{, otherwise} \end{cases}$
+- $g_{it} = \dfrac{g_{it}'}{\sum_{j=1}^{N_r} g_{jt}'}$
+- $\text{MoE}(x_t) = x_t + \sum_{i=1}^{N_s} \text{FFN}_i^s(x_t) + \sum_{i=1}^{N_r} g_{it} \text{FFN}_i^r(x_t)$
+
+<br />
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/gshard-moe-model-parallel.png")} />
+		<br />
+		<figcaption>
+			[Figure 3. Illustration of scaling of Transformer Encoder with MoE Layers
+			(GShard)](https://arxiv.org/pdf/2006.16668)
+		</figcaption>
+	</center>
+</figure>
