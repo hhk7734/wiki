@@ -27,7 +27,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 ## EnvoyFilter
 
-- https://istio.io/latest/docs/reference/config/networking/envoy-filter/
+:::info[Reference]
+
+- [Istio / Traffic management / Envoy Filter](https://istio.io/latest/docs/reference/config/networking/envoy-filter/)
+
+:::
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -56,7 +60,12 @@ spec:
   - 설정하면 동일한 namespace 내에서 선택된 Workload의 Envoy에 필터가 적용됩니다
   - 설정하지 않으면 동일한 namespace 내의 모든 Workload의 Envoy에 필터가 적용됩니다
   - namespace가 MeshConfig의 rootNamespace(default: istio-system)와 같은 경우 namespace에 관계없이 적용됩니다
-- `configPatches`
+- `targetRefs`
+  - `group: <group>`
+  - `kind: <kind>`
+  - `name: <name>`
+  - `namespace: <namespace>`
+- `configPatches: []`
   - `applyTo`
     - LISTENER
     - FILTER_CHAIN

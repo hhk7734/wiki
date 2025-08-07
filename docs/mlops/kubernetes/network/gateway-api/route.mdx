@@ -53,6 +53,45 @@ spec:
 
 ## HTTPRoute
 
+:::info[Reference]
+
+- [Gateway API / API specification / Standard # HTTPRoute](https://gateway-api.sigs.k8s.io/reference/spec/#httproute)
+
+:::
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+spec:
+  hostnames:
+    - <host>
+  parentRefs:
+    - name: <gatewayName>
+      namespace: <gatewayNamespace>
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - name: <serviceName>
+          port: <servicePort>
+```
+
+- `rules: []`
+  - `matches: []`
+    - 리스트 중 하나라도 일치하면 라우팅됩니다.
+    - `path`, `headers`, `queryParams`, `method`를 조합할 수 있으며, AND 조건으로 처리됩니다.
+    - `path`
+      - `type: PathPrefix|RegularExpression`
+      - `value: <path>`
+  - `backendRefs: []`
+    - `group: <group>`
+    - `kind: Service`
+    - `name: <name>`
+    - `namespace: <namespace>`
+    - `port: <port>`
+
 ## TCPRoute
 
 ## ReferenceGrant

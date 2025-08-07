@@ -1,0 +1,54 @@
+---
+id: ext-proc
+title: EnvoyFilter로 외부 프로세서와 통신하기
+sidebar_label: 외부 프로세서
+description: EnvoyFilter로 외부 프로세서와 통신하기
+keywords:
+  - EnvoyFilter
+  - ext-proc
+---
+
+## ExternalProcessor
+
+:::info[Reference]
+
+- [Envoy / Configuration / HTTP / Filter / External Processor](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_proc_filter)
+- [Envoy / API / V3 / Extensions / Filters / HTTP / External Processor](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_proc/v3/ext_proc.proto)
+
+:::
+
+```yaml
+spec:
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_FIRST
+        value:
+          name: envoy.filters.http.ext_proc
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.ext_proc.v3.ExternalProcessor
+            grpc_service:
+              envoy_grpc:
+                cluster_name: outbound|<port>||<name>.<namespace>.svc.cluster.local
+            failure_mode_allow: false
+            allow_mode_override: true
+            processing_mode:
+              request_body_mode: "FULL_DUPLEX_STREAMED"
+              response_header_mode: "SKIP"
+```
+
+- `grpc_service`
+- `allow_mode_override: false`
+  - `true`로 설정하면 `ProcessingResponse.mode_override`에 따라 `processing_mode`를 변경할 수 있습니다.
+- `processing_mode`
+  - `request_header_mode: SEND|SKIP`
+  - `request_body_mode: NONE|STREAMED|BUFFERED|BUFFERED_PARTIAL|FULL_DUPLEX_STREAMED`
+  - `request_trailer_mode: SKIP|SEND`
+  - `response_header_mode: SEND|SKIP`
+  - `response_body_mode: NONE|STREAMED|BUFFERED|BUFFERED_PARTIAL|FULL_DUPLEX_STREAMED`
+  - `response_trailer_mode: SKIP|SEND`

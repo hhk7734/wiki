@@ -1,0 +1,52 @@
+---
+id: gateway-api-inference-extension
+title: Gateway API Inference Extension (GIE) CRD 설치 가이드
+sidebar_label: 설치 가이드
+description: Gateway API Inference Extension (GIE) CRD 설치 가이드
+keywords:
+  - Gateway API
+  - Inference Extension
+---
+
+## Gateway API
+
+:::info[Reference]
+
+- [Gateway API CRD 설치 가이드](/docs/mlops/kubernetes/network/gateway-api)
+
+:::
+
+## 설치
+
+```shell
+helm repo add lol-iot https://lol-iot.github.io/helm-charts
+```
+
+```shell
+helm repo update lol-iot \
+&& helm search repo lol-iot/gateway-api-inference-extension -l | head -n 10
+```
+
+```shell
+helm pull lol-iot/gateway-api-inference-extension --version 0.5.1
+```
+
+```shell
+helm show values lol-iot/gateway-api-inference-extension --version 0.5.1 \
+  > gateway-api-inference-extension-0.5.1.yaml
+```
+
+```shell
+helm template gateway-api-inference-extension lol-iot/gateway-api-inference-extension \
+  --version 0.5.1 \
+  -n kube-system \
+  > gateway-api-inference-extension.yaml
+```
+
+```shell
+helm upgrade gateway-api-inference-extension lol-iot/gateway-api-inference-extension \
+    --install \
+    --history-max 5 \
+    --version 0.5.1 \
+    -n kube-system
+```

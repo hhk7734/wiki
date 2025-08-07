@@ -1070,8 +1070,9 @@ const sidebars: SidebarsConfig = {
 							label: "EnvoyFilter",
 							items: [
 								"mlops/network/istio/traffic-management/envoy-filter/envoy-filter",
-								"mlops/network/istio/traffic-management/envoy-filter/auth",
-								"mlops/network/istio/traffic-management/envoy-filter/compression",
+								"mlops/network/istio/traffic-management/envoy-filter/compressor",
+								"mlops/network/istio/traffic-management/envoy-filter/ext-authz",
+								"mlops/network/istio/traffic-management/envoy-filter/ext-proc",
 							],
 						},
 					],
@@ -1387,6 +1388,16 @@ const sidebars: SidebarsConfig = {
 		"mcu/sam/sam-sam4s2a-time",
 		"mcu/sam/sam-sam4s2a-ioport",
 		"mcu/sam/sam-sam4s2a-adc",
+	],
+	serving: [
+		{
+			type: "category",
+			label: "Gateway API Inference Extension",
+			items: [
+				"mlops/serving/gateway-api-inference-extension/gateway-api-inference-extension",
+				"mlops/serving/gateway-api-inference-extension/route",
+			],
+		},
 	],
 	shellscript: [
 		"lang/shellscript/shellscript",

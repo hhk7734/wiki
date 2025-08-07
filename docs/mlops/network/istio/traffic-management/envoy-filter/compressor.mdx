@@ -1,17 +1,21 @@
 ---
-id: compression
-title: Compression EnvoyFilter
-sidebar_label: Compression
-description: Compression EnvoyFilter
+id: compressor
+title: EnvoyFilter로 HTTP 압축 관리하기
+sidebar_label: HTTP 압축 관리하기
+description: EnvoyFilter로 HTTP 압축 관리하기
 keywords:
   - EnvoyFilter
-  - compression
+  - compressor
 ---
 
-## http.compressor
+## Compressor
 
-- https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/compressor_filter
-- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/compressor/v3/compressor.proto
+:::info[Reference]
+
+- [Envoy / Configuration / HTTP / Filter / Compressor](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/compressor_filter)
+- [Envoy / API / V3 / Extensions / Filters / HTTP / Compressor](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/compressor/v3/compressor.proto)
+
+:::
 
 ```yaml
 spec:
@@ -71,13 +75,17 @@ spec:
   - `disable_on_etag_header`
   - `remove_accept_encoding_header`
 - `choose_first`
-- `compressor_library`
+- [compressor_library](#compressor_library)
 
 ## `compressor_library`
 
-### gzip
+### Gzip
 
-- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/gzip/compressor/v3/gzip.proto
+:::info[Reference]
+
+- [Envoy / API / V3 / Extensions / Compression / Gzip](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/gzip/compressor/v3/gzip.proto)
+
+:::
 
 ```yaml
 spec:
@@ -114,7 +122,11 @@ spec:
 
 ### Brotli
 
-- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/brotli/compressor/v3/brotli.proto
+:::info[Reference]
+
+- [Envoy / API / V3 / Extensions / Compression / Brotli](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/brotli/compressor/v3/brotli.proto)
+
+:::
 
 ```yaml
 spec:
@@ -147,9 +159,13 @@ spec:
 - `disable_literal_context_modeling`
   - literal context modeling을 비활성화할 지 여부입니다. 디코딩 속도와 압축률 사이의 트레이드 오프입니다.
 
-### zstd
+### Zstd
 
-- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/zstd/compressor/v3/zstd.proto
+:::info[Reference]
+
+- [Envoy / API / V3 / Extensions / Compression / Zstd](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/compression/zstd/compressor/v3/zstd.proto)
+
+:::
 
 ```yaml
 spec:

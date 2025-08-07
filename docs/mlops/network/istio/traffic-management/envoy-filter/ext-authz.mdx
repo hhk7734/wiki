@@ -1,17 +1,21 @@
 ---
-id: auth
-title: Auth EnvoyFilter
-sidebar_label: Auth
-description: Auth EnvoyFilter
+id: ext-authz
+title: EnvoyFilter로 외부 인증서버와 통신하기
+sidebar_label: 외부 인증서버
+description: EnvoyFilter로 외부 인증서버와 통신하기
 keywords:
   - EnvoyFilter
-  - auth
+  - ext-authz
 ---
 
-## http.ext_authz
+## ExtAuthz
 
-- https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter#config-http-filters-ext-authz
-- https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto
+:::info[Reference]
+
+- [Envoy / Configuration / HTTP / Filters / ExtAuthz](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter)
+- [Envoy / API / V3 / Extensions / Filters / HTTP / ExtAuthz](https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/http/ext_authz/v3/ext_authz.proto)
+
+:::
 
 ```yaml
 spec:
@@ -41,7 +45,7 @@ spec:
                   patterns:
                     - exact: cookie
                     - exact: authorization
-                    - exact: x-auth-tokeno
+                    - exact: x-auth-token
               authorization_response:
                 allowed_upstream_headers:
                   patterns:
