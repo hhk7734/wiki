@@ -1,0 +1,124 @@
+---
+id: endpoint-picker
+title: Gateway API Inference Extension (GIE) EndPoint Picker (EPP)
+sidebar_label: EndPoint Picker (EPP)
+description: Gateway API Inference Extension (GIE) EndPoint Picker (EPP)
+keywords:
+  - Gateway API
+  - Inference Extension
+  - Endpoint Picker
+---
+
+```mermaid
+flowchart TD
+  C[Client] -- 1️⃣ request --> E[Envoy]
+  E -- 2️⃣ request --> EPP[Endpoint Picker]
+  EPP -- 3️⃣ request + routingHint --> E
+  E -- 4️⃣ request --> DW1[Decode Worker]
+  EPP -.- IP
+  IP@{ shape: card, label: InferencePool } -.- DW1
+  IP -.- DW2[Decode Worker]
+  IP -.- PW[Prefill Worker]
+```
+
+## Scheduler
+
+```mermaid
+sequenceDiagram
+  participant E as Envoy
+  participant EPP as Endpoint Picker
+  participant D as Dialector
+  participant S as Scheduler
+  participant PH as ProfileHandler
+
+  E ->> EPP: 2️⃣ request
+  EPP ->> D: HandleRequest()
+  D ->> S: Schedule()
+
+  loop
+    S ->> PH: Pick()
+    PH -->> S: []SchedulerProfile
+
+    create participant SP as SchedulerProfile
+    S ->> SP: Run()
+    SP ->> SP: runFilterPlugins()
+    SP ->> SP: runScorerPlugins()
+    SP ->> SP: runPickerPlugin()
+    destroy SP
+    SP -->> S: ProfileRunResult
+  end
+
+  S ->> PH: ProcessResults()
+  PH -->> S: SchedulingResult
+  S --> D: SchedulingResult
+  D ->> D: prepareRequest(), runPreRequestPlugins()
+  D -->> EPP: RequestContext
+  EPP -->> E: 3️⃣ request + routingHint
+```
+
+## EndpointPickerConfig
+
+:::info[Reference]
+
+- [GIE / Guides / Configuring Plugins via text](https://gateway-api-inference-extension.sigs.k8s.io/guides/epp-configuration/config-text/)
+
+:::
+
+### 설정
+
+```yaml
+apiVersion: inference.networking.x-k8s.io/v1alpha1
+kind: EndpointPickerConfig
+plugins:
+  - name: <name>
+    type: <type>
+    parameters:
+      <key>: <value>
+schedulingProfiles:
+  - name: <name>
+    plugins:
+      - pluginRef: <pluginName>
+        weight: <weight>
+```
+
+- `plugins: []`
+  - SchedulerProfile에 등록할 **FilterPlugin**, **ScorerPlugin**, **PickerPlugin**과 **ProfileHandler**, **PreRequestPlugin**, **PostRequestPlugin**을 설정합니다.
+  - ProfileHandler는 반드시 하나만 설정해야 합니다.
+  - 설정한 PreRequestPlugin과 PostRequestPlugin은 모두 실행됩니다.
+  - `name: <name>`
+    - 설정하지 않으면 `type`이 사용됩니다.
+  - `type: <type>`
+    - EPP에 등록된 plugin type 중 하나를 지정합니다.
+  - `parameters`
+    - plugin에 전달할 파라미터를 설정합니다.
+- `schedulingProfiles: []`
+  - `name: <name>`
+    - scheduler가 사용할 profile 이름을 설정합니다.
+  - `plugins: []`
+    - scheduler가 사용할 **FilterPlugin**, **ScorerPlugin**, **PickerPlugin**을 설정합니다.
+    - PickerPlugin은 반드시 하나만 설정해야 합니다.
+    - `pluginRef: <pluginName>`
+    - `weight: 1`
+      - plugin이 scorer일 때 사용되는 가중치입니다.
+
+### 기본 Plugin Type
+
+- ProfileHandler
+  - `single-profile-handler`
+- FilterPlugin
+- ScorerPlugin
+  - `prefix-cache-scorer`
+    - `hashBlockSize: 64`
+    - `maxPrefixBlocksToMatch: 256`
+    - `lruCapacityPerServer: 31250`
+  - `lora-affinity-scorer`
+  - `kv-cache-utilization-scorer`
+  - `queue-scorer`
+  - `lora-affinity-scorer`
+- PickerPlugin
+  - `max-score-picker`
+    - `maxNumOfEndpoints: 1`
+  - `random-picker`
+    - `maxNumOfEndpoints: 1`
+- PreRequestPlugin
+- PostRequestPlugin

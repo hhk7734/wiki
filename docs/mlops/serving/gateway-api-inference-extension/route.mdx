@@ -1,28 +1,13 @@
 ---
 id: route
-title: GIE로 모델 라우팅 관리하기
+title: Gateway API Inference Extension (GIE)로 모델 라우팅 관리하기
 sidebar_label: 라우팅 관리하기
-description: GIE로 모델 라우팅 관리하기
+description: Gateway API Inference Extension (GIE)로 모델 라우팅 관리하기
 keywords:
   - Gateway API
   - Inference Extension
   - InferencePool
 ---
-
-## EndPoint Picker (EPP)
-
-```mermaid
-flowchart TD
-  C[Client] -- 1️⃣ request --> E[Envoy]
-  E -- 2️⃣ request --> EPP[EndPoint Picker]
-  EPP -- 3️⃣ request + routingHint --> E
-  E -- 4️⃣ request --> DW1[Decode Worker]
-  EPP -.- IP
-  IP@{ shape: card, label: InferencePool } -.- DW1
-  IP -.- DW2[Decode Worker]
-  IP -.- PW[Prefill Worker]
-
-```
 
 ## InferencePool
 
@@ -49,6 +34,7 @@ spec:
 - `targetPortNumber: <port>`
   - Pod의 포트를 지정합니다.
 - `extensionRef`
+  - 사용할 Extension(e.g. EPP)의 Service를 지정합니다.
   - `group: ""`
   - `kind: Service`
   - `name: <name>`
