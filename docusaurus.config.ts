@@ -8,7 +8,6 @@ import { themes } from "prism-react-renderer";
 import tailwindPlugin from "./plugins/tailwind-config";
 import { navbarItems } from "./navbar";
 
-
 const config: Config = {
 	title: "lol-IoT by HHK",
 	tagline: "lol-IoT",
@@ -85,8 +84,8 @@ const config: Config = {
 	scripts: [
 		{
 			src: "https://www.draw.io/js/viewer.min.js",
-			async: true
-		}
+			async: true,
+		},
 	],
 	stylesheets: [
 		{
@@ -172,6 +171,10 @@ const config: Config = {
 		},
 		mermaid: {
 			theme: { light: "base", dark: "dark" },
+			options: {
+				// https://github.com/mermaid-js/mermaid/blob/master/packages/mermaid/src/config.type.ts
+				look: "handDrawn",
+			},
 		},
 		zoom: {
 			selector: ".markdown :not(em) > img",
