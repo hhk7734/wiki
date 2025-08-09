@@ -497,7 +497,14 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Cluster API",
-					items: ["mlops/kubernetes/tools/cluster-api/cluster-api"],
+					items: [
+						"mlops/kubernetes/tools/cluster-api/cluster-api",
+						{
+							type: "category",
+							label: "Infrastructure",
+							items: ["mlops/kubernetes/tools/cluster-api/infrastructure/kubevirt"],
+						},
+					],
 				},
 				"mlops/kubernetes/tools/kustomize",
 				"mlops/kubernetes/tools/helm",
@@ -738,41 +745,6 @@ const sidebars: SidebarsConfig = {
 					],
 				},
 				"mlops/mlops/container/s6-overlay",
-			],
-		},
-		{
-			type: "category",
-			label: "Provisioning",
-			items: [
-				{
-					type: "category",
-					label: "Karpenter",
-					items: [
-						"mlops/mlops/provisioning/karpenter/karpenter",
-						"mlops/mlops/provisioning/karpenter/spot-event",
-						"mlops/mlops/provisioning/karpenter/crd",
-						"mlops/mlops/provisioning/karpenter/scheduling",
-						"mlops/mlops/provisioning/karpenter/deprovisioning",
-					],
-				},
-				{
-					type: "category",
-					label: "KEDA",
-					items: [
-						"mlops/mlops/provisioning/keda/keda",
-						"mlops/mlops/provisioning/keda/crd",
-						"mlops/mlops/provisioning/keda/external-scaler",
-					],
-				},
-				{
-					type: "category",
-					label: "Knative",
-					items: [
-						"mlops/mlops/provisioning/knative/knative",
-						"mlops/mlops/provisioning/knative/serving-crds",
-						"mlops/mlops/provisioning/knative/autoscaling",
-					],
-				},
 			],
 		},
 		{
@@ -1217,6 +1189,38 @@ const sidebars: SidebarsConfig = {
 				"etc/project/ahrs/ahrs-euler-angles",
 				"etc/project/ahrs/ahrs-extended-kalman-filter",
 				"etc/project/ahrs/ahrs-sensor-calibration",
+			],
+		},
+	],
+	provisioning: [
+		{
+			type: "category",
+			label: "Karpenter",
+			items: [
+				"mlops/provisioning/karpenter/karpenter",
+				"mlops/provisioning/karpenter/spot-event",
+				"mlops/provisioning/karpenter/crd",
+				"mlops/provisioning/karpenter/scheduling",
+				"mlops/provisioning/karpenter/deprovisioning",
+			],
+		},
+		{
+			type: "category",
+			label: "KubeVirt",
+			items: ["mlops/provisioning/kubevirt/kubevirt"],
+		},
+		{
+			type: "category",
+			label: "KEDA",
+			items: ["mlops/provisioning/keda/keda", "mlops/provisioning/keda/crd", "mlops/provisioning/keda/external-scaler"],
+		},
+		{
+			type: "category",
+			label: "Knative",
+			items: [
+				"mlops/provisioning/knative/knative",
+				"mlops/provisioning/knative/serving-crds",
+				"mlops/provisioning/knative/autoscaling",
 			],
 		},
 	],

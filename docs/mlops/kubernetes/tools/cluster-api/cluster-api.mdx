@@ -17,6 +17,12 @@ keywords:
 
 :::
 
+:::warning
+
+[cert-manager](/docs/mlops/mlops/auth/cert-manager)가 설치되어있어야 합니다.
+
+:::
+
 ```shell
 helm repo add capi-operator https://kubernetes-sigs.github.io/cluster-api-operator
 ```
@@ -27,21 +33,36 @@ helm repo update capi-operator \
 ```
 
 ```shell
-helm pull capi-operator/cluster-api-operator --version 0.21.0
+helm pull capi-operator/cluster-api-operator --version 0.22.0
 ```
 
 ```shell
-helm show values capi-operator/cluster-api-operator --version 0.21.0 > cluster-api-operator-0.21.0.yaml
+helm show values capi-operator/cluster-api-operator --version 0.22.0 > cluster-api-operator-0.22.0.yaml
 ```
 
 ```yaml title="cluster-api-operator-values.yaml"
-
+core:
+  cluster-api:
+    version: v1.10.4
+    namespace: capi-system
+    createNamespace: true
 ```
+
+:::info
+
+[Cluster API Docs / Reference / Provider List](https://cluster-api.sigs.k8s.io/reference/providers.html)
+
+:::
+
+- `core`
+  - `cluster-api`
+    - `version: <version>`
+      - [Cluster API GitHub / Releases](https://github.com/kubernetes-sigs/cluster-api/releases)
 
 ```shell
 helm template cluster-api-operator capi-operator/cluster-api-operator \
-    --version 0.21.0 \
-    -n cluster-api-operator \
+    --version 0.22.0 \
+    -n capi-operator-system \
     -f cluster-api-operator-values.yaml \
     > cluster-api-operator.yaml
 ```
@@ -50,7 +71,36 @@ helm template cluster-api-operator capi-operator/cluster-api-operator \
 helm upgrade cluster-api-operator capi-operator/cluster-api-operator \
     --install \
     --history-max 5 \
-    --version 0.21.0 \
-    -n cluster-api-operator \
+    --version 0.22.0 \
+    -n capi-operator-system \
     -f cluster-api-operator-values.yaml
+```
+
+## 삭제
+
+```shell
+for crd in $(kubectl get crd -o name | grep 'cluster.x-k8s.io' |
+  grep -v 'operator.cluster.x-k8s.io'); do
+
+  kind=$(kubectl get "$crd" -o jsonpath='{.spec.names.plural}')
+  group=$(kubectl get "$crd" -o jsonpath='{.spec.group}')
+  kubectl delete "$kind.$group" --all --all-namespaces
+done
+```
+
+```shell
+for crd in $(kubectl get crd -o name | grep 'operator.cluster.x-k8s.io'); do
+
+  kind=$(kubectl get "$crd" -o jsonpath='{.spec.names.plural}')
+  group=$(kubectl get "$crd" -o jsonpath='{.spec.group}')
+  kubectl delete "$kind.$group" --all --all-namespaces
+done
+```
+
+```shell
+helm uninstall cluster-api-operator -n capi-operator-system
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'cluster.x-k8s.io' | xargs kubectl delete
 ```

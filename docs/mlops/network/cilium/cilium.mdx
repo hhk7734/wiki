@@ -65,7 +65,7 @@ operator:
 ```
 
 ```shell
-helm template cilium cilium-1.16.4.tgz \
+helm template cilium cilium/cilium \
     --version 1.16.4 \
     -n kube-system \
     -f cilium-values.yaml \
@@ -73,7 +73,7 @@ helm template cilium cilium-1.16.4.tgz \
 ```
 
 ```shell
-helm upgrade cilium cilium-1.16.4.tgz \
+helm upgrade cilium cilium/cilium \
     --install \
     --history-max 5 \
     --version 1.16.4 \

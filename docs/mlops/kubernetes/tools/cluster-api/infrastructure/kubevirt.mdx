@@ -1,0 +1,28 @@
+---
+id: kubevirt
+title: Cluster API에서 KubeVirt Provider 사용하기
+sidebar_label: KubeVirt
+description: Cluster API에서 KubeVirt Provider 사용하기
+keywords:
+  - cluster-api
+  - infrastructure
+  - provider
+  - kubevirt
+---
+
+## KubeVirt
+
+## InfrastructureProvider
+
+```yaml
+apiVersion: operator.cluster.x-k8s.io/v1alpha2
+kind: InfrastructureProvider
+metadata:
+  name: kubevirt
+  namespace: capi-kubevirt-infrastructure
+spec:
+  version: v0.1.10
+```
+
+- `version: <version>`
+  - [Cluster API KubeVirt Provider GitHub / Releases](https://github.com/kubernetes-sigs/cluster-api-provider-kubevirt/releases)

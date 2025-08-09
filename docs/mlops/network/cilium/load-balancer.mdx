@@ -30,8 +30,11 @@ spec:
 
 - `spec`
   - `blocks`
-    - LoadBalancer IP로 사용할 CIDR을 지정합니다.
+    - LoadBalancer IP로 사용할 `cidr`을 설정하거나 `start`, `stop`을 설정합니다.
     - 다른 CiliumLoadBalancerIPPool과 겹치면 안됩니다.
+    - `cidr: <cidr>`
+    - `start: <ip>`
+    - `stop: <ip>`
   - `serviceSelector`
     - IP를 할당 받을 수 있는 Service들을 선택할 수 있습니다.
     - 선언하지 않으면 모든 Service들이 선택됩니다.
