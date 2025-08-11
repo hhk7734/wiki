@@ -1,0 +1,81 @@
+---
+id: virtualmachine
+title: KubeVirt로 VirtualMachin 생성하기
+sidebar_label: VirtualMachine 생성
+description: KubeVirt로 VirtualMachin 생성하기
+keywords:
+  - kubevirt
+  - virtualmachine
+---
+
+## VirtualMachine
+
+```yaml
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+spec:
+  runStrategy: Always
+  template:
+    spec:
+      domain:
+        resources:
+          requests:
+            cpu: 2
+            memory: 4Gi
+          devices:
+            interfaces:
+              - name: default
+                masquerade: {}
+            disks:
+              - name: rootdisk
+                disk:
+                  bus: virtio
+              - name: cloudinit
+                disk:
+                  bus: virtio
+      networks:
+        - name: default
+          pod: {}
+      volumes:
+        - name: rootdisk
+          dataVolume:
+            name: ubuntu2204
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              password: root
+              chpasswd:
+                expire: false
+```
+
+- `runStrategy: Always|RerunOnFailure|Once|Manual|Halted`
+  - [KubeVirt Docs / Compute / Run Strategies](https://kubevirt.io/user-guide/compute/run_strategies/)
+- `template`
+  - `spec`
+    - `domain`
+      - `devices`
+        - `interfaces`
+          - `networks`에 있는 네트워크를 추가합니다.
+        - `disks`
+          - `volumes`에 있는 볼륨을 추가합니다.
+    - `networks: []`
+    - `volumes: []`
+      - `name: <name>`
+      - `dataVolume`
+      - `containerDisk`
+      - `cloudInitNoCloud`
+        - [cloud-init Docs / Datasources / NoCloud](https://cloudinit.readthedocs.io/en/latest/reference/datasources/nocloud.html)
+        - `userData`
+          - [cloud-init Docs / Module reference](https://cloudinit.readthedocs.io/en/latest/reference/modules.html)
+
+## VirtualMachine 접속하기
+
+```shell
+kubectl virt console -n <vmNamespace> <vmName>
+```
+
+`ctrl + ]` 또는 `ctrl + 5`를 눌러서 접속을 종료할 수 있습니다.
+
+```shell
+kubectl virt vnc -n <vmNamespace> <vmName>
+```

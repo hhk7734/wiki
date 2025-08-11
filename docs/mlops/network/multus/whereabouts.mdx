@@ -17,12 +17,38 @@ keywords:
 
 :::
 
+```shell
+helm pull oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2
+```
+
+```shell
+helm show values oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2 \
+  > whereabouts-0.9.2.yaml
+```
+
 ```yaml title="whereabouts-values.yaml"
 fullnameOverride: "whereabouts"
 
 nodeSliceController:
   # Experimental
   enabled: false
+```
+
+```shell
+helm template whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
+  --version 0.9.2 \
+  -n kube-system \
+  -f whereabouts-values.yaml \
+  > whereabouts.yaml
+```
+
+```shell
+helm upgrade whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
+  --install \
+  --history-max 5 \
+  --version 0.9.2 \
+  -n kube-system \
+  -f whereabouts-values.yaml
 ```
 
 ## 설정

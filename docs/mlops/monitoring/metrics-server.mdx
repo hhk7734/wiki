@@ -19,7 +19,11 @@ import Image from "@theme/IdealImage";
 
 ## 설치
 
-- https://kubernetes-sigs.github.io/metrics-server/
+:::info[Reference]
+
+- [metrics-server]https://kubernetes-sigs.github.io/metrics-server/
+
+:::
 
 ```shell
 helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
@@ -35,7 +39,7 @@ helm pull metrics-server/metrics-server --version 3.12.2
 ```
 
 ```shell
-helm show values metrics-server-3.12.2.tgz \
+helm show values metrics-server/metrics-server --version 3.12.2 \
     > metrics-server-3.12.2.yaml
 ```
 
@@ -52,25 +56,33 @@ resources:
     cpu: 100m
     memory: 200Mi
 
-tolerations:
-  - operator: Exists
+affinity: {}
+
+tolerations: []
 ```
+
+- `affinity: {}`
+  - [Affinity](/docs/mlops/kubernetes/scheduling/affinity.mdx)
+- `tolerations: []`
+  - [Taints and Tolerations](/docs/mlops/kubernetes/scheduling/taint-toleration.mdx)
 
 :::info
 로그에 `"Failed to scrape node" err="Get \"https://xxx:10250/stats/summary?only_cpu_and_memory=true\": x509: cannot validate certificate for xxx because it doesn't contain any IP SANs" node="xxx"`와 같은 에러가 발생하는 경우 `--kubelet-insecure-tls`를 추가해주세요.
 :::
 
 ```shell
-helm template metrics-server metrics-server-3.12.2.tgz \
+helm template metrics-server metrics-server/metrics-server \
+    --version 3.12.2 \
     -n kube-system \
     -f metrics-server-values.yaml \
     > metrics-server.yaml
 ```
 
 ```shell
-helm upgrade metrics-server metrics-server-3.12.2.tgz \
+helm upgrade metrics-server metrics-server/metrics-server \
     --install \
     --history-max 5 \
+    --version 3.12.2 \
     -n kube-system \
     -f metrics-server-values.yaml
 ```

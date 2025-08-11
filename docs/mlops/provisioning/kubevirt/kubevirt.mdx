@@ -9,9 +9,12 @@ keywords:
 
 ## 설치
 
+### KubeVirt Operator
+
 :::info[Reference]
 
 - [KubeVirt Docs / Cluster Administration / Installation](https://kubevirt.io/user-guide/cluster_admin/installation/)
+- [KubeVirt GitHub / Releases](https://github.com/kubevirt/kubevirt/releases)
 
 :::
 
@@ -42,9 +45,49 @@ spec:
   - `replicas: 2`
   - `nodePlacement`
     - `affinity: {}`
-      - [Affinity](/docs/mlops/kubernetes/scheduling/affinity)
+      - [Affinity](/docs/mlops/kubernetes/scheduling/affinity.mdx)
     - `nodeSelector: {}`
     - `tolerations: []`
-      - [Taints and Tolerations](/docs/mlops/kubernetes/scheduling/taint-toleration)
+      - [Taints and Tolerations](/docs/mlops/kubernetes/scheduling/taint-toleration.mdx)
 - `workloads`
   - workload components로는 virt-handler가 있습니다.
+
+### Containerized Data Importer (CDI)
+
+:::info[Reference]
+
+- [KubeVirt Docs / Storage / Containerized Data Importer](https://kubevirt.io/user-guide/storage/containerized_data_importer/)
+- [Containerized Data Importer GitHub / releases](https://github.com/kubevirt/containerized-data-importer/releases)
+
+:::
+
+```shell
+kubectl apply -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.62.0/cdi-operator.yaml
+```
+
+```yaml
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: CDI
+metadata:
+  name: cdi
+spec:
+  config:
+    featureGates:
+      - HonorWaitForFirstConsumer
+  imagePullPolicy: IfNotPresent
+  infra:
+    nodeSelector:
+      kubernetes.io/os: linux
+    tolerations:
+      - key: CriticalAddonsOnly
+        operator: Exists
+  workload:
+    nodeSelector:
+      kubernetes.io/os: linux
+```
+
+### virtctl
+
+```shell
+kubectl krew install virt
+```

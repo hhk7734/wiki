@@ -44,7 +44,7 @@ spec:
         - operator: Exists
       containers:
         - name: main
-          image: ghcr.io/mellanox/ipoib-cni:v1.2.1
+          image: ghcr.io/mellanox/ipoib-cni:v1.2.2
           imagePullPolicy: IfNotPresent
           resources:
             requests:
@@ -70,12 +70,12 @@ spec:
 apiVersion: "k8s.cni.cncf.io/v1"
 kind: NetworkAttachmentDefinition
 metadata:
-  name: ipoib-cni
+  name: ipoib
   namespace: kube-system
 spec:
   config: |
     {
-      "name": "ipoib-cni",
+      "name": "ipoib",
       "type": "ipoib",
       "master": "ib0",
       "ipam": {
@@ -92,4 +92,4 @@ spec:
   - `type: <type>`: IP 관리에 사용할 바이너리입니다.
     - https://www.cni.dev/plugins/current/ipam/
     - `dhcp`는 지원되지 않습니다.
-    - [whereabouts](/docs/mlops/network/multus/whereabouts)
+    - [whereabouts](/docs/mlops/network/multus/whereabouts.mdx)
