@@ -1207,7 +1207,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "KubeVirt",
-			items: ["mlops/provisioning/kubevirt/kubevirt"],
+			items: ["mlops/provisioning/kubevirt/kubevirt", "mlops/provisioning/kubevirt/virtualmachine"],
 		},
 		{
 			type: "category",
