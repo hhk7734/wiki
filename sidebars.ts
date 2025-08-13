@@ -1097,10 +1097,12 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Large Language Model",
 			items: [
+				"mlops/nn/llm/parallelism",
 				"mlops/nn/llm/transformer",
 				"mlops/nn/llm/kvcache",
 				"mlops/nn/llm/deepseek-v3",
-				"mlops/nn/llm/parallelism",
+				"mlops/nn/llm/deepserve",
+				"mlops/nn/llm/metrics",
 			],
 		},
 	],
