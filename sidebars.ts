@@ -1100,6 +1100,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/nn/llm/parallelism",
 				"mlops/nn/llm/transformer",
 				"mlops/nn/llm/kvcache",
+				"mlops/nn/llm/mooncake",
 				"mlops/nn/llm/deepseek-v3",
 				"mlops/nn/llm/deepserve",
 				"mlops/nn/llm/metrics",

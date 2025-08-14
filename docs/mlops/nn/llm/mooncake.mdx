@@ -1,0 +1,90 @@
+---
+id: mooncake
+title: Mooncake(2407) - A KVCache-centric Disaggregated Architecture for LLM Serving
+sidebar_label: Mooncake(2407)
+description: Mooncake(2407) - A KVCache-centric Disaggregated Architecture for LLM Serving
+keywords:
+  - Neural Network
+  - Large Language Model
+  - Mooncake
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::info[Reference]
+
+- [Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving](https://arxiv.org/abs/2407.00079)
+
+:::
+
+## Introduction
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/mooncake.png")} />
+		<br />
+		<figcaption>[Figure 1: Mooncake Architecture.](https://arxiv.org/html/2407.00079v3)</figcaption>
+	</center>
+</figure>
+
+Mooncake는 다음 Service Level Objectives (SLOs)를 고려하여 디자인되었습니다.
+
+- Time To First Token (TTFT)
+- Time Between Tokens (TBT)
+
+이를 만족시키기 위해
+
+- Prefill Pool은 KV cache를 최대한 재활용하여 각 요청에 대한 컴퓨팅 시간을 단축해야 합니다.
+- Decode Pool은 각 배치의 토큰 수를 최대한 늘려서 Model FLOPs Utilization (MFU)를 높여야 합니다.
+
+## Overview of Mooncake's Disaggregated Architecture
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/mooncake-kv-cache-pool.png")} />
+		<br />
+		<figcaption>[Figure 3: The KVCache pool in CPU memory.](https://arxiv.org/html/2407.00079v3)</figcaption>
+	</center>
+</figure>
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/mooncake-kv-cache-transfer.png")} />
+		<br />
+		<figcaption>[Figure 4: Workflow of inference instances.](https://arxiv.org/html/2407.00079v3)</figcaption>
+	</center>
+</figure>
+
+Mooncake는 GPU HBM, CPU DRAM, RDMA 등의 리소스를 활용하여 KV cache를 관리합니다.
+
+CPU DRAM의 KV cache pool은
+
+- cache를 paged block 형태로 저장합니다.
+  - 각 block은 512 개의 토큰을 저장할 수 있습니다.
+  - 각 block은 자기 자신과 이전 block에 대한 hash 값을 가지고 있습니다.
+- Least Recently Used (LRU), Least Frequently Used (LFU) 등 요청 패턴에 따라 block을 축출합니다.
+- GPU 연산과 KV cache pool 관리는 병렬로 수행됩니다.
+
+요청이 들어왔을 때 작업 과정은 아래와 같습니다.
+
+- 요청을 토큰화 합니다.
+- Conductor에서 PD instance를 선택하여 라우팅합니다.
+  - block ID를 계산하여 prefix cache hit 정보를 수집합니다.
+  - prefix cache 전송시간, prefill 시간, 큐 대기시간 등을 고려합니다.
+  - 모든 정보를 고려했을 때 SLOs를 만족시키기 어렵다고 판단하면 요청을 거절합니다.
+- Prefill instance에서 KV cache를 생성합니다.
+  - 토큰들과 block ID들을 요청으로 받습니다.
+  - block ID를 바탕으로 prefix cache를 KV cache pool에서 GPU HBM으로 전송합니다.
+  - KV cache를 생성합니다.
+  - 동시에 KV cache pool에 저장하면서, Messenger가 KV cache를 chunk 단위로 Decode instance로 전송합니다. (chunk size >= 1000)
+- Decode instance에서 토큰을 생성합니다.
+  - 요청을 continuous batching 방식으로 다음 배치에 추가합니다. 이 떄, 로컬 스케줄러가 TBT SLO를 만족할지 한 번 더 확인합니다.
+  - 토큰을 생성합니다.
+
+## Sampled Real-wrold Request Trace
+
+- Input Sequence Length (ISL)의 평균은 7590 이였습니다.
+- Output Sequence Length (OSL)의 평균은 182 였습니다.
+- KV cache 용량을 1000 blocks에서 50000 blocks로 올렸을 때 cache hit ratio는 30%에서 50%로 증가했습니다.
+- 그 이상 용량을 늘리는 경우 영향은 미미했지만 샘플링 된 결과이므로 용량은 크면 클 수록 cache hit ratio가 증가할 가능성이 있습니다.
+- 특정 block들은 수만 번 재사용되는 반면, 50%의 block이 거의 재사용되지 않았습니다.
