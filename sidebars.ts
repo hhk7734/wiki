@@ -89,6 +89,21 @@ const sidebars: SidebarsConfig = {
 					label: "gRPC",
 					items: ["lang/cpp/libraries/grpc/protobuf", "lang/cpp/libraries/grpc/grpc"],
 				},
+				{
+					type: "category",
+					label: "UCX",
+					items: ["lang/cpp/libraries/ucx/ucx"],
+				},
+				{
+					type: "category",
+					label: "OpenMPI",
+					items: ["lang/cpp/libraries/openmpi/openmpi"],
+				},
+				{
+					type: "category",
+					label: "NCCL",
+					items: ["lang/cpp/libraries/nccl/demystifying"],
+				},
 			],
 		},
 		{
@@ -228,11 +243,6 @@ const sidebars: SidebarsConfig = {
 					type: "category",
 					label: "OAuth",
 					items: ["lang/design/protocol/oauth/oidc", "lang/design/protocol/oauth/client-authentication"],
-				},
-				{
-					type: "category",
-					label: "UCX",
-					items: ["lang/design/protocol/ucx/ucx"],
 				},
 				{
 					type: "category",
@@ -1534,7 +1544,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "MPI Operator",
-			items: ["mlops/workflow/mpi-operator/mpijob", "mlops/workflow/mpi-operator/openmpi"],
+			items: ["mlops/workflow/mpi-operator/mpijob"],
 		},
 		{
 			type: "category",

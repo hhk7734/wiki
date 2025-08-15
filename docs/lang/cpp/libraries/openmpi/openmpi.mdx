@@ -15,7 +15,7 @@ import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/workflow/mpi-ooerator/mpi-architecture.drawio")} />
+		<DrwaIOViewer src={useBaseUrl("img/lang/cpp/libraries/openmpi/mpi-architecture.drawio")} />
 		<figcaption>OpenMPI Architecture</figcaption>
 	</figure>
 </center>
@@ -67,7 +67,7 @@ mkdir build && cd build \
 ```
 
 - `--with-ucx=<ucxInstallPrefix>`
-  - [UCX](/docs/lang/design/protocol/ucx)
+  - [UCX](/docs/lang/cpp/libraries/ucx/ucx.mdx)
   - btl_uct 관련 컴파일 에러가 발생하면 `--enable-mca-no-build=btl-uct`를 추가하고 mpirun 사용시 `--mca btl ^uct`를 추가합니다.
   - 추가 오버헤드가 있다면 `--mca btl ^vader,tcp,openib,uct` 옵션으로 기본 btl을 제외시켜볼 수 있습니다.
 - `--with-platform=contrib/platform/mellanox/optimized`

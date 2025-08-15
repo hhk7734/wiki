@@ -1,0 +1,84 @@
+---
+id: demystifying
+title: Demystifying NCCL(2507) - An In-depth Analysis of GPU Communication Protocols and Algorithms
+sidebar_label: Demystifying NCCL(2507)
+description: Demystifying NCCL(2507) - An In-depth Analysis of GPU Communication Protocols and Algorithms
+keywords:
+  - nccl
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Data-Transfer Methods and Transport Layer
+
+|                           | Intra-Node                                 | Inter-Node                                           |
+| :-----------------------: | ------------------------------------------ | ---------------------------------------------------- |
+|         Transport         | P2P p2p.cc<br/>SHM shm.cc<br/>NVLS nvls.cc | NET net_ib.cc, net_socket.cc<br/>COLLNET coll_net.cc |
+| Physical<br/>Interconnect | NVLink<br/>PCIe                            | InfiniBand<br/>RoCE<br/>TCP/IP (Socket)              |
+|       Optimizations       | GPUDirect P2P<br/>P2P_DIRECT               | GPUDirect RDMA                                       |
+
+Intra-Node 통신에서 RDMA가 사용될 수 있고, Inter-Node 통신에서 NVLink가 사용될 수 있습니다.
+
+### Intra-node Data Transfer
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/lang/cpp/libraries/nccl/intra-node-data-transfer.png")} />
+		<figcaption>
+			[Figure 1:Illustration of intra-node data transfer paths in NCCL.](https://arxiv.org/html/2507.04786v1)
+		</figcaption>
+	</figure>
+</center>
+
+### Inter-node Data Transfer
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/lang/cpp/libraries/nccl/inter-node-data-transfer.png")} />
+		<figcaption>
+			[Figure 2:Illustration of inter-node data transfer paths in NCCL.](https://arxiv.org/html/2507.04786v1)
+		</figcaption>
+	</figure>
+</center>
+
+## NCCL Collective Algorithms
+
+### Qualitative Algorithm Analysis
+
+#### Non-pipelined Pattern
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/lang/cpp/libraries/nccl/ring-allreduce.png")} />
+		<figcaption>
+			[Figure 4:Illustration of the Ring AllReduce algorithm in NCCL.](https://arxiv.org/html/2507.04786v1)
+		</figcaption>
+	</figure>
+</center>
+
+k 개의 GPU가 참여하는 Ring AllReduce는 2k-1 개의 step으로 구성됩니다.
+
+| Step Index | NCCL Primitive       |
+| ---------- | -------------------- |
+| 0          | `send`               |
+| 1 to k-2   | `recvReduceSend`     |
+| k-1        | `recvReduceCopySend` |
+| k to 2k-3  | `recvCopySend`       |
+| 2k-2       | `recv`               |
+
+#### Pipelined Pattern
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/lang/cpp/libraries/nccl/tree-allreduce.png")} />
+		<figcaption>
+			[Figure 5:Illustration of the Tree AllReduce algorithm in NCCL.](https://arxiv.org/html/2507.04786v1)
+		</figcaption>
+	</figure>
+</center>
+
+| GPU Role | Primitives                               |
+| -------- | ---------------------------------------- |
+| Root     | `recvReduceCopySend`                     |
+| Middle   | `recvReduceSend` and then `recvCopySend` |
+| Leaf     | `send` and then `recv`                   |
