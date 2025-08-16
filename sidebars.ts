@@ -509,10 +509,24 @@ const sidebars: SidebarsConfig = {
 					label: "Cluster API",
 					items: [
 						"mlops/kubernetes/tools/cluster-api/cluster-api",
+						"mlops/kubernetes/tools/cluster-api/cluster",
 						{
 							type: "category",
 							label: "Infrastructure",
-							items: ["mlops/kubernetes/tools/cluster-api/infrastructure/kubevirt"],
+							items: [
+								"mlops/kubernetes/tools/cluster-api/infrastructure/kubevirt",
+								"mlops/kubernetes/tools/cluster-api/infrastructure/k0smotron",
+							],
+						},
+						{
+							type: "category",
+							label: "Bootstrap",
+							items: ["mlops/kubernetes/tools/cluster-api/bootstrap/k0smotron"],
+						},
+						{
+							type: "category",
+							label: "ControlPlane",
+							items: ["mlops/kubernetes/tools/cluster-api/control-plane/k0smotron"],
 						},
 					],
 				},

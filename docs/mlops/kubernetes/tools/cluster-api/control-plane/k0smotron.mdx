@@ -1,0 +1,151 @@
+---
+id: k0smotron
+title: Cluster API에서 k0smotron ControlPlaneProvider 사용하기
+sidebar_label: k0smotron
+description: Cluster API에서 k0smotron ControlPlaneProvider 사용하기
+keywords:
+  - cluster-api
+  - control-plane
+  - provider
+  - k0smotron
+---
+
+## ControlPlaneProvider
+
+```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-k0smotron-control-plane
+
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha2
+kind: ControlPlaneProvider
+metadata:
+  name: k0sproject-k0smotron
+  namespace: capi-k0smotron-control-plane
+spec:
+  version: v1.6.2
+```
+
+- `version: <version>`
+  - [k0smotron GitHub / Releases](https://github.com/k0sproject/k0smotron/releases)
+
+## K0smotronControlPlane
+
+:::info[Reference]
+
+- [k0smotron Docs / Reference / controlplane # K0smotronControlPlane.spec](https://docs.k0smotron.io/stable/resource-reference/controlplane.cluster.x-k8s.io-v1beta1/#k0smotroncontrolplanespec)
+
+:::
+
+k0smotron은 Management Cluster 내에 k0s control plane을 생성하고 worker들만 Machine에서 실행되는 구조입니다.
+
+```mermaid
+flowchart TD
+  subgraph Management Cluster
+    k0smotron-controller --> k0s-control-plane1
+    k0smotron-controller --> k0s-control-plane2[k0s-control-plane]
+  end
+
+  subgraph MachineTemplate1[MachineTemplate]
+    subgraph Machine1-1[Machine]
+      Pod1-1[Pod]
+      Pod1-2[Pod]
+    end
+
+    subgraph Machine1-2[Machine]
+      Pod1-3[Pod]
+    end
+  end
+
+  k0s-control-plane1 <--> Machine1-1
+  k0s-control-plane1 <--> Machine1-2
+
+  subgraph MachineTemplate2[MachineTemplate]
+    subgraph Machine2-1[Machine]
+      Pod2-1[Pod]
+    end
+
+    subgraph Machine2-2[Machine]
+      Pod2-2[Pod]
+      Pod2-3[Pod]
+    end
+  end
+
+  k0s-control-plane2 <--> Machine2-1
+  k0s-control-plane2 <--> Machine2-2
+```
+
+```yaml
+apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+kind: K0smotronControlPlane
+spec:
+  version: v1.32.6+k0s.0
+  etcd:
+    persistence:
+      storageClass: <storageClass>
+  replicas: 3
+  service:
+    type: LoadBalancer
+    apiPort: 6443
+    konnectivityPort: 8132
+```
+
+- `version: <version>`
+  - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+
+## K0sControlPlane
+
+k0s는 control plane과 worker 모두 Machine에서 실행되는 구조입니다.
+
+```mermaid
+flowchart TD
+  subgraph Management Cluster
+    k0smotron-controller
+  end
+
+  subgraph MachineTemplate1[MachineTemplate]
+    subgraph Machine1-1[Machine]
+      k0s-control-plane1[k0s-control-plane]
+    end
+  end
+
+  subgraph MachineTemplate2[MachineTemplate]
+    subgraph Machine2-1[Machine]
+      k0s-control-plane2[k0s-control-plane]
+    end
+  end
+
+  k0smotron-controller --> k0s-control-plane1
+  k0smotron-controller --> k0s-control-plane2
+
+  subgraph MachineTemplate1-1[MachineTemplate]
+    subgraph Machine1-1-1[Machine]
+      Pod1[Pod]
+      Pod2[Pod]
+    end
+
+    subgraph Machine1-1-2[Machine]
+      Pod3[Pod]
+    end
+  end
+
+  k0s-control-plane1 <--> Machine1-1-1
+  k0s-control-plane1 <--> Machine1-1-2
+
+  subgraph MachineTemplate2-1[MachineTemplate]
+    subgraph Machine2-1-1[Machine]
+      Pod4[Pod]
+    end
+
+    subgraph Machine2-1-2[Machine]
+      Pod5[Pod]
+      Pod6[Pod]
+    end
+  end
+
+  k0s-control-plane2 <--> Machine2-1-1
+  k0s-control-plane2 <--> Machine2-1-2
+```

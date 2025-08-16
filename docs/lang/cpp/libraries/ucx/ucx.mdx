@@ -28,7 +28,11 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 :::
 
 ```shell
-tar xzf ucx-1.18.0.tar.gz
+wget https://github.com/openucx/ucx/releases/download/v1.18.0/ucx-1.18.0.tar.gz
+```
+
+```shell
+tar -xzf ucx-1.18.0.tar.gz
 ```
 
 ```shell
@@ -42,7 +46,12 @@ mkdir build && cd build \
 ```
 
 - `--with-knem=<knemInstallPrefix>`
-- `--enable-mt`: multithreading 지원을 활성화합니다.
+- `--enable-optimizations`: 비이식성 머신별 CPU 최적화를 활성화합니다.
+- `--enable-mt`: multithreading를 활성화합니다.
+- `--enable-cma`: Cross Memory Attach를 활성화합니다.
+- `--with-dm`: Device Memory를 지원합니다.
+- `--with-mlx5`: mlx5 Direct Verbs를 지원합니다.
+- `--with-rocm=/opt/rocm`
 
 ```shell
 make -j $(nproc)

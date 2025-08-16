@@ -1,8 +1,8 @@
 ---
 id: kubevirt
-title: Cluster API에서 KubeVirt Provider 사용하기
+title: Cluster API에서 KubeVirt InfrastructureProvider 사용하기
 sidebar_label: KubeVirt
-description: Cluster API에서 KubeVirt Provider 사용하기
+description: Cluster API에서 KubeVirt InfrastructureProvider 사용하기
 keywords:
   - cluster-api
   - infrastructure
@@ -17,6 +17,13 @@ keywords:
 ## InfrastructureProvider
 
 ```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-kubevirt-infrastructure
+
+---
 apiVersion: operator.cluster.x-k8s.io/v1alpha2
 kind: InfrastructureProvider
 metadata:
@@ -28,3 +35,47 @@ spec:
 
 - `version: <version>`
   - [Cluster API KubeVirt Provider GitHub / Releases](https://github.com/kubernetes-sigs/cluster-api-provider-kubevirt/releases)
+
+## KubevirtCluster
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: KubevirtCluster
+spec:
+  controlPlaneServiceTemplate:
+    spec:
+      type: LoadBalancer
+```
+
+## KubevirtMachineTemplate
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: KubevirtMachineTemplate
+spec:
+  template:
+    spec:
+      virtualMachineBootstrapCheck:
+        checkStrategy: ssh
+      virtualMachineTemplate:
+        spec:
+          template:
+            spec:
+              domain:
+                devices:
+                  disks:
+                    - name: containervolume
+                      disk:
+                        bus: virtio
+                  networkInterfaceMultiqueue: true
+              evictionStrategy: External
+              volumes:
+                - name: containervolume
+                  containerDisk:
+                    image: quay.io/capk/ubuntu-2404-container-disk:v1.32.1
+```
+
+- `template`
+  - `spec`
+    - `virtualMachineTemplate`
+      - [KubeVirt로 VirtualMachine 생성하기](/docs/mlops/provisioning/kubevirt/virtualmachine.mdx)

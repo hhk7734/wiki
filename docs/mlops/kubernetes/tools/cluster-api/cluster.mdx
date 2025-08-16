@@ -1,0 +1,102 @@
+---
+id: cluster
+title: Cluster API로 Kubernetes Cluster 생성하기
+sidebar_label: Cluster 생성하기
+description: Cluster API로 Kubernetes Cluster 생성하기
+keywords:
+  - cluster-api
+  - cluster
+---
+
+## Control Plane
+
+:::info[Reference]
+
+- [crds Docs / Cluster API / Cluster](https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api/cluster.x-k8s.io/Cluster/v1beta1@v1.10.4)
+
+:::
+
+```yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 10.243.0.0/16
+    services:
+      cidrBlocks:
+        - 10.95.0.0/16
+  controlPlaneRef: {}
+  infrastructureRef: {}
+```
+
+- `clusterNetwork`
+  - `pods`
+    - `cidrBlocks: []`
+  - `services`
+    - `cidrBlocks: []`
+- `controlPlaneRef`
+  - `apiVersion: controlplane.cluster.x-k8s.io/v1beta1`
+  - `kind: XXXControlPlane`
+  - `name: <name>`
+  - `namespace: <namespace>`
+- `infrastructureRef`
+  - `apiVersion: infrastructure.cluster.x-k8s.io/v1beta1`
+  - `kind: XXXCluster`
+  - `name: <name>`
+  - `namespace: <namespace>`
+
+```shell
+clusterctl describe cluster <clusterName>
+```
+
+```shell
+clusterctl get kubeconfig <clusterName> > <clusterName>-config.yaml
+```
+
+## Worker
+
+:::info[Reference]
+
+- [crds Docs / Cluster API / MachineDeployment](https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api/cluster.x-k8s.io/MachineDeployment/v1beta1@v1.10.4)
+
+:::
+
+```yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+spec:
+  clusterName: <clusterName>
+  replicas: <replicas>
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: <clusterName>
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: <clusterName>
+    spec:
+      clusterName: <clusterName>
+      bootstrap:
+        configRef: {}
+      infrastructureRef: {}
+```
+
+- `template`
+  - `spec`
+    - `bootstrap`
+      - `configRef`
+        - `apiVersion: bootstrap.cluster.x-k8s.io/v1beta1`
+        - `kind: XXXConfigTemplate`
+        - `name: <name>`
+        - `namespace: <namespace>`
+    - `infrastructureRef`
+      - `apiVersion: infrastructure.cluster.x-k8s.io/v1beta1`
+      - `kind: XXXMachineTemplate`
+      - `name: <name>`
+      - `namespace: <namespace>`
+
+```shell
+clusterctl describe cluster <clusterName>
+```

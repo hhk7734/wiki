@@ -1,0 +1,74 @@
+---
+id: k0smotron
+title: Cluster API에서 k0smotron BootstrapProvider 사용하기
+sidebar_label: k0smotron
+description: Cluster API에서 k0smotron BootstrapProvider 사용하기
+keywords:
+  - cluster-api
+  - bootstrap
+  - provider
+  - k0smotron
+---
+
+## BootstrapProvider
+
+```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-k0smotron-bootstrap
+
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha2
+kind: BootstrapProvider
+metadata:
+  name: k0sproject-k0smotron
+  namespace: capi-k0smotron-bootstrap
+spec:
+  version: v1.6.2
+```
+
+- `version: <version>`
+  - [k0smotron GitHub / Releases](https://github.com/k0sproject/k0smotron/releases)
+
+## K0sWorkerConfig
+
+:::info[Reference]
+
+- [k0smotron Docs / Reference / bootstrap # K0sWorkerConfig.spec](https://docs.k0smotron.io/stable/resource-reference/bootstrap.cluster.x-k8s.io-v1beta1/#k0sworkerconfigspec)
+
+:::
+
+```yaml
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: K0sWorkerConfig
+spec:
+  version: v1.32.6+k0s.0
+```
+
+- `version: <version>`
+  - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+
+## K0sWorkerConfigTemplate
+
+:::info[Reference]
+
+- [k0smotron Docs / Reference / bootstrap # K0sWorkerConfigTemplate.spec.template](https://docs.k0smotron.io/stable/resource-reference/bootstrap.cluster.x-k8s.io-v1beta1/#k0sworkerconfigtemplatespectemplate)
+
+:::
+
+```yaml
+apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+kind: K0sWorkerConfigTemplate
+spec:
+  template:
+    spec:
+      version: v1.32.6+k0s.0
+```
+
+- `spec`
+  - `template`
+    - `spec`
+      - `version: <version>`
+        - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)

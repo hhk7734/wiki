@@ -144,7 +144,7 @@ FROM ubuntu:22.04
 
 ARG ROCM_VERSION=6.4
 
-RUN echo -e "Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600\n" \
+RUN echo "Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600\n" \
     | tee /etc/apt/preferences.d/rocm-pin-600
 
 RUN apt-get update \
@@ -164,7 +164,6 @@ RUN mkdir -p --mode=0755 /etc/apt/keyrings \
     | tee /etc/apt/sources.list.d/amdgpu.list \
     && echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/${ROCM_VERSION} jammy main" \
     | tee /etc/apt/sources.list.d/rocm.list \
-    &&  \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
     rocm-dev \

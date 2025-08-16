@@ -1,0 +1,102 @@
+---
+id: k0smotron
+title: Cluster API에서 k0smotron InfrastructureProvider 사용하기
+sidebar_label: k0smotron
+description: Cluster API에서 k0smotron InfrastructureProvider 사용하기
+keywords:
+  - cluster-api
+  - infrastructure
+  - provider
+  - k0smotron
+---
+
+## InfrastructureProvider
+
+```yaml
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: capi-k0smotron-infrastructure
+
+---
+apiVersion: operator.cluster.x-k8s.io/v1alpha2
+kind: InfrastructureProvider
+metadata:
+  name: k0sproject-k0smotron
+  namespace: capi-k0smotron-infrastructure
+spec:
+  version: v1.6.2
+```
+
+- `version: <version>`
+  - [k0smotron GitHub / Releases](https://github.com/k0sproject/k0smotron/releases)
+
+## RemoteCluster
+
+```yaml
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: RemoteCluster
+spec:
+```
+
+## RemoteMachine
+
+:::info[Reference]
+
+- [k0smotron Docs / Reference / infrastructure # RemoteMachine.spec](https://docs.k0smotron.io/stable/resource-reference/infrastructure.cluster.x-k8s.io-v1beta1/#remotemachinespec)
+
+:::
+
+`RemoteMachine`은 SSH로 접근 가능한 VM 또는 bare-metal 서버입니다.
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  value: <cat <privateKeyPath> | base64 | tr -d '\n'>
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: RemoteMachine
+spec:
+  address: <ip|host>
+  port: <port>
+  user: <user>
+  sshKeyRef:
+    name: <secretName>
+```
+
+## RemoteMachineTemplate과 PooledRemoteMachine
+
+```yaml
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: RemoteMachineTemplate
+spec:
+  template:
+    spec:
+      pool: <pool>
+
+---
+apiVersion: v1
+kind: Secret
+type: Opaque
+data:
+  value: <cat <privateKeyPath> | base64 | tr -d '\n'>
+
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: PooledRemoteMachine
+spec:
+  pool: <pool>
+  machine:
+    address: <ip|host>
+    port: <port>
+    user: <user>
+    sshKeyRef:
+      name: <secretName>
+# ...
+```

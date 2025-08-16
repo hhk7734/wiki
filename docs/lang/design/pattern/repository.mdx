@@ -13,8 +13,6 @@ keywords:
 도메인 모델 객
 체의 영속성을 위해 해당 모델에 대한 CRUD 기능을 구현해야 할 수 있습니다. 이 때, 도메인 객체 자체에 이를 구현하면 아래와 같은 의존성을 갖게 됩니다.
 
-<center>
-
 ```mermaid
 classDiagram
   direction LR
@@ -22,11 +20,7 @@ classDiagram
   DomainObject --> DB
 ```
 
-</center>
-
 DB관련 코드를 수정하고 싶다면 도메인 객체를 수정해야하고 이 과정에서 도메인 객체에 의존하고 있는 코드들이 영향을 받을 수 있습니다. 테스트를 할 때도 DB를 가지고 테스트를 해야하다보니 테스트 자체가 번거롭고 느려질 수 있습니다.
-
-<center>
 
 ```mermaid
 classDiagram
@@ -40,8 +34,6 @@ classDiagram
     <<interface>>
   }
 ```
-
-</center>
 
 하지만 위와같이 수정하게 되면 도메인 객체의 DB에 대한 의존성이 사라지기 때문에 DB에 의한 도메인 객체 수정을 없앨 수 있습니다. 또한 서비스가 인터페이스를 의존하게 되면서 DB 리포지토리 대신 인메모리 리포지토리로 변경하여 테스트를 좀 더 수월하게 할 수 있습니다.
 
@@ -66,8 +58,6 @@ ORM이 다양한 데이터베이스를 지원하는 경우 ORM을 사용하는 �
 
 ORM이 `Active Record` 패턴으로 구현되어 있는경우 객체는 ORM에 의존하게 됩니다. 도메인 로직의 복잡성이 증가하면 이러한 의존은 변경 비용을 증가시키는 요인이 될 수 있습니다.
 
-<center>
-
 ```mermaid
 classDiagram
   direction LR
@@ -77,11 +67,7 @@ classDiagram
   DomainObjectWithORM --> PostgreSQL
 ```
 
-</center>
-
 `Data Mapper` 패턴은 도메인 모델과 스키마 사이의 `Mapper`를 사용자가 정의하고, ORM의 데이터베이스 기술 추상화만 이용하는 것입니다. Mapper와 행위에 대한 구현을 리포지토리로 구현해서 의존성을 역전시킬 수 있습니다.
-
-<center>
 
 ```mermaid
 classDiagram
@@ -92,13 +78,9 @@ classDiagram
   MapperWithORM --> DB
 ```
 
-</center>
-
 `Active Record` -> `Data Mapper`로의 변환이 가능하기 때문에 복잡하지 않은 개발이라고 판단되는 경우 우선 `Active Record` 패턴의 ORM을 사용하다가 요구 사항 변경이 많아진다고 판단될 때 리팩토링을 통해 `Data Mapper`로 변경하는 방법도 있습니다.
 
 여기에 리포지토리 패턴을 추가하면 리포지토리 패턴의 장점과 ORM을 사용하므로써 얻는 장점 모두를 가질 수 있습니다.
-
-<center>
 
 ```mermaid
 classDiagram
@@ -112,8 +94,6 @@ classDiagram
     <<interface>>
   }
 ```
-
-</center>
 
 ## Reference
 
