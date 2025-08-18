@@ -1405,6 +1405,11 @@ const sidebars: SidebarsConfig = {
 			items: [
 				{
 					type: "category",
+					label: "Command",
+					items: ["lang/rust/libraries/command/clap"],
+				},
+				{
+					type: "category",
 					label: "Actix Web",
 					items: ["lang/rust/libraries/actix-web/actix-web"],
 				},

@@ -30,3 +30,47 @@ cargo build [flags]
 
 - `[flags]`
   - `--release`: 최적화된 빌드
+
+## Naming Conventions
+
+:::info[Reference]
+
+- [Rust API Guidelines / Naming](https://rust-lang.github.io/api-guidelines/naming.html)
+
+:::
+
+| Item                    | Convention                                 |
+| ----------------------- | ------------------------------------------ |
+| Crates                  |                                            |
+| Modules                 | `snake_case`                               |
+| Types                   | `UpperCamelCase`                           |
+| Traits                  | `UpperCamelCase`                           |
+| Enum variants           | `UpperCamelCase`                           |
+| Functions               | `snake_case`                               |
+| Methods                 | `snake_case`                               |
+| General constructors    | `new` or `with_more_details`               |
+| Convention constructors | `from_some_other_type`                     |
+| Macros                  | `snake_case!`                              |
+| Local variables         | `snake_case`                               |
+| Statics                 | `SCREAMING_SNAKE_CASE`                     |
+| Constants               | `SCREAMING_SNAKE_CASE`                     |
+| Type parameters         | 간결한 `UpperCamelCase`, e.g. `T`          |
+| Lifetimes               | 짧은 `lowercase`, e.g. `'a`, `'de`, `'src` |
+| Features                |                                            |
+
+- `UpperCamelCase`에서 축약어는 하나의 단어로 간주합니다.
+  - `UUID` -\> `Uuid`
+  - `StdIn` -\> `Stdin`
+- `snake_case`에서 단어는 마지막을 제외하고 2 글자 이상으로 간주합니다.
+  - `b_tree_map` -\> `btree_map`
+- `get`
+  - `get_`을 사용하지 않습니다.
+  - `get`은 사용할 수 있습니다.
+  - `_mut`
+  - `_unchecked`, `_unchecked_mut`
+
+| Prefix  | Cost      | Ownership                                                                                      |
+| :-----: | --------- | ---------------------------------------------------------------------------------------------- |
+|  `as_`  | Free      | borrowed -\> borrowed                                                                          |
+|  `to_`  | Expensive | borrowed -\> borrowed<br/>borrowed -\> owned (non-Copy types)<br/>owned -\> owned (Copy types) |
+| `into_` | Variable  | owned -\> owned (non-Copy types)                                                               |
