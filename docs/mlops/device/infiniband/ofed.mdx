@@ -140,11 +140,27 @@ Host OS
 container
 
 ```shell
-./mlnxofedinstall \
+FROM ubuntu:24.04
+
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    wget \
+    ca-certificates \
+    perl \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget -q https://content.mellanox.com/ofed/MLNX_OFED-24.10-3.2.5.0/MLNX_OFED_LINUX-24.10-3.2.5.0-ubuntu24.04-x86_64.tgz \
+    && tar -xzf MLNX_OFED_LINUX-24.10-3.2.5.0-ubuntu24.04-x86_64.tgz \
+    && cd MLNX_OFED_LINUX-24.10-3.2.5.0-ubuntu24.04-x86_64 \
+    && ./mlnxofedinstall \
+    --force \
     --without-fw-update \
     --user-space-only \
     --basic \
-    --with-perftest
+    --with-perftest \
+    && cd .. \
+    && rm -rf MLNX_OFED_LINUX-24.10-3.2.5.0-ubuntu24.04-x86_64*
 ```
 
 :::

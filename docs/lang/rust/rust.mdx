@@ -8,13 +8,38 @@ keywords:
   - rustlang
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
+
+<Tabs
+    defaultValue="rustup"
+    values={[
+        {label: 'rustup', value: 'rustup',},
+        {label: 'asdf', value: 'asdf',}
+    ]}
+>
+
+<TabItem value="rustup">
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+</TabItem>
+
+<TabItem value="asdf">
 
 - [asdf로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/asdf#플러그인)
 
 ```shell
 asdf plugin add rust
 ```
+
+</TabItem>
+
+</Tabs>
 
 ## Setup
 
