@@ -57,8 +57,47 @@ flatpak install flathub io.podman_desktop.PodmanDesktop
 
 </Tabs>
 
-```ini title="/etc/containers/registries.conf"
+## 설정
+
+### registries.conf
+
+- `/etc/containers/registries.conf`
+- `/etc/containers/registries.conf.d/*.conf`
+- `$HOME/.config/containers/registries.conf`
+
+```toml
 unqualified-search-registries = ['docker.io', 'quay.io', 'registry.fedoraproject.org']
+```
+
+```toml
+[[registry]]
+location = "<registry>"
+insecure = true
+```
+
+```toml
+[[registry]]
+prefix = "<registry>"
+location = "<registry>"
+```
+
+`prefix`에 대한 요청을 `location`으로 바꿔서 처리합니다.
+
+```toml
+[[registry]]
+location = "<registry>"
+
+[[registry.mirror]]
+location = "<registry>"
+
+[[registry.mirror]]
+location = "<registry>"
+```
+
+선언된 순서로 mirror를 확인하고 마지막에 자기 자신을 확인합니다.
+
+```shell
+podman info --format json | jq '.registries'
 ```
 
 ## 이미지 빌드
@@ -294,3 +333,21 @@ graphroot = "/var/tmp/hyeonki/containers/storage"
 
 위와 같은 설정을 추가해서 NFS가 아닌 로컬 디스크에 저장하도록 설정할 수 있습니다.
 :::
+
+## Kubernetes에서 사용하기
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: podman
+spec:
+  containers:
+    - name: main
+      image: quay.io/podman/stable
+      args:
+        - sleep
+        - infinity
+      securityContext:
+        privileged: true
+```
