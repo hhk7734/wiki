@@ -1399,6 +1399,7 @@ const sidebars: SidebarsConfig = {
 	],
 	rust: [
 		"lang/rust/rust",
+		"lang/rust/macro",
 		{
 			type: "category",
 			label: "Libraries",

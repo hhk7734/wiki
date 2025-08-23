@@ -1,0 +1,120 @@
+---
+id: macro
+title: Rust 매크로(Macro) 활용하기
+sidebar_label: 매크로
+description: Rust 매크로(Macro) 활용하기
+keywords:
+  - rust
+  - macro
+---
+
+:::info[Reference]
+
+- [Rust Docs / Advanced Features / Macros](https://doc.rust-lang.org/book/ch20-05-macros.html)
+- [The Little Book of Rust Macros](https://lukaswirth.dev/tlborm)
+
+:::
+
+## 매크로
+
+- [attributes](https://doc.rust-lang.org/reference/attributes.html)
+  - `# [ $arg ]`: e.g. `#[derive(Clone)]`, `#[no_mangle]`
+  - `# ! [ $arg ]`: e.g. `#![allow(dead_code)]`, `#![crate_name="blang"]`
+- function-like
+  - `$name ! $arg`: e.g. `println!("Hi!")`, `vec![1, 2, 3]`
+- 선언할 수 없는 매크로
+  - `$name ! $arg0 $arg1`: `macro_rules! dummy { () => {}; }`
+
+## Function-like 매크로
+
+### Expansion
+
+매크로를 선언하고 사용하면 어떻게 확장되어 실행되는지에 대한 예시입니다.
+
+```rust
+#[macro_export]
+macro_rules! vec {
+    ( $( $x:expr ), * ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    }
+}
+```
+
+```rust
+let v = vec![1, 2, 3];
+```
+
+```rust
+let v = {
+    let mut temp_vec = Vec::new();
+    temp_vec.push(1);
+    temp_vec.push(2);
+    temp_vec.push(3);
+    temp_vec
+};
+```
+
+### Matching
+
+```rust
+macro_rules! $name {
+    ($matcher) => {$expansion};
+    ($matcher) => {$expansion};
+    // …
+    ($matcher) => {$expansion};
+}
+```
+
+- 적어도 하나 이상의 룰을 선언해야 합니다.
+- 마지막 룰에는 `;`을 생략할 수 있습니다.
+
+### Metavariables
+
+matcher는 capture를 포함할 수 있습니다. capture는 `$<identifier>:<fragmentSpecifier>`로 구성됩니다. fragment-specifier는 다음과 같습니다.
+
+- `block`
+- `expr`
+- `ident`
+- `item`
+- `lifetime`
+- `literal`
+- `meta`
+- `pat`: pattern
+- `pat_param`
+- `path`
+- `stmt`
+- `tt`: token tree
+- `ty`: type
+- `vis`: visibility qualifier
+
+### Repetition
+
+반복은 `$ ( ... ) <separator> <repeatOperator>`로 표현됩니다.
+
+- `<separator>`
+  - 선택사항입니다.
+  - e.g. `,`, `;`
+- `<repeatOperator>`
+  - `?`: 0 또는 1 개
+  - `*`: 0 개 이상
+  - `+`: 1 개 이상
+
+```rust
+macro_rules! vec {
+    ( $( $x:expr ), * ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    }
+}
+```
