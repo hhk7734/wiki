@@ -3,6 +3,10 @@
 ## 설치
 
 ```shell
+npm install -g yarn
+```
+
+```shell
 yarn install
 ```
 
