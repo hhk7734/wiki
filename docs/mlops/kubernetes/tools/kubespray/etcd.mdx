@@ -23,5 +23,14 @@ keywords:
 Kubespray로 설치하면 인증서 옵션이 미리 설정된 `etcdctl.sh`라는 명령어가 생성됩니다.
 
 ```shell
-etcdctl.sh get / --prefix --keys-only
+etcdctl.sh get [<flag>] <key>
+```
+
+- `<flag>`
+  - `--prefix`: prefix 매칭
+  - `--keys-only`: 키만 출력
+  - `--endpoints=<host>:<port>`
+
+```shell
+etcdctl.sh del [<flag>] <key>
 ```

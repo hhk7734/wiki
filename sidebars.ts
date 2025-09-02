@@ -1127,6 +1127,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/nn/llm/mooncake",
 				"mlops/nn/llm/deepseek-v3",
 				"mlops/nn/llm/deepserve",
+				"mlops/nn/llm/pragmatic-disaggregation",
 				"mlops/nn/llm/metrics",
 			],
 		},

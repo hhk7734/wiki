@@ -1,0 +1,73 @@
+---
+id: pragmatic-disaggregation
+title: Beyond the Buzz (2506) - A Pragmatic Take on Inference Disaggregation
+sidebar_label: Pragmatic Disaggregation (2506)
+description: Beyond the Buzz (2506) - A Pragmatic Take on Inference Disaggregation
+keywords:
+  - Neural Network
+  - Large Language Model
+  - Prefill/Decode Disaggregation
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Introduction
+
+ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Decode Disaggregation을 사용하면 큰 성능 향상을 기대할 수 있습니다.
+
+## Background
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/co-located-vs-dissaggregation.png")} />
+		<br />
+		<figcaption>
+			[Figure 2: Visualization of (left) co-located and (right) disaggregated inference
+			serving](https://www.arxiv.org/html/2506.05508)
+		</figcaption>
+	</center>
+</figure>
+
+- co-located serving 성능을 최대화하기 위해 In-flight batching(Continuous batching)과 Piggybacking(Chunked prefill)을 사용합니다.
+- In-flight batching과 disaggregation을 사용하면 co-located 에서 발생하는 prefill 지연을 줄일 수 있습니다.
+
+## Design space exploration
+
+### Model partitioning
+
+모델 성능 자체를 최적화하기 위해 아래와 같은 전략을 사용합니다.
+
+- Tensor Parallelism (TP)
+- Expert Parallelism (EP)
+- Pipeline Parallelism (PP)
+- Chunked Pipeline Parallelism (CPP)
+- Tensor Parallel Attention and EP FFNs (TEP)
+
+주어진 모델에 대한 최적화된 파티셔닝 전략은 아래와 같은 요소에 영향을 받습니다.
+
+- model architecture
+- co-located or dissaggregated
+- traffic 특성(ISL, OSL, QPS, ...)
+- target HW(GPU, NPU, ...)
+- latency 제약 조건(TTFT, TPOT, E2EL)
+
+### Scaling and rate matching
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/scaling-and-rate-matching.png")} />
+		<br />
+		<figcaption>
+			[Figure 3: High-level overview of rate matching for disaggregated serving](https://www.arxiv.org/html/2506.05508)
+		</figcaption>
+	</center>
+</figure>
+
+적절한 prefill/decode 비율을 결정하고 두 단계 사이의 출력을 맞추기 위해 rate matching 전략을 사용합니다.
+
+- FTL SLA를 만족하기 위한 prefill 설정들을 찾습니다.
+- TTL SLA를 만족하기 위한 decode 설정들을 찾습니다.
+- prefill/decode 조합을 만들고 prefill의 총 출력과 decode의 총 출력을 맞추기 위한 각각의 GPU 수를 찾습니다.
+- prefill의 총 출력은 decode의 총 출력보다 작거나 같아야 합니다.
+
+## Disaggregation in practice
