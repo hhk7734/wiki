@@ -67,7 +67,54 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 - FTL SLA를 만족하기 위한 prefill 설정들을 찾습니다.
 - TTL SLA를 만족하기 위한 decode 설정들을 찾습니다.
-- prefill/decode 조합을 만들고 prefill의 총 출력과 decode의 총 출력을 맞추기 위한 각각의 GPU 수를 찾습니다.
-- prefill의 총 출력은 decode의 총 출력보다 작거나 같아야 합니다.
+- (prefill 수 \* prefill 당 요청 처리 속도) $\lessapprox$ (decode 수 \* decode 당 요청 처리 속도) 를 만족하는 prefill/decode 수 조합을 찾습니다.
 
 ## Disaggregation in practice
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/pp-ftl-diagram.png")} />
+		<br />
+		<figcaption>
+			[Figure 5: Chunked pipeline parallelism during Prefill is an optimal strategy to maximize throughput while
+			complying with strict FTL SLA](https://www.arxiv.org/html/2506.05508)
+		</figcaption>
+	</center>
+</figure>
+
+- 같은 수의 GPU를 사용할 때, prefill의 PP 크기를 키우면 throughput (tokens/s/GPU)은 유지하면서 FTL을 줄일 수 있습니다.
+- batch size를 줄이고 TP 크기를 키우면 TTL을 줄일 수 있습니다. 1 / TTL는 interactivity (tokens/s/user)로 생각할 수 있습니다.
+
+**throughput (tokens/s/GPU)** 과 **interactivity (tokens/s/user)** 사이에는 trade-off가 존재하며, 이를 Pareto frontier로 표현할 수 있습니다.
+
+### Model sensitivity
+
+- Model architecture sensitivity
+- Model size sensitivity
+  - 큰 모델일수록 dissaggregation에 의한 성능 향상 효과가 큽니다.
+
+### Traffic sensitivity
+
+- prefill-heavy traffic(ISL >> OSL)인 경우 dissaggregation에 의한 성능 향상 효과가 큽니다.
+- 현실 세계에서의 트래픽 통계는 아래와 같았습니다.
+  - ISL: 평균 4500, 표준편차 3500
+  - OSL: 평균 750, 표준편차 750
+
+### Dynamic rate matching considerations
+
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/optimal-ratio-of-prefill-to-decode.png")} />
+		<br />
+		<figcaption>
+			[Figure 9: The optimal ratio of ctx-to-gen GPUs varies across models and target
+			latencies.](https://www.arxiv.org/html/2506.05508)
+		</figcaption>
+	</center>
+</figure>
+
+prefill/decode가 작아질수록 tokens/s/user가 증가합니다.
+
+### NVLink sensitivity
+
+NVLink로 더 많은 GPU를 연결할수록 EP, TP 크기의 선택폭이 넓어지면서 더 좋은 성능을 낼 수 있습니다.
