@@ -1,0 +1,69 @@
+---
+id: gpu-operator
+title: AMD GPU Operator 설치 가이드
+sidebar_label: 설치 가이드
+description: AMD GPU Operator 설치 가이드
+keywords:
+  - amd
+  - gpu-operator
+  - helm
+---
+
+## 설치
+
+:::info[Reference]
+
+- [GPU Operator Docs / Installation / Helm](https://instinct.docs.amd.com/projects/gpu-operator/en/release-v1.3.1/installation/kubernetes-helm.html)
+
+:::
+
+:::warning
+
+[cert-manager](/docs/mlops/mlops/auth/cert-manager)가 설치되어있어야 합니다.
+
+:::
+
+```shell
+helm repo add rocm https://rocm.github.io/gpu-operator
+```
+
+```shell
+helm repo update rocm \
+&& helm search repo rocm/gpu-operator-charts -l | head -n 10
+```
+
+```shell
+helm pull rocm/gpu-operator-charts --version v1.3.1
+```
+
+```shell
+helm show values rocm/gpu-operator-charts --version v1.3.1 > gpu-operator-1.3.1.yaml
+```
+
+:::tip
+
+device plugin 들이 [Node feature Discovery](/docs/mlops/device/node-feature-discovery)를 사용하는 경우가 많기 때문에 따로 설정해서 설치하는 것을 권장합니다.
+
+:::
+
+```yaml title="gpu-operator-values.yaml"
+node-feature-discovery:
+  enabled: false
+```
+
+```shell
+helm template gpu-operator rocm/gpu-operator-charts \
+    --version v1.3.1 \
+    -n amd-gpu \
+    -f gpu-operator-values.yaml \
+    > gpu-operator.yaml
+```
+
+```shell
+helm upgrade gpu-operator rocm/gpu-operator-charts \
+    --install \
+    --history-max 5 \
+    --version v1.3.1 \
+    -n amd-gpu \
+    -f gpu-operator-values.yaml
+```

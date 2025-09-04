@@ -281,7 +281,15 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "AMD",
-			items: ["mlops/device/amd/rocm", "mlops/device/amd/k8s-device-plugin"],
+			items: [
+				"mlops/device/amd/rocm",
+				"mlops/device/amd/k8s-device-plugin",
+				{
+					type: "category",
+					label: "GPU Operator",
+					items: ["mlops/device/amd/gpu-operator/gpu-operator"],
+				},
+			],
 		},
 		{
 			type: "category",
