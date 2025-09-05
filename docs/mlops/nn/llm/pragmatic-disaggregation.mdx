@@ -11,6 +11,12 @@ keywords:
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+:::info[Reference]
+
+- [Beyond the Buzz: A Pragmatic Take on Inference Disaggregation](https://www.arxiv.org/abs/2506.05508)
+
+:::
+
 ## Introduction
 
 ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Decode Disaggregation을 사용하면 큰 성능 향상을 기대할 수 있습니다.
@@ -19,7 +25,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/co-located-vs-dissaggregation.png")} />
+		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/co-located-vs-dissaggregation.png")} />
 		<br />
 		<figcaption>
 			[Figure 2: Visualization of (left) co-located and (right) disaggregated inference
@@ -55,7 +61,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/scaling-and-rate-matching.png")} />
+		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/scaling-and-rate-matching.png")} />
 		<br />
 		<figcaption>
 			[Figure 3: High-level overview of rate matching for disaggregated serving](https://www.arxiv.org/html/2506.05508)
@@ -73,7 +79,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pp-ftl-diagram.png")} />
+		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/pp-ftl-diagram.png")} />
 		<br />
 		<figcaption>
 			[Figure 5: Chunked pipeline parallelism during Prefill is an optimal strategy to maximize throughput while
@@ -95,6 +101,16 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 ### Traffic sensitivity
 
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/traffic-sensitivity.png")} />
+		<br />
+		<figcaption>
+			[Figure 8: Disaggregation helps most under prefill-heavy traffic](https://www.arxiv.org/html/2506.05508)
+		</figcaption>
+	</center>
+</figure>
+
 - prefill-heavy traffic(ISL >> OSL)인 경우 dissaggregation에 의한 성능 향상 효과가 큽니다.
 - 현실 세계에서의 트래픽 통계는 아래와 같았습니다.
   - ISL: 평균 4500, 표준편차 3500
@@ -104,7 +120,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/optimal-ratio-of-prefill-to-decode.png")} />
+		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/optimal-ratio-of-prefill-to-decode.png")} />
 		<br />
 		<figcaption>
 			[Figure 9: The optimal ratio of ctx-to-gen GPUs varies across models and target

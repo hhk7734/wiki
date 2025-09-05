@@ -9,6 +9,8 @@ keywords:
   - DeepServe
 ---
 
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
 :::info[Reference]
 
 - [DeepServe: Serverless Large Language Model Serving at Scale](https://arxiv.org/abs/2501.14417)
@@ -68,6 +70,17 @@ sequenceDiagram
 
 ### PD-aware Scheduling
 
+<figure>
+	<center>
+		<img src={useBaseUrl("img/mlops/nn/llm/deepserve/co-located-vs-dissaggregation-2.png")} />
+		<br />
+		<figcaption>
+			[Figure 6: Comparing the Performance of PD-disaggregated and PD-colocated (with chunked prefill) using
+			Heatmap](https://www.arxiv.org/html/2501.14417)
+		</figcaption>
+	</center>
+</figure>
+
 34B 모델을 사용(TP=4)한 테스트에서 PD disaggregation을 사용한 경우와 아닌 경우 E2EL을 비교했을 때, 아래와 같은 결론을 얻었습니다.
 
 $$
@@ -83,12 +96,6 @@ $$
 - RPS값이 달라지더라도 양상은 비슷합니다.
 
 DeepServe는 이를 활용하기 위해 요청에 대한 Decode token 수를 예측하는 모델을 사용하여 라우팅을 수행해 봤고, 그 결과 10 RPS에서 성능향상을 보였습니다.
-
-:::info[개인 의견]
-
-Prompt 엔지니어링 등에 의해 Prefill token 수가 Decode token 수보다 많은 경우가 많다고 가정하면 Prefill token 수가 128 개 이상인 경우 PD disaggregation을 사용하고 그렇지 않은 경우 사용하지 않는 방식의 접근이 라우팅을 더 빠르게 할 수 있을 것 같습니다.
-
-:::
 
 ## Fast Scaling
 
