@@ -69,6 +69,21 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 	</center>
 </figure>
 
+$$
+\text{Prefill Throughput (requests/s/GPU)} = \dfrac{\text{Batch size}}{\text{FTL} \times \text{Number of GPUs}}
+$$
+
+$$
+\text{Decode Throughput (tokens/s/GPU)} = \dfrac{\text{Batch size}}{\text{TTL} \times \text{Number of GPUs}}
+$$
+
+$$
+\begin{split}
+\text{Decode Request Throughput (requests/s/GPU)} &= \dfrac{\text{Batch size}}{\text{(OSL - 1)} \times \text{TTL} \times \text{Number of GPUs}}\\
+&= \dfrac{\text{Decode Throughput}}{\text{OSL - 1}}
+\end{split}
+$$
+
 적절한 prefill/decode 비율을 결정하고 두 단계 사이의 출력을 맞추기 위해 rate matching 전략을 사용합니다.
 
 - FTL SLA를 만족하기 위한 prefill 설정들을 찾습니다.
@@ -76,6 +91,12 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 - (prefill 수 \* prefill 당 요청 처리 속도) $\lessapprox$ (decode 수 \* decode 당 요청 처리 속도) 를 만족하는 prefill/decode 수 조합을 찾습니다.
 
 ## Disaggregation in practice
+
+:::info[Reference]
+
+- [NVIDIA Triton Inference Server / Perf benchmarking / GenAI Perf](https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_benchmark/genai_perf.html)
+
+:::
 
 <figure>
 	<center>
@@ -87,6 +108,14 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 		</figcaption>
 	</center>
 </figure>
+
+$$
+\text{Interactivity} (\text{tokens/s/user}) = \dfrac{1}{\text{TTL}}
+$$
+
+$$
+\text{Throughput} (\text{tokens/s/GPU}) = \dfrac{\text{Total output tokens}}{\text{Benchmark duration} \times \text{Number of GPUs}}
+$$
 
 - 같은 수의 GPU를 사용할 때, prefill의 PP 크기를 키우면 throughput (tokens/s/GPU)은 유지하면서 FTL을 줄일 수 있습니다.
 - batch size를 줄이고 TP 크기를 키우면 TTL을 줄일 수 있습니다. 1 / TTL는 interactivity (tokens/s/user)로 생각할 수 있습니다.
