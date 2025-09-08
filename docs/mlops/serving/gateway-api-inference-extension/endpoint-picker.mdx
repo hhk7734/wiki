@@ -39,6 +39,8 @@ sequenceDiagram
     S ->> PH: Pick()
     PH -->> S: []SchedulerProfile
 
+    S -->> S: if no profile, break
+
     create participant SP as SchedulerProfile
     S ->> SP: Run()
     SP ->> SP: runFilterPlugins()
@@ -46,6 +48,7 @@ sequenceDiagram
     SP ->> SP: runPickerPlugin()
     destroy SP
     SP -->> S: ProfileRunResult
+
   end
 
   S ->> PH: ProcessResults()
@@ -55,6 +58,10 @@ sequenceDiagram
   D -->> EPP: RequestContext
   EPP -->> E: 3️⃣ request + routingHint
 ```
+
+- `ProfileHandler.Pick()`
+  - 호출할 때, profile 리스트, 요청 내용, 이전 루프에서 실행된 profile에서 얻은 `CycleState`와 `ProfileRunResult`를 전달합니다.
+  - 원하는 profile을 모두 실행시켰다고 판단되면 빈 리스트를 반환합니다.
 
 ## EndpointPickerConfig
 

@@ -1445,6 +1445,11 @@ const sidebars: SidebarsConfig = {
 				"mlops/serving/gateway-api-inference-extension/route",
 			],
 		},
+		{
+			type: "category",
+			label: "llm-d",
+			items: ["mlops/serving/llm-d/plugins"],
+		},
 	],
 	shellscript: [
 		"lang/shellscript/shellscript",

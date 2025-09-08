@@ -1,0 +1,55 @@
+---
+id: plugins
+title: llm-d Plugin 설정 가이드
+sidebar_label: Plugins
+description: llm-d Plugin 설정 가이드
+keywords:
+  - llm-d
+  - Plugin
+---
+
+:::info[Reference]
+
+- [llm-d/llm-d-inference-scheduler GitHub / Architecture](https://github.com/llm-d/llm-d-inference-scheduler/blob/main/docs/architecture.md)
+- [EndPoint Picker (EPP)](/docs/mlops/serving/gateway-api-inference-extension/endpoint-picker)
+
+:::
+
+## ProfileHandler
+
+### pd-profile-handler
+
+```yaml
+- type: pd-profile-handler
+  parameters:
+    threshold: 0
+    hashBlockSize: 64
+    prefillProfile: prefill
+    decodeProfile: decode
+- type: prefill-header-handler
+```
+
+[prefill-header-handler](#prefill-header-handler)와 함께 사용해야합니다.
+
+작동 방식은 아래와 같습니다.
+
+- decode profile을 실행합니다.
+- `threshold > 0`으로 설정된 경우
+  - [prefix-cache-scorer](#prefix-cache-scorer)를 통해 확인한 decode 서버의 prefix cache hit 수를 가져옵니다.
+  - `prompts - (hit * hashBlockSize)  < threshold`인 경우 decode profile 결과만 반환합니다.
+- prefill profile을 실행합니다.
+- 최종적으로 decode profile을 선택하고 profile 결과로 decode만 반환하면 decode만, prefill과 decode를 모두 반환하면 prefill과 decode를 함께 실행합니다.
+
+## Scorer
+
+### prefix-cache-scorer
+
+## PreRequest
+
+### prefill-header-handler
+
+```yaml
+- type: prefill-header-handler
+```
+
+`SchedulingResult`에 prefill profile 결과가 포함된 경우, `X-Prefiller-Host-Port: <host>:<port>` 헤더를 추가합니다.
