@@ -1,0 +1,53 @@
+---
+id: plugins
+title: Gateway API Inference Extension Plugin 설정 가이드
+sidebar_label: Plugins
+description: Gateway API Inference Extension Plugin 설정 가이드
+keywords:
+  - Gateway API
+  - Inference Extension
+  - Plugin
+---
+
+:::info[Reference]
+
+- [gateway-api-inference-extension GitHub / pkg / epp / scheduling /framework / plugins](https://github.com/kubernetes-sigs/gateway-api-inference-extension/tree/main/pkg/epp/scheduling/framework/plugins)
+- [EndPoint Picker (EPP)](/docs/mlops/serving/gateway-api-inference-extension/endpoint-picker.mdx)
+
+:::
+
+## ProfileHandler
+
+### single-profile-handler
+
+```yaml
+- type: single-profile-handler
+```
+
+하나의 `SchedulerProfile`만 등록할 수 있고, 해당 profile을 항상 실행합니다.
+
+## Scorer
+
+### queue-scorer
+
+```yaml
+- type: queue-scorer
+```
+
+후보 Pod들의 metric을 확인하여 대기중인 요청 수를 파악하여 `(max - 자기 자신의 대기중 요청 수)/(max - min)` 값을 점수로 반환합니다. 대기중인 요청 수가 적을수록 높은 점수를 반환합니다.
+
+### kv-cache-utilization-scorer
+
+```yaml
+- type: kv-cache-utilization-scorer
+```
+
+후보 Pod들의 metric을 확인하여 KV cache 사용률을 파악하여 `1 - 자기 자신의 사용률` 값을 점수로 반환합니다. KV cache 사용률이 낮을수록 높은 점수를 반환합니다.
+
+## Picker
+
+### max-score-picker
+
+```yaml
+- type: max-score-picker
+```

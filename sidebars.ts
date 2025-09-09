@@ -1442,6 +1442,7 @@ const sidebars: SidebarsConfig = {
 			items: [
 				"mlops/serving/gateway-api-inference-extension/gateway-api-inference-extension",
 				"mlops/serving/gateway-api-inference-extension/endpoint-picker",
+				"mlops/serving/gateway-api-inference-extension/plugins",
 				"mlops/serving/gateway-api-inference-extension/route",
 			],
 		},
