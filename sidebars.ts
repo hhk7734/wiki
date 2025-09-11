@@ -1451,6 +1451,11 @@ const sidebars: SidebarsConfig = {
 			label: "llm-d",
 			items: ["mlops/serving/llm-d/plugins"],
 		},
+		{
+			type: "category",
+			label: "vllm",
+			items: ["mlops/serving/vllm/kvcache"],
+		},
 	],
 	shellscript: [
 		"lang/shellscript/shellscript",
