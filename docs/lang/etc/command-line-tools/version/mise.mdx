@@ -1,0 +1,116 @@
+---
+id: mise
+title: mise로 런타임 버전 관리하기
+sidebar_label: mise
+description: mise로 런타임 버전 관리하기
+keywords:
+  - mise
+  - runtime
+  - version
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+:::info[Reference]
+
+- [mise Docs / Getting Started](https://mise.jdx.dev/getting-started.html)
+
+:::
+
+```shell
+curl https://mise.run | sh
+```
+
+<Tabs
+    groupId="shell"
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',},
+    ]}
+>
+<TabItem value="zsh">
+
+```shell title="$HOME/.zshrc"
+eval "$($HOME/.local/bin/mise activate zsh)"
+```
+
+```shell title="$HOME/.zprofile"
+eval "$($HOME/.local/bin/mise activate zsh --shims)"
+```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title="$HOME/.bashrc"
+eval "$($HOME/.local/bin/mise activate bash)"
+```
+
+```shell title="$HOME/.bash_profile"
+eval "$($HOME/.local/bin/mise activate bash --shims)"
+```
+
+</TabItem>
+
+</Tabs>
+
+## 설정 파일
+
+```shell
+/
+├── etc/
+│   └── mise/
+│       └── config.toml # System-wide
+└── home/
+    └── <user>/
+        ├── .config/
+        │   └── mise/
+        │       └── config.toml # User-specific (global)
+        └── <workspace>/
+            ├── mise.local.toml # Project-specific (local override)
+            ├── mise.toml # Project-specific
+            └── <service>/
+                └── mise.toml # Service-specific
+```
+
+```toml
+[tools]
+<tool> = "<version>"
+```
+
+- [mise Docs / Tools](https://mise.jdx.dev/dev-tools/)
+- [mise Docs / Environments](https://mise.jdx.dev/environments/)
+- [mise Docs / Tasks](https://mise.jdx.dev/tasks/)
+- [mise Docs / Configuration / Settings](https://mise.jdx.dev/configuration/settings.html)
+
+## 버전 관리
+
+### 버전 설정
+
+```shell
+mise ls-remote <tool>
+```
+
+```shell
+mise use [<flag>] [<backend>:]<tool>[@<version>]
+```
+
+- `<flag>`
+  - `--pin`: 사용한 정확한 버전을 설정 파일에 기록합니다.
+  - `-g|--global`: 전역 설정 파일에 기록합니다.
+- `<backend>`
+  - [mise Docs / Backends](https://mise.jdx.dev/dev-tools/backends/)
+
+```shell
+mise ls [<tool>]
+```
+
+### 버전 해제
+
+```shell
+mise unuse <tool>
+```

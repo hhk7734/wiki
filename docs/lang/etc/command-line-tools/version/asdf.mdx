@@ -1,7 +1,7 @@
 ---
 id: asdf
 title: asdf로 런타임 버전 관리하기
-sidebar_label: 버전 관리 툴 asdf
+sidebar_label: asdf
 description: asdf로 런타임 버전 관리하기
 keywords:
   - asdf
@@ -67,6 +67,7 @@ brew install asdf
 </Tabs>
 
 <Tabs
+    groupId="shell"
     defaultValue="zsh"
     values={[
         {label: 'zsh', value: 'zsh',},
@@ -199,3 +200,45 @@ asdf current [<plugin>]
 ```shell
 asdf uninstall <plugin> <version>
 ```
+
+## 삭제
+
+```shell
+sudo rm -rf "${ASDF_DATA_DIR:-$HOME/.asdf}"
+```
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',},
+        {label: 'macOS', value: 'mac',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo rm -f /usr/local/bin/asdf
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo rm -f /usr/local/bin/asdf
+```
+
+</TabItem>
+
+<TabItem value="mac">
+
+```shell
+brew uninstall asdf
+```
+
+</TabItem>
+
+</Tabs>

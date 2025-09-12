@@ -1172,7 +1172,11 @@ const sidebars: SidebarsConfig = {
 			type: "category",
 			label: "Command Line Tools",
 			items: [
-				"lang/etc/command-line-tools/asdf",
+				{
+					type: "category",
+					label: "런타임 버전 관리",
+					items: ["lang/etc/command-line-tools/version/asdf", "lang/etc/command-line-tools/version/mise"],
+				},
 				{
 					type: "category",
 					label: "Remote",
@@ -1454,7 +1458,7 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "vllm",
-			items: ["mlops/serving/vllm/kvcache"],
+			items: ["mlops/serving/vllm/kvconnector", "mlops/serving/vllm/kvevent"],
 		},
 	],
 	shellscript: [
@@ -1472,7 +1476,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "link",
 					label: "Etc",
-					href: "/docs/lang/etc/command-line-tools/asdf",
+					href: "/docs/lang/etc/command-line-tools/version/asdf",
 				},
 			],
 		},
