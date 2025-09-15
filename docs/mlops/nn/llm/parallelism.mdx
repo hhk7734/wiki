@@ -10,6 +10,7 @@ keywords:
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
+import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## Data Parallelism(DP)
 
@@ -100,16 +101,18 @@ graph LR
   Weight1-2 --> Weight-2
 ```
 
-Multi GPU 환경에서 모델을 레이어 단위로 분할하여 병렬화하는 방법입니다.
+Multi GPU 환경에서 모델을 레이어 단위로 분할하여 병렬화하는 방법입니다. 레이어 단위로 분할해서 병렬화하기 때문에 모델이 커짐에 따라 발생하는 메모리 문제를 해결할 수 있습니다. 단, 각 레이어는 이전 레이어의 출력을 입력으로 받아야하므로 일부 GPU가 아무일도 하지 않는 Bubble이라는 문제가 발생합니다.
 
 <center>
-	<img src={useBaseUrl("img/mlops/nn/llm/bubble.png")} />
-	<figcaption>
-		[Figure 2 - GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism](https://arxiv.org/pdf/1811.06965)
-	</figcaption>
+	<figure>
+		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/llm/parallelism/micro-batch-pipeline-parallelism.drawio")} />
+		<figcaption>
+			[Figure 2 - GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism](https://arxiv.org/pdf/1811.06965)
+		</figcaption>
+	</figure>
 </center>
 
-각 레이어는 이전 레이어의 출력을 입력으로 받아야하므로 일부 GPU가 아무일도 하지 않는 Bubble이라는 문제가 발생합니다.
+이 문제를 해결하기 위해 위 그림처럼 mini-batch를 더 작은 단위인 micro-batch로 나눠서 처리하는 방법 등이 있습니다.
 
 ## Tensor Parallelism(TP)
 
@@ -118,12 +121,12 @@ Multi GPU 환경에서 레이어 자체를 분할하여 병렬화하는 방법�
 ## 3D Parallelism
 
 <center>
-	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/3d-parallelism-1.png")} />
+	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/parallelism/3d-parallelism-1.png")} />
 	<figcaption>
 		[Figure 1 - DeepSpeed: Extreme-scale model training for
 		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
 	</figcaption>
-	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/3d-parallelism-2.png")} />
+	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/parallelism/3d-parallelism-2.png")} />
 	<figcaption>
 		[Figure 2 - DeepSpeed: Extreme-scale model training for
 		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
