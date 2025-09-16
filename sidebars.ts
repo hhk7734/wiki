@@ -287,7 +287,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "GPU Operator",
-					items: ["mlops/device/amd/gpu-operator/gpu-operator"],
+					items: ["mlops/device/amd/gpu-operator/gpu-operator", "mlops/device/amd/gpu-operator/crd"],
 				},
 			],
 		},

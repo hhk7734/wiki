@@ -18,6 +18,16 @@ import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 	</figure>
 </center>
 
+## ARP 설정
+
+```shell
+sudo sysctl -w net.ipv4.conf.all.arp_ignore=0
+```
+
+```shell
+echo "net.ipv4.conf.all.arp_ignore=0" | sudo tee -a /etc/sysctl.d/99-sysctl.conf
+```
+
 ## L3 스위치 설정
 
 :::info[Reference]

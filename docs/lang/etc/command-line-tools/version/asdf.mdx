@@ -130,6 +130,16 @@ asdf plugin list all
 asdf plugin add <plugin> [<url>]
 ```
 
+:::tip
+
+```shell
+cut -d' ' -f1 .tool-versions | xargs -i asdf plugin add {}
+```
+
+`.tool-versions`에 명시된 플러그인을 모두 설치합니다.
+
+:::
+
 ```shell
 asdf plugin list [<flag>]
 ```

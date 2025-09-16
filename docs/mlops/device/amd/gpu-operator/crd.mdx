@@ -1,0 +1,92 @@
+---
+id: crd
+title: AMD GPU Operator CRD
+sidebar_label: CRD
+description: AMD GPU Operator CRD
+keywords:
+  - amd
+  - gpu-operator
+  - crd
+---
+
+## DeviceConfig
+
+```yaml
+apiVersion: amd.com/v1alpha1
+kind: DeviceConfig
+spec:
+  selector:
+    feature.node.kubernetes.io/amd-gpu: "true"
+```
+
+### driver
+
+```yaml
+spec:
+  driver:
+    enable: true
+    blacklist: true
+```
+
+- `enable: true`
+  - out-of-tree (OS에 기본 제공되지 않는) AMD GPU 드라이버를 설치합니다.
+  - 설치하지 않으면 inbox (OS에 기본 제공되는) 또는 pre-installed AMD GPU 드라이버를 사용합니다.
+- `blacklist: true`
+  - `amdgpu` (inbox 드라이버) 모듈을 블랙리스트에 추가합니다. (`/etc/modprobe.d/blacklist-amdgpu.conf`)
+  - 적용된 것을 확인 후 해당 노드들의 재부팅이 필요합니다.
+- `image: <repository>`
+- `version: <version>`
+
+| OS          | Tag                             | Example                               |
+| ----------- | ------------------------------- | ------------------------------------- |
+| Ubuntu      | `ubuntu-<os>-<kernel>-<driver>` | `ubuntu-24.04-6.8.0-79-generic-6.4.3` |
+| RHEL CoreOS | `coreos-<os>-<kernel>-<driver>` |                                       |
+
+:::warning
+
+설정된 image와 version에 맞는 이미지를 찾아보고, 있으면 해당 이미지를 사용하여 드라이버를 설치합니다. 없으면 operator가 가지고 있는 Dockerfile로 이미지를 빌드하여 사용합니다.
+이미지를 만들어두기 위해 [ROCm / gpu-operator GitHub / driver / precompiled-driver](https://github.com/ROCm/gpu-operator/blob/main/docs/drivers/precompiled-driver.md) 문서를 참고하세요.
+
+:::
+
+### devicePlugin
+
+```yaml
+spec:
+  devicePlugin:
+    devicePluginImage: docker.io/rocm/k8s-device-plugin:1.31.0.8
+    devicePluginImagePullPolicy: IfNotPresent
+    devicePluginTolerations:
+      - key: amd.com/gpu
+        operator: Exists
+        effect: NoSchedule
+
+    enableNodeLabeller: true
+    nodeLabellerImage: docker.io/rocm/k8s-device-plugin:labeller-1.31.0.8
+    nodeLabellerImagePullPolicy: IfNotPresent
+    nodeLabellerTolerations:
+      - key: amd.com/gpu
+        operator: Exists
+        effect: NoSchedule
+```
+
+### metricsExporter
+
+```yaml
+spec:
+  metricsExporter:
+    enable: true
+    image: docker.io/rocm/device-metrics-exporter:v1.3.1
+    imagePullPolicy: IfNotPresent
+    tolerations:
+      - key: amd.com/gpu
+        operator: Exists
+        effect: NoSchedule
+    selector:
+      feature.node.kubernetes.io/amd-gpu: "true"
+    prometheus:
+      serviceMonitor:
+        enable: true
+        interval: 10s
+        labels: {}
+```
