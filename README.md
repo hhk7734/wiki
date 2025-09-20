@@ -3,15 +3,15 @@
 ## 설치
 
 ```shell
-npm install -g yarn
+mise install
 ```
 
 ```shell
-yarn install
+npm install
 ```
 
 ```shell
-yarn start
+npm run start
 ```
 
 ## Tab
@@ -107,9 +107,9 @@ import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 ## swizzle
 
 ```shell
-yarn swizzle --list
+npm run swizzle --list
 ```
 
 ```shell
-yarn swizzle @docusaurus/theme-classic DocItem/Content --wrap
+npm run swizzle @docusaurus/theme-classic DocItem/Content --wrap
 ```
