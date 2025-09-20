@@ -37,5 +37,5 @@ jobs:
             git config --global user.email "${{ github.event.head_commit.author.email }}"
           fi
 
-          npm install --production
+          npm install --omit=dev
           npm run deploy

@@ -1,0 +1,58 @@
+---
+id: vpc
+title: VPC
+sidebar_label: VPC
+description: VPC
+keywords:
+  - VPC
+---
+
+## VPC
+
+```hcl
+resource "google_compute_network" "<name>" {
+  auto_create_subnetworks = false
+}
+```
+
+- `auto_create_subnetworks = true`
+  - `true`인 경우 각 리전에 자동으로 서브넷이 생성됩니다.
+- `network_profile = <profile>`
+  - 특수 목적의 네트워크 프로파일을 설정할 수 있습니다.
+  - `gcloud compute network-profiles list` 명령어로 사용 가능한 프로파일을 확인할 수 있습니다.
+- `mtu = <mtu>`
+  - Maximum Transmission Unit (MTU)를 설정합니다. 기본값은 1460입니다.
+  - 멀티 GPU VM 통신 최적화가 필요한 경우 최댓값인 `8896`을 설정할 수 있습니다.
+
+## Subnet
+
+```hcl
+resource "google_compute_subnetwork" "<name>" {
+  network = google_compute_network.<name>.id
+}
+```
+
+- `region = <region>`
+  - 서브넷이 속할 리전을 설정합니다.
+- `ip_cidr_range = <cidr>`
+  - 서브넷의 IP CIDR 범위를 설정합니다.
+  - `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`과 같은 형식으로 입력합니다.
+  - VPC 내에서 서브넷의 CIDR 범위는 서로 겹치지 않아야 합니다.
+
+## Firewall
+
+```hcl
+resource "google_compute_firewall" "<name>" {
+  network = google_compute_network.<name>.name
+}
+```
+
+- `allow {}` or `deny {}`
+  - 방화벽 규칙을 허용하거나 거부합니다. 여러 번 설정할 수 있습니다.
+  - `protocol = "tcp|udp|icmp|esp|ah|sctp|ipip|all"`
+    - 허용할 프로토콜을 설정합니다.
+  - `ports = []`
+    - UDP 또는 TCP인 경우 허용할 포트 범위를 설정합니다.
+    - `[22]`, `["80", "443"]`, `["30000-32767"]`와 같은 형식으로 입력합니다.
+- `source_ranges = ["<cidr>"]`
+  - 룰이 적용될 source IP CIDR 범위를 설정합니다.

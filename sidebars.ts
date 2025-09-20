@@ -291,11 +291,6 @@ const sidebars: SidebarsConfig = {
 				},
 			],
 		},
-		{
-			type: "category",
-			label: "InfiniBand",
-			items: ["mlops/device/infiniband/ofed", "mlops/device/infiniband/rdma-shared-device-plugin"],
-		},
 	],
 	espressif: ["mcu/espressif/esp8266-esp-01-module"],
 	flutter: [
@@ -876,7 +871,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/aws/iam/spot-role",
 					],
 				},
-				"mlops/mlops/aws/vpc",
 				{
 					type: "category",
 					label: "EKS",
@@ -1016,6 +1010,16 @@ const sidebars: SidebarsConfig = {
 		"mlops/network/cni",
 		{
 			type: "category",
+			label: "AWS",
+			items: ["mlops/network/aws/vpc"],
+		},
+		{
+			type: "category",
+			label: "GCP",
+			items: ["mlops/network/gcp/vpc"],
+		},
+		{
+			type: "category",
 			label: "Cilium",
 			items: [
 				"mlops/network/cilium/cilium",
@@ -1044,6 +1048,11 @@ const sidebars: SidebarsConfig = {
 				"mlops/network/metallb/arp",
 				"mlops/network/metallb/bgp",
 			],
+		},
+		{
+			type: "category",
+			label: "InfiniBand",
+			items: ["mlops/network/infiniband/ofed", "mlops/network/infiniband/rdma-shared-device-plugin"],
 		},
 		{
 			type: "category",
