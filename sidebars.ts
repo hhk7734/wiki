@@ -533,6 +533,21 @@ const sidebars: SidebarsConfig = {
 						},
 					],
 				},
+				{
+					type: "category",
+					label: "EKS",
+					items: [
+						"mlops/kubernetes/cluster/eks/eks",
+						"mlops/kubernetes/cluster/eks/node-group",
+						"mlops/kubernetes/cluster/eks/eks-rbac",
+						"mlops/kubernetes/cluster/eks/keycloak",
+					],
+				},
+				{
+					type: "category",
+					label: "GKE",
+					items: ["mlops/kubernetes/cluster/gke/node-pool"],
+				},
 			],
 		},
 		{
@@ -875,16 +890,6 @@ const sidebars: SidebarsConfig = {
 						"mlops/mlops/aws/iam/iam",
 						"mlops/mlops/aws/iam/cross-accounts-access",
 						"mlops/mlops/aws/iam/spot-role",
-					],
-				},
-				{
-					type: "category",
-					label: "EKS",
-					items: [
-						"mlops/mlops/aws/eks/eks",
-						"mlops/mlops/aws/eks/node-group",
-						"mlops/mlops/aws/eks/eks-rbac",
-						"mlops/mlops/aws/eks/keycloak",
 					],
 				},
 				"mlops/mlops/aws/cluster-autoscaler",

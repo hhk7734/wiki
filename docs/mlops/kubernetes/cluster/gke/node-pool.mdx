@@ -1,0 +1,46 @@
+---
+id: node-pool
+title: GKE Node Pool
+sidebar_label: Node Pool
+description: GKE Node Pool
+keywords:
+  - GKE
+  - Node Pool
+---
+
+## Node Pool
+
+:::info[Reference]
+
+- [GKE / Deploy AI/ML workloads / Run GPUs in GKE Standard node pools](https://cloud.google.com/kubernetes-engine/docs/how-to/gpus)
+
+:::
+
+```hcl
+resource "google_container_node_pool" "<name>" {
+  cluster = google_container_cluster.<name>.id
+}
+```
+
+- `location = <region|zone>`
+  - 클러스터가 위치한 리전 또는 존을 설정합니다.
+- `node_locations = ["<zone>"]`
+- `node_config {}`
+  - `machine_type = "<type>"`
+  - `image_type = "COS_CONTAINERD|UBUNTU_CONTAINERD"`
+  - `labels = {}`
+  - `taint {}`
+    - `key = "<key>"`
+    - `value = "<value>"`
+    - `effect = "NO_SCHEDULE|PREFER_NO_SCHEDULE|NO_EXECUTE"`
+  - `guest_accelerator {}`
+    - Node의 GPU/TPU 정보를 설정합니다.
+    - `type = "<type>"`
+      - Node에 `cloud.google.com/gke-accelerator: <type>` 라벨이 자동으로 추가됩니다.
+    - `count = <count>`
+    - `gpu_driver_installation_config {}`
+      - `gpu_driver_version = "GPU_DRIVER_VERSION_UNSPECIFIED|INSTALLATION_DISABLED|DEFAULT|LATEST"`
+- `network_config {}`
+  - `additional_pod_network_configs`
+    - `network = google_compute_network.<name>.name`
+    - `subnetwork = google_compute_subnetwork.<name>.name`
