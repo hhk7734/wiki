@@ -106,7 +106,7 @@ done
 
 ## 인벤토리 작성
 
-- 인벤토리 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory)를 참고하시면 됩니다.
+- 인벤토리 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory.mdx)를 참고하시면 됩니다.
 
 ```yaml title="inventory/hosts.yaml"
 all:
@@ -168,16 +168,16 @@ k8s_cluster:
         - `cni`: 기본적으로 필요한 cni 플러그인들만 설치합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
 - HA
-  - [kube-apiserver HA](/docs/mlops/kubernetes/tools/kubespray/ha)
+  - [kube-apiserver HA](/docs/mlops/kubernetes/cluster/kubespray/ha.mdx)
 - 다운로드
-  - [바이너리/이미지 다운로드](/docs/mlops/kubernetes/tools/kubespray/download)
+  - [바이너리/이미지 다운로드](/docs/mlops/kubernetes/cluster/kubespray/download.mdx)
 - 인증서 갱신
-  - [kubeadm 인증서 관리](/docs/mlops/kubernetes/tools/kubeadm/certs)
+  - [kubeadm 인증서 관리](/docs/mlops/kubernetes/cluster/kubeadm/certs.mdx)
   - `auto_renew_certificates: false`
   - `auto_renew_certificates_systemd_calendar: "*-01,07-01 03:{{ groups['kube_control_plane'].index(inventory_hostname) }}0:00"`
     - [systemd.time](https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html)
 - Audit 로그
-  - [Kubernetes Audit 정책 설정하기](/docs/mlops/kubernetes/security/audit)
+  - [Kubernetes Audit 정책 설정하기](/docs/mlops/kubernetes/security/audit.mdx)
   - `kubernetes_audit: false`
   - `audit_log_maxage: 30`
   - `audit_log_maxbackups: 10`

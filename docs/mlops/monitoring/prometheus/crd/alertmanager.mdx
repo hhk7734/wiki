@@ -36,7 +36,7 @@ spec:
             storage: 5Gi
 ```
 
-Alertmanager CR을 생성하고 Service를 확인(또는 생성)한 후, 이를 사용할 [Prometheus에 관련 정보를 설정](/docs/mlops/monitoring/prometheus/crd/prometheus#alertmanager-연결하기)합니다.
+Alertmanager CR을 생성하고 Service를 확인(또는 생성)한 후, 이를 사용할 [Prometheus에 관련 정보를 설정](/docs/mlops/monitoring/prometheus/crd/prometheus.mdx#alertmanager-연결하기)합니다.
 
 ### AlertmanagerConfig 수집하기
 
@@ -48,10 +48,10 @@ spec:
 ```
 
 - `alertmanagerConfigNamespaceSelector`
-  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label.mdx#label-selector)
   - `null`로 설정하면 `Alertmanager`가 선언된 Namespace에서만 AlertmanagerConfig를 찾습니다.
 - `alertmanagerConfigSelector`
-  - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+  - [LabelSelector](/docs/mlops/kubernetes/object-management/label.mdx#label-selector)
 
 ## AlertmanagerConfig
 

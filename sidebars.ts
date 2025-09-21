@@ -481,58 +481,64 @@ const sidebars: SidebarsConfig = {
 	kubernetes: [
 		{
 			type: "category",
-			label: "Tools",
+			label: "Cluster 관리",
 			items: [
 				{
 					type: "category",
 					label: "Kubeadm",
 					items: [
-						"mlops/kubernetes/tools/kubeadm/kubeadm",
-						"mlops/kubernetes/tools/kubeadm/control-plane",
-						"mlops/kubernetes/tools/kubeadm/certs",
-						"mlops/kubernetes/tools/kubeadm/upgrade",
+						"mlops/kubernetes/cluster/kubeadm/kubeadm",
+						"mlops/kubernetes/cluster/kubeadm/control-plane",
+						"mlops/kubernetes/cluster/kubeadm/certs",
+						"mlops/kubernetes/cluster/kubeadm/upgrade",
 					],
 				},
 				{
 					type: "category",
 					label: "Kubespray",
 					items: [
-						"mlops/kubernetes/tools/kubespray/kubespray",
-						"mlops/kubernetes/tools/kubespray/ha",
-						"mlops/kubernetes/tools/kubespray/etcd",
-						"mlops/kubernetes/tools/kubespray/node",
-						"mlops/kubernetes/tools/kubespray/auth",
-						"mlops/kubernetes/tools/kubespray/download",
-						"mlops/kubernetes/tools/kubespray/offline",
-						"mlops/kubernetes/tools/kubespray/upgrade",
+						"mlops/kubernetes/cluster/kubespray/kubespray",
+						"mlops/kubernetes/cluster/kubespray/ha",
+						"mlops/kubernetes/cluster/kubespray/etcd",
+						"mlops/kubernetes/cluster/kubespray/node",
+						"mlops/kubernetes/cluster/kubespray/auth",
+						"mlops/kubernetes/cluster/kubespray/download",
+						"mlops/kubernetes/cluster/kubespray/offline",
+						"mlops/kubernetes/cluster/kubespray/upgrade",
 					],
 				},
 				{
 					type: "category",
 					label: "Cluster API",
 					items: [
-						"mlops/kubernetes/tools/cluster-api/cluster-api",
-						"mlops/kubernetes/tools/cluster-api/cluster",
+						"mlops/kubernetes/cluster/cluster-api/cluster-api",
+						"mlops/kubernetes/cluster/cluster-api/cluster",
 						{
 							type: "category",
 							label: "Infrastructure",
 							items: [
-								"mlops/kubernetes/tools/cluster-api/infrastructure/kubevirt",
-								"mlops/kubernetes/tools/cluster-api/infrastructure/k0smotron",
+								"mlops/kubernetes/cluster/cluster-api/infrastructure/kubevirt",
+								"mlops/kubernetes/cluster/cluster-api/infrastructure/k0smotron",
 							],
 						},
 						{
 							type: "category",
 							label: "Bootstrap",
-							items: ["mlops/kubernetes/tools/cluster-api/bootstrap/k0smotron"],
+							items: ["mlops/kubernetes/cluster/cluster-api/bootstrap/k0smotron"],
 						},
 						{
 							type: "category",
 							label: "ControlPlane",
-							items: ["mlops/kubernetes/tools/cluster-api/control-plane/k0smotron"],
+							items: ["mlops/kubernetes/cluster/cluster-api/control-plane/k0smotron"],
 						},
 					],
 				},
+			],
+		},
+		{
+			type: "category",
+			label: "Tools",
+			items: [
 				"mlops/kubernetes/tools/kustomize",
 				"mlops/kubernetes/tools/helm",
 				"mlops/kubernetes/tools/k0s",

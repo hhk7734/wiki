@@ -39,14 +39,14 @@ spec:
     - 설정하지 않으면 가장 낮은 우선순위로 설정됩니다.
   - `namespaces: []`
   - `namespaceSelectors: []`
-    - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+    - [LabelSelector](/docs/mlops/kubernetes/object-management/label.mdx#label-selector)
   - `serviceSelectors: []`
-    - [LabelSelector](/docs/mlops/kubernetes/object-management/label#label-selector)
+    - [LabelSelector](/docs/mlops/kubernetes/object-management/label.mdx#label-selector)
 
 ## Advertisement
 
-- [L2Advertisement](/docs/mlops/network/metallb/arp)
-- [BGPAdvertisement](/docs/mlops/network/metallb/bgp)
+- [L2Advertisement](/docs/mlops/network/metallb/arp.mdx)
+- [BGPAdvertisement](/docs/mlops/network/metallb/bgp.mdx)
 
 ## LoadBalancer Service
 
@@ -79,5 +79,5 @@ spec:
         - e.g., 각각 `tcp/53`, `udp/53`를 사용하면서 같은 Pod을 선택하는 Service의 경우 같은 IP를 할당받을 수 있습니다.
 - `spec`
   - `externalTrafficPolicy: Cluster`
-    - [Service # externalTrafficPolicy](/docs/mlops/kubernetes/network/service#externaltrafficpolicy)
-    - BGP + `Local` + [affinity](/docs/mlops/kubernetes/scheduling/affinity) 설정으로 최적의 트래픽 흐름을 만들 수 있습니다.
+    - [Service # externalTrafficPolicy](/docs/mlops/kubernetes/network/service.mdx#externaltrafficpolicy)
+    - BGP + `Local` + [affinity](/docs/mlops/kubernetes/scheduling/affinity.mdx) 설정으로 최적의 트래픽 흐름을 만들 수 있습니다.
