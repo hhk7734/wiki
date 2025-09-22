@@ -92,6 +92,7 @@ location = "<registry>"
 
 [[registry.mirror]]
 location = "<registry>"
+insecure = true
 ```
 
 선언된 순서로 mirror를 확인하고 마지막에 자기 자신을 확인합니다.
@@ -99,6 +100,12 @@ location = "<registry>"
 ```shell
 podman info --format json | jq '.registries'
 ```
+
+```shell
+podman pull --log-level debug <image>
+```
+
+Log level을 `debug`로 설정하여 테스트해볼 수 있습니다.
 
 ## 이미지 빌드
 

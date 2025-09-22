@@ -1,0 +1,39 @@
+---
+id: push-pull
+title: ECR에 이미지 push/pull 하기
+sidebar_label: Push/Pull
+description: ECR에 이미지 push/pull 하기
+keywords:
+  - ECR
+---
+
+## dockerconfigjson 생성
+
+:::warning
+
+ECR Login Password는 12시간 동안 유효합니다.
+
+:::
+
+```shell
+AWS_ACCOUNT_ID=
+AWS_REGION=
+ECR_REGISTRY=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com
+
+cat > ecr-config.json <<EOF
+{
+  "auths": {
+    "${ECR_REGISTRY}": {
+      "auth": "$(echo -n "AWS:$(aws ecr get-login-password --region ${AWS_REGION})" | base64 | tr -d '\n')"
+    }
+  }
+}
+EOF
+```
+
+```shell
+kubectl create secret generic ecr-pull-secret \
+  -n <namespace> \
+  --type=kubernetes.io/dockerconfigjson \
+  --from-file=.dockerconfigjson=ecr-config.json
+```

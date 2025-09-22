@@ -893,7 +893,6 @@ const sidebars: SidebarsConfig = {
 					],
 				},
 				"mlops/mlops/aws/cluster-autoscaler",
-				"mlops/mlops/aws/ecr",
 				{
 					type: "category",
 					label: "ParallelCluster",
@@ -1255,6 +1254,25 @@ const sidebars: SidebarsConfig = {
 	provisioning: [
 		{
 			type: "category",
+			label: "Harbor",
+			items: [
+				"mlops/provisioning/harbor/harbor",
+				"mlops/provisioning/harbor/auth",
+				"mlops/provisioning/harbor/proxy-cache",
+			],
+		},
+		{
+			type: "category",
+			label: "ECR",
+			items: ["mlops/provisioning/ecr/ecr", "mlops/provisioning/ecr/push-pull"],
+		},
+		{
+			type: "category",
+			label: "Spegel",
+			items: ["mlops/provisioning/spegel/spegel"],
+		},
+		{
+			type: "category",
 			label: "Karpenter",
 			items: [
 				"mlops/provisioning/karpenter/karpenter",
@@ -1549,16 +1567,6 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 		"mlops/storage/mongodb",
-		{
-			type: "category",
-			label: "Harbor",
-			items: ["mlops/storage/harbor/harbor", "mlops/storage/harbor/auth", "mlops/storage/harbor/proxy-cache"],
-		},
-		{
-			type: "category",
-			label: "Spegel",
-			items: ["mlops/storage/spegel/spegel"],
-		},
 		{
 			type: "category",
 			label: "Etc",
