@@ -47,11 +47,17 @@ help: ## Display this help.
 		} \
 	' $(MAKEFILE_LIST)
 
+ARGS ?= $(filter-out $@,$(MAKECMDGOALS))
+
 ##@ Development
 
 .PHONY: echo
-echo: ## Echo value. Usage: `make echo value=<value>`
-	@echo "value: $(value)"
+echo: ## Echo value. Usage: `make echo <value>`
+	@echo "value: $(ARGS)"
+
+# Swallow extra MAKECMDGOALS so make doesn't try to build them
+%:
+	@:
 ```
 
 ```shell

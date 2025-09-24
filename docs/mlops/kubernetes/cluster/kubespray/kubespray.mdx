@@ -17,7 +17,12 @@ keywords:
   - 모든 노드에 대한 고유한 호스트 이름, MAC 주소, prodcut_uuid
     - `ip link`
     - `sudo cat /sys/class/dmi/id/product_uuid`
-  - `cat /proc/cgroups | column -t` 모두 enabled 상태
+
+```shell
+awk '{printf "%-20s %-20s %-20s %-20s\n", $1, $2, $3, $4}' /proc/cgroups
+```
+
+모든 subsystem의 `enabled` 값이 `1` 이어야 합니다.
 
 ## 프로젝트 생성
 
@@ -26,95 +31,52 @@ keywords:
 kubespray의 기본 기능만 사용하면서 인벤토리만 관리하면 된다면 컨테이너를 활용하는 것이 편리합니다.
 
 ```shell
-podman run --rm -it \
-  -v <path>:/mycluster \
-  quay.io/kubespray/kubespray:v2.26.0 \
-  cp -rfp /kubespray/inventory/sample /mycluster/inventory
+kubespray/
+└── inventory/
 ```
 
 ```shell
-./
+podman run --rm -it \
+    --mount type=bind,src=$PWD/inventory,dst=/myinventory \
+    quay.io/kubespray/kubespray:v2.28.1 \
+    cp -rfp /kubespray/inventory/sample/. /myinventory
+```
+
+```shell
+kubespray/
 └── inventory/
     ├── group_vars/
     │   └── ...
-    ├── hosts.yaml
-    └── patches/
-        └── ...
+    └── hosts.yaml
 ```
 
 아래 명령어로 컨테이너 내에서 작업을 하면 됩니다.
 
 ```shell
 podman run --rm -it \
-  -v $PWD/inventory:/kubespray/inventory \
-  -e ANSIBLE_STDOUT_CALLBACK=yaml \
-  quay.io/kubespray/kubespray:v2.26.0 \
-  bash
-```
-
-### git submodule 사용하기
-
-추가적인 플래이북을 만들어서 사용해야하는 경우 git submodule을 사용하는 것이 편리합니다.
-
-```shell
-git submodule add https://github.com/kubernetes-sigs/kubespray.git upstream \
-&& pushd upstream \
-&& git checkout v2.26.0 \
-&& popd
-```
-
-```shell
-cp -rfp upstream/inventory/sample inventory
-```
-
-```shell
-cp upstream/ansible.cfg ansible.cfg \
-&& sed -i \
-  -e 's/\(^stdout_callback = \).*$/\1yaml/g' \
-  -e 's/\(^library =.*\)/\1:upstream\/library/g' \
-  -e 's/\(^roles_path =.*\)/\1:upstream\/roles/g' ansible.cfg
-```
-
-```shell
-for playbook in cluster.yml recover-control-plane.yml remove-node.yml reset.yml scale.yml upgrade-cluster.yml; do
-  cat <<EOF > $playbook
----
-- name: Import upstream/$playbook
-  ansible.builtin.import_playbook: upstream/$playbook
-EOF
-done
-```
-
-```shell
-./
-├── ansible.cfg
-├── cluster.yml
-├── inventory/
-│   ├── group_vars/
-│   │   └── ...
-│   ├── hosts.yaml
-│   └── patches/
-│       └── ...
-├── recover-control-plane.yml
-├── remove-node.yml
-├── reset.yml
-├── scale.yml
-├── upgrade-cluster.yml
-└── upstream/
-    └── ...
+    --mount type=bind,src=${PWD}/inventory,dst=/kubespray/inventory \
+    -e ANSIBLE_HOST_KEY_CHECKING=False \
+    -e ANSIBLE_TIMEOUT=60 \
+    -e ANSIBLE_LOAD_CALLBACK_PLUGINS=True \
+    -e ANSIBLE_STDOUT_CALLBACK=yaml \
+    quay.io/kubespray/kubespray:v2.28.1 \
+    bash
 ```
 
 ## 인벤토리 작성
 
-- 인벤토리 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory.mdx)를 참고하시면 됩니다.
+:::info[Reference]
+
+- 인벤토리 작성은 [Inventory](/docs/mlops/mlops/ansible/inventory.mdx) 문서를 참고하시면 됩니다.
+
+:::
 
 ```yaml title="inventory/hosts.yaml"
 all:
   hosts:
     <hostname>:
-      ansible_host: <host> # ansible이 접근 가능한 주소
-      ip: <ip> # Node IP
-      access_ip: <ip>
+      ansible_host: <host>
+      ip: <ip>
 
 etcd:
   hosts:
@@ -133,10 +95,19 @@ bastion:
 
 k8s_cluster:
   children:
-    # 수정하지 마세요.
     kube_control_plane:
     kube_node:
 ```
+
+- `all`
+  - `hosts`
+    - `<hostname>`
+      - Node의 호스트 이름입니다.
+      - 일치하지 않으면 설정한 값으로 변경됩니다.
+      - `ansible_host: <ip|hostname>`
+        - ansible이 접속할 주소입니다.
+      - `ip: <ip>`
+        - Node의 IP 주소입니다.
 
 ## 클러스터 생성
 
@@ -165,7 +136,7 @@ k8s_cluster:
       - `kube_oidc_*`: kube-apiserver에 OIDC 관련 설정을 추가합니다.
       - `kube_network_plugin: <cni>`
         - `calico`: 기본값입니다.
-        - `cni`: 기본적으로 필요한 cni 플러그인들만 설치합니다.
+        - `cni`: 최소한의 cni 플러그인들만 설치합니다.
     - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
 - HA
   - [kube-apiserver HA](/docs/mlops/kubernetes/cluster/kubespray/ha.mdx)
@@ -191,7 +162,7 @@ k8s_cluster:
   - `node_taints: ["<key>=<value>:<effect>"]`
 
 ```shell
-ansible-playbook -i <inventory> -b cluster.yml \
+ansible-playbook -i inventory/ -b cluster.yml \
   -e kubeconfig_localhost=true \
   -e kubectl_localhost=true
 ```
@@ -199,5 +170,5 @@ ansible-playbook -i <inventory> -b cluster.yml \
 ## 클러스터 삭제
 
 ```shell
-ansible-playbook -i <inventory> -b reset.yml
+ansible-playbook -i inventory/ -b reset.yml
 ```

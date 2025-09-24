@@ -1,0 +1,106 @@
+---
+id: callback
+title: Ansible Callback 플러그인
+sidebar_label: Callback 플러그인
+description: Ansible Callback 플러그인
+keywords:
+  - Ansible
+  - Callback
+---
+
+## 출력 예시
+
+### ansible.builtin.default
+
+`ANSIBLE_CALLBACK_RESULT_FORMAT=json`
+
+```shell
+TASK [ping] *******************************************************************************************
+ok: [ip-172-31-254-2]
+
+PLAY RECAP ********************************************************************************************
+ip-172-31-254-2 : ok=1    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
+
+`ANSIBLE_CALLBACK_RESULT_FORMAT=yaml`
+
+### ansible.builtin.minimal
+
+```shell
+ip-172-31-254-2 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "ping": "pong"
+}
+```
+
+```shell
+ip-172-31-254-2 | CHANGED | rc=0 >>
+total 28
+drwxr-x--- 4 asdf asdf 4096 Sep 24 14:09 .
+drwxr-xr-x 3 root root 4096 Sep 24 13:49 ..
+-rw-r--r-- 1 asdf asdf  220 Mar 31  2024 .bash_logout
+-rw-r--r-- 1 asdf asdf 3771 Mar 31  2024 .bashrc
+drwx------ 2 asdf asdf 4096 Sep 24 13:51 .cache
+-rw-r--r-- 1 asdf asdf  807 Mar 31  2024 .profile
+drwx------ 2 asdf asdf 4096 Sep 24 13:49 .ssh
+-rw-r--r-- 1 asdf asdf    0 Sep 24 14:09 .sudo_as_admin_successful
+```
+
+### ansible.builtin.oneline
+
+```shell
+ip-172-31-254-2 | SUCCESS => {"ansible_facts": {"discovered_interpreter_python": "/usr/bin/python3"},"changed": false,"ping": "pong"}
+```
+
+### ansible.builtin.json
+
+```shell
+{
+    "custom_stats": {},
+    "global_custom_stats": {},
+    "plays": [
+        {
+            "play": {
+                # ...
+            },
+            "tasks": [
+                {
+                    "hosts": {
+                        "ip-172-31-254-2": {
+                            "_ansible_no_log": false,
+                            "action": "ping",
+                            "ansible_facts": {
+                                "discovered_interpreter_python": "/usr/bin/python3"
+                            },
+                            "changed": false,
+                            "invocation": {
+                                "module_args": {
+                                    "data": "pong"
+                                }
+                            },
+                            "ping": "pong"
+                        }
+                    },
+                    "task": {
+                        # ...
+                    }
+                }
+            ]
+        }
+    ],
+    "stats": {
+        "ip-172-31-254-2": {
+            "changed": 0,
+            "failures": 0,
+            "ignored": 0,
+            "ok": 1,
+            "rescued": 0,
+            "skipped": 0,
+            "unreachable": 0
+        }
+    }
+}
+```
