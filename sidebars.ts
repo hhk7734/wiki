@@ -217,37 +217,37 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Protocol",
+			label: "Protocols And Specifications",
 			items: [
 				{
 					type: "category",
 					label: "HTTP",
 					items: [
-						"lang/design/protocol/http/mime-type",
-						"lang/design/protocol/http/cookie",
-						"lang/design/protocol/http/cors",
-						"lang/design/protocol/http/websocket",
-						"lang/design/protocol/http/webrtc",
+						"lang/design/protocol-spec/http/mime-type",
+						"lang/design/protocol-spec/http/cookie",
+						"lang/design/protocol-spec/http/cors",
+						"lang/design/protocol-spec/http/websocket",
+						"lang/design/protocol-spec/http/webrtc",
 					],
 				},
 				{
 					type: "category",
 					label: "Protobuf",
 					items: [
-						"lang/design/protocol/protobuf/protobuf",
-						"lang/design/protocol/protobuf/type",
-						"lang/design/protocol/protobuf/compatibility",
+						"lang/design/protocol-spec/protobuf/protobuf",
+						"lang/design/protocol-spec/protobuf/type",
+						"lang/design/protocol-spec/protobuf/compatibility",
 					],
 				},
 				{
 					type: "category",
 					label: "OAuth",
-					items: ["lang/design/protocol/oauth/oidc", "lang/design/protocol/oauth/client-authentication"],
+					items: ["lang/design/protocol-spec/oauth/oidc", "lang/design/protocol-spec/oauth/client-authentication"],
 				},
 				{
 					type: "category",
 					label: "Email",
-					items: ["lang/design/protocol/email/authentication"],
+					items: ["lang/design/protocol-spec/email/authentication"],
 				},
 			],
 		},
@@ -1496,8 +1496,8 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "vllm",
-			items: ["mlops/serving/vllm/kvconnector", "mlops/serving/vllm/kvevent"],
+			label: "vLLM",
+			items: ["mlops/serving/vllm/vllm", "mlops/serving/vllm/kvcache"],
 		},
 	],
 	shellscript: [

@@ -18,6 +18,11 @@ keywords:
 
 :::
 
+- 1.18.2 버전 기준으로 IPv6/NDP를 지원하지 않습니다.
+- 하나의 Node가 모든 ARP 요청을 수신합니다.
+- 트래픽이 비대칭적으로 흐를 수 있습니다.
+- `service.spec.externalTrafficPolicy: Local`와 함께 사용할 수 없습니다.
+
 ```yaml title="cilium-values.yaml"
 l2announcements:
   enabled: true
@@ -26,14 +31,17 @@ l2announcements:
 #   enabled: true
 
 kubeProxyReplacement: "true"
-k8sServiceHost: "auto"
-k8sServicePort: "auto"
+k8sServiceHost: auto
+k8sServicePort: auto
 ```
 
-- 1.16.4 버전 기준으로 IPv6/NDP를 지원하지 않습니다.
-- 하나의 Node가 모든 ARP 요청을 수신합니다.
-- 트래픽이 비대칭적으로 흐를 수 있습니다.
-- `service.spec.externalTrafficPolicy: Local`와 함께 사용할 수 없습니다.
+- `k8sServiceHost: auto|<ip|hostname>`
+  - `auto`: cluster-info ConfigMap에서 API 서버 주소를 가져옵니다.
+  - `<ip|hostname>`: API 서버 주소를 직접 지정합니다.
+  - Node Local DNS를 사용하는 경우 `localhost`로 설정합니다.
+- `k8sServicePort: auto|<port>`
+  - `auto`: cluster-info ConfigMap에서 API 서버 포트를 가져옵니다.
+  - `<port>`: API 서버 포트를 직접 지정합니다.
 
 ### 리더 선출
 

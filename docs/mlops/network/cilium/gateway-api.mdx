@@ -29,7 +29,7 @@ Cilium에서 Gateway API를 활성화하기 전에 Gateway API CRD가 먼저 설
 
 :::warning
 
-Cilium v1.16.4 기준 Gateway API v1.1.0을 지원합니다.
+Cilium v1.18.2 기준 Gateway API v1.2.0을 지원합니다.
 
 :::
 
@@ -42,9 +42,9 @@ l7Proxy: true
 nodePort:
   enabled: true
 
-kubeProxyReplacemen: "true"
-k8sServiceHost: "auto"
-k8sServicePort: "auto"
+kubeProxyReplacement: "true"
+k8sServiceHost: auto
+k8sServicePort: auto
 ```
 
 cilium-operator와 cilium\(agent\)을 재시작해야합니다.
