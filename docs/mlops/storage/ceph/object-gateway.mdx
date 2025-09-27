@@ -91,6 +91,7 @@ spec:
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 provisioner: <cephClusterNamespace>.ceph.rook.io/bucket
+volumeBindingMode: Immediate
 reclaimPolicy: Delete
 parameters:
   objectStoreName: <cephObjectStoreName>

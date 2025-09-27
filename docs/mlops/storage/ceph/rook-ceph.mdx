@@ -35,11 +35,11 @@ helm repo update rook-release \
 ```
 
 ```shell
-helm pull rook-release/rook-ceph --version v1.16.7
+helm pull rook-release/rook-ceph --version v1.18.2
 ```
 
 ```shell
-helm show values rook-release/rook-ceph --version v1.16.7 > rook-ceph-v1.16.7.yaml
+helm show values rook-release/rook-ceph --version v1.18.2 > rook-ceph-v1.18.2.yaml
 ```
 
 ```yaml title="rook-ceph-values.yaml"
@@ -58,16 +58,21 @@ tolerations: []
 
 csi:
   enableRbdDriver: false
+  enableRBDSnapshotter: false
+
   enableCephfsDriver: false
+  enableCephfsSnapshotter: false
 
-  kubeletDirPath: /var/lib/kubelet
+  nfs:
+    enabled: false
+  enableNFSSnapshotter: false
 
-enforceHostNetwork: false
+  enableVolumeGroupSnapshot: false
 ```
 
 ```shell
 helm template rook-ceph rook-release/rook-ceph \
-    --version v1.16.7 \
+    --version v1.18.2 \
     -n rook-ceph \
     -f rook-ceph-values.yaml \
     > rook-ceph.yaml
@@ -77,7 +82,7 @@ helm template rook-ceph rook-release/rook-ceph \
 helm upgrade rook-ceph rook-release/rook-ceph \
     --install \
     --history-max 5 \
-    --version v1.16.7 \
+    --version v1.18.2 \
     -n rook-ceph \
     -f rook-ceph-values.yaml
 ```
@@ -101,5 +106,5 @@ helm uninstall rook-ceph -n rook-ceph
 ```
 
 ```shell
-kubectl get crd -oname | grep --color=never 'ceph.rook.io\|objectbucket.io' | xargs kubectl delete
+kubectl get crd -oname | grep --color=never 'ceph.rook.io\|objectbucket.io\|csi.ceph.io' | xargs kubectl delete
 ```

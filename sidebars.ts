@@ -1568,12 +1568,12 @@ const sidebars: SidebarsConfig = {
 			],
 		},
 		"mlops/storage/mongodb",
+		"mlops/storage/local-path-provisioner",
 		{
 			type: "category",
 			label: "Etc",
 			items: ["mlops/storage/etc/fio", "mlops/storage/etc/mdtest"],
 		},
-		"mlops/storage/local-path-provisioner",
 	],
 	workflow: [
 		{

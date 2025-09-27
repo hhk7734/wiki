@@ -131,11 +131,18 @@ parameters:
   clusterID: <cephClusterNamespace>
   fsName: <cephFilesystemName>
   pool: <cephFilesystemName>-<cephFilesystem.spec.dataPools.name>
+
   csi.storage.k8s.io/fstype: ext4
+
   csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/provisioner-secret-namespace: <cephClusterNamespace>
+
   csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
   csi.storage.k8s.io/controller-expand-secret-namespace: <cephClusterNamespace>
+
+  csi.storage.k8s.io/controller-publish-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/controller-publish-secret-namespace: <cephClusterNamespace>
+
   csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
   csi.storage.k8s.io/node-stage-secret-namespace: <cephClusterNamespace>
 ```
