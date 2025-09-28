@@ -25,11 +25,11 @@ helm repo update jetstack \
 ```
 
 ```shell
-helm pull jetstack/cert-manager --version v1.17.2
+helm pull jetstack/cert-manager --version v1.18.2
 ```
 
 ```shell
-helm show values jetstack/cert-manager --version v1.17.2 > cert-manager-v1.17.2.yaml
+helm show values jetstack/cert-manager --version v1.18.2 > cert-manager-v1.18.2.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
@@ -68,7 +68,7 @@ startupapicheck:
 
 ```shell
 helm template cert-manager jetstack/cert-manager \
-    --version v1.17.2 \
+    --version v1.18.2 \
     -n cert-manager \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
@@ -78,7 +78,7 @@ helm template cert-manager jetstack/cert-manager \
 helm upgrade cert-manager jetstack/cert-manager \
     --install \
     --history-max 5 \
-    --version v1.17.2 \
+    --version v1.18.2 \
     -n cert-manager \
     -f cert-manager-values.yaml
 ```
@@ -92,7 +92,7 @@ helm upgrade cert-manager jetstack/cert-manager \
 :::
 
 ```shell
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.17.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.crds.yaml
 ```
 
 ## 삭제
