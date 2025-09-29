@@ -29,13 +29,18 @@ Casdoor는 `Application`에 대한 인증/인가를 관리하는 서비스입니
 
 ```shell
 helm pull oci://registry-1.docker.io/casbin/casdoor-helm-charts \
-    --version v1.762.0
+    --version v2.70.0
 ```
 
 ```shell
 helm show values oci://registry-1.docker.io/casbin/casdoor-helm-charts \
-    --version v1.762.0 \
-    > casdoor-helm-charts-v1.762.0.yaml
+    --version v2.70.0 \
+    > casdoor-helm-charts-v2.70.0.yaml
+```
+
+```sql
+CREATE USER casdoor WITH PASSWORD 'casdoor';
+CREATE DATABASE casdoor with OWNER casdoor;
 ```
 
 ```yaml title="casdoor-values.yaml"
@@ -45,20 +50,22 @@ database:
   driver: postgres
   host: ""
   port: 5432
-  user: ""
-  password: ""
+  user: casdoor
+  password: casdoor
   databaseName: casdoor
 ```
 
 ```shell
-helm template casdoor casdoor-helm-charts-v1.762.0.tgz \
+helm template casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v2.70.0 \
     -n auth \
     -f casdoor-values.yaml \
     > casdoor.yaml
 ```
 
 ```shell
-helm upgrade casdoor casdoor-helm-charts-v1.762.0.tgz \
+helm upgrade casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v2.70.0 \
     --install \
     --history-max 5 \
     -n auth \
