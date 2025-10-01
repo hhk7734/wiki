@@ -548,17 +548,17 @@ const sidebars: SidebarsConfig = {
 					label: "GKE",
 					items: ["mlops/kubernetes/cluster/gke/node-pool"],
 				},
+				{
+					type: "category",
+					label: "k0s",
+					items: ["mlops/kubernetes/cluster/k0s/k0s"],
+				},
 			],
 		},
 		{
 			type: "category",
 			label: "Tools",
-			items: [
-				"mlops/kubernetes/tools/kustomize",
-				"mlops/kubernetes/tools/helm",
-				"mlops/kubernetes/tools/k0s",
-				"mlops/kubernetes/tools/etc",
-			],
+			items: ["mlops/kubernetes/tools/kustomize", "mlops/kubernetes/tools/helm", "mlops/kubernetes/tools/etc"],
 		},
 		{
 			type: "category",

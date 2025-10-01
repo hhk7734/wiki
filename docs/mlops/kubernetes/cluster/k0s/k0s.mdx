@@ -9,10 +9,15 @@ keywords:
 
 ## 설치
 
-- https://docs.k0sproject.io/head/install/
+:::info[Reference]
+
+- [k0s Docs / Installation / Quick Start Guide](https://docs.k0sproject.io/stable/install/)
+- [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+
+:::
 
 ```shell
-curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.27.10+k0s.0 sh
+curl -sSLf https://get.k0s.sh | sudo K0S_VERSION=v1.32.8+k0s.0 sh
 ```
 
 ## 의존성 확인
@@ -22,9 +27,10 @@ k0s sysinfo
 ```
 
 :::info
+
 램이 부족한 환경인 경우 swap을 사용할 수 있습니다.
 
-- https://docs.k0sproject.io/head/system-requirements/
+- [k0s Docs / Installation / System Requirements](https://docs.k0sproject.io/stable/system-requirements/)
 - [Swap Memory](/docs/linux/kernel/storage/swap.mdx)
 
 :::
@@ -33,11 +39,16 @@ k0s sysinfo
 
 ### start
 
+:::info[Reference]
+
+- [k0s Docs / Usage / Configuration Options](https://docs.k0sproject.io/stable/configuration/)
+- [k0s Docs / Usage / Networking](https://docs.k0sproject.io/stable/networking/)
+
+:::
+
 ```shell
 k0s config create > k0s.yaml
 ```
-
-- https://docs.k0sproject.io/head/configuration/
 
 ```yaml title="k0s.yaml"
 apiVersion: k0s.k0sproject.io/v1beta1
@@ -98,10 +109,6 @@ sudo k0s install controller \
   - 동적으로 구성을 변경할 수 있는 기능을 활성화 합니다.
   - `spec.api`, `spec.storage`, `spec.network.podCIDR`, `spec.network.serviceCIDR`, `spec.network.provider`는 변경할 수 없습니다.
 
-<br />
-
-- https://docs.k0sproject.io/head/networking/
-
 필요한 포트가 열려있는지 확인합니다.
 
 | Protocol | Port  | Service               | Direction                 | Notes |
@@ -140,7 +147,11 @@ journalctl -xe -u k0scontroller
 
 ### kubeconfig
 
-- https://docs.k0sproject.io/head/user-management/
+:::info[Reference]
+
+- [k0s Docs / Usage / User Management](https://docs.k0sproject.io/stable/user-management/)
+
+:::
 
 ```shell
 sudo k0s kubeconfig create <user>
@@ -163,7 +174,11 @@ sudo k0s reset
 
 ## Worker
 
-- https://docs.k0sproject.io/head/k0s-multi-node/
+:::info[Reference]
+
+- [k0s Docs / Installation / Alternative Methods / Manual Install](https://docs.k0sproject.io/stable/k0s-multi-node/)
+
+:::
 
 ### token
 

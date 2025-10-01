@@ -95,6 +95,13 @@ spec:
 
 - `version: <version>`
   - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+- `k0sConfig`
+  - `apiVersion: k0s.k0sproject.io/v1beta1`
+  - `kind: ClusterConfig`
+  - `spec`
+    - [k0s # Controller](/docs/mlops/kubernetes/cluster/k0s/k0s.mdx#controller)
+    - `network`
+      - `podCIDR`, `serviceCIDR`, `clusterDomain`값을 입력하지 않으면 자동으로 Cluster CR의 정보를 사용합니다.
 
 ## K0sControlPlane
 
