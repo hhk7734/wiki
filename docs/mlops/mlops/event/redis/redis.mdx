@@ -1,85 +1,112 @@
 ---
 id: redis
-title: Redis
-sidebar_label: Redis
-description: redis
+title: Redis 설치 가이드
+sidebar_label: 설치 가이드
+description: Redis 설치 가이드
 keywords:
   - redis
 ---
 
 ## 설치
 
-:::info
-사용할 `StorageClass`의 `allowVolumeExpansion`가 `true`인 지 확인 후 진행해주세요.
-:::
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-hl
+  namespace: redis
+  labels:
+    app: redis
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/version: "8.2.1"
+spec:
+  type: ClusterIP
+  clusterIP: None
+  selector:
+    app: redis
+    app.kubernetes.io/name: redis
+  ports:
+    - name: redis
+      port: 6379
+      targetPort: redis
 
-```shell
-helm repo add bitnami https://charts.bitnami.com/bitnami
-```
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis
+  namespace: redis
+  labels:
+    app: redis
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/version: "8.2.1"
+data:
+  redis.conf: |
 
-```shell
-helm repo update bitnami \
-&& helm search repo bitnami/redis -l | head -n 10
-```
-
-```shell
-helm show values bitnami/redis \
-    --version 17.4.2 \
-    > redis-values.yaml
-```
-
-```yaml title="redis-value.yaml"
-commonLabels: {}
-
-architecture: standalone
-auth:
-  enabled: true
-  sentinel: true
-  password: ""
-commonConfiguration: |-
-  #
-  activedefrag yes
-  #
-  lazyfree-lazy-eviction yes
-  lazyfree-lazy-expire yes
-  lazyfree-lazy-server-del yes
-  lazyfree-lazy-user-del yes
-  replica-lazy-flush yes
-  #
-  maxmemory 2gb
-  maxmemory-policy allkeys-lru
-  # Enable AOF https://redis.io/topics/persistence#append-only-file
-  appendonly no
-  # Disable RDB persistence, AOF persistence already enabled.
-  save ""
-master:
-  resources:
-    limits: {}
-    requests: {}
-  podLabels: {}
-  persistence:
-    enabled: true
-```
-
-```shell
-helm upgrade redis bitnami/redis \
-    --version 17.4.2 \
-    -n storage \
-    --values redis-values.yaml \
-    > redis.yaml
-```
-
-```shell
-helm upgrade redis bitnami/redis \
-    --install \
-    --version 17.4.2 \
-    -n storage \
-    --history-max 5 \
-    --values redis-values.yaml
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis
+  namespace: redis
+  labels:
+    app: redis
+    app.kubernetes.io/name: redis
+    app.kubernetes.io/version: "8.2.1"
+spec:
+  replicas: 1
+  serviceName: redis-hl
+  selector:
+    matchLabels:
+      app: redis
+      app.kubernetes.io/name: redis
+  template:
+    metadata:
+      labels:
+        app: redis
+        app.kubernetes.io/name: redis
+    spec:
+      containers:
+        - name: redis
+          image: docker.io/library/redis:8.2.1
+          imagePullPolicy: IfNotPresent
+          command:
+            - redis-server
+          args:
+            - /usr/local/etc/redis/redis.conf
+          ports:
+            - name: redis
+              containerPort: 6379
+          volumeMounts:
+            - name: config
+              mountPath: /usr/local/etc/redis
+              readOnly: true
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: config
+          configMap:
+            name: redis
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+        namespace: redis
+        labels:
+          app: redis
+          app.kubernetes.io/name: redis
+          app.kubernetes.io/version: "8.2.1"
+      spec:
+        storageClassName: ceph-block
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
 ```
 
 ## Test
 
 ```shell
-kubectl run tmp-redis --rm -it --image redis -- redis-cli -h redis-master.storage
+kubectl run tmp-redis --rm -it --image docker.io/library/redis:8.2.1 \
+  -- redis-cli -h redis-0.redis-hl.redis.svc.cluster.local
 ```

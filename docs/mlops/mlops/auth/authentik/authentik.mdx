@@ -1,0 +1,89 @@
+---
+id: authentik
+title: Authentik 설치 가이드
+sidebar_label: 설치 가이드
+description: Authentik 설치 가이드
+keywords:
+  - authentik
+---
+
+## 설치
+
+:::info[Reference]
+
+- [authentik Docs / Installation / Kubernetes installation](https://docs.goauthentik.io/install-config/install/kubernetes/)
+
+:::
+
+```shell
+helm repo add authentik https://charts.goauthentik.io
+```
+
+```shell
+helm repo update authentik \
+&& helm search repo authentik/authentik -l | head -n 10
+```
+
+```shell
+helm pull authentik/authentik --version 2025.8.4
+```
+
+```shell
+helm show values authentik/authentik --version 2025.8.4 > authentik-2025.8.4.yaml
+```
+
+```sql
+CREATE USER authentik WITH PASSWORD 'authentik';
+CREATE DATABASE authentik with OWNER authentik;
+```
+
+```hcl
+resource "random_password" "authentik_secret_key" {
+  length  = 50
+  special = false
+}
+```
+
+```yaml title="authentik-values.yaml"
+authentik:
+  secret_key: ""
+  postgresql:
+    host: ""
+    port: 5432
+    user: authentik
+    password: authentik
+    # databaseName
+    name: authentik
+  redis:
+    host: ""
+    password: ""
+
+server:
+  route:
+    main:
+      enabled: false
+      parentRefs:
+        - name: ""
+          namespace: ""
+      hostnames:
+        - ""
+```
+
+```shell
+helm template authentik authentik/authentik \
+    --version 2025.8.4 \
+    -n authentik \
+    -f authentik-values.yaml \
+    > authentik.yaml
+```
+
+```shell
+helm upgrade authentik authentik/authentik \
+    --install \
+    --history-max 5 \
+    --version 2025.8.4 \
+    -n authentik \
+    -f authentik-values.yaml
+```
+
+최초 설치 후 `https://<domain>/if/flow/initial-setup/`에 접속하여 관리자 계정을 생성해야 합니다.

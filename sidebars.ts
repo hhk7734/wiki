@@ -834,6 +834,11 @@ const sidebars: SidebarsConfig = {
 				},
 				{
 					type: "category",
+					label: "Authentik",
+					items: ["mlops/mlops/auth/authentik/authentik"],
+				},
+				{
+					type: "category",
 					label: "Dex",
 					items: ["mlops/mlops/auth/dex/dex", "mlops/mlops/auth/dex/google"],
 				},
