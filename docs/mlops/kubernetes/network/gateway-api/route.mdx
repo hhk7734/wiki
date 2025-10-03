@@ -92,6 +92,51 @@ spec:
     - `namespace: <namespace>`
     - `port: <port>`
 
+## GRPCRoute
+
+:::info[Reference]
+
+- [Gateway API / API specification / Standard # GRPCRoute](https://gateway-api.sigs.k8s.io/reference/spec/#grpcroute)
+
+:::
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: GRPCRoute
+spec:
+  hostnames:
+    - <host>
+  parentRefs:
+    - name: <gatewayName>
+      namespace: <gatewayNamespace>
+  rules:
+    - matches:
+        - method:
+            type: Exact
+            service: <service>
+      backendRefs:
+        - name: <serviceName>
+          port: <servicePort>
+```
+
+- `rules: []`
+  - `matches: []`
+    - 리스트 중 하나라도 일치하면 라우팅됩니다.
+    - `method`, `headers`를 조합할 수 있으며, AND 조건으로 처리됩니다.
+    - `method`
+      - `service` 또는 `method` 중 적어도 하나는 설정해야 합니다.
+      - `type: Exact|RegularExpression`
+      - `service: <service>`
+        - service를 설정하지 않으면 모든 service가 일치합니다.
+      - `method: <method>`
+        - method를 설정하지 않으면 모든 method가 일치합니다.
+  - `backendRefs: []`
+    - `group: <group>`
+    - `kind: Service`
+    - `name: <name>`
+    - `namespace: <namespace>`
+    - `port: <port>`
+
 ## TCPRoute
 
 ## ReferenceGrant
