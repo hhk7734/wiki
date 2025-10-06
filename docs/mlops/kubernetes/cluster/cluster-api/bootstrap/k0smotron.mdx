@@ -45,10 +45,14 @@ apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: K0sWorkerConfig
 spec:
   version: v1.32.6+k0s.0
+  useSystemHostname: true
 ```
 
 - `version: <version>`
   - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+- `useSystemHostname: false`
+  - `true`로 설정한 경우 Node 이름이 `hostname` 명령어의 출력값으로 설정됩니다.
+  - `false`로 설정한 경우 Machine의 이름으로 설정됩니다.
 
 ## K0sWorkerConfigTemplate
 
@@ -63,12 +67,10 @@ apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
 kind: K0sWorkerConfigTemplate
 spec:
   template:
-    spec:
-      version: v1.32.6+k0s.0
+    spec: {}
 ```
 
 - `spec`
   - `template`
     - `spec`
-      - `version: <version>`
-        - [k0s GitHub / Releases](https://github.com/k0sproject/k0s/releases)
+      - [#K0sWorkerConfig](#k0sworkerconfig)

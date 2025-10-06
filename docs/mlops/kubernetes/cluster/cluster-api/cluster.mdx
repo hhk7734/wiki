@@ -8,13 +8,42 @@ keywords:
   - cluster
 ---
 
-## Control Plane
+## Cluster
 
 :::info[Reference]
 
 - [crds Docs / Cluster API / Cluster](https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api/cluster.x-k8s.io/Cluster/v1beta1@v1.10.4)
 
 :::
+
+```mermaid
+---
+config:
+  layout: elk
+---
+classDiagram
+  class Cluster {
+    <<cluster.x-k8s.io/v1beta1>>
+    +spec.controlPlaneRef
+    +spec.infrastructureRef
+  }
+
+  class XXXControlPlane:::controlplane {
+    <<controlplane.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXCluster:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  Cluster "1" ..> "0..1" XXXControlPlane
+  Cluster "1" ..> "1" XXXCluster
+
+  classDef controlplane fill:#bbf,stroke:#333,color:#000
+  classDef infrastructure fill:#fbb,stroke:#333,color:#000
+```
+
+- `Cluster`를 삭제하면 **관련된 모든 리소스가 삭제됩니다**.
 
 ```yaml
 apiVersion: cluster.x-k8s.io/v1beta1
@@ -27,8 +56,14 @@ spec:
     services:
       cidrBlocks:
         - 10.95.0.0/16
-  controlPlaneRef: {}
-  infrastructureRef: {}
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: XXXControlPlane
+    name: <name>
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: XXXCluster
+    name: <name>
 ```
 
 - `clusterNetwork`
@@ -63,6 +98,67 @@ clusterctl get kubeconfig <clusterName> > <clusterName>-config.yaml
 
 :::
 
+```mermaid
+---
+config:
+  layout: elk
+---
+classDiagram
+  class Cluster {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class MachineDeployment {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class MachineSet {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXMachineTemplate:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXBootstrapConfigTemplate:::bootstrap {
+    <<bootstrap.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class Machine {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXMachine:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXBootstrapConfig:::bootstrap {
+    <<bootstrap.cluster.x-k8s.io/v1beta1>>
+  }
+
+  MachineDeployment "0..*" ..> "1" Cluster
+  MachineDeployment "1" ..> "1" XXXMachineTemplate
+  MachineDeployment "1" ..> "1" XXXBootstrapConfigTemplate
+  MachineDeployment "1" --> "1" MachineSet
+
+  MachineSet "0..*" ..> "1" Cluster
+  MachineSet "1" ..> "1" XXXMachineTemplate
+  MachineSet "1" ..> "1" XXXBootstrapConfigTemplate
+  MachineSet "1" --> "0..*" XXXMachine
+  MachineSet "1" --> "0..*" XXXBootstrapConfig
+  MachineSet "1" --> "0..*" Machine
+
+
+  Machine "0..*" ..> "1" Cluster
+  Machine "1" ..> "1" XXXMachine
+  Machine "1" ..> "0..1" XXXBootstrapConfig
+
+  classDef infrastructure fill:#fbb,stroke:#333,color:#000
+  classDef bootstrap fill:#bfb,stroke:#333,color:#000
+```
+
+- `Machine`을 삭제하면 `XXXMachine`, `XXXBootstrapConfig`이 삭제됩니다.
+
 ```yaml
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
@@ -79,8 +175,14 @@ spec:
     spec:
       clusterName: <clusterName>
       bootstrap:
-        configRef: {}
-      infrastructureRef: {}
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: XXXBootstrapConfigTemplate
+          name: <name>
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: XXXMachineTemplate
+        name: <name>
 ```
 
 - `template`
