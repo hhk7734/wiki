@@ -93,6 +93,11 @@ spec:
     - [Cilium 사용하기](https://docs.cilium.io/en/stable/installation/k0s/)
   - `kubeProxy`
     - `disabled: true|false`
+- `featureGates: []`
+  - `name: <feature>`
+  - `enabled: <bool>`
+  - `components: ["kube-apiserver|kube-controller-manager|kubelet|kube-scheduler|kube-proxy"]`
+    - 선언하지 않으면 모든 컴포넌트에 적용됩니다.
 
 아래 명령어를 통해 controller 서비스를 설치합니다.
 
