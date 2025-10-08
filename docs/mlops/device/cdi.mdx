@@ -10,7 +10,32 @@ keywords:
 
 ## Device Plugin
 
-- https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/
+:::info[Reference]
+
+- [Kubernetes Docs / Concepts / Extending Kubernetes / Device Plugins](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/device-plugins/)
+
+:::
+
+### Device Plugin 등록
+
+```mermaid
+sequenceDiagram
+  participant Kubelet
+  participant kubelet.sock
+  participant device_plugin.sock
+  participant DevicePlugin
+
+  DevicePlugin ->> kubelet.sock: Register(RegisterRequest{<br/>Version, Endpoint, ResourceName})
+  kubelet.sock ->> Kubelet: Register()
+  Kubelet ->> device_plugin.sock: ListAndWatch()
+  device_plugin.sock ->> DevicePlugin: ListAndWatch()
+  loop stream
+    DevicePlugin -->> device_plugin.sock: ListAndWatchResponse
+    device_plugin.sock -->> Kubelet: ListAndWatchResponse
+  end
+```
+
+socket의 기본 경로는 `/var/lib/kubelet/device-plugins/`입니다.
 
 ## CDI
 
