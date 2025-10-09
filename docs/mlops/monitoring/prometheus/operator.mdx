@@ -104,16 +104,18 @@ thanosRuler:
   - `enabled: true`: `-operator`를 설치합니다.
 
 ```shell
-helm template prometheus-stack kube-prometheus-stack-77.11.1.tgz \
+helm template prometheus-stack prometheus-community/kube-prometheus-stack \
+    --version 77.11.1 \
     -n prometheus-stack \
     -f kube-prometheus-stack-values.yaml \
     > kube-prometheus-stack.yaml
 ```
 
 ```shell
-helm upgrade prometheus-stack kube-prometheus-stack-77.11.1.tgz \
+helm upgrade prometheus-stack prometheus-community/kube-prometheus-stack \
     --install \
     --history-max 5 \
+    --version 77.11.1 \
     -n prometheus-stack \
     -f kube-prometheus-stack-values.yaml
 ```
