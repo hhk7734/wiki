@@ -116,15 +116,15 @@ sudo k0s install controller \
 
 필요한 포트가 열려있는지 확인합니다.
 
-| Protocol | Port  | Service               | Direction                 | Notes |
-| -------- | ----- | --------------------- | ------------------------- | ----- |
-| TCP      | 2380  | etcd peers            | controller\<-\>controller |       |
-| TCP      | 6443  | Kubernetes API Server | **worker=\>controller**   |       |
-| TCP      | 179   | kube-router           | worker\<-\>worker         | BGP   |
-| TCP      | 4789  | Calico                | worker\<-\>worker         | VXLAN |
-| TCP      | 10250 | kubelet               | master,worker=\>host "\*" |       |
-| TCP      | 9443  | k0s-api               | controller\<-\>controller |       |
-| TCP      | 8132  | konnectivity          | **worker\<-\>controller** |       |
+| Protocol | Port  | Service               | Direction                                         | Notes |
+| -------- | ----- | --------------------- | ------------------------------------------------- | ----- |
+| TCP      | 2380  | etcd peers            | controller\<-\>controller                         |       |
+| TCP      | 6443  | Kubernetes API Server | **worker,CLI=\>controller**                       |       |
+| TCP      | 179   | kube-router           | worker\<-\>worker                                 | BGP   |
+| TCP      | 4789  | Calico                | worker\<-\>worker                                 | VXLAN |
+| TCP      | 10250 | kubelet               | master,worker=\>host `*`                          |       |
+| TCP      | 9443  | k0s-api               | controller\<-\>controller                         |       |
+| TCP      | 8132  | konnectivity          | **worker=\>controller**<br/>(controller=\>worker) |       |
 
 ```shell
 sudo k0s start
