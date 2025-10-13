@@ -1,20 +1,21 @@
 ---
 id: keda
-title: KEDA
-sidebar_label: KEDA
-description: KEDA
+title: KEDA 설치 가이드
+sidebar_label: 설치 가이드
+description: KEDA 설치 가이드
 keywords:
   - keda
   - provisioning
 ---
 
-import Image from "@theme/IdealImage";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <center>
-	<Image img={require("@site/static/img/mlops/provisioning/keda/architecture.png")} width={750} />
+	<figure>
+		<img src={useBaseUrl("img/mlops/provisioning/keda/architecture.png")} />
+		<figcaption>[KEDA Architecture](https://keda.sh/docs/concepts/#architecture)</figcaption>
+	</figure>
 </center>
-<center>https://keda.sh/docs/concepts/#architecture</center>
-<br />
 
 ## 설치
 
@@ -28,9 +29,11 @@ helm repo update kedacore \
 ```
 
 ```shell
-helm show values kedacore/keda \
-    --version 2.12.1 \
-    > keda-values.yaml
+helm pull kedacore/keda --version 2.18.0
+```
+
+```shell
+helm show values kedacore/keda --version 2.18.0 > keda-2.18.0.yaml
 ```
 
 ```yaml title="keda-values.yaml"
@@ -39,8 +42,8 @@ additionalLabels: {}
 
 ```shell
 helm template keda kedacore/keda \
-    --version 2.12.1 \
-    -n provisioning \
+    --version 2.18.0 \
+    -n keda \
     -f keda-values.yaml \
     > keda.yaml
 ```
@@ -49,17 +52,17 @@ helm template keda kedacore/keda \
 helm upgrade keda kedacore/keda \
     --install \
     --history-max 5 \
-    --version 2.12.1 \
-    -n provisioning \
+    --version 2.18.0 \
+    -n keda \
     -f keda-values.yaml
 ```
 
 ## 삭제
 
 ```shell
-kubectl delete $(kubectl get scaledobjects,scaledjobs -oname)
+helm uninstall -n keda keda
 ```
 
 ```shell
-helm uninstall -n provisioning keda
+kubectl get crd -oname | grep --color=never 'keda.sh' | xargs kubectl delete
 ```
