@@ -577,6 +577,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/kubernetes/workloads/pod-lifecycle",
 				"mlops/kubernetes/workloads/deployment",
 				"mlops/kubernetes/workloads/statefulset",
+				"mlops/kubernetes/workloads/horizontalpodautoscaler",
 			],
 		},
 		{

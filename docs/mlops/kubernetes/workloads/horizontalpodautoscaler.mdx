@@ -1,0 +1,154 @@
+---
+id: horizontalpodautoscaler
+title: Kubernetes HorizontalPodAutoscaler 가이드
+sidebar_label: HorizontalPodAutoscaler
+description: Kubernetes HorizontalPodAutoscaler 가이드
+keywords:
+  - kubernetes
+  - horizontalpodautoscaler
+---
+
+:::info[Reference]
+
+- [Kubernetes Docs / Tasks / Run Applications / Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
+
+:::
+
+## Control Plane 설정
+
+:::info[Reference]
+
+- [Kubernetes Docs / Reference / kube-controller-manager](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-controller-manager/)
+
+:::
+
+- kube-controller-manager
+  - `--horizontal-pod-autoscaler-sync-period 15s`
+    - metric을 업데이트하는 주기입니다.
+  - `--horizontal-pod-autoscaler-cpu-initialization-period 5m`
+  - `--horizontal-pod-autoscaler-initial-readiness-delay 30s`
+  - `--horizontal-pod-autoscaler-downscale-stabilization 5m`
+  - `--horizontal-pod-autoscaler-tolerance 0.1`
+
+## HorizontalPodAutoscaler
+
+### Specification
+
+```yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+spec:
+  scaleTargetRef:
+    name: <name>
+  maxReplicas: 10
+  metrics: []
+```
+
+- `scaleTargetRef`
+  - 같은 Namespace에 존재하는 리소스여야 합니다.
+  - `apiVersion: <apiVersion>`
+  - `kind: <kind>`
+  - `name: <name>`
+- `minReplicas: 1`
+- `maxReplicas: <int>`
+- `metrics: []`
+  - `type: Resource|ContainerResource|External|Object|Pods`
+  - `resource`
+    - `name: cpu|memory`
+    - `target`
+      - `type: Utilization|Value|AverageValue`
+  - `containerResource`
+    - `container: <containerName>`
+    - `name: cpu|memory`
+    - `target`
+      - `type: Utilization|Value|AverageValue`
+  - `external`
+    - [KEDA CRD 가이드](/docs/mlops/provisioning/keda//crd.mdx)
+    - `metric`
+    - `target`
+      - `type: Value|AverageValue`
+  - `object`
+  - `pods`
+- `behavior`
+  - [kubernetes/enhancements GitHub / Configurable scale up/down velocity for HPA](https://github.com/kubernetes/enhancements/blob/master/keps/sig-autoscaling/853-configurable-hpa-scale-velocity/README.md)
+  - `scaleUp|scaleDown`
+    - [Default Behavior](#default-behavior)
+    - `stabilizationWindowSeconds: <seconds>`
+      - 주어진 시간 동안 제안된 desiredReplicas 중 가장 큰(down)/작은(up) 값을 적용합니다.
+      - 0 ~ 3600 설정 가능합니다.
+    - `tolerance: <ratio>`
+      - 기본값은 `0.1` 입니다.
+    - `selectPolicy: Max`
+      - `Max`: 정책 중 가장 높은 수치를 적용합니다.
+      - `Min`: 정책 중 가장 낮은 수치를 적용합니다.
+      - `Disabled`: 정책을 적용하지 않습니다.
+    - `policies: []`
+      - `type: Percent|Pods`
+        - `Percent`: 최대 `currentReplicas * value / 100`만큼 scale up/down 합니다.
+        - `Pods`: 최대 `value`만큼 scale up/down 합니다.
+      - `value: <int>`
+      - `periodSeconds: <seconds>`
+        - 정책이 선택되고 다음 정책이 선택되기까지의 시간입니다.
+        - 1 ~ 1800 설정 가능합니다.
+
+### Algorithm
+
+:::info[Reference]
+
+- [kubernetes/kubernetes GitHub / pkg/controller/podautoscaler/horizontal.go](https://github.com/kubernetes/kubernetes/blob/f7fb7cd86b6db5531087b4ae3b1e8198af3c927e/pkg/controller/podautoscaler/horizontal.go#L753)
+
+:::
+
+```go
+desiredReplicas := currentReplicas
+ratio := currentMetricValue / desiredMetricValue
+
+if math.Abs(ratio-1) > tolerance {
+	desiredReplicas = int32(math.Ceil(float64(currentReplicas) * ratio))
+}
+```
+
+desiredReplicas와 recommendations에서 upStabilizationWindowSeconds와 downStabilizationWindowSeconds를 사용하여 upRecommendation과 downRecommendation을 구하고, desiredReplicas를 recommendations에 추가합니다.
+
+```go
+desiredReplicas = currentReplicas
+if desiredReplicas < upRecommendation {
+	desiredReplicas = upRecommendation
+}
+if desiredReplicas > downRecommendation {
+	desiredReplicas = downRecommendation
+}
+```
+
+정책을 적용합니다.
+
+```go
+if desiredReplicas > currentReplicas {
+	desiredReplicas = upPolicy(desiredReplicas)
+} else if desiredReplicas < currentReplicas {
+	desiredReplicas = downPolicy(desiredReplicas)
+}
+```
+
+### Default Behavior
+
+```yaml
+spec:
+  behavior:
+    scaleUp:
+      selectPolicy: Max
+      policies:
+        - type: Pods
+          value: 4
+          periodSeconds: 60
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+      stabilizationWindowSeconds: 0
+    scaleDown:
+      policies:
+        - type: Percent
+          value: 100
+          periodSeconds: 60
+      stabilizationWindowSeconds: 300
+```

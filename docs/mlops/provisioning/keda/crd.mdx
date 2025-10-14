@@ -1,8 +1,8 @@
 ---
 id: crd
-title: KEDA CRD 안내
-sidebar_label: CRD 안내
-description: KEDA CRD 안내
+title: KEDA CRD 가이드
+sidebar_label: CRD 가이드
+description: KEDA CRD 가이드
 keywords:
   - keda
   - crd
@@ -38,71 +38,65 @@ spec:
 
 :::
 
-- `scaleTargetRef`
-  - 타겟 리소스는 같은 Namespace에 존재해야합니다.
-  - `apiVersion: apps/v1`
-  - `kind: Deployment`
-  - `name: <name>`
-  - `envSourceContainerName: <containerName>`
-    - 기본값은 `.spec.template.spec.containers[0].name` 입니다.
-- `pollingInterval: 30`
-  - trigger 확인 간격입니다.
-  - 단위는 초입니다.
-- `cooldownPeriod: 300`
-  - 마지막으로 trigger가 활성화된 이후 idle 상태가 되기까지 대기하는 시간(1 -\> 0)입니다.
-  - 단위는 초입니다.
-- `initialCooldownPeriod: 0`
-- `idleReplicaCount: 0`
-  - idle 상태에서 유지할 Pod 개수입니다.
-  - `minReplicaCount`보다 작아야합니다.
-- `minReplicaCount: 0`
-  - 최소 Pod 개수입니다.
-- `maxReplicaCount: 100`
-  - 최대 Pod 개수입니다.
-- `fallback`
-  - `failureThreshold: <count>`
-  - `replicas: <count>`
-  - `behavior: static`
-- `advanced`
-  - `restoreToOriginalReplicaCount: false`
-    - ScaledObject가 삭제되었을 때, 원래 `.spec.replicas` 수로 복구할지 여부입니다.
-  - `horizontalPodAutoscalerConfig`
-    - KEDA에 의해 생성될 HorizontalPodAutoscaler의 설정입니다.
-    - `name: keda-hpa-<scaledObjectName>`
-    - `behavior`
-      - [Kubernetes Docs / Tasks / Run Applications / Horizontal Pod Autoscaling](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/)
-      - [kubernetes/enhancements GitHub / Configurable scale up/down velocity for HPA](https://github.com/kubernetes/enhancements/blob/master/keps/sig-autoscaling/853-configurable-hpa-scale-velocity/README.md)
-      - `scaleUp|scaleDown`
-        - `selectPolicy: Max`
-          - `Max`: 정책 중 가장 높은 수치를 적용합니다.
-          - `Min`: 정책 중 가장 낮은 수치를 적용합니다.
-          - `Disabled`: 정책을 적용하지 않습니다.
-        - `stabilizationWindowSeconds: 0`
-          - 설정된 시간동안 `desiredReplicas` 값 중 가장 작은 값을 선택합니다.
-          - `scaleUp`의 경우, 기본값은 0이며, `scaleDown`의 경우, 기본값은 300입니다.
-          - 단위는 초이며, 0 ~ 3600 설정 가능합니다.
-        - `policies: []`
-          - `type: Percent|Pods`
-            - `Percent`: `현재 Pod 개수 * value / 100`을 desiredReplicas로 추천합니다.
-            - `Pods`: `value`를 desiredReplicas로 추천합니다.
-          - `value: <value>`
-          - `periodSeconds: <period>`
-            - 단위는 초이며, 0 ~ 1800 설정 가능합니다.
-  - `scalingModifiers`
-- `triggers: []`
-  - trigger 결과 중 가장 큰 값으로 스케일링합니다.
-  - `type: <type>`
-  - `name: <name>`
-    - 기본값은 type에 따라 자동 생성된 값입니다.
-  - `metricType: AverageValue`
-    - HorizontalPodAutoscaler: `desiredReplicas` = ceil[`currentReplicas` * ( `currentMetricValue` / `desiredMetricValue` )]
-    - `AverageValue`: `currentaMetricValue` = `<metric>`/`currentReplicas`
-    - `Value`: `currentMetricValue` = `<metric>`
-    - `Utilization`: `<usage>/<requested>`의 평균값으로, CPU, Memory 타입 trigger에서만 사용가능합니다.
-  - `useCachedMetrics: false`
-  - `metadata`
-    - `<key>: <value>` 형태로 trigger 별로 설정할 수 있습니다.
-  - `authenticationRef`
+- `metadata`
+  - `annotations`
+    - `autoscaling.keda.sh/force-activation: "true"`
+- `spec`
+  - `scaleTargetRef`
+    - 타겟 리소스는 같은 Namespace에 존재해야합니다.
+    - `apiVersion: apps/v1`
+    - `kind: Deployment`
+    - `name: <name>`
+    - `envSourceContainerName: <containerName>`
+      - 기본값은 `.spec.template.spec.containers[0].name` 입니다.
+  - `pollingInterval: 30`
+    - trigger 확인 간격입니다.
+    - 단위는 초입니다.
+  - `cooldownPeriod: 300`
+    - 마지막으로 trigger가 활성화된 이후 idle 상태가 되기까지 대기하는 시간(1 -\> 0)입니다.
+    - 단위는 초입니다.
+  - `initialCooldownPeriod: 0`
+  - `idleReplicaCount: 0`
+    - idle 상태에서 유지할 Pod 개수로, `minReplicaCount`보다 작아야합니다.
+    - **설정하지 않으면 `minReplicaCount`가 적용됩니다.**
+    - 0 만 설정 가능합니다.
+  - `minReplicaCount: 0`
+    - 최소 Pod 개수입니다.
+  - `maxReplicaCount: 100`
+    - 최대 Pod 개수입니다.
+  - `fallback`
+    - `failureThreshold: <count>`
+    - `replicas: <count>`
+    - `behavior: static`
+      - `static`: fallback이 활성화되면, `fallback.replicas`가 적용됩니다.
+      - `currentReplicas`: fallback이 활성화되면, 현재 Pod 수를 유지합니다.
+      - `currentReplicasIfHigher`: `fallback.replicas`와 현재 Pod 수 중 더 큰 값을 유지합니다.
+      - `currentReplicasIfLower`: `fallback.replicas`와 현재 Pod 수 중 더 작은 값을 유지합니다.
+  - `advanced`
+    - `restoreToOriginalReplicaCount: false`
+      - ScaledObject가 삭제되었을 때, 원래 `.spec.replicas` 수로 복구할지 여부입니다.
+    - `horizontalPodAutoscalerConfig`
+      - KEDA에 의해 생성될 [HorizontalPodAutoscaler](/docs/mlops/kubernetes/workloads/horizontalpodautoscaler.mdx)의 설정입니다.
+      - `name: keda-hpa-<scaledObjectName>`
+      - `behavior`
+    - `scalingModifiers`
+  - `triggers: []`
+    - trigger 결과 중 가장 큰 값으로 스케일링합니다.
+    - `type: <type>`
+    - `name: <name>`
+      - 기본값은 type에 따라 자동 생성된 값입니다.
+    - `metricType: AverageValue`
+      - `AverageValue`
+        - `currentMetricValue = <metric>/currentReplicas`
+        - desiredMetricValue는 평균 값이고, 측정된 `<metric>`은 총 합일 때 사용할 수 있습니다.
+      - `Value`
+        - `currentMetricValue = <metric>`
+        - desiredMetricValue와 측정된 `<metric>`이 모두 평균값을 의미할 때 사용할 수 있습니다.
+      - `Utilization`: `<usage>/<requested>`의 평균값으로, CPU, Memory 타입 trigger에서만 사용가능합니다.
+    - `useCachedMetrics: false`
+    - `metadata`
+      - `<key>: <value>` 형태로 trigger 별로 설정할 수 있습니다.
+    - `authenticationRef`
 
 ## ScaledJob
 
