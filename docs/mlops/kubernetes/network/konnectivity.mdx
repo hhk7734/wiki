@@ -31,6 +31,9 @@ flowchart TD
 
   end
 
+  konnectivity-server --> tunnel-1@{ shape: das, label: "tunnel" } --> konnectivity-agent-1
+  konnectivity-server --> tunnel-2@{ shape: das, label: "tunnel" } --> konnectivity-agent-2
+
   subgraph Subnet 2
 
     subgraph Node 1
@@ -38,9 +41,9 @@ flowchart TD
       kubelet-1[kubelet]
 
       konnectivity-agent-1 -. create tunnel .-> konnectivity-server
-      konnectivity-server --> konnectivity-agent-1
 
       konnectivity-agent-1 --> kubelet-1
+      konnectivity-agent-1 --> pods-1@{ shape: procs , label: "Pods" }
     end
 
     subgraph Node 2
@@ -48,15 +51,15 @@ flowchart TD
       kubelet-2[kubelet]
 
       konnectivity-agent-2 -. create tunnel .-> konnectivity-server
-      konnectivity-server --> konnectivity-agent-2
 
       konnectivity-agent-2 --> kubelet-2
+      konnectivity-agent-2 --> pods-2@{ shape: procs , label: "Pods" }
     end
 
   end
 ```
 
-Control Plane은 Node에서 접근할 수 있지만, Node는 Control Plane에 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할 수 있습니다.
+Node에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할 수 있습니다.
 
 ## 설정
 

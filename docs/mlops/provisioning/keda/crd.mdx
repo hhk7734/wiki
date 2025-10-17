@@ -19,6 +19,8 @@ keywords:
 
 ScaledObject는 Deployment, StatefulSet, [/scale subresource](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#scale-subresource)가 정의된 Custom Resource를 스케일링할 수 있습니다.
 
+**scaleTargetRef에 해당하는 리소스가 IaC에서 관리되는 경우 `.spec.replicas`를 제거해주세요.** ScaledObject가 `.spec.replicas`를 제어하고 있더라도, IaC에서 업데이트 시 순간적으로 원하지 않는 scale-in/out이 발생할 수 있습니다.
+
 ```yaml
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject

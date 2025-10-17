@@ -1126,7 +1126,14 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "WireGuard",
-			items: ["mlops/network/wireguard/wireguard"],
+			items: [
+				"mlops/network/wireguard/wireguard",
+				{
+					type: "category",
+					label: "NetBird",
+					items: ["mlops/network/wireguard/netbird/client"],
+				},
+			],
 		},
 	],
 	nn: [
