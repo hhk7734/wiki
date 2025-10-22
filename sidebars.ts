@@ -1504,11 +1504,6 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "llm-d",
-			items: ["mlops/serving/llm-d/plugins"],
-		},
-		{
-			type: "category",
 			label: "vLLM",
 			items: ["mlops/serving/vllm/vllm", "mlops/serving/vllm/kvcache"],
 		},
