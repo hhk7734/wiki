@@ -1,0 +1,19 @@
+---
+id: cri
+title: k0s CRI 설정 가이드
+sidebar_label: CRI 설정 가이드
+description: k0s CRI 설정 가이드
+keywords:
+  - k0s
+  - cri
+---
+
+## containerd 설정 변경
+
+:::info[Reference]
+
+- [k0s Docs / Usage / Runtime (CRI)](https://docs.k0sproject.io/stable/runtime/)
+
+:::
+
+k0s가 실행하는 containerd의 설정을 변경하려면 `/etc/k0s/containerd.d/` 경로에 덮어쓸 부분에 대한 설정 파일을 생성하면 됩니다. `.toml` 확장자로 끝나는 파일을 인식합니다.

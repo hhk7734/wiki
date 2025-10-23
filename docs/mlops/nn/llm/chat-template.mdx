@@ -1,0 +1,127 @@
+---
+id: chat-template
+title: Chat Template
+sidebar_label: Chat Template
+description: Chat Template
+keywords:
+  - Neural Network
+  - Large Language Model
+  - Chat Template
+---
+
+## Chat Template
+
+:::info[Reference]
+
+- [Hugging Face / Inference / Chat with Models / Chat templates](https://huggingface.co/docs/transformers/en/chat_templating)
+
+:::
+
+모든 causal LM (인과적 언어 모델)은 엄청난 양의 corpus를 대상으로 pre-training을 수행하여, 이를 통해 base LM을 생성합니다. 이후, 특정 작업에 맞춰 fine-tuning을 진행하여 fine-tuned LM을 얻게 됩니다.
+
+ChatGPT 처럼 대화형 AI의 경우 대화를 잘 처리하도록 fine-tuning이 필요한데, 항상 같은 형식의 입력을 주는 것이 중요합니다. 예를 들어, 아래와 같은 형식을 사용할 수 있습니다.
+
+```
+system: "assistant는 친절해야 해. xxx인 경우 yyy 를 수행해."
+user: "오늘 날씨 어때?"
+assistant: "날씨를 검색해도 되나요?"
+```
+
+이러한 형식을 학습하면, `^system: ` 후에 오는 텍스트를 기반으로 `^user: `의 질문에 대한 답을 `^assistant: ` 뒤에 user의 요청에 대한 답이 있어야 한다고 모델이 학습하게 됩니다.
+
+애플리케이션 개발 시 사용하는 데이터 형식과 모델이 학습한 형식이 다를 수 있기 때문에, 이를 맞춰주는 작업이 필요합니다. 이때 사용하는 것이 Chat Template입니다.
+
+```python
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B-Instruct")
+
+messages = [
+    {"role": "system", "content": "assistant는 친절해야 해. xxx인 경우 yyy 를 수행해."},
+    {"role": "user", "content": "오늘 날씨 어때?"},
+]
+
+print(tokenizer.apply_chat_template(messages, tokenize=False))
+```
+
+```
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 24 Oct 2025
+
+assistant는 친절해야 해. xxx인 경우 yyy 를 수행해.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+오늘 날씨 어때?<|eot_id|>
+```
+
+## add_generation_prompt
+
+**입력 A**
+
+```
+system: "assistant는 친절해야 해. xxx인 경우 yyy 를 수행해."
+user: "오늘 날씨 어때?"
+```
+
+**답**
+
+```
+"날씨를 검색해도 되나요?"
+```
+
+**입력 B**
+
+```
+system: "assistant는 친절해야 해. xxx인 경우 yyy 를 수행해."
+user: "오늘 날씨 어때?"
+assistant:
+```
+
+**답**
+
+```
+"날씨를 검색해도 되나요?"
+```
+
+위와 같이 두 방식으로 fine-tuning을 할 때, 입력 B가 입력 A 보다 더 나은 성능을 보인다고 합니다. 따라서 fine-tuning을 입력 B로 한 경우, 애플리케이션이 입력 A를 주더라도 모델에게는 학습한 방식대로 입력을 주도록 변환해주는 것이 좋습니다. 이를 위해 `add_generation_prompt` 옵션을 사용할 수 있습니다.
+
+```python
+from transformers import AutoTokenizer
+
+tokenizer = AutoTokenizer.from_pretrained("meta-llama/Llama-3.2-1B-Instruct")
+
+messages = [
+    {"role": "system", "content": "assistant는 친절해야 해. xxx인 경우 yyy 를 수행해."},
+    {"role": "user", "content": "오늘 날씨 어때?"},
+]
+
+print(tokenizer.apply_chat_template(messages, tokenize=False, add_generation_prompt=True))
+```
+
+```
+<|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 24 Oct 2025
+
+assistant는 친절해야 해. xxx인 경우 yyy 를 수행해.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+오늘 날씨 어때?<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+```
+
+`<|start_header_id|>assistant<|end_header_id|>`가 추가된 것을 확인할 수 있습니다.
+
+## Chat Template 작성하기
+
+Chat Template은 tokernizer에 `chat_template` 속성으로 저장된 Jinja template 입니다.
+
+```jinja2
+{%- for message in messages %}
+    {{- '<|' + message['role'] + |>\n' }}
+    {{- message['content'] + eos_token }}
+{%- endfor %}
+{%- if add_generation_prompt %}
+    {{- '<|assistant|>\n' }}
+{%- endif %}
+```

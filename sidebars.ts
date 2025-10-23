@@ -523,13 +523,13 @@ const sidebars: SidebarsConfig = {
 						},
 						{
 							type: "category",
-							label: "Bootstrap",
-							items: ["mlops/kubernetes/cluster/cluster-api/bootstrap/k0smotron"],
+							label: "ControlPlane",
+							items: ["mlops/kubernetes/cluster/cluster-api/control-plane/k0smotron"],
 						},
 						{
 							type: "category",
-							label: "ControlPlane",
-							items: ["mlops/kubernetes/cluster/cluster-api/control-plane/k0smotron"],
+							label: "Bootstrap",
+							items: ["mlops/kubernetes/cluster/cluster-api/bootstrap/k0smotron"],
 						},
 					],
 				},
@@ -551,7 +551,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "k0s",
-					items: ["mlops/kubernetes/cluster/k0s/k0s"],
+					items: ["mlops/kubernetes/cluster/k0s/k0s", "mlops/kubernetes/cluster/k0s/cri"],
 				},
 			],
 		},
@@ -1170,6 +1170,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/nn/llm/deepserve",
 				"mlops/nn/llm/pragmatic-disaggregation",
 				"mlops/nn/llm/metrics",
+				"mlops/nn/llm/chat-template",
 			],
 		},
 	],
@@ -1208,7 +1209,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "런타임 버전 관리",
-					items: ["lang/etc/command-line-tools/version/asdf", "lang/etc/command-line-tools/version/mise"],
+					items: ["lang/etc/command-line-tools/version/mise", "lang/etc/command-line-tools/version/asdf"],
 				},
 				{
 					type: "category",

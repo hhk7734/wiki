@@ -43,9 +43,10 @@ affinity:
 ```shell
 helm upgrade dcgm-exporter dcgm-exporter/dcgm-exporter \
     --install \
+    --history-max 5 \
+    --create-namespace \
     --version 2.4.0 \
     -n monitoring \
-    --create-namespace \
     -f monitoring/dcgm-exporter/helm/values.yaml
 ```
 

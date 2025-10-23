@@ -108,11 +108,10 @@ sudo k0s install controller \
 
 - `--enable-worker`: controller, worker를 모두 설치합니다.
 - `--single`: controller + worker, worker를 추가할 수 없습니다.
-- `--kubelet-extra-args <extraArgs>`: kubelet 옵션
-  - `--node-ip=<ip>`
 - `--enable-dynamic-config`
   - 동적으로 구성을 변경할 수 있는 기능을 활성화 합니다.
   - `spec.api`, `spec.storage`, `spec.network.podCIDR`, `spec.network.serviceCIDR`, `spec.network.provider`는 변경할 수 없습니다.
+- worker를 활성화하는 경우 [Worker start](#worker-start)의 옵션을 사용할 수 있습니다.
 
 필요한 포트가 열려있는지 확인합니다.
 
@@ -197,7 +196,7 @@ sudo k0s token create --role=worker --expiry=1h > <tokenFile>
 cat <tokenFile> | base64 -d | gunzip -
 ```
 
-### start
+### start {#worker-start}
 
 작업 노드에서 아래 명렁어를 통해 worker 서비스를 설치합니다.
 

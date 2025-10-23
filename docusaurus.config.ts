@@ -137,12 +137,14 @@ const config: Config = {
 			// https://prismjs.com/#supported-languages
 			// https://github.com/FormidableLabs/prism-react-renderer/blob/e6d323332b0363a633407fabab47b608088e3a4d/packages/generate-prism-languages/index.ts#L9-L25
 			additionalLanguages: [
+				"markup-templating", // for django, must be specified before django
 				"apacheconf",
 				"awk",
 				"bash",
 				"bnf",
 				"cmake",
 				"dart",
+				"django", // for jinja2
 				"docker",
 				"hcl",
 				"http",

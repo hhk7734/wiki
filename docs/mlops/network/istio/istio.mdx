@@ -41,8 +41,6 @@ kubectl create namespace istio-system
 
 ### base
 
-- https://istio.io/latest/docs/setup/install/helm/
-
 base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니다.
 
 ```shell
@@ -71,14 +69,13 @@ helm template istio-base istio/base \
 helm upgrade istio-base istio/base \
     --install \
     --history-max 5 \
+    --create-namespace \
     --version 1.27.1 \
     -n istio-system \
     -f istio-base-values.yaml
 ```
 
 ### istiod
-
-- https://istio.io/latest/docs/setup/install/helm/
 
 ```shell
 helm pull istio/istiod --version 1.27.1

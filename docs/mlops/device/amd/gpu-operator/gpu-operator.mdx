@@ -63,6 +63,7 @@ helm template gpu-operator rocm/gpu-operator-charts \
 helm upgrade gpu-operator rocm/gpu-operator-charts \
     --install \
     --history-max 5 \
+    --create-namespace \
     --version v1.3.1 \
     -n amd-gpu \
     -f gpu-operator-values.yaml
