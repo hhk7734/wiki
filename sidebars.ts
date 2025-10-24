@@ -355,6 +355,11 @@ const sidebars: SidebarsConfig = {
 					label: "Kubebuilder",
 					items: ["lang/go/libraries/kubebuilder/controller-gen"],
 				},
+				{
+					type: "category",
+					label: "OpenTelemetry",
+					items: ["lang/go/libraries/opentelemetry/propagation", "lang/go/libraries/opentelemetry/trace"],
+				},
 				"lang/go/libraries/time",
 				"lang/go/libraries/validator",
 				"lang/go/libraries/swagger",
@@ -1117,6 +1122,11 @@ const sidebars: SidebarsConfig = {
 							items: ["mlops/network/istio/security/authorization/authorization"],
 						},
 					],
+				},
+				{
+					type: "category",
+					label: "Telemetry",
+					items: ["mlops/network/istio/telemetry/opentelemetry"],
 				},
 				"mlops/network/istio/kiali",
 				"mlops/network/istio/jaeger",
