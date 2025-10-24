@@ -1,0 +1,42 @@
+---
+id: propagation
+title: Go OpenTelemetry Propagation 설정 가이드
+sidebar_label: Propagation 설정 가이드
+description: Go OpenTelemetry Propagation 설정 가이드
+keywords:
+  - go
+  - OpenTelemetry
+  - Propagation
+---
+
+## TextMapPropagator
+
+carrier로부터 key-value 기반 데이터를 추가하거나 (`Inject`) 추출하는 (`Extract`) 역할을 하는 propagator 입니다.
+
+### TraceContext
+
+[W3C Trace Context](https://www.w3.org/TR/trace-context/) 표준을 따르는 propagator입니다.
+
+`traceparent`와 `tracestate` 키를 사용하여 trace context를 전파합니다.
+
+### Baggage
+
+[W3C Baggage](https://www.w3.org/TR/baggage/) 표준을 따르는 propagator입니다.
+
+`baggage` 키를 사용하여 baggage를 전파합니다.
+
+### CompositeTextMapPropagator
+
+여러 propagator를 조합하여 사용하는 propagator입니다.
+
+```go
+import (
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/propagation"
+)
+
+otel.SetTextMapPropagator(propagation.NewCompositeTextMapPropagator(
+	propagation.TraceContext{},
+	propagation.Baggage{},
+))
+```

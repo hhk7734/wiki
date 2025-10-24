@@ -1,0 +1,115 @@
+---
+id: trace
+title: Go OpenTelemetry Trace 설정 가이드
+sidebar_label: Trace 설정 가이드
+description: Go OpenTelemetry Trace 설정 가이드
+keywords:
+  - go
+  - OpenTelemetry
+  - Trace
+---
+
+## Exporter
+
+### Console
+
+```go
+import "go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
+
+opts := []stdouttrace.Option{}
+
+exporter, err := stdouttrace.New(opts...)
+```
+
+### HTTP
+
+```go
+import (
+	"context"
+
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+)
+
+opts := []otlptracehttp.Option{}
+
+exporter, err := otlptracehttp.New(context.Background(), opts...)
+```
+
+### gRPC
+
+:::info[Reference]
+
+- [opentelemetry-go GitHub / exporters/otlp/otlptrace/otlptracegrpc/internal/otlpconfig/envconfig.go](https://github.com/open-telemetry/opentelemetry-go/blob/main/exporters/otlp/otlptrace/otlptracegrpc/internal/otlpconfig/envconfig.go)
+- [opentelemetry-go GitHub / exporters/otlp/otlptrace/otlptracegrpc/options.go](https://github.com/open-telemetry/opentelemetry-go/blob/main/exporters/otlp/otlptrace/otlptracegrpc/options.go)
+
+:::
+
+```go
+import (
+	"context"
+
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
+)
+
+opts := []otlptracegrpc.Option{}
+
+exporter, err := otlptracegrpc.New(context.Background(), opts...)
+```
+
+설정의 우선순위는 `OTEL_EXPORTER_OTLP_*`, `OTEL_EXPORTER_OTLP_TRACES_*`, 코드 설정 순으로 높아집니다.
+
+- endpoint 설정
+  - 기본값은 `secure + localhost:4317` 입니다.
+  - `OTEL_EXPORTER_OTLP_ENDPOINT=<scheme>://<host>:<port>`
+  - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<scheme>://<host>:<port>`
+  - `otlptracegrpc.WithEndpointURL(string)`
+  - `<scheme>`이 `http`또는 `unix`인 경우 insecure로 설정됩니다.
+  - 각각 분리해서 설정할 수도 있습니다.
+    - `OTEL_EXPORTER_OTLP_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_ENDPOINT=<host>:<port>`
+    - `OTEL_EXPORTER_OTLP_TRACES_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<host>:<port>`
+    - `otlptracegrpc.WithInsecure()`
+    - `otlptracegrpc.WithEndpoint(string)`
+- headers 설정
+  - `OTEL_EXPORTER_OTLP_HEADERS=<key>=<value>[,<key>=<value>]`
+  - `OTEL_EXPORTER_OTLP_TRACES_HEADERS=<key>=<value>[,<key>=<value>]`
+  - `otlptracegrpc.WithHeaders(map[string]string)`
+- timeout 설정
+  - 기본값은 10초 입니다.
+  - `OTEL_EXPORTER_OTLP_TIMEOUT=<milliseconds>`
+  - `OTEL_EXPORTER_OTLP_TRACES_TIMEOUT=<milliseconds>`
+  - `otlptracegrpc.WithTimeout(time.Duration)`
+- compression 설정
+  - `OTEL_EXPORTER_OTLP_COMPRESSION=gzip|none`
+  - `OTEL_EXPORTER_OTLP_TRACES_COMPRESSION=gzip|none`
+  - `otlptracegrpc.WithCompressor(string)`
+- certificate 설정
+  - `OTEL_EXPORTER_OTLP_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_CLIENT_KEY=<keyFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_KEY=<keyFilePath>.pem`
+  - `otlptracegrpc.WithTLSCredentials(credentials.TransportCredentials)`
+
+`otlptracegrpc.WithGRPCConn(*grpc.ClientConn)`으로 gRPC 연결을 직접 설정할 수도 있습니다.
+
+## TracerProvider
+
+```go
+import (
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/sdk/trace"
+)
+
+shutdowns := []func(context.Context) error{}
+
+tracerProvider := trace.NewTracerProvider(
+	trace.WithBatcher(exporter),
+)
+
+shutdowns = append(shutdowns, tracerProvider.Shutdown)
+
+otel.SetTracerProvider(tracerProvider)
+```

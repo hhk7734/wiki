@@ -1,0 +1,97 @@
+---
+id: opentelemetry
+title: Istio OpenTelemetry 설정 가이드
+sidebar_label: OpenTelemetry 설정 가이드
+description: Istio OpenTelemetry 설정 가이드
+keywords:
+  - Istio
+  - OpenTelemetry
+---
+
+## OpenTelemetry TracingProvider 설정
+
+:::info[Reference]
+
+- [Istio Docs / Configuration / Global Mesh Options](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+
+:::
+
+```yaml title="istiod-values.yaml"
+meshConfig:
+  enableTracing: true
+  extensionProviders:
+    - name: opentelemetry
+      opentelemetry:
+        service: tempo.tempo.svc.cluster.local
+        port: 4317
+        grpc:
+          timeout: 10s
+        resourceDetectors:
+          environment: {}
+```
+
+- `meshConfig`
+  - `enableTracing: true|false`
+    - trace spans과 request IDs 생성을 제어합니다.
+  - `extensionProviders: []`
+    - `name: <name>`
+    - `opentelemetry`
+      - OpenTelemetryTracingProvider 설정입니다.
+      - `service: [<namespace>/]<hostname>`
+        - trace를 수집하는 애플리케이션의 FQDN을 지정합니다.
+      - `port: <port>`
+      - `http`
+        - `path: /v1/traces`
+        - `timeout: <duration>`
+        - `headers: []`
+          - `name: <headerName>`
+          - `value: <value>`
+          - `envName: <env>`
+            - 환경변수로부터 값을 가져옵니다.
+      - `grpc`
+        - `timeout: <duration>`
+        - `initialMetadata: []`
+          - `name: <headerName>`
+          - `value: <value>`
+          - `envName: <env>`
+            - 환경변수로부터 값을 가져옵니다.
+      - `resourceDetectors`
+        - `environment`
+          - `OTEL_RESOURCE_ATTRIBUTES` 환경변수로부터 리소스를 가져옵니다.
+
+## Envoy에 설정 적용
+
+:::info[Reference]
+
+- [Istio Docs / Configuration / Telemetry](https://istio.io/latest/docs/reference/config/telemetry/)
+
+:::
+
+```yaml
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+spec:
+  tracing:
+    - providers:
+        - name: opentelemetry
+```
+
+- `tracing: []`
+  - `providers: []`
+    - `name: <name>`
+      - TracingProvider 이름을 지정합니다.
+  - `randomSamplingPercentage: <0.00-100.00>`
+    - 샘플링 비율을 지정합니다.
+    - 0.01 단위로 설정할 수 있습니다.
+  - `customTags`
+    - `<tag>`
+      - `literal`
+        - `value: <value>`
+      - `environment`
+        - `name: <env>`
+        - `defaultValue: <value>`
+      - `header`
+        - `name: <headerName>`
+        - `defaultValue: <value>`
+  - `disableSpanReporting: true|false`
+    - `true`로 설정하면 trace span을 생성하지 않습니다. (tracing context는 전파됩니다.)
