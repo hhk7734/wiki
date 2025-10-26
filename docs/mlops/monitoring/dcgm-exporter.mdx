@@ -41,8 +41,7 @@ affinity:
 ```
 
 ```shell
-helm upgrade dcgm-exporter dcgm-exporter/dcgm-exporter \
-    --install \
+helm upgrade -i dcgm-exporter dcgm-exporter/dcgm-exporter \
     --history-max 5 \
     --create-namespace \
     --version 2.4.0 \

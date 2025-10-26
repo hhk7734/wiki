@@ -23,8 +23,7 @@ helm template knative-operator knative-operator-0.1.0.tgz \
 ```
 
 ```shell
-helm upgrade knative-operator knative-operator-0.1.0.tgz \
-  --install \
+helm upgrade -i knative-operator knative-operator-0.1.0.tgz \
   --history-max 5 \
   -n knative \
   -f knative-operator-values.yaml

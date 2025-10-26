@@ -79,8 +79,7 @@ helm template rook-ceph rook-release/rook-ceph \
 ```
 
 ```shell
-helm upgrade rook-ceph rook-release/rook-ceph \
-    --install \
+helm upgrade -i rook-ceph rook-release/rook-ceph \
     --history-max 5 \
     --version v1.18.2 \
     -n rook-ceph \

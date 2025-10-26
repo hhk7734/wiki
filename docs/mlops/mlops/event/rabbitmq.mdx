@@ -25,8 +25,7 @@ helm show values bitnami/rabbitmq-cluster-operator \
 ```
 
 ```shell
-helm upgrade rabbitmq-operator bitnami/rabbitmq-cluster-operator \
-    --install \
+helm upgrade -i rabbitmq-operator bitnami/rabbitmq-cluster-operator \
     --version 2.6.6 \
     -n workflow \
     -f values.yaml

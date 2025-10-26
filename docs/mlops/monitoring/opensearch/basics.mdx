@@ -106,8 +106,7 @@ networkHost: "0.0.0.0"
 ```
 
 ```shell
-helm upgrade opensearch opensearch/opensearch \
-    --install \
+helm upgrade -i opensearch opensearch/opensearch \
     --version 1.10.2 \
     -n monitoring \
     -f monitoring/opensearch/helm/opensearch-values.yaml
@@ -200,8 +199,7 @@ resources:
 ```
 
 ```shell
-helm upgrade opensearch-dashboards opensearch/opensearch-dashboards \
-    --install \
+helm upgrade -i opensearch-dashboards opensearch/opensearch-dashboards \
     --version 1.4.1 \
     -n monitoring \
     -f monitoring/opensearch/helm/opensearch-dashboards-values.yaml

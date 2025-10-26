@@ -43,8 +43,7 @@ helm template awx-operator awx-operator-2.15.0.tgz \
 ```
 
 ```shell
-helm upgrade awx-operator awx-operator-2.15.0.tgz \
-    --install \
+helm upgrade -i awx-operator awx-operator-2.15.0.tgz \
     --history-max 5 \
     -n workflow \
     -f awx-operator-values.yaml

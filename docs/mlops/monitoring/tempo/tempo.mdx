@@ -82,8 +82,7 @@ helm template tempo tempo-distributed-1.26.0.tgz \
 ```
 
 ```shell
-helm upgrade tempo tempo-distributed-1.26.0.tgz \
-    --install \
+helm upgrade -i tempo tempo-distributed-1.26.0.tgz \
     --history-max 5 \
     -n tempo \
     -f tempo-distributed-values.yaml

@@ -99,8 +99,7 @@ helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
 ```
 
 ```shell
-helm upgrade aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
-    --install \
+helm upgrade -i aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
     --history-max 5 \
     --version 2.26.0 \
     -n kube-system \

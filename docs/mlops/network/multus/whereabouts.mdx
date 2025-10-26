@@ -43,8 +43,7 @@ helm template whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
 ```
 
 ```shell
-helm upgrade whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
-  --install \
+helm upgrade -i whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
   --history-max 5 \
   --version 0.9.2 \
   -n kube-system \

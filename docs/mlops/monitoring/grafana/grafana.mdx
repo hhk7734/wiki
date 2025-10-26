@@ -44,8 +44,7 @@ helm template grafana grafana-8.6.4.tgz \
 ```
 
 ```shell
-helm upgrade grafana grafana-8.6.4.tgz \
-    --install \
+helm upgrade -i grafana grafana-8.6.4.tgz \
     --history-max 5 \
     -n grafana \
     -f grafana-values.yaml

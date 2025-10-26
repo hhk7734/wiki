@@ -59,8 +59,7 @@ helm template vector vector-0.38.0.tgz \
 ```
 
 ```shell
-helm upgrade vector vector-0.38.0.tgz \
-  --install \
+helm upgrade -i vector vector-0.38.0.tgz \
   --max-history 5 \
   -n vector \
   -f vector-values.yaml

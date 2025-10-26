@@ -79,8 +79,7 @@ helm template keycloak keycloak-24.2.0.tgz \
 ```
 
 ```shell
-helm upgrade keycloak keycloak-24.2.0.tgz \
-    --install \
+helm upgrade -i keycloak keycloak-24.2.0.tgz \
     --history-max 5 \
     -n auth \
     -f keycloak-values.yaml

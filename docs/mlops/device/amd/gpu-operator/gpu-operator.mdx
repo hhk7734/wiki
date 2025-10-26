@@ -60,8 +60,7 @@ helm template gpu-operator rocm/gpu-operator-charts \
 ```
 
 ```shell
-helm upgrade gpu-operator rocm/gpu-operator-charts \
-    --install \
+helm upgrade -i gpu-operator rocm/gpu-operator-charts \
     --history-max 5 \
     --create-namespace \
     --version v1.3.1 \

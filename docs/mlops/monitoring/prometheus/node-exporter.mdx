@@ -60,8 +60,7 @@ helm template node-exporter prometheus-node-exporter-4.42.0.tgz \
 ```
 
 ```shell
-helm upgrade node-exporter prometheus-node-exporter-4.42.0.tgz \
-    --install \
+helm upgrade -i node-exporter prometheus-node-exporter-4.42.0.tgz \
     --history-max 5 \
     -n monitoring \
     -f prometheus-node-exporter-values.yaml

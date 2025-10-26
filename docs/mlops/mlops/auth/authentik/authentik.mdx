@@ -78,8 +78,7 @@ helm template authentik authentik/authentik \
 ```
 
 ```shell
-helm upgrade authentik authentik/authentik \
-    --install \
+helm upgrade -i authentik authentik/authentik \
     --history-max 5 \
     --version 2025.8.4 \
     -n authentik \

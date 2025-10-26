@@ -68,8 +68,7 @@ helm template metallb metallb/metallb \
 ```
 
 ```shell
-helm upgrade metallb metallb/metallb \
-    --install \
+helm upgrade -i metallb metallb/metallb \
     --history-max 5 \
     --version 0.15.2 \
     -n metallb \

@@ -66,8 +66,7 @@ helm template istio-base istio/base \
 ```
 
 ```shell
-helm upgrade istio-base istio/base \
-    --install \
+helm upgrade -i istio-base istio/base \
     --history-max 5 \
     --create-namespace \
     --version 1.27.1 \
@@ -114,8 +113,7 @@ helm template istiod-1-27-1 istio/istiod \
 ```
 
 ```shell
-helm upgrade istiod-1-27-1 istio/istiod \
-    --install \
+helm upgrade -i istiod-1-27-1 istio/istiod \
     --history-max 5 \
     --version 1.27.1 \
     -n istio-system \

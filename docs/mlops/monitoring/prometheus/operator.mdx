@@ -112,8 +112,7 @@ helm template prometheus-stack prometheus-community/kube-prometheus-stack \
 ```
 
 ```shell
-helm upgrade prometheus-stack prometheus-community/kube-prometheus-stack \
-    --install \
+helm upgrade -i prometheus-stack prometheus-community/kube-prometheus-stack \
     --history-max 5 \
     --version 77.11.1 \
     -n prometheus-stack \

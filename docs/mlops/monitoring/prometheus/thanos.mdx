@@ -12,10 +12,7 @@ import Image from "@theme/IdealImage";
 ## Architecture
 
 <center>
-	<Image
-		img={require("@site/static/img/mlops/monitoring/prometheus/thanos-with-sidecar.png")}
-		width={750}
-	/>
+	<Image img={require("@site/static/img/mlops/monitoring/prometheus/thanos-with-sidecar.png")} width={750} />
 </center>
 <center>Thanos with Sidecar</center>
 <center>https://github.com/thanos-io/thanos</center>
@@ -90,8 +87,7 @@ helm template thanos thanos-12.10.1.tgz \
 ```
 
 ```shell
-helm upgrade thanos thanos-12.10.1.tgz \
-    --install \
+helm upgrade -i thanos thanos-12.10.1.tgz \
     --history-max 5 \
     -n monitoring \
     -f thanos-values.yaml

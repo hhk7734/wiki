@@ -60,8 +60,7 @@ helm template dex dex/dex \
 ```
 
 ```shell
-helm upgrade dex dex/dex \
-    --install \
+helm upgrade -i dex dex/dex \
     --history-max 5 \
     --version 0.23.0 \
     -n dex \

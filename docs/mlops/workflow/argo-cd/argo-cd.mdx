@@ -70,8 +70,7 @@ helm template argo-cd argo/argo-cd \
 ```
 
 ```shell
-helm upgrade argo-cd argo/argo-cd \
-    --install \
+helm upgrade -i argo-cd argo/argo-cd \
     --history-max 5 \
     --version 7.9.1 \
     -n argo-cd \

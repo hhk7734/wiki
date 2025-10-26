@@ -37,8 +37,7 @@ metricsScraper:
 ```
 
 ```shell
-helm upgrade kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard \
-    --install \
+helm upgrade -i kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard \
     --version 5.4.1 \
     -n monitoring \
     -f monitoring/kubernetes_dashboard/helm/values.yaml

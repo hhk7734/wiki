@@ -68,8 +68,7 @@ helm template cluster-api-operator capi-operator/cluster-api-operator \
 ```
 
 ```shell
-helm upgrade cluster-api-operator capi-operator/cluster-api-operator \
-    --install \
+helm upgrade -i cluster-api-operator capi-operator/cluster-api-operator \
     --history-max 5 \
     --version 0.22.0 \
     -n capi-operator-system \

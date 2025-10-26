@@ -55,9 +55,9 @@ helm template keda kedacore/keda \
 ```
 
 ```shell
-helm upgrade keda kedacore/keda \
-    --install \
+helm upgrade -i keda kedacore/keda \
     --history-max 5 \
+    --create-namespace \
     --version 2.18.0 \
     -n keda \
     -f keda-values.yaml

@@ -122,8 +122,7 @@ helm template oauth2-proxy oauth2-proxy/oauth2-proxy \
 ```
 
 ```shell
-helm upgrade oauth2-proxy oauth2-proxy/oauth2-proxy \
-    --install \
+helm upgrade -i oauth2-proxy oauth2-proxy/oauth2-proxy \
     --history-max 5 \
     --version 7.12.17 \
     -n oauth2-proxy \

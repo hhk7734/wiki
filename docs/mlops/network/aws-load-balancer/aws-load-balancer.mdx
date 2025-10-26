@@ -122,8 +122,7 @@ helm template keda eks/aws-load-balancer-controller \
 ```
 
 ```shell
-helm upgrade aws-load-balancer-controller eks/aws-load-balancer-controller \
-    --install \
+helm upgrade -i aws-load-balancer-controller eks/aws-load-balancer-controller \
     --history-max 5 \
     --version 1.6.2 \
     -n kube-system \

@@ -39,8 +39,7 @@ helm template replicator kubernetes-replicator-2.9.2.tgz \
 ```
 
 ```shell
-helm upgrade replicator kubernetes-replicator-2.9.2.tgz \
-  --install \
+helm upgrade -i replicator kubernetes-replicator-2.9.2.tgz \
   --history-max 5 \
   -n replicator \
   -f replicator-values.yaml

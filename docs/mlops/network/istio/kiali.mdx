@@ -59,8 +59,7 @@ Grafana는 아직 테스트 되지 않았습니다.
 :::
 
 ```shell
-helm upgrade kiali kiali/kiali-server \
-    --install \
+helm upgrade -i kiali kiali/kiali-server \
     --version 1.50.0 \
     -n istio-system \
     -f istio/kiali/helm/values.yaml

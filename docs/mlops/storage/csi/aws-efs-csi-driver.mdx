@@ -95,8 +95,7 @@ helm template aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
 ```
 
 ```shell
-helm upgrade aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
-    --install \
+helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
     --history-max 5 \
     --version 2.5.0 \
     -n kube-system \

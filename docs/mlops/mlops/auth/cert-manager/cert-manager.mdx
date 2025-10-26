@@ -75,8 +75,7 @@ helm template cert-manager jetstack/cert-manager \
 ```
 
 ```shell
-helm upgrade cert-manager jetstack/cert-manager \
-    --install \
+helm upgrade -i cert-manager jetstack/cert-manager \
     --history-max 5 \
     --create-namespace \
     --version v1.18.2 \

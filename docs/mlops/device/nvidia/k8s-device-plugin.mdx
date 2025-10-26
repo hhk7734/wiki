@@ -57,8 +57,7 @@ helm template nvidia-device-plugin nvdp/nvidia-device-plugin \
 ```
 
 ```shell
-helm upgrade nvidia-device-plugin nvdp/nvidia-device-plugin \
-    --install \
+helm upgrade -i nvidia-device-plugin nvdp/nvidia-device-plugin \
     --version 0.14.1 \
     --history-max 5 \
     -n provisioning \

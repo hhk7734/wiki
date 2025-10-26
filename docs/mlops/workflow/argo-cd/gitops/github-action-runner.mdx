@@ -43,8 +43,7 @@ helm template gha-controller gha-runner-scale-set-controller-0.9.1.tgz \
 ```
 
 ```shell
-helm upgrade gha-controller gha-runner-scale-set-controller-0.9.1.tgz \
-  --install \
+helm upgrade -i gha-controller gha-runner-scale-set-controller-0.9.1.tgz \
   --history-max 5 \
   -n github \
   -f gha-runner-scale-set-controller-values.yaml
@@ -125,8 +124,7 @@ helm template gha-runner gha-runner-scale-set-0.9.1.tgz \
 ```
 
 ```shell
-helm upgrade gha-runner gha-runner-scale-set-0.9.1.tgz \
-  --install \
+helm upgrade -i gha-runner gha-runner-scale-set-0.9.1.tgz \
   --history-max 5 \
   -n github \
   -f gha-runner-scale-set-values.yaml

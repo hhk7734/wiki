@@ -45,8 +45,7 @@ helm template mongodb mongodb-15.6.14.tgz \
 ```
 
 ```shell
-helm upgrade mongodb mongodb-15.6.14.tgz \
-  --install \
+helm upgrade -i mongodb mongodb-15.6.14.tgz \
   --history-max 5 \
   -n storage \
   -f mongodb-values.yaml

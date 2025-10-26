@@ -9,6 +9,25 @@ keywords:
   - Trace
 ---
 
+## TracerProvider
+
+```go
+import (
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/sdk/trace"
+)
+
+shutdowns := []func(context.Context) error{}
+
+tracerProvider := trace.NewTracerProvider(
+	trace.WithBatcher(exporter),
+)
+
+shutdowns = append(shutdowns, tracerProvider.Shutdown)
+
+otel.SetTracerProvider(tracerProvider)
+```
+
 ## Exporter
 
 ### Console
@@ -95,21 +114,24 @@ exporter, err := otlptracegrpc.New(context.Background(), opts...)
 
 `otlptracegrpc.WithGRPCConn(*grpc.ClientConn)`으로 gRPC 연결을 직접 설정할 수도 있습니다.
 
-## TracerProvider
+## Sampler
+
+**Sampling** 은 시스템에 의해 생성되는 span의 양을 제한하는 프로세스입니다. 분산 시스템에서 tracing은 매우 실용적이지만, 모든 요청을 100% 추적하는 것은 시스템에 큰 부담이 될 수 있습니다. 이러한 부담을 완화하기 위해 sampling을 사용하여 데이터를 수집해야 합니다.
+
+- **Sampled**: trace 또는 span이 sampler에 의해 선택되고 처리되어 export된 상태입니다.
+- **Not sampled**: trace 또는 span이 sampler에 의해 선택되지 않아 처리되지 않거나 export되지 않은 상태입니다.
 
 ```go
-import (
-	"go.opentelemetry.io/otel"
-	"go.opentelemetry.io/otel/sdk/trace"
-)
-
-shutdowns := []func(context.Context) error{}
-
 tracerProvider := trace.NewTracerProvider(
-	trace.WithBatcher(exporter),
+	trace.WithSampler(trace.AlwaysSample()), // 모든 span 샘플링
 )
-
-shutdowns = append(shutdowns, tracerProvider.Shutdown)
-
-otel.SetTracerProvider(tracerProvider)
 ```
+
+- `trace.AlwaysSample()`: 모든 trace를 선택합니다.
+- `trace.NeverSample()`: 어떤 trace도 선택하지 않습니다.
+- `trace.TraceIDRatioBased(ratio float64)`
+  - 주어진 비율 (0.0 ~ 1.0) 에 따라 trace를 선택합니다.
+  - parent span이 sampled인 경우 비율을 무시하고 선택되게 하려면 `trace.ParentBased(...)`와 함께 사용합니다.
+- `trace.ParentBased(sampler trace.Sampler, opts ...trace.ParentBasedSamplerOption)`
+  - parent span이 sampled인 경우 선택합니다.
+  - parent span이 not sampled인 경우 `sampler` 설정에 따라 선택합니다.

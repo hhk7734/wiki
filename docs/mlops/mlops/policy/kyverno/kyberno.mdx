@@ -41,8 +41,7 @@ helm template kyverno kyverno-3.2.6.tgz \
 ```
 
 ```shell
-helm upgrade kyverno kyverno-3.2.6.tgz \
-    --install \
+helm upgrade -i kyverno kyverno-3.2.6.tgz \
     --history-max 5 \
     -n kyverno \
     -f kyverno-values.yaml

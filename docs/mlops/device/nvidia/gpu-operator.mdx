@@ -64,8 +64,7 @@ helm template gpu-operator nvidia/gpu-operator \
 ```
 
 ```shell
-helm upgrade gpu-operator nvidia/gpu-operator \
-  --install \
+helm upgrade -i gpu-operator nvidia/gpu-operator \
   --history-max 5 \
   --version v25.3.0 \
   -n nvidia-gpu \

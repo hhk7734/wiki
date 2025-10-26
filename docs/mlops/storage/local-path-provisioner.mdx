@@ -64,8 +64,7 @@ helm template local-path-provisioner lol-iot/local-path-provisioner \
 ```
 
 ```shell
-helm upgrade local-path-provisioner lol-iot/local-path-provisioner \
-    --install \
+helm upgrade -i local-path-provisioner lol-iot/local-path-provisioner \
     --history-max 5 \
     --version 0.0.32 \
     -n kube-system \

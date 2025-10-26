@@ -43,8 +43,7 @@ configs:
 ```
 
 ```shell
-helm upgrade argo-events argo/argo-events \
-    --install \
+helm upgrade -i argo-events argo/argo-events \
     --version 2.0.0 \
     -n workflow \
     --values workflow/argo/events/helm/values.yaml

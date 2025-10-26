@@ -118,8 +118,7 @@ helm template amd-gpu amd-gpu/amd-gpu \
 ```
 
 ```shell
-helm upgrade amd-gpu amd-gpu-0.14.0.tgz \
-    --install \
+helm upgrade -i amd-gpu amd-gpu-0.14.0.tgz \
     --history-max 5 \
     -n kube-system \
     -f amd-gpu-values.yaml

@@ -69,8 +69,7 @@ helm template argo-workflows argo/argo-workflows \
 ```
 
 ```shell
-helm upgrade argo-workflows argo/argo-workflows \
-    --install \
+helm upgrade -i argo-workflows argo/argo-workflows \
     --history-max 5 \
     --version 0.39.0 \
     -n workflow \

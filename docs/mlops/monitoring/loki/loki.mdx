@@ -175,8 +175,7 @@ helm template loki grafana/loki \
 ```
 
 ```shell
-helm upgrade loki grafana/loki \
-    --install \
+helm upgrade -i loki grafana/loki \
     --history-max 5 \
     --version 6.30.1 \
     -n loki \

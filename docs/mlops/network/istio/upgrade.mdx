@@ -43,8 +43,7 @@ multi-cluster 등을 위한 istiod 추가적인 설정이 있으면 revision 외
 :::
 
 ```shell
-helm upgrade istiod-1-14-5 istio/istiod \
-    --install \
+helm upgrade -i istiod-1-14-5 istio/istiod \
     --version 1.14.5 \
     -n istio-system \
     -f istiod-1-14-5-values.yaml
@@ -111,8 +110,7 @@ defaultRevision: 1-14-5
 ```
 
 ```shell
-helm upgrade istio-base istio/base \
-    --install \
+helm upgrade -i istio-base istio/base \
     --version 1.14.5 \
     -n istio-system \
     --skip-crds \

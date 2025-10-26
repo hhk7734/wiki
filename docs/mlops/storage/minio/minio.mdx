@@ -70,8 +70,7 @@ helm template minio minio-14.9.0.tgz \
 ```
 
 ```shell
-helm upgrade minio minio-14.9.0.tgz \
-    --install \
+helm upgrade -i minio minio-14.9.0.tgz \
     --history-max 5 \
     -n minio \
     -f minio-values.yaml

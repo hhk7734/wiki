@@ -62,8 +62,7 @@ helm template spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
 ```
 
 ```shell
-helm upgrade spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
-  --install \
+helm upgrade -i spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
   --history-max 5 \
   --version 0.2.0 \
   -n spegel \

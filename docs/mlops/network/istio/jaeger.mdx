@@ -38,8 +38,7 @@ helm template jaeger-operator jaegertracing/jaeger-operator \
 ```
 
 ```shell
-helm upgrade jaeger-operator jaegertracing/jaeger-operator \
-    --install \
+helm upgrade -i jaeger-operator jaegertracing/jaeger-operator \
     --version 2.38.0 \
     -n monitoring \
     --history-max 5 \

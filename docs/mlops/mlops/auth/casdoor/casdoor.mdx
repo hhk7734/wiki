@@ -64,8 +64,7 @@ helm template casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
 ```
 
 ```shell
-helm upgrade casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
-    --install \
+helm upgrade -i casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
     --history-max 5 \
     --version v2.70.0 \
     -n auth \

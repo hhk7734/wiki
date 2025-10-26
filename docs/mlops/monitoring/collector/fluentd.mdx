@@ -12,10 +12,7 @@ import Image from "@theme/IdealImage";
 ## 설치
 
 <center>
-	<Image
-		img={require("@site/static/img/mlops/monitoring/collector/forward-to-fluent.png")}
-		width={750}
-	/>
+	<Image img={require("@site/static/img/mlops/monitoring/collector/forward-to-fluent.png")} width={750} />
 </center>
 <center>https://kubesphere.io/blogs/deep-dive-into-kubernetes-logging/</center>
 
@@ -84,8 +81,7 @@ fileConfigs:
 ```
 
 ```shell
-helm upgrade fluentd fluent/fluentd \
-  --install \
+helm upgrade -i fluentd fluent/fluentd \
   --version 0.3.9 \
   -n monitoring \
   --history-max 5 \

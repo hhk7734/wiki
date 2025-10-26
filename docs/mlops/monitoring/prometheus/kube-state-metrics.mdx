@@ -89,8 +89,7 @@ helm template kube-state-metrics kube-state-metrics-5.16.4.tgz \
 ```
 
 ```shell
-helm upgrade kube-state-metrics kube-state-metrics-5.16.4.tgz \
-    --install \
+helm upgrade -i kube-state-metrics kube-state-metrics-5.16.4.tgz \
     --history-max 5 \
     -n monitoring \
     -f kube-state-metrics-values.yaml

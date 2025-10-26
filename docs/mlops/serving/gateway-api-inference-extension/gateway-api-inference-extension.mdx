@@ -44,8 +44,7 @@ helm template gateway-api-inference-extension lol-iot/gateway-api-inference-exte
 ```
 
 ```shell
-helm upgrade gateway-api-inference-extension lol-iot/gateway-api-inference-extension \
-    --install \
+helm upgrade -i gateway-api-inference-extension lol-iot/gateway-api-inference-extension \
     --history-max 5 \
     --version 0.5.1 \
     -n kube-system

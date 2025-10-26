@@ -139,8 +139,7 @@ helm template nats nats/nats \
 ```
 
 ```shell
-helm upgrade nats nats/ntas \
-    --install \
+helm upgrade -i nats nats/ntas \
     --version 1.1.2 \
     -n event \
     --history-max 5 \
@@ -182,8 +181,7 @@ helm template nack nats/nack \
 ```
 
 ```shell
-helm upgrade nack nats/nack \
-    --install \
+helm upgrade -i nack nats/nack \
     --history-max 5 \
     --version 0.23.0 \
     -n event \

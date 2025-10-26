@@ -72,8 +72,7 @@ helm template node-feature-discovery nfd/node-feature-discovery \
 ```
 
 ```shell
-helm upgrade node-feature-discovery nfd/node-feature-discovery \
-  --install \
+helm upgrade -i node-feature-discovery nfd/node-feature-discovery \
   --history-max 5 \
   --version 0.17.3 \
   -n node-feature-discovery \

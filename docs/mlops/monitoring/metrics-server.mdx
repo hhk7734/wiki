@@ -78,8 +78,7 @@ helm template metrics-server metrics-server/metrics-server \
 ```
 
 ```shell
-helm upgrade metrics-server metrics-server/metrics-server \
-    --install \
+helm upgrade -i metrics-server metrics-server/metrics-server \
     --history-max 5 \
     --version 3.12.2 \
     -n kube-system \

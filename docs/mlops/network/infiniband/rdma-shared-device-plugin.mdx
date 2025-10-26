@@ -48,8 +48,7 @@ helm template rdma-shared-device-plugin lol-iot/rdma-shared-device-plugin \
 ```
 
 ```shell
-helm upgrade rdma-shared-device-plugin lol-iot/rdma-shared-device-plugin \
-    --install \
+helm upgrade -i rdma-shared-device-plugin lol-iot/rdma-shared-device-plugin \
     --history-max 5 \
     --version 1.5.3 \
     -n kube-system \
