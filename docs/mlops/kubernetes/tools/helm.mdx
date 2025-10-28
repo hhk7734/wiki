@@ -8,13 +8,38 @@ keywords:
   - release
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
-- https://helm.sh/docs/intro/install/
+- [mise로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/version/mise.mdx#버전관리)
 
-```shell
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+<Tabs
+    groupId="shell"
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',},
+    ]}
+>
+<TabItem value="zsh">
+
+```shell title="$HOME/.zshrc"
+source <(helm completion zsh)
 ```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title="$HOME/.bashrc"
+source <(helm completion bash)
+```
+
+</TabItem>
+
+</Tabs>
 
 ## Repository
 
@@ -42,7 +67,7 @@ helm repo update [repositoryName1 [repositoryName2 ...]] [flags]
 
 ### Repository 서버
 
-e.g., https://github.com/hhk7734/helm-charts
+e.g., https://github.com/lol-iot/helm-charts
 
 ## Chart
 
