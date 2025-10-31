@@ -158,7 +158,7 @@ journalctl -xe -u k0scontroller
 :::
 
 ```shell
-sudo k0s kubeconfig create <user>
+sudo k0s kubeconfig create <user> > kubeconfig.yaml
 ```
 
 - `--groups <group>`
@@ -212,6 +212,12 @@ sudo k0s install worker --token-file <tokenFile>
   - `node.cilium.io/agent-not-ready=true:NoExecute`
 - `--kubelet-root-dir /var/lib/k0s/kubelet`
   - device-plugin 등에서 `/var/lib/kubelet` 경로를 사용해야만 하는 경우 이 옵션으로 k0s 기본 경로를 변경할 수 있습니다.
+
+:::warning
+
+`/var/lib/kubelet` 경로를 사용하는 경우 클러스터 제거 시 해당 경로가 삭제되었는지 반드시 확인하시기 바랍니다.
+
+:::
 
 ```shell
 sudo k0s start
