@@ -1,8 +1,8 @@
 ---
 id: lua
-title: Neovim Lua Guide
-sidebar_label: Lua Guide
-description: Neovim Lua Guide
+title: Neovim Lua 가이드
+sidebar_label: Lua 가이드
+description: Neovim Lua 가이드
 keywords:
   - nvim
   - neovim
@@ -23,10 +23,14 @@ keywords:
 
 ## lua 실행(runtimepath)
 
-- [runtimepath](https://neovim.io/doc/user/options.html#'runtimepath')
+:::info[Reference]
+
+- [Neovim / Options # runtimepath](https://neovim.io/doc/user/options.html#'runtimepath')
+
+:::
 
 ```shell
-:set runtimepath
+:lua vim.print(vim.opt.runtimepath:get())
 ```
 
 기본적으로 다음 경로를 확인합니다.
@@ -36,30 +40,6 @@ keywords:
 - `$VIMRUNTIME`
 - `$XDG_DATA_HOME/nvim/site/after`
 - `$XDG_CONFIG_HOME/nvim/after`
-
-<br />
-
-위 경로에서 다음 스크립트들이 있는지 확인합니다.
-
-- filetype.lua
-- autoload/
-- colors/
-- compiler/
-- doc/
-- ftplugin/
-- indent/
-- keymap/
-- lang/
-- lua/
-- menu.vim
-- pack/
-- parser/
-- plugin/
-- queries/
-- rplugin/
-- spell/
-- syntax/
-- tutor/
 
 :::info
 
@@ -72,6 +52,29 @@ keywords:
   - `/usr/share`
 
 :::
+
+위 경로에서 다음 스크립트들이 있는지 확인합니다.
+
+- filetype.lua
+- autoload/
+- colors/
+- compiler/
+- doc/
+- ftplugin/
+- indent/
+- keymap/
+- lang/
+- lsp/
+- lua/
+- pack/
+  - Neovim 0.12+ supports `vim.pack.add`
+- parser/
+- plugin/
+- queries/
+- rplugin/
+- spell/
+- syntax/
+- tutor/
 
 ## Options
 

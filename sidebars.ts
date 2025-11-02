@@ -1205,7 +1205,13 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Vim",
-			items: ["lang/etc/vim/nvim", "lang/etc/vim/lua", "lang/etc/vim/nvim-tree", "lang/etc/vim/regex"],
+			items: [
+				"lang/etc/vim/nvim",
+				"lang/etc/vim/lua",
+				"lang/etc/vim/keymap",
+				"lang/etc/vim/regex",
+				"lang/etc/vim/plugin",
+			],
 		},
 		{
 			type: "category",

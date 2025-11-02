@@ -1,8 +1,8 @@
 ---
 id: nvim
-title: Neovim
-sidebar_label: Neovim
-description: Neovim
+title: Neovim 설치 가이드
+sidebar_label: Neovim 설치 가이드
+description: Neovim 설치 가이드
 keywords:
   - nvim
   - neovim
@@ -57,90 +57,29 @@ brew install neovim
 
 </Tabs>
 
-## NvChad
+## 설정
 
-```shell
-git clone https://github.com/NvChad/starter ~/.config/nvim && nvim
-```
+### Neovim startup 순서
 
-:::info
-starter를 수정해서 git에 저장해두고 사용해도 됩니다. e.g., https://github.com/hhk7734/custom.nvim
+:::info[Reference]
+
+- [Neovim / Starting # Startup](https://neovim.io/doc/user/starting.html#startup)
+
 :::
 
-```shell
-./
-├── init.lua
-├── LICENSE
-├── lua/
-│   ├── chadrc.lua
-│   ├── configs/
-│   │   ├── conform.lua
-│   │   ├── lazy.lua
-│   │   └── lspconfig.lua
-│   ├── mappings.lua
-│   ├── options.lua
-│   └── plugins/
-│       └── init.lua
-└── README.md
-```
+1. [shell](https://neovim.io/doc/user/options.html#'shell') 설정
+2. 명령어 인자 처리
+3. 서버 시작
+4. UI 연결 대기
+5. [default-mappings](https://neovim.io/doc/user/vim_diff.html#default-mappings), [default-autocmds](https://neovim.io/doc/user/vim_diff.html#default-autocmds) 설정, [popup-menu](https://neovim.io/doc/user/gui.html#popup-menu) 생성
+6. filetype, indent plugin 활성화
+7. [init.lua](https://neovim.io/doc/user/starting.html#init.lua) 실행
+8. filetype 감시 활성화
+9. syntax highlighting 활성화
+10. `plugin/**/*.lua` 실행
+11. ...
 
-- https://nvchad.com/docs/config/walkthrough
+### init.lua 설정
 
-### 키 매핑
-
-- https://nvchad.com/docs/config/mappings
-
-<br />
-
-- `<C>`: Ctrl
-- `<A>`: Alt
-- `<S>`: Shift
-- `<leader>`: Space
-- `<CR>`: Enter
-- `:`, `;`, `<cmd>`: 커맨드
-
-### LSP
-
-- https://nvchad.com/docs/config/lsp
-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-
-### Nvterm
-
-- `<A-h>`: 수평 터미널 토글
-- `<A-v>`: 수직 터미널 토글
-- `<A-i>`: 터미널 모달 토글
-- `<leader>pt`: 터미널 목록
-
-### NvCheatsheet
-
-- `<leader>ch`
-
-## Normal mode
-
-- `:h key-notation`: key notation
-
----
-
-- `u`: undo
-- `<C-r>`: redo
-
----
-
-- `=`: align e.g., gg=G, =3
-- `<C-k>`: clang-format (설정한 경우)
-
----
-
-- `:! <command>`: shell에서 `<command>`를 실행합니다.
-- `:r[ead]! <command>`: stdout -> vim
-- `:w[rite]! <command>`: vim -> stdin
-
----
-
-- `<C-a>`: 숫자 증가
-- `<C-x>`: 숫자 감소
-
-## Visual mode
-
-- `u`: 소문자로 변환
-- `<S-u>`: 대문자로 변환
+- [Neovim Lua 가이드 / Options](/docs/lang/etc/vim/lua#options)
+- [custom.nvim GitHub](https://github.com/hhk7734/custom.nvim)
