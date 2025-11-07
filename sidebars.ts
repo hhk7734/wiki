@@ -938,6 +938,11 @@ const sidebars: SidebarsConfig = {
 		},
 	],
 	monitoring: [
+		{
+			type: "category",
+			label: "OpenTelemetry",
+			items: ["mlops/monitoring/opentelemetry/semantic-conventions"],
+		},
 		"mlops/monitoring/metrics-server",
 		{
 			type: "category",

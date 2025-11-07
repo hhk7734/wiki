@@ -75,7 +75,7 @@ opts := []otlptracegrpc.Option{}
 exporter, err := otlptracegrpc.New(context.Background(), opts...)
 ```
 
-설정의 우선순위는 `OTEL_EXPORTER_OTLP_*`, `OTEL_EXPORTER_OTLP_TRACES_*`, 코드 설정 순으로 높아집니다.
+설정의 우선순위는 `OTEL_EXPORTER_OTLP_*`, `OTEL_EXPORTER_OTLP_TRACES_*`, 직접 설정 순으로 높아집니다.
 
 - endpoint 설정
   - 기본값은 `secure + localhost:4317` 입니다.
@@ -127,6 +127,9 @@ tracerProvider := trace.NewTracerProvider(
 )
 ```
 
+- sampler 옵션을 설정하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다.
+  - `OTEL_TRACES_SAMPLER=always_on|always_off|traceidratio|parentbased_always_on|parentbased_always_off|parentbased_traceidratio`
+  - `OTEL_TRACES_SAMPLER_ARG=<traceidratio>`
 - `trace.AlwaysSample()`: 모든 trace를 선택합니다.
 - `trace.NeverSample()`: 어떤 trace도 선택하지 않습니다.
 - `trace.TraceIDRatioBased(ratio float64)`
