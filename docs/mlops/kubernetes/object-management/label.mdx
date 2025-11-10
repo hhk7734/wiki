@@ -48,12 +48,12 @@ keywords:
 
 <br />
 
+- `app.kubernetes.io/part-of: <project>`
 - `app.kubernetes.io/name: <appName>`
 - `app.kubernetes.io/version: <version>`
 - `app.kubernetes.io/instance: <resourceID>`
   - e.g., helm release name
 - `app.kubernetes.io/component: database|storage|server|...`
-- `app.kubernetes.io/part-of: <project>`
 - `app.kubernetes.io/managed-by: helm|pulumi|...`
 
 ## Label Selector
@@ -67,3 +67,5 @@ keywords:
       operator: In|NotIn|Exists|DoesNotExist
       values: [<value>, ...]
 ```
+
+- 선언된 모든 것은 AND 조건으로 처리되므로 모두 만족해야 합니다.
