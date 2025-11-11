@@ -26,6 +26,7 @@ customConfig:
 
 - [Vector / Remap with VRL](https://vector.dev/docs/reference/configuration/transforms/remap/)
 - [Vector Remap Language\(VRL\)](https://vector.dev/docs/reference/vrl/)
+  - [Vector / Reference / VRL / VRL function reference](https://vector.dev/docs/reference/vrl/functions/)
 - [VRL Playground](https://playground.vrl.dev/)
 - [Rust Regex Playground](https://rregex.dev/)
 
@@ -43,6 +44,37 @@ customConfig:
       source: |
         <VRL>
       <option>: <value>
+```
+
+```yaml title="Kubernetes default JSON parser"
+customConfig:
+  transforms:
+    default_k8s_json_parser:
+      type: remap
+      inputs: []
+      source: |
+        .app = .kubernetes.pod_labels."app.kubernetes.io/name"
+        .host = "$VECTOR_SELF_NODE_NAME"
+
+        structured, err = parse_json(.message)
+        if err == null {
+          . = merge!(., structured)
+          msg, err = get(., ["msg"])
+          if err == null {
+            .message = msg
+          }
+          time, err = get(., ["time"])
+          if err == null {
+            .timestamp = time
+          }
+        } else {
+          .level = "warn"
+        }
+
+        del(.file)
+        del(.source_type)
+        del(.stream)
+        del(.kubernetes)
 ```
 
 ## Reduce
