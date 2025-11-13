@@ -20,3 +20,45 @@ import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 		<figcaption>KV Cache</figcaption>
 	</figure>
 </center>
+
+## KV Cache size
+
+:::info[References]
+
+- [KV Cache Size Calculator](https://lmcache.ai/kv_cache_calculator.html)
+
+:::
+
+| Model                               | KV size per token (FP16) |      Context Length      |       Max KV size        |
+| ----------------------------------- | :----------------------: | :----------------------: | :----------------------: |
+| `meta-llama/Llama-3.2-1B-Instruct`  |          32 KiB          |          128000          |          4 GiB           |
+| `meta-llama/Llama-3.1-8B-Instruct`  |         128 KiB          |          128000          |          16 GiB          |
+| `meta-llama/Llama-3.3-70B-Instruct` |         320 KiB          |          128000          |          40 GiB          |
+| `Qwen/Qwen3-32B`                    |         256 KiB          | 32768 (131072 with YaRN) | 8 GiB (32 GiB with YaRN) |
+| `deepseek-ai/DeepSeek-R1`           |         68.6 KiB         |          128000          |         8.38 GiB         |
+
+- `meta-llama/Llama-3.2-1B-Instruct`
+  - Layers: 16
+  - KV Heads: 8
+  - Head Dimension: 64
+  - Total Elements: 16384 `(Layers * KV Heads * Head Dimension * 2)`
+- `meta-llama/Llama-3.1-8B-Instruct`
+  - Layers: 32
+  - KV Heads: 8
+  - Head Dimension: 128
+  - Total Elements: 65536 `(Layers * KV Heads * Head Dimension * 2)`
+- `meta-llama/Llama-3.3-70B-Instruct`
+  - Layers: 80
+  - KV Heads: 8
+  - Head Dimension: 128
+  - Total Elements: 163840 `(Layers * KV Heads * Head Dimension * 2)`
+- `Qwen/Qwen3-32B`
+  - Layers: 64
+  - KV Heads: 8
+  - Head Dimension: 128
+  - Total Elements: 131072 `(Layers * KV Heads * Head Dimension * 2)`
+- `deepseek-ai/DeepSeek-R1`
+  - Layers: 61
+  - KV LoRA Rank: 512
+  - QK RoPE Head Dimension: 64
+  - Total Elements: 35136 `(Layers * (KV LoRA Rank + QK RoPE Head Dimension))`
