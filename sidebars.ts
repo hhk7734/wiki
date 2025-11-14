@@ -1516,18 +1516,30 @@ const sidebars: SidebarsConfig = {
 	serving: [
 		{
 			type: "category",
-			label: "Gateway API Inference Extension",
+			label: "LLM",
+			collapsible: false,
 			items: [
-				"mlops/serving/gateway-api-inference-extension/gateway-api-inference-extension",
-				"mlops/serving/gateway-api-inference-extension/endpoint-picker",
-				"mlops/serving/gateway-api-inference-extension/plugins",
-				"mlops/serving/gateway-api-inference-extension/route",
+				{
+					type: "category",
+					label: "Gateway API Inference Extension",
+					items: [
+						"mlops/serving/llm/gateway-api-inference-extension/gateway-api-inference-extension",
+						"mlops/serving/llm/gateway-api-inference-extension/endpoint-picker",
+						"mlops/serving/llm/gateway-api-inference-extension/plugins",
+						"mlops/serving/llm/gateway-api-inference-extension/route",
+					],
+				},
+				{
+					type: "category",
+					label: "vLLM",
+					items: ["mlops/serving/llm/vllm/vllm", "mlops/serving/llm/vllm/kvcache"],
+				},
+				{
+					type: "category",
+					label: "Benchmark",
+					items: ["mlops/serving/llm/benchmark/inference-perf"],
+				},
 			],
-		},
-		{
-			type: "category",
-			label: "vLLM",
-			items: ["mlops/serving/vllm/vllm", "mlops/serving/vllm/kvcache"],
 		},
 	],
 	shellscript: [

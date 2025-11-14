@@ -1,0 +1,180 @@
+---
+id: inference-perf
+title: inference-perf LLM 추론 벤치마크 가이드
+sidebar_label: inference-perf
+description: inference-perf LLM 추론 벤치마크 가이드
+keywords:
+  - inference-perf
+  - llm
+  - benchmark
+---
+
+## 벤치마크 설정
+
+:::info[References]
+
+- [inference-perf GitHub / docs / config.md](https://github.com/kubernetes-sigs/inference-perf/blob/main/docs/config.md)
+
+:::
+
+```yaml config.yaml
+server: {}
+api: {}
+data: {}
+load: {}
+tokenizer: {}
+metrics: {}
+report: {}
+storage: {}
+circuit_breakers: []
+```
+
+`server`, `api`, `data`, `load` 섹션은 필수이며, 나머지 섹션은 필요에 따라 추가합니다.
+
+### 모델 서버 설정 (`server`)
+
+- `type: vllm|sglang|tgi`
+  - 대상 서버 프레임워크를 지정합니다.
+  - `vllm`이 기본값입니다.
+- `api_key: <str>`
+- `model_name: <str>`
+- `base_url: <str>`
+  - 모델 서버의 HTTP 엔드포인트 URL을 지정합니다.
+- `ignore_eos: <bool>`
+
+```yaml
+server:
+  type: vllm
+  model_name: Qwen/Qwen3-32B
+  base_url: http://localhost:8000
+```
+
+### API 설정 (`api`)
+
+- `type: completion|chat`
+  - `/v1/completions` 또는 `/v1/chat/completions` 중 호출할 엔드포인트 형태를 지정합니다.
+  - `completion`이 기본값입니다.
+- `streaming: <bool>`
+  - 스트리밍 응답을 받을지 여부를 지정합니다.
+  - TTFT/ITL/TPOT 등 측정 시 `true`로 설정해야 합니다.
+  - 기본값은 `false`입니다.
+- `headers`
+  - 요청마다 추가할 커스텀 HTTP 헤더를 설정합니다.
+  - `<header>: <value>`
+
+```yaml
+api:
+  type: chat
+  streaming: true
+```
+
+### 데이터 설정 (`data`)
+
+- `type: mock|shareGPT|synthetic|random|shared_prefix|cnn_dailymail|billsum_conversations|infinity_instruct`
+  - 벤치마크에 사용할 데이터 생성 방식을 지정합니다.
+  - `shareGPT`
+    - completion인 경우 대화의 첫번째를 prompt로 두번째를 max_tokens 계산에 사용하여 요청을 만듭니다.
+    - chat인 경우 대화를 그대로 요청으로 만듭니다.
+    - `data.path`에 대화 파일을 지정해야 합니다.
+  - `synthetic`: 22706자 길이의 문장을 토큰화한 후 `input_distribution`에 따라 잘라서 쓰는 방식입니다.
+  - `random`: `input_distribution`에 따라 랜덤 토큰 리스트를 생성하는 방식입니다.
+  - `shared_prefix`: 랜덤 토큰을 사용하되, 시스템 프롬프트를 여러 프롬프트에서 공유하는 방식입니다.
+- `path: <path>`
+- `input/output_distribution`
+  - `synthetic`/`random` 유형에서 input/output 프롬프트 길이 분포를 지정합니다.
+  - `min: <tokens>`
+  - `max: <tokens>`
+  - `mean: <tokens>`
+  - `std: <tokens>`
+  - `total_count: <int>`
+- `shared_prefix`
+  - `shared_prefix` 타입을 사용할 때 필요한 세부 설정입니다.
+  - `num_groups: <int>`
+    - 시스템 프롬프트를 공유하는 프롬프트 그룹 수를 지정합니다.
+  - `num_prompts_per_group: <int>`
+    - 시스템 프롬프트는 같지만 (같은 그룹) 질문이 다른 프롬프트 수를 지정합니다.
+  - `system_prompt_len: <tokens>`
+  - `question_len: <tokens>`
+  - `output_len: <tokens>`
+
+```yaml
+data:
+  type: shared_prefix
+  shared_prefix:
+    num_groups: 100
+    num_prompts_per_group: 10
+    system_prompt_len: 5000
+    question_len: 500
+    output_len: 1000
+```
+
+### 부하 생성 설정 (`load`)
+
+- `type: constant|poisson`
+  - `constant`
+    - `np.random.default_rng().exponential(1 / rate, rate * duration)`으로 요청 간격을 생성하고, 총 합이 duration이 되도록 정규화합니다.
+    - 각 간격에 노이즈가 조금 추가됩니다.
+  - `poisson`:
+    - `np.random.default_rng().poisson(rate)`으로 1 초당 요청 수를 생성하고, 해당 요청들의 간격을 `constant` 방법으로 만듭니다.
+    - 각 초마다 독립적으로 요청량이 생성되므로 요청 간격에 더 큰 변동이 생깁니다.
+- `interval: <float>`: stage와 stage 사이의 대기 시간(초)입니다.
+- `stages: []`
+  - `rate * duration` 만큼의 요청을 생성하는 벤치마크 리스트입니다.
+  - `rate: <float>`: 각 부하 단계에서 요청을 생성하는 속도입니다.
+  - `duration: <int>`: 각 부하 단계에서 요청을 생성하는 시간(초)입니다.
+- `sweep`
+  - 추론 서비스가 처리할 수 있는 최대 부하 (포화) 를 자동으로 탐색하고, 그에 맞춰 `stages`를 생성하여 벤치마크를 수행합니다.
+  - `type: linear|geometric`
+  - `num_requests: <int>`
+    - 포화 탐색에 사용할 총 요청 수로, `rate: num_requests / 5, duration: 5` 인 stage를 진행하게 됩니다.
+    - 기본값은 `2000`입니다.
+  - `timeout: <float>`
+    - 포화 탐색에 허용할 최대 시간(초)입니다.
+    - 기본값은 `60`초입니다.
+  - `num_stages: <int>`
+    - 벤치마크를 수행할 stage 수입니다.
+    - 기본값은 `5`입니다.
+  - `stage_duration: <int>`
+    - 각 stage에 사용할 duration(초)입니다.
+    - 기본값은 `180`초입니다.
+  - `saturation_percentile: <float>`
+    - 포화 탐색 시 RPS 계산에 사용할 백분위수입니다.
+    - 기본값은 `95`입니다.
+- `num_workers: <cpu>`
+  - 벤치마크 클라이언트에서 병렬로 요청을 보내는 워커 수를 지정합니다.
+  - 기본값은 시스템의 CPU 코어 수입니다.
+- `worker_max_concurrency: <int>`
+  - 각 워커가 동시에 유지할 요청 수 제한을 지정합니다.
+  - 기본값은 `100`입니다.
+- `worker_max_tcp_connections: <int>`
+  - 각 워커가 생성할 수 있는 최대 TCP 연결 수를 지정합니다.
+  - 기본값은 `2500`입니다.
+- `circuit_breakers: []`
+- `request_timeout: <float>`: 각 요청에 허용할 최대 시간(초)입니다.
+
+```yaml
+load:
+  type: poisson
+  interval: 5
+  stages:
+    # warm-up
+    - rate: 10
+      duration: 20
+
+    # main test
+    - rate: 50
+      duration: 150
+    - rate: 75
+      duration: 100
+    - rate: 100
+      duration: 75
+  num_workers: 4
+  worker_max_concurrency: 50
+  request_timeout: 600
+```
+
+### 메트릭 수집 (`metrics`)
+
+### 보고서 설정 (`report`)
+
+### 저장소 설정 (`storage`)
