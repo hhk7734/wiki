@@ -1001,11 +1001,6 @@ const sidebars: SidebarsConfig = {
 		},
 		{
 			type: "category",
-			label: "Tempo",
-			items: ["mlops/monitoring/tempo/tempo"],
-		},
-		{
-			type: "category",
 			label: "Grafana",
 			items: [
 				"mlops/monitoring/grafana/grafana",
@@ -1014,6 +1009,11 @@ const sidebars: SidebarsConfig = {
 				"mlops/monitoring/grafana/dashboard",
 				"mlops/monitoring/grafana/alert",
 			],
+		},
+		{
+			type: "category",
+			label: "Tempo",
+			items: ["mlops/monitoring/tempo/tempo"],
 		},
 		{
 			type: "category",
