@@ -19,11 +19,11 @@ helm repo update grafana \
 ```
 
 ```shell
-helm pull grafana/grafana --version 8.6.4
+helm pull grafana/grafana --version 10.1.4
 ```
 
 ```shell
-helm show values grafana/grafana --version 8.6.4 > grafana-8.6.4.yaml
+helm show values grafana/grafana --version 10.1.4 > grafana-10.1.4.yaml
 ```
 
 ```yaml title="grafana-values.yaml"
@@ -34,18 +34,23 @@ podLabels: {}
 resources: {}
 
 tolerations: []
+
+persistence:
+  enabled: false
 ```
 
 ```shell
-helm template grafana grafana-8.6.4.tgz \
+helm template grafana grafana/grafana \
+    --version 10.1.4 \
     -n grafana \
     -f grafana-values.yaml \
     > grafana.yaml
 ```
 
 ```shell
-helm upgrade -i grafana grafana-8.6.4.tgz \
+helm upgrade -i grafana grafana/grafana \
     --history-max 5 \
+    --version 10.1.4 \
     -n grafana \
     -f grafana-values.yaml
 ```
