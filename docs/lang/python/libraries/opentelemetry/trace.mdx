@@ -1,0 +1,83 @@
+---
+id: trace
+title: Python OpenTelemetry Trace 설정 가이드
+sidebar_label: Trace 설정 가이드
+description: Python OpenTelemetry Trace 설정 가이드
+keywords:
+  - python
+  - OpenTelemetry
+  - Trace
+---
+
+## TracerProvider
+
+```shell
+pip install opentelemetry-sdk
+```
+
+```python
+from opentelemetry.sdk.trace import TracerProvider
+from opentelemetry.sdk.trace.export import BatchSpanProcessor
+from opentelemetry import trace
+
+
+tracer_provider = TracerProvider()
+tracer_provider.add_span_processor(BatchSpanProcessor(exporter))
+
+trace.set_tracer_provider(tracer_provider)
+```
+
+- resources 설정을 따로하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다.
+  - `OTEL_SERVICE_NAME=<serviceName>`
+  - `OTEL_RESOURCE_ATTRIBUTES=<attribute>=<value>[,<attribute>=<value>]`
+
+## Exporter
+
+```shell
+pip install opentelemetry-exporter-otlp
+```
+
+### gRPC
+
+```python
+from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
+
+
+exporter = OTLPSpanExporter()
+```
+
+**옵션을 설정하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다. 환경 변수 우선순위는 `OTEL_EXPORTER_OTLP_*`, `OTEL_EXPORTER_OTLP_TRACES_*` 순으로 높아집니다.**
+
+- endpoint 설정
+  - 기본값은 `insecure + localhost:4317` 입니다.
+  - `OTEL_EXPORTER_OTLP_ENDPOINT=<scheme>://<host>:<port>`
+  - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<scheme>://<host>:<port>`
+  - `<scheme>`이 `http`인 경우 insecure로 설정됩니다.
+  - 각각 분리해서 설정할 수도 있습니다.
+    - `OTEL_EXPORTER_OTLP_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_ENDPOINT=<host>:<port>`
+    - `OTEL_EXPORTER_OTLP_TRACES_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<host>:<port>`
+- headers 설정
+  - `OTEL_EXPORTER_OTLP_HEADERS=<key>=<value>[,<key>=<value>]`
+  - `OTEL_EXPORTER_OTLP_TRACES_HEADERS=<key>=<value>[,<key>=<value>]`
+- timeout 설정
+  - 기본값은 10초 입니다.
+  - `OTEL_EXPORTER_OTLP_TIMEOUT=<milliseconds>`
+  - `OTEL_EXPORTER_OTLP_TRACES_TIMEOUT=<milliseconds>`
+- compression 설정
+  - `OTEL_EXPORTER_OTLP_COMPRESSION=gzip|none`
+  - `OTEL_EXPORTER_OTLP_TRACES_COMPRESSION=gzip|none`
+- certificate 설정
+  - `OTEL_EXPORTER_OTLP_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_CLIENT_KEY=<keyFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_KEY=<keyFilePath>.pem`
+
+## Sampler
+
+- **`TracerProvider`에 sampler를 설정하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다.**
+  - `OTEL_TRACES_SAMPLER=always_on|always_off|traceidratio|parentbased_always_on|parentbased_always_off|parentbased_traceidratio`
+  - `OTEL_TRACES_SAMPLER_ARG=<traceidratio>`

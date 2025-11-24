@@ -1,0 +1,42 @@
+---
+id: kubebuilder
+title: Kubebuilder를 사용한 Kubernetes operator 개발 가이드
+sidebar_label: Kubebuilder
+description: Kubebuilder를 사용한 Kubernetes operator 개발 가이드
+keywords:
+  - kubebuilder
+  - operator
+---
+
+## 설치
+
+- [mise로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/version/mise.mdx#버전관리)
+
+## Project 생성
+
+:::info[Receivers]
+
+- [Kubebuilder / Getting Started](https://book.kubebuilder.io/getting-started)
+
+:::
+
+[Go # Setup](/docs/lang/go/go.mdx#setup)을 참고하여 Go 모듈을 초기화합니다.
+
+```shell
+kubebuilder init --domain <domain>
+```
+
+- `--domain <domain>`
+  - API 그룹의 도메인 이름을 지정합니다.
+  - apiVersion으로 `<group>.<domain>/<version>` 형식이 사용됩니다.
+
+## API 생성
+
+```shell
+kubebuilder create api --group <group> --version <version> --kind <kind>
+```
+
+```yaml
+apiVersion: <group>.<domain>/<version>
+kind: <kind>
+```
