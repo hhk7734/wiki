@@ -12,7 +12,7 @@ keywords:
 
 :::info[References]
 
-- [Istio Docs / Configuration / Global Mesh Options](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+- [Istio / Configuration / Global Mesh Options](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
 
 :::
 
@@ -30,40 +30,41 @@ meshConfig:
           environment: {}
 ```
 
-- `meshConfig`
-  - `enableTracing: true|false`
-    - trace spans과 request IDs 생성을 제어합니다.
-  - `extensionProviders: []`
-    - `name: <name>`
-    - `opentelemetry`
-      - OpenTelemetryTracingProvider 설정입니다.
-      - `service: [<namespace>/]<hostname>`
-        - trace를 수집하는 애플리케이션의 FQDN을 지정합니다.
-      - `port: <port>`
-      - `http`
-        - `path: /v1/traces`
-        - `timeout: <duration>`
-        - `headers: []`
-          - `name: <headerName>`
-          - `value: <value>`
-          - `envName: <env>`
-            - 환경변수로부터 값을 가져옵니다.
-      - `grpc`
-        - `timeout: <duration>`
-        - `initialMetadata: []`
-          - `name: <headerName>`
-          - `value: <value>`
-          - `envName: <env>`
-            - 환경변수로부터 값을 가져옵니다.
-      - `resourceDetectors`
-        - `environment`
-          - `OTEL_RESOURCE_ATTRIBUTES` 환경변수로부터 리소스를 가져옵니다.
+- `enableTracing: true|false`
+  - trace spans과 request IDs 생성을 제어합니다.
+- `extensionProviders: []`
+  - `name: <name>`
+  - `opentelemetry`
+    - OpenTelemetryTracingProvider 설정입니다.
+    - `service: [<namespace>/]<hostname>`
+      - trace를 수집하는 애플리케이션의 FQDN을 지정합니다.
+    - `port: <port>`
+    - `http`
+      - `path: /v1/traces`
+      - `timeout: <duration>`
+      - `headers: []`
+        - `name: <headerName>`
+        - `value: <value>`
+        - `envName: <env>`
+          - 환경변수로부터 값을 가져옵니다.
+    - `grpc`
+      - `timeout: <duration>`
+      - `initialMetadata: []`
+        - `name: <headerName>`
+        - `value: <value>`
+        - `envName: <env>`
+          - 환경변수로부터 값을 가져옵니다.
+    - `resourceDetectors`
+      - `environment`
+        - `OTEL_RESOURCE_ATTRIBUTES` 환경변수로부터 리소스를 가져옵니다.
+- `defaultProviders`
+  - `tracing: [<provider>]`
 
-## Envoy에 설정 적용
+## Envoy에 provider 적용하기
 
 :::info[References]
 
-- [Istio Docs / Configuration / Telemetry](https://istio.io/latest/docs/reference/config/telemetry/)
+- [Istio / Configuration / Telemetry](https://istio.io/latest/docs/reference/config/telemetry/)
 
 :::
 

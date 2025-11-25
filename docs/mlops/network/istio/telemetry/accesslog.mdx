@@ -1,0 +1,69 @@
+---
+id: accesslog
+title: Istio Access Log 설정 가이드
+sidebar_label: Access Log 설정 가이드
+description: Istio Access Log 설정 가이드
+keywords:
+  - Istio
+  - Access Log
+---
+
+## Access Log Provider 설정
+
+:::info[References]
+
+- [Istio / Configuration / Global Mesh Options](https://istio.io/latest/docs/reference/config/istio.mesh.v1alpha1)
+- [Envoy / Configuration / Observability / Access Log](https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage)
+
+:::
+
+```yaml title="istiod-values.yaml"
+meshConfig:
+  extensionProviders:
+    - name: jsonlogger
+      envoyFileAccessLog:
+        path: /dev/stdout
+        logFormat:
+          labels: {}
+        omitEmptyValues: true
+```
+
+- `extensionProviders: []`
+  - `name: <name>`
+  - `envoyFileAccessLog`
+    - `path: /dev/stderr|/dev/stdout`
+    - `logFormat`
+      - `text: <format>`
+      - `labels`
+        - `key: <value>`
+        - `{}`로 설정하면 기본 포맷이 적용됩니다.
+    - `omitEmptyValues: true|false`
+- `defaultProviders`
+  - `accessLogging: [<provider>]`
+
+## Envoy에 provider 적용하기
+
+:::info[References]
+
+- [Istio / Tasks / Observability / Access Logs](https://istio.io/latest/docs/tasks/observability/logs/access-log/)
+- [Istio / Configuration / Telemetry](https://istio.io/latest/docs/reference/config/telemetry/)
+
+:::
+
+```yaml
+apiVersion: telemetry.istio.io/v1
+kind: Telemetry
+spec:
+  accessLogging:
+    - providers:
+        - name: jsonlogger
+      filter:
+        expression: response.code >= 500
+```
+
+- `providers: []`
+  - `name: <extensionProvider>`
+    - 기본 ExtensionProvider로 `envoy`가 제공됩니다.
+- `filter`
+  - `expression: <CELExpression>`
+    - e.g. `response.code >= 500`

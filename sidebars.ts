@@ -1131,7 +1131,7 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Telemetry",
-					items: ["mlops/network/istio/telemetry/opentelemetry"],
+					items: ["mlops/network/istio/telemetry/accesslog", "mlops/network/istio/telemetry/opentelemetry"],
 				},
 				"mlops/network/istio/kiali",
 				"mlops/network/istio/jaeger",
