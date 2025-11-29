@@ -121,11 +121,14 @@ metadata:
   name: <serviceName>
   namespace: <namespace>
 spec:
+  clusterIP: None
   ports:
     - name: <portName>
       port: <port>
       targetPort: <targetPort>
 ```
+
+`clusterIP: None`으로 설정하면 DNS 조회 시 ClusterIP 대신 EndpointSlice에 등록된 Pod IP 목록을 반환합니다.
 
 - [EndpointSlices](https://kubernetes.io/docs/concepts/services-networking/endpoint-slices/)
 
@@ -146,13 +149,28 @@ ports:
 endpoints:
   - addresses:
       - <IP>
+    conditions:
+      ready: true
+  - addresses:
+      - <IP>
+    targetRef:
+      kind: Pod
+      name: <podName>
+    conditions:
+      ready: true
 ```
 
 - `addressType: <addressType>`: IPv4, IPv6, FQDN
-- `ports`
+- `ports: []`
   - `appProtocol: <appProtocol>`
     - 어떤 프로토콜을 쓰는지에 대한 힌트입니다.
-- `endpoints`
+- `endpoints: []`
+  - `addresses: [<IP>]`
+  - `targetRef`
+    - `apiVersion: <apiVersion>`
+    - `kind: <kind>`
+    - `name: <name>`
+    - `namespace: <namespace>`
   - `conditions`
     - `ready: <bool>`: Pod의 Ready와 매핑되는 값으로 외부 주소를 설정한 경우 직접 `true`로 설정해야 합니다.
 
