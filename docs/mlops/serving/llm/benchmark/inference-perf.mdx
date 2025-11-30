@@ -189,3 +189,23 @@ report:
 ```
 
 ### 저장소 설정 (`storage`)
+
+- 공통
+  - `path: <path>`
+    - 설정하지 않으면 `f"reports-{datetime.now().strftime('%Y%m%d-%H%M%S')}"`이 기본값으로 사용됩니다.
+  - `report_file_prefix: <prefix>`
+- `local_storage`
+  - `<path>/[<prefix>]<filename>` 에 결과를 저장합니다.
+  - 기본값입니다.
+- `google_cloud_storage`
+  - `gs://<bucket>/<path>/[<prefix>]<filename>` 에 결과를 저장합니다.
+  - `bucket_name: <bucket>`
+- `simple_storage_service`
+  - `s3://<bucket>/<path>/[<prefix>]<filename>` 에 결과를 저장합니다.
+  - `bucket_name: <bucket>`
+
+```yaml
+storage:
+  local_storage:
+    path: reports
+```

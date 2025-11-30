@@ -29,6 +29,14 @@ helm show values oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 
 ```yaml title="whereabouts-values.yaml"
 fullnameOverride: "whereabouts"
 
+resources:
+  requests:
+    cpu: "100m"
+    memory: "50Mi"
+  limits:
+    cpu: "100m"
+    memory: "200Mi"
+
 nodeSliceController:
   # Experimental
   enabled: false
