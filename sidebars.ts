@@ -558,6 +558,11 @@ const sidebars: SidebarsConfig = {
 					label: "k0s",
 					items: ["mlops/kubernetes/cluster/k0s/k0s", "mlops/kubernetes/cluster/k0s/cri"],
 				},
+				{
+					type: "category",
+					label: "kind",
+					items: ["mlops/kubernetes/cluster/kind/kind"],
+				},
 			],
 		},
 		{
@@ -580,6 +585,7 @@ const sidebars: SidebarsConfig = {
 			label: "Workloads",
 			items: [
 				"mlops/kubernetes/workloads/pod-lifecycle",
+				"mlops/kubernetes/workloads/initcontainer",
 				"mlops/kubernetes/workloads/deployment",
 				"mlops/kubernetes/workloads/statefulset",
 				"mlops/kubernetes/workloads/horizontalpodautoscaler",
@@ -615,6 +621,7 @@ const sidebars: SidebarsConfig = {
 				"mlops/kubernetes/configuration/configmap",
 				"mlops/kubernetes/configuration/secret",
 				"mlops/kubernetes/configuration/replicator",
+				"mlops/kubernetes/configuration/reloader",
 			],
 		},
 		{

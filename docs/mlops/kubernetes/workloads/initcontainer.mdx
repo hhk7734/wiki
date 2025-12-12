@@ -1,0 +1,46 @@
+---
+id: initcontainer
+title: Kubernetes Init/Sidecar Container
+sidebar_label: Init/Sidecar Container
+description: Kubernetes Init/Sidecar Container
+keywords:
+  - kubernetes
+  - init
+  - sidecar
+  - container
+---
+
+## Init Container
+
+:::info[References]
+
+- [Kubernetes / Concepts / Workloads / Pods / Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+
+:::
+
+## Sidecar Container
+
+:::info[References]
+
+- [Kubernetes / Concepts / Workloads / Pods / Sidecar Containers](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/)
+
+:::
+
+Sidecar container는 [init container](#init-container)의 특수한 케이스로 Pod이 시작된 후 계속 실행중으로 유지되는 container입니다. v1.29에서 `SidecarContainers` feature gate를 통해 기본으로 활성화되어 있으며, v1.33부터 stable 기능으로 제공됩니다.
+
+아래와 같이 `pod.spec.initContainers.restartPolicy`를 Always로 설정하면 sidecar container로 동작합니다.
+
+```yaml
+apiVersion: v1
+kind: Pod
+spec:
+  initContainers:
+    - name: sidecar
+      restartPolicy: Always
+```
+
+특징은 다음과 같습니다.
+
+- main container에 영향을 주지 않으면서 시작, 정지, 재시작, 변경이 가능합니다.
+- sidecar container가 실행중이되어야 다음 init container를 시작합니다.
+- main container가 모두 종료되어야 선언된 순서의 역순으로 sidecar container가 종료됩니다.

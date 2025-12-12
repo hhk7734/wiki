@@ -1,0 +1,87 @@
+---
+id: reloader
+title: Reloader로 ConfigMap, Secret 변경 시 Workload 재시작하기
+sidebar_label: Reloader
+description: Reloader로 ConfigMap, Secret 변경 시 Workload 재시작하기
+keywords:
+  - reloader
+  - kubernetes
+  - configuration
+---
+
+## 설치
+
+:::info[References]
+
+- [Reloader GitHub # Installation](https://github.com/stakater/Reloader?tab=readme-ov-file#-installation)
+
+:::
+
+```shell
+helm repo add stakater https://stakater.github.io/stakater-charts
+```
+
+```shell
+helm repo update stakater \
+&& helm search repo stakater/reloader | head -n 10
+```
+
+```shell
+helm pull stakater/reloader --version 2.2.6
+```
+
+```shell
+helm show values stakater/reloader --version 2.2.6 > reloader-2.2.6.yaml
+```
+
+```yaml title="reloader-values.yaml"
+fullnameOverride: ""
+```
+
+```shell
+helm template reloader stakater/reloader \
+    --version 2.2.6 \
+    -n reloader \
+    -f reloader-values.yaml \
+    > reloader-2.2.6.yaml
+```
+
+```shell
+helm upgrade -i reloader stakater/reloader \
+    --history-max 5 \
+    --create-namespace \
+    --version 2.2.6 \
+    -n reloader \
+    -f reloader-values.yaml
+```
+
+## 사용법
+
+:::info[References]
+
+- [Reloader GitHub # Usage](https://github.com/stakater/Reloader?tab=readme-ov-file#-usage)
+
+:::
+
+### ConfigMap, Secret 자동 감지
+
+```yaml
+metadata:
+  annotations:
+    reloader.stakater.com/auto: "true"
+```
+
+- `reloader.stakater.com/auto: "true"`: Workload가 참조하는 ConfigMap, Secret 변경 시 재시작
+- `secret.reloader.stakater.com/auto: "true"`: Workload가 참조하는 Secret 변경 시 재시작
+- `configmap.reloader.stakater.com/auto: "true"`: Workload가 참조하는 ConfigMap 변경 시 재시작
+
+### 특정 ConfigMap, Secret 감지
+
+```yaml
+metadata:
+  annotations:
+    secret.reloader.stakater.com/reload: "my-secret"
+```
+
+- `secret.reloader.stakater.com/reload: "<secretName>[,<secretName>...]"`: 특정 Secret 변경 시 재시작
+- `configmap.reloader.stakater.com/reload: "<configMapName>[,<configMapName>...]"`: 특정 ConfigMap 변경 시 재시작

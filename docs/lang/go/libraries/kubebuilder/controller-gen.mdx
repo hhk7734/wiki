@@ -10,23 +10,38 @@ keywords:
 
 ## controller-gen
 
+:::info[References]
+
 - [controller-gen](https://book.kubebuilder.io/reference/controller-gen)
+
+:::
 
 ```shell
 controller-gen [<option>]
 ```
 
 - `<option>`
+  - `<generator>[:<option>[,<option>]]`
+    - webhook
+    - schemapatch
+    - [rbac](#rbac-생성)
+    - [object](#objectdeepcopy-코드-생성)
+    - [crd](#crd-생성)
   - `output:<generator>:<rule>`
-    - `artifacts:<option>`
-      - `config=<path>`: 파일이 생성될 디렉토리 경로 설정입니다.
+    - `<rule>`
+      - `artifacts:<option>`
+        - `config=<path>`: 파일이 생성될 디렉토리 경로 설정입니다.
   - `output:<rule>`: `output:<generator>:<rule>` 설정이 없으면 사용하는 전역 설정입니다.
 
 ## CRD 생성
 
-- [kubebuilder CRD Generation](https://book.kubebuilder.io/reference/markers/crd)
+:::info[References]
 
-<br />
+- [kubebuilder / CRD Generation](https://book.kubebuilder.io/reference/markers/crd)
+- [kubebuilder / CRD Validation](https://book.kubebuilder.io/reference/markers/crd-validation)
+- [kubebuilder / CRD Processing](https://book.kubebuilder.io/reference/markers/crd-processing)
+
+:::
 
 - `package` 주석
   - `// +groupName=<group>`
@@ -42,9 +57,11 @@ controller-gen paths=./... \
 
 ## RBAC 생성
 
+:::info[References]
+
 - [kubebuilder RBAC Generation](https://book.kubebuilder.io/reference/markers/rbac)
 
-<br />
+:::
 
 - `package` 주석
   - `// +kubebuilder:rbac:<option>[,<option>]`
@@ -62,9 +79,11 @@ controller-gen paths=./... \
 
 ## Object/DeepCopy 코드 생성
 
+:::info[References]
+
 - [kubebuilder Object/DeepCopy](https://book.kubebuilder.io/reference/markers/object)
 
-<br />
+:::
 
 - `package` 주석
   - `// +kubebuilder:object:generate=<bool>`: package에 존재하는 모든 `type`에 `DeepCopy` 관련 메서드 생성 여부입니다.

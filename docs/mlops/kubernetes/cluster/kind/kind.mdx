@@ -1,0 +1,44 @@
+---
+id: kind
+title: kind 클러스터 생성 가이드
+sidebar_label: 클러스터 생성 가이드
+description: kind 클러스터 생성 가이드
+keywords:
+  - kind
+  - kubernetes
+  - cluster
+---
+
+## 설치
+
+:::info[References]
+
+- [mise로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/version/mise.mdx#버전-관리)
+
+:::
+
+```shell
+mise use kind
+```
+
+## 클러스터 생성
+
+```shell
+kind create cluster [<flags>]
+```
+
+- `--name <clusterName>`
+- `--config <configFilePath>`
+
+```yaml title="config.yaml"
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+```
+
+## 클러스터 삭제
+
+```shell
+kind delete cluster [<flags>]
+```
+
+- `--name <clusterName>`
