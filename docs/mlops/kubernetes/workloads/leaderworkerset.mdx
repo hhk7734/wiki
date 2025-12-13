@@ -1,0 +1,63 @@
+---
+id: leaderworkerset
+title: Kubernetes LeaderWorkerSet 사용 가이드
+sidebar_label: LeaderWorkerSet 사용 가이드
+description: Kubernetes LeaderWorkerSet 사용 가이드
+keywords:
+  - kubernetes
+  - leaderworkerset
+---
+
+## 설치
+
+:::info[References]
+
+- [LeaderWorkerSet / Installation](https://lws.sigs.k8s.io/docs/installation/)
+
+:::
+
+```shell
+helm pull oci://registry.k8s.io/lws/charts/lws --version 0.7.0
+```
+
+```shell
+helm show values oci://registry.k8s.io/lws/charts/lws --version 0.7.0 \
+    > lws-0.7.0.yaml
+```
+
+```shell
+helm template lws oci://registry.k8s.io/lws/charts/lws \
+    --version 0.7.0 \
+    -n lws-system \
+    > lws.yaml
+```
+
+```shell
+helm upgrade -i lws oci://registry.k8s.io/lws/charts/lws \
+    --history-max 5 \
+    --create-namespace \
+    --version 0.7.0 \
+    -n lws-system
+```
+
+## LeaderWorkerSet
+
+```yaml
+apiVersion: leaderworkerset.x-k8s.io/v1
+kind: LeaderWorkerSet
+spec:
+  replicas: 1
+  leaderWorkerTemplate:
+    size: 2
+    leaderTemplate:
+      spec: {}
+    workerTemplate:
+      spec: {}
+```
+
+- `startupPolicy: LeaderCreated|LeaderReady`
+  - 기본값: `LeaderCreated`
+- `leaderWorkerTemplate`
+  - `restartPolicy: RecreateGroupOnPodRestart|None`
+    - 기본값: `RecreateGroupOnPodRestart`
+    - `None`: Failed pod만 재시작합니다.
