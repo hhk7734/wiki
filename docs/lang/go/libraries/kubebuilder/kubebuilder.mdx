@@ -8,6 +8,9 @@ keywords:
   - operator
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
 
 - [mise로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/version/mise.mdx#버전-관리)
@@ -32,11 +35,144 @@ kubebuilder init --domain <domain>
 
 ## API 생성
 
+```yaml
+apiVersion: <group>.<domain>/<version>
+kind: <kind>
+metadata:
+  # ...
+spec:
+  # ...
+```
+
+위와같은 형식의 Kubernetes API를 생성하려면 다음과 같이 진행하면 됩니다.
+
+<Tabs
+    defaultValue="kubebuilder"
+    values={[
+        {label: 'Kubebuilder', value: 'kubebuilder',},
+        {label: 'Manual', value: 'manual',}
+    ]}
+>
+
+<TabItem value="kubebuilder">
+
 ```shell
 kubebuilder create api --group <group> --version <version> --kind <kind>
 ```
 
-```yaml
-apiVersion: <group>.<domain>/<version>
-kind: <kind>
+- `--resource`
+  - `api/<version>/<kind>_types.go` 파일을 생성합니다.
+- `--controller`
+  - `internal/controller/<kind>_controller.go` 파일을 생성합니다.
+  - `cmd/main.go` 파일에 컨트롤러를 등록합니다.
+
+</TabItem>
+
+<TabItem value="manual">
+
+`loliot.net` domain, `test` group, `v1alpha1` version, `Test` kind API를 수동으로 생성하는 예제입니다.
+
+```go title="api/v1alpha1/test_types.go"
+package v1alpha1
+
+import (
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+)
+
+// +kubebuilder:object:root=true
+// +kubebuilder:subresource:status
+
+// Test is the Schema for the test API
+type Test struct {
+	metav1.TypeMeta `json:",inline"`
+
+	// metadata is a standard object metadata
+	// +optional
+	metav1.ObjectMeta `json:"metadata,omitzero"`
+
+	// spec defines the desired state of Test
+	// +required
+	Spec TestSpec `json:"spec"`
+
+	// status defines the observed state of Test
+	// +optional
+	Status TestStatus `json:"status,omitzero"`
+}
+
+// +kubebuilder:object:root=true
+
+// TestList contains a list of Test
+type TestList struct {
+	metav1.TypeMeta `json:",inline"`
+	metav1.ListMeta `json:"metadata,omitzero"`
+	Items           []Test `json:"items"`
+}
+
+// TestSpec defines the desired state of Test
+type TestSpec struct {}
+
+// TestStatus defines the observed state of Test.
+type TestStatus struct {
+	// Conditions represent the latest available observations of an object's state.
+	// +listType=map
+	// +listMapKey=type
+	// +optional
+	Conditions []metav1.Condition `json:"conditions,omitempty"`
+}
+
+func init() {
+	SchemeBuilder.Register(&Test{}, &TestList{})
+}
 ```
+
+```go title="internal/controller/test_controller.go"
+package controller
+
+import (
+	"context"
+
+	"k8s.io/apimachinery/pkg/runtime"
+	ctrl "sigs.k8s.io/controller-runtime"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	v1alpha1 "github.com/lol-iot/project/api/v1alpha1"
+)
+
+// TestReconciler reconciles a Test object
+type TestReconciler struct {
+	client.Client
+	Scheme *runtime.Scheme
+}
+
+// +kubebuilder:rbac:groups=test.loliot.net,resources=tests,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=test.loliot.net,resources=tests/status,verbs=get;update;patch
+// +kubebuilder:rbac:groups=test.loliot.net,resources=tests/finalizers,verbs=update
+
+// Reconcile is part of the main kubernetes reconciliation loop which aims to
+// move the current state of the cluster closer to the desired state.
+func (r *TestReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
+	return ctrl.Result{}, nil
+}
+
+// SetupWithManager sets up the controller with the Manager.
+func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
+	return ctrl.NewControllerManagedBy(mgr).
+		For(&v1alpha1.Test{}).
+		Named("test").
+		Complete(r)
+}
+```
+
+```go title="cmd/main.go"
+	if err := (&controller.TestReconciler{
+		Client: mgr.GetClient(),
+		Scheme: mgr.GetScheme(),
+	}).SetupWithManager(mgr); err != nil {
+		setupLog.Error(err, "unable to create controller", "controller", "Test")
+		os.Exit(1)
+	}
+```
+
+</TabItem>
+
+</Tabs>
