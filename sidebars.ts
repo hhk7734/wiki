@@ -353,7 +353,12 @@ const sidebars: SidebarsConfig = {
 				{
 					type: "category",
 					label: "Kubebuilder",
-					items: ["lang/go/libraries/kubebuilder/kubebuilder", "lang/go/libraries/kubebuilder/controller-gen"],
+					items: [
+						"lang/go/libraries/kubebuilder/kubebuilder",
+						"lang/go/libraries/kubebuilder/controller-gen",
+						"lang/go/libraries/kubebuilder/trigger",
+						"lang/go/libraries/kubebuilder/status",
+					],
 				},
 				{
 					type: "category",

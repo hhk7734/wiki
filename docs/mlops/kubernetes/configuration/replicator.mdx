@@ -24,25 +24,27 @@ helm repo update mittwald \
 ```
 
 ```shell
-helm pull mittwald/kubernetes-replicator --version 2.9.2
+helm pull mittwald/kubernetes-replicator --version 2.12.2
 ```
 
 ```shell
-helm show values mittwald/kubernetes-replicator --version 2.9.2 > kubernetes-replicator-2.9.2.yaml
+helm show values mittwald/kubernetes-replicator --version 2.12.2 \
+  > kubernetes-replicator-2.12.2.yaml
 ```
 
 ```shell
-helm template replicator kubernetes-replicator-2.9.2.tgz \
+helm template replicator mittwald/kubernetes-replicator \
+  --version 2.12.2 \
   -n replicator \
-  -f replicator-values.yaml \
   > replicator.yaml
 ```
 
 ```shell
-helm upgrade -i replicator kubernetes-replicator-2.9.2.tgz \
+helm upgrade -i replicator mittwald/kubernetes-replicator \
   --history-max 5 \
-  -n replicator \
-  -f replicator-values.yaml
+  --create-namespace \
+  --version 2.12.2 \
+  -n replicator
 ```
 
 ## Push 기반 복제
@@ -54,7 +56,7 @@ metadata:
     replicator.v1.mittwald.de/replicate-to-matching: "<labelSelector>[,<labelSelector>]"
 ```
 
-`namespaceSelector`, `labelSelector` 중 하나 또는 둘 다 사용할 수 있습니다.
+`namespaceSelector`, `labelSelector` 중 하나 또는 둘 다 사용할 수 있습니다. 둘 다 사용하는 경우 OR 조건으로 동작합니다.
 
 - `namespaceSelector`
   - 매칭되어야할 namespace입니다.

@@ -23,6 +23,13 @@ mise use kind
 
 ## 클러스터 생성
 
+:::info[References]
+
+- [kind / User Guide / Quick Start](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [kind / User Guide / Configuration](https://kind.sigs.k8s.io/docs/user/configuration/)
+
+:::
+
 ```shell
 kind create cluster [<flags>]
 ```
@@ -34,6 +41,11 @@ kind create cluster [<flags>]
 apiVersion: kind.x-k8s.io/v1alpha4
 kind: Cluster
 ```
+
+- `nodes`
+  - `role: control-plane|worker`
+  - `image: kindest/node:<version>[@sha256:<digest>]`
+    - [kind GitHub / Releases](https://github.com/kubernetes-sigs/kind/releases)
 
 ## 클러스터 삭제
 

@@ -1,0 +1,77 @@
+---
+id: trigger
+title: Reconciler Trigger 설정하기
+sidebar_label: Trigger 설정하기
+description: Kubernetes Reconciler Trigger 설정하기
+keywords:
+  - kubebuilder
+  - operator
+  - trigger
+---
+
+## SetupWithManager
+
+```go
+// SetupWithManager sets up the controller with the Manager.
+func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    b := ctrl.NewControllerManagedBy(mgr).Name("test")
+
+    // ...
+
+    return b.Complete(r)
+}
+```
+
+## `For` Resource 설정
+
+`For`는 controller가 관리해야하는 primary resource를 지정합니다. 일반적으로 Custom Resource가 사용되고, 하나만 등록 가능합니다. reconciler는 `For`로 등록된 resource에 대한 **생성, 업데이트, 삭제 이벤트를 감지**하여 트리거됩니다.
+
+```go
+    b = b.For(&v1alpha1.Test{})
+```
+
+## `Owns` Resource 설정
+
+`Owns`는 controller가 관리하는 secondary resource를 지정합니다. secondary resource를 생성하고 `controllerutil.SetControllerReference`를 사용하여 소유권을 설정하면, reconciler는 `Owns`로 등록된 resource에 대한 **생성, 업데이트, 삭제 이벤트를 감지**하여 트리거됩니다.
+
+```go
+    b = b.Owns(&appsv1.Deployment{})
+```
+
+OwnerReference가 설정된 secondary resource는 primary resource 삭제 시 함께 삭제됩니다.
+
+## `Watches` Resource 설정
+
+`Watches`는 controller가 생성하지는 않았지만 resource관리에 필요한 secondary resource를 지정합니다. reconciler는 `Watches`로 등록된 resource에 대한 **생성, 업데이트, 삭제 이벤트를 감지**하여 트리거됩니다.
+
+```go
+    b = b.Watches(&corev1.ConfigMap{}, handler.EnqueueRequestsFromMapFunc(func(ctx context.Context, obj client.Object) []reconcile.Request {
+            // 어떤 primary resource를 확인해야 하는지 찾는 로직 구현
+            return []reconcile.Request{}
+        }))
+```
+
+## predicate로 이벤트 필터링
+
+`For`, `Owns`, `Watches`로 등록된 resource에 대해 predicate를 사용하여 이벤트를 필터링할 수 있습니다.
+
+```go
+pred := predicate.Funcs{
+    CreateFunc: func(e event.CreateEvent) bool {
+        return true
+    },
+    UpdateFunc: func(e event.UpdateEvent) bool {
+        return true
+    },
+    DeleteFunc: func(e event.DeleteEvent) bool {
+        return true
+    },
+    GenericFunc: func(e event.GenericEvent) bool {
+        return true
+    },
+}
+```
+
+```go
+    b = b.Owns(&v1alpha1.Test{}, builder.WithPredicates(pred))
+```
