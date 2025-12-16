@@ -47,6 +47,7 @@ spec:
 위와같은 형식의 Kubernetes API를 생성하려면 다음과 같이 진행하면 됩니다.
 
 <Tabs
+	groupId="kubebuilder"
     defaultValue="kubebuilder"
     values={[
         {label: 'Kubebuilder', value: 'kubebuilder',},
@@ -172,6 +173,36 @@ func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
 		os.Exit(1)
 	}
 ```
+
+</TabItem>
+
+</Tabs>
+
+## Webhook 생성
+
+<Tabs
+	groupId="kubebuilder"
+	defaultValue="kubebuilder"
+	values={[
+		{label: 'Kubebuilder', value: 'kubebuilder',},
+		{label: 'Manual', value: 'manual',}
+	]}
+>
+
+<TabItem value="kubebuilder">
+
+```shell
+kubebuilder create webhook --group <group> --version <version> --kind <kind>
+```
+
+- `--defaulting`
+- `--defaulting-path <path>`
+- `--programmatic-validation`
+- `--validation-path <path>`
+
+</TabItem>
+
+<TabItem value="manual">
 
 </TabItem>
 

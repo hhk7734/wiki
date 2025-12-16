@@ -22,7 +22,7 @@ controller-gen [<option>]
 
 - `<option>`
   - `<generator>[:<option>[,<option>]]`
-    - webhook
+    - [webhook](#webhook-생성)
     - schemapatch
     - [rbac](#rbac-생성)
     - [object](#objectdeepcopy-코드-생성)
@@ -47,6 +47,13 @@ controller-gen [<option>]
   - `// +groupName=<group>`
 - `type` 주석
   - `// +kubebuilder:subresource:status`: `spec.versions.subresources.status` 생성 여부입니다.
+  - `// +kubebuilder:resource:<option>[,<option>]`
+    - `path=<path>`: CRD의 리소스 경로 설정으로 기본값은 type 의 소문자 복수형입니다.
+    - `singular=<name>`: CRD의 단수 이름 설정으로 기본값은 type의 소문자입니다.
+    - `shortName=<name>[;<name>]`: CRD의 짧은 이름 설정입니다.
+    - `scope=Namespaced|Cluster`: 기본값은 `Namespaced`입니다.
+    - `categories=<category>[;<category>]`: CRD의 카테고리 설정입니다.
+  - `// +kubebuilder:printcolumn:<option>[,<option>]`
 
 ```shell
 controller-gen paths=./... \
@@ -81,7 +88,7 @@ controller-gen paths=./... \
 
 :::info[References]
 
-- [kubebuilder Object/DeepCopy](https://book.kubebuilder.io/reference/markers/object)
+- [kubebuilder / Object/DeepCopy](https://book.kubebuilder.io/reference/markers/object)
 
 :::
 
@@ -96,5 +103,22 @@ controller-gen paths=./... object[:<option>[,<option>]]
 ```
 
 - `object:<option>`
+  - `headerFile=<path>`: 생성된 파일 상단에 추가할 내용을 포함한 파일 경로 설정입니다.
+  - `year=<year>`: headerFile의 `YEAR`을 `<year>`로 변경합니다.
+
+## Webhook 생성
+
+:::info[References]
+
+- [kubebuilder / Webhook](https://book.kubebuilder.io/reference/markers/webhook)
+
+:::
+
+```shell
+controller-gen paths=./... \
+  webhook[:<option>[,<option>]]  output:webhook:<rule>
+```
+
+- `webhook:<option>`
   - `headerFile=<path>`: 생성된 파일 상단에 추가할 내용을 포함한 파일 경로 설정입니다.
   - `year=<year>`: headerFile의 `YEAR`을 `<year>`로 변경합니다.
