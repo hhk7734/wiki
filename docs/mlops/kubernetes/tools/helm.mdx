@@ -184,40 +184,52 @@ helm rollback <releaseName> <revision> [flags]
 helm uninstall <releaseName> [flags]
 ```
 
-## Subcharts
+## Dependency 추가하기
 
-- https://helm.sh/docs/helm/helm_dependency/
-- https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+:::info[References]
 
-```shell
-<chartName>/
-├── charts/
-│   ├── <subchartName>/
-│   │   ├── Chart.yaml
-│   │   ├── LICENSE            # optional
-│   │   ├── README.md          # optional
-│   │   ├── values.yaml
-│   │   ├── values.schema.json # optional
-│   │   ├── charts/
-│   │   ├── crds/              # optional
-│   │   ├── templates/
-│   │   │   ├── NOTES.txt      # optional
-│   │   │   ├── _helpers.tpl   # optional
-│   │   │   └── ...
-│   │   └──
-│   └── ...
-└── ...
-```
+- [Helm / Commands / helm dependency](https://helm.sh/docs/helm/helm_dependency/)
+- [Helm / Chart Template Guide / Subcharts and Globals](https://helm.sh/docs/chart_template_guide/subcharts_and_globals/)
 
-```yaml title="<chartName>/Chart.yaml"
+:::
+
+추가하고자 하는 차트의 정보를 `<chartPath>/Chart.yaml` 파일의 `dependencies` 항목에 추가합니다.
+
+```yaml title="<chartPath>/Chart.yaml"
 dependencies:
-  - name: <subchartName>
-    version: <subchartVersion>
-    condition: <subchartName>.enabled
+  - name: <name>
+    version: <version>
+    repository: <repository>
+    condition: <name>.enabled
 ```
 
-```yaml title="<chartName>/values.yaml"
-<subchartName>:
+- `repository`
+  - `https://...`
+  - `file://...`
+  - `oci://...`
+
+추가한 차트가 application 타입인 경우 `<chartPath>/values.yaml` 파일에 `<name>` 항목을 추가하여 서브차트의 값을 설정할 수 있습니다.
+
+```yaml title="<chartPath>/values.yaml"
+global: {}
+
+<name>:
   enabled: true
   # subchart values
 ```
+
+```shell
+helm dependency update [<chartPath>]
+```
+
+`update` 명령어는 `Chart.yaml`파일을 바탕으로 `charts/` 디렉토리를 업데이트합니다.
+
+```shell
+helm dependency list [<chartPath>]
+```
+
+```shell
+helm dependency build [<chartPath>]
+```
+
+`build` 명령어는 `Chart.lock`파일을 바탕으로 `charts/` 디렉토리를 업데이트합니다.

@@ -322,7 +322,11 @@ const sidebars: SidebarsConfig = {
 			href: "https://github.com/hhk7734/zapx.go",
 		},
 		"lang/go/error",
-		"lang/go/test",
+		{
+			type: "category",
+			label: "Test",
+			items: ["lang/go/test/testify"],
+		},
 		"lang/go/context",
 		"lang/go/goroutine",
 		{
