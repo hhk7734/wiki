@@ -1,0 +1,76 @@
+---
+id: node-feature-rule
+title: NFD NodeFeatureRule을 활용한 Node 식별 가이드
+sidebar_label: NodeFeatureRule
+description: NFD NodeFeatureRule을 활용한 Node 식별 가이드
+keywords:
+  - node feature discovery
+  - NFD
+  - NodeFeatureRule
+---
+
+## Feature labels
+
+:::info[References]
+
+- [NFD / Usage / Feature labels](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/features.html)
+
+:::
+
+NFD worker는 각 Node의 feature를 감지하고, 감지된 feature를 master로 전송하는 DaemonSet입니다.
+
+master는 worker로부터 받은 feature를 `feature.node.kubernetes.io/<domain>-<feature>[.<element>]: <value>` 형식의 label로 Node에 추가합니다.
+
+## NodeFeatureRule
+
+:::info[References]
+
+- [NFD / Customization guide # NodeFeatureRule](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/customization-guide.html#nodefeaturerule-custom-resource)
+
+:::
+
+```yaml
+apiVersion: nfd.k8s-sigs.io/v1alpha1
+kind: NodeFeatureRule
+spec:
+  rules:
+    - name: <name>
+      labels:
+        <key>: <value>
+      matchFeatures:
+        - feature: <feature>
+          matchExpressions:
+            <element>:
+              op: <operator>
+              value: []
+```
+
+- `rules: []`
+  - `name`
+  - `labels`
+    - 조건을 만족하는 Node에 추가할 labels을 정의합니다.
+  - `labelsTemplate`
+    - Go template을 사용하여 `<key>=<value>` 형식의 labels을 정의합니다.
+    - 여러개인 경우 줄바꿈으로 구분합니다.
+  - `annotations`
+    - 조건을 만족하는 Node에 추가할 annotations를 정의합니다.
+  - `taints`
+    - 조건을 만족하는 Node에 추가할 taints를 정의합니다.
+    - [NFD 설치 가이드](/docs/mlops/device/node-feature-discovery/node-feature-discovery.mdx)의 `master.enableTaints`가 `true`로 설정된 경우에만 동작합니다.
+  - `extendedResources`
+  - `vars`
+    - `<key>: <value>` 형식으로 변수를 정의합니다.
+    - `rule.matched` feature의 `<element>`로 사용할 수 있습니다.
+  - `varsTemplate`
+  - `matchFeatures: []`
+    - feature를 조건으로 설정합니다.
+    - 여러개를 설정한 경우 AND 조건으로 동작합니다.
+    - [NFD / Customization guide # Available features](https://kubernetes-sigs.github.io/node-feature-discovery/stable/usage/customization-guide.html#available-features)
+    - `feature: <feature>`
+    - `matchExpressions`
+      - `<element>`
+        - `op: In|NotIn|InRegexp|Exists|DoesNotExist|IsTrue|IsFalse|Gt|Lt|GtLt`
+        - `value: [<string>]`
+  - `matchAny: []`
+    - OR 조건을 설정하기 위한 필드입니다.
+    - `matchFeatures: []`

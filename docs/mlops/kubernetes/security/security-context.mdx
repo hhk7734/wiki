@@ -35,6 +35,15 @@ SecurityContext는 Pod의
 - `capabilities`
   - [capability.h](https://github.com/torvalds/linux/blob/master/include/uapi/linux/capability.h)
     - `CAP_` 접두사로 시작되는 값과 `ALL`을 사용할 수 있습니다.
-    - `CAP_` 접두사는 생략해서 사용합니다. e.g., CAP_SYS_ADMIN -> SYS_ADMIN
+    - **`CAP_` 접두사는 생략해서 사용합니다. e.g., CAP_SYS_ADMIN -> SYS_ADMIN**
+    - `CAP_IPC_LOCK`
+      - 메모리 Swap out을 방지하고, Huge Page를 사용할 수 있습니다.
+      - I/O 지연 방지, 민감 정보 디스크 기록 방지 등에 사용됩니다.
+    - `CAP_NET_RAW`
+      - Raw 소켓을 생성/사용할 수 있습니다.
+      - 패킷 조작, 패킷 스니핑 등에 사용됩니다.
+    - `CAP_SYS_RAWIO`
+      - 하드웨어 자원에 직접적이 I/O 접근을 허용합니다.
+      - 메모리 직접 접근, 장치 제어 등에 사용됩니다.
   - `add: []`
   - `drop: []`

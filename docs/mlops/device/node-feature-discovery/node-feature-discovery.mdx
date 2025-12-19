@@ -1,8 +1,8 @@
 ---
 id: node-feature-discovery
-title: Node Feature Discovery(NFD)
+title: Node Feature Discovery(NFD) 설치 가이드
 sidebar_label: Node Feature Discovery
-description: Node Feature Discovery(NFD)
+description: Node Feature Discovery(NFD) 설치 가이드
 keywords:
   - node feature discovery
   - nfd
@@ -17,27 +17,22 @@ keywords:
 :::
 
 ```shell
-helm repo add nfd https://kubernetes-sigs.github.io/node-feature-discovery/charts
+helm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3
 ```
 
 ```shell
-helm repo update nfd \
-&& helm search repo nfd/node-feature-discovery -l | head -n 10
-```
-
-```shell
-helm pull nfd/node-feature-discovery --version 0.17.3
-```
-
-```shell
-helm show values nfd/node-feature-discovery --version 0.17.3 \
-  > node-feature-discovery-0.17.3.yaml
+helm show values oci://registry.k8s.io/nfd/charts/node-feature-discovery \
+  --version 0.18.3 \
+  > node-feature-discovery-0.18.3.yaml
 ```
 
 ```yaml title="node-feature-discovery-values.yaml"
 fullnameOverride: node-feature-discovery
 
 priorityClassName: system-node-critical
+
+master:
+  enableTaints: true
 
 worker:
   tolerations: []
@@ -64,17 +59,18 @@ worker:
           - 기본값인 경우 `feature.node.kubernetes.io/pci-<class-id>_<vendor-id>.present=true` 형식으로 label이 생성됩니다.
 
 ```shell
-helm template node-feature-discovery nfd/node-feature-discovery \
-  --version 0.17.3 \
+helm template nfd oci://registry.k8s.io/nfd/charts/node-feature-discovery \
+  --version 0.18.3 \
   -n node-feature-discovery \
   -f node-feature-discovery-values.yaml \
   > node-feature-discovery.yaml
 ```
 
 ```shell
-helm upgrade -i node-feature-discovery nfd/node-feature-discovery \
+helm upgrade -i nfd oci://registry.k8s.io/nfd/charts/node-feature-discovery \
   --history-max 5 \
-  --version 0.17.3 \
+  --create-namespace \
+  --version 0.18.3 \
   -n node-feature-discovery \
   -f node-feature-discovery-values.yaml
 ```

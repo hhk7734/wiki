@@ -271,7 +271,10 @@ const sidebars: SidebarsConfig = {
 		{
 			type: "category",
 			label: "Node Feature Discovery",
-			items: ["mlops/device/node-feature-discovery/node-feature-discovery"],
+			items: [
+				"mlops/device/node-feature-discovery/node-feature-discovery",
+				"mlops/device/node-feature-discovery/node-feature-rule",
+			],
 		},
 		{
 			type: "category",
