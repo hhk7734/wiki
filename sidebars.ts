@@ -327,8 +327,19 @@ const sidebars: SidebarsConfig = {
 		"lang/go/error",
 		{
 			type: "category",
-			label: "Test",
-			items: ["lang/go/test/testify"],
+			label: "Lint/Test",
+			items: [
+				{
+					type: "category",
+					label: "golangci-lint",
+					items: ["lang/go/lint-test/golangci-lint/lint"],
+				},
+				{
+					type: "category",
+					label: "Testify",
+					items: ["lang/go/lint-test/testify/testify"],
+				},
+			],
 		},
 		"lang/go/context",
 		"lang/go/goroutine",

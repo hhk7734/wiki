@@ -1,0 +1,46 @@
+---
+id: lint
+title: golangci-lint linter 설정 가이드
+sidebar_label: Linter 설정
+description: golangci-lint linter 설정 가이드
+keywords:
+  - golangci-lint
+  - linter
+---
+
+## 설정 파일
+
+:::info[References]
+
+- [golangci-lint / Configuration / File # `linters`](https://golangci-lint.run/docs/configuration/file/#linters-configuration)
+- [golangci-lint / Linters](https://golangci-lint.run/docs/linters/)
+
+:::
+
+```yaml title=".golangci.yml"
+version: "2"
+
+linters:
+  default: all
+
+  enable: []
+
+  disable: []
+
+  settings:
+    <linter>:
+      <option>: <value>
+
+  exclusions:
+    generated: lax
+```
+
+- `default: standard|all|none|fast`
+  - `all`: `disable`에 설정된 linter를 제외한 모든 linter를 활성화합니다.
+- `exclusions`
+  - `generated: strict|lax|disable`
+    - `lax`: 코드가 생성되었다거나 수정하지 말라는 주석이 포함된 파일을 무시합니다.
+  - `presets: []`
+  - `rules: []`
+  - `paths: []`
+  - `paths-except: []`
