@@ -200,20 +200,23 @@ dependencies:
   - name: <name>
     version: <version>
     repository: <repository>
-    condition: <name>.enabled
 ```
 
+- `alias: <name>`
+  - 같은 차트를 여러 번 추가하거나 values에서 `<name>` 대신 사용하고싶은 이름을 지정할 때 사용합니다.
 - `repository`
   - `https://...`
   - `file://...`
   - `oci://...`
+- `condition: <key>`
+  - 일반적으로 `<name>.enabled` 또는 `<alias>.enabled`을 사용합니다.
 
 추가한 차트가 application 타입인 경우 `<chartPath>/values.yaml` 파일에 `<name>` 항목을 추가하여 서브차트의 값을 설정할 수 있습니다.
 
 ```yaml title="<chartPath>/values.yaml"
 global: {}
 
-<name>:
+<name>: # <alias>:
   enabled: true
   # subchart values
 ```

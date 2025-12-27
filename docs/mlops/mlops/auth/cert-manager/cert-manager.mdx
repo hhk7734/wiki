@@ -16,20 +16,12 @@ keywords:
 :::
 
 ```shell
-helm repo add jetstack https://charts.jetstack.io
+helm pull oci://quay.io/jetstack/charts/cert-manager --version v1.18.4
 ```
 
 ```shell
-helm repo update jetstack \
-&& helm search repo jetstack/cert-manager -l | head -n 10
-```
-
-```shell
-helm pull jetstack/cert-manager --version v1.18.2
-```
-
-```shell
-helm show values jetstack/cert-manager --version v1.18.2 > cert-manager-v1.18.2.yaml
+helm show values oci://quay.io/jetstack/charts/cert-manager --version v1.18.4 \
+    > cert-manager-v1.18.4.yaml
 ```
 
 ```yaml title="cert-manager-values.yaml"
@@ -67,18 +59,18 @@ startupapicheck:
 - `enableCertificateOwnerRef: false`: 생성된 `Secret`의 `ownerReferences`에 `Certificate`를 추가할지 여부입니다.
 
 ```shell
-helm template cert-manager jetstack/cert-manager \
-    --version v1.18.2 \
+helm template cert-manager oci://quay.io/jetstack/charts/cert-manager \
+    --version v1.18.4 \
     -n cert-manager \
     -f cert-manager-values.yaml \
     > cert-manager.yaml
 ```
 
 ```shell
-helm upgrade -i cert-manager jetstack/cert-manager \
+helm upgrade -i cert-manager oci://quay.io/jetstack/charts/cert-manager \
     --history-max 5 \
     --create-namespace \
-    --version v1.18.2 \
+    --version v1.18.4 \
     -n cert-manager \
     -f cert-manager-values.yaml
 ```
@@ -92,7 +84,7 @@ helm upgrade -i cert-manager jetstack/cert-manager \
 :::
 
 ```shell
-kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.2/cert-manager.crds.yaml
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.18.4/cert-manager.crds.yaml
 ```
 
 ## 삭제
