@@ -24,6 +24,7 @@ keywords:
     - 253 자 이하로 설정합니다.
     - `<prefix>`
       - DNS 서브도메인을 사용합니다.
+      - prefix가 없으면 private으로 간주됩니다.
     - `<name>`
       - 63 자 이하로 설정합니다.
       - `[a-z0-9A-Z]`로 시작하고 끝나야 합니다.
@@ -37,7 +38,7 @@ keywords:
 - 여러개의 값을 가질 수 있는 속성에 대해서는 `<label>`를 타입+구분자+값으로, `<value>`는 true|false, enabled|disalbed 등을 사용하는 것이 좋습니다.
   - e.g., `node-role.kubernetes.io/control-plane=`, `node-role.kubernetes.io/storage=`
 
-## 권장 Labels
+### 권장 Labels
 
 :::info[References]
 
