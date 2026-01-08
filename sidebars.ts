@@ -267,7 +267,11 @@ const sidebars: SidebarsConfig = {
 		},
 	],
 	device: [
-		"mlops/device/cdi",
+		{
+			type: "category",
+			label: "Resource allocation",
+			items: ["mlops/device/allocation/cdi", "mlops/device/allocation/dra"],
+		},
 		{
 			type: "category",
 			label: "Node Feature Discovery",
