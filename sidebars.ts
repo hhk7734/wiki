@@ -1553,6 +1553,13 @@ const sidebars: SidebarsConfig = {
 		"mcu/sam/sam-sam4s2a-ioport",
 		"mcu/sam/sam-sam4s2a-adc",
 	],
+	scheduling: [
+		{
+			type: "category",
+			label: "Scheduler",
+			items: ["mlops/scheduling/scheduler/custom-scheduler"],
+		},
+	],
 	serving: [
 		{
 			type: "category",

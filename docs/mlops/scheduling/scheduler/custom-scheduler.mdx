@@ -1,0 +1,34 @@
+---
+id: custom-scheduler
+title: Kubernetes Custom Scheduler 가이드
+sidebar_label: Custom Scheduler
+description: Kubernetes Custom Scheduler 가이드
+keywords:
+  - kubernetes
+  - custom
+  - scheduler
+---
+
+## ScorePlugin
+
+:::info[References]
+
+- [Kubernetes GitHub / staging / src / k8s.io / kube-scheduler / framework / interface.go](https://github.com/kubernetes/kubernetes/blob/master/staging/src/k8s.io/kube-scheduler/framework/interface.go)
+
+:::
+
+```go
+// ScorePlugin is an interface that must be implemented by "Score" plugins to rank
+// nodes that passed the filtering phase. Plugins that implement ScorePlugin should
+// also implement SignPlugin to enable batching optimizations.
+type ScorePlugin interface {
+	Plugin
+	// Score is called on each filtered node. It must return success and an integer
+	// indicating the rank of the node. All scoring plugins must return success or
+	// the pod will be rejected.
+	Score(ctx context.Context, state CycleState, p *v1.Pod, nodeInfo NodeInfo) (int64, *Status)
+
+	// ScoreExtensions returns a ScoreExtensions interface if it implements one, or nil if does not.
+	ScoreExtensions() ScoreExtensions
+}
+```

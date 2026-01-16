@@ -1,12 +1,29 @@
 ---
 id: dra
-title: Dynamic Resource Allocation (DRA) in Kubernetes
+title: Kubernetes Dynamic Resource Allocation (DRA) 가이드
 sidebar_label: DRA
-description: Dynamic Resource Allocation (DRA) in Kubernetes
+description: Kubernetes Dynamic Resource Allocation (DRA) 가이드
 keywords:
   - Dynamic Resource Allocation
   - dra
   - kubernetes
 ---
 
-## Driver (kubelet plugin) for DRA
+## Node Agent for DRA
+
+node agent가 각 노드에서 실행되면
+
+1. DRA가 지원하는 디바이스를 검색해서 `ResourceSlice`를 생성합니다.
+
+```yaml
+apiVersion: resource.k8s.io/v1
+kind: ResourceSlice
+spec:
+  driver: <driverName>
+  nodeName: <nodeName>
+  devices:
+    - name: <deviceName>
+      driver: <driverName>
+      attributes:
+        attribute1: { intValue: 1 }
+```

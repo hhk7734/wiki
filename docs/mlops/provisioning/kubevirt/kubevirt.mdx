@@ -91,3 +91,33 @@ spec:
 ```shell
 kubectl krew install virt
 ```
+
+## 삭제
+
+### Containerized Data Importer (CDI)
+
+```shell
+for crd in $(kubectl get crd -o name | grep 'cdi.kubevirt.io'); do
+  kind=$(kubectl get "$crd" -o jsonpath='{.spec.names.plural}')
+  group=$(kubectl get "$crd" -o jsonpath='{.spec.group}')
+  kubectl delete "$kind.$group" --all --all-namespaces
+done
+```
+
+```shell
+kubectl delete -f https://github.com/kubevirt/containerized-data-importer/releases/download/v1.62.0/cdi-operator.yaml
+```
+
+### KubeVirt
+
+```shell
+for crd in $(kubectl get crd -o name | grep 'kubevirt.io'); do
+  kind=$(kubectl get "$crd" -o jsonpath='{.spec.names.plural}')
+  group=$(kubectl get "$crd" -o jsonpath='{.spec.group}')
+  kubectl delete "$kind.$group" --all --all-namespaces
+done
+```
+
+```shell
+kubectl delete -f https://github.com/kubevirt/kubevirt/releases/download/v1.6.0/kubevirt-operator.yaml
+```

@@ -18,6 +18,7 @@ export const navbar = {
 		MLOps: "mlops",
 		Kubernetes: "kubernetes",
 		Provisioning: "provisioning",
+		Scheduling: "scheduling",
 		Storage: "storage",
 		Network: "network",
 		Device: "device",
