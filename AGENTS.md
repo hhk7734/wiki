@@ -10,7 +10,9 @@
 
 ## Documentation guidelines
 
-- Metadata is located at the top of each MDX file.
+### Metadata
+
+Metadata is located at the top of each MDX file.
 
 ```mdx
 ---
@@ -23,10 +25,23 @@ keywords:
 ---
 ```
 
-- `<id>` must be same as the file name.
+- `<id>` must be same as the file name without extension.
+
+### Reference block
+
+```mdx
+:::info[References]
+
+- [<referenceTitle>](<referenceLink>)
+
+:::
+```
+
 - Links to other documentation pages must start with `/docs/` and end with `.mdx`. You may include anchors (`#<anchor>`) if needed.
+
+### Contents
+
 - Use Korean for the main content of the documentation.
 - Use English for code snippets, commands, and configuration files.
 - Use mermaid diagrams for flowcharts, architecture diagrams etc.
-- If references are needed, add a `:::info[References]` block at the start of the section.
-- Refer to the contents of the References block to improve the quality of the documentation.
+- Refer to the contents of the Reference block to improve the quality of the documentation.

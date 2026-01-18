@@ -1,0 +1,140 @@
+---
+id: helm
+title: Helm 명령어로 애플리케이션 배포하기
+sidebar_label: Helm으로 배포하기
+description: Helm 명령어로 애플리케이션 배포하기
+keywords:
+  - helm
+  - release
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+- [mise로 런타임 버전 관리하기](/docs/lang/etc/command-line-tools/version/mise.mdx#버전-관리)
+
+<Tabs
+    groupId="shell"
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',},
+    ]}
+>
+<TabItem value="zsh">
+
+```shell title="$HOME/.zshrc"
+source <(helm completion zsh)
+```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title="$HOME/.bashrc"
+source <(helm completion bash)
+```
+
+</TabItem>
+
+</Tabs>
+
+## Repository
+
+### 클라이언트에서 Repository 관리
+
+```shell
+helm repo add <repositoryName> <URL> [flags]
+```
+
+e.g., `helm repo add stable https://charts.helm.sh/stable`
+
+```shell
+helm repo list [flags]
+```
+
+```shell
+helm search repo <keyword> [flags]
+```
+
+- `-l`, `--versions`: 여러 버전을 표시합니다.
+
+```shell
+helm repo update [repositoryName1 [repositoryName2 ...]] [flags]
+```
+
+### Repository 서버
+
+e.g., https://github.com/lol-iot/helm-charts
+
+## Chart
+
+### 배포될 리소스 미리보기
+
+```shell
+helm template <releaseName> <repositoryName/chartName|chartPath> [flags]
+```
+
+### 리소스 배포
+
+```shell
+helm show values <repositoryName/chartName|chartPath> [flags]
+```
+
+```shell
+helm install <releaseName> <repositoryName/chartName|chartPath> [flags]
+```
+
+:::info
+`helm upgrade -i <releaseName> <repositoryName/chartName|chartPath> [flags]` 을 사용하면, 설치되어 있지 않은 경우 설치하고, 설치되어 있는 경우 업그레이드합니다.
+:::
+
+- `-f <path>`: 오버라이드 할 YAML 설정 파일
+- `--set <name>=<value>`: 오버라이드 할 설정
+
+```shell
+helm status <releaseName> [flags]
+```
+
+```shell
+helm test <releaseName> [flags]
+```
+
+### 배포 관리
+
+```shell
+helm list [flags]
+```
+
+- 설치된 릴리즈의 NAME, NAMESPACE, REVISION, UPDATED, STATUS, CHART, APP VERSION 표시
+- `-A|--all-namespaces`
+
+```shell
+helm upgrade <releaseName> <repositoryName/chartName|chartPath> [flags]
+```
+
+- `-i|--install`: 설치가 안되어 있으면 설치합니다.
+
+```shell
+helm get values <releaseName> [flags]
+```
+
+```shell
+helm get manifest <releaseName> [flags]
+```
+
+```shell
+helm history <releaseName> [flags]
+```
+
+```shell
+helm rollback <releaseName> <revision> [flags]
+```
+
+### 배포 삭제
+
+```shell
+helm uninstall <releaseName> [flags]
+```
