@@ -26,15 +26,19 @@ helm repo update nvidia \
 ```
 
 ```shell
-helm pull nvidia/gpu-operator --version v25.3.0
+helm pull nvidia/gpu-operator --version v25.10.1
 ```
 
 ```shell
-helm show values nvidia/gpu-operator --version v25.3.0 > gpu-operator-v25.3.0.yaml
+helm show values nvidia/gpu-operator --version v25.10.1 > gpu-operator-v25.10.1.yaml
 ```
 
-```yaml title="node/gpu-operator/helm/values.yaml"
+```yaml title="gpu-operator-values.yaml"
+# Node Feature Discovery
 nfd:
+  enabled: false
+
+cdi:
   enabled: true
 
 daemonsets:
@@ -45,6 +49,28 @@ driver:
 
 toolkit:
   enabled: true
+
+devicePlugin:
+  enabled: true
+
+dcgmExporter:
+  enabled: true
+
+# GPU Feature Discovery
+gfd:
+  enabled: false
+
+migManager:
+  enabled: false
+
+vgpuDeviceManager:
+  enabled: false
+
+vfioManager:
+  enabled: false
+
+sandboxDevicePlugin:
+  enabled: false
 ```
 
 - `driver`
@@ -57,7 +83,7 @@ toolkit:
 
 ```shell
 helm template gpu-operator nvidia/gpu-operator \
-  --version v25.3.0 \
+  --version v25.10.1 \
   -n nvidia-gpu \
   -f gpu-operator-values.yaml \
   > gpu-operator.yaml
@@ -66,7 +92,8 @@ helm template gpu-operator nvidia/gpu-operator \
 ```shell
 helm upgrade -i gpu-operator nvidia/gpu-operator \
   --history-max 5 \
-  --version v25.3.0 \
+  --create-namespace \
+  --version v25.10.1 \
   -n nvidia-gpu \
   -f gpu-operator-values.yaml
 ```

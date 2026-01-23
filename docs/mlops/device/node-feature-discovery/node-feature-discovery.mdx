@@ -38,6 +38,11 @@ worker:
   tolerations: []
 
   config: {}
+
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 20%
 ```
 
 - `worker`

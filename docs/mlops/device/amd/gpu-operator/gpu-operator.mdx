@@ -13,7 +13,7 @@ keywords:
 
 :::info[References]
 
-- [GPU Operator Docs / Installation / Helm](https://instinct.docs.amd.com/projects/gpu-operator/en/release-v1.3.1/installation/kubernetes-helm.html)
+- [GPU Operator Docs / Installation / Helm](https://instinct.docs.amd.com/projects/gpu-operator/en/release-v1.4.1/installation/kubernetes-helm.html)
 
 :::
 
@@ -33,11 +33,11 @@ helm repo update rocm \
 ```
 
 ```shell
-helm pull rocm/gpu-operator-charts --version v1.3.1
+helm pull rocm/gpu-operator-charts --version v1.4.1
 ```
 
 ```shell
-helm show values rocm/gpu-operator-charts --version v1.3.1 > gpu-operator-1.3.1.yaml
+helm show values rocm/gpu-operator-charts --version v1.4.1 > gpu-operator-1.4.1.yaml
 ```
 
 :::tip
@@ -49,11 +49,16 @@ device plugin 들이 [Node feature Discovery](/docs/mlops/device/node-feature-di
 ```yaml title="gpu-operator-values.yaml"
 node-feature-discovery:
   enabled: false
+
+crds:
+  defaultCR:
+    install: true
+    upgrade: false
 ```
 
 ```shell
 helm template gpu-operator rocm/gpu-operator-charts \
-    --version v1.3.1 \
+    --version v1.4.1 \
     -n amd-gpu \
     -f gpu-operator-values.yaml \
     > gpu-operator.yaml
@@ -63,7 +68,7 @@ helm template gpu-operator rocm/gpu-operator-charts \
 helm upgrade -i gpu-operator rocm/gpu-operator-charts \
     --history-max 5 \
     --create-namespace \
-    --version v1.3.1 \
+    --version v1.4.1 \
     -n amd-gpu \
     -f gpu-operator-values.yaml
 ```

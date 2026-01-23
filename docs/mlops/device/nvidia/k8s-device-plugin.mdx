@@ -17,7 +17,11 @@ keywords:
 
 ## 설치
 
-- https://github.com/NVIDIA/k8s-device-plugin
+:::info[References]
+
+- [k8s-device-plugin GitHub](https://github.com/NVIDIA/k8s-device-plugin)
+
+:::
 
 ```shell
 helm repo add nvdp https://nvidia.github.io/k8s-device-plugin
@@ -30,7 +34,7 @@ helm repo update nvdp \
 
 ```shell
 helm show values nvdp/nvidia-device-plugin \
-    --version 0.14.1 \
+    --version 0.18.0 \
     > nvidia-device-plugin-values.yaml
 ```
 
@@ -50,16 +54,16 @@ affinity:
 
 ```shell
 helm template nvidia-device-plugin nvdp/nvidia-device-plugin \
-    --version 0.14.1 \
-    -n provisioning \
+    --version 0.18.0 \
+    -n nvidia-device-plugin \
     -f nvidia-device-plugin-values.yaml \
     > nvidia-device-plugin.yaml
 ```
 
 ```shell
 helm upgrade -i nvidia-device-plugin nvdp/nvidia-device-plugin \
-    --version 0.14.1 \
+    --version 0.18.0 \
     --history-max 5 \
-    -n provisioning \
+    -n nvidia-device-plugin \
     -f nvidia-device-plugin-values.yaml
 ```
