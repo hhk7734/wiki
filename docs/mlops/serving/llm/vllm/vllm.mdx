@@ -9,9 +9,30 @@ keywords:
 
 ## vLLM 옵션
 
+:::info[References]
+
+- [vLLM / Configuration / Optimization and Tuning](https://docs.vllm.ai/en/stable/configuration/optimization/)
+
+:::
+
+- ModelConfig
+  - `--max-model-len <int>`
+    - prompt와 생성된 토큰을 포함한 최대 시퀀스 길이입니다.
+    - 설정하지 않으면 모델에 설정되어 있는 최대 길이를 사용합니다.
 - SchedulerConfig
   - `schedule` 함수를 실행하면 한 step에 처리할 요청들을 결정합니다.
   - `--max-num-seqs <int>`
     - 한 step에 처리할 수 있는 최대 요청 수 입니다.
+    - 기본값은 128입니다.
+    - 값이 높아지면 max throughput이 증가할 수 있지만, ITL도 증가할 수 있습니다.
   - `--max-num-batched-tokens <int>`
     - 한 step에 처리할 수 있는 최대 토큰 수입니다.
+    - 기본값은 2048입니다.
+    - 값이 작아지면(e.g. 2048) decode를 느리게 만드는 prefill이 감소하여 ITL이 감소할 수 있습니다.
+    - 값이 커지면 한 step에 처리할 수 있는 prefill이 증가하여 TTFT가 감소할 수 있습니다.
+    - 작은 모델을 큰 GPU에서 실행하는 경우 8192 이상으로 설정하는 것이 좋습니다.
+  - `--enable_chunked_prefill`
+    - chunked prefill을 활성화합니다.
+    - 기본값은 True입니다.
+    - chunked prefill이 활성화되면 scheduler는 prefill보다 deocde의 우선순위를 높게 설정합니다.
+    - batch에 decode를 채우고 남은 공간에 prefill을 채울 때 공간이 부족하면 prefill을 chunck로 나누어 처리합니다.

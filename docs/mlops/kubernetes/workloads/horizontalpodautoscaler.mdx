@@ -62,11 +62,7 @@ spec:
     - `name: cpu|memory`
     - `target`
       - `type: Utilization|Value|AverageValue`
-  - `external`
-    - [KEDA CRD 가이드](/docs/mlops/provisioning/keda//crd.mdx)
-    - `metric`
-    - `target`
-      - `type: Value|AverageValue`
+  - [`external`](#external-metric)
   - `object`
   - `pods`
 - `behavior`
@@ -90,6 +86,48 @@ spec:
       - `periodSeconds: <seconds>`
         - 정책이 선택되고 다음 정책이 선택되기까지의 시간입니다.
         - 1 ~ 1800 설정 가능합니다.
+
+### External metric
+
+:::info[References]
+
+- [Kubernetes / Tasks / Extend Kubernetes / Configure the Aggregation Layer](https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/)
+- [KEDA CRD 가이드](/docs/mlops/provisioning/keda/crd.mdx)
+
+:::
+
+```yaml
+spec:
+  metrics:
+    - type: External
+      external:
+        metric:
+          name: <metricName>
+          selector:
+            matchLabels:
+              <key>: <value>
+        target:
+          type: Value|AverageValue
+          value: <quantity>
+```
+
+HPA는 `External` 사용 시 `GET /apis/external.metrics.k8s.io/v1beta1/namespaces/<namespace>/<metricName>?labelSelector=<selector>`를 호출하여 `ExternalMetricValueList` 리소스를 JSON 형태로 받길 기대합니다.
+
+따라서 external metrics exporter는 아래와 같은 `APIService`를 통해 등록되어야 합니다.
+
+```yaml
+apiVersion: apiregistration.k8s.io/v1
+kind: APIService
+spec:
+  service:
+    name: <serviceName>
+    namespace: <namespace>
+    port: 443
+  group: external.metrics.k8s.io
+  version: v1beta1
+  groupPriorityMinimum: 100
+  versionPriority: 100
+```
 
 ### Algorithm
 

@@ -10,26 +10,41 @@ keywords:
   - trigger
 ---
 
-## triggers in CRD
+## 작동 방식
 
-### external
+KEDA는 KEDA operator (0 ↔ 1 스케일링)와 Kubernetes HPA (1 ↔ N 스케일링)를 활용한 2단계 접근 방식을 사용하여 scaleTargetRef (e.g., Deployment)를 스케일링합니다.
 
-```yaml
-spec:
-  triggers:
-    - type: external
-      metadata:
-        scalerAddress: <host>:<port>
-        # 설정을 위해 사용자 정의 데이터를 전달할 수 있습니다
-        # <customKey>: <value>
-```
+다음은 단계별 메커니즘입니다.
+
+1. 0에서 1로 스케일링 (활성화); KEDA operator는 scaleTargetRef를 "깨우는" 역할을 합니다.
+   - **Loop**: KEDA는 정기적으로 외부 스케일러의 `IsActive` RPC 메서드를 폴링합니다.
+   - **Logic**:
+     - `IsActive`가 true를 반환하면: KEDA는 scaleTargetRef를 minReplicaCount (기본값 1)로 스케일링합니다.
+     - `IsActive`가 (쿨다운 기간 동안) false를 반환하면: KEDA는 scaleTargetRef를 0으로 스케일링합니다.
+
+2. 1에서 N으로 스케일링 (HPA); scaleTargetRef가 활성화되면 (replicas > 0), KEDA는 스케일링을 처리하기 위해 표준 Kubernetes HPA 리소스를 생성합니다.
+   - **Setup**: KEDA는 HPA 규칙을 정의하기 위해 스케일러의 `GetMetricSpec` RPC를 호출합니다 (e.g., `TargetSize: 10`).
+   - **Loop**: Kubernetes HPA 컨트롤러는 KEDA metrics server를 폴링합니다.
+   - **Data flow**:
+     1. HPA는 KEDA metrics server에 질문합니다.
+     2. KEDA metrics server는 스케일러의 `GetMetrics` RPC를 호출합니다.
+     3. 스케일러는 현재 값을 반환합니다 (e.g., 50).
+     4. HPA는 표준 공식을 사용하여 desiredReplicas를 계산합니다. [Kubernetes HPA # Algorithm](/docs/mlops/kubernetes/workloads/horizontalpodautoscaler#algorithm)
+
+$$
+\text{desiredReplicas} = \lceil \text{currentReplicas} \times \frac{\text{currentMetricValue}}{\text{desiredMetricValue}} \rceil
+$$
 
 ## Scaler 서비스 구현
 
-- https://keda.sh/docs/2.10/concepts/external-scalers/
+:::info[References]
+
+- [KEDA / Concepts / External Scalers](https://keda.sh/docs/2.18/concepts/external-scalers/)
 - [gRPC](/docs/lang/go/libraries/grpc/grpc.mdx)
 
-구현 내용은 아래와 같은 디렉토리 구조가 나오도록 진행됩니다.
+:::
+
+아래와 같은 구조의 프로젝트를 생성합니다.
 
 ```shell
 <externalscaler>
@@ -154,4 +169,16 @@ func main() {
 	if err := grpcServer.Serve(lis); err != nil {
 	}
 }
+```
+
+## CRD에 External scaler 설정하기
+
+```yaml
+spec:
+  triggers:
+    - type: external
+      metadata:
+        scalerAddress: <host>:<port>
+        # External scaler에 전달할 메타데이터
+        # <customKey>: <value>
 ```
