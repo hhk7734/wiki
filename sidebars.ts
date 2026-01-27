@@ -343,6 +343,11 @@ const sidebars: SidebarsConfig = {
 					label: "Testify",
 					items: ["lang/go/lint-test/testify/testify"],
 				},
+				{
+					type: "category",
+					label: "Ginkgo",
+					items: ["lang/go/lint-test/ginkgo/ginkgo"],
+				},
 			],
 		},
 		"lang/go/context",
