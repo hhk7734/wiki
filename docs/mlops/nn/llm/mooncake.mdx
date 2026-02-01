@@ -30,12 +30,18 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 Mooncake는 다음 Service Level Objectives (SLOs)를 고려하여 디자인되었습니다.
 
 - Time To First Token (TTFT)
-- Time Between Tokens (TBT)
+- Time Between Tokens (TBT) == Inter-Token Latency (ITL)
 
 이를 만족시키기 위해
 
 - Prefill Pool은 KV cache를 최대한 재활용하여 각 요청에 대한 컴퓨팅 시간을 단축해야 합니다.
 - Decode Pool은 각 배치의 토큰 수를 최대한 늘려서 Model FLOPs Utilization (MFU)를 높여야 합니다.
+
+**Conductor**는 이 분산된 컴포넌트들을 조율하는 글로벌 스케줄러입니다.
+
+- **Request Dispatching**: 현재 KVCache와 워크로드의 분포를 기반으로 prefill/decode 인스턴스 쌍을 선택하여 요청을 분배합니다.
+- **KVCache Management**: KVCache 블록의 미래 사용량을 예측하여 복제(replicate) 및 스왑(swap)을 수행합니다. 가장 자주 사용되는 블록(hottest)은 혼잡을 피하기 위해 여러 노드에 복제하고, 덜 사용되는 블록(coldest)은 비용 절감을 위해 swap out 합니다.
+- **Overload Handling**: 시스템 부하가 높을 때, prefill 단계를 마친 후 디코딩 슬롯이 없을 것으로 예상되면 낭비를 막기 위해 요청을 조기 거절(early rejection)하는 역할도 수행합니다.
 
 ## Overview of Mooncake's Disaggregated Architecture
 
@@ -65,21 +71,81 @@ CPU DRAM의 KV cache pool은
 - Least Recently Used (LRU), Least Frequently Used (LFU) 등 요청 패턴에 따라 block을 축출합니다.
 - GPU 연산과 KV cache pool 관리는 병렬로 수행됩니다.
 
-요청이 들어왔을 때 작업 과정은 아래와 같습니다.
+## KVCache-centric Scheduling
 
-- 요청을 토큰화 합니다.
-- Conductor에서 PD instance를 선택하여 라우팅합니다.
-  - block ID를 계산하여 prefix cache hit 정보를 수집합니다.
-  - prefix cache 전송시간, prefill 시간, 큐 대기시간 등을 고려합니다.
-  - 모든 정보를 고려했을 때 SLOs를 만족시키기 어렵다고 판단하면 요청을 거절합니다.
-- Prefill instance에서 KV cache를 생성합니다.
-  - 토큰들과 block ID들을 요청으로 받습니다.
-  - block ID를 바탕으로 prefix cache를 KV cache pool에서 GPU HBM으로 전송합니다.
-  - KV cache를 생성합니다.
-  - 동시에 KV cache pool에 저장하면서, Messenger가 KV cache를 chunk 단위로 Decode instance로 전송합니다. (chunk size >= 1000)
-- Decode instance에서 토큰을 생성합니다.
-  - 요청을 continuous batching 방식으로 다음 배치에 추가합니다. 이 떄, 로컬 스케줄러가 TBT SLO를 만족할지 한 번 더 확인합니다.
-  - 토큰을 생성합니다.
+Mooncake는 단순히 부하 분산(load balancing)을 하는 것을 넘어서, prefix cache aware 와 load aware 스케줄링을 수행합니다.
+
+```mermaid
+sequenceDiagram
+  autonumber
+
+  participant Client
+  participant Conductor
+  participant Pools
+
+  box rgba(40, 25, 25, 0.5) Prefiller
+    participant Prefiller
+    participant P_Pool
+  end
+
+  box rgba(20, 25, 40, 0.5) Decoder
+    participant Decoder
+    participant D_Pool
+  end
+
+  Client ->> Conductor: Request
+  Conductor ->> Conductor: Calculate Prefix Hashes / Block IDs
+  Conductor ->> Conductor: Query Global Prefix Tree (Locality)
+
+  rect rgba(35, 70, 45, 0.5)
+    Note over Conductor: Algorithm 1 Cost Estimation
+    Conductor ->> Conductor: Estimate Prefill Queue wait
+    Conductor ->> Conductor: Estimate Prefill TTFT
+    Conductor ->> Conductor: Estimate Transfer Latency
+    Conductor ->> Conductor: Estimate Decode ITL
+    Conductor ->> Conductor: Select Instance Pair
+  end
+
+  alt SLO Violation
+    Conductor -->> Client: Early Rejection
+  end
+
+  alt Proactive Retrieval
+    Conductor ->> P_Pool: Migrate Hot-spot
+    P_Pool ->> Pools: Fetch Prefix Cache
+    Pools -->> P_Pool: KV cache
+  end
+
+  Conductor ->> Prefiller: Tokens + Metadata
+  Conductor ->> Decoder: Reserve Decoding Slot
+
+  Prefiller ->> P_Pool: Fetch Prefix Cache
+
+  P_Pool -->> Prefiller: KV cache
+
+  Prefiller ->> Prefiller: Prefill
+
+  par Stream KV Cache
+    Prefiller ->> P_Pool: Send KV Cache
+    P_Pool ->> D_Pool: Send KV Cache
+  end
+
+  Prefiller -->> Conductor: Response
+
+  rect rgba(35, 70, 45, 0.5)
+    Conductor ->> Conductor: Estimate Decode ITL
+  end
+  alt SLO Violation
+    Conductor -->> Client: Early Rejection
+  end
+
+  Conductor ->> Decoder: Tokens + Metadata
+  Decoder ->> D_Pool: Fetch Prefix Cache
+  D_Pool -->> Decoder: KV cache
+  loop
+    Decoder ->> Client: Stream Generated Token
+  end
+```
 
 ## Sampled Real-wrold Request Trace
 
