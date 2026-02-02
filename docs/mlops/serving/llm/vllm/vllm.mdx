@@ -31,8 +31,8 @@ keywords:
     - 값이 작아지면(e.g. 2048) decode를 느리게 만드는 prefill이 감소하여 ITL이 감소할 수 있습니다.
     - 값이 커지면 한 step에 처리할 수 있는 prefill이 증가하여 TTFT가 감소할 수 있습니다.
     - 작은 모델을 큰 GPU에서 실행하는 경우 8192 이상으로 설정하는 것이 좋습니다.
-  - `--enable_chunked_prefill`
-    - chunked prefill을 활성화합니다.
-    - 기본값은 True입니다.
-    - chunked prefill이 활성화되면 scheduler는 prefill보다 deocde의 우선순위를 높게 설정합니다.
-    - batch에 decode를 채우고 남은 공간에 prefill을 채울 때 공간이 부족하면 prefill을 chunck로 나누어 처리합니다.
+  - `--enable-chunked-prefill`, `--no-enable-chunked-prefill`
+    - chunked prefill을 활성화/비활성화합니다.
+    - 기본값은 활성화입니다.
+    - chunked prefill이 활성화되면 scheduler는 prefill보다 decode의 우선순위를 높게 설정합니다.
+    - batch에 decode를 채우고 남은 공간에 prefill을 채울 때 공간이 부족하면 prefill을 chunk로 나누어 처리합니다.
