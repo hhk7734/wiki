@@ -35,6 +35,16 @@ $$
 \text{desiredReplicas} = \lceil \text{currentReplicas} \times \frac{\text{currentMetricValue}}{\text{desiredMetricValue}} \rceil
 $$
 
+- `desiredMetricValue` is `TargetSize`
+- If `metricType` is `AverageValue`:
+  $$
+  \text{currentMetricValue} = \frac{\text{metricValue}}{\text{currentReplicas}}
+  $$
+- If `metricType` is `Value`:
+  $$
+  \text{currentMetricValue} = \text{metricValue}
+  $$
+
 ## Scaler 서비스 구현
 
 :::info[References]
@@ -177,6 +187,7 @@ func main() {
 spec:
   triggers:
     - type: external
+      metricType: AverageValue
       metadata:
         scalerAddress: <host>:<port>
         # External scaler에 전달할 메타데이터
