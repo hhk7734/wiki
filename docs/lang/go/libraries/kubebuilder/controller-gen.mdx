@@ -47,6 +47,10 @@ controller-gen [<option>]
   - `// +groupName=<group>`
 - `type` 주석
   - `// +kubebuilder:subresource:status`: `spec.versions.subresources.status` 생성 여부입니다.
+  - `// +kubebuilder:subresource:scale:<option>[,<option>]`: `spec.versions.subresources.scale` 생성 여부입니다.
+    - `specpath=<path>`: replica 수를 결정하는 필드입니다. 주로 `spec.replicas`로 설정합니다.
+    - `statuspath=<path>`: 현재 replica 수를 나타내는 필드입니다. 주로 `status.replicas`로 설정합니다.
+    - `selectorpath=<path>`: HPA가 어떤 Pod이 속해있는지 식별하기 위한 label selector 필드입니다. 주로 `.spec.selector` 또는 `.status.podSelector` 등을 설정합니다.
   - `// +kubebuilder:resource:<option>[,<option>]`
     - `path=<path>`: CRD의 리소스 경로 설정으로 기본값은 type 의 소문자 복수형입니다.
     - `singular=<name>`: CRD의 단수 이름 설정으로 기본값은 type의 소문자입니다.

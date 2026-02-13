@@ -26,13 +26,6 @@
 	--docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
 
-.docusaurus-highlight-code-line {
-	background-color: rgb(72, 77, 91);
-	display: block;
-	margin: 0 calc(-1 * var(--ifm-pre-padding));
-	padding: 0 var(--ifm-pre-padding);
-}
-
 .header-github-link:hover {
 	opacity: 0.6;
 }
@@ -87,8 +80,12 @@ html[data-theme="dark"] .header-linkedin-link:before {
 	margin-left: var(--ifm-global-spacing);
 }
 
-html[data-theme="light"] .docusaurus-highlight-code-line {
-	background-color: rgba(180, 233, 180, 0.3);
+:root {
+	--docusaurus-highlighted-code-line-bg: rgb(240, 240, 180);
+}
+
+[data-theme="dark"] {
+	--docusaurus-highlighted-code-line-bg: rgb(60, 60, 0);
 }
 
 strong {
