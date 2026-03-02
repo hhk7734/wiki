@@ -1,0 +1,146 @@
+---
+id: namespace
+title: namespaceSelector를 사용한 관리 범위 설정
+sidebar_label: namespaceSelector
+description: namespaceSelector를 사용한 Kubernetes operator 관리 범위 설정 가이드
+keywords:
+  - kubebuilder
+  - operator
+  - namespaceSelector
+---
+
+## 기본 동작
+
+controller-runtime의 Manager는 기본적으로 **모든 namespace**의 리소스를 감시(watch)합니다. `ctrl.NewManager`에 별도 cache 설정을 하지 않으면 클러스터 전체를 대상으로 동작합니다.
+
+```go
+mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
+    Scheme: scheme,
+})
+```
+
+## 특정 namespace만 감시하기
+
+### 명시적 namespace 지정
+
+`cache.Options.DefaultNamespaces`에 감시할 namespace 이름을 지정하면, informer cache가 해당 namespace의 리소스만 감시합니다.
+
+```go
+managerOpts := ctrl.Options{
+    Scheme: scheme,
+    Cache: cache.Options{
+        DefaultNamespaces: map[string]cache.Config{
+            "namespace-a": {},
+            "namespace-b": {},
+        },
+    },
+}
+
+mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), managerOpts)
+```
+
+:::warning
+
+`DefaultNamespaces`에 포함되지 않은 namespace의 리소스는 `client.Get`, `client.List` 등으로도 조회할 수 없습니다. 다른 namespace의 리소스를 참조해야 한다면 해당 namespace도 추가해야 합니다.
+
+:::
+
+### Label selector로 namespace 선택 (predicate 필터링)
+
+namespace 이름을 하드코딩하는 대신, namespace label을 기반으로 동적 필터링할 수 있습니다. cache는 모든 namespace를 감시하되, predicate에서 namespace label을 확인하여 reconciler가 처리할 리소스를 제한합니다.
+
+```go
+import (
+    "context"
+
+    corev1 "k8s.io/api/core/v1"
+    "sigs.k8s.io/controller-runtime/pkg/builder"
+    "sigs.k8s.io/controller-runtime/pkg/client"
+    "sigs.k8s.io/controller-runtime/pkg/event"
+    "sigs.k8s.io/controller-runtime/pkg/predicate"
+)
+
+// namespaceLabelPredicate는 리소스가 속한 namespace에 특정 label이 있는 경우만 통과시킵니다.
+func namespaceLabelPredicate(c client.Reader, key, value string) predicate.Funcs {
+    check := func(obj client.Object) bool {
+        ns := &corev1.Namespace{}
+        if err := c.Get(context.Background(), client.ObjectKey{Name: obj.GetNamespace()}, ns); err != nil {
+            return false
+        }
+        return ns.Labels[key] == value
+    }
+
+    return predicate.Funcs{
+        CreateFunc:  func(e event.CreateEvent) bool { return check(e.Object) },
+        UpdateFunc:  func(e event.UpdateEvent) bool { return check(e.ObjectNew) },
+        DeleteFunc:  func(e event.DeleteEvent) bool { return check(e.Object) },
+        GenericFunc: func(e event.GenericEvent) bool { return check(e.Object) },
+    }
+}
+```
+
+```go
+func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    return ctrl.NewControllerManagedBy(mgr).
+        For(&v1alpha1.Test{}, builder.WithPredicates(
+            namespaceLabelPredicate(mgr.GetClient(), "my-operator.io/watch", "true"),
+        )).
+        Named("test").
+        Complete(r)
+}
+```
+
+:::info
+
+- `DefaultNamespaces`는 Manager 시작 시 고정되며 런타임에 변경할 수 없습니다.
+  ([controller-runtime#2829](https://github.com/kubernetes-sigs/controller-runtime/issues/2829))
+- predicate 방식은 namespace label이 추가/제거되면 다음 이벤트부터 즉시 반영됩니다.
+- cache가 모든 namespace를 감시하므로 `DefaultNamespaces` 방식보다 메모리를 더 사용합니다.
+- Webhook의 `namespaceSelector`는 API server가 평가하므로 별도 재시작 없이 동적으로 동작합니다.
+
+:::
+
+## Webhook namespaceSelector
+
+Webhook은 cache와 별도로, API server가 요청을 webhook에 전달할지 결정합니다. `namespaceSelector`를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다.
+
+### matchLabels
+
+namespace에 설정된 label로 필터링합니다.
+
+```yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: my-operator-webhook
+webhooks:
+  - name: validate.my-operator.io
+    namespaceSelector:
+      matchLabels:
+        my-operator.io/watch: "true"
+    # ...
+```
+
+`my-operator.io/watch=true` label이 있는 namespace에서 생성/수정되는 리소스만 webhook 검증 대상이 됩니다.
+
+### matchExpressions
+
+더 유연한 조건이 필요하면 `matchExpressions`를 사용합니다.
+
+```yaml
+webhooks:
+  - name: validate.my-operator.io
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values:
+            - "namespace-a"
+            - "namespace-b"
+```
+
+:::tip
+
+`kubernetes.io/metadata.name`은 Kubernetes가 모든 namespace에 자동으로 설정하는 label로, 값은 namespace 이름과 동일합니다. 명시적 namespace 이름으로 필터링할 때 유용합니다.
+
+:::

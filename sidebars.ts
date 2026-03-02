@@ -385,6 +385,7 @@ const sidebars: SidebarsConfig = {
 						"lang/go/libraries/kubebuilder/controller-gen",
 						"lang/go/libraries/kubebuilder/trigger",
 						"lang/go/libraries/kubebuilder/status",
+						"lang/go/libraries/kubebuilder/namespace",
 					],
 				},
 				{
