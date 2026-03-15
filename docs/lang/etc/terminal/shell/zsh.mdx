@@ -43,7 +43,7 @@ sudo apt install -y zsh
 chsh -s $(which zsh)
 ```
 
-## Oh My Zsh
+## starship
 
 <Tabs
     groupId="os"
@@ -57,16 +57,12 @@ chsh -s $(which zsh)
 <TabItem value="arch">
 
 ```shell
-sudo pacman -S curl git ttf-meslo-nerd
+sudo pacman -S ttf-meslo-nerd
 ```
 
 </TabItem>
 
 <TabItem value="debian">
-
-```shell
-sudo apt install -y curl git
-```
 
 ```shell
 sudo mkdir -p /usr/share/fonts/NerdFonts
@@ -82,53 +78,27 @@ curl -sL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Meslo.
 
 </Tabs>
 
-- https://github.com/ohmyzsh/ohmyzsh/wiki
-
 ```shell
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+curl -sS https://starship.rs/install.sh | sh
 ```
+
+## 플러그인
 
 - https://github.com/zsh-users/zsh-completions
 - https://github.com/zsh-users/zsh-syntax-highlighting
 - https://github.com/zsh-users/zsh-autosuggestions
 
 ```shell
-git clone https://github.com/zsh-users/zsh-completions.git \
-  ${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions \
-&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git \
-  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting \
-&& git clone https://github.com/zsh-users/zsh-autosuggestions \
-  ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-```
-
-## starship
-
-```shell
-curl -sS https://starship.rs/install.sh | sh
+ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins \
+&& mkdir -p $ZSH_PLUGINS_DIR \
+&& git clone https://github.com/zsh-users/zsh-completions.git $ZSH_PLUGINS_DIR/zsh-completions \
+&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_PLUGINS_DIR/zsh-syntax-highlighting \
+&& git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_PLUGINS_DIR/zsh-autosuggestions
 ```
 
 ## .zshrc
 
 ```shell title="~/.zshrc"
-# Path to your oh-my-zsh installation.
-export ZSH="$HOME/.oh-my-zsh"
-
-zstyle '"':omz:update'"' mode auto
-zstyle '"':omz:update'"' frequency 13 # in days
-
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-plugins=(
-    git
-    zsh-syntax-highlighting
-    zsh-autosuggestions
-    fzf
-    ssh-agent
-)
-
-fpath+=${ZSH_CUSTOM:-${ZSH:-~/.oh-my-zsh}/custom}/plugins/zsh-completions/src
-source $ZSH/oh-my-zsh.sh
-
 is_installed() {
     [ -n "$(command -v "$1" 2>/dev/null)" ]
 }
@@ -137,7 +107,26 @@ is_installed() {
 # User configuration #
 ######################
 
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+
 export PATH=$PATH:$HOME/.local/bin
+
+# Plugins
+ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins
+
+fpath+=$ZSH_PLUGINS_DIR/zsh-completions/src
+autoload -Uz compinit && compinit
+
+source $ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+is_installed fzf && eval "$(fzf --zsh)"
 
 git_remove_local_branch () {
     git remote update --prune \
