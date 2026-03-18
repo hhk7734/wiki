@@ -7,11 +7,37 @@ keywords:
   - alacritty
 ---
 
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
 ## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'macOS', value: 'macos',}
+    ]}
+>
+
+<TabItem value="arch">
 
 ```shell
 sudo pacman -S alacritty
 ```
+
+</TabItem>
+
+<TabItem value="macos">
+
+```shell
+brew install --cask alacritty
+```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 curl -sSL https://github.com/alacritty/alacritty/releases/download/v0.15.1/alacritty.info \
@@ -31,9 +57,32 @@ tic 명령어를 사용할 수 없는 원격 서버에 접속하는 경우 `TERM
 
 ### font
 
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'macOS', value: 'macos',}
+    ]}
+>
+
+<TabItem value="arch">
+
 ```shell
 sudo pacman -S ttf-d2coding-nerd
 ```
+
+</TabItem>
+
+<TabItem value="macos">
+
+```shell
+brew install --cask font-d2coding-nerd-font
+```
+
+</TabItem>
+
+</Tabs>
 
 ```shell
 fc-list
@@ -51,7 +100,7 @@ size = 13
 
 ### window
 
-```yaml title="~/.config/alacritty/alacritty.toml"
+```toml title="~/.config/alacritty/alacritty.toml"
 [window]
 dimensions = { columns = 120, lines = 50 }
 padding = { x = 5, y = 5 }
@@ -71,6 +120,6 @@ git clone https://github.com/alacritty/alacritty-theme ~/.config/alacritty/theme
 ```toml title="~/.config/alacritty/alacritty.toml"
 [general]
 import = [
-  "~/.config/alacritty/themes/themes/github_dark.yaml",
+  "~/.config/alacritty/themes/themes/github_dark.toml",
 ]
 ```
