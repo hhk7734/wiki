@@ -117,6 +117,17 @@ setopt HIST_IGNORE_DUPS
 
 export PATH=$PATH:$HOME/.local/bin
 
+# Key bindings
+bindkey -e                   # Use emacs key bindings
+bindkey '\e[3~' delete-char  # Delete key
+
+# Up/Down arrows search history matching the current input prefix
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[[A" history-beginning-search-backward-end
+bindkey "^[[B" history-beginning-search-forward-end
+
 # Plugins
 ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins
 
