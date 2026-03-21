@@ -121,12 +121,10 @@ export PATH=$PATH:$HOME/.local/bin
 bindkey -e                   # Use emacs key bindings
 bindkey '\e[3~' delete-char  # Delete key
 
-# Up/Down arrows search history matching the current input prefix
-autoload -U history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^[[A" history-beginning-search-backward-end
-bindkey "^[[B" history-beginning-search-forward-end
+# Up/Down arrows move across multiline input first, then fall back to history
+autoload -Uz up-line-or-history down-line-or-history
+bindkey "^[[A" up-line-or-history
+bindkey "^[[B" down-line-or-history
 
 # Plugins
 ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins
@@ -148,4 +146,27 @@ git_remove_local_branch () {
 
 # 마지막 줄
 eval "$(starship init zsh)"
+```
+
+## 여러 줄 입력에서 Up/Down 키 동작 변경
+
+`\`를 사용해서 여러 줄을 입력할 때 `Up` 키를 누르면 이전 히스토리가 아니라 현재 입력 중인 윗줄로 이동하도록 설정할 수 있습니다. `zsh`에서는 `up-line-or-history`, `down-line-or-history` 위젯을 `Up`, `Down` 키에 바인딩하면 됩니다.
+
+```shell title="~/.zshrc"
+autoload -Uz up-line-or-history down-line-or-history
+bindkey "^[[A" up-line-or-history
+bindkey "^[[B" down-line-or-history
+```
+
+이 설정을 적용하면 다음과 같이 동작합니다.
+
+- 여러 줄 입력 중간에서는 현재 버퍼 안의 윗줄 또는 아랫줄로 이동합니다.
+- 첫 줄 또는 마지막 줄에 도달한 뒤에는 히스토리 이동으로 동작합니다.
+
+이미 `history-beginning-search-backward-end`, `history-beginning-search-forward-end` 같은 위젯을 `Up`, `Down`에 바인딩한 경우에는 현재 입력 prefix 기반 히스토리 검색이 우선되므로, 여러 줄 이동을 원하면 위 설정으로 교체해야 합니다.
+
+설정 변경 후에는 아래 명령으로 다시 로드합니다.
+
+```shell
+source ~/.zshrc
 ```
