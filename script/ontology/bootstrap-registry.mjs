@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
 import { inventory } from "./inventory.mjs";
-import { classifySeed } from "./pathing.mjs";
+import { buildTargetPath, classifySeed } from "./pathing.mjs";
 
 export const CLASSIFICATION_REGISTRY_PATH = resolve(ROOT_DIR, "ontology", "classification-registry.json");
 
@@ -15,42 +15,45 @@ function sourceSlug(source) {
 		.replaceAll("/", "-");
 }
 
-function uniqueTargets(entries) {
-	const seen = new Set();
+function buildDisambiguatedEntry(entry) {
+	const disambiguator = sourceSlug(entry.source);
+	const aspectBase = entry.ontology.aspect.split("--")[0];
+	const aspect = `${aspectBase}--${disambiguator}`;
+
+	return {
+		...entry,
+		target: buildTargetPath({
+			role: entry.ontology.role,
+			domain: entry.ontology.domain,
+			className: entry.ontology.class,
+			instance: entry.ontology.instance,
+			aspect,
+		}),
+		ontology: {
+			...entry.ontology,
+			aspect,
+		},
+	};
+}
+
+export function stabilizeTargets(entries) {
+	const counts = new Map();
+
+	for (const entry of entries) {
+		counts.set(entry.target, (counts.get(entry.target) ?? 0) + 1);
+	}
 
 	return entries.map((entry) => {
-		if (!seen.has(entry.target)) {
-			seen.add(entry.target);
+		if ((counts.get(entry.target) ?? 0) < 2) {
 			return entry;
 		}
 
-		const disambiguator = sourceSlug(entry.source);
-		const aspect = `${entry.ontology.aspect}--${disambiguator}`;
-		const target = resolveUniqueTarget(entry, aspect);
-
-		if (seen.has(target)) {
-			throw new Error(`Unable to disambiguate duplicate target for ${entry.source}`);
-		}
-
-		seen.add(target);
-
-		return {
-			...entry,
-			target,
-			ontology: {
-				...entry.ontology,
-				aspect,
-			},
-		};
+		return buildDisambiguatedEntry(entry);
 	});
 }
 
-function resolveUniqueTarget(entry, aspect) {
-	return `docs/${entry.ontology.role}/${entry.ontology.domain}/${entry.ontology.class}/${entry.ontology.instance}/${aspect}.mdx`;
-}
-
 export function bootstrapRegistry() {
-	return uniqueTargets(inventory().map((source) => classifySeed(source)));
+	return stabilizeTargets(inventory().map((source) => classifySeed(source)));
 }
 
 export function writeClassificationRegistry(entries = bootstrapRegistry()) {

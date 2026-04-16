@@ -2,9 +2,8 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
 import { buildTargetPath, classifySeed } from "../pathing.mjs";
-import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry } from "../bootstrap-registry.mjs";
+import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry, stabilizeTargets } from "../bootstrap-registry.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { inventory } from "../inventory.mjs";
 
@@ -55,11 +54,54 @@ test("bootstrap registry keeps targets unique for the current corpus", () => {
 	assert.equal(new Set(targets).size, targets.length);
 });
 
+test("grpc family members stay distinguishable before bootstrap disambiguation", () => {
+	const targets = [
+		"docs/lang/cpp/libraries/grpc/grpc.mdx",
+		"docs/lang/go/libraries/grpc/grpc.mdx",
+		"docs/lang/python/libraries/grpc/grpc.mdx",
+	].map((source) => classifySeed(source).target);
+
+	assert.equal(new Set(targets).size, targets.length);
+});
+
+test("workflow crd family members stay distinguishable before bootstrap disambiguation", () => {
+	const targets = [
+		"docs/mlops/workflow/argo-cd/crd.mdx",
+		"docs/mlops/workflow/argo-workflows/crd.mdx",
+		"docs/mlops/workflow/awx/crd.mdx",
+	].map((source) => classifySeed(source).target);
+
+	assert.equal(new Set(targets).size, targets.length);
+});
+
+test("bootstrap disambiguation is deterministic for collision groups", () => {
+	const entries = stabilizeTargets([
+		{
+			source: "docs/example/first.mdx",
+			target: "docs/entity/platform/tool/example/overview.mdx",
+			ontology: { role: "entity", domain: "platform", class: "tool", instance: "example", aspect: "overview" },
+		},
+		{
+			source: "docs/example/second.mdx",
+			target: "docs/entity/platform/tool/example/overview.mdx",
+			ontology: { role: "entity", domain: "platform", class: "tool", instance: "example", aspect: "overview" },
+		},
+	].reverse());
+
+	assert.deepEqual(
+		entries.map((entry) => [entry.source, entry.target]),
+		[
+			["docs/example/second.mdx", "docs/entity/platform/tool/example/overview--example-second.mdx"],
+			["docs/example/first.mdx", "docs/entity/platform/tool/example/overview--example-first.mdx"],
+		],
+	);
+});
+
 test("classification registry path is rooted to the repo", () => {
-	const moduleUrl = pathToFileURL(resolve("script/ontology/bootstrap-registry.mjs")).href;
+	const moduleUrl = new URL("../bootstrap-registry.mjs", import.meta.url);
 	const result = spawnSync(
-		"/usr/bin/node",
-		["--input-type=module", "-e", `import { CLASSIFICATION_REGISTRY_PATH } from ${JSON.stringify(moduleUrl)}; console.log(CLASSIFICATION_REGISTRY_PATH);`],
+		process.execPath,
+		["--input-type=module", "-e", `import { CLASSIFICATION_REGISTRY_PATH } from ${JSON.stringify(moduleUrl.href)}; console.log(CLASSIFICATION_REGISTRY_PATH);`],
 		{
 			cwd: "/tmp",
 			encoding: "utf8",

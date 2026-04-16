@@ -63,9 +63,13 @@ function makeSeed(source, ontology) {
 function classifyPrefixGroup(source, rule) {
 	const parts = splitPath(source);
 	const stem = fileStem(source);
-	const instancePart = parts[rule.prefix.length];
-	const instance = instancePart && instancePart.endsWith(".mdx") ? stem : instancePart ?? stem;
-	const aspect = deriveAspect(stem, instance, rule.aspectPrefixes);
+	const instance =
+		rule.instanceBuilder?.(parts, stem, rule) ??
+		(() => {
+			const instancePart = parts[rule.prefix.length];
+			return instancePart && instancePart.endsWith(".mdx") ? stem : instancePart ?? stem;
+		})();
+	const aspect = rule.aspectBuilder?.(parts, stem, instance, rule) ?? deriveAspect(stem, instance, rule.aspectPrefixes);
 	const role = aspect === "overview" ? rule.roleOverview : rule.roleDetail;
 
 	return makeSeed(source, {
@@ -85,6 +89,14 @@ function directConcept(source, domain, className, instance = fileStem(source)) {
 		instance,
 		aspect: "overview",
 	});
+}
+
+function namespaceLibraryInstance(parts, stem) {
+	return `${parts[2]}-${parts[4] ?? stem}`;
+}
+
+function workflowInstance(parts, stem) {
+	return parts[3] ?? stem;
 }
 
 const EXACT_RULES = new Map([
@@ -119,23 +131,23 @@ const EXACT_RULES = new Map([
 ]);
 
 const PREFIX_RULES = [
-	{ prefix: ["docs", "lang", "go", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["go"] },
+	{ prefix: ["docs", "lang", "go", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["go"], instanceBuilder: (parts, stem) => `${parts[2]}-${parts[4] ?? stem}` },
 	{ prefix: ["docs", "lang", "go", "package"], domain: "language", className: "package", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["go"] },
 	{ prefix: ["docs", "lang", "go", "cgo"], domain: "language", className: "toolchain", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["go"] },
 	{ prefix: ["docs", "lang", "go"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["go"] },
-	{ prefix: ["docs", "lang", "python", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["python"] },
+	{ prefix: ["docs", "lang", "python", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["python"], instanceBuilder: namespaceLibraryInstance },
 	{ prefix: ["docs", "lang", "python", "package"], domain: "language", className: "package", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python", "env"], domain: "language", className: "environment", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python", "logger"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python", "context"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
-	{ prefix: ["docs", "lang", "javascript", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
+	{ prefix: ["docs", "lang", "javascript", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"], instanceBuilder: namespaceLibraryInstance },
 	{ prefix: ["docs", "lang", "javascript", "react"], domain: "language", className: "framework", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
 	{ prefix: ["docs", "lang", "javascript", "svelte"], domain: "language", className: "framework", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
 	{ prefix: ["docs", "lang", "javascript", "node-addon-api"], domain: "language", className: "api", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
 	{ prefix: ["docs", "lang", "javascript", "env"], domain: "language", className: "environment", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["javascript"] },
 	{ prefix: ["docs", "lang", "javascript"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["javascript"] },
-	{ prefix: ["docs", "lang", "cpp", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["cpp"] },
+	{ prefix: ["docs", "lang", "cpp", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["cpp"], instanceBuilder: namespaceLibraryInstance },
 	{ prefix: ["docs", "lang", "cpp", "build"], domain: "language", className: "build-tooling", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["cpp"] },
 	{ prefix: ["docs", "lang", "cpp", "package"], domain: "language", className: "package", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["cpp"] },
 	{ prefix: ["docs", "lang", "cpp", "advanced-cpp"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["cpp"] },
@@ -219,13 +231,13 @@ const PREFIX_RULES = [
 	{ prefix: ["docs", "mlops", "provisioning", "harbor"], domain: "mlops", className: "provisioning-tool", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["harbor"] },
 	{ prefix: ["docs", "mlops", "provisioning", "spegel"], domain: "mlops", className: "provisioning-tool", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["spegel"] },
 	{ prefix: ["docs", "mlops", "provisioning"], domain: "mlops", className: "provisioning-tool", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["provisioning"] },
-	{ prefix: ["docs", "mlops", "workflow", "argo-cd", "gitops"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-cd"] },
-	{ prefix: ["docs", "mlops", "workflow", "argo-cd"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-cd"] },
-	{ prefix: ["docs", "mlops", "workflow", "argo-workflows"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-workflows"] },
-	{ prefix: ["docs", "mlops", "workflow", "awx"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["awx"] },
-	{ prefix: ["docs", "mlops", "workflow", "kubeflow-trainer"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["kubeflow-trainer"] },
-	{ prefix: ["docs", "mlops", "workflow", "mpi-operator"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["mpi-operator"] },
-	{ prefix: ["docs", "mlops", "workflow"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["workflow"] },
+	{ prefix: ["docs", "mlops", "workflow", "argo-cd", "gitops"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-cd"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow", "argo-cd"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-cd"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow", "argo-workflows"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["argo-workflows"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow", "awx"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["awx"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow", "kubeflow-trainer"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["kubeflow-trainer"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow", "mpi-operator"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["mpi-operator"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
+	{ prefix: ["docs", "mlops", "workflow"], domain: "mlops", className: "workflow-system", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["workflow"], instanceBuilder: workflowInstance, aspectBuilder: (_parts, stem) => stem },
 	{ prefix: ["docs", "mlops", "nn", "llm"], domain: "science", className: "model-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["llm"] },
 	{ prefix: ["docs", "mlops", "nn", "cnn"], domain: "science", className: "model-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["cnn"] },
 	{ prefix: ["docs", "mlops", "nn", "gnn"], domain: "science", className: "model-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["gnn"] },
