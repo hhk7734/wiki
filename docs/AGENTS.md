@@ -103,6 +103,47 @@ Naming rules:
 - `aspect` should capture one facet only, such as `overview`, `install`, `config`, `authentication`, `middleware`
 - avoid editorial buckets such as `etc`, `misc`, `advanced`, `libraries`, `workflow` unless they are true ontology classes
 
+## Subject Anchor Rules
+
+Use `instance` as the stable primary anchor of the page.
+
+In most cases, `instance` should name a concrete product, tool, system, protocol, or other canonical subject. Do not create a new `instance` just because the page is about a subtopic of that subject.
+
+Prefer this pattern for tool-specific material:
+
+- `instance=<tool>`
+- `aspect=<subtopic>`
+
+Examples:
+
+- `docs/entity/mlops/iac-tool/pulumi/pulumi.mdx`
+- `docs/concept/mlops/iac-tool/pulumi/config.mdx`
+- `docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx`
+- `docs/operation/mlops/iac-tool/terraform/import.mdx`
+- `docs/operation/mlops/iac-tool/terraform/state.mdx`
+- `docs/concept/mlops/iac-tool/terragrunt/stack.mdx`
+
+Avoid synthetic or misleading generic paths such as:
+
+- `docs/entity/mlops/iac-tool/config/config.mdx`
+- `docs/entity/mlops/iac-tool/import/import.mdx`
+
+unless the page is genuinely tool-agnostic.
+
+## Generic Vs Owned Topics
+
+Before choosing an `instance`, ask whether the page topic is:
+
+- a generic cross-tool subject
+- or a tool-owned facet
+
+If the title naturally wants a vendor or product prefix such as `Pulumi Config`, `Terraform Import`, or `Terragrunt Stack`, that usually means the page belongs to:
+
+- `instance=<tool>`
+- `aspect=<tool-specific-facet>`
+
+Use a generic `instance` like `config`, `state`, `stack`, or `import` only when the page is truly cross-tool and not owned by a single product.
+
 ## Classification Rules
 
 General rules:
@@ -115,6 +156,31 @@ General rules:
 - vendor products and deployable systems such as `kubeflow`, `istio`, `argo-workflows`, and `karpenter` are usually entity pages
 - hardware families and boards are `entity/hardware/...`
 - troubleshooting material should use `role=troubleshooting` rather than being hidden under operations
+
+Role guidance for tool-specific pages:
+
+- use `entity` for the tool or product itself
+- use `concept` for internal abstractions, named features, and mental models within that tool
+- use `operation` for install, config, deploy, import, migration, state editing, and other procedural tasks
+
+Examples:
+
+- `Pulumi` -> `entity/mlops/iac-tool/pulumi/pulumi.mdx`
+- `Pulumi Config` -> `concept/mlops/iac-tool/pulumi/config.mdx`
+- `Pulumi StackReference` -> `concept/mlops/iac-tool/pulumi/stack-reference.mdx`
+- `Terraform Import` -> `operation/mlops/iac-tool/terraform/import.mdx`
+- `Terragrunt Stack` -> `concept/mlops/iac-tool/terragrunt/stack.mdx`
+
+Mixed-page rule:
+
+- if a page mixes overview and procedural content, split it when practical
+- keep the subject explanation in `entity` or `concept`
+- move step-by-step setup or usage into `operation`
+
+Family-grouping rule:
+
+- do not use the filesystem to group related subjects under a product family if doing so breaks primary-subject identity
+- represent family relationships with metadata, relations, or curated index pages instead
 
 Repository-specific corrections:
 
