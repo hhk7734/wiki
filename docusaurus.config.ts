@@ -42,6 +42,7 @@ const config: Config = {
 			{
 				docs: {
 					sidebarPath: "./sidebars.ts",
+					exclude: ["**/AGENTS.md"],
 					showLastUpdateTime: true,
 					remarkPlugins: [remarkMath],
 					rehypePlugins: [[rehypeKatex, { strict: false }]],

@@ -17,10 +17,6 @@ export function validateSourcePath(legacyPath, { allowEditorialBuckets = false }
 		throw new Error("source path must point to an .mdx document");
 	}
 
-	if (normalizedPath.startsWith("docs/superpowers/")) {
-		throw new Error("source path must not point into docs/superpowers/");
-	}
-
 	if (!allowEditorialBuckets && normalizedPath.includes("/etc/")) {
 		throw new Error("forbidden editorial bucket");
 	}

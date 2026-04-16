@@ -236,11 +236,10 @@ test("rewriteDocLinks preserves inline code spans", () => {
 	assert.match(output, /to="\/docs\/operation\/platform\/tool\/lua\/lua#options"/);
 });
 
-test("listRewriteTargets includes docs under docs/superpowers", () => {
+test("listRewriteTargets includes docs/AGENTS.md", () => {
 	const docs = listRewriteTargets();
 
-	assert.ok(docs.includes("docs/superpowers/plans/2026-04-16-wiki-ontology-reorg.md"));
-	assert.ok(docs.includes("docs/superpowers/specs/2026-04-16-wiki-ontology-reorg-design.md"));
+	assert.ok(docs.includes("docs/AGENTS.md"));
 	assert.ok(docs.includes("docs/entity/language/programming-language/go/go.mdx"));
 });
 
@@ -361,7 +360,7 @@ test("validateCorpus enforces registry source-path invariants in the production 
 			validateCorpus({
 				entries: [
 					{
-						source: "docs/superpowers/specs/bad-source.mdx",
+						source: "docs/AGENTS.md",
 						target: "docs/entity/language/programming-language/go/go.mdx",
 						ontology: {
 							role: "entity",
@@ -374,6 +373,6 @@ test("validateCorpus enforces registry source-path invariants in the production 
 				],
 				docs: ["docs/entity/language/programming-language/go/go.mdx"],
 			}),
-		/source path must not point into docs\/superpowers\//,
+		/source path must point to an \.mdx document/,
 	);
 });

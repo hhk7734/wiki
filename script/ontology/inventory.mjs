@@ -32,7 +32,7 @@ export function walk(startDir) {
 }
 
 export function inventory() {
-	return walk("docs").filter((file) => file.endsWith(".mdx") && !file.startsWith("docs/superpowers/"));
+	return walk("docs").filter((file) => file.endsWith(".mdx"));
 }
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === resolve(process.argv[1])) {

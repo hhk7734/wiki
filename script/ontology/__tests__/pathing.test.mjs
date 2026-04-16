@@ -54,11 +54,8 @@ test("classifySeed uses normalized ontology metadata", () => {
 	);
 });
 
-test("inventory excludes docs/superpowers pages", () => {
-	assert.equal(
-		inventory().some((file) => file.startsWith("docs/superpowers/")),
-		false,
-	);
+test("inventory excludes docs/AGENTS.md", () => {
+	assert.equal(inventory().includes("docs/AGENTS.md"), false);
 });
 
 test("bootstrap registry keeps targets unique for the current corpus", () => {
