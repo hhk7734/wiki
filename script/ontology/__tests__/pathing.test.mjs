@@ -14,3 +14,16 @@ test("buildTargetPath uses unique canonical filenames for overview pages", () =>
 		"docs/entity/language/programming-language/go/go.mdx",
 	);
 });
+
+test("buildTargetPath uses the aspect name for non-overview pages", () => {
+	assert.equal(
+		buildTargetPath({
+			role: "operation",
+			domain: "platform",
+			className: "cluster-addon",
+			instance: "node-feature-discovery",
+			aspect: "install",
+		}),
+		"docs/operation/platform/cluster-addon/node-feature-discovery/install.mdx",
+	);
+});
