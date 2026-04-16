@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildTargetPath } from "../pathing.mjs";
+import { buildTargetPath, classifySeed } from "../pathing.mjs";
 
 test("buildTargetPath uses unique canonical filenames for overview pages", () => {
 	assert.equal(
@@ -25,5 +25,12 @@ test("buildTargetPath uses the aspect name for non-overview pages", () => {
 			aspect: "install",
 		}),
 		"docs/operation/platform/cluster-addon/node-feature-discovery/install.mdx",
+	);
+});
+
+test("current Go overview path maps to canonical ontology path", () => {
+	assert.equal(
+		classifySeed("docs/lang/go/go.mdx").target,
+		"docs/entity/language/programming-language/go/go.mdx",
 	);
 });
