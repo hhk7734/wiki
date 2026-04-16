@@ -7,7 +7,7 @@ import { readFrontmatter } from "./frontmatter.mjs";
 import { readFileSync } from "node:fs";
 
 export function validateSourcePath(legacyPath) {
-	if (legacyPath.includes("/etc/")) {
+	if (legacyPath.replaceAll("\\", "/").includes("/etc/")) {
 		throw new Error("forbidden editorial bucket");
 	}
 }

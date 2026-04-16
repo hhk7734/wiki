@@ -1,4 +1,5 @@
 import { basename } from "node:path";
+import { normalizeOntologyBlock } from "./ontology-frontmatter.mjs";
 
 function normalizeSourcePath(source) {
 	return source.replaceAll("\\", "/").replace(/^\.?\//, "");
@@ -48,15 +49,12 @@ function deriveAspect(stem, instance, prefixes = []) {
 }
 
 function makeSeed(source, ontology) {
-	const { className, ...rest } = ontology;
+	const normalized = normalizeOntologyBlock(ontology);
 
 	return {
 		source: normalizeSourcePath(source),
 		target: buildTargetPath(ontology),
-		ontology: {
-			...rest,
-			class: className,
-		},
+		ontology: normalized.ontology,
 	};
 }
 

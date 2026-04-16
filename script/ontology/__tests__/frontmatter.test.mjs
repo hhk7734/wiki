@@ -15,8 +15,11 @@ test("normalizeOntologyBlock keeps path and ontology metadata aligned", () => {
 		aspect: "overview",
 	});
 
+	assert.equal(next.ontology.class, "programming-language");
 	assert.equal(next.ontology.instance, "go");
 	assert.equal(next.ontology.aspect, "overview");
+	assert.equal(next.source.status, "canonical");
+	assert.equal(next.source.confidence, "exact");
 });
 
 test("parseFrontmatter parses nested objects", () => {

@@ -6,6 +6,7 @@ import { buildTargetPath, classifySeed } from "../pathing.mjs";
 import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry, stabilizeTargets } from "../bootstrap-registry.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { inventory } from "../inventory.mjs";
+import { normalizeOntologyBlock } from "../ontology-frontmatter.mjs";
 
 test("buildTargetPath uses unique canonical filenames for overview pages", () => {
 	assert.equal(
@@ -37,6 +38,19 @@ test("current Go overview path maps to canonical ontology path", () => {
 	assert.equal(
 		classifySeed("docs/lang/go/go.mdx").target,
 		"docs/entity/language/programming-language/go/go.mdx",
+	);
+});
+
+test("classifySeed uses normalized ontology metadata", () => {
+	assert.deepEqual(
+		classifySeed("docs/lang/go/go.mdx").ontology,
+		normalizeOntologyBlock({
+			role: "entity",
+			domain: "language",
+			className: "programming-language",
+			instance: "go",
+			aspect: "overview",
+		}).ontology,
 	);
 });
 

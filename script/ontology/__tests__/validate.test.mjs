@@ -12,6 +12,13 @@ test("validateSourcePath rejects editorial etc buckets", () => {
 	);
 });
 
+test("validateSourcePath normalizes backslashes before checking editorial buckets", () => {
+	assert.throws(
+		() => validateSourcePath("docs\\lang\\go\\etc\\notes.mdx"),
+		/forbidden editorial bucket/,
+	);
+});
+
 test("validateEntries rejects duplicate targets", () => {
 	assert.throws(
 		() =>
