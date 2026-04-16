@@ -12,6 +12,13 @@ function fileStem(source) {
 	return basename(source, ".mdx");
 }
 
+function sourceSlug(source) {
+	return normalizeSourcePath(source)
+		.replace(/^docs\//, "")
+		.replace(/\.mdx$/, "")
+		.replaceAll("/", "-");
+}
+
 function hasPrefix(parts, prefix) {
 	if (parts.length < prefix.length) {
 		return false;
@@ -121,7 +128,6 @@ const PREFIX_RULES = [
 	{ prefix: ["docs", "lang", "python", "env"], domain: "language", className: "environment", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python", "logger"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python", "context"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
-	{ prefix: ["docs", "lang", "python", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "python"], domain: "language", className: "concept", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["python"] },
 	{ prefix: ["docs", "lang", "javascript", "libraries"], domain: "language", className: "library", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
 	{ prefix: ["docs", "lang", "javascript", "react"], domain: "language", className: "framework", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["javascript"] },
@@ -280,15 +286,15 @@ export function classifySeed(source) {
 	}
 
 	if (root === "lang") {
-		return directConcept(sourcePath, "language", "concept", branch || stem);
+		return directConcept(sourcePath, "language", "source-path", sourceSlug(sourcePath));
 	}
 
 	if (root === "mlops") {
-		return directConcept(sourcePath, "mlops", "concept", branch || stem);
+		return directConcept(sourcePath, "mlops", "source-path", sourceSlug(sourcePath));
 	}
 
 	if (root === "linux") {
-		return directConcept(sourcePath, "platform", "concept", branch || stem);
+		return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
 	}
 
 	if (root === "mcu") {
@@ -302,8 +308,8 @@ export function classifySeed(source) {
 	}
 
 	if (root === "etc") {
-		return directConcept(sourcePath, "management", "concept", branch || stem);
+		return directConcept(sourcePath, "management", "source-path", sourceSlug(sourcePath));
 	}
 
-	return directConcept(sourcePath, "platform", "concept", branch || stem);
+	return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
 }
