@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { inventory } from "./inventory.mjs";
+import { walk } from "./inventory.mjs";
 import { loadRegistry } from "./validate.mjs";
 import { ROOT_DIR } from "./constants.mjs";
 
@@ -53,7 +53,11 @@ export function rewriteDocLinks(content, linkMap = buildDocLinkMap()) {
 	return nextContent;
 }
 
-export function rewriteAllDocLinks({ docs = inventory(), linkMap = buildDocLinkMap() } = {}) {
+export function listRewriteTargets() {
+	return walk("docs").filter((file) => file.endsWith(".mdx") || file.endsWith(".md"));
+}
+
+export function rewriteAllDocLinks({ docs = listRewriteTargets(), linkMap = buildDocLinkMap() } = {}) {
 	let rewrittenFiles = 0;
 
 	for (const docPath of docs) {

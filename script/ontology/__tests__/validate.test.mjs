@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
-import { rewriteDocLinks } from "../rewrite-links.mjs";
+import { listRewriteTargets, rewriteDocLinks } from "../rewrite-links.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 
 test("validateSourcePath rejects editorial etc buckets", () => {
@@ -190,4 +190,12 @@ test("rewriteDocLinks updates absolute doc links without extensions", () => {
 
 	assert.match(output, /\/docs\/operation\/platform\/tool\/lua\/lua#options/);
 	assert.match(output, /\/docs\/entity\/mlops\/cluster-orchestrator\/k0s#worker/);
+});
+
+test("listRewriteTargets includes docs under docs/superpowers", () => {
+	const docs = listRewriteTargets();
+
+	assert.ok(docs.includes("docs/superpowers/plans/2026-04-16-wiki-ontology-reorg.md"));
+	assert.ok(docs.includes("docs/superpowers/specs/2026-04-16-wiki-ontology-reorg-design.md"));
+	assert.ok(docs.includes("docs/entity/language/programming-language/go/go.mdx"));
 });
