@@ -1,12 +1,5 @@
-import sidebarList from "../../sidebars";
-import {navbar} from "../../navbar";
+import globalData from "@generated/globalData";
 import * as d3 from "d3";
-import type {
-	SidebarItem,
-	SidebarItemDoc,
-	SidebarItemLink,
-	SidebarItemCategory,
-} from "@docusaurus/plugin-content-docs/src/sidebars/types.js";
 import React, { useEffect, useRef, useState } from "react";
 
 interface TreeData {
@@ -14,47 +7,71 @@ interface TreeData {
 	children?: TreeData[];
 }
 
-function itemToTreeData(item: string | SidebarItem): TreeData {
-	if (typeof item === "string") {
-		return docToTreeData(item);
-	}
-	switch (item.type) {
-		case "doc":
-			return docToTreeData(item);
-		case "link":
-			return linkToTreeData(item);
-		case "category":
-			return categoryToTreeData(item);
-		default:
-			throw new Error("Invalid item type");
-	}
+interface GlobalDoc {
+	id: string;
+	sidebar?: string;
 }
 
-function docToTreeData(doc: string | SidebarItemDoc): TreeData {
-	if (typeof doc === "string") {
-		doc = doc.split("/").pop();
-		const prefixList = ["arduino-", "cpp-", "flutter-", "llvm-", "python-", "sam-", "stm32-"];
-		for (const prefix of prefixList) {
-			if (doc.startsWith(prefix)) {
-				doc = doc.slice(prefix.length);
-			}
-		}
-		return { name: doc };
+const ontologySections = {
+	Entity: "entity",
+	Concept: "concept",
+	Operation: "operation",
+	Specification: "specification",
+	Troubleshooting: "troubleshooting",
+	Comparison: "comparison",
+} as const;
+
+function ensureChild(parent: TreeData, name: string): TreeData {
+	const existingChild = parent.children?.find((child) => child.name === name);
+	if (existingChild) {
+		return existingChild;
 	}
-	return { name: doc.label ?? doc.id };
+
+	const child = { name, children: [] };
+	parent.children = [...(parent.children ?? []), child];
+	return child;
 }
 
-function linkToTreeData(link: SidebarItemLink): TreeData {
-	return { name: link.label };
-}
-
-function categoryToTreeData(category: SidebarItemCategory): TreeData {
+function docToTreeData(doc: string): { categoryPath: string[]; leafName: string } {
+	const segments = doc.split("/").slice(1);
 	return {
-		name: category.label,
-		children: category.items.map((item) => {
-			return itemToTreeData(item);
-		}),
+		categoryPath: segments.slice(0, -2),
+		leafName: doc.split("/").slice(-2, -1)[0] ?? doc,
 	};
+}
+
+function buildSectionTree(name: string, docIds: string[]): TreeData {
+	const root: TreeData = { name, children: [] };
+
+	for (const docId of docIds) {
+		const { categoryPath, leafName } = docToTreeData(docId);
+		let current = root;
+
+		for (const category of categoryPath) {
+			current = ensureChild(current, category);
+		}
+
+		if (!current.children?.some((child) => child.name === leafName)) {
+			current.children = [...(current.children ?? []), { name: leafName }];
+		}
+	}
+
+	return root;
+}
+
+function getOntologyTreeData(): TreeData[] {
+	const docs = (
+		(globalData as Record<string, { default?: { versions?: Array<{ docs?: GlobalDoc[] }> } }>)[
+			"docusaurus-plugin-content-docs"
+		]?.default?.versions?.[0]?.docs ?? []
+	).filter((doc): doc is GlobalDoc => typeof doc?.id === "string");
+
+	return Object.entries(ontologySections)
+		.map(([label, sidebarId]) => {
+			const docIds = docs.filter((doc) => doc.sidebar === sidebarId).map((doc) => doc.id);
+			return buildSectionTree(label, docIds);
+		})
+		.filter((section) => (section.children?.length ?? 0) > 0);
 }
 
 export default function RadialTree() {
@@ -104,11 +121,7 @@ export default function RadialTree() {
 		// 	return { name: key, children: value.map((item) => itemToTreeData(item)) };
 		// });
 
-		const sidebarData = Object.entries(navbar).map(([key, items]) => {
-			return { name: key, children: Object.entries(items).map(([label, sidebarID])=> {
-				return { name: label, children: sidebarList[sidebarID].map((item) => itemToTreeData(item)) };
-			})}
-		});
+		const sidebarData = getOntologyTreeData();
 
 		const root = tree(
 			d3.hierarchy({ name: "lol-IoT", children: sidebarData }).sort((a, b) => d3.ascending(a.data.name, b.data.name)),

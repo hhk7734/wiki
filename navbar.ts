@@ -1,67 +1,37 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { NavbarItem } from "@docusaurus/theme-common";
 
+const ontologySections = {
+	Entity: "entity",
+	Concept: "concept",
+	Operation: "operation",
+	Specification: "specification",
+	Troubleshooting: "troubleshooting",
+	Comparison: "comparison",
+} as const;
+
+function hasDocsDir(dirName: string): boolean {
+	return fs.existsSync(path.join(process.cwd(), "docs", dirName));
+}
+
 export const navbar = {
-	Programming: {
-		Design: "design",
-		"C++": "cpp",
-		Go: "go",
-		Rust: "rust",
-		Python: "python",
-		Database: "db",
-		JavaScript: "javascript",
-		Flutter: "flutter",
-		ShellScript: "shellscript",
-		LabVIEW: "labview",
-		Etc: "programmingetc",
-	},
-	MLOps: {
-		MLOps: "mlops",
-		Kubernetes: "kubernetes",
-		Provisioning: "provisioning",
-		Scheduling: "scheduling",
-		Storage: "storage",
-		Network: "network",
-		Device: "device",
-		Monitoring: "monitoring",
-		Workflow: "workflow",
-		Serving: "serving",
-		NueralNetwork: "nn",
-	},
-	Linux: {
-		Package: "linux-package",
-		Kernel: "linux-kernel",
-		"u-boot": "linux-uboot",
-		ShellScript: "shellscript",
-		Etc: "programmingetc",
-	},
-	MCU: {
-		STM32: "stm32",
-		AVR: "avr",
-		Arduino: "arduino",
-		Espressif: "espressif",
-		SAM: "sam",
-		Infineon: "infineon",
-		Nordic: "nordic",
-	},
-	Etc: {
-		BioChemistry: "biochemistry",
-		Circuit: "circuit",
-		Memo: "memo",
-		Project: "project",
-	},
+	Ontology: Object.fromEntries(Object.entries(ontologySections).filter(([, sidebarId]) => hasDocsDir(sidebarId))),
 };
 
-export const navbarItems: NavbarItem[] = Object.entries(navbar).map(([key, categories]) => {
-	return {
-		type: "dropdown",
-		label: key,
-		position: "left",
-		items: Object.entries(categories).map(([label, to]) => {
-			return {
-				type: "docSidebar",
-				label: label,
-				sidebarId: to,
-			};
-		}),
-	};
-});
+export const navbarItems: NavbarItem[] = Object.entries(navbar)
+	.filter(([, categories]) => Object.keys(categories).length > 0)
+	.map(([key, categories]) => {
+		return {
+			type: "dropdown",
+			label: key,
+			position: "left",
+			items: Object.entries(categories).map(([label, to]) => {
+				return {
+					type: "docSidebar",
+					label,
+					sidebarId: to,
+				};
+			}),
+		};
+	});
