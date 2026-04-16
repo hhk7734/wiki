@@ -1,0 +1,58 @@
+---
+id: user
+title: "PostgreSQL User(Role)"
+sidebar_label: "User(Role)"
+description: "PostgreSQL User(Role)"
+keywords:
+  - user
+  - role
+  - postgresql
+ontology:
+  role: operation
+  domain: data
+  class: database
+  instance: postgresql
+  aspect: user
+---
+
+## User
+
+### User 생성
+
+- https://www.postgresql.org/docs/current/sql-createuser.html
+
+```sql
+CREATE USER <user> WITH PASSWORD '<password>'
+```
+
+`CREATE USER`는 `CREATE ROLE ... LOGIN`과 동일한 것으로 간주하면 됩니다.
+
+### User 암호 변경
+
+```sql
+ALTER USER <user> WITH PASSWORD '<password>'
+```
+
+## CREATE ROLE
+
+- https://www.postgresql.org/docs/current/sql-createrole.html
+- https://www.postgresql.org/docs/current/role-attributes.html
+
+```sql
+CREATE ROLE <role> [WITH <option> ...]
+```
+
+## SELECT
+
+```sql
+\du [<pattern>]
+```
+
+## GRANT
+
+- https://www.postgresql.org/docs/current/sql-grant.html
+
+```sql
+GRANT <role>
+    TO <user | role>
+```

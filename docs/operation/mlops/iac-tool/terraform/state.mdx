@@ -1,0 +1,37 @@
+---
+id: state
+title: "Terraform State 수정하기"
+sidebar_label: "State 수정하기"
+description: "Terraform State 수정하기"
+keywords:
+  - terraform
+  - state
+ontology:
+  role: operation
+  domain: mlops
+  class: iac-tool
+  instance: terraform
+  aspect: state
+---
+
+## tfstate 파일 직접 수정
+
+```shell
+terraform state pull > terraform.tfstate
+```
+
+`terraform.tfstate` 파일은 JSON 형식으로 되어 있습니다. 수정이 필요한 부분을 수정한 후, `.serial` 값을 증가시켜줍니다.
+
+```shell
+terraform state push terraform.tfstate
+```
+
+## `state mv`
+
+### 리소스 이름 바꾸기
+
+```shell
+terraform state mv <resourceType>.<resourceName> <resourceType>.<newResourceName>
+```
+
+변경이 완료되면 리소스 선언과 리소스를 변수로 사용하고 있는 부분을 찾아서 모두 수정해야 합니다.

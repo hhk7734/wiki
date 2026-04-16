@@ -1,0 +1,68 @@
+---
+id: eigen-basics
+title: "Eigen Basics"
+sidebar_label: Basics
+description: "Eigen Basics"
+keywords:
+  - Eigen
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: cpp-eigen
+  aspect: eigen-basics
+---
+
+## Create Project
+
+Download: [https://eigen.tuxfamily.org](https://eigen.tuxfamily.org/)
+
+```shell
+example
+├── CMakeLists.txt
+├── eigen-3.3.9
+│   ├── bench
+│   ├── blas
+│   ├── cmake
+│   ├── CMakeLists.txt
+│   ├── COPYING.BSD
+│   ├── COPYING.GPL
+│   ├── COPYING.LGPL
+│   ├── COPYING.MINPACK
+│   ├── COPYING.MPL2
+│   ├── COPYING.README
+│   ├── CTestConfig.cmake
+│   ├── CTestCustom.cmake.in
+│   ├── debug
+│   ├── demos
+│   ├── doc
+│   ├── Eigen
+│   ├── eigen3.pc.in
+│   ├── failtest
+│   ├── INSTALL
+│   ├── lapack
+│   ├── README.md
+│   ├── scripts
+│   ├── signature_of_eigen3_matrix_library
+│   ├── test
+│   └── unsupported
+└── main.cpp
+```
+
+```cmake title="CMakeLists.txt"
+cmake_minimum_required(VERSION 3.15)
+
+project(example LANGUAGES CXX)
+
+include_directories(eigen-3.3.9)
+
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
+
+add_compile_definitions(EIGEN_MPL2_ONLY)
+
+add_executable(example main.cpp)
+```

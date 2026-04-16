@@ -1,0 +1,55 @@
+---
+id: security-context
+title: "PodSecurityContext와 SecurityContext"
+sidebar_label: SecurityContext
+description: "PodSecurityContext와 SecurityContext"
+keywords:
+  - kubernetes
+  - SecurityContext
+  - PodSecurityContext
+ontology:
+  role: operation
+  domain: mlops
+  class: security
+  instance: security-context
+  aspect: overview
+---
+
+## PodSecurityContext
+
+- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecuritycontext-v1-core
+
+PodSecurityContext는 Pod의 `.spec.securityContext`에 적용할 수 있는 내용입니다.
+
+## SecurityContext
+
+- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#securitycontext-v1-core
+
+SecurityContext는 Pod의
+
+- `spec.containers.securityContext`
+- `spec.initContainers.securityContext`
+- `spec.ephemeralContainers.securityContext`
+
+에 적용할 수 있는 내용입니다.
+
+- `privileged: <bool>`
+  - host의 root와 같은 권한을 갖게 됩니다.
+  - host의 모든 device에 접근할 수 있습니다.
+  - host 시스템/커널에 대한 거의 모든 접근을 허용합니다.
+  - 모든 capability를 가집니다.
+- `capabilities`
+  - [capability.h](https://github.com/torvalds/linux/blob/master/include/uapi/linux/capability.h)
+    - `CAP_` 접두사로 시작되는 값과 `ALL`을 사용할 수 있습니다.
+    - **`CAP_` 접두사는 생략해서 사용합니다. e.g., CAP_SYS_ADMIN -> SYS_ADMIN**
+    - `CAP_IPC_LOCK`
+      - 메모리 Swap out을 방지하고, Huge Page를 사용할 수 있습니다.
+      - I/O 지연 방지, 민감 정보 디스크 기록 방지 등에 사용됩니다.
+    - `CAP_NET_RAW`
+      - Raw 소켓을 생성/사용할 수 있습니다.
+      - 패킷 조작, 패킷 스니핑 등에 사용됩니다.
+    - `CAP_SYS_RAWIO`
+      - 하드웨어 자원에 직접적이 I/O 접근을 허용합니다.
+      - 메모리 직접 접근, 장치 제어 등에 사용됩니다.
+  - `add: []`
+  - `drop: []`

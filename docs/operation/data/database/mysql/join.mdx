@@ -1,0 +1,47 @@
+---
+id: join
+title: JOIN
+sidebar_label: JOIN
+description: join
+keywords:
+  - join
+  - mysql
+ontology:
+  role: operation
+  domain: data
+  class: database
+  instance: mysql
+  aspect: join
+---
+
+- https://dev.mysql.com/doc/refman/8.0/en/join.html
+
+## [INNER] JOIN
+
+```sql
+SELECT
+    <select_expr>
+FROM
+    <table_1> AS <alias_1>
+    [INNER] JOIN <table_2> AS <alias_2> ON <join_condition>
+```
+
+## LEFT|RIGTH|OUTER JOIN
+
+```sql
+SELECT
+    <select_expr>
+FROM
+    <table_1> AS <alias_1>
+    LEFT|RIGHT|OUTER JOIN <table_2> AS <alias_2> ON <join_condition>
+```
+
+## CROSS JOIN
+
+```sql
+SELECT
+    <select_expr>
+FROM
+    <table_1> AS <alias_1>
+    CROSS JOIN <table_2> AS <alias_2>
+```

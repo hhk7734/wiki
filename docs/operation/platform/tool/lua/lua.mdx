@@ -1,0 +1,94 @@
+---
+id: lua
+title: "Neovim Lua 가이드"
+sidebar_label: "Lua 가이드"
+description: "Neovim Lua 가이드"
+keywords:
+  - nvim
+  - neovim
+  - lua
+ontology:
+  role: operation
+  domain: platform
+  class: tool
+  instance: lua
+  aspect: overview
+---
+
+## 기본 라이브러리
+
+```shell
+:lua vim.print(package.loaded)
+```
+
+```shell
+:lua vim.print(vim)
+```
+
+[Vim API](https://neovim.io/doc/user/lua.html)와 [Nvim API](https://neovim.io/doc/user/api.html)은 `vim.*`으로 접근할 수 있습니다.
+
+## lua 실행(runtimepath)
+
+:::info[References]
+
+- [Neovim / Options # runtimepath](https://neovim.io/doc/user/options.html#'runtimepath')
+
+:::
+
+```shell
+:lua vim.print(vim.opt.runtimepath:get())
+```
+
+기본적으로 다음 경로를 확인합니다.
+
+- `$XDG_CONFIG_HOME/nvim`
+- `$XDG_DATA_HOME/nvim/site`
+- `$VIMRUNTIME`
+- `$XDG_DATA_HOME/nvim/site/after`
+- `$XDG_CONFIG_HOME/nvim/after`
+
+:::info
+
+- `$XDG_CONFIG_HOME`
+  - `~/.config` = `stdpath('config')`
+  - `/etc/xdg`
+- `$XDG_DATA_HOME`
+  - `~/.local/share` = `stdpath('data')`
+  - `/usr/local/share`
+  - `/usr/share`
+
+:::
+
+위 경로에서 다음 스크립트들이 있는지 확인합니다.
+
+- filetype.lua
+- autoload/
+- colors/
+- compiler/
+- doc/
+- ftplugin/
+- indent/
+- keymap/
+- lang/
+- lsp/
+- lua/
+- pack/
+  - Neovim 0.12+ supports `vim.pack.add`
+- parser/
+- plugin/
+- queries/
+- rplugin/
+- spell/
+- syntax/
+- tutor/
+
+## Options
+
+- [Options](https://neovim.io/doc/user/options.html)
+- [Eval](https://neovim.io/doc/user/eval.html)
+- [Neovim Lua](https://neovim.io/doc/user/lua.html)
+
+<br />
+
+- `vim.g.*`: [global-variable](https://neovim.io/doc/user/eval.html#global-variable)
+- `vim.opt.*`: [vim.opt](https://neovim.io/doc/user/lua.html#vim.opt)

@@ -1,0 +1,355 @@
+---
+id: github-action
+title: "GitHub Action"
+sidebar_label: "GitHub Action"
+description: "GitHub Action"
+keywords:
+  - gitops
+  - cd
+  - github
+  - action
+ontology:
+  role: operation
+  domain: mlops
+  class: workflow-system
+  instance: argo-cd
+  aspect: github-action
+---
+
+## Workflow 파일
+
+GitHub Action을 위한 Workflow yaml파일을 리포지토리의 `.github/workflows` 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어 실행됩니다.
+
+## 컨텍스트 정보
+
+- [Accessing contextual information](https://docs.github.com/en/actions/learn-github-actions/contexts)
+
+사용할 수 있는 컨텍스트 정보를 아래 Action을 통해 확인 할 수 있습니다.
+
+```yaml
+name: Context testing
+on: push
+
+jobs:
+  dump_contexts_to_log:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
+```
+
+## 동시성 제어
+
+- [Control the concurrency](https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/control-the-concurrency-of-workflows-and-jobs#example-concurrency-groups)
+
+같은 Workflow, 같은 브랜치에서 실행되는 Workflow는 마지막에 제출된 것만 실행되도록하는 설정은 아래와 같습니다.
+
+```yaml
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+```
+
+`concurrency`는 Job에 선언할 수 있습니다. `group`은 대소문자를 구분하지 않습니다.
+
+## 버전 태그
+
+```yaml
+name: Hash
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  hash:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get TAG
+        id: tag
+        run: |
+          TAG=$(echo ${{ github.sha }} | cut -c1-7)
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+```
+
+```yaml
+name: Version
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get TAG
+        id: tag
+        run: |
+          TAG=${{ github.ref_name }}
+          echo TAG=$TAG
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+```
+
+## Container Registry
+
+### ECR
+
+```yaml
+name: Push to Amazon ECR
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-west-2
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # https://github.com/docker/build-push-action
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/backend:${{ steps.tag.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+### GitHub
+
+```yaml
+name: Push to GitHub Container Registry
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+    steps:
+      # https://github.com/docker/login-action
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.PAT }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # https://github.com/docker/build-push-action
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/backend:${{ steps.tag.outputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+```
+
+- [GitHub Docker imagePullSecrets](/docs/operation/mlops/configuration/secret/secret.mdx#imagepullsecrets)
+
+## Auto Release
+
+```yaml
+name: Auto Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+
+jobs:
+  release:
+    name: Publish auto release
+    runs-on: ubuntu-latest
+    needs: [build]
+    permissions:
+      contents: write
+    steps:
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+```
+
+## 필터를 사용하는 Required Job
+
+Required job이 `paths`나 `paths-ignore` 같은 옵션으로 인해 실행되지 않으면 `Pending` 상태에 빠져서 PR을 완료할 수 없습니다. 이를 해결하기 위해서는
+
+- 반대되는 필터를 갖는 Workflow를 만들고 Job 이름이 같은 dummy Job을 만드는 방법
+- [dorny/paths-filter](https://github.com/dorny/paths-filter)를 사용하는 방법
+
+이 있습니다.
+
+:::info
+Job 실행 결과는 `success`, `failure`, `cancelled`, `skipped` 중 하나입니다. `Pending`은 실행 자체가 안된 상태입니다.
+
+`success`와 `skipped`는 Required 검사를 통과합니다.
+:::
+
+### Dummy Job 만들기
+
+```yaml title=".github/workflows/job.yaml"
+name: job
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test backend
+        run: |
+          # ...
+```
+
+```yaml title=".github/workflows/job-dummy.yaml"
+name: job
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "backend/**"
+
+jobs:
+  tests:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Unreachable"
+```
+
+### paths-filter 사용하기
+
+- [paths-filter Usage](https://github.com/dorny/paths-filter?tab=readme-ov-file#usage)
+
+```yaml
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      backend_files: ${{ steps.filter.outputs.backend_files }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+    steps:
+      # PR에 대한 filter의 경우 checkout이 필요 없습니다.
+      - name: Find changes
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          list-files: shell
+          filters: |
+            backend:
+              - "backend/**"
+            frontend:
+              - "frontend/**"
+
+  backend-tests:
+    needs: changes
+    if: needs.changes.outputs.backend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test backend
+        run: |
+          # ...
+
+      - name: Lint backend
+        run: |
+          for file in ${{ needs.changes.outputs.backend_files }}; do
+            # ...
+          done
+
+  frontend-tests:
+    needs: changes
+    if: needs.changes.outputs.frontend == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Test frontend
+        run: |
+          # ...
+```
+
+## workflow_dispatch
+
+- [workflow_dispatch](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#workflow_dispatch)
+
+```yaml
+on:
+  workflow_dispatch:
+```
+
+`inputs`를 선언하지 않더라도 브랜치 또는 태그 선택은 가능합니다.
+
+```yaml
+on:
+  workflow_dispatch:
+    inputs:
+      <name>:
+        ## input 창에 표시되는 내용입니다.
+        description: <description>
+        # required: false
+        type: <string|boolean|environment|choice>
+        # default:
+        ## type이 choice인 경우 선택지입니다.
+        # options: []
+```
+
+:::info
+`type: environment`를 사용하려면, Settings에서 Environments를 먼저 설정해야합니다.
+:::

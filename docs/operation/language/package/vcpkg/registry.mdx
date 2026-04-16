@@ -1,0 +1,216 @@
+---
+id: registry
+title: "vcpkg Registry 만들기"
+sidebar_label: "Registry 만들기"
+description: "vcpkg Registry 만들기"
+keywords:
+  - vcpkg
+  - Registry
+ontology:
+  role: operation
+  domain: language
+  class: package
+  instance: vcpkg
+  aspect: registry
+---
+
+## Port
+
+- [vcpkg를 사용하여 라이브러리 패키징](https://learn.microsoft.com/ko-kr/vcpkg/get_started/get-started-packaging)
+
+Port는 패키지 생성을 위한 빌드 레시피입니다.
+
+### Port 파일 만들기
+
+- [vcpkg 버전](https://learn.microsoft.com/en-us/vcpkg/users/versioning)
+
+```json title="tmp_ports/<package>/vcpkg.json"
+{
+	"name": "<package>",
+	"version": "<version>",
+	"description": "<description>",
+	"homepage": "<url>",
+	"dependencies": [
+		{
+			"name": "vcpkg-cmake",
+			"host": true
+		},
+		{
+			"name": "vcpkg-cmake-config",
+			"host": true
+		}
+	]
+}
+```
+
+- `version`
+  - `(0|[1-9]\d*)(\.(0|[1-9]\d*))*`
+  - `0` \< `0.1` \< `0.1.0` \< `1` \< `1.0.0` \< `1.0.1` \< `1.1` \< `2.0.0`
+- [`version-semver`](https://semver.org/#semantic-versioning-specification-semver)
+  - `1.0.0-1` \< `1.0.0-alpha` \< `1.0.0-beta` \< `1.0.0` \< `1.0.1` \< `1.1.0`
+- `version-date`
+  - `\d{4}-\d{2}-\d{2}(\.(0|[1-9]\d*))*`
+  - `2021-01-01` \< `2021-01-01.1` \< `2021-02-01.1.2` \< `2021-02-01.1.3` \< `2021-02-01`
+- `version-string`
+  - 버전 비교가 되지 않습니다.(같은 버전의 경우 port-version은 비교합니다.)
+- `port-version`
+  - 라이브러리 변경은 없고 registry 설정만 변경했을 경우 사용합니다.
+  - 0 부터 시작하는 정수 입니다.
+
+:::info
+버전 키가 달라진 경우 버전 비교가 되지 않습니다.
+:::
+
+```shell
+vcpkg format-manifest tmp_ports/<package>/vcpkg.json
+```
+
+```cmake title="tmp_ports/<package>/portfile.cmake"
+#
+# Source 다운로드
+# vcpkg_from_git
+# vcpkg_from_github
+# vcpkg_download_distfile + vcpkg_extract_source_archive
+# ...
+#
+# Source 경로를 SOURCE_PATH로 설정한 것으로 가정합니다.
+#
+
+vcpkg_cmake_configure(
+  SOURCE_PATH "${SOURCE_PATH}"
+)
+vcpkg_cmake_install()
+vcpkg_cmake_config_fixup()
+
+vcpkg_install_copyright(
+  FILE_LIST "${SOURCE_PATH}/LICENSE"
+)
+
+file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
+```
+
+- [vcpkg_cmake_configure](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_configure)
+  - `cmake` 명령어로 빌드 시스템을 생성합니다.
+  - `SOURCE_PATH <path>`
+    - `-S <path>`
+    - CMakeLists.txt 파일이 있는 경로를 설정합니다.
+    - e.g., `"${SOURCE_PATH}"`, `"${SOURCE_PATH}/<subdir>"`
+- [vcpkg_cmake_install](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_install)
+  - `cmake` 명령어로 빌드와 설치를 수행합니다.
+- [vcpkg_cmake_config_fixup](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_cmake_config_fixup)
+
+### Source 다운로드 함수
+
+#### Git
+
+```cmake
+vcpkg_from_git(
+  OUT_SOURCE_PATH SOURCE_PATH
+  URL <repositoryURL>
+  REF <commitHash>
+  HEAD_REF main
+)
+```
+
+- [vcpkg_from_git](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_from_git)
+  - `git` 명령어를 사용해서 소스를 다운로드합니다.
+  - `OUT_SOURCE_PATH SOURCE_PATH`
+    - `SOURCE_PATH` 변수에 다운로드한 소스 경로를 저장합니다.
+  - `URL <repositoryURL>`
+  - `REF <commitHash>`
+  - `HEAD_REF <branch>`
+
+#### GitHub
+
+- [GitHub 리포지토리 패키징](https://learn.microsoft.com/ko-kr/vcpkg/examples/packaging-github-repos)
+
+```cmake title="tmp_ports/<package>/portfile.cmake"
+vcpkg_from_github(
+  OUT_SOURCE_PATH SOURCE_PATH
+  REPO <user|organization>/<repository>
+  REF <commit|tag>
+  SHA512 0
+  HEAD_REF main
+  # AUTHORIZATION_TOKEN $ENV{GITHUB_TOKEN}
+)
+```
+
+- [vcpkg_from_github](https://learn.microsoft.com/ko-kr/vcpkg/maintainers/functions/vcpkg_from_github)
+  - `curl https://github.com/${REPO}/archive/${REF}.tar.gz` 명령어를 사용해서 소스를 다운로드합니다.
+  - `OUT_SOURCE_PATH SOURCE_PATH`
+    - `SOURCE_PATH` 변수에 다운로드한 소스 경로를 저장합니다.
+  - `REF <commitHash|tag>`
+    - `${VERSION}` 변수를 사용하여 설정하는 것을 추천합니다.
+    - e.g., `${VERSION}`, `v${VERSION}`
+  - `SHA512 <hash>`
+    - 소스 확인을 위한 해시값입니다.
+    - 0을 설정하고, 설치 테스트를 하면 설정해야하는 해시값을 얻을 수 있습니다.
+  - `HEAD_REF <branch>`
+  - `AUTHORIZATION_TOKEN <token>`
+    - Private Repository의 경우 접근하기 위한 토큰을 설정합니다.
+    - 인증이 필요한 경우 [vcpkg_from_git](#git)을 추천합니다.
+
+### 설치 테스트
+
+```shell
+vcpkg install --overlay-ports=./tmp_ports <port>
+```
+
+## Registry
+
+- [자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시](https://learn.microsoft.com/ko-kr/vcpkg/produce/publish-to-a-git-registry)
+
+### Registry 만들기
+
+```shell
+vcpkg-registry/
+├── ports/
+├── README.md
+└── versions/
+    └── baseline.json
+```
+
+```json title="versions/baseline.json"
+{
+	"default": {}
+}
+```
+
+### Port 추가
+
+```shell
+cp -r tmp_ports/<package> ./ports
+```
+
+Port를 추가한 후 git commit을 생성해야합니다.
+
+### 버전 업데이트
+
+```shell
+vcpkg \
+  x-add-version \
+  --x-builtin-ports-root=./ports \
+  --x-builtin-registry-versions-dir=./versions \
+  --all \
+  --verbose
+```
+
+버전을 업데이트한 후 git commit을 생성해야합니다.
+
+### 프로젝트에 Registry 추가
+
+- [registries Reference](https://learn.microsoft.com/ko-kr/vcpkg/reference/vcpkg-configuration-json#registry)
+
+```json title="vcpkg-configration.json"
+{
+	"registries": [
+		{
+			"kind": "git",
+			"repository": "<repositoryURL>",
+			"reference": "<branch>",
+			"baseline": "<commitHash>",
+			"packages": ["<package>"]
+		}
+	]
+}
+```

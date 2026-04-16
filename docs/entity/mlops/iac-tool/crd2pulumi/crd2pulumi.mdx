@@ -1,0 +1,106 @@
+---
+id: crd2pulumi
+title: crd2pulumi
+sidebar_label: crd2pulumi
+description: crd2pulumi
+keywords:
+  - crd2pulumi
+ontology:
+  role: entity
+  domain: mlops
+  class: iac-tool
+  instance: crd2pulumi
+  aspect: overview
+---
+
+## 설치
+
+```shell
+go install github.com/pulumi/crd2pulumi@latest
+```
+
+## CRDs to yaml
+
+```shell
+for crd in $(kubectl get crd -o name); do
+    case $crd in
+        *istio*)
+            echo $crd | cut -d "/" -f 2
+            echo "---" >> crds.yaml
+            kubectl get $crd -o yaml >> crds.yaml
+            ;;
+    esac
+done
+```
+
+## yaml to pulumi
+
+```shell
+crd2pulumi \
+    --nodejsPath ./crds/istio \
+    --nodejsName istio \
+    crds.yaml
+```
+
+```shell
+crds/
+└── istio/
+    ├── extensions/
+    │   ├── index.ts
+    │   └── v1alpha1/
+    │       ├── index.ts
+    │       └── wasmPlugin.ts
+    ├── index.ts
+    ├── install/
+    │   ├── index.ts
+    │   └── v1alpha1/
+    │       ├── index.ts
+    │       └── istioOperator.ts
+    ├── meta/
+    │   └── v1.ts
+    ├── networking/
+    │   ├── index.ts
+    │   ├── v1alpha3/
+    │   │   ├── destinationRule.ts
+    │   │   ├── envoyFilter.ts
+    │   │   ├── gateway.ts
+    │   │   ├── index.ts
+    │   │   ├── serviceEntry.ts
+    │   │   ├── sidecar.ts
+    │   │   ├── virtualService.ts
+    │   │   ├── workloadEntry.ts
+    │   │   └── workloadGroup.ts
+    │   └── v1beta1/
+    │       ├── destinationRule.ts
+    │       ├── gateway.ts
+    │       ├── index.ts
+    │       ├── proxyConfig.ts
+    │       ├── serviceEntry.ts
+    │       ├── sidecar.ts
+    │       ├── virtualService.ts
+    │       ├── workloadEntry.ts
+    │       └── workloadGroup.ts
+    ├── package.json
+    ├── provider.ts
+    ├── README.md
+    ├── scripts/
+    │   └── install-pulumi-plugin.js
+    ├── security/
+    │   ├── index.ts
+    │   └── v1beta1/
+    │       ├── authorizationPolicy.ts
+    │       ├── index.ts
+    │       ├── peerAuthentication.ts
+    │       └── requestAuthentication.ts
+    ├── telemetry/
+    │   ├── index.ts
+    │   └── v1alpha1/
+    │       ├── index.ts
+    │       └── telemetry.ts
+    ├── tsconfig.json
+    ├── types/
+    │   ├── index.ts
+    │   ├── input.ts
+    │   └── output.ts
+    └── utilities.ts
+```

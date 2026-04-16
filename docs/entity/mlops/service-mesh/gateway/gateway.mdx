@@ -1,0 +1,98 @@
+---
+id: gateway
+title: "Gateway API로 라우팅 관리하기"
+sidebar_label: "라우팅 관리하기"
+description: "Gateway API로 라우팅 관리하기"
+keywords:
+  - gateway
+  - istio
+ontology:
+  role: entity
+  domain: mlops
+  class: service-mesh
+  instance: gateway
+  aspect: overview
+---
+
+## Gateway
+
+:::info[References]
+
+- [Gateway API로 라우팅 관리하기 # Gateway](/docs/entity/mlops/gateway-api/route/route.mdx#gateway)
+- [Istio / Kubernetes Gateway API # Automated deployment](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)
+
+:::
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-infrastructure
+  namespace: istio-system
+data:
+  service: |
+    spec:
+      type: LoadBalancer
+      externalTrafficPolicy: "Local"
+
+  # serviceAccount: |
+
+  deployment: |
+    spec:
+      replicas: 3
+      template:
+        spec:
+          containers:
+            - name: istio-proxy
+              resources:
+                requests:
+                  cpu: 500m
+                  memory: 512Mi
+                limits:
+                  cpu: "2"
+                  memory: 1Gi
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: topology.kubernetes.io/zone
+                        operator: In
+                        values:
+                          - ap-northeast-2a
+                          - ap-northeast-2c
+            podAntiAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 50
+                  podAffinityTerm:
+                    topologyKey: kubernetes.io/hostname
+                    labelSelector:
+                      matchExpressions: []
+                    matchLabelKeys:
+                      - gateway.networking.k8s.io/gateway-name
+                      - pod-template-hash
+
+  horizontalPodAutoscaler: |
+    spec:
+      minReplicas: 3
+      maxReplicas: 5
+
+  podDisruptionBudget: |
+    spec:
+      minAvailable: 1
+```
+
+```yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: ingress
+  namespace: istio-system
+spec:
+  gatewayClassName: istio
+  infrastructure:
+    parametersRef:
+      group: ""
+      kind: ConfigMap
+      name: ingress-infrastructure
+```

@@ -1,0 +1,214 @@
+---
+id: operator
+title: "ECK Operator"
+sidebar_label: Operator
+description: "ECK Operator"
+keywords:
+  - "ECK Operator"
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: eck
+  aspect: operator
+---
+
+## 설치
+
+```shell
+wget https://download.elastic.co/downloads/eck/2.1.0/crds.yaml -O eck-crds.yaml
+```
+
+```shell
+kubectl apply -f eck-crds.yaml
+```
+
+```shell
+wget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O eck-operator.yaml
+```
+
+```shell
+kubectl apply -f eck-operator.yaml
+```
+
+:::info
+`istio`: https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-service-mesh-istio.html
+:::
+
+```yaml title="elasticsearch.yaml"
+apiVersion: elasticsearch.k8s.elastic.co/v1
+kind: Elasticsearch
+metadata:
+  name: elasticsearch
+  namespace: elastic-system
+spec:
+  version: 8.2.0
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  updateStrategy:
+    changeBudget:
+      maxSurge: 3
+      maxUnavailable: 1
+  nodeSets:
+    - name: master
+      config:
+        node.roles:
+          - master
+          - data
+          - ingest
+          - transform
+        node.store.allow_mmap: false
+      count: 1
+      podTemplate:
+        metadata:
+          labels:
+            app: elasticsearch
+            version: v1
+        spec:
+          containers:
+            - name: elasticsearch
+              env:
+                - name: ES_JAVA_OPTS
+                  value: "-Xms2g -Xmx2g"
+              resources:
+                limits:
+                  memory: 4Gi
+                requests:
+                  cpu: 500m
+                  memory: 4Gi
+      volumeClaimTemplates:
+        - metadata:
+            name: elasticsearch-data
+          spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 20Gi
+```
+
+```shell
+kubectl apply -f elasticsearch.yaml
+```
+
+```yaml title="kibana.yaml"
+apiVersion: kibana.k8s.elastic.co/v1
+kind: Kibana
+metadata:
+  name: kibana
+  namespace: elastic-system
+spec:
+  version: 8.2.0
+  count: 1
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
+  elasticsearchRef:
+    name: elasticsearch
+    namespace: elastic-system
+  podTemplate:
+    metadata:
+      labels:
+        app: kibana
+        version: v1
+    spec:
+      containers:
+        - name: kibana
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1Gi
+            limits:
+              memory: 2Gi
+```
+
+```shell
+kubectl apply -f kibana.yaml
+```
+
+## Fluent Bit
+
+```yaml title="fluent-bit-values.yaml"
+env:
+  - name: ES_HOST
+    value: elasticsearch-es-http.elastic-system.svc.cluster.local
+  - name: ES_PORT
+    value: "9200"
+  - name: ES_USER
+    value: "elastic"
+  - name: ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-es-elastic-user
+        key: elastic
+
+config:
+  # indent를 4칸으로 맞춰야 합니다.
+  outputs: |
+    # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
+    [OUTPUT]
+        Name                es
+        Match               *
+        Host                ${ES_HOST}
+        Port                ${ES_PORT}
+        HTTP_User           ${ES_USER}
+        HTTP_Passwd         ${ES_PASSWORD}
+        Trace_Error         On
+        Buffer_Size         64K
+        Logstash_Format     On
+        Logstash_DateFormat %Y.%m
+        Logstash_Prefix_Key tag
+        Current_Time_Index  On
+        Suppress_Type_Name  On
+        Retry_Limit         5
+```
+
+## Fluentd
+
+```yaml title="fluentd-values.yaml"
+env:
+  - name: ES_HOST
+    value: elasticsearch-es-http.elastic-system.svc.cluster.local
+  - name: ES_PORT
+    value: "9200"
+  - name: ES_USER
+    value: "elastic"
+  - name: ES_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: elasticsearch-es-elastic-user
+        key: elastic
+
+fileConfigs:
+  output-es.conf: |
+    # https://github.com/uken/fluent-plugin-elasticsearch
+    <match **>
+      @type elasticsearch
+      @id out_es
+      @log_level info
+      include_tag_key true
+      scheme http
+      host "#{ENV['ES_HOST']}"
+      port "#{ENV['ES_PORT']}"
+      user "#{ENV['ES_USER']}"
+      password "#{ENV['ES_PASSWORD']}"
+      reload_connections false
+      reconnect_on_error true
+      reload_on_failure true
+      request_timeout 30s
+      logstash_format true
+      logstash_prefix ${tag}
+      logstash_dateformat %Y.%m
+      sniffer_class_name Fluent::Plugin::ElasticsearchSimpleSniffer
+      suppress_type_name true
+      <buffer>
+        flush_at_shutdown true
+        flush_interval 10s
+        flush_thread_count 4
+        retry_max_interval 30s
+      </buffer>
+    </match>
+```

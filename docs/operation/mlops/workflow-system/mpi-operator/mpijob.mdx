@@ -1,0 +1,185 @@
+---
+id: mpijob
+title: MPIJob
+sidebar_label: MPIJob
+description: MPIJob
+keywords:
+  - mpi
+  - operator
+  - mpijob
+ontology:
+  role: operation
+  domain: mlops
+  class: workflow-system
+  instance: mpi-operator
+  aspect: mpijob
+---
+
+## MPIJob
+
+```yaml
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+spec:
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          containers:
+            - name: mpi-launcher
+              image: ""
+              command: [mpirun]
+              args:
+                - -n
+                - "2"
+                - --bind-to
+                - none
+                - --map-by
+                - slot
+                - --mca
+                - pml
+                - ob1
+                - --mca
+                - btl
+                - ^openib
+                - -x
+                - LD_LIBRARY_PATH
+                - -x
+                - PATH
+                - python3
+                - train.py
+    Worker:
+      replicas: 2
+      template:
+        spec:
+          containers:
+            - name: mpi-worker
+              image: ""
+```
+
+- `sshAuthMountPath: <dir>`
+  - 생성된 SSH Secret의 공개키와 개인키가 각각 `authorized_keys`, `id_rsa`로 마운트됩니다.
+  - 기본값은 `/root/.ssh`입니다.
+- `launcherCreationPolicy: AtStartup|WaitForWorkersReady`
+- `runLauncherAsWorker: false`
+- `slotsPerWorker: 1`
+  - hostfile에 설정될 slot 수입니다.
+- `runPolicy`
+  - `backoffLimit: <number>`
+    - Failed로 간주하기 전에 Launcher를 재시도하는 횟수입니다.
+    - 기본값은 6입니다.
+  - `ttlSecondsAfterFinished: <seconds>`
+    - Launcher가 완료된 후 삭제되기까지 대기하는 시간입니다.
+    - 기본값은 무한입니다.
+  - `cleanPodPolicy: Running|All|None`
+    - Launcher가 완료된 후 Pod을 정리하는 정책입니다.
+    - `Running`: Running 상태인 Pod을 정리합니다. 기본값입니다.
+  - `suspend: true|false`
+    - Launcher, Worker를 중지할지 여부입니다.
+- `mpiReplicaSpecs`
+  - `Launcher`
+    - Job이 생성됩니다.
+    - `replicas: <replicas>`
+      - 기본값은 1 입니다.
+    - `restartPolicy: Always|OnFailure|Never`
+      - 기본값은 `Nerver`입니다.
+    - `template: <core/v1.PodTemplateSpec>`
+  - `Worker`
+    - Pod이 생성됩니다.
+    - `template`
+      - `spec`
+        - `containers`
+          - `command: []`
+            - 기본 값으로 `[/usr/sbin/sshd, -De]`가 설정됩니다.
+
+:::warning
+
+`Launcher.template` 설정을 변경하면 생성된 launcher Job을 삭제해야 변경된 설정이 적용됩니다.
+
+:::
+
+## Container Base
+
+:::info[References]
+
+- [mpi-operator GitHub / build / base](https://github.com/kubeflow/mpi-operator/tree/master/build/base)
+
+:::
+
+```dockerfile title="build/base/Dockerfile"
+FROM ubuntu:22.04
+
+ARG PORT=2222
+
+RUN apt update && apt install -y --no-install-recommends \
+    openssh-server \
+    openssh-client \
+    libcap2-bin \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Add priviledge separation directoy to run sshd as root.
+RUN mkdir -p /var/run/sshd
+# Add capability to run sshd as non-root.
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/sbin/sshd
+RUN apt remove -y libcap2-bin
+
+RUN cat <<EOF > /etc/ssh/ssh_config.d/50-mpiuser.conf
+Host *
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+    Port $PORT
+EOF
+
+RUN cat <<EOF > /etc/ssh/sshd_config.d/50-mpiuser.conf
+StrictModes no
+Port $PORT
+EOF
+
+RUN useradd -m -u 1000 mpiuser
+
+WORKDIR /home/mpiuser
+
+RUN cat <<EOF > /home/mpiuser/.sshd_config
+PidFile /home/mpiuser/sshd.pid
+HostKey /home/mpiuser/.ssh/id_rsa
+StrictModes no
+Port $PORT
+EOF
+```
+
+이 이미지에 MPI 라이브러리 등을 설치하여 이미지를 만든 경우, 아래와 같은 설정들을 사용하여 MPIJob을 실행하면 됩니다.
+
+```yaml
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+spec:
+  sshAuthMountPath: /home/mpiuser/.ssh
+  mpiReplicaSpecs:
+    Launcher:
+      template:
+        spec:
+          containers:
+            - name: mpi-launcher
+              securityContext:
+                runAsUser: 1000
+              command:
+                - mpirun
+              args:
+                - -n
+                # ...
+    Worker:
+      template:
+        spec:
+          containers:
+            - name: mpi-worker
+              securityContext:
+                runAsUser: 1000
+              command:
+                - /usr/sbin/sshd
+              args:
+                - -De
+                - -f
+                - /home/mpiuser/.sshd_config
+```

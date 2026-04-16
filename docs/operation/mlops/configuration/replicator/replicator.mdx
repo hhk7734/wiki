@@ -1,0 +1,80 @@
+---
+id: replicator
+title: "ConfigMap, Secret을 여러 namespace에 복제하기"
+sidebar_label: replicator
+description: "ConfigMap, Secret을 여러 namespace에 복제하기"
+keywords:
+  - kubernetes
+  - configmap
+  - secret
+  - replicator
+ontology:
+  role: operation
+  domain: mlops
+  class: configuration
+  instance: replicator
+  aspect: overview
+---
+
+## 설치
+
+- https://github.com/mittwald/kubernetes-replicator
+
+```shell
+helm repo add mittwald https://helm.mittwald.de
+```
+
+```shell
+helm repo update mittwald \
+&& helm search repo mittwald/kubernetes-replicator | head -n 10
+```
+
+```shell
+helm pull mittwald/kubernetes-replicator --version 2.12.2
+```
+
+```shell
+helm show values mittwald/kubernetes-replicator --version 2.12.2 \
+  > kubernetes-replicator-2.12.2.yaml
+```
+
+```shell
+helm template replicator mittwald/kubernetes-replicator \
+  --version 2.12.2 \
+  -n replicator \
+  > replicator.yaml
+```
+
+```shell
+helm upgrade -i replicator mittwald/kubernetes-replicator \
+  --history-max 5 \
+  --create-namespace \
+  --version 2.12.2 \
+  -n replicator
+```
+
+## Push 기반 복제
+
+```shell
+metadata:
+  annotations:
+    replicator.v1.mittwald.de/replicate-to: "<namespaceSelector>[,<namespaceSelector>]"
+    replicator.v1.mittwald.de/replicate-to-matching: "<labelSelector>[,<labelSelector>]"
+```
+
+`namespaceSelector`, `labelSelector` 중 하나 또는 둘 다 사용할 수 있습니다. 둘 다 사용하는 경우 OR 조건으로 동작합니다.
+
+- `namespaceSelector`
+  - 매칭되어야할 namespace입니다.
+  - 정규표현식을 허용합니다.
+- `labelSelector`
+  - 매칭되어야할 label입니다.
+  - https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors
+  - `<key>`
+  - `!<key>`
+  - `<key>=<value>`
+  - `<key>!=<value>`
+  - `<key> in (<value>[,<value>])`
+  - `<key> notin (<value>[,<value>])`
+
+## Pull 기반 복제

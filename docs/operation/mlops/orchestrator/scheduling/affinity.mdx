@@ -1,0 +1,114 @@
+---
+id: affinity
+title: Affinity
+sidebar_label: Affinity
+description: "node/pod affinity/anti-affinity"
+keywords:
+  - kubernetes
+  - affinity
+  - anti-affinity
+ontology:
+  role: operation
+  domain: mlops
+  class: orchestrator
+  instance: scheduling
+  aspect: affinity
+---
+
+## nodeAffinity
+
+:::info[References]
+
+- [Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+
+:::
+
+nodeAffinity는 Pod가 스케줄링될 Node의 조건을 정의합니다.
+
+```yaml
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/arch
+                operator: In
+                values:
+                  - amd64
+```
+
+- `requiredDuringSchedulingIgnoredDuringExecution`
+  - `nodeSelectorTerms: []`
+    - 여러 개를 선언하면 OR 조건이 적용됩니다
+    - `matchExpressions: []`
+      - 여러 개를 선언하면 AND 조건이 적용됩니다
+      - `key: <key>`
+      - `operator: In|NotIn|Exists|DoesNotExist|Gt|Lt`
+      - `values: []`
+    - `matchFields: []`
+      - 여러 개를 선언하면 AND 조건이 적용됩니다
+      - `key: metadata.name`
+      - `operator: In|NotIn|Exists|DoesNotExist|Gt|Lt`
+      - `values: []`
+- `preferredDuringSchedulingIgnoredDuringExecution: []`
+  - 여러 개를 선언하면 만족하는 조건의 weight의 총합이 높은 Node에 Pod을 스케줄링합니다
+  - `weight: 1 ~ 100`
+  - `preference`
+    - `matchExpressions: []`
+    - `matchFields: []`
+
+## podAffinity & podAntiAffinity
+
+:::info[References]
+
+- [Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
+
+:::
+
+Pod가 스케줄링될 때 `topologyKey`조건 내에서 label이 일치하는 Pod을 찾습니다. `podAffinity`의 경우 조건이 일치하는 토폴로지에 Pod를 배치하고, `podAntiAffinity`의 경우 조건이 일치하는 토폴로지를 피해서 Pod을 배치합니다.
+
+```yaml
+spec:
+  affinity:
+    podAntiAffinity:
+      preferredDuringSchedulingIgnoredDuringExecution:
+        - weight: 1
+          podAffinityTerm:
+            topologyKey: kubernetes.io/hostname
+            labelSelector:
+              matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                    - test-app
+```
+
+- `requiredDuringSchedulingIgnoredDuringExecution: []`
+  - `topologyKey: <labelKey>`
+    - Node의 label을 확인하여 `<topologyKey>: <topologyValue>`가 같은 Node를 기준으로 selector의 조건을 확인합니다
+    - `kubernetes.io/hostname`: 한 Node 내에서 조건을 만족해야합니다
+    - `topology.kubernetes.io/zone`: 같은 zone 내에서 조건을 만족해야합니다
+  - `namespaces: []`
+  - `namespaceSelector`
+    - `{}`인 경우 모든 namespace를 기준으로 합니다
+    - null인 경우 namespaces가 null이거나 `[]`이면 Pod의 namespace가 조건이 됩니다
+    - `matchExpressions: []`
+      - `key: <key>`
+      - `operator: In|NotIn|Exists|DoesNotExist`
+      - `values: []`
+    - `matchLabels`
+      - `<key>: <value>`
+  - `matchLabelKeys: []`
+    - 설정된 `<key>`와 해당하는 value가 일치하는 Pod을 찾습니다.
+    - labelSelector와 AND 조건으로 동작합니다.
+  - `mismatchLabelKeys: []`
+    - 설정된 `<key>`와 해당하는 value가 일치하지 않는 Pod을 찾습니다.
+    - labelSelector와 AND 조건으로 동작합니다.
+  - `labelSelector`
+    - `matchExpressions: []`
+    - `matchLabels: {}`
+- `preferredDuringSchedulingIgnoredDuringExecution: []`
+  - 여러 개를 선언하면 만족하는 조건의 weight의 총합이 높은 토폴로지에 Pod을 스케줄링합니다
+  - `weight: 1 ~ 100`
+  - `podAffinityTerm`

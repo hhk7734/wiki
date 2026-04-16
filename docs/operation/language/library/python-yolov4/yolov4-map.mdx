@@ -1,0 +1,122 @@
+---
+id: yolov4-map
+title: "Calculate mAP"
+sidebar_label: mAP
+description: "Calculate mAP"
+keywords:
+  - "Neural Network"
+  - YOLOv4
+  - mAP
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: python-yolov4
+  aspect: yolov4-map
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Save dataset for mAP
+
+### Downloads
+
+- mAP: [https://github.com/Cartucho/mAP](https://github.com/Cartucho/mAP)
+- val2017 images: [https://cocodataset.org/#download](https://cocodataset.org/#download)
+- coco.names, val2017.txt: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
+
+### Script
+
+<Tabs
+    groupId="yolov4-version"
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
+
+- 2021-02-21
+- OS: Ubuntu 20.04
+- TF: v2.4.1
+- yolov4: v3.1.0
+
+```python
+from yolov4.tf import YOLOv4, YOLODataset, create_mAP_input_files
+
+
+yolo = YOLOv4()
+yolo.config.parse_names("coco.names")
+yolo.config.parse_cfg("yolov4-tiny.cfg")
+
+yolo.make_model()
+yolo.load_weights("/home/hhk7734/NN/yolov4-tiny.weights", weights_type="yolo")
+
+dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/home/hhk7734/NN/val2017.txt",
+    image_path_prefix="/home/hhk7734/NN/val2017",
+    training=False,
+)
+
+create_mAP_input_files(yolo, mAP_path="/home/hhk7734/mAP", dataset=dataset)
+```
+
+</TabItem>
+
+<TabItem value="v2">
+
+- 2020-10-15
+- OS: Ubuntu 20.04
+- TF: v2.3.1
+- yolov4: v1.2.1
+
+```python
+from yolov4.tf import YOLOv4
+
+yolo = YOLOv4(tiny=True)
+
+yolo.classes = "coco.names"
+
+yolo.make_model()
+yolo.load_weights("yolov4-tiny.weights", weights_type="yolo")
+
+dataset = yolo.load_dataset(
+    "val2017.txt",
+    training=False,
+    image_path_prefix="/home/hhk7734/val2017",
+)
+
+yolo.save_dataset_for_mAP("/home/hhk7734/mAP", dataset)
+```
+
+</TabItem>
+
+</Tabs>
+
+- @param `yolo`
+- @parma `dataset`
+- @param `mAP_path`
+- @parma `images_optional`: If `True`, images are copied to the `mAP_path`.
+- @param `num_sample`: Number of images for mAP. If `None`, all images in `dataset` are used.
+
+## Calculate mAP
+
+```shell
+cd <mAP directory>
+```
+
+```shell
+python3 -m pip install numpy matplotlib
+```
+
+```shell
+python3 main.py
+```
+
+- `--no-animation`
+- `--no-plot`
+- `--quiet`

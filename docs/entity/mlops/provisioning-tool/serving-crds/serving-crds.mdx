@@ -1,0 +1,63 @@
+---
+id: serving-crds
+title: "Knative Serving CRDs"
+sidebar_label: "Serving CRDs"
+description: "Knative Serving CRDs"
+keywords:
+  - knative
+  - serverless
+  - serving
+  - CRD
+ontology:
+  role: entity
+  domain: mlops
+  class: provisioning-tool
+  instance: serving-crds
+  aspect: overview
+---
+
+```mermaid
+flowchart TD
+  Service -- manages --> Route
+  Service --manages --> Configuration
+  Configuration -- records hitstory of --> Revision1[Revision]
+  Configuration --> Revision2[Revision]
+  Configuration --> Revision3[Revision]
+  Route --routes traffic to --> Revision1
+```
+
+## Service
+
+- https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-2
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  template:
+    metadata:
+      annotations: {}
+    spec:
+      containerConcurrency: 0 # 0 == no-limit
+      containers:
+        - name: <containerName>
+          image: <image>
+          imagePullPolicy: IfNotPresent
+          ports:
+            # ports는 하나만 선언해야 합니다
+            - name: http1 # http1|h2c
+              containerPort: <port>
+              protocol: TCP
+          resources: {}
+          env: []
+  traffic: {}
+```
+
+- `template.metdata`
+  - `annotations`
+    - [Auto Scaling 설정하기](/docs/entity/mlops/provisioning-tool/autoscaling/autoscaling.mdx)
+
+## Route

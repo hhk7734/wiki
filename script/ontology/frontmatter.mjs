@@ -107,20 +107,128 @@ function parseBlock(lines, startIndex = 0, indent = 0) {
 	return { data, index };
 }
 
-export function parseFrontmatter(content) {
+function findFrontmatterBounds(content) {
 	const lines = content.split(/\r?\n/);
 
 	if (lines[0] !== "---") {
-		return {};
+		return null;
 	}
 
-	const closingIndex = lines.slice(1).findIndex((line) => line === "---");
+	const relativeClosingIndex = lines.slice(1).findIndex((line) => line === "---");
 
-	if (closingIndex === -1) {
+	if (relativeClosingIndex === -1) {
 		throw new Error("unterminated frontmatter block");
 	}
 
-	return parseBlock(lines.slice(1, closingIndex + 1)).data;
+	return {
+		lines,
+		closingIndex: relativeClosingIndex + 1,
+	};
+}
+
+function isPlainObject(value) {
+	return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
+function formatScalar(value) {
+	if (typeof value === "string") {
+		if (/^[A-Za-z0-9_./-]+$/.test(value)) {
+			return value;
+		}
+
+		return JSON.stringify(value);
+	}
+
+	if (typeof value === "boolean") {
+		return value ? "true" : "false";
+	}
+
+	if (value === null) {
+		return "";
+	}
+
+	return String(value);
+}
+
+function appendKeyValue(lines, key, value, indent = 0) {
+	const prefix = " ".repeat(indent);
+
+	if (Array.isArray(value)) {
+		lines.push(`${prefix}${key}:`);
+
+		for (const item of value) {
+			if (isPlainObject(item) || Array.isArray(item)) {
+				throw new Error(`unsupported frontmatter list value for key: ${key}`);
+			}
+
+			lines.push(`${prefix}  - ${formatScalar(item)}`);
+		}
+
+		return;
+	}
+
+	if (isPlainObject(value)) {
+		lines.push(`${prefix}${key}:`);
+
+		for (const [childKey, childValue] of Object.entries(value)) {
+			appendKeyValue(lines, childKey, childValue, indent + 2);
+		}
+
+		return;
+	}
+
+	if (value === null) {
+		lines.push(`${prefix}${key}:`);
+		return;
+	}
+
+	lines.push(`${prefix}${key}: ${formatScalar(value)}`);
+}
+
+export function parseFrontmatter(content) {
+	const bounds = findFrontmatterBounds(content);
+
+	if (!bounds) {
+		return {};
+	}
+
+	return parseBlock(bounds.lines.slice(1, bounds.closingIndex)).data;
+}
+
+export function splitFrontmatter(content) {
+	const bounds = findFrontmatterBounds(content);
+
+	if (!bounds) {
+		return {
+			data: {},
+			body: content,
+			hasFrontmatter: false,
+		};
+	}
+
+	return {
+		data: parseBlock(bounds.lines.slice(1, bounds.closingIndex)).data,
+		body: bounds.lines.slice(bounds.closingIndex + 1).join("\n"),
+		hasFrontmatter: true,
+	};
+}
+
+export function stringifyFrontmatter(data) {
+	const lines = ["---"];
+
+	for (const [key, value] of Object.entries(data)) {
+		appendKeyValue(lines, key, value);
+	}
+
+	lines.push("---");
+	return `${lines.join("\n")}\n`;
+}
+
+export function replaceFrontmatter(content, data) {
+	const { body, hasFrontmatter } = splitFrontmatter(content);
+	const nextBody = hasFrontmatter ? body : content;
+
+	return `${stringifyFrontmatter(data)}${nextBody}`;
 }
 
 export function readFrontmatter(filePath) {

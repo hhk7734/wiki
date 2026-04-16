@@ -1,0 +1,28 @@
+---
+id: multus
+title: "Multi-Homed Pod을 위한 Multus CNI"
+sidebar_label: Multus
+description: "Multi-Homed Pod을 위한 Multus CNI"
+keywords:
+  - multus
+  - multi-homed
+  - cni
+ontology:
+  role: entity
+  domain: mlops
+  class: networking-stack
+  instance: multus
+  aspect: overview
+---
+
+## 설치
+
+:::info[References]
+
+- [Multus CNI GitHub](https://github.com/k8snetworkplumbingwg/multus-cni)
+
+:::
+
+```shell
+kubectl apply -f https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
+```

@@ -1,0 +1,92 @@
+---
+id: text-color
+title: "ShellScript Text color"
+sidebar_label: "Text color"
+description: "ShellScript Text color"
+keywords:
+  - ShellScript
+  - "Text color"
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: text-color
+  aspect: overview
+---
+
+## ANSI escape code
+
+- [ANSI escape code Colors](https://en.wikipedia.org/wiki/ANSI_escape_code#Colors)
+
+<br />
+
+- `\033`: Escape(ESC)
+- `\033[`: Control Sequence Introducer(CSI)
+  - `\033[<parameter>[;<parameter>]m`: Select Graphic Rendition(SGR)
+    - `<parameter>`
+      - 0: Reset or Normal
+      - 1: Bold
+    - e.g., `\033[1;31m`: Bold Red
+
+```shell
+RESET="\033[0m"
+BOLD="\033[1m"
+
+BLACK="\033[30m"
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+BLUE="\033[34m"
+MAGENTA="\033[35m"
+CYAN="\033[36m"
+WHITE="\033[37m"
+
+printf "${RED}${BOLD}red${RESET}, ${YELLOW}yellow${RESET}\n"
+```
+
+## tput
+
+```shell
+tput setab [1-7] # Set the background colour using ANSI escape
+tput setaf [1-7] # Set the foreground colour using ANSI escape
+```
+
+| Num | Colour  | define        | R,G,B |
+| --- | ------- | ------------- | ----- |
+| 0   | black   | COLOR_BLACK   | 0,0,0 |
+| 1   | red     | COLOR_RED     | 1,0,0 |
+| 2   | green   | COLOR_GREEN   | 0,1,0 |
+| 3   | yellow  | COLOR_YELLOW  | 1,1,0 |
+| 4   | blue    | COLOR_BLUE    | 0,0,1 |
+| 5   | magenta | COLOR_MAGENTA | 1,0,1 |
+| 6   | cyan    | COLOR_CYAN    | 0,1,1 |
+| 7   | white   | COLOR_WHITE   | 1,1,1 |
+
+```shell
+tput bold    # Select bold mode
+tput dim     # Select dim (half-bright) mode
+tput smul    # Enable underline mode
+tput rmul    # Disable underline mode
+```
+
+```shell
+tput sgr0    # Reset text format to the terminal's default
+tput bel     # Play a bell
+tput clear   # Clear screen and move the cursor to 0,0
+```
+
+```shell
+RESET=$(tput sgr0)
+BOLD=$(tput bold)
+
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+
+printf "${RED}${BOLD}red${RESET}, ${YELLOW}yellow${RESET}\n"
+```

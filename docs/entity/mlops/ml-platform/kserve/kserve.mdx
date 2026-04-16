@@ -1,0 +1,114 @@
+---
+id: kserve
+title: KServe
+sidebar_label: KServe
+description: KServe
+keywords:
+  - kserve
+  - serverless
+ontology:
+  role: entity
+  domain: mlops
+  class: ml-platform
+  instance: kserve
+  aspect: overview
+---
+
+import Link from "@docusaurus/Link";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+<center>
+	<img src={useBaseUrl("img/mlops/provisioning/kserve/controlplane.png")} alt="controlplane" />
+</center>
+<center>
+	<Link to="https://kserve.github.io/website/0.10/modelserving/control_plane/">
+		https://kserve.github.io/website/0.10/modelserving/control_plane/
+	</Link>
+</center>
+
+<br />
+
+<center>
+	<img src={useBaseUrl("img/mlops/provisioning/kserve/dataplane.jpg")} alt="dataplane" />
+</center>
+<center>
+	<Link to="https://kserve.github.io/website/0.10/modelserving/data_plane/data_plane/">
+		https://kserve.github.io/website/0.10/modelserving/data_plane/data_plane/
+	</Link>
+</center>
+
+<br />
+
+## 설치
+
+- https://github.com/kserve/kserve/releases
+
+```shell
+helm upgrade -i kserve-crd kserve-crd-v0.11.2.tgz \
+  --history-max 5
+```
+
+```shell
+helm show values kserve-v0.11.2.tgz \
+  > kserve-values.yaml
+```
+
+```yaml title="kserve-values.yaml"
+kserve:
+  controller:
+    gateway:
+      domain: <domain>
+      localGateway:
+        # InferenceService를 생성하면
+        # gateway로 들어오는 요청을 gatewayService:80으로 전달하는
+        # VirtualService를 생성합니다
+        gateway: <gatewayNamespace>/<gatewayName>
+        gatewayService: <ingressGatewayServiceHost>
+      ingressGateway:
+        gateway: <gatewayNamespace>/<gatewayName>
+        gatewayService: <ingressGatewayServiceHost>
+  modelmesh:
+    enabled: false
+```
+
+```shell
+helm template kserve kserve-v0.11.2.tgz \
+  -n kserve \
+  -f kserve-values.yaml \
+  > kserve.yaml
+```
+
+```shell
+helm upgrade -i kserve kserve-v0.11.2.tgz \
+  --history-max 5 \
+  -n kserve \
+  -f kserve-values.yaml
+```
+
+## Test
+
+```shell
+kubectl create namespace kserve-test
+```
+
+```yaml
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: sklearn-iris
+  namespace: kserve-test
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: sklearn
+      storageUri: gs://kfserving-examples/models/sklearn/1.0/model
+      args: ["--enable_docs_url=True"]
+```
+
+```shell
+curl -v \
+  -H "Host: sklearn-iris.kserve-test.svc.cluster.local" \
+  http://localhost:8081/v1/models/sklearn-iris:predict \
+  -d '{"instances": [[6.8,  2.8,  4.8,  1.4],[6.0,  3.4,  4.5,  1.6]]}'
+```

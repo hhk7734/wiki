@@ -1,0 +1,76 @@
+---
+id: access-management
+title: "Kubeflow Access Management"
+sidebar_label: "Access Management"
+description: "Kubeflow Access Management"
+keywords:
+  - "access management"
+  - kubeflow
+ontology:
+  role: entity
+  domain: mlops
+  class: ml-platform
+  instance: access-management
+  aspect: overview
+---
+
+## Profile
+
+```yaml
+apiVersion: kubeflow.org/v1beta1
+kind: Profile
+metadata:
+  name: <name>
+spec:
+  # <name> namespace admin
+  owner:
+    kind: User
+    name: <email>
+
+  # optional
+  # https://kubernetes.io/docs/concepts/policy/resource-quotas/
+  resourceQuotaSpec:
+    hard:
+      cpu: "16"
+      memory: "64Gi"
+      requests.nvidia.com/gpu: "2"
+```
+
+## Contributor
+
+```yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: <email>-clusterrole-edit # .@ 등 특수문자는 -로 변경, 대문자는 소문자로 변경
+  namespace: <profileName>
+  annotations:
+    role: edit
+    user: <email>
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: kubeflow-edit
+subjects:
+  - apiGroup: rbac.authorization.k8s.io
+    kind: User
+    name: <email>
+```
+
+```yaml
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: <email>-clusterrole-edit # .@ 등 특수문자는 -로 변경, 대문자는 소문자로 변경
+  namespace: <profileName>
+  annotations:
+    role: edit
+    user: <email>
+spec:
+  action: ALLOW
+  rules:
+    - when:
+        - key: request.headers[kubeflow-userid] # 헤더는 설정에 따라 다름
+          values:
+            - <email>
+```

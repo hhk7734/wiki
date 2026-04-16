@@ -1,0 +1,224 @@
+---
+id: entrypoint-templates
+title: "Argo Workflows entrypoint and templates"
+sidebar_label: "entrypoint and templates"
+description: "Argo Workflows entrypoint and templates"
+keywords:
+  - argo
+  - workflows
+  - templates
+ontology:
+  role: operation
+  domain: mlops
+  class: workflow-system
+  instance: argo-workflows
+  aspect: entrypoint-templates
+---
+
+## entrypoint
+
+`entrypoint`로 지정된 `template`이 workflow의 시작점이 됩니다.
+
+```yaml
+spec:
+  entrypoint: <templateName>
+```
+
+## template
+
+- https://argoproj.github.io/argo-workflows/fields/#template
+
+`template`은 workflow에서 작업을 정의할 때 사용하는 실행 단위입니다. `container`, `script`, 등은 실행 가능한 하나의 작업을 정의하며, `steps`, `dag`는 정의된 template들의 실행 순서가 정의된 하나의 집합을 작업으로 정의합니다.
+
+```yaml
+spec:
+  templates:
+    - name: <templateName>
+      daemon: false
+      # retryStrategy:
+      #   retryPolicy: OnFailure # OnFailure|OnError|OnTransientError|Always
+      #   limit: null # null|integer
+```
+
+- `daemon`: `true`로 설정하면 해당 컨테이너의 Ready status가 True가 되면 진행중 여부와 관계없이 다음 작업으로 넘어갑니다. 종료되지 않는 작업인 경우 전체 작업에서 임시로 사용될 데이터베이스를 생성하는 등의 용도로 사용할 수 있습니다.
+- `retryStrategy`: (Optional) 템플릿이 실패했을 때, 재시도할 횟수와 간격을 설정할 수 있습니다.
+  - https://argoproj.github.io/argo-workflows/retries/
+  - `retryPolicy`: `OnFailure`(기본값), `OnError`, `OnTransientError`, `Always`
+  - `limit`: null(기본값)이면 무한 재시도, 정수면 해당 횟수만큼 재시도합니다.
+  - `expression`: (Optional) 재시도 조건
+    - variables
+      - `lastRetry.exitCode`: exit 코드를 알 수 없는 경우 -1 입니다.
+      - `lastRetry.status`: `Error`, `Failed`
+      - `lastRetry.duration`: 마지막 재시도의 시작 시간부터 종료 시간까지의 간격입니다.
+      - `lastRetry.message`
+  - `backoff`
+  - `affinity`
+
+### `container`
+
+- https://argoproj.github.io/argo-workflows/fields/#container
+
+`container`는 원하는 컨테이너 이미지를 사용하여 Pod을 실행시키는 작업을 정의할 수 있습니다. Kubernetes의 container spec을 그대로 사용하시면 됩니다.
+
+```yaml
+spec:
+  entrypoint: container-test
+  templates:
+    - name: container-test
+      container:
+        # name은 main으로 고정되어 있습니다.
+        image: docker/whalesay
+        command: [cowsay]
+        args: ["hello world"]
+```
+
+```yaml
+spec:
+  template:
+    - name: <templateName>
+      daemon: true
+      container:
+        image: postgres:15.3
+        ports:
+          - name: postgres
+            containerPort: 5432
+        env:
+          - name: PGDATA
+            value: /lol_iot/postgresql/data
+          - name: POSTGRES_USER
+            value: test
+          - name: POSTGRES_PASSWORD
+            value: test
+        volumeMounts:
+          - name: tmp-db
+            mountPath: /lol_iot/postgresql
+```
+
+### `containerSet`
+
+- https://argoproj.github.io/argo-workflows/fields/#containersettemplate
+
+### `script`
+
+- https://argoproj.github.io/argo-workflows/fields/#scripttemplate
+
+스크립트 실행을 바로 할 수 있도록 `source` 필드를 추가한 `container`의 래퍼입니다.
+
+```yaml
+spec:
+  entrypoint: script-test
+  templates:
+    - name: script-test
+      script:
+        image: python:alpine3.6
+        command: [python]
+        source: |
+          import random
+          i = random.randint(1, 100)
+          print(i)
+```
+
+### `resource`
+
+`resource`는 Kubernetes 리소스를 직접 선언할 수 있습니다.
+
+- https://argoproj.github.io/argo-workflows/fields/#resourcetemplate
+
+```yaml
+spec:
+  entrypoint: resource-test
+  serviceAccountName: argo-workflow
+  templates:
+    - name: resource-test
+      steps:
+        - - name: submit-resource
+            template: create-pod
+
+        - - name: delete-resource
+            arguments:
+              parameters:
+                - name: selector
+                  value: cleanup=true
+            template: delete-resource
+
+    - name: create-pod
+      resource:
+        action: create
+        manifest: |
+          apiVersion: v1
+          kind: Pod
+          metadata:
+            generateName: hello-world-
+            labels:
+              cleanup: "true"
+          spec:
+            containers:
+            - name: hello-world
+              image: docker/whalesay
+              command: [cowsay]
+              args: ["hello world"]
+
+    - name: delete-resource
+      inputs:
+        parameters:
+          - name: selector
+      resource:
+        action: delete
+        flags: ["pod", "--selector", "{{inputs.parameters.selector}}"]
+```
+
+- `setOwnerReference`: `true`로 설정하면 workflow가 삭제될 때 리소스도 함께 삭제됩니다.
+
+<br />
+
+- [`resource` -> `outputs.parameters`](/docs/operation/mlops/workflow-system/argo-workflows/variables.mdx#resource---outputsparameters)
+
+### `data`
+
+- https://argoproj.github.io/argo-workflows/fields/#data
+
+### `suspend`
+
+- https://argoproj.github.io/argo-workflows/fields/#suspendtemplate
+
+`suspend`는 workflow를 일시 중지시키는 작업을 정의할 수 있습니다. `argo resume`이나 `/api/v1/workflows/{namespace}/{name}/resume`를 호출하여 다시 시작할 수 있습니다.
+
+```yaml
+spec:
+  entrypoint: suspend-test
+  templates:
+    - name: suspend-test
+      suspend: {} # 무기한 중지
+        # duration: "20s"
+```
+
+### `http`
+
+- https://argoproj.github.io/argo-workflows/fields/#http
+
+```yaml
+spec:
+  templates:
+    - name: <templateName>
+      http:
+        url: <url>
+        method: <method>
+        headers:
+          - name: <headerName> # e.g., x-forwarded-user
+            value: <headerValue>
+        body: <body>
+        successCondition: <successCondition> # e.g., response.statusCode < 400
+```
+
+- variables
+  - `request.body`
+  - `request.headers`: `map[string]string`
+  - `response.url`: http.url과 동일합니다.
+  - `response.method`: http.method와 동일합니다.
+  - `response.statusCode`
+  - `response.body`
+  - `response.headers`: `map[string]string`
+
+### `dag` and `steps`
+
+- [Argo Workflows DAG template](/docs/operation/mlops/workflow-system/argo-workflows/dag.mdx)

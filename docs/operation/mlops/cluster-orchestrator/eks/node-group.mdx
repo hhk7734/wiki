@@ -1,0 +1,118 @@
+---
+id: node-group
+title: "EKS NodeGroup"
+sidebar_label: NodeGroup
+description: "EKS NodeGroup"
+keywords:
+  - EKS
+  - NodeGroup
+ontology:
+  role: operation
+  domain: mlops
+  class: cluster-orchestrator
+  instance: eks
+  aspect: node-group
+---
+
+## Role
+
+```ts
+const nodeGroupRoleName = "eks-ng-role";
+const nodeGroupRole = new aws.iam.Role(
+	nodeGroupRoleName,
+	{
+		namePrefix: `${nodeGroupRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Effect: "Allow",
+					Principal: {
+						Service: "ec2.amazonaws.com",
+					},
+					Action: "sts:AssumeRole",
+				},
+			],
+		},
+		tags: {
+			Name: nodeGroupRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+const nodeGroupInstanceProfileName = "eks-ng-instacne-profile";
+const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
+	nodeGroupInstanceProfileName,
+	{
+		namePrefix: `${nodeGroupInstanceProfileName}-`,
+		role: nodeGroupRole.name,
+		tags: {
+			Name: nodeGroupInstanceProfileName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+const nodeGroupPolicyARNs = {
+	"0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+	"1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+	"2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+	"3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore", // Karpenter
+};
+
+const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
+	([i, arn]) =>
+		new aws.iam.RolePolicyAttachment(
+			`eks-ng-rpa-${i}`,
+			{
+				policyArn: arn,
+				role: nodeGroupRole.name,
+			},
+			{ protect: true },
+		),
+);
+```
+
+## NodeGroup
+
+:::info
+EBS 암호화가 필요한 경우 진행 전에 EC2 계정 속성의 EBS 암호화 기본 설정을 활성화하면 됩니다.
+:::
+
+```ts
+const nodeGroupName = "eks-ng";
+const nodeGroup = new aws.eks.NodeGroup(
+	nodeGroupName,
+	{
+		nodeGroupNamePrefix: `${nodeGroupName}-`,
+		clusterName: cluster.name,
+		nodeRoleArn: nodeGroupRole.arn,
+		instanceTypes: ["m6a.large"],
+		diskSize: 50,
+		scalingConfig: {
+			minSize: 1,
+			maxSize: 1,
+			desiredSize: 1,
+		},
+		subnetIds: [vpc.privateSubnet1.id],
+		labels: {
+			"node-group": "eks-ng",
+		},
+		taints: [
+			{
+				key: "node-group",
+				value: "eks-ng",
+				effect: "NO_SCHEDULE",
+			},
+		],
+		tags: {
+			Name: nodeGroupName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+```

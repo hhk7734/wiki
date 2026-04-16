@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
+import { rewriteDocLinks } from "../rewrite-links.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 
 test("validateSourcePath rejects editorial etc buckets", () => {
@@ -164,4 +165,29 @@ content
 	} finally {
 		rmSync(dirname(filePath), { recursive: true, force: true });
 	}
+});
+
+test("rewriteDocLinks updates absolute doc links using the registry map", () => {
+	const output = rewriteDocLinks(
+		"See [Go](/docs/lang/go/go.mdx) and [CORS](/docs/lang/design/protocol-spec/http/cors.mdx).",
+		new Map([
+			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
+			["/docs/lang/design/protocol-spec/http/cors.mdx", "/docs/specification/protocol/application-protocol/http/cors.mdx"],
+		]),
+	);
+
+	assert.match(output, /\/docs\/entity\/language\/programming-language\/go\/go\.mdx/);
+});
+
+test("rewriteDocLinks updates absolute doc links without extensions", () => {
+	const output = rewriteDocLinks(
+		"See [Lua](/docs/lang/etc/vim/lua#options) and [k0s](/docs/mlops/kubernetes/cluster/k0s#worker).",
+		new Map([
+			["/docs/lang/etc/vim/lua", "/docs/operation/platform/tool/lua/lua"],
+			["/docs/mlops/kubernetes/cluster/k0s", "/docs/entity/mlops/cluster-orchestrator/k0s"],
+		]),
+	);
+
+	assert.match(output, /\/docs\/operation\/platform\/tool\/lua\/lua#options/);
+	assert.match(output, /\/docs\/entity\/mlops\/cluster-orchestrator\/k0s#worker/);
 });

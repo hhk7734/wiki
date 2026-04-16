@@ -1,0 +1,60 @@
+---
+id: type
+title: Type
+sidebar_label: Type
+description: type
+keywords:
+  - type
+ontology:
+  role: entity
+  domain: data
+  class: database
+  instance: type
+  aspect: overview
+---
+
+## 숫자
+
+- https://dev.mysql.com/doc/refman/8.0/en/numeric-types.html
+- https://www.postgresql.org/docs/current/datatype-numeric.html
+
+| Type    | Byte | MySQL     | PostgreSQL       |
+| ------- | ---- | --------- | ---------------- |
+| integer | 1    | tinyint   | -                |
+| integer | 2    | smallint  | smallint         |
+| integer | 3    | mediumint | -                |
+| integer | 4    | int       | integer          |
+| integer | 8    | bigint    | bigint           |
+| float   | 4    | float     | real             |
+| float   | 8    | double    | double precision |
+| float   |      | numeric   | numeric          |
+
+## 문자
+
+- https://dev.mysql.com/doc/refman/8.0/en/char.html
+- https://www.postgresql.org/docs/current/datatype-character.html
+
+| Type | MySQL      | PostgreSQL                       |
+| ---- | ---------- | -------------------------------- |
+|      | varchar(n) | character varying(n), varchar(n) |
+
+## Bytes
+
+- https://dev.mysql.com/doc/refman/8.0/en/binary-varbinary.html
+- https://www.postgresql.org/docs/current/datatype-binary.html
+
+| Type | MySQL        | PostgreSQL |
+| ---- | ------------ | ---------- |
+|      | varbinary(n) | bytea      |
+
+## 날짜
+
+- https://dev.mysql.com/doc/refman/8.0/en/date-and-time-types.html
+- https://www.postgresql.org/docs/current/datatype-datetime.html
+
+| Type | MySQL     | PostgreSQL |
+| ---- | --------- | ---------- |
+|      | date      | date       |
+|      | time      | time       |
+|      | datetime  | timestamp  |
+|      | timestamp | timestamp  |

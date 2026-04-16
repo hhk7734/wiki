@@ -1,0 +1,132 @@
+---
+id: crd
+title: "Argo Workflows CRD"
+sidebar_label: CRD
+description: "Argo Workflows CRD"
+keywords:
+  - argo
+  - workflows
+  - CRD
+ontology:
+  role: operation
+  domain: mlops
+  class: workflow-system
+  instance: argo-workflows
+  aspect: crd
+---
+
+## Workflow and WorkflowTemplate
+
+- https://argoproj.github.io/argo-workflows/fields/#workflowspec
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow # Workflow|WorkflowTemplate|ClusterWorkflowTemplate
+metadata:
+  generateName: hello-world-
+spec:
+  entrypoint: <templateName> # 처음 시작되어야 할 템플릿 이름
+  templates:
+    - <template>
+```
+
+- `serviceAccountName`: workflow에 의해 실행되는 Pod의 ServiceAccount
+
+:::info
+Workflow와 WorkflowTemplate는 `.status` 필드만 다릅니다.
+:::
+
+### `entrypoint` and `templates`
+
+- [Argo Workflows entrypoint and templates](/docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx)
+
+### Variables
+
+- [Argo Workflows Variables](/docs/operation/mlops/workflow-system/argo-workflows/variables.mdx)
+
+### `podGC`
+
+- [podGC](/docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx#podgc)
+
+### `ttlStrategy`
+
+- [ttlStrategy](/docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx#ttlstrategy)
+
+### `volumes`
+
+`container`가 마운트할 수 있는 볼륨 목록을 선언할 수 있습니다.
+
+- https://argoproj.github.io/argo-workflows/fields/#volume
+
+```yaml
+spec:
+  volumes:
+    - name: <volumeName>
+      persistentVolumeClaim:
+        claimName: <existingPvcName>
+
+  templates:
+    - name: <templateName>
+      container:
+        image: ubuntu:20.04
+        command:
+          - ls
+        args:
+          - /mnt/vol
+        volumeMounts:
+          - name: <volumeName>
+            mountPath: /mnt/vol
+```
+
+```yaml
+spec:
+  volumeClaimGC:
+    strategy: OnWorkflowSuccess # OnWorkflowSuccess | OnWorkflowCompletion
+  volumeClaimTemplates:
+    - metadata:
+        name: <pvcSuffix> # PersistentVolumeClaim 이름은 <workflowName>-<pvcSuffix> 형태로 생성됩니다.
+      spec:
+        accessModes: [ReadWriteOnce]
+        resources:
+          requests:
+            storage: 1Gi
+
+  templates:
+    - name: <templateName>
+      container:
+        image: ubuntu:20.04
+        command:
+          - ls
+        args:
+          - /mnt/vol
+        volumeMounts:
+          - name: <pvcSuffix>
+            mountPath: /mnt/vol
+```
+
+## CronWorkflow
+
+- https://argoproj.github.io/argo-workflows/fields/#cronworkflowspec
+
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  schedule: "* * * * *" # https://en.wikipedia.org/wiki/Cron
+  timezone: Asia/Seoul
+  concurrencyPolicy: "Allow" # Allow|Forbid|Replace, CronJob.spec.concurrencyPolicy
+  startingDeadlineSeconds: 0 # CronJob.spec.startingDeadlineSeconds
+  suspend: false # Cron을 멈춰두고 싶은 경우 true로 설정하면 됩니다.
+  # workflowMetadata:
+  #   labes: {}
+  #   annotations: {}
+  workflowSpec: {} # Workflow.spec
+```
+
+## Reference
+
+- https://argoproj.github.io/argo-workflows/workflow-concepts/
+- https://argoproj.github.io/argo-workflows/fields/

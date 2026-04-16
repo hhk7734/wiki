@@ -16,8 +16,6 @@ export function validateEntries(entries) {
 	const seenTargets = new Set();
 
 	for (const entry of entries) {
-		validateSourcePath(entry.source);
-
 		if (seenTargets.has(entry.target)) {
 			throw new Error(`duplicate target path: ${entry.target}`);
 		}
@@ -99,13 +97,69 @@ export function validateDocumentFile(source) {
 	return frontmatter;
 }
 
+function detectCorpusShape(entries, docs) {
+	const sources = new Set(entries.map((entry) => entry.source));
+	const targets = new Set(entries.map((entry) => entry.target));
+	const docsSet = new Set(docs);
+
+	const matchesSources = docs.length === sources.size && docs.every((doc) => sources.has(doc));
+	const matchesTargets = docs.length === targets.size && docs.every((doc) => targets.has(doc));
+
+	if (matchesSources) {
+		return "legacy";
+	}
+
+	if (matchesTargets) {
+		return "migrated";
+	}
+
+	const overlappingSources = docs.filter((doc) => sources.has(doc)).length;
+	const overlappingTargets = docs.filter((doc) => targets.has(doc)).length;
+
+	throw new Error(
+		`docs corpus does not match registry sources or targets (sources=${overlappingSources}, targets=${overlappingTargets}, docs=${docsSet.size}, registry=${entries.length})`,
+	);
+}
+
+function validateMigratedCorpus(entries, docs) {
+	const entryByTarget = new Map(entries.map((entry) => [entry.target, entry]));
+
+	for (const target of docs) {
+		const frontmatter = validateDocumentFile(target);
+		const entry = entryByTarget.get(target);
+
+		if (!entry) {
+			throw new Error(`missing registry entry for migrated document: ${target}`);
+		}
+
+		const ontology = frontmatter?.ontology ?? {};
+
+		if (
+			ontology.role !== entry.ontology.role ||
+			ontology.domain !== entry.ontology.domain ||
+			ontology.class !== entry.ontology.class ||
+			ontology.instance !== entry.ontology.instance ||
+			ontology.aspect !== entry.ontology.aspect
+		) {
+			throw new Error(`ontology mismatch: ${target}`);
+		}
+	}
+}
+
 export function validateCorpus({ entries = loadRegistry(), docs = inventory() } = {}) {
 	validateEntries(entries);
-	validateRegistryDeterminism(entries);
 
-	for (const source of docs) {
-		validateDocumentFile(source);
+	if (detectCorpusShape(entries, docs) === "legacy") {
+		validateRegistryDeterminism(entries);
+
+		for (const source of docs) {
+			validateDocumentFile(source);
+		}
+
+		return;
 	}
+
+	validateMigratedCorpus(entries, docs);
 }
 
 function main() {

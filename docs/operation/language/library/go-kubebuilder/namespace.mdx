@@ -1,0 +1,296 @@
+---
+id: namespace
+title: "namespaceSelector를 사용한 관리 범위 설정"
+sidebar_label: namespaceSelector
+description: "namespaceSelector를 사용한 Kubernetes operator 관리 범위 설정 가이드"
+keywords:
+  - kubebuilder
+  - operator
+  - namespaceSelector
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: go-kubebuilder
+  aspect: namespace
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 기본 동작
+
+controller-runtime의 Manager는 기본적으로 **모든 namespace**의 리소스를 감시(watch)합니다. `ctrl.NewManager`에 별도 cache 설정을 하지 않으면 클러스터 전체를 대상으로 동작합니다.
+
+```go
+mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), ctrl.Options{
+    Scheme: scheme,
+})
+```
+
+## 특정 namespace만 감시하기
+
+### 명시적 namespace 지정
+
+`cache.Options.DefaultNamespaces`에 감시할 namespace 이름을 지정하면, informer cache가 해당 namespace의 리소스만 감시합니다.
+
+```go
+managerOpts := ctrl.Options{
+    Scheme: scheme,
+    Cache: cache.Options{
+        DefaultNamespaces: map[string]cache.Config{
+            "namespace-a": {},
+            "namespace-b": {},
+        },
+    },
+}
+
+mgr, err := ctrl.NewManager(ctrl.GetConfigOrDie(), managerOpts)
+```
+
+:::warning
+
+`DefaultNamespaces`에 포함되지 않은 namespace의 리소스는 `client.Get`, `client.List` 등으로도 조회할 수 없습니다. 다른 namespace의 리소스를 참조해야 한다면 해당 namespace도 추가해야 합니다.
+
+:::
+
+### Label selector로 namespace 선택 (predicate 필터링)
+
+namespace 이름을 하드코딩하는 대신, namespace label을 기반으로 동적 필터링할 수 있습니다. cache는 모든 namespace를 감시하되, predicate에서 namespace label을 확인하여 reconciler가 처리할 리소스를 제한합니다.
+
+<Tabs
+    defaultValue="direct-lookup"
+    values={[
+        {label: 'Direct Lookup', value: 'direct-lookup'},
+        {label: 'Namespace Reconciler', value: 'namespace-reconciler'}
+    ]}
+>
+
+<TabItem value="direct-lookup">
+
+predicate에서 cached client로 Namespace 객체를 직접 조회하여 label을 확인합니다. controller-runtime의 cached client는 첫 `Get()` 호출 시 informer를 자동 시작하므로 이후 조회는 local cache hit입니다.
+
+```go
+import (
+    "context"
+
+    corev1 "k8s.io/api/core/v1"
+    "sigs.k8s.io/controller-runtime/pkg/builder"
+    "sigs.k8s.io/controller-runtime/pkg/client"
+    "sigs.k8s.io/controller-runtime/pkg/event"
+    "sigs.k8s.io/controller-runtime/pkg/predicate"
+)
+
+// namespaceLabelPredicate는 리소스가 속한 namespace에 특정 label이 있는 경우만 통과시킵니다.
+func namespaceLabelPredicate(c client.Reader, key, value string) predicate.Funcs {
+    check := func(obj client.Object) bool {
+        ns := &corev1.Namespace{}
+        if err := c.Get(context.Background(), client.ObjectKey{Name: obj.GetNamespace()}, ns); err != nil {
+            return false
+        }
+        return ns.Labels[key] == value
+    }
+
+    return predicate.Funcs{
+        CreateFunc:  func(e event.CreateEvent) bool { return check(e.Object) },
+        UpdateFunc:  func(e event.UpdateEvent) bool { return check(e.ObjectNew) },
+        DeleteFunc:  func(e event.DeleteEvent) bool { return check(e.Object) },
+        GenericFunc: func(e event.GenericEvent) bool { return check(e.Object) },
+    }
+}
+```
+
+```go
+func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    return ctrl.NewControllerManagedBy(mgr).
+        For(&v1alpha1.Test{}, builder.WithPredicates(
+            namespaceLabelPredicate(mgr.GetClient(), "my-operator.io/watch", "true"),
+        )).
+        Named("test").
+        Complete(r)
+}
+```
+
+</TabItem>
+
+<TabItem value="namespace-reconciler">
+
+별도의 Namespace reconciler가 label selector에 매칭되는 namespace 목록을 캐시로 관리합니다. Namespace 이벤트마다 전체 목록을 다시 조회하여 캐시를 갱신하고, predicate는 캐시의 map lookup만 수행합니다.
+
+- `systemNamespace`는 label 여부와 관계없이 항상 통과합니다.
+- 첫 번째 `Refresh` 전에는 `ready` 플래그가 `false`이므로, system namespace를 제외한 모든 이벤트를 차단하여 필터링 전 이벤트가 누출되는 것을 방지합니다.
+
+```go
+import (
+    "context"
+    "fmt"
+    "sync"
+
+    corev1 "k8s.io/api/core/v1"
+    "k8s.io/apimachinery/pkg/labels"
+    ctrl "sigs.k8s.io/controller-runtime"
+    "sigs.k8s.io/controller-runtime/pkg/client"
+    "sigs.k8s.io/controller-runtime/pkg/reconcile"
+)
+
+// NamespaceFilter는 label selector에 매칭되는 namespace 집합을 관리합니다.
+// 첫 번째 Refresh 전에는 system namespace를 제외한 모든 namespace를 차단합니다.
+type NamespaceFilter struct {
+    client          client.Client
+    selector        labels.Selector
+    systemNamespace string
+
+    mu         sync.RWMutex
+    ready      bool
+    namespaces map[string]struct{}
+}
+
+func NewNamespaceFilter(c client.Client, selector labels.Selector, systemNS string) *NamespaceFilter {
+    return &NamespaceFilter{
+        client:          c,
+        selector:        selector,
+        systemNamespace: systemNS,
+        namespaces:      make(map[string]struct{}),
+    }
+}
+
+// Refresh는 매칭되는 namespace 전체를 다시 조회하여 캐시를 갱신합니다.
+func (f *NamespaceFilter) Refresh(ctx context.Context) error {
+    var nsList corev1.NamespaceList
+    if err := f.client.List(ctx, &nsList, client.MatchingLabelsSelector{Selector: f.selector}); err != nil {
+        return fmt.Errorf("listing namespaces for filter refresh: %w", err)
+    }
+
+    newSet := make(map[string]struct{}, len(nsList.Items))
+    for _, ns := range nsList.Items {
+        newSet[ns.Name] = struct{}{}
+    }
+
+    f.mu.Lock()
+    f.namespaces = newSet
+    f.ready = true
+    f.mu.Unlock()
+
+    return nil
+}
+
+// Matches는 system namespace이거나 캐시에 있는 namespace인지 확인합니다.
+// 첫 번째 Refresh 전에는 system namespace를 제외하고 false를 반환합니다.
+func (f *NamespaceFilter) Matches(namespace string) bool {
+    if namespace == f.systemNamespace {
+        return true
+    }
+
+    f.mu.RLock()
+    defer f.mu.RUnlock()
+
+    if !f.ready {
+        return false
+    }
+
+    _, ok := f.namespaces[namespace]
+    return ok
+}
+
+// NamespaceWatchReconciler는 Namespace 이벤트를 감시하고 NamespaceFilter를 갱신합니다.
+type NamespaceWatchReconciler struct {
+    Filter *NamespaceFilter
+}
+
+func (r *NamespaceWatchReconciler) Reconcile(ctx context.Context, _ reconcile.Request) (reconcile.Result, error) {
+    return ctrl.Result{}, r.Filter.Refresh(ctx)
+}
+
+func (r *NamespaceWatchReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    return ctrl.NewControllerManagedBy(mgr).
+        For(&corev1.Namespace{}).
+        Named("namespace-watcher").
+        Complete(r)
+}
+```
+
+`manager.RunnableFunc`로 초기 `Refresh`를 등록하면 controller가 이벤트를 처리하기 전에 namespace 목록이 준비됩니다.
+
+```go
+namespaceFilter := NewNamespaceFilter(mgr.GetClient(), selector, systemNamespace)
+
+(&NamespaceWatchReconciler{Filter: namespaceFilter}).SetupWithManager(mgr)
+
+mgr.Add(manager.RunnableFunc(func(ctx context.Context) error {
+    return namespaceFilter.Refresh(ctx)
+}))
+```
+
+```go
+func (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {
+    b := ctrl.NewControllerManagedBy(mgr).
+        For(&v1alpha1.Test{})
+
+    if r.NamespaceFilter != nil {
+        b = b.WithEventFilter(predicate.NewPredicateFuncs(func(obj client.Object) bool {
+            return r.NamespaceFilter.Matches(obj.GetNamespace())
+        }))
+    }
+
+    return b.Named("test").Complete(r)
+}
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info
+
+- `DefaultNamespaces`는 Manager 시작 시 고정되며 런타임에 변경할 수 없습니다.
+  ([controller-runtime#2829](https://github.com/kubernetes-sigs/controller-runtime/issues/2829))
+- predicate 방식은 namespace label이 추가/제거되면 다음 이벤트부터 즉시 반영됩니다.
+- cache가 모든 namespace를 감시하므로 `DefaultNamespaces` 방식보다 메모리를 더 사용합니다.
+- Webhook의 `namespaceSelector`는 API server가 평가하므로 별도 재시작 없이 동적으로 동작합니다.
+
+:::
+
+## Webhook namespaceSelector
+
+Webhook은 cache와 별도로, API server가 요청을 webhook에 전달할지 결정합니다. `namespaceSelector`를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다.
+
+### matchLabels
+
+namespace에 설정된 label로 필터링합니다.
+
+```yaml
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: my-operator-webhook
+webhooks:
+  - name: validate.my-operator.io
+    namespaceSelector:
+      matchLabels:
+        my-operator.io/watch: "true"
+    # ...
+```
+
+`my-operator.io/watch=true` label이 있는 namespace에서 생성/수정되는 리소스만 webhook 검증 대상이 됩니다.
+
+### matchExpressions
+
+더 유연한 조건이 필요하면 `matchExpressions`를 사용합니다.
+
+```yaml
+webhooks:
+  - name: validate.my-operator.io
+    namespaceSelector:
+      matchExpressions:
+        - key: kubernetes.io/metadata.name
+          operator: In
+          values:
+            - "namespace-a"
+            - "namespace-b"
+```
+
+:::tip
+
+`kubernetes.io/metadata.name`은 Kubernetes가 모든 namespace에 자동으로 설정하는 label로, 값은 namespace 이름과 동일합니다. 명시적 namespace 이름으로 필터링할 때 유용합니다.
+
+:::

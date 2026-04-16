@@ -1,0 +1,131 @@
+---
+id: aws-ebs-csi-driver
+title: aws-ebs-csi-driver
+sidebar_label: aws-ebs-csi-driver
+description: aws-ebs-csi-driver
+keywords:
+  - aws-ebs-csi-driver
+ontology:
+  role: entity
+  domain: data
+  class: storage-interface
+  instance: aws-ebs-csi-driver
+  aspect: overview
+---
+
+AWS EBS Container Storage Interface Driver
+
+- https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md
+
+## 사전 요구 사항
+
+```ts
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const awsEbsCsiDriverRoleName = "aws-ebs-csi-driver-role";
+export const awsEbsCsiDriverRole = new aws.iam.Role(
+	awsEbsCsiDriverRoleName,
+	{
+		namePrefix: `${awsEbsCsiDriverRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Effect: "Allow",
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn),
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: "sts.amazonaws.com",
+							[`${eks.oidcProvider.url}:sub`]:
+								// system:serviceaccount:<namespace>:<serviceAccount>
+								"system:serviceaccount:kube-system:aws-ebs-csi-driver",
+						})),
+					},
+					Action: "sts:AssumeRoleWithWebIdentity",
+				},
+			],
+		},
+		tags: {
+			Name: awsEbsCsiDriverRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+new aws.iam.RolePolicyAttachment(
+	"aws-ebs-csi-driver-rpa-0",
+	{
+		policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy",
+		role: awsEbsCsiDriverRole.name,
+	},
+	{ protect: true },
+);
+```
+
+## 설치
+
+```shell
+helm repo add aws-ebs-csi-driver https://kubernetes-sigs.github.io/aws-ebs-csi-driver
+```
+
+```shell
+helm repo update aws-ebs-csi-driver \
+&& helm search repo aws-ebs-csi-driver/aws-ebs-csi-driver -l | head -n 10
+```
+
+```shell
+helm show values aws-ebs-csi-driver/aws-ebs-csi-driver \
+    --version 2.26.0 \
+    > aws-ebs-csi-driver-values.yaml
+```
+
+```yaml title="aws-ebs-csi-driver-values.yaml"
+customLabels: {}
+
+controller:
+  serviceAccount:
+    create: true
+    name: aws-ebs-csi-driver
+    annotations:
+      eks.amazonaws.com/role-arn: "arn:aws:iam::<account-id>:role/<role-name>"
+
+  tolerations: []
+```
+
+```shell
+helm template aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+    --version 2.26.0 \
+    -n kube-system \
+    -f aws-ebs-csi-driver-values.yaml \
+    > aws-ebs-csi-driver.yaml
+```
+
+```shell
+helm upgrade -i aws-ebs-csi-driver aws-ebs-csi-driver/aws-ebs-csi-driver \
+    --history-max 5 \
+    --version 2.26.0 \
+    -n kube-system \
+    -f aws-ebs-csi-driver-values.yaml
+```
+
+## StorageClass
+
+- https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/parameters.md
+
+```yaml
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: gp3
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+provisioner: ebs.csi.aws.com
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+parameters:
+  type: gp3
+```

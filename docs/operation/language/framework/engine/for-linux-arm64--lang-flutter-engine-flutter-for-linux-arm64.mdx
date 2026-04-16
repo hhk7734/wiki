@@ -1,0 +1,311 @@
+---
+id: for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64
+title: "Build Flutter app for linux-arm/arm64"
+sidebar_label: "Build app for linux-arm/arm64"
+description: "Build Flutter app for linux-arm/arm64"
+keywords:
+  - Flutter
+  - application
+  - build
+  - arm64
+  - linux
+ontology:
+  role: operation
+  domain: language
+  class: framework
+  instance: engine
+  aspect: for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Native Build
+
+### Target(Linux ARM/ARM64)
+
+```shell
+git clone https://github.com/flutter/flutter.git $HOME/development/flutter
+```
+
+```shell
+cd $HOME/development/flutter \
+&& git checkout stable
+```
+
+```shell
+mkdir -p $HOME/development/flutter/bin/cache
+```
+
+```shell
+export PATH=$PATH:$HOME/development/flutter/bin
+```
+
+### Host(Linux x86_64)
+
+:::info
+Read **[Build engine for linux-arm64](flutter-engine-for-linux-arm64.mdx#flutter-engine)** for `out/linux_<profile/release>_<arm/arm64>`
+:::
+
+<Tabs
+    groupId="cpu-architecture"
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+rsync -a dart-sdk  <target user>@<target ip>:~/development/flutter/bin/cache
+```
+
+### Target(Linux ARM/ARM64)
+
+```shell
+cp $HOME/development/flutter/bin/internal/engine.version \
+    $HOME/development/flutter/bin/cache/engine-dart-sdk.stamp
+```
+
+```shell {1}
+$ flutter doctor
+Building flutter tool...
+
+  ╔════════════════════════════════════════════════════════════════════════════╗
+  ║                 Welcome to Flutter! - https://flutter.dev                  ║
+  ║                                                                            ║
+  ║ The Flutter tool uses Google Analytics to anonymously report feature usage ║
+  ║ statistics and basic crash reports. This data is used to help improve      ║
+  ║ Flutter tools over time.                                                   ║
+  ║                                                                            ║
+  ║ Flutter tool analytics are not sent on the very first run. To disable      ║
+  ║ reporting, type 'flutter config --no-analytics'. To display the current    ║
+  ║ setting, type 'flutter config'. If you opt out of analytics, an opt-out    ║
+  ║ event will be sent, and then no further information will be sent by the    ║
+  ║ Flutter tool.                                                              ║
+  ║                                                                            ║
+  ║ By downloading the Flutter SDK, you agree to the Google Terms of Service.  ║
+  ║ Note: The Google Privacy Policy describes how data is handled in this      ║
+  ║ service.                                                                   ║
+  ║                                                                            ║
+  ║ Moreover, Flutter includes the Dart SDK, which may send usage metrics and  ║
+  ║ crash reports to Google.                                                   ║
+  ║                                                                            ║
+  ║ Read about data we send with crash reports:                                ║
+  ║ https://flutter.dev/docs/reference/crash-reporting                         ║
+  ║                                                                            ║
+  ║ See Google's privacy policy:                                               ║
+  ║ https://policies.google.com/privacy                                        ║
+  ╚════════════════════════════════════════════════════════════════════════════╝
+
+
+Downloading Material fonts...                                    2,337ms
+Downloading Gradle Wrapper...                                       64ms
+Downloading package sky_engine...                                1,139ms
+Downloading flutter_patched_sdk tools...                            3.1s
+Downloading flutter_patched_sdk_product tools...                 2,334ms
+Downloading linux-x64 tools...                                      4.7s
+Downloading linux-x64/font-subset tools...                       1,701ms
+Doctor summary (to see all details, run flutter doctor -v):
+[✓] Flutter (Channel master, 1.25.0-9.0.pre.57, on Linux, locale C.UTF-8)
+[✗] Android toolchain - develop for Android devices
+    ✗ Unable to locate Android SDK.
+      Install Android Studio from: https://developer.android.com/studio/index.html
+      On first launch it will assist you in installing the Android SDK components.
+      (or visit https://flutter.dev/docs/get-started/install/linux#android-setup for detailed instructions).
+      If the Android SDK has been installed to a custom location, please use
+      `flutter config --android-sdk` to update to that location.
+
+[✗] Chrome - develop for the web (Cannot find Chrome executable at google-chrome)
+    ! Cannot find Chrome. Try setting CHROME_EXECUTABLE to a Chrome executable.
+[!] Android Studio (not installed)
+[!] Connected device
+    ! No devices available
+
+! Doctor found issues in 4 categories.
+```
+
+```shell
+flutter config --enable-linux-desktop
+```
+
+### Host(Linux x86_64)
+
+<Tabs
+    groupId="cpu-architecture"
+    defaultValue="aarch64"
+    values={[
+        {label: 'ARM', value: 'arm',},
+        {label: 'ARM64', value: 'aarch64',},
+    ]}
+>
+
+<TabItem value="arm">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm
+```
+
+```shell
+rsync -a flutter_linux \
+    flutter_tester \
+    font-subset \
+    icudtl.dat \
+    libflutter_linux_gtk.so \
+    gen/const_finder.dart.snapshot \
+    gen/frontend_server.dart.snapshot \
+    gen/flutter/lib/snapshot/isolate_snapshot.bin \
+    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64
+```
+
+```shell
+rsync -a flutter_patched_sdk \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_profile_arm
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64-profile
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm
+```
+
+```shell
+mv flutter_patched_sdk flutter_patched_sdk_product
+```
+
+```shell
+rsync -a flutter_patched_sdk_product \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-x64-release
+```
+
+</TabItem>
+
+<TabItem value="aarch64">
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_debug_arm64
+```
+
+```shell
+rsync -a flutter_linux \
+    flutter_tester \
+    font-subset \
+    icudtl.dat \
+    libflutter_linux_gtk.so \
+    gen/const_finder.dart.snapshot \
+    gen/frontend_server.dart.snapshot \
+    gen/flutter/lib/snapshot/isolate_snapshot.bin \
+    gen/flutter/lib/snapshot/vm_isolate_snapshot.bin \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64
+```
+
+```shell
+rsync -a flutter_patched_sdk \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_profile_arm64
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64-profile
+```
+
+```shell
+cd $HOME/flutter-engine/engine/src/out/linux_release_arm64
+```
+
+```shell
+mv flutter_patched_sdk flutter_patched_sdk_product
+```
+
+```shell
+rsync -a flutter_patched_sdk_product \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/common
+```
+
+```shell
+rsync -a flutter_linux gen_snapshot libflutter_linux_gtk.so \
+    <target user>@<target ip>:~/development/flutter/bin/cache/artifacts/engine/linux-arm64-release
+```
+
+</TabItem>
+
+</Tabs>
+
+### Target(Linux ARM/ARM64)
+
+```shell
+flutter create sample \
+&& cd sample
+```
+
+#### Run debug mode
+
+```shell
+flutter run -d linux
+```
+
+<center>
+	<img src={useBaseUrl("img/lang/flutter/engine/flutter-run-d-linux-arm64.png")} />
+</center>
+
+#### Run release mode
+
+```shell
+flutter build linux
+```
+
+```shell
+./build/linux/release/bundle/sample
+```
+
+#### Build-troubleshoot
+
+```shell
+flutter build linux --verbose
+```
+
+#### Run Without Xwindow(On console mode)
+
+```shell
+xinit /path/to/sample/build/linux/release/bundle/sample
+```
+
+:::info
+Run `export DISPLAY=:0` when accessing target from host using ssh. Then execute `flutter run`.
+:::

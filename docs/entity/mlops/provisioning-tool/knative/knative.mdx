@@ -1,0 +1,119 @@
+---
+id: knative
+title: Knative
+sidebar_label: Knative
+description: Knative
+keywords:
+  - knative
+  - serverless
+ontology:
+  role: entity
+  domain: mlops
+  class: provisioning-tool
+  instance: knative
+  aspect: overview
+---
+
+## 설치
+
+```shell
+helm show values knative-operator-0.1.0.tgz \
+  > knative-operator-values.yaml
+```
+
+```shell
+helm template knative-operator knative-operator-0.1.0.tgz \
+  -n knative \
+  -f knative-operator-values.yaml \
+  > knative-operator.yaml
+```
+
+```shell
+helm upgrade -i knative-operator knative-operator-0.1.0.tgz \
+  --history-max 5 \
+  -n knative \
+  -f knative-operator-values.yaml
+```
+
+## KnativeServing
+
+- https://knative.dev/docs/install/operator/configuring-serving-cr/
+
+```yaml
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeServing
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  # Optional, 설정하지 않으면 최신 버전이 설정됩니다
+  version: "1.9.0"
+  # Optional
+  ingress:
+    istio:
+      enabled: true
+      # Optional
+      # Gateway: knative-ingress-gateway
+      knative-ingress-gateway:
+        # Optional
+        # istiod의 기본 설정은 namespace 전체에서 찾습니다
+        selector:
+          <key>: <value>
+      # Optional
+      # Gateway: knative-local-gateway
+      # knative-local-gateway:
+  config:
+    # ConfigMap: config-defaults
+    # defaults: {}
+    # ConfigMap: config-istio
+    istio:
+      # Optional
+      gateway.<namespace>.knative-ingress-gateway: <ingressGatewayServiceHost>
+      gateway.<ingressGatewayNamespace>.<ingressGatewayName>: <ingressGatewayServiceHost>
+      # Optional
+      local-gateway.<namespace>.knative-local-gateway: <ingressGatewayServiceHost>
+      local-gateway.<localGatewayNamespace>.<localGatewayName>: <ingressGatewayServiceHost>
+    # ConfigMap: config-features
+    # features: {}
+    # ConfigMap: config-autoscaler
+    # autoscaler: {}
+```
+
+- `config`
+  - 전역 설정 값으로, Revision별 설정이 있다면 Revision별 설정 값이 우선합니다.
+  - `defaults`: https://knative.dev/docs/serving/configuration/config-defaults/
+  - `features`: https://knative.dev/docs/serving/configuration/feature-flags/
+  - `autoscaler`: [Auto Scaling 설정하기](/docs/entity/mlops/provisioning-tool/autoscaling/autoscaling.mdx)
+
+### Test
+
+```yaml
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: hello
+spec:
+  template:
+    spec:
+      containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          ports:
+            - containerPort: 8080
+          env:
+            - name: TARGET
+              value: "World"
+```
+
+```shell
+curl -H "Host: hello.default" http://localhost:8081
+```
+
+## KnativeEventing
+
+```yaml
+apiVersion: operator.knative.dev/v1beta1
+kind: KnativeEventing
+metadata:
+  name: <name>
+  namespace: <namespace>
+```

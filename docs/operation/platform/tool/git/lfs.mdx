@@ -1,0 +1,79 @@
+---
+id: lfs
+title: "Git LFS"
+sidebar_label: "LFS(Large File Storage)"
+description: "Git LFS(Large File Storage)"
+keywords:
+  - Git
+  - LFS
+ontology:
+  role: operation
+  domain: platform
+  class: tool
+  instance: git
+  aspect: lfs
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+- https://github.com/git-lfs/git-lfs#getting-started
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S git-lfs
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install git-lfs
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+git lfs install [--local]
+```
+
+- `--local`: 특정 리포지토리에서만 활성화 하려는 경우 해당 리포지토리로 이동 후 이 옵션을 사용하면 됩니다.
+
+## LFS에 파일 추가
+
+```shell
+git lfs track <pattern>
+```
+
+- `<pattern>`: LFS로 관리할 파일명 또는 패턴을 입력합니다. e.g., `*.zip`
+
+## LFS 파일 다운로드
+
+```shell
+git lfs pull
+```
+
+## LFS에서 파일 삭제
+
+```shell
+git lfs untrack <pattern>
+```
+
+```shell
+git rm --cached <pattern>
+```
