@@ -2,10 +2,10 @@
 id: comparison
 title: Comparison
 sidebar_label: Comparison
-description: 비교 문서 모음
+description: Collection of comparison documents
 slug: /comparison
 ---
 
-이 섹션은 온톨로지 기반 재구성 이후 비교 문서를 위한 자리입니다.
+This section is reserved for comparison documents after the ontology-based reorganization.
 
-현재는 분류된 문서가 없으며, 이후 비교 문서를 이 트리에 추가할 예정입니다.
+There are no classified documents here yet. Comparison documents will be added to this tree later.

@@ -2,10 +2,10 @@
 id: entity
 title: Entity
 sidebar_label: Entity
-description: 엔티티 문서 모음
+description: Collection of entity documents
 slug: /entity
 ---
 
-이 섹션은 온톨로지 기반 재구성 이후 엔티티 문서를 위한 진입점입니다.
+This section is the entry point for entity documents after the ontology-based reorganization.
 
-엔티티 역할로 분류된 문서는 이 트리 아래에서 관리합니다.
+Documents classified with the `entity` role are managed under this tree.
