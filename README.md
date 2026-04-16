@@ -14,6 +14,14 @@ npm install
 npm run start
 ```
 
+## ontology
+
+```shell
+npm run ontology:bootstrap
+npm run ontology:validate
+npm run ontology:migrate -- --dry-run
+```
+
 ## swizzle
 
 ```shell
