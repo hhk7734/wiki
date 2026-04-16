@@ -41,16 +41,85 @@ export function buildDocLinkMap(entries = loadRegistry()) {
 	return linkMap;
 }
 
-export function rewriteDocLinks(content, linkMap = buildDocLinkMap()) {
-	let nextContent = content;
+function splitUrlSuffix(url) {
+	const suffixStart = url.search(/[?#]/);
 
-	const replacements = [...linkMap.entries()].sort((left, right) => right[0].length - left[0].length);
-
-	for (const [oldDocPath, newDocPath] of replacements) {
-		nextContent = nextContent.replaceAll(oldDocPath, newDocPath);
+	if (suffixStart === -1) {
+		return { base: url, suffix: "" };
 	}
 
-	return nextContent;
+	return {
+		base: url.slice(0, suffixStart),
+		suffix: url.slice(suffixStart),
+	};
+}
+
+function rewriteUrl(url, linkMap) {
+	const { base, suffix } = splitUrlSuffix(url);
+	const nextBase = linkMap.get(base);
+
+	if (!nextBase) {
+		return url;
+	}
+
+	return `${nextBase}${suffix}`;
+}
+
+function rewriteNonCodeChunk(content, linkMap) {
+	return content
+		.replace(/\]\((\/docs\/[^)\s]+)\)/g, (_match, url) => `](${rewriteUrl(url, linkMap)})`)
+		.replace(/\b(href|to)=(["'])(\/docs\/[^"']+)\2/g, (_match, attribute, quote, url) => {
+			return `${attribute}=${quote}${rewriteUrl(url, linkMap)}${quote}`;
+		});
+}
+
+function rewriteOutsideFences(content, rewriter) {
+	const lines = content.split("\n");
+	const output = [];
+	const proseBuffer = [];
+	let fence = null;
+
+	function flushProse() {
+		if (proseBuffer.length === 0) {
+			return;
+		}
+
+		output.push(rewriter(proseBuffer.join("\n")));
+		proseBuffer.length = 0;
+	}
+
+	for (const line of lines) {
+		const fenceMatch = line.match(/^\s*(`{3,}|~{3,})/);
+
+		if (!fence) {
+			if (fenceMatch) {
+				flushProse();
+				fence = {
+					char: fenceMatch[1][0],
+					length: fenceMatch[1].length,
+				};
+				output.push(line);
+				continue;
+			}
+
+			proseBuffer.push(line);
+			continue;
+		}
+
+		output.push(line);
+
+		const closingPattern = new RegExp(`^\\s*${fence.char}{${fence.length},}\\s*$`);
+		if (closingPattern.test(line)) {
+			fence = null;
+		}
+	}
+
+	flushProse();
+	return output.join("\n");
+}
+
+export function rewriteDocLinks(content, linkMap = buildDocLinkMap()) {
+	return rewriteOutsideFences(content, (chunk) => rewriteNonCodeChunk(chunk, linkMap));
 }
 
 export function listRewriteTargets() {

@@ -6,16 +6,34 @@ import { inventory } from "./inventory.mjs";
 import { readFrontmatter } from "./frontmatter.mjs";
 import { readFileSync } from "node:fs";
 
-export function validateSourcePath(legacyPath) {
-	if (legacyPath.replaceAll("\\", "/").includes("/etc/")) {
+export function validateSourcePath(legacyPath, { allowEditorialBuckets = false } = {}) {
+	const normalizedPath = legacyPath.replaceAll("\\", "/");
+
+	if (!normalizedPath.startsWith("docs/")) {
+		throw new Error("source path must be under docs/");
+	}
+
+	if (!normalizedPath.endsWith(".mdx")) {
+		throw new Error("source path must point to an .mdx document");
+	}
+
+	if (normalizedPath.startsWith("docs/superpowers/")) {
+		throw new Error("source path must not point into docs/superpowers/");
+	}
+
+	if (!allowEditorialBuckets && normalizedPath.includes("/etc/")) {
 		throw new Error("forbidden editorial bucket");
 	}
 }
 
-export function validateEntries(entries) {
+export function validateEntries(entries, { validateSourcePaths = false, allowEditorialBuckets = false } = {}) {
 	const seenTargets = new Set();
 
 	for (const entry of entries) {
+		if (validateSourcePaths) {
+			validateSourcePath(entry.source, { allowEditorialBuckets });
+		}
+
 		if (seenTargets.has(entry.target)) {
 			throw new Error(`duplicate target path: ${entry.target}`);
 		}

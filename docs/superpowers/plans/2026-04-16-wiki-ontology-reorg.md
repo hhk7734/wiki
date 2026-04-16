@@ -285,10 +285,10 @@ git commit -m "feat: add ontology frontmatter and validation"
 ```js
 test("rewriteDocLinks updates absolute doc links using the registry map", () => {
 	const output = rewriteDocLinks(
-		'See [Go](/docs/entity/language/programming-language/go/go.mdx) and [CORS](/docs/specification/protocol/application-protocol/http/cors.mdx).',
+		'See [Go](/docs/lang/go/go.mdx) and [CORS](/docs/lang/design/protocol-spec/http/cors.mdx).',
 		new Map([
-			["/docs/entity/language/programming-language/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
-			["/docs/specification/protocol/application-protocol/http/cors.mdx", "/docs/specification/protocol/application-protocol/http/cors.mdx"],
+			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
+			["/docs/lang/design/protocol-spec/http/cors.mdx", "/docs/specification/protocol/application-protocol/http/cors.mdx"],
 		]),
 	);
 

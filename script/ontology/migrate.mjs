@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
 import { parseFrontmatter, replaceFrontmatter } from "./frontmatter.mjs";
 import { normalizeOntologyBlock } from "./ontology-frontmatter.mjs";
-import { loadRegistry } from "./validate.mjs";
+import { loadRegistry, validateEntries } from "./validate.mjs";
 
 function toOntologyParts(ontology) {
 	return {
@@ -51,7 +51,23 @@ function pruneEmptyDirectories(startDir) {
 	}
 }
 
+function assertSourceDocumentsExist(entries) {
+	for (const entry of entries) {
+		const sourcePath = resolve(ROOT_DIR, entry.source);
+
+		if (!existsSync(sourcePath)) {
+			throw new Error(`missing source document: ${entry.source}`);
+		}
+	}
+}
+
 export function migrateRegistryEntries(entries = loadRegistry(), { dryRun = false } = {}) {
+	validateEntries(entries, {
+		validateSourcePaths: true,
+		allowEditorialBuckets: true,
+	});
+	assertSourceDocumentsExist(entries);
+
 	for (const entry of entries) {
 		console.log(`${entry.source} -> ${entry.target}`);
 	}
@@ -63,14 +79,6 @@ export function migrateRegistryEntries(entries = loadRegistry(), { dryRun = fals
 	for (const entry of entries) {
 		const sourcePath = resolve(ROOT_DIR, entry.source);
 		const targetPath = resolve(ROOT_DIR, entry.target);
-
-		if (!existsSync(sourcePath)) {
-			if (existsSync(targetPath)) {
-				continue;
-			}
-
-			throw new Error(`missing source document: ${entry.source}`);
-		}
 
 		const content = readFileSync(sourcePath, "utf8");
 		const nextContent = rewriteMigratedFrontmatter(content, entry);
