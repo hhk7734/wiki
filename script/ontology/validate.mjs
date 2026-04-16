@@ -1,10 +1,10 @@
-import { readFileSync } from "node:fs";
 import { basename, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry } from "./bootstrap-registry.mjs";
 import { ROOT_DIR } from "./constants.mjs";
 import { inventory } from "./inventory.mjs";
-import { parseFrontmatter } from "./frontmatter.mjs";
+import { readFrontmatter } from "./frontmatter.mjs";
+import { readFileSync } from "node:fs";
 
 export function validateSourcePath(legacyPath) {
 	if (legacyPath.includes("/etc/")) {
@@ -39,18 +39,61 @@ export function loadRegistry(registryPath = CLASSIFICATION_REGISTRY_PATH) {
 	return JSON.parse(readFileSync(registryPath, "utf8"));
 }
 
-export function validateRegistryDeterminism(entries, expectedEntries = bootstrapRegistry()) {
-	const actual = JSON.stringify(entries);
-	const expected = JSON.stringify(expectedEntries);
+function projectOntology(ontology = {}) {
+	return {
+		role: ontology.role,
+		domain: ontology.domain,
+		class: ontology.class,
+		instance: ontology.instance,
+		aspect: ontology.aspect,
+	};
+}
 
-	if (actual !== expected) {
+function projectRegistryEntry(entry = {}) {
+	return {
+		source: entry.source,
+		target: entry.target,
+		ontology: projectOntology(entry.ontology),
+	};
+}
+
+function sortProjectedEntries(entries) {
+	return entries
+		.map((entry) => projectRegistryEntry(entry))
+		.sort((left, right) =>
+			`${left.source}\0${left.target}`.localeCompare(`${right.source}\0${right.target}`),
+		);
+}
+
+export function validateRegistryDeterminism(entries, expectedEntries = bootstrapRegistry()) {
+	const actual = sortProjectedEntries(entries);
+	const expected = sortProjectedEntries(expectedEntries);
+
+	if (actual.length !== expected.length) {
 		throw new Error("classification registry is out of date");
+	}
+
+	for (let index = 0; index < actual.length; index += 1) {
+		const nextActual = actual[index];
+		const nextExpected = expected[index];
+
+		if (
+			nextActual.source !== nextExpected.source ||
+			nextActual.target !== nextExpected.target ||
+			nextActual.ontology.role !== nextExpected.ontology.role ||
+			nextActual.ontology.domain !== nextExpected.ontology.domain ||
+			nextActual.ontology.class !== nextExpected.ontology.class ||
+			nextActual.ontology.instance !== nextExpected.ontology.instance ||
+			nextActual.ontology.aspect !== nextExpected.ontology.aspect
+		) {
+			throw new Error("classification registry is out of date");
+		}
 	}
 }
 
 export function validateDocumentFile(source) {
 	const absolutePath = resolve(ROOT_DIR, source);
-	const frontmatter = parseFrontmatter(readFileSync(absolutePath, "utf8"));
+	const frontmatter = readFrontmatter(absolutePath);
 
 	validateFrontmatter({ source, frontmatter });
 	return frontmatter;

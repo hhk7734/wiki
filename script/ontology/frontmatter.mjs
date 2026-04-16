@@ -57,7 +57,7 @@ function parseBlock(lines, startIndex = 0, indent = 0) {
 		const nextLine = lines[index + 1];
 
 		if (!nextLine) {
-			data[key] = {};
+			data[key] = null;
 			index += 1;
 			continue;
 		}
@@ -65,7 +65,7 @@ function parseBlock(lines, startIndex = 0, indent = 0) {
 		const nextIndent = nextLine.match(/^\s*/)?.[0].length ?? 0;
 
 		if (nextIndent <= currentIndent) {
-			data[key] = {};
+			data[key] = null;
 			index += 1;
 			continue;
 		}
@@ -125,20 +125,4 @@ export function parseFrontmatter(content) {
 
 export function readFrontmatter(filePath) {
 	return parseFrontmatter(readFileSync(filePath, "utf8"));
-}
-
-export function normalizeOntologyBlock(parts) {
-	return {
-		ontology: {
-			role: parts.role,
-			domain: parts.domain,
-			class: parts.className,
-			instance: parts.instance,
-			aspect: parts.aspect,
-		},
-		source: {
-			status: parts.aspect === "overview" ? "canonical" : "supporting",
-			confidence: "exact",
-		},
-	};
 }
