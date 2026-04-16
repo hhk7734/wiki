@@ -12,6 +12,23 @@ interface GlobalDoc {
 	sidebar?: string;
 }
 
+interface DocMetadata {
+	id: string;
+	title?: string;
+	frontMatter?: {
+		sidebar_label?: string;
+	};
+}
+
+type DocsContext = {
+	keys: () => string[];
+	(key: string): DocMetadata;
+};
+
+declare const require: {
+	context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => DocsContext;
+};
+
 const ontologySections = {
 	Entity: "entity",
 	Concept: "concept",
@@ -20,6 +37,23 @@ const ontologySections = {
 	Troubleshooting: "troubleshooting",
 	Comparison: "comparison",
 } as const;
+
+const docMetadataById = (() => {
+	const docsContext = require.context("../../.docusaurus/docusaurus-plugin-content-docs/default", false, /^\.\/site-docs-.*\.json$/);
+
+	return new Map(docsContext.keys().map((key) => {
+		const metadata = docsContext(key);
+		return [metadata.id, metadata];
+	}));
+})();
+
+function toDisplayLabel(value: string): string {
+	return value
+		.split("/")
+		.at(-1)
+		?.replaceAll(/[-_]+/g, " ")
+		.replace(/\b\w/g, (letter) => letter.toUpperCase()) ?? value;
+}
 
 function ensureChild(parent: TreeData, name: string): TreeData {
 	const existingChild = parent.children?.find((child) => child.name === name);
@@ -34,9 +68,10 @@ function ensureChild(parent: TreeData, name: string): TreeData {
 
 function docToTreeData(doc: string): { categoryPath: string[]; leafName: string } {
 	const segments = doc.split("/");
+	const metadata = docMetadataById.get(doc);
 	return {
-		categoryPath: segments.slice(1, -1),
-		leafName: segments.at(-1) ?? doc,
+		categoryPath: segments.slice(1, -1).map((segment) => toDisplayLabel(segment)),
+		leafName: metadata?.frontMatter?.sidebar_label ?? metadata?.title ?? toDisplayLabel(doc),
 	};
 }
 

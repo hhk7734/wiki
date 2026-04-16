@@ -20,9 +20,8 @@ export const navbarItems: NavbarItem[] = Object.entries(navbar).map(([key, categ
 		position: "left",
 		items: Object.entries(categories).map(([label, to]) => {
 			return {
-				type: "docSidebar",
 				label,
-				sidebarId: to,
+				to: `/docs/${to}`,
 			};
 		}),
 	};
