@@ -2,7 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
-import { validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
+import { validateCorpus, validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
 import { listRewriteTargets, rewriteDocLinks } from "../rewrite-links.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { migrateRegistryEntries } from "../migrate.mjs";
@@ -222,6 +222,20 @@ test("rewriteDocLinks rewrites real links but skips fenced code blocks and plain
 	assert.match(output, /<Link to="\/docs\/lang\/etc\/vim\/lua#options">Lua<\/Link>;/);
 });
 
+test("rewriteDocLinks preserves inline code spans", () => {
+	const output = rewriteDocLinks(
+		'Use `[Go](/docs/lang/go/go.mdx)` literally, but see [Go](/docs/lang/go/go.mdx) and <Link to="/docs/lang/etc/vim/lua#options">Lua</Link>.',
+		new Map([
+			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
+			["/docs/lang/etc/vim/lua", "/docs/operation/platform/tool/lua/lua"],
+		]),
+	);
+
+	assert.match(output, /`\[Go\]\(\/docs\/lang\/go\/go\.mdx\)` literally/);
+	assert.match(output, /\[Go\]\(\/docs\/entity\/language\/programming-language\/go\/go\.mdx\)/);
+	assert.match(output, /to="\/docs\/operation\/platform\/tool\/lua\/lua#options"/);
+});
+
 test("listRewriteTargets includes docs under docs/superpowers", () => {
 	const docs = listRewriteTargets();
 
@@ -339,4 +353,27 @@ content
 	} finally {
 		rmSync(dirname(targetPath), { recursive: true, force: true });
 	}
+});
+
+test("validateCorpus enforces registry source-path invariants in the production path", () => {
+	assert.throws(
+		() =>
+			validateCorpus({
+				entries: [
+					{
+						source: "docs/superpowers/specs/bad-source.mdx",
+						target: "docs/entity/language/programming-language/go/go.mdx",
+						ontology: {
+							role: "entity",
+							domain: "language",
+							class: "programming-language",
+							instance: "go",
+							aspect: "overview",
+						},
+					},
+				],
+				docs: ["docs/entity/language/programming-language/go/go.mdx"],
+			}),
+		/source path must not point into docs\/superpowers\//,
+	);
 });

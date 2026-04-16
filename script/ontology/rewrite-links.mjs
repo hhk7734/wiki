@@ -65,12 +65,50 @@ function rewriteUrl(url, linkMap) {
 	return `${nextBase}${suffix}`;
 }
 
-function rewriteNonCodeChunk(content, linkMap) {
+function rewriteLinkPatterns(content, linkMap) {
 	return content
 		.replace(/\]\((\/docs\/[^)\s]+)\)/g, (_match, url) => `](${rewriteUrl(url, linkMap)})`)
 		.replace(/\b(href|to)=(["'])(\/docs\/[^"']+)\2/g, (_match, attribute, quote, url) => {
 			return `${attribute}=${quote}${rewriteUrl(url, linkMap)}${quote}`;
 		});
+}
+
+function rewriteOutsideInlineCode(content, rewriter) {
+	const output = [];
+	let proseStart = 0;
+	let index = 0;
+
+	while (index < content.length) {
+		if (content[index] !== "`") {
+			index += 1;
+			continue;
+		}
+
+		let delimiterEnd = index;
+		while (content[delimiterEnd] === "`") {
+			delimiterEnd += 1;
+		}
+
+		const delimiter = content.slice(index, delimiterEnd);
+		const closingIndex = content.indexOf(delimiter, delimiterEnd);
+
+		if (closingIndex === -1) {
+			index = delimiterEnd;
+			continue;
+		}
+
+		output.push(rewriter(content.slice(proseStart, index)));
+		output.push(content.slice(index, closingIndex + delimiter.length));
+		proseStart = closingIndex + delimiter.length;
+		index = proseStart;
+	}
+
+	output.push(rewriter(content.slice(proseStart)));
+	return output.join("");
+}
+
+function rewriteNonCodeChunk(content, linkMap) {
+	return rewriteOutsideInlineCode(content, (chunk) => rewriteLinkPatterns(chunk, linkMap));
 }
 
 function rewriteOutsideFences(content, rewriter) {

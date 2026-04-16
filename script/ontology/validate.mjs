@@ -165,7 +165,10 @@ function validateMigratedCorpus(entries, docs) {
 }
 
 export function validateCorpus({ entries = loadRegistry(), docs = inventory() } = {}) {
-	validateEntries(entries);
+	validateEntries(entries, {
+		validateSourcePaths: true,
+		allowEditorialBuckets: true,
+	});
 
 	if (detectCorpusShape(entries, docs) === "legacy") {
 		validateRegistryDeterminism(entries);
