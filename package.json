@@ -12,7 +12,13 @@
 		"clear": "docusaurus clear",
 		"docker-build": "sh ./script/build.sh",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
-		"format": "prettier --plugin-search-dir . --write ."
+		"format": "prettier --plugin-search-dir . --write .",
+		"ontology:validate": "node script/ontology/validate.mjs",
+		"ontology:inventory": "node script/ontology/inventory.mjs",
+		"ontology:bootstrap": "node script/ontology/bootstrap-registry.mjs",
+		"ontology:migrate": "node script/ontology/migrate.mjs",
+		"ontology:rewrite-links": "node script/ontology/rewrite-links.mjs",
+		"test:ontology": "node --test script/ontology/__tests__/*.test.mjs"
 	},
 	"dependencies": {
 		"@docusaurus/core": "^3.10.0",
