@@ -1,0 +1,144 @@
+---
+id: source
+title: "Vector Source(수집하기)"
+sidebar_label: "Source(수집하기)"
+description: "Vector Source(수집하기)"
+keywords:
+  - vector
+  - source
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: vector
+  aspect: source
+---
+
+## Source 설정 방법
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: <sourceType>
+      <option>: <value>
+```
+
+## Kubernetes Log
+
+:::info[References]
+
+- [Vector / Kubernetes logs](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/)
+
+:::
+
+### 설정
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: kubernetes_logs
+      <option>: <value>
+```
+
+- `<option>: <value>`
+  - `include_paths_glob_patterns: []`
+    - `["**/*"]`이 기본값입니다.
+  - `exclude_paths_glob_patterns: []`
+    - `["**/*.gz", "**/*.tmp"]`이 기본값입니다.
+  - `extra_field_selector: <fieldSelector>[,<fieldSelector>]`
+    - [`<fieldSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/field-selectors/)
+  - `extra_label_selector: <labelSelector>[,<labelSelector>]`
+    - [`<labelSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+  - `extra_namespace_label_selector: <labelSelector>[,<labelSelector>]`
+    - [`<labelSelector>`](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#label-selectors)
+
+<br />
+
+### 수집 데이터 예시
+
+```json
+{
+	"file": "/var/log/pods/...",
+	"kubernetes": {
+		"container_id": "containerd://...",
+		"container_image": "",
+		"container_image_id": "",
+		"container_name": "",
+		"namespace_labels": {
+			"<label>": "<value>"
+		},
+		"node_labels": {
+			"<label>": "<value>"
+		},
+		"pod_ip": "",
+		"pod_ips": [""],
+		"pod_labels": {
+			"<label>": "<value>"
+		},
+		"pod_name": "",
+		"pod_namespace": "",
+		"pod_node_name": "",
+		"pod_owner": "",
+		"pod_uid": ""
+	},
+	"message": "",
+	"source_type": "kubernetes_logs",
+	"stream": "stderr"
+}
+```
+
+## File
+
+:::info[References]
+
+- [Vector / File](https://vector.dev/docs/reference/configuration/sources/file/)
+- [Vector Remap Language\(VRL\)](https://vector.dev/docs/reference/vrl/)
+
+:::
+
+### 설정
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sources:
+    <sourceID>:
+      type: file
+      include:
+        - <mountPath>/...
+      <option>: <value>
+
+extraVolumes:
+  - name: <volumeName>
+    hostPath:
+      path: <hostPath>
+
+extraVolumeMounts:
+  - name: <volumeName>
+    mountPath: <mountPath>
+    readOnly: true
+```
+
+- `<option>: <value>`
+  - `multiline`
+    - `mode: <mode>`
+      - `continue_past`: `start_pattern`에서 시작해서 연속적으로 `condition_pattern`에 매칭되는 줄과 그 다음 줄을 multiline으로 처리합니다.
+      - `continue_through`: `start_pattern`에서 시작해서 연속적으로 `condition_pattern`에 매칭되는 로그들을 multiline으로 처리합니다.
+      - `halt_before`: `start_pattern`에서 시작해서 `condition_pattern` 전까지를 multiline으로 처리합니다.
+      - `hart_with`: `start_pattern`에서 `condition_pattern`까지를 multiline으로 처리합니다.
+    - `start_pattern: <pattern>`
+    - `condition_pattern: <pattern>`
+    - `timeout_ms: <timeout>`
+
+### 수집 데이터 예시
+
+```json
+{
+	"file": "",
+	"host": "",
+	"message": "<log>",
+	"source_type": "file",
+	"timestamp": "2006-01-02T15:04:05.000000000Z"
+}
+```
