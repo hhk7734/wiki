@@ -5,10 +5,17 @@
 - `README.md`: Main README file for the repository. (contains docusaurus MDX features)
 - `src/`: Custom components for Docusaurus.
 - `static/`: Static files such as images, draw.io diagrams, etc.
-- `docs/lang/`: Programming language and Programming related documentation.
-- `docs/mlops/`: MLOps and related tools documentation.
+- `docs/`: Ontology-first documentation tree.
+- `docs/AGENTS.md`: Canonical authoring and classification rules for `docs/`.
 
 ## Documentation guidelines
+
+For files under `docs/`, follow `docs/AGENTS.md` as the canonical source for:
+
+- ontology path model
+- frontmatter alignment
+- role and class classification
+- validation and link rewrite expectations
 
 ### Metadata
 
@@ -26,6 +33,7 @@ keywords:
 ```
 
 - `<id>` must be same as the file name without extension.
+- Add any ontology metadata required by `docs/AGENTS.md`.
 
 ### Reference block
 
@@ -41,7 +49,7 @@ keywords:
 
 ### Contents
 
-- Use Korean for the main content of the documentation (`docs/**/*.mdx`).
+- Use English for the main content of the documentation (`docs/**/*.mdx`).
 - Use English for code snippets, commands, and configuration files.
 - Use mermaid diagrams for flowcharts, architecture diagrams etc.
 - Refer to the contents of the Reference block to improve the quality of the documentation.
