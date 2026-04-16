@@ -33,10 +33,10 @@ function ensureChild(parent: TreeData, name: string): TreeData {
 }
 
 function docToTreeData(doc: string): { categoryPath: string[]; leafName: string } {
-	const segments = doc.split("/").slice(1);
+	const segments = doc.split("/");
 	return {
-		categoryPath: segments.slice(0, -2),
-		leafName: doc.split("/").slice(-2, -1)[0] ?? doc,
+		categoryPath: segments.slice(1, -1),
+		leafName: segments.at(-1) ?? doc,
 	};
 }
 
