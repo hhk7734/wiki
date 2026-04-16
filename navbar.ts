@@ -22,6 +22,7 @@ export const navbarItems: NavbarItem[] = Object.entries(navbar).map(([key, categ
 			return {
 				label,
 				to: `/docs/${to}`,
+				activeBaseRegex: `^/docs/${to}(?:/|$)`,
 			};
 		}),
 	};

@@ -86,9 +86,7 @@ function buildSectionTree(name: string, docIds: string[]): TreeData {
 			current = ensureChild(current, category);
 		}
 
-		if (!current.children?.some((child) => child.name === leafName)) {
-			current.children = [...(current.children ?? []), { name: leafName }];
-		}
+		current.children = [...(current.children ?? []), { name: leafName }];
 	}
 
 	return root;
