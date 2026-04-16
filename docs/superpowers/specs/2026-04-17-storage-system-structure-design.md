@@ -1,209 +1,246 @@
-# Storage System 문서 구조 재설계
+# Storage-System Ontology Alignment Plan
 
-작성일: 2026-04-17
+Date: 2026-04-17
 
-## 배경
+## Scope
 
-현재 `docs/entity/data/storage-system/` 아래에는 다음 성격의 문서가 같은 레벨에 섞여 있습니다.
+This note replaces the previous storage-system restructuring proposal.
 
-- 제품 또는 시스템 개요 문서
-- 특정 시스템의 기능 문서
-- 특정 시스템의 운영 문서
-- 특정 시스템의 배포 문서
-
-Ceph 관련 문서가 대표적입니다. 예를 들어 `ceph`, `rook-ceph`, `cephfs`, `rbd`, `osd`, `pg`, `reboot`가 모두 루트 바로 아래에 있어, 다른 스토리지 시스템이 추가되면 분류 기준이 무너지기 쉽습니다.
-
-사용자 우선순위는 링크 안정성보다 구조 정리입니다.
-
-## 목표
-
-- `storage-system` 아래 정보구조를 장기적으로 확장 가능한 형태로 정리한다.
-- 특정 시스템 전용 문서는 해당 시스템 디렉터리 안으로 모은다.
-- 새 스토리지 시스템이 추가되더라도 같은 규칙으로 문서를 배치할 수 있게 한다.
-- Docusaurus의 자동 생성 사이드바에서 구조가 자연스럽게 드러나게 한다.
-
-## 비목표
-
-- 이번 설계 단계에서 전체 저장소의 다른 도메인 구조까지 함께 개편하지 않는다.
-- 문서 본문 내용 품질 개선, 대규모 내용 병합, 한국어 표현 수정은 우선순위에서 제외한다.
-
-## 고려한 접근 방식
-
-### 1. 현 구조 유지
-
-장점:
-
-- 즉시 변경 비용이 없다.
-
-단점:
-
-- Ceph 전용 하위 문서가 루트에 퍼져 있어 다른 시스템과 같은 레벨이 된다.
-- 문서 수가 늘수록 분류 기준이 불명확해진다.
-- 자동 생성 사이드바에서 제품, 기능, 운영 작업이 섞여 보인다.
-
-### 2. 시스템 중심 구조
-
-예시:
+The previous version optimized for human-first grouping by placing Ceph-related pages under a shared filesystem subtree. That conflicts with `docs/AGENTS.md`, which defines the canonical model as:
 
 ```text
-storage-system/
-  ceph/
-  mongodb/
-  local-path-provisioner/
-  s3/
+docs/<role>/<domain>/<class>/<instance>/<aspect>.mdx
 ```
 
-각 시스템 아래에 개요, 설치, 기능, 운영 문서를 둔다.
+This revised plan treats the filesystem as ontology-first and uses classification correctness as the primary constraint.
 
-장점:
+## Problem Statement
 
-- 확장성이 가장 좋다.
-- 특정 시스템 문서를 한곳에서 찾기 쉽다.
-- 자동 생성 사이드바와도 잘 맞는다.
+The current `docs/entity/data/storage-system/` subtree mixes at least four different page types:
 
-단점:
+- canonical entity pages
+- procedural operation pages
+- mixed entity-plus-operation pages
+- incorrectly classified pages belonging to another class
 
-- 기존 링크와 경로를 한 번 정리해야 한다.
+Examples:
 
-### 3. 작업 유형 중심 구조
+- `ceph/ceph.mdx` is a valid entity overview page.
+- `monitoring/monitoring.mdx` and `reboot/reboot.mdx` are procedural and should not live under `entity`.
+- `cephfs/cephfs.mdx`, `rbd/rbd.mdx`, and `object-gateway/object-gateway.mdx` appear to mix product overview with setup or provisioning steps.
+- `mongodb/mongodb.mdx` belongs under `data/database`, not `data/storage-system`.
 
-예시:
+## Goals
+
+- Align storage-system pages with the canonical ontology path model in `docs/AGENTS.md`.
+- Separate `entity` pages from `operation` pages.
+- Keep one primary subject per page.
+- Preserve deterministic classification even when that is less convenient for browsing.
+- Create a migration order with clear validation checkpoints.
+
+## Non-Goals
+
+- This plan does not redesign sidebars for human-first navigation.
+- This plan does not rewrite all content immediately.
+- This plan does not attempt a full reclassification of every `docs/` page outside the storage-system area.
+
+## Constraints From `docs/AGENTS.md`
+
+The following rules are binding for this migration:
+
+- The canonical path is `docs/<role>/<domain>/<class>/<instance>/<aspect>.mdx`.
+- `id` must remain equal to the filename.
+- Canonical subject pages should not use repeated `overview.mdx` filenames.
+- Usage, config, deploy, install, and how-to material is usually `role=operation`.
+- Action pages must not be stored as entity pages.
+- The filesystem path is the primary structural signal.
+- Editorial buckets such as `etc` should be removed.
+
+## Design Decision
+
+The storage-system tree should be normalized by subject and role, not by product-family navigation.
+
+That means:
+
+- primary subjects such as `ceph`, `cephfs`, `rbd`, `rook-ceph`, and `local-path-provisioner` remain distinct entity instances
+- procedural pages move into `docs/operation/data/storage-system/<instance>/...`
+- pages that currently mix overview and procedure should be split rather than forced into a navigation-friendly folder layout
+
+If Ceph-family grouping is still desirable for readers, it should be expressed through sidebar generation, frontmatter relations, or curated index pages, not by breaking the ontology path model.
+
+## Canonical Target Shape
+
+### Entity pages
 
 ```text
-storage-system/
-  overview/
-  installation/
-  operations/
+docs/entity/data/storage-system/ceph/ceph.mdx
+docs/entity/data/storage-system/cephfs/cephfs.mdx
+docs/entity/data/storage-system/rbd/rbd.mdx
+docs/entity/data/storage-system/object-gateway/object-gateway.mdx
+docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx
+docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx
 ```
 
-장점:
-
-- 같은 종류의 작업 문서를 비교해 보기 쉽다.
-
-단점:
-
-- 특정 시스템의 전체 문서를 한 번에 탐색하기 어렵다.
-- 문서 수가 늘면 오히려 추적 비용이 커진다.
-
-## 결정
-
-`storage-system` 아래는 시스템 중심 구조로 재편한다.
-
-루트 바로 아래에는 시스템 이름 또는 공통 개념만 둔다. 특정 시스템에만 의미가 있는 문서는 반드시 해당 시스템 디렉터리 안으로 이동한다.
-
-## 제안 구조
+### Operation pages
 
 ```text
-docs/entity/data/storage-system/
-  basics/
-    basics.mdx
-  ceph/
-    overview.mdx
-    rook.mdx
-    cluster.mdx
-    central-storage-cluster.mdx
-    cephfs.mdx
-    rbd.mdx
-    object-gateway.mdx
-    provisioning.mdx
-    operations/
-      monitoring.mdx
-      osd.mdx
-      pg.mdx
-      reboot.mdx
-      tuning.mdx
-  local-path-provisioner/
-    overview.mdx
-  mongodb/
-    overview.mdx
-  s3/
-    basics.mdx
+docs/operation/data/storage-system/ceph/monitoring.mdx
+docs/operation/data/storage-system/ceph/osd.mdx
+docs/operation/data/storage-system/ceph/pg.mdx
+docs/operation/data/storage-system/ceph/provisioning.mdx
+docs/operation/data/storage-system/ceph/reboot.mdx
+docs/operation/data/storage-system/ceph/tuning.mdx
+docs/operation/data/storage-system/rook-ceph/cluster.mdx
+docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx
 ```
 
-## 구조 규칙
+### Non-storage reclassification
 
-1. `storage-system` 루트 바로 아래에는 시스템 이름 또는 진짜 공통 개념만 둔다.
-2. 특정 시스템에서만 쓰이는 기능 문서는 반드시 그 시스템 하위로 둔다.
-3. 운영 절차성 문서는 가능하면 `operations/` 아래에 둔다.
-4. `overview.mdx`는 해당 시스템의 진입 문서로 사용한다.
-5. 설치 문서가 별도 필요하면 `installation.mdx`를 사용하되, 실제로 내용이 분리될 때만 만든다.
-6. 제품명이 문서 이름에 이미 포함되어 있더라도 경로 기준으로 의미가 드러나면 파일명은 짧게 유지한다.
+```text
+docs/entity/data/database/mongodb/mongodb.mdx
+```
 
-## Ceph 문서 이동 매핑
+## Page-Level Classification Proposal
 
-| 현재 경로 | 새 경로 |
-| --- | --- |
-| `docs/entity/data/storage-system/ceph/ceph.mdx` | `docs/entity/data/storage-system/ceph/overview.mdx` |
-| `docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx` | `docs/entity/data/storage-system/ceph/rook.mdx` |
-| `docs/entity/data/storage-system/cluster/cluster.mdx` | `docs/entity/data/storage-system/ceph/cluster.mdx` |
-| `docs/entity/data/storage-system/central-storage-cluster/central-storage-cluster.mdx` | `docs/entity/data/storage-system/ceph/central-storage-cluster.mdx` |
-| `docs/entity/data/storage-system/cephfs/cephfs.mdx` | `docs/entity/data/storage-system/ceph/cephfs.mdx` |
-| `docs/entity/data/storage-system/rbd/rbd.mdx` | `docs/entity/data/storage-system/ceph/rbd.mdx` |
-| `docs/entity/data/storage-system/object-gateway/object-gateway.mdx` | `docs/entity/data/storage-system/ceph/object-gateway.mdx` |
-| `docs/entity/data/storage-system/provisioning/provisioning.mdx` | `docs/entity/data/storage-system/ceph/provisioning.mdx` |
-| `docs/entity/data/storage-system/monitoring/monitoring.mdx` | `docs/entity/data/storage-system/ceph/operations/monitoring.mdx` |
-| `docs/entity/data/storage-system/osd/osd.mdx` | `docs/entity/data/storage-system/ceph/operations/osd.mdx` |
-| `docs/entity/data/storage-system/pg/pg.mdx` | `docs/entity/data/storage-system/ceph/operations/pg.mdx` |
-| `docs/entity/data/storage-system/reboot/reboot.mdx` | `docs/entity/data/storage-system/ceph/operations/reboot.mdx` |
-| `docs/entity/data/storage-system/tuning/tuning.mdx` | `docs/entity/data/storage-system/ceph/operations/tuning.mdx` |
+### Keep as entity pages
 
-## 비-Ceph 문서 처리 원칙
+These are already good or close to good as canonical entity pages:
 
-- `local-path-provisioner`는 독립 시스템으로 유지한다.
-- `mongodb`는 엄밀히 말하면 데이터베이스 제품이지만 현재 위치를 즉시 바꾸지 않고, 이번 작업에서는 `storage-system` 내부 구조 정리 대상에서 제외하거나 별도 후속 작업으로 분리한다.
-- `basics/basics.mdx`가 S3 일반 개념 문서라면 장기적으로는 `s3/basics.mdx`로 옮기는 편이 더 일관된다.
+- `docs/entity/data/storage-system/ceph/ceph.mdx`
+- `docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx`
+- `docs/entity/data/storage-system/cephfs/cephfs.mdx`
+- `docs/entity/data/storage-system/rbd/rbd.mdx`
+- `docs/entity/data/storage-system/object-gateway/object-gateway.mdx`
+- `docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx`
 
-## 링크와 식별자 처리
+Required follow-up:
 
-문서 이동 시 다음을 함께 수정한다.
+- trim procedural content out of mixed pages where needed
+- keep each page centered on one primary subject and one aspect
 
-- 문서 간 상대 링크 또는 `/docs/...` 링크
-- 같은 문서 내부에서 다른 문서를 참조하는 Reference block
-- 필요한 경우 `id`와 파일명을 새 규칙에 맞게 조정
+### Move to operation pages
 
-원칙:
+These are primarily procedural and should move out of `entity`:
 
-- Docusaurus의 문서 ID를 경로 기반으로 이해하기 쉽게 맞춘다.
-- 파일명 기반 `id` 규칙을 유지해야 하므로, 파일 이동 후 frontmatter의 `id`도 새 파일명과 일치시킨다.
+- `docs/entity/data/storage-system/cluster/cluster.mdx`
+  - target: `docs/operation/data/storage-system/rook-ceph/cluster.mdx`
+- `docs/entity/data/storage-system/central-storage-cluster/central-storage-cluster.mdx`
+  - target: `docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx`
+- `docs/entity/data/storage-system/monitoring/monitoring.mdx`
+  - target: `docs/operation/data/storage-system/ceph/monitoring.mdx`
+- `docs/entity/data/storage-system/osd/osd.mdx`
+  - target: `docs/operation/data/storage-system/ceph/osd.mdx`
+- `docs/entity/data/storage-system/pg/pg.mdx`
+  - target: `docs/operation/data/storage-system/ceph/pg.mdx`
+- `docs/entity/data/storage-system/provisioning/provisioning.mdx`
+  - target: `docs/operation/data/storage-system/ceph/provisioning.mdx`
+- `docs/entity/data/storage-system/reboot/reboot.mdx`
+  - target: `docs/operation/data/storage-system/ceph/reboot.mdx`
+- `docs/entity/data/storage-system/tuning/tuning.mdx`
+  - target: `docs/operation/data/storage-system/ceph/tuning.mdx`
 
-## 사이드바 영향
+### Split mixed entity and operation pages
 
-현재 `sidebars.ts`는 `entity`를 자동 생성 방식으로 노출합니다. 따라서 디렉터리 구조 변경은 사이드바와 시각화 컴포넌트에 직접 반영됩니다.
+These should not be moved blindly. They need content separation:
 
-기대 효과:
+- `docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx`
+  - keep entity overview in place
+  - move installation and deployment instructions to `docs/operation/data/storage-system/rook-ceph/install.mdx`
+- `docs/entity/data/storage-system/cephfs/cephfs.mdx`
+  - keep CephFS overview in place
+  - move creation or configuration steps to `docs/operation/data/storage-system/cephfs/config.mdx` or `install.mdx`
+- `docs/entity/data/storage-system/rbd/rbd.mdx`
+  - keep RBD overview in place
+  - move setup details to `docs/operation/data/storage-system/rbd/config.mdx`
+- `docs/entity/data/storage-system/object-gateway/object-gateway.mdx`
+  - keep object-gateway overview in place
+  - move provisioning or setup details to `docs/operation/data/storage-system/object-gateway/config.mdx`
 
-- `storage-system` 아래에서 Ceph 문서가 하나의 묶음으로 보인다.
-- 운영 문서가 `operations` 아래에 모여 정보 탐색 비용이 줄어든다.
-- 새 시스템을 추가해도 구조가 자연스럽게 확장된다.
+### Reclassify out of storage-system
 
-주의점:
+- `docs/entity/data/storage-system/mongodb/mongodb.mdx`
+  - target: `docs/entity/data/database/mongodb/mongodb.mdx`
 
-- 자동 생성 사이드바의 정렬과 라벨 노출이 달라질 수 있다.
-- 필요하면 `sidebar_label`을 조정해 탐색성을 보완한다.
+### Review separately
 
-## 마이그레이션 순서
+- `docs/entity/data/storage-system/basics/basics.mdx`
+  - this appears to be an S3-oriented page and needs separate subject classification
+  - likely outcomes:
+    - `docs/entity/data/storage-system/s3/s3.mdx` if it is a canonical S3 entity overview
+    - `docs/comparison/...` if it is primarily price comparison material
+    - a split into entity and comparison pages if it currently mixes both
 
-1. 새 디렉터리 구조 생성
-2. Ceph 문서 파일 이동 및 파일명 정리
-3. 각 문서 frontmatter의 `id` 수정
-4. 저장소 전체의 `/docs/...` 링크와 참조 링크 수정
-5. Docusaurus 빌드 또는 링크 검증 실행
-6. 남은 비-Ceph 문서의 후속 정리 범위 결정
+## Why Ceph Should Not Become a Filesystem Container
 
-## 검증 계획
+A path such as `docs/entity/data/storage-system/ceph/cephfs.mdx` looks attractive for browsing, but it makes `ceph` act as a product-family folder rather than the canonical `instance`.
 
-- `rg '/docs/entity/data/storage-system/' docs`로 이전 경로 참조를 점검한다.
-- Docusaurus 빌드로 깨진 링크와 문서 해상도 오류를 확인한다.
-- 자동 생성 사이드바에서 `storage-system` 트리를 육안 확인한다.
+That breaks the ontology model because:
 
-## 리스크
+- `instance` must identify the page subject
+- `aspect` must be a facet of that subject
+- `cephfs` is not an aspect of `ceph`; it is its own primary subject
+- operation pages should be separated by `role`, not nested under entity folders
 
-- 문서 이동량이 많아 링크 누락이 생길 수 있다.
-- `id` 변경이 기존 inbound link를 깨뜨릴 수 있다.
-- `mongodb`, `basics` 같은 예외 항목을 어떻게 다룰지 후속 정리가 필요하다.
+Ceph-family relationships should instead be represented through metadata such as `related_to`, `depends_on`, `part_of`, or a future curated index page.
 
-## 후속 결정 필요 항목
+## Migration Phases
 
-1. 이번 작업 범위를 Ceph 문서 재배치만으로 제한할지
-2. `mongodb`를 `storage-system`에서 분리할지 유지할지
-3. `basics`를 공통 문서로 유지할지 `s3` 하위로 이동할지
+### Phase 1: high-confidence moves
+
+Do the obvious role corrections first:
+
+- move procedural Ceph pages from `entity` to `operation`
+- move `mongodb` out of `storage-system`
+- update frontmatter `ontology` blocks and `id`
+- rewrite cross-doc links
+
+This phase should avoid splitting documents unless the split is trivial.
+
+### Phase 2: split mixed pages
+
+For `rook-ceph`, `cephfs`, `rbd`, and `object-gateway`:
+
+- separate overview content from procedural setup content
+- keep the entity page as the canonical subject overview
+- create new operation pages for install, config, provisioning, or deployment steps
+
+### Phase 3: improve navigation without breaking ontology
+
+If browsing still feels fragmented:
+
+- add curated index pages
+- enrich frontmatter relations
+- adjust autogenerated sidebar labels or ordering
+
+This phase must not change the canonical path model.
+
+## Validation Plan
+
+After each migration batch:
+
+1. run `npm run ontology:validate`
+2. run `npm run ontology:rewrite-links`
+3. run the Docusaurus build or equivalent link validation
+4. inspect sidebar output for unintended collisions or confusing labels
+
+## Risks
+
+- Mixed pages may require manual editorial splitting before they can be classified cleanly.
+- `instance` naming for certain operations may still need refinement after the first validation pass.
+- Existing links into moved pages may break if link rewrites miss anchors or hard-coded paths.
+
+## Recommended Execution Order
+
+1. Move procedural Ceph pages into `docs/operation/data/storage-system/ceph/`
+2. Move `cluster` and `central-storage-cluster` into `docs/operation/data/storage-system/rook-ceph/`
+3. Move `mongodb` into `docs/entity/data/database/mongodb/`
+4. Validate and rewrite links
+5. Split mixed pages in a second pass
+
+## Open Questions
+
+These do not block the first migration pass:
+
+- Should `central-storage-cluster` be modeled under `rook-ceph` or `ceph` as the primary operation subject?
+- Is `basics/basics.mdx` best treated as `s3`, a comparison page, or a split page set?
+- Should Ceph-family navigation be expressed through curated landing pages or richer ontology relations first?
