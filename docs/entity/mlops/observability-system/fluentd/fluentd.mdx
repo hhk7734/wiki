@@ -15,88 +15,24 @@ ontology:
 
 import Image from "@theme/IdealImage";
 
-## 설치
+:::info
+[설치 가이드](/docs/operation/mlops/observability-system/fluentd/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
+:::info[References]
+
+- [Fluentd Docs / Configuration](https://docs.fluentd.org/configuration)
+
+:::
+
+## Fluentd
 
 <center>
 	<Image img={require("@site/static/img/mlops/monitoring/collector/forward-to-fluent.png")} width={750} />
 </center>
 <center>https://kubesphere.io/blogs/deep-dive-into-kubernetes-logging/</center>
 
-```shell
-helm repo add fluent https://fluent.github.io/helm-charts
-```
-
-```shell
-helm repo update fluent \
-&& helm search repo fluent/fluentd -l | head -n 10
-```
-
-```shell
-helm show values fluent/fluentd \
-  --version 0.3.9 \
-  > fluentd-values.yaml
-```
-
-```yaml title="fluentd-values.yaml"
-kind: "DaemonSet" # DaemonSet, Deployment or StatefulSet
-
-livenessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-  initialDelaySeconds: 30
-  timeoutSeconds: 15
-
-readinessProbe:
-  httpGet:
-    path: /metrics
-    port: metrics
-  initialDelaySeconds: 30
-  timeoutSeconds: 15
-
-resources:
-  requests:
-    cpu: 100m
-    memory: 512Mi
-  limits:
-    memory: 512Mi
-
-podLabels: {}
-
-env:
-  - # /fluentd/etc/../../etc/fluent/fluent.conf
-    # /etc/fluent/fluent.conf
-    name: "FLUENTD_CONF"
-    value: "../../etc/fluent/fluent.conf"
-
-dashboards:
-  enabled: "false"
-
-plugins: []
-
-configMapConfigs: []
-
-fileConfigs:
-  01_sources.conf: |
-
-  02_filters.conf: |
-
-  03_dispatch.conf: |
-
-  04_outputs.conf: |
-```
-
-```shell
-helm upgrade -i fluentd fluent/fluentd \
-  --version 0.3.9 \
-  -n monitoring \
-  --history-max 5 \
-  -f fluentd-values.yaml
-```
-
 ## 설정
-
-- https://docs.fluentd.org/configuration
 
 ```shell
 Input -> filter 1 -> ... -> filter N -> Output

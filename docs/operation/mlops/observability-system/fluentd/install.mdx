@@ -1,0 +1,98 @@
+---
+id: install
+title: "Fluentd 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "Fluentd 설치 가이드"
+keywords:
+  - fluentd
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: fluentd
+  aspect: install
+---
+
+:::info
+[Fluentd 개요](/docs/entity/mlops/observability-system/fluentd/fluentd.mdx) 문서에서 기본 파이프라인과 설정 모델을 먼저 확인할 수 있습니다.
+:::
+
+## 설치
+
+:::info[References]
+
+- [Fluent Helm Charts](https://github.com/fluent/helm-charts)
+
+:::
+
+```shell
+helm repo add fluent https://fluent.github.io/helm-charts
+```
+
+```shell
+helm repo update fluent \
+&& helm search repo fluent/fluentd -l | head -n 10
+```
+
+```shell
+helm show values fluent/fluentd \
+  --version 0.3.9 \
+  > fluentd-values.yaml
+```
+
+```yaml title="fluentd-values.yaml"
+kind: "DaemonSet" # DaemonSet, Deployment or StatefulSet
+
+livenessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  initialDelaySeconds: 30
+  timeoutSeconds: 15
+
+readinessProbe:
+  httpGet:
+    path: /metrics
+    port: metrics
+  initialDelaySeconds: 30
+  timeoutSeconds: 15
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 512Mi
+  limits:
+    memory: 512Mi
+
+podLabels: {}
+
+env:
+  - # /fluentd/etc/../../etc/fluent/fluent.conf
+    # /etc/fluent/fluent.conf
+    name: "FLUENTD_CONF"
+    value: "../../etc/fluent/fluent.conf"
+
+dashboards:
+  enabled: "false"
+
+plugins: []
+
+configMapConfigs: []
+
+fileConfigs:
+  01_sources.conf: |
+
+  02_filters.conf: |
+
+  03_dispatch.conf: |
+
+  04_outputs.conf: |
+```
+
+```shell
+helm upgrade -i fluentd fluent/fluentd \
+  --version 0.3.9 \
+  -n monitoring \
+  --history-max 5 \
+  -f fluentd-values.yaml
+```

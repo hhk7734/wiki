@@ -18,6 +18,16 @@ ontology:
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+:::info[References]
+
+- [Spegel GitHub](https://github.com/spegel-org/spegel)
+
+:::
+
+:::info
+[설치 가이드](/docs/operation/mlops/provisioning-tool/spegel/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
 ## Spegel
 
 <figure>
@@ -28,49 +38,4 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 	</center>
 </figure>
 
-## containerd 설정
-
-```toml title="/etc/containerd/config.toml"
-version = 2
-
-[plugins."io.containerd.grpc.v1.cri".registry]
-   config_path = "/etc/containerd/certs.d"
-[plugins."io.containerd.grpc.v1.cri".containerd]
-   discard_unpacked_layers = false
-```
-
-## 설치
-
-:::info[References]
-
-- [Spegel Docs / Getting Started](https://spegel.dev/docs/getting-started/)
-- [Spegel GitHub / Releases](https://github.com/spegel-org/spegel/releases)
-
-:::
-
-```shell
-helm pull oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0
-```
-
-```shell
-helm show values oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0 > spegel-0.2.0.yaml
-```
-
-```yaml title="spegel-values.yaml"
-spegel:
-```
-
-```shell
-helm template spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
-  --version 0.2.0 \
-  -n spegel \
-  -f spegel-values.yaml > spegel.yaml
-```
-
-```shell
-helm upgrade -i spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
-  --history-max 5 \
-  --version 0.2.0 \
-  -n spegel \
-  -f spegel-values.yaml
-```
+Spegel은 클러스터 노드에 이미 내려받은 컨테이너 이미지를 서로 공유하게 만들어, 외부 레지스트리로 가는 트래픽과 이미지 pull 시간을 줄여주는 P2P 캐시형 레지스트리입니다.
