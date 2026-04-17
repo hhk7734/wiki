@@ -114,60 +114,39 @@
   ],
   "relations": [
     {
-      "type": "relation",
       "id": "relation:doc:docs/entity/data/storage-system/ceph/ceph.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "## Ceph Storage Cluster\n\n- Ceph / Intro to Ceph\n\nCeph Storage Cluster는 Storage Node들과 Ceph 데몬들로 구성된 클러스…"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/monitoring.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "…t-token-ttl:\n- set-pwd-policy-enabled: true\n\n## Prometheus\n\n- Rook / Prometheus Monitoring\n\n### Prometheus 생성\n\nPrometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 …"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/osd.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "…anager(LVM)\n\n## Data 흐름\n\n https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/4/html/storage_strategies_guide/overview\n\n- Data\n - block device image(…"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/pg.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "## Placement Group(PG)\n\n- Data 흐름\n\nOSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.\n\n…"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "… Filesystem Storage Overview # Consume the Shared Filesystem across namespaces\n\nDynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 name…"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "## 노드 한 대 재시작\n\n``shell\nfor _option in noout; do\n kubectl rook-ceph ceph osd set ${_option}\ndone\n`\n\n`shell\nkubectl cordon\n`\n\n`shell\nkubectl drain -…"
+      "to": "subject:data:storage-system:ceph"
     },
     {
-      "type": "relation",
       "id": "relation:doc:docs/operation/data/storage-system/ceph/tuning.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/tuning.mdx",
       "predicate": "about_subject",
-      "to": "subject:data:storage-system:ceph",
-      "snippet": "## IOMMU OFF\n\n- Ceph / A Journey to 1 TiB/s\n\non 또는 pt 설정보다 off로 설정했을 때 큰 성능 향상을 보였습니다.\n\n## Replica v…"
+      "to": "subject:data:storage-system:ceph"
     }
   ]
 }

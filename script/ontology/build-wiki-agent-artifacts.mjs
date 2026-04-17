@@ -18,25 +18,33 @@ function buildDisplayTitle(record) {
 	return record.title || record.canonical_name || record.ontology?.instance || record.id;
 }
 
-function selectCanonicalPageDocument(record, core) {
+function buildFallbackPageUrl(record) {
+	const domain = record.ontology?.domain;
+	const className = record.ontology?.class;
+	const instance = record.ontology?.instance;
+
+	if (domain && className && instance) {
+		return `/docs/${domain}/${className}/${instance}`;
+	}
+
+	return record.url ?? "";
+}
+
+function buildPageUrl(record, canonicalDocumentBySubjectId) {
 	if (record.type === "document") {
-		return record;
+		return record.url ?? buildFallbackPageUrl(record);
 	}
 
-	const documents = core.documents.filter((document) => document.subject_ref === record.id);
+	const canonicalDocument = canonicalDocumentBySubjectId.get(record.id);
 
-	if (documents.length === 0) {
-		return null;
+	if (canonicalDocument?.url) {
+		return canonicalDocument.url;
 	}
 
-	return selectCanonicalSubjectDocument(documents);
+	return buildFallbackPageUrl(record);
 }
 
-function buildPageUrl(record, core) {
-	return selectCanonicalPageDocument(record, core)?.url ?? `/docs/${record.ontology?.domain ?? ""}/${record.ontology?.class ?? ""}/${record.ontology?.instance ?? ""}`.replace(/\/+/g, "/");
-}
-
-function buildQueryRecord(record, core) {
+function buildQueryRecord(record, canonicalDocumentBySubjectId) {
 	return {
 		id: record.id,
 		type: record.type,
@@ -45,19 +53,19 @@ function buildQueryRecord(record, core) {
 		title: buildDisplayTitle(record),
 		snippet: record.snippet ?? "",
 		ontology: record.ontology,
-		url: buildPageUrl(record, core),
+		url: buildPageUrl(record, canonicalDocumentBySubjectId),
 		node_url: makeNodeUrl(record.id),
 	};
 }
 
-function buildGraphNode(record, core) {
+function buildGraphNode(record, canonicalDocumentBySubjectId) {
 	return {
 		id: record.id,
 		type: record.type,
 		title: buildDisplayTitle(record),
 		snippet: record.snippet ?? "",
 		ontology: record.ontology,
-		url: buildPageUrl(record, core),
+		url: buildPageUrl(record, canonicalDocumentBySubjectId),
 		node_url: makeNodeUrl(record.id),
 		...(record.type === "subject"
 			? { document_refs: [...(record.document_refs ?? [])] }
@@ -66,10 +74,16 @@ function buildGraphNode(record, core) {
 }
 
 function buildRelationLookup(relations, id) {
-	return relations.filter((relation) => relation.from === id || relation.to === id);
+	return relations
+		.filter((relation) => relation.from === id || relation.to === id)
+		.map((relation) => ({
+			id: relation.id ?? `relation:${relation.from}:${relation.predicate}:${relation.to}`,
+			predicate: relation.predicate,
+			to: relation.to,
+		}));
 }
 
-function buildDocumentLookupPayload(document, subject, core, relations) {
+function buildDocumentLookupPayload(document, subject, canonicalDocumentBySubjectId, relations) {
 	return {
 		type: "document",
 		id: document.id,
@@ -83,21 +97,21 @@ function buildDocumentLookupPayload(document, subject, core, relations) {
 					id: subject.id,
 					title: subject.canonical_name,
 					ontology: subject.ontology,
-					url: buildPageUrl(subject, core),
+					url: buildPageUrl(subject, canonicalDocumentBySubjectId),
 			  }
 			: null,
 		relations,
 	};
 }
 
-function buildSubjectLookupPayload(subject, documents, relations) {
+function buildSubjectLookupPayload(subject, documents, canonicalDocumentBySubjectId, relations) {
 	return {
 		type: "subject",
 		id: subject.id,
 		title: subject.canonical_name,
 		snippet: subject.snippet,
 		ontology: subject.ontology,
-		url: buildPageUrl(subject, { documents }),
+		url: buildPageUrl(subject, canonicalDocumentBySubjectId),
 		node_url: makeNodeUrl(subject.id),
 		document_refs: [...(subject.document_refs ?? [])],
 		documents: documents.map((document) => ({
@@ -121,13 +135,18 @@ export function buildWikiAgentArtifacts(core = buildWikiKnowledgeCore()) {
 		documentsBySubject.set(document.subject_ref, subjectDocuments);
 	}
 
+	const canonicalDocumentBySubjectId = new Map();
+	for (const [subjectId, documents] of documentsBySubject.entries()) {
+		canonicalDocumentBySubjectId.set(subjectId, selectCanonicalSubjectDocument(documents));
+	}
+
 	const queryIndex = {
-		subjects: core.subjects.map((subject) => buildQueryRecord(subject, core)),
-		documents: core.documents.map((document) => buildQueryRecord(document, core)),
+		subjects: core.subjects.map((subject) => buildQueryRecord(subject, canonicalDocumentBySubjectId)),
+		documents: core.documents.map((document) => buildQueryRecord(document, canonicalDocumentBySubjectId)),
 	};
 
 	const graph = {
-		nodes: [...core.subjects.map((subject) => buildGraphNode(subject, core)), ...core.documents.map((document) => buildGraphNode(document, core))].sort((left, right) =>
+		nodes: [...core.subjects.map((subject) => buildGraphNode(subject, canonicalDocumentBySubjectId)), ...core.documents.map((document) => buildGraphNode(document, canonicalDocumentBySubjectId))].sort((left, right) =>
 			compareStrings(left.id, right.id),
 		),
 		edges: core.relations.map((relation) => ({ ...relation })),
@@ -137,14 +156,19 @@ export function buildWikiAgentArtifacts(core = buildWikiKnowledgeCore()) {
 
 	for (const subject of core.subjects) {
 		const documents = documentsBySubject.get(subject.id) ?? [];
-		nodes[subject.id] = buildSubjectLookupPayload(subject, documents, buildRelationLookup(core.relations, subject.id));
+		nodes[subject.id] = buildSubjectLookupPayload(
+			subject,
+			documents,
+			canonicalDocumentBySubjectId,
+			buildRelationLookup(core.relations, subject.id),
+		);
 	}
 
 	for (const document of core.documents) {
 		nodes[document.id] = buildDocumentLookupPayload(
 			document,
 			subjectById.get(document.subject_ref),
-			core,
+			canonicalDocumentBySubjectId,
 			buildRelationLookup(core.relations, document.id),
 		);
 	}
