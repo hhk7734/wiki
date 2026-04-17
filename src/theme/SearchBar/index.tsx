@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import clsx from "clsx";
+import { buildWikiResultGroups } from "@site/src/components/wikiSearch/resultGroups.mjs";
 import { searchWikiIndex } from "@site/src/components/wikiSearch/searchEngine.mjs";
 import styles from "./styles.module.css";
 
@@ -81,6 +82,7 @@ export default function SearchBar(): React.ReactNode {
 
 		return searchWikiIndex(query, records);
 	}, [query, records]);
+	const resultGroups = useMemo(() => buildWikiResultGroups(results), [results]);
 
 	function renderResult(result: SearchRecord & { score?: number }, kind: "subject" | "document") {
 		const subtitle = kind === "subject" ? result.display.subtitle ?? result.ontology.class : result.subject_title ?? result.display.subtitle ?? result.ontology.class;
@@ -134,18 +136,12 @@ export default function SearchBar(): React.ReactNode {
 					{!loading && !error && query.trim() !== "" && results.subjects.length === 0 && results.documents.length === 0 ? (
 						<div className={styles.searchState}>No matching wiki pages</div>
 					) : null}
-					{results.subjects.length > 0 ? (
-						<section className={styles.resultGroup}>
-							<div className={styles.groupHeader}>Subjects</div>
-							{results.subjects.map((result) => renderResult(result, "subject"))}
+					{resultGroups.map((group) => (
+						<section key={group.key} className={styles.resultGroup}>
+							<div className={styles.groupHeader}>{group.title}</div>
+							{group.items.map((result) => renderResult(result, group.kind))}
 						</section>
-					) : null}
-					{results.documents.length > 0 ? (
-						<section className={styles.resultGroup}>
-							<div className={styles.groupHeader}>Documents</div>
-							{results.documents.map((result) => renderResult(result, "document"))}
-						</section>
-					) : null}
+					))}
 				</div>
 			) : null}
 		</div>

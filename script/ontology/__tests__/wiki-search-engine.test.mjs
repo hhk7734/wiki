@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { buildWikiResultGroups } from "../../../src/components/wikiSearch/resultGroups.mjs";
 import { dedupeGroupedWikiResults, searchWikiIndex } from "../../../src/components/wikiSearch/searchEngine.mjs";
 
 test("wiki search groups subject and document results for natural-language queries", () => {
@@ -297,5 +298,17 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 	assert.deepEqual(
 		results.documents.map((document) => document.id).sort(),
 		["doc:ceph-mon", "doc:ceph-osd"],
+	);
+});
+
+test("wiki result groups render documents before subjects", () => {
+	const groups = buildWikiResultGroups({
+		subjects: [{ id: "subject:ceph" }],
+		documents: [{ id: "doc:ceph-osd" }],
+	});
+
+	assert.deepEqual(
+		groups.map((group) => group.key),
+		["documents", "subjects"],
 	);
 });
