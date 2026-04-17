@@ -33,6 +33,24 @@ function buildSubjectUrl(subject, canonicalDocumentBySubjectId) {
 	return "";
 }
 
+function titleCaseFromInstance(value = "") {
+	return value
+		.split("-")
+		.filter(Boolean)
+		.map((part) => part.replace(/^\p{L}/u, (character) => character.toUpperCase()))
+		.join(" ");
+}
+
+function buildSubjectGroupLabel(subject) {
+	const instance = subject.ontology?.instance?.trim();
+
+	if (instance) {
+		return titleCaseFromInstance(instance);
+	}
+
+	return subject.canonical_name || subject.id;
+}
+
 function buildDocumentSearchText(document) {
 	return normalizeText(
 		[
@@ -70,6 +88,8 @@ function buildSubjectSearchText(subject, documents) {
 }
 
 function buildSubjectRecord(subject, documents, canonicalDocumentBySubjectId) {
+	const groupLabel = buildSubjectGroupLabel(subject);
+
 	return {
 		type: "subject",
 		id: subject.id,
@@ -83,12 +103,15 @@ function buildSubjectRecord(subject, documents, canonicalDocumentBySubjectId) {
 		display: {
 			label: subject.canonical_name,
 			kind: "subject",
+			subtitle: groupLabel,
 			document_count: subject.document_refs?.length ?? documents.length,
 		},
 	};
 }
 
 function buildDocumentRecord(document, subject) {
+	const groupLabel = buildSubjectGroupLabel(subject ?? { canonical_name: document.title, ontology: document.ontology ?? {} });
+
 	return {
 		type: "document",
 		id: document.id,
@@ -99,13 +122,13 @@ function buildDocumentRecord(document, subject) {
 		keywords: [...(document.keywords ?? [])],
 		url: buildDocumentUrl(document),
 		subject_ref: document.subject_ref,
-		subject_title: subject?.canonical_name ?? "",
+		subject_title: groupLabel,
 		ontology: document.ontology,
 		search_text: buildDocumentSearchText(document),
 		display: {
 			label: document.title,
 			kind: "document",
-			subtitle: subject?.canonical_name ?? "",
+			subtitle: groupLabel,
 		},
 	};
 }

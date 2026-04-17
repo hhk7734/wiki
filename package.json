@@ -3,8 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"prestart": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki-agent",
-		"prebuild": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki-agent",
+		"prestart": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki",
+		"prebuild": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki",
 		"docusaurus": "docusaurus",
 		"start": "docusaurus start --host 0.0.0.0 --port 3333 --no-open",
 		"build": "docusaurus build",
@@ -22,6 +22,7 @@
 		"ontology:build:graphify-search": "node script/ontology/build-graphify-search-index.mjs",
 		"ontology:build:wiki-agent": "node script/ontology/build-wiki-agent-artifacts.mjs",
 		"ontology:build:wiki-human": "node script/ontology/build-wiki-human-search-index.mjs",
+		"ontology:build:wiki": "npm run ontology:build:wiki-agent && npm run ontology:build:wiki-human",
 		"ontology:prepare:graphify-search": "npm run ontology:export:graphify && npm run ontology:build:graphify-search",
 		"ontology:migrate": "node script/ontology/migrate.mjs",
 		"ontology:rewrite-links": "node script/ontology/rewrite-links.mjs",
