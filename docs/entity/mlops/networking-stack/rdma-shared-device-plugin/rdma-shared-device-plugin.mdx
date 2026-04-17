@@ -25,41 +25,9 @@ ontology:
 
 kubelet에 디바이스 리소스의 존재를 알리고, Host의 RDMA 디바이스(Ex. `/dev/infiniband/{issm,rdma_cm,umad,uverbs}`)를 Pod에서 사용할 수 있도록 하는 플러그인입니다.
 
-## 설치
-
-```shell
-helm repo add lol-iot https://lol-iot.github.io/helm-charts
-```
-
-```shell
-helm repo update lol-iot \
-&& helm search repo lol-iot/rdma-shared-device-plugin -l | head -n 10
-```
-
-```shell
-helm pull lol-iot/rdma-shared-device-plugin --version 1.5.3
-```
-
-```shell
-helm show values lol-iot/rdma-shared-device-plugin --version 1.5.3 \
-  > rdma-searched-device-plugin-1.5.3.yaml
-```
-
-```shell
-helm template rdma-shared-device-plugin lol-iot/rdma-shared-device-plugin \
-    --version 1.5.3 \
-    -n kube-system \
-    -f rdma-searched-device-plugin-values.yaml \
-    > rdma-shared-device-plugin.yaml
-```
-
-```shell
-helm upgrade -i rdma-shared-device-plugin lol-iot/rdma-shared-device-plugin \
-    --history-max 5 \
-    --version 1.5.3 \
-    -n kube-system \
-    -f rdma-searched-device-plugin-values.yaml
-```
+:::info
+[설치 가이드](/docs/operation/mlops/networking-stack/rdma-shared-device-plugin/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
 
 ## Plugin 설정
 

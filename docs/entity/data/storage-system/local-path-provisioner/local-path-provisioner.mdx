@@ -22,57 +22,7 @@ ontology:
 :::
 
 :::info
-
-```shell
-git clone https://github.com/rancher/local-path-provisioner.git \
-    --branch v0.0.32
-```
-
-```shell
-helm package ./local-path-provisioner/deploy/chart/local-path-provisioner
-```
-
+[설치 가이드](/docs/operation/data/storage-system/local-path-provisioner/install.mdx) 문서는 별도로 분리되어 있습니다.
 :::
 
-```shell
-helm repo add lol-iot https://lol-iot.github.io/helm-charts
-```
-
-```shell
-helm repo update lol-iot \
-&& helm search repo lol-iot/local-path-provisioner -l | head -n 10
-```
-
-```shell
-helm pull lol-iot/local-path-provisioner --version 0.0.32
-```
-
-```shell
-helm show values lol-iot/local-path-provisioner --version 0.0.32 \
-  > local-path-provisioner-0.0.32.yaml
-```
-
-```yaml title="local-path-provisioner-values.yaml"
-storageClass:
-  defaultClass: false # storageclass.kubernetes.io/is-default-class=false
-
-affinity: {}
-
-tolerations: []
-```
-
-```shell
-helm template local-path-provisioner lol-iot/local-path-provisioner \
-    --version 0.0.32 \
-    -n kube-system \
-    -f local-path-provisioner-values.yaml \
-    > local-path-provisioner.yaml
-```
-
-```shell
-helm upgrade -i local-path-provisioner lol-iot/local-path-provisioner \
-    --history-max 5 \
-    --version 0.0.32 \
-    -n kube-system \
-    -f local-path-provisioner-values.yaml
-```
+`local-path-provisioner`는 노드의 로컬 디렉터리를 기준으로 PersistentVolume을 동적으로 생성하는 가벼운 스토리지 프로비저너입니다. 테스트 환경이나 단일 노드, 또는 공유 스토리지 없이 빠르게 PVC를 써야 하는 환경에서 주로 사용합니다.

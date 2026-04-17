@@ -23,46 +23,11 @@ ontology:
 
 :::
 
-```shell
-helm pull oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2
-```
+:::info
+[설치 가이드](/docs/operation/mlops/networking-stack/whereabouts/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
 
-```shell
-helm show values oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2 \
-  > whereabouts-0.9.2.yaml
-```
-
-```yaml title="whereabouts-values.yaml"
-fullnameOverride: "whereabouts"
-
-resources:
-  requests:
-    cpu: "100m"
-    memory: "50Mi"
-  limits:
-    cpu: "100m"
-    memory: "200Mi"
-
-nodeSliceController:
-  # Experimental
-  enabled: false
-```
-
-```shell
-helm template whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
-  --version 0.9.2 \
-  -n kube-system \
-  -f whereabouts-values.yaml \
-  > whereabouts.yaml
-```
-
-```shell
-helm upgrade -i whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
-  --history-max 5 \
-  --version 0.9.2 \
-  -n kube-system \
-  -f whereabouts-values.yaml
-```
+`whereabouts`는 클러스터 전체에서 사용할 수 있는 IPAM CNI 플러그인으로, 여러 노드에 걸쳐 IP 대역을 중복 없이 할당해야 할 때 사용합니다.
 
 ## 설정
 
