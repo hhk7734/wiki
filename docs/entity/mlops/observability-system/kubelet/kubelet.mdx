@@ -15,6 +15,10 @@ ontology:
 
 ## kubelet
 
+:::info
+[설정 가이드](/docs/operation/mlops/observability-system/kubelet/configure.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
 ```shell
 kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics
 ```
@@ -25,30 +29,6 @@ kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/cadvisor
 
 ```shell
 kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/probes
-```
-
-## 설치
-
-### kube-prometheus-stack
-
-```yaml title="kube-prometheus-stack-values.yaml"
-kubernetesServiceMonitors:
-  enabled: true
-
-kubelet:
-  enabled: true
-
-  serviceMonitor:
-    additionalLabels: {}
-
-prometheusOperator:
-  enabled: true
-
-  kubeletService:
-    enabled: true
-    namespace: kube-system
-    # '{{ template "kube-prometheus-stack.fullname" . }}-kubelet' by default
-    name: ""
 ```
 
 ## Metrics
