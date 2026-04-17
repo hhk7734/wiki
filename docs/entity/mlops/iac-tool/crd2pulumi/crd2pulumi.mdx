@@ -13,94 +13,12 @@ ontology:
   aspect: overview
 ---
 
-## 설치
+:::info
+[변환 가이드](/docs/operation/mlops/iac-tool/crd2pulumi/convert.mdx) 문서는 별도로 분리되어 있습니다.
+:::
 
-```shell
-go install github.com/pulumi/crd2pulumi@latest
-```
+`crd2pulumi`는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으로 노출해야 할 때 반복 작업을 줄이는 데 유용합니다.
 
-## CRDs to yaml
+## 관련 문서
 
-```shell
-for crd in $(kubectl get crd -o name); do
-    case $crd in
-        *istio*)
-            echo $crd | cut -d "/" -f 2
-            echo "---" >> crds.yaml
-            kubectl get $crd -o yaml >> crds.yaml
-            ;;
-    esac
-done
-```
-
-## yaml to pulumi
-
-```shell
-crd2pulumi \
-    --nodejsPath ./crds/istio \
-    --nodejsName istio \
-    crds.yaml
-```
-
-```shell
-crds/
-└── istio/
-    ├── extensions/
-    │   ├── index.ts
-    │   └── v1alpha1/
-    │       ├── index.ts
-    │       └── wasmPlugin.ts
-    ├── index.ts
-    ├── install/
-    │   ├── index.ts
-    │   └── v1alpha1/
-    │       ├── index.ts
-    │       └── istioOperator.ts
-    ├── meta/
-    │   └── v1.ts
-    ├── networking/
-    │   ├── index.ts
-    │   ├── v1alpha3/
-    │   │   ├── destinationRule.ts
-    │   │   ├── envoyFilter.ts
-    │   │   ├── gateway.ts
-    │   │   ├── index.ts
-    │   │   ├── serviceEntry.ts
-    │   │   ├── sidecar.ts
-    │   │   ├── virtualService.ts
-    │   │   ├── workloadEntry.ts
-    │   │   └── workloadGroup.ts
-    │   └── v1beta1/
-    │       ├── destinationRule.ts
-    │       ├── gateway.ts
-    │       ├── index.ts
-    │       ├── proxyConfig.ts
-    │       ├── serviceEntry.ts
-    │       ├── sidecar.ts
-    │       ├── virtualService.ts
-    │       ├── workloadEntry.ts
-    │       └── workloadGroup.ts
-    ├── package.json
-    ├── provider.ts
-    ├── README.md
-    ├── scripts/
-    │   └── install-pulumi-plugin.js
-    ├── security/
-    │   ├── index.ts
-    │   └── v1beta1/
-    │       ├── authorizationPolicy.ts
-    │       ├── index.ts
-    │       ├── peerAuthentication.ts
-    │       └── requestAuthentication.ts
-    ├── telemetry/
-    │   ├── index.ts
-    │   └── v1alpha1/
-    │       ├── index.ts
-    │       └── telemetry.ts
-    ├── tsconfig.json
-    ├── types/
-    │   ├── index.ts
-    │   ├── input.ts
-    │   └── output.ts
-    └── utilities.ts
-```
+- [crd2pulumi 변환 가이드](/docs/operation/mlops/iac-tool/crd2pulumi/convert.mdx)
