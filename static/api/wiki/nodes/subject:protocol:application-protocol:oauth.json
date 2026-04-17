@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:protocol:application-protocol:oauth",
+  "title": "Client Authentication",
+  "snippet": "## Authorization Code Grant\n\n``mermaid\nsequenceDiagram\n participant Client\n participant RP\n participant OP\n participant ResourceServer\n\n Client->>RP: 인증 요…",
+  "ontology": {
+    "domain": "protocol",
+    "class": "application-protocol",
+    "instance": "oauth"
+  },
+  "url": "/docs/specification/protocol/application-protocol/oauth/client-authentication",
+  "node_url": "/api/wiki/nodes/subject:protocol:application-protocol:oauth.json",
+  "document_refs": [
+    "doc:docs/specification/protocol/application-protocol/oauth/client-authentication.mdx",
+    "doc:docs/specification/protocol/application-protocol/oauth/oidc.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/specification/protocol/application-protocol/oauth/client-authentication.mdx",
+      "title": "Client Authentication",
+      "url": "/docs/specification/protocol/application-protocol/oauth/client-authentication",
+      "snippet": "## Authorization Code Grant\n\n``mermaid\nsequenceDiagram\n participant Client\n participant RP\n participant OP\n participant ResourceServer\n\n Client->>RP: 인증 요…",
+      "ontology": {
+        "role": "specification",
+        "domain": "protocol",
+        "class": "application-protocol",
+        "instance": "oauth",
+        "aspect": "client-authentication"
+      }
+    },
+    {
+      "id": "doc:docs/specification/protocol/application-protocol/oauth/oidc.mdx",
+      "title": "OpenID Connect(OIDC)",
+      "url": "/docs/specification/protocol/application-protocol/oauth/oidc",
+      "snippet": "## OIDC\n\n- How OpenID Connect Works\n\n- OIDC\n - OpenID Connect\n - Minimal: Core\n - Dynamic: Minimal, D…",
+      "ontology": {
+        "role": "specification",
+        "domain": "protocol",
+        "class": "application-protocol",
+        "instance": "oauth",
+        "aspect": "oidc"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/specification/protocol/application-protocol/oauth/client-authentication.mdx:about_subject:subject:protocol:application-protocol:oauth",
+      "from": "doc:docs/specification/protocol/application-protocol/oauth/client-authentication.mdx",
+      "predicate": "about_subject",
+      "to": "subject:protocol:application-protocol:oauth",
+      "snippet": "## Authorization Code Grant\n\n``mermaid\nsequenceDiagram\n participant Client\n participant RP\n participant OP\n participant ResourceServer\n\n Client->>RP: 인증 요…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/specification/protocol/application-protocol/oauth/oidc.mdx:about_subject:subject:protocol:application-protocol:oauth",
+      "from": "doc:docs/specification/protocol/application-protocol/oauth/oidc.mdx",
+      "predicate": "about_subject",
+      "to": "subject:protocol:application-protocol:oauth",
+      "snippet": "## OIDC\n\n- How OpenID Connect Works\n\n- OIDC\n - OpenID Connect\n - Minimal: Core\n - Dynamic: Minimal, D…"
+    }
+  ]
+}

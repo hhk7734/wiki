@@ -1,0 +1,107 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:observability-system:grafana",
+  "title": "Grafana",
+  "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "observability-system",
+    "instance": "grafana"
+  },
+  "url": "/docs/operation/mlops/observability-system/grafana/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:observability-system:grafana.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+    "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+    "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+    "doc:docs/operation/mlops/observability-system/grafana/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+      "title": "Grafana 인증/인가",
+      "url": "/docs/operation/mlops/observability-system/grafana/auth",
+      "snippet": "## OpenID Connect\\(OIDC\\)\n\n- Grafana / Configure generic OAuth2 authentication\n- Keycloak OIDC\n\n사용하려는 OpenID Connect…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "grafana",
+        "aspect": "auth"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+      "title": "Grafana Dashboard",
+      "url": "/docs/operation/mlops/observability-system/grafana/dashboard",
+      "snippet": "## Dashboard\n\n``yaml title=\"grafana-values.yaml\"\ndashboardProviders:\n dashboardproviders.yam…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "grafana",
+        "aspect": "dashboard"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+      "title": "Grafana Data Source",
+      "url": "/docs/operation/mlops/observability-system/grafana/datasource",
+      "snippet": "## Data Source\n\n- Grafana / Provision Grafana / Data Sources\n\n``yaml title=\"grafana-values.yam…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "grafana",
+        "aspect": "datasource"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/grafana/install.mdx",
+      "title": "Grafana",
+      "url": "/docs/operation/mlops/observability-system/grafana/install",
+      "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "grafana",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/auth.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "from": "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:grafana",
+      "snippet": "## OpenID Connect\\(OIDC\\)\n\n- Grafana / Configure generic OAuth2 authentication\n- Keycloak OIDC\n\n사용하려는 OpenID Connect…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "from": "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:grafana",
+      "snippet": "## Dashboard\n\n``yaml title=\"grafana-values.yaml\"\ndashboardProviders:\n dashboardproviders.yam…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/datasource.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "from": "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:grafana",
+      "snippet": "## Data Source\n\n- Grafana / Provision Grafana / Data Sources\n\n``yaml title=\"grafana-values.yam…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/install.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "from": "doc:docs/operation/mlops/observability-system/grafana/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:grafana",
+      "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…"
+    }
+  ]
+}

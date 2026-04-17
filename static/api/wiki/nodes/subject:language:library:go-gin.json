@@ -1,0 +1,129 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:go-gin",
+  "title": "CRUD",
+  "snippet": "## Entity\n\n``go\ntype ToDo struct {\n ID uuid.UUID\n UserID uuid.UUID\n Title string\n Category *string\n Description string\n CreatedAt time.Time\n UpdatedAt time.Time",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "go-gin"
+  },
+  "url": "/docs/operation/language/library/go-gin/crud",
+  "node_url": "/api/wiki/nodes/subject:language:library:go-gin.json",
+  "document_refs": [
+    "doc:docs/operation/language/library/go-gin/crud.mdx",
+    "doc:docs/operation/language/library/go-gin/deploy.mdx",
+    "doc:docs/operation/language/library/go-gin/gin.mdx",
+    "doc:docs/operation/language/library/go-gin/shutdown.mdx",
+    "doc:docs/operation/language/library/go-gin/validator.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/language/library/go-gin/crud.mdx",
+      "title": "CRUD",
+      "url": "/docs/operation/language/library/go-gin/crud",
+      "snippet": "## Entity\n\n``go\ntype ToDo struct {\n ID uuid.UUID\n UserID uuid.UUID\n Title string\n Category *string\n Description string\n CreatedAt time.Time\n UpdatedAt time.Time",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gin",
+        "aspect": "crud"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-gin/deploy.mdx",
+      "title": "Deploy",
+      "url": "/docs/operation/language/library/go-gin/deploy",
+      "snippet": "…\n`\n\n- scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.\n- https://github.com/gin-gonic/gin/blob/master/docs/doc.md#build-tags\n - msgpack을 사용하지 않는 다면 -tags nomsg…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gin",
+        "aspect": "deploy"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-gin/gin.mdx",
+      "title": "Gin",
+      "url": "/docs/operation/language/library/go-gin/gin",
+      "snippet": "## 설치\n\n- https://github.com/gin-gonic/gin\n\n``shell\ngo get -u github.com/gin-gonic/gin\n``\n\n## Config\n\n- viper",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gin",
+        "aspect": "gin"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-gin/shutdown.mdx",
+      "title": "Graceful Shutdown",
+      "url": "/docs/operation/language/library/go-gin/shutdown",
+      "snippet": "## Graceful Shutdown\n\n``go\nfunc main() {\n //\n // Startup\n //\n\n // ...\n\n server := &http.Ser…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gin",
+        "aspect": "shutdown"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-gin/validator.mdx",
+      "title": "Validator",
+      "url": "/docs/operation/language/library/go-gin/validator",
+      "snippet": "## Deafult Validator\n\n- https://github.com/go-playground/validator\n- https://pkg.go.dev/github.com/g…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gin",
+        "aspect": "validator"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-gin/crud.mdx:about_subject:subject:language:library:go-gin",
+      "from": "doc:docs/operation/language/library/go-gin/crud.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-gin",
+      "snippet": "## Entity\n\n``go\ntype ToDo struct {\n ID uuid.UUID\n UserID uuid.UUID\n Title string\n Category *string\n Description string\n CreatedAt time.Time\n UpdatedAt time.Time"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-gin/deploy.mdx:about_subject:subject:language:library:go-gin",
+      "from": "doc:docs/operation/language/library/go-gin/deploy.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-gin",
+      "snippet": "…\n`\n\n- scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.\n- https://github.com/gin-gonic/gin/blob/master/docs/doc.md#build-tags\n - msgpack을 사용하지 않는 다면 -tags nomsg…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-gin/gin.mdx:about_subject:subject:language:library:go-gin",
+      "from": "doc:docs/operation/language/library/go-gin/gin.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-gin",
+      "snippet": "## 설치\n\n- https://github.com/gin-gonic/gin\n\n``shell\ngo get -u github.com/gin-gonic/gin\n``\n\n## Config\n\n- viper"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-gin/shutdown.mdx:about_subject:subject:language:library:go-gin",
+      "from": "doc:docs/operation/language/library/go-gin/shutdown.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-gin",
+      "snippet": "## Graceful Shutdown\n\n``go\nfunc main() {\n //\n // Startup\n //\n\n // ...\n\n server := &http.Ser…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-gin/validator.mdx:about_subject:subject:language:library:go-gin",
+      "from": "doc:docs/operation/language/library/go-gin/validator.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-gin",
+      "snippet": "## Deafult Validator\n\n- https://github.com/go-playground/validator\n- https://pkg.go.dev/github.com/g…"
+    }
+  ]
+}

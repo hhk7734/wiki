@@ -1,0 +1,41 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:service-mesh:jwt",
+  "title": "JWT",
+  "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "service-mesh",
+    "instance": "jwt"
+  },
+  "url": "/docs/entity/mlops/service-mesh/jwt",
+  "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:jwt.json",
+  "document_refs": [
+    "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx",
+      "title": "JWT",
+      "url": "/docs/entity/mlops/service-mesh/jwt",
+      "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "jwt",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx:about_subject:subject:mlops:service-mesh:jwt",
+      "from": "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:service-mesh:jwt",
+      "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…"
+    }
+  ]
+}

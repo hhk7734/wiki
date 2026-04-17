@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:language:build-tooling:cmake",
+  "title": "CMake",
+  "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
+  "ontology": {
+    "domain": "language",
+    "class": "build-tooling",
+    "instance": "cmake"
+  },
+  "url": "/docs/operation/language/build-tooling/cmake",
+  "node_url": "/api/wiki/nodes/subject:language:build-tooling:cmake.json",
+  "document_refs": [
+    "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
+    "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
+      "title": "CMake",
+      "url": "/docs/operation/language/build-tooling/cmake",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "cmake",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx",
+      "title": "여러 Static 라이브러리를 하나로 묶기",
+      "url": "/docs/operation/language/build-tooling/cmake/one-static-lib",
+      "snippet": "``cmake\nset(STATIC_LIBS lib1 lib2 lib3)\n\nadd_custom_target(merged_static_lib ALL DEPENDS ${STATIC_…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "cmake",
+        "aspect": "one-static-lib"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/build-tooling/cmake/cmake.mdx:about_subject:subject:language:build-tooling:cmake",
+      "from": "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:build-tooling:cmake",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx:about_subject:subject:language:build-tooling:cmake",
+      "from": "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:build-tooling:cmake",
+      "snippet": "``cmake\nset(STATIC_LIBS lib1 lib2 lib3)\n\nadd_custom_target(merged_static_lib ALL DEPENDS ${STATIC_…"
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:auth-system:keycloak",
+  "title": "Keycloak",
+  "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "auth-system",
+    "instance": "keycloak"
+  },
+  "url": "/docs/operation/mlops/auth-system/keycloak/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:auth-system:keycloak.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+    "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+    "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+    "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+    "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+      "title": "keycloak-config-cli",
+      "url": "/docs/operation/mlops/auth-system/keycloak/config-cli",
+      "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "config-cli"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+      "title": "Keycloak Identity Providers",
+      "url": "/docs/operation/mlops/auth-system/keycloak/identity-providers",
+      "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "identity-providers"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+      "title": "Keycloak",
+      "url": "/docs/operation/mlops/auth-system/keycloak/install",
+      "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+      "title": "Keycloak OpenID Connect",
+      "url": "/docs/operation/mlops/auth-system/keycloak/openid-connect",
+      "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "openid-connect"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
+      "title": "Realm",
+      "url": "/docs/operation/mlops/auth-system/keycloak/realm",
+      "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "realm"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:keycloak",
+      "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:keycloak",
+      "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/install.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:keycloak",
+      "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:keycloak",
+      "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:keycloak",
+      "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…"
+    }
+  ]
+}

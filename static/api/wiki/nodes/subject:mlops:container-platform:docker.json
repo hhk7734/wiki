@@ -1,0 +1,41 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:container-platform:docker",
+  "title": "Docker",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "container-platform",
+    "instance": "docker"
+  },
+  "url": "/docs/operation/mlops/container-platform/docker/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:container-platform:docker.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/container-platform/docker/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/container-platform/docker/install.mdx",
+      "title": "Docker",
+      "url": "/docs/operation/mlops/container-platform/docker/install",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "docker",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/container-platform/docker/install.mdx:about_subject:subject:mlops:container-platform:docker",
+      "from": "doc:docs/operation/mlops/container-platform/docker/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:container-platform:docker",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…"
+    }
+  ]
+}

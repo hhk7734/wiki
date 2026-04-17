@@ -1,0 +1,85 @@
+{
+  "type": "subject",
+  "id": "subject:data:storage-system:rook-ceph",
+  "title": "Rook Ceph",
+  "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
+  "ontology": {
+    "domain": "data",
+    "class": "storage-system",
+    "instance": "rook-ceph"
+  },
+  "url": "/docs/entity/data/storage-system/rook-ceph",
+  "node_url": "/api/wiki/nodes/subject:data:storage-system:rook-ceph.json",
+  "document_refs": [
+    "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
+    "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
+    "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
+      "title": "Rook Ceph",
+      "url": "/docs/entity/data/storage-system/rook-ceph",
+      "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
+      "title": "Rook Ceph Central Storage Cluster 구축하기",
+      "url": "/docs/operation/data/storage-system/rook-ceph/central-storage-cluster",
+      "snippet": "## Provider Storage Cluster\n\n- Rook / External Cluster / Export config from the Ceph provider cluster\n- Roo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "central-storage-cluster"
+      }
+    },
+    {
+      "id": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
+      "title": "Rook Ceph Cluster 생성하기",
+      "url": "/docs/operation/data/storage-system/rook-ceph/cluster",
+      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "cluster"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
+      "predicate": "about_subject",
+      "to": "subject:data:storage-system:rook-ceph",
+      "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
+      "predicate": "about_subject",
+      "to": "subject:data:storage-system:rook-ceph",
+      "snippet": "## Provider Storage Cluster\n\n- Rook / External Cluster / Export config from the Ceph provider cluster\n- Roo…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
+      "predicate": "about_subject",
+      "to": "subject:data:storage-system:rook-ceph",
+      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…"
+    }
+  ]
+}

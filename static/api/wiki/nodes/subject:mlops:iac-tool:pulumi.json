@@ -1,0 +1,217 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:iac-tool:pulumi",
+  "title": "Pulumi",
+  "snippet": "설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다.\n\nPulumi는 TypeScript, Python 같은 일반 프로그래밍 언어로 인프라를 선언하고 배포하는 IaC 도구입니다. 스택, 설정, provider …",
+  "ontology": {
+    "domain": "mlops",
+    "class": "iac-tool",
+    "instance": "pulumi"
+  },
+  "url": "/docs/entity/mlops/iac-tool/pulumi",
+  "node_url": "/api/wiki/nodes/subject:mlops:iac-tool:pulumi.json",
+  "document_refs": [
+    "doc:docs/entity/mlops/iac-tool/pulumi/pulumi.mdx",
+    "doc:docs/concept/mlops/iac-tool/pulumi/config.mdx",
+    "doc:docs/concept/mlops/iac-tool/pulumi/dynamic.mdx",
+    "doc:docs/concept/mlops/iac-tool/pulumi/micro-stack.mdx",
+    "doc:docs/concept/mlops/iac-tool/pulumi/resource-options.mdx",
+    "doc:docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx",
+    "doc:docs/operation/mlops/iac-tool/pulumi/import-export.mdx",
+    "doc:docs/operation/mlops/iac-tool/pulumi/install.mdx",
+    "doc:docs/operation/mlops/iac-tool/pulumi/tutorial.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/mlops/iac-tool/pulumi/pulumi.mdx",
+      "title": "Pulumi",
+      "url": "/docs/entity/mlops/iac-tool/pulumi",
+      "snippet": "설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다.\n\nPulumi는 TypeScript, Python 같은 일반 프로그래밍 언어로 인프라를 선언하고 배포하는 IaC 도구입니다. 스택, 설정, provider …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/concept/mlops/iac-tool/pulumi/config.mdx",
+      "title": "Pulumi Config",
+      "url": "/docs/concept/mlops/iac-tool/pulumi/config",
+      "snippet": "## Stack Level Config\n\n- Get/Set Config\n- Secrets\n\nStack Level Config는 Pulumi..yaml의 config에 :: 형식으로 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "config"
+      }
+    },
+    {
+      "id": "doc:docs/concept/mlops/iac-tool/pulumi/dynamic.mdx",
+      "title": "Pulumi dynamic",
+      "url": "/docs/concept/mlops/iac-tool/pulumi/dynamic",
+      "snippet": "## Resource\n\n## Reference\n- Pulumi 공식 문서\n- DynamicProvider 예제",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "dynamic"
+      }
+    },
+    {
+      "id": "doc:docs/concept/mlops/iac-tool/pulumi/micro-stack.mdx",
+      "title": "Micro-Stacks",
+      "url": "/docs/concept/mlops/iac-tool/pulumi/micro-stack",
+      "snippet": "…ase.json\n├── crds/\n│ └── ...\n├── /\n│ ├── package.json\n│ ├── tsconfig.json\n│ ├── Pulumi.yaml\n│ ├── Pulumi..yaml\n│ └── src/\n│ ├── index.ts\n│ ├── variable.ts\n│ └── ...\n└…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "micro-stack"
+      }
+    },
+    {
+      "id": "doc:docs/concept/mlops/iac-tool/pulumi/resource-options.mdx",
+      "title": "Pulumi ResourceOptions",
+      "url": "/docs/concept/mlops/iac-tool/pulumi/resource-options",
+      "snippet": "…\"audit\",\n \"authenticator\",\n \"controllerManager\",\n \"scheduler\",\n ],\n opts=pulumi.ResourceOptions(depends_on=cluster_rpas),\n tags={\n \"Name\": name\n },\n)\n`\n\n## ignoreChanges\n\nigno…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "resource-options"
+      }
+    },
+    {
+      "id": "doc:docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx",
+      "title": "StackReference",
+      "url": "/docs/concept/mlops/iac-tool/pulumi/stack-reference",
+      "snippet": "## Output\n\n- https://www.pulumi.com/docs/intro/concepts/stack/#outputs\n\n## StackReference\n\n- https://www.pulumi.com/docs/intro/concepts/stack/#stackreferences\n\nSelf-Mana…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "stack-reference"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/iac-tool/pulumi/import-export.mdx",
+      "title": "Pulumi import/export",
+      "url": "/docs/operation/mlops/iac-tool/pulumi/import-export",
+      "snippet": "## pulumi refresh\n\n현재 스택의 리소스 상태를 실제 클라우드와 비교하여 업데이트 합니다.\n\n``shell\npulumi refresh [flags]…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "import-export"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/iac-tool/pulumi/install.mdx",
+      "title": "Pulumi 설치 가이드",
+      "url": "/docs/operation/mlops/iac-tool/pulumi/install",
+      "snippet": "…설치\n\n### AWS\n\n- https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html\n\n``shell\ncurl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/iac-tool/pulumi/tutorial.mdx",
+      "title": "Pulumi 튜토리얼",
+      "url": "/docs/operation/mlops/iac-tool/pulumi/tutorial",
+      "snippet": "Pulumi 개요 문서와 설치 가이드 문서를 먼저 확인할 수 있습니다.\n\n## Tutorial\n\n### Directory structure\n\n``shell\ntest/\n├── __init__.py\n├── __main__.py\n├── pyp…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "tutorial"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/mlops/iac-tool/pulumi/pulumi.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/entity/mlops/iac-tool/pulumi/pulumi.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다.\n\nPulumi는 TypeScript, Python 같은 일반 프로그래밍 언어로 인프라를 선언하고 배포하는 IaC 도구입니다. 스택, 설정, provider …"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/concept/mlops/iac-tool/pulumi/config.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/concept/mlops/iac-tool/pulumi/config.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "## Stack Level Config\n\n- Get/Set Config\n- Secrets\n\nStack Level Config는 Pulumi..yaml의 config에 :: 형식으로 …"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/concept/mlops/iac-tool/pulumi/dynamic.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/concept/mlops/iac-tool/pulumi/dynamic.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "## Resource\n\n## Reference\n- Pulumi 공식 문서\n- DynamicProvider 예제"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/concept/mlops/iac-tool/pulumi/micro-stack.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/concept/mlops/iac-tool/pulumi/micro-stack.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "…ase.json\n├── crds/\n│ └── ...\n├── /\n│ ├── package.json\n│ ├── tsconfig.json\n│ ├── Pulumi.yaml\n│ ├── Pulumi..yaml\n│ └── src/\n│ ├── index.ts\n│ ├── variable.ts\n│ └── ...\n└…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/concept/mlops/iac-tool/pulumi/resource-options.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/concept/mlops/iac-tool/pulumi/resource-options.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "…\"audit\",\n \"authenticator\",\n \"controllerManager\",\n \"scheduler\",\n ],\n opts=pulumi.ResourceOptions(depends_on=cluster_rpas),\n tags={\n \"Name\": name\n },\n)\n`\n\n## ignoreChanges\n\nigno…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "## Output\n\n- https://www.pulumi.com/docs/intro/concepts/stack/#outputs\n\n## StackReference\n\n- https://www.pulumi.com/docs/intro/concepts/stack/#stackreferences\n\nSelf-Mana…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/iac-tool/pulumi/import-export.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/operation/mlops/iac-tool/pulumi/import-export.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "## pulumi refresh\n\n현재 스택의 리소스 상태를 실제 클라우드와 비교하여 업데이트 합니다.\n\n``shell\npulumi refresh [flags]…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/iac-tool/pulumi/install.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/operation/mlops/iac-tool/pulumi/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "…설치\n\n### AWS\n\n- https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html\n\n``shell\ncurl \"https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip\" -…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/iac-tool/pulumi/tutorial.mdx:about_subject:subject:mlops:iac-tool:pulumi",
+      "from": "doc:docs/operation/mlops/iac-tool/pulumi/tutorial.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:iac-tool:pulumi",
+      "snippet": "Pulumi 개요 문서와 설치 가이드 문서를 먼저 확인할 수 있습니다.\n\n## Tutorial\n\n### Directory structure\n\n``shell\ntest/\n├── __init__.py\n├── __main__.py\n├── pyp…"
+    }
+  ]
+}

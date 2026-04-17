@@ -1,0 +1,35 @@
+{
+  "type": "document",
+  "id": "doc:docs/operation/language/library/python-fastapi/lifespan.mdx",
+  "title": "Lifespan",
+  "snippet": "…synccontextmanager\n\nfrom fastapi import FastAPI\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n # Startup\n yield\n # Shutdown\n\napp = FastAPI(lifespan=lifespan)\n…",
+  "ontology": {
+    "role": "operation",
+    "domain": "language",
+    "class": "library",
+    "instance": "python-fastapi",
+    "aspect": "lifespan"
+  },
+  "url": "/docs/operation/language/library/python-fastapi/lifespan",
+  "node_url": "/api/wiki/nodes/doc:docs/operation/language/library/python-fastapi/lifespan.mdx.json",
+  "subject": {
+    "id": "subject:language:library:python-fastapi",
+    "title": "FastAPI",
+    "ontology": {
+      "domain": "language",
+      "class": "library",
+      "instance": "python-fastapi"
+    },
+    "url": "/docs/operation/language/library/python-fastapi/lifespan"
+  },
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/python-fastapi/lifespan.mdx:about_subject:subject:language:library:python-fastapi",
+      "from": "doc:docs/operation/language/library/python-fastapi/lifespan.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:python-fastapi",
+      "snippet": "…synccontextmanager\n\nfrom fastapi import FastAPI\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n # Startup\n yield\n # Shutdown\n\napp = FastAPI(lifespan=lifespan)\n…"
+    }
+  ]
+}

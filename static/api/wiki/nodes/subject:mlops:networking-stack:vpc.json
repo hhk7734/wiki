@@ -1,0 +1,41 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:networking-stack:vpc",
+  "title": "VPC",
+  "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "networking-stack",
+    "instance": "vpc"
+  },
+  "url": "/docs/entity/mlops/networking-stack/vpc",
+  "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:vpc.json",
+  "document_refs": [
+    "doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx",
+      "title": "VPC",
+      "url": "/docs/entity/mlops/networking-stack/vpc",
+      "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "vpc",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx:about_subject:subject:mlops:networking-stack:vpc",
+      "from": "doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:networking-stack:vpc",
+      "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…"
+    }
+  ]
+}

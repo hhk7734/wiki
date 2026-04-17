@@ -1,0 +1,85 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:python-grpc",
+  "title": "Protobuf",
+  "snippet": "## Protobuf\n\n- Protobuf\n- Version Support\n\n## 컴파일\n\n``shell\npython3 -m pip install protobuf\n…",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "python-grpc"
+  },
+  "url": "/docs/operation/language/library/python-grpc/protobuf",
+  "node_url": "/api/wiki/nodes/subject:language:library:python-grpc.json",
+  "document_refs": [
+    "doc:docs/operation/language/library/python-grpc/grpc.mdx",
+    "doc:docs/operation/language/library/python-grpc/protobuf.mdx",
+    "doc:docs/operation/language/library/python-grpc/type.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/language/library/python-grpc/grpc.mdx",
+      "title": "gRPC",
+      "url": "/docs/operation/language/library/python-grpc/grpc",
+      "snippet": "…otobuf 컴파일\n\n``shell\nprotoc \\\n --proto_path= \\\n --python_out= \\\n --pyi_out= \\\n --grpc_out= \\\n --plugin=protoc-gen-grpc=\"$(which grpc_python_plugin)\" \\\n\n`\n\nPython Qui…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-grpc",
+        "aspect": "grpc"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/python-grpc/protobuf.mdx",
+      "title": "Protobuf",
+      "url": "/docs/operation/language/library/python-grpc/protobuf",
+      "snippet": "## Protobuf\n\n- Protobuf\n- Version Support\n\n## 컴파일\n\n``shell\npython3 -m pip install protobuf\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-grpc",
+        "aspect": "protobuf"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/python-grpc/type.mdx",
+      "title": "Protobuf Type",
+      "url": "/docs/operation/language/library/python-grpc/type",
+      "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\nfrom google.protobuf.timestamp_pb2 im…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-grpc",
+        "aspect": "type"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/python-grpc/grpc.mdx:about_subject:subject:language:library:python-grpc",
+      "from": "doc:docs/operation/language/library/python-grpc/grpc.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:python-grpc",
+      "snippet": "…otobuf 컴파일\n\n``shell\nprotoc \\\n --proto_path= \\\n --python_out= \\\n --pyi_out= \\\n --grpc_out= \\\n --plugin=protoc-gen-grpc=\"$(which grpc_python_plugin)\" \\\n\n`\n\nPython Qui…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/python-grpc/protobuf.mdx:about_subject:subject:language:library:python-grpc",
+      "from": "doc:docs/operation/language/library/python-grpc/protobuf.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:python-grpc",
+      "snippet": "## Protobuf\n\n- Protobuf\n- Version Support\n\n## 컴파일\n\n``shell\npython3 -m pip install protobuf\n…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/python-grpc/type.mdx:about_subject:subject:language:library:python-grpc",
+      "from": "doc:docs/operation/language/library/python-grpc/type.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:python-grpc",
+      "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\nfrom google.protobuf.timestamp_pb2 im…"
+    }
+  ]
+}

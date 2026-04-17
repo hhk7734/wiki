@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:provisioning-tool:karpenter",
+  "title": "Karpenter",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\nKarpenter는 Kubernetes에서 pending pod를 보고 필요한 노드를 직접 생성하는 오토스케일러입니다. EKS 환경에서는 IAM, EC2Node…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "provisioning-tool",
+    "instance": "karpenter"
+  },
+  "url": "/docs/entity/mlops/provisioning-tool/karpenter",
+  "node_url": "/api/wiki/nodes/subject:mlops:provisioning-tool:karpenter.json",
+  "document_refs": [
+    "doc:docs/entity/mlops/provisioning-tool/karpenter/karpenter.mdx",
+    "doc:docs/operation/mlops/provisioning-tool/karpenter/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/mlops/provisioning-tool/karpenter/karpenter.mdx",
+      "title": "Karpenter",
+      "url": "/docs/entity/mlops/provisioning-tool/karpenter",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\nKarpenter는 Kubernetes에서 pending pod를 보고 필요한 노드를 직접 생성하는 오토스케일러입니다. EKS 환경에서는 IAM, EC2Node…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/provisioning-tool/karpenter/install.mdx",
+      "title": "Karpenter 설치 가이드",
+      "url": "/docs/operation/mlops/provisioning-tool/karpenter/install",
+      "snippet": "## 사전 요구 사항\n\n- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpe…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/mlops/provisioning-tool/karpenter/karpenter.mdx:about_subject:subject:mlops:provisioning-tool:karpenter",
+      "from": "doc:docs/entity/mlops/provisioning-tool/karpenter/karpenter.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:provisioning-tool:karpenter",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\nKarpenter는 Kubernetes에서 pending pod를 보고 필요한 노드를 직접 생성하는 오토스케일러입니다. EKS 환경에서는 IAM, EC2Node…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/provisioning-tool/karpenter/install.mdx:about_subject:subject:mlops:provisioning-tool:karpenter",
+      "from": "doc:docs/operation/mlops/provisioning-tool/karpenter/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:provisioning-tool:karpenter",
+      "snippet": "## 사전 요구 사항\n\n- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpe…"
+    }
+  ]
+}

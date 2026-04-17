@@ -1,0 +1,85 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:go-grpc",
+  "title": "Protobuf",
+  "snippet": "## Protobuf\n\n- Protobuf\n\n## 컴파일\n\n``shell\ngo install google.golang.org/protobuf/cmd/protoc-g…",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "go-grpc"
+  },
+  "url": "/docs/operation/language/library/go-grpc/protobuf",
+  "node_url": "/api/wiki/nodes/subject:language:library:go-grpc.json",
+  "document_refs": [
+    "doc:docs/operation/language/library/go-grpc/grpc.mdx",
+    "doc:docs/operation/language/library/go-grpc/protobuf.mdx",
+    "doc:docs/operation/language/library/go-grpc/type.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/language/library/go-grpc/grpc.mdx",
+      "title": "gRPC",
+      "url": "/docs/operation/language/library/go-grpc/grpc",
+      "snippet": "…protoc-gen-go@latest\n`\n\n`shell\ngo install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest\n`\n\n`shell\nprotoc \\\n --go_out=. \\\n --go_opt=paths=source_relative \\\n --go…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-grpc",
+        "aspect": "grpc"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-grpc/protobuf.mdx",
+      "title": "Protobuf",
+      "url": "/docs/operation/language/library/go-grpc/protobuf",
+      "snippet": "## Protobuf\n\n- Protobuf\n\n## 컴파일\n\n``shell\ngo install google.golang.org/protobuf/cmd/protoc-g…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-grpc",
+        "aspect": "protobuf"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/go-grpc/type.mdx",
+      "title": "Protobuf Type",
+      "url": "/docs/operation/language/library/go-grpc/type",
+      "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\n\ntimestamp := timestamppb.Now()\n\nt :=…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-grpc",
+        "aspect": "type"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-grpc/grpc.mdx:about_subject:subject:language:library:go-grpc",
+      "from": "doc:docs/operation/language/library/go-grpc/grpc.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-grpc",
+      "snippet": "…protoc-gen-go@latest\n`\n\n`shell\ngo install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest\n`\n\n`shell\nprotoc \\\n --go_out=. \\\n --go_opt=paths=source_relative \\\n --go…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-grpc/protobuf.mdx:about_subject:subject:language:library:go-grpc",
+      "from": "doc:docs/operation/language/library/go-grpc/protobuf.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-grpc",
+      "snippet": "## Protobuf\n\n- Protobuf\n\n## 컴파일\n\n``shell\ngo install google.golang.org/protobuf/cmd/protoc-g…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/library/go-grpc/type.mdx:about_subject:subject:language:library:go-grpc",
+      "from": "doc:docs/operation/language/library/go-grpc/type.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:library:go-grpc",
+      "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\n\ntimestamp := timestamppb.Now()\n\nt :=…"
+    }
+  ]
+}

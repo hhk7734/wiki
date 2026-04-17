@@ -1,0 +1,173 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:workflow-system:argo-workflows",
+  "title": "Argo Workflows",
+  "snippet": "## 설치\n\n``shell\nwget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \\\n&& gzip -d argo-linux-amd64.gz \\…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "workflow-system",
+    "instance": "argo-workflows"
+  },
+  "url": "/docs/operation/mlops/workflow-system/argo-workflows",
+  "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:argo-workflows.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx",
+    "doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx",
+      "title": "Argo Workflows",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows",
+      "snippet": "## 설치\n\n``shell\nwget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \\\n&& gzip -d argo-linux-amd64.gz \\…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx",
+      "title": "Argo Workflows Client",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/client",
+      "snippet": "## Go Client\n\nKubernetes 토큰을 사용하는 경우 아래 설정이 필요합니다.\n\n``yaml title=\"argo-workflows-values.yaml\"\nserver:\n authModes:\n - client\n`\n\n### gRPC\n\n### HTTP\n\n`go\n ctx, cli…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "client"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
+      "title": "Argo Workflows CRD",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/crd",
+      "snippet": "## Workflow and WorkflowTemplate\n\n- https://argoproj.github.io/argo-workflows/fields/#workflowspec\n\n``yaml\napiVersion: argoproj.io/v1alpha1\nkind: Workflow # …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "crd"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx",
+      "title": "Argo Workflows DAG template",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/dag",
+      "snippet": "…실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.\n\n- https://argoproj.github.io/argo-workflows/fields/#dagtemplate\n\n``yaml\nspec:\n entrypoint: dag-test\n templates:\n - name: da…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "dag"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx",
+      "title": "Argo Workflows entrypoint and templates",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates",
+      "snippet": "…점이 됩니다.\n\n``yaml\nspec:\n entrypoint:\n`\n\n## template\n\n- https://argoproj.github.io/argo-workflows/fields/#template\n\ntemplate은 workflow에서 작업을 정의할 때 사용하는 실행 단위입니다. container, scri…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "entrypoint-templates"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx",
+      "title": "Argo Workflows Garbage Collection",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/garbage-collection",
+      "snippet": "- https://argoproj.github.io/argo-workflows/cost-optimisation/\n\n## podGC\n\n- https://argoproj.github.io/argo-workflows/field…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "garbage-collection"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx",
+      "title": "Argo Workflows Variables",
+      "url": "/docs/operation/mlops/workflow-system/argo-workflows/variables",
+      "snippet": "## 변수 사용 방법\n\n- https://argoproj.github.io/argo-workflows/variables/\n\nCR 정의에 따라 자동으로 정의 및 할당되는 변수와 사용자 정의(inputs.parameters) 및 할당(argumen…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "variables"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "## 설치\n\n``shell\nwget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \\\n&& gzip -d argo-linux-amd64.gz \\…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "## Go Client\n\nKubernetes 토큰을 사용하는 경우 아래 설정이 필요합니다.\n\n``yaml title=\"argo-workflows-values.yaml\"\nserver:\n authModes:\n - client\n`\n\n### gRPC\n\n### HTTP\n\n`go\n ctx, cli…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "## Workflow and WorkflowTemplate\n\n- https://argoproj.github.io/argo-workflows/fields/#workflowspec\n\n``yaml\napiVersion: argoproj.io/v1alpha1\nkind: Workflow # …"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "…실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.\n\n- https://argoproj.github.io/argo-workflows/fields/#dagtemplate\n\n``yaml\nspec:\n entrypoint: dag-test\n templates:\n - name: da…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "…점이 됩니다.\n\n``yaml\nspec:\n entrypoint:\n`\n\n## template\n\n- https://argoproj.github.io/argo-workflows/fields/#template\n\ntemplate은 workflow에서 작업을 정의할 때 사용하는 실행 단위입니다. container, scri…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "- https://argoproj.github.io/argo-workflows/cost-optimisation/\n\n## podGC\n\n- https://argoproj.github.io/argo-workflows/field…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
+      "from": "doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:workflow-system:argo-workflows",
+      "snippet": "## 변수 사용 방법\n\n- https://argoproj.github.io/argo-workflows/variables/\n\nCR 정의에 따라 자동으로 정의 및 할당되는 변수와 사용자 정의(inputs.parameters) 및 할당(argumen…"
+    }
+  ]
+}

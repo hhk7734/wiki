@@ -1,0 +1,107 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:observability-system:vector",
+  "title": "Vector",
+  "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "observability-system",
+    "instance": "vector"
+  },
+  "url": "/docs/operation/mlops/observability-system/vector/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:observability-system:vector.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/observability-system/vector/install.mdx",
+    "doc:docs/operation/mlops/observability-system/vector/sink.mdx",
+    "doc:docs/operation/mlops/observability-system/vector/source.mdx",
+    "doc:docs/operation/mlops/observability-system/vector/transform.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/observability-system/vector/install.mdx",
+      "title": "Vector",
+      "url": "/docs/operation/mlops/observability-system/vector/install",
+      "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/vector/sink.mdx",
+      "title": "Vector Sink(내보내기)",
+      "url": "/docs/operation/mlops/observability-system/vector/sink",
+      "snippet": "## Sink 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sinks:\n :\n type:\n inputs:\n -\n :\n`\n\n## Console\\(for …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "sink"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/vector/source.mdx",
+      "title": "Vector Source(수집하기)",
+      "url": "/docs/operation/mlops/observability-system/vector/source",
+      "snippet": "## Source 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sources:\n :\n type:\n :\n`\n\n## Kubernetes Log\n\n- Vecto…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "source"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/observability-system/vector/transform.mdx",
+      "title": "Vector Transform(변환하기)",
+      "url": "/docs/operation/mlops/observability-system/vector/transform",
+      "snippet": "## Transform 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n transforms:\n :\n type:\n …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "transform"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/vector/install.mdx:about_subject:subject:mlops:observability-system:vector",
+      "from": "doc:docs/operation/mlops/observability-system/vector/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:vector",
+      "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/vector/sink.mdx:about_subject:subject:mlops:observability-system:vector",
+      "from": "doc:docs/operation/mlops/observability-system/vector/sink.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:vector",
+      "snippet": "## Sink 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sinks:\n :\n type:\n inputs:\n -\n :\n`\n\n## Console\\(for …"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/vector/source.mdx:about_subject:subject:mlops:observability-system:vector",
+      "from": "doc:docs/operation/mlops/observability-system/vector/source.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:vector",
+      "snippet": "## Source 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sources:\n :\n type:\n :\n`\n\n## Kubernetes Log\n\n- Vecto…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/observability-system/vector/transform.mdx:about_subject:subject:mlops:observability-system:vector",
+      "from": "doc:docs/operation/mlops/observability-system/vector/transform.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:observability-system:vector",
+      "snippet": "## Transform 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n transforms:\n :\n type:\n …"
+    }
+  ]
+}

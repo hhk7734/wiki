@@ -1,0 +1,129 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:ml-platform:kserve",
+  "title": "KServe",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "ml-platform",
+    "instance": "kserve"
+  },
+  "url": "/docs/entity/mlops/ml-platform/kserve",
+  "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:kserve.json",
+  "document_refs": [
+    "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
+    "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
+    "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
+    "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
+    "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
+      "title": "KServe",
+      "url": "/docs/entity/mlops/ml-platform/kserve",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
+      "title": "Kserve CRDs",
+      "url": "/docs/operation/mlops/ml-platform/kserve/crds",
+      "snippet": "## ServingRuntimes/ClusterServingRuntimes\n\n- https://kserve.github.io/website/0.11/modelserving/servingruntimes/\n- https://github.com/kserv…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "crds"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
+      "title": "Kserve Custom Runtime",
+      "url": "/docs/operation/mlops/ml-platform/kserve/custom",
+      "snippet": "## ServingRuntimes\n\n``shell\npython3 -m pip install kserve\n`\n\nStorage를 사용해야하는 경우 kserve[storage]를 설…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "custom"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
+      "title": "KServe 설치 가이드",
+      "url": "/docs/operation/mlops/ml-platform/kserve/install",
+      "snippet": "KServe 개요 문서에서 control plane과 data plane 구성을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- https://github.c…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx",
+      "title": "KServe with MLFlow",
+      "url": "/docs/operation/mlops/ml-platform/kserve/mlflow",
+      "snippet": "## 모델 준비\n\n## MLServer Local Test\n\n``shell\npython3 -m pip install mlserver mlserver-mlflow\n`\n\n`shell\n.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "mlflow"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:ml-platform:kserve",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/crds.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:ml-platform:kserve",
+      "snippet": "## ServingRuntimes/ClusterServingRuntimes\n\n- https://kserve.github.io/website/0.11/modelserving/servingruntimes/\n- https://github.com/kserv…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/custom.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:ml-platform:kserve",
+      "snippet": "## ServingRuntimes\n\n``shell\npython3 -m pip install kserve\n`\n\nStorage를 사용해야하는 경우 kserve[storage]를 설…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/install.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:ml-platform:kserve",
+      "snippet": "KServe 개요 문서에서 control plane과 data plane 구성을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- https://github.c…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:ml-platform:kserve",
+      "snippet": "## 모델 준비\n\n## MLServer Local Test\n\n``shell\npython3 -m pip install mlserver mlserver-mlflow\n`\n\n`shell\n.…"
+    }
+  ]
+}

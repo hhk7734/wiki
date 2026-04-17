@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:language:package:vcpkg",
+  "title": "vcpkg Library 만들기",
+  "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
+  "ontology": {
+    "domain": "language",
+    "class": "package",
+    "instance": "vcpkg"
+  },
+  "url": "/docs/operation/language/package/vcpkg/library",
+  "node_url": "/api/wiki/nodes/subject:language:package:vcpkg.json",
+  "document_refs": [
+    "doc:docs/operation/language/package/vcpkg/library.mdx",
+    "doc:docs/operation/language/package/vcpkg/registry.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/language/package/vcpkg/library.mdx",
+      "title": "vcpkg Library 만들기",
+      "url": "/docs/operation/language/package/vcpkg/library",
+      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "library"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/package/vcpkg/registry.mdx",
+      "title": "vcpkg Registry 만들기",
+      "url": "/docs/operation/language/package/vcpkg/registry",
+      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "registry"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/package/vcpkg/library.mdx:about_subject:subject:language:package:vcpkg",
+      "from": "doc:docs/operation/language/package/vcpkg/library.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:package:vcpkg",
+      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/language/package/vcpkg/registry.mdx:about_subject:subject:language:package:vcpkg",
+      "from": "doc:docs/operation/language/package/vcpkg/registry.mdx",
+      "predicate": "about_subject",
+      "to": "subject:language:package:vcpkg",
+      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…"
+    }
+  ]
+}

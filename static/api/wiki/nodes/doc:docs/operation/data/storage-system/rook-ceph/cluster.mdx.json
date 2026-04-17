@@ -1,0 +1,35 @@
+{
+  "type": "document",
+  "id": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
+  "title": "Rook Ceph Cluster 생성하기",
+  "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…",
+  "ontology": {
+    "role": "operation",
+    "domain": "data",
+    "class": "storage-system",
+    "instance": "rook-ceph",
+    "aspect": "cluster"
+  },
+  "url": "/docs/operation/data/storage-system/rook-ceph/cluster",
+  "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx.json",
+  "subject": {
+    "id": "subject:data:storage-system:rook-ceph",
+    "title": "Rook Ceph",
+    "ontology": {
+      "domain": "data",
+      "class": "storage-system",
+      "instance": "rook-ceph"
+    },
+    "url": "/docs/operation/data/storage-system/rook-ceph/cluster"
+  },
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
+      "predicate": "about_subject",
+      "to": "subject:data:storage-system:rook-ceph",
+      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…"
+    }
+  ]
+}

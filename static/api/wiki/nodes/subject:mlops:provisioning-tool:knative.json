@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:provisioning-tool:knative",
+  "title": "Knative",
+  "snippet": "## 설치\n\n``shell\nhelm show values knative-operator-0.1.0.tgz \\\nknative-operator-values.yaml\n`\n\n`shell\nhelm template knati…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "provisioning-tool",
+    "instance": "knative"
+  },
+  "url": "/docs/operation/mlops/provisioning-tool/knative/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:provisioning-tool:knative.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/provisioning-tool/knative/autoscaling.mdx",
+    "doc:docs/operation/mlops/provisioning-tool/knative/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/provisioning-tool/knative/autoscaling.mdx",
+      "title": "Knative Auto Scaling 설정하기",
+      "url": "/docs/operation/mlops/provisioning-tool/knative/autoscaling",
+      "snippet": "## KPA/HPA\n\n- https://knative.dev/docs/serving/autoscaling/autoscaler-types/\n\n- KPA(Knative Pod Autoscaler)\n - Knative에서 제공하는 기본적인 Pod Aut…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "provisioning-tool",
+        "instance": "knative",
+        "aspect": "autoscaling"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/provisioning-tool/knative/install.mdx",
+      "title": "Knative",
+      "url": "/docs/operation/mlops/provisioning-tool/knative/install",
+      "snippet": "## 설치\n\n``shell\nhelm show values knative-operator-0.1.0.tgz \\\nknative-operator-values.yaml\n`\n\n`shell\nhelm template knati…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "provisioning-tool",
+        "instance": "knative",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/provisioning-tool/knative/autoscaling.mdx:about_subject:subject:mlops:provisioning-tool:knative",
+      "from": "doc:docs/operation/mlops/provisioning-tool/knative/autoscaling.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:provisioning-tool:knative",
+      "snippet": "## KPA/HPA\n\n- https://knative.dev/docs/serving/autoscaling/autoscaler-types/\n\n- KPA(Knative Pod Autoscaler)\n - Knative에서 제공하는 기본적인 Pod Aut…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/provisioning-tool/knative/install.mdx:about_subject:subject:mlops:provisioning-tool:knative",
+      "from": "doc:docs/operation/mlops/provisioning-tool/knative/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:provisioning-tool:knative",
+      "snippet": "## 설치\n\n``shell\nhelm show values knative-operator-0.1.0.tgz \\\nknative-operator-values.yaml\n`\n\n`shell\nhelm template knati…"
+    }
+  ]
+}

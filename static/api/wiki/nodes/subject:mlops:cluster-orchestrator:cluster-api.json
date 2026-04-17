@@ -1,0 +1,151 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:cluster-orchestrator:cluster-api",
+  "title": "Cluster API Operator 설치 가이드",
+  "snippet": "…있어야 합니다.\n\n``shell\nhelm repo add capi-operator https://kubernetes-sigs.github.io/cluster-api-operator\n`\n\n`shell\nhelm repo update capi-operator \\\n&& helm search repo capi-op…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "cluster-orchestrator",
+    "instance": "cluster-api"
+  },
+  "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:cluster-orchestrator:cluster-api.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/cluster.mdx",
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/install.mdx",
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron.mdx",
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron.mdx",
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron.mdx",
+    "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/kubevirt.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/cluster.mdx",
+      "title": "Cluster API로 Kubernetes Cluster 생성하기",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/cluster",
+      "snippet": "## Cluster\n\n- crds Docs / Cluster API / Cluster\n\n``mermaid\n\nconfig:\n layout: elk\n\nclassDia…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "cluster"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/install.mdx",
+      "title": "Cluster API Operator 설치 가이드",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/install",
+      "snippet": "…있어야 합니다.\n\n``shell\nhelm repo add capi-operator https://kubernetes-sigs.github.io/cluster-api-operator\n`\n\n`shell\nhelm repo update capi-operator \\\n&& helm search repo capi-op…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron.mdx",
+      "title": "Cluster API에서 k0smotron BootstrapProvider 사용하기",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron",
+      "snippet": "## BootstrapProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-bootstr…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron.mdx",
+      "title": "Cluster API에서 k0smotron ControlPlaneProvider 사용하기",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron",
+      "snippet": "## ControlPlaneProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-control…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron.mdx",
+      "title": "Cluster API에서 k0smotron InfrastructureProvider 사용하기",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron",
+      "snippet": "## InfrastructureProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-infrast…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/kubevirt.mdx",
+      "title": "Cluster API에서 KubeVirt InfrastructureProvider 사용하기",
+      "url": "/docs/operation/mlops/cluster-orchestrator/cluster-api/kubevirt",
+      "snippet": "## KubeVirt\n\n- KubeVirt 설치 가이드\n\n## InfrastructureProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-kubevirt-infrastr…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-orchestrator",
+        "instance": "cluster-api",
+        "aspect": "kubevirt"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/cluster.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/cluster.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "## Cluster\n\n- crds Docs / Cluster API / Cluster\n\n``mermaid\n\nconfig:\n layout: elk\n\nclassDia…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/install.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "…있어야 합니다.\n\n``shell\nhelm repo add capi-operator https://kubernetes-sigs.github.io/cluster-api-operator\n`\n\n`shell\nhelm repo update capi-operator \\\n&& helm search repo capi-op…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-bootstrap-k0smotron.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "## BootstrapProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-bootstr…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-control-plane-k0smotron.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "## ControlPlaneProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-control…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/k0smotron--mlops-kubernetes-cluster-cluster-api-infrastructure-k0smotron.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "## InfrastructureProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-k0smotron-infrast…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/cluster-api/kubevirt.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "from": "doc:docs/operation/mlops/cluster-orchestrator/cluster-api/kubevirt.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:cluster-orchestrator:cluster-api",
+      "snippet": "## KubeVirt\n\n- KubeVirt 설치 가이드\n\n## InfrastructureProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-kubevirt-infrastr…"
+    }
+  ]
+}

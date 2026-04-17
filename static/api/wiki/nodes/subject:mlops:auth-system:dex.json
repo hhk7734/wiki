@@ -1,0 +1,63 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:auth-system:dex",
+  "title": "Dex",
+  "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+  "ontology": {
+    "domain": "mlops",
+    "class": "auth-system",
+    "instance": "dex"
+  },
+  "url": "/docs/operation/mlops/auth-system/dex/install",
+  "node_url": "/api/wiki/nodes/subject:mlops:auth-system:dex.json",
+  "document_refs": [
+    "doc:docs/operation/mlops/auth-system/dex/google.mdx",
+    "doc:docs/operation/mlops/auth-system/dex/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/operation/mlops/auth-system/dex/google.mdx",
+      "title": "Dex에 Google 연결하기",
+      "url": "/docs/operation/mlops/auth-system/dex/google",
+      "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "google"
+      }
+    },
+    {
+      "id": "doc:docs/operation/mlops/auth-system/dex/install.mdx",
+      "title": "Dex",
+      "url": "/docs/operation/mlops/auth-system/dex/install",
+      "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/dex/google.mdx:about_subject:subject:mlops:auth-system:dex",
+      "from": "doc:docs/operation/mlops/auth-system/dex/google.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:dex",
+      "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…"
+    },
+    {
+      "type": "relation",
+      "id": "relation:doc:docs/operation/mlops/auth-system/dex/install.mdx:about_subject:subject:mlops:auth-system:dex",
+      "from": "doc:docs/operation/mlops/auth-system/dex/install.mdx",
+      "predicate": "about_subject",
+      "to": "subject:mlops:auth-system:dex",
+      "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…"
+    }
+  ]
+}
