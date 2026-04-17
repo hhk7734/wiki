@@ -42,7 +42,7 @@ const config: Config = {
 			{
 				docs: {
 					sidebarPath: "./sidebars.ts",
-					exclude: ["**/AGENTS.md"],
+					exclude: ["**/AGENTS.md", "**/CLAUDE.md"],
 					showLastUpdateTime: true,
 					remarkPlugins: [remarkMath],
 					rehypePlugins: [[rehypeKatex, { strict: false }]],
@@ -54,10 +54,6 @@ const config: Config = {
 				sitemap: {
 					changefreq: EnumChangefreq.WEEKLY,
 					priority: 0.5,
-				},
-				googleAnalytics: {
-					trackingID: "UA-82937088-4",
-					anonymizeIP: true,
 				},
 			} satisfies Preset.Options,
 		],

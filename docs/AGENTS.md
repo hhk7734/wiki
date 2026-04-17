@@ -95,12 +95,16 @@ Preferred `domain` vocabulary for this corpus:
 
 Representative `class` vocabulary:
 
-- `language`: `programming-language`, `library`, `framework`, `toolchain`, `runtime`
-- `platform`: `orchestrator`, `cluster-addon`, `service-mesh`, `iac-tool`, `workflow-system`
-- `hardware`: `mcu-family`, `board`, `peripheral`, `sensor`
-- `protocol`: `application-protocol`, `wire-protocol`, `interface-definition`, `api-spec`
-- `data`: `database`, `storage-system`, `schema-language`
-- `mlops`: `training-system`, `serving-system`, `model-family`, `observability-system`
+- `language`: `programming-language`, `library`, `framework`, `toolchain`, `build-tooling`, `environment`, `package`, `api`, `concept`
+- `platform`: `tool`, `kernel`, `bootloader`, `package-manager`
+- `hardware`: `mcu-family`, `electronics`
+- `protocol`: `application-protocol`, `api-spec`
+- `data`: `database`, `storage-system`, `storage-interface`, `object-storage`
+- `mlops`: `auth-system`, `cloud-service`, `cluster-addon`, `cluster-orchestrator`, `configuration`, `container-platform`, `eventing-system`, `gateway-api`, `iac-tool`, `ml-platform`, `networking`, `networking-stack`, `observability-system`, `orchestrator`, `provisioning-tool`, `scheduler`, `security`, `service-mesh`, `serving-system`, `storage`, `tool`, `upgrade-plan`, `workflow-system`, `workload`
+- `science`: `model-family`, `biology`, `project`
+- `management`: `memo`
+
+These lists are representative, not exhaustive. When the repository already uses a stable class in `ontology/classification-registry.json` and `script/ontology/pathing.mjs`, prefer that existing class over inventing a new synonym.
 
 Naming rules:
 
@@ -109,6 +113,7 @@ Naming rules:
 - `instance` names should be practical canonical names such as `go`, `postgresql`, `fastapi`, `istio`, `node-feature-discovery`
 - `aspect` should capture one facet only, such as `overview`, `install`, `config`, `authentication`, `middleware`
 - avoid editorial buckets such as `etc`, `misc`, `advanced`, `libraries`, `workflow` unless they are true ontology classes
+- prefer an already-established class name over near-synonyms such as `workflow-engine` vs `workflow-system`
 
 ## Subject Anchor Rules
 
