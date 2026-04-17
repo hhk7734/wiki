@@ -1,0 +1,216 @@
+---
+id: install
+title: "Karpenter 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "Karpenter 설치 가이드"
+keywords:
+  - karpenter
+  - pulumi
+  - helm
+ontology:
+  role: operation
+  domain: mlops
+  class: provisioning-tool
+  instance: karpenter
+  aspect: install
+---
+
+## 사전 요구 사항
+
+- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml
+
+진행 전 Spot Role에 대한 설정을 먼저 해주세요.
+
+### NodeGroup Role
+
+```ts
+const nodeGroupRoleName = "karpenter-ng-role";
+const nodeGroupRole = new aws.iam.Role(
+	nodeGroupRoleName,
+	{
+		namePrefix: `${nodeGroupRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Effect: "Allow",
+					Principal: {
+						Service: "ec2.amazonaws.com",
+					},
+					Action: "sts:AssumeRole",
+				},
+			],
+		},
+		tags: {
+			Name: nodeGroupRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+const nodeGroupInstanceProfileName = "karpenter-ng-instacne-profile";
+const nodeGroupInstanceProfile = new aws.iam.InstanceProfile(
+	nodeGroupInstanceProfileName,
+	{
+		namePrefix: `${nodeGroupInstanceProfileName}-`,
+		role: nodeGroupRole.name,
+		tags: {
+			Name: nodeGroupInstanceProfileName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+const nodeGroupPolicyARNs = {
+	"0": "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+	"1": "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+	"2": "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+	"3": "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+};
+
+const nodeGroupRpas = Object.entries(nodeGroupPolicyARNs).map(
+	([i, arn]) =>
+		new aws.iam.RolePolicyAttachment(
+			`karpenter-ng-rpa-${i}`,
+			{
+				policyArn: arn,
+				role: nodeGroupRole.name,
+			},
+			{ protect: true },
+		),
+);
+```
+
+### Karpenter Controller Role
+
+- https://github.com/aws/karpenter-provider-aws/blob/main/website/content/en/preview/getting-started/getting-started-with-karpenter/cloudformation.yaml
+
+```ts
+const controllerRoleName = "karpenter-controller-role";
+const controllerRole = new aws.iam.Role(
+	controllerRoleName,
+	{
+		namePrefix: `${controllerRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Effect: "Allow",
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn),
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: "sts.amazonaws.com",
+							[`${eks.oidcProvider.url}:sub`]:
+								"system:serviceaccount:kube-system:karpenter",
+						})),
+					},
+					Action: "sts:AssumeRoleWithWebIdentity",
+				},
+			],
+		},
+		tags: {
+			Name: controllerRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+```
+
+## 설치
+
+:::warning
+설치 전에 `CoreDNS`가 작동하는 지 확인하시기 바랍니다.
+:::
+
+```shell
+helm upgrade -i karpenter-crd oci://public.ecr.aws/karpenter/karpenter-crd \
+    --version v0.33.0 \
+    --history-max 5 \
+    -n kube-system
+```
+
+```shell
+helm show values oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.33.0 \
+    > karpenter-values.yaml
+```
+
+```yaml title="karpenter-values.yaml"
+additionalLabels: {}
+
+serviceAccount:
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::<accountId>:role/<controllerRoleName>
+
+replicas: 1
+
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: karpenter.sh/nodepool
+              operator: DoesNotExist
+
+tolerations:
+  - operator: Exists
+
+controller:
+  resources:
+    requests:
+      cpu: 50m
+      memory: 512Mi
+    limits:
+      memory: 512Mi
+
+webhook:
+  enabled: false
+
+settings:
+  batchMaxDuration: 20s
+  batchIdleDuration: 5s
+  clusterName: <clusterName>
+  interruptionQueue: <interruptionQueueName>
+```
+
+```shell
+helm template karpenter oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.33.0 \
+    -n kube-system \
+    -f karpenter-values.yaml \
+    > karpenter.yaml
+```
+
+```shell
+helm upgrade -i karpenter oci://public.ecr.aws/karpenter/karpenter \
+    --version v0.33.0 \
+    --history-max 5 \
+    -n kube-system \
+    -f karpenter-values.yaml
+```
+
+- https://github.com/aws/karpenter/tree/main/pkg/apis/crds
+
+```yaml
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapRoles: |
+    - rolearn: arn:aws:iam::<accountId>:role/karpenter-ng-role-xxxxx
+      username: system:node:{{EC2PrivateDNSName}}
+      groups:
+        - system:bootstrappers
+        - system:nodes
+```
+
+## 업그레이드
+
+- https://karpenter.sh/docs/upgrade-guide/
