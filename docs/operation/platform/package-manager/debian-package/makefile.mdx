@@ -1,18 +1,18 @@
 ---
 id: makefile
-title: "Debian package Makefile"
+title: "Debian Package Makefile"
 sidebar_label: Makefile
-description: "Debian package Makefile"
+description: "Debian Package Makefile"
 keywords:
   - Debian
   - package
   - Makefile
 ontology:
-  role: entity
+  role: operation
   domain: platform
   class: package-manager
-  instance: makefile
-  aspect: overview
+  instance: debian-package
+  aspect: makefile
 ---
 
 ## Basic
@@ -118,8 +118,4 @@ distclean: clean
 uninstall:
     rm -f $(addprefix $(DESTDIR)$(prefix)/include/,$(notdir $(DEV_HEADERS)))
     rm -f $(DESTDIR)$(prefix)/lib/lib<package>.*
-
-.PHONY: clang-format
-clang: $(call rwildcard,,*.c) $(call rwildcard,,*.cpp) $(call rwildcard,,*.h) $(call rwildcard,,*.hpp)
-    clang-format -style=file -i -verbose $^
 ```
