@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import clsx from "clsx";
-import { dedupeGroupedWikiResults, searchWikiIndex } from "@site/src/components/wikiSearch/searchEngine.mjs";
+import { searchWikiIndex } from "@site/src/components/wikiSearch/searchEngine.mjs";
 import styles from "./styles.module.css";
 
 type SearchRecord = {
@@ -79,7 +79,7 @@ export default function SearchBar(): React.ReactNode {
 			return { subjects: [], documents: [] };
 		}
 
-		return dedupeGroupedWikiResults(searchWikiIndex(query, records));
+		return searchWikiIndex(query, records);
 	}, [query, records]);
 
 	function renderResult(result: SearchRecord & { score?: number }, kind: "subject" | "document") {

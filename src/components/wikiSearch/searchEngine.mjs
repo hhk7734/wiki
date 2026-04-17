@@ -30,6 +30,7 @@ const KOREAN_PARTICLE_SUFFIXES = [
 	"도",
 	"만",
 ];
+const SEARCHABLE_TOKEN_PATTERN = /[\p{L}\p{N}]/u;
 
 function normalizeText(value) {
 	return (value ?? "")
@@ -50,7 +51,14 @@ function stripKoreanParticle(token) {
 }
 
 export function tokenizeQuery(query) {
-	return [...new Set(normalizeText(query).split(" ").map(stripKoreanParticle).filter(Boolean))];
+	return [
+		...new Set(
+			normalizeText(query)
+				.split(" ")
+				.map(stripKoreanParticle)
+				.filter((token) => token && SEARCHABLE_TOKEN_PATTERN.test(token)),
+		),
+	];
 }
 
 function expandTokens(tokens) {
@@ -169,12 +177,15 @@ function scoreDocument(query, document) {
 	return score;
 }
 
-function rankAndLimit(records, scorer, query, limit) {
+function rankRecords(records, scorer, query) {
 	return records
 		.map((record) => ({ ...record, score: scorer(query, record) }))
 		.filter((record) => record.score > 0)
-		.sort((left, right) => right.score - left.score || left.title.localeCompare(right.title))
-		.slice(0, limit);
+		.sort((left, right) => right.score - left.score || left.title.localeCompare(right.title));
+}
+
+function rankAndLimit(records, scorer, query, limit) {
+	return rankRecords(records, scorer, query).slice(0, limit);
 }
 
 export function searchWikiIndex(query, index, { limit = 6 } = {}) {
@@ -184,9 +195,15 @@ export function searchWikiIndex(query, index, { limit = 6 } = {}) {
 		return { subjects: [], documents: [] };
 	}
 
+	const subjects = rankAndLimit(index.subjects ?? [], scoreSubject, trimmed, limit);
+	const subjectUrls = new Set(subjects.map((subject) => subject.url?.trim()).filter(Boolean));
+	const documents = rankRecords(index.documents ?? [], scoreDocument, trimmed)
+		.filter((document) => !subjectUrls.has(document.url?.trim()))
+		.slice(0, limit);
+
 	return {
-		subjects: rankAndLimit(index.subjects ?? [], scoreSubject, trimmed, limit),
-		documents: rankAndLimit(index.documents ?? [], scoreDocument, trimmed, limit),
+		subjects,
+		documents,
 	};
 }
 

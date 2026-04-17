@@ -121,6 +121,54 @@ test("wiki search ignores punctuation-only queries after normalization", () => {
 	assert.deepEqual(results, { subjects: [], documents: [] });
 });
 
+test("wiki search ignores hyphen-only queries without breaking hyphenated fields", () => {
+	const results = searchWikiIndex(
+		"-",
+		{
+			subjects: [
+				{
+					id: "subject:ceph",
+					title: "Ceph",
+					description: "Ceph overview",
+					snippet: "Ceph overview",
+					url: "/docs/entity/data/storage-system/ceph",
+					ontology: {
+						domain: "data",
+						class: "storage-system",
+						instance: "ceph",
+					},
+					search_text: "ceph overview architecture",
+					display: { label: "Ceph", kind: "subject", subtitle: "Ceph", document_count: 1 },
+				},
+			],
+			documents: [
+				{
+					id: "doc:ceph-overview",
+					title: "Ceph Overview",
+					description: "Ceph overview",
+					snippet: "Ceph overview",
+					headings: ["개요"],
+					keywords: ["ceph"],
+					url: "/docs/entity/data/storage-system/ceph/overview",
+					subject_ref: "subject:ceph",
+					subject_title: "Ceph",
+					ontology: {
+						role: "entity",
+						domain: "data",
+						class: "storage-system",
+						instance: "ceph",
+						aspect: "overview",
+					},
+					search_text: "ceph storage-system overview",
+					display: { label: "Ceph Overview", kind: "document", subtitle: "Ceph" },
+				},
+			],
+		},
+	);
+
+	assert.deepEqual(results, { subjects: [], documents: [] });
+});
+
 test("wiki search deduplicates canonical subject pages from document results", () => {
 	const results = dedupeGroupedWikiResults({
 		subjects: [
@@ -153,5 +201,101 @@ test("wiki search deduplicates canonical subject pages from document results", (
 	assert.deepEqual(
 		results.documents.map((document) => document.id),
 		["doc:ceph-osd"],
+	);
+});
+
+test("wiki search keeps the full document slot count after canonical-page dedupe", () => {
+	const results = dedupeGroupedWikiResults(
+		searchWikiIndex(
+			"ceph",
+			{
+				subjects: [
+					{
+						id: "subject:ceph",
+						title: "Ceph",
+						description: "Ceph overview",
+						snippet: "Ceph overview",
+						url: "/docs/entity/data/storage-system/ceph",
+						ontology: {
+							domain: "data",
+							class: "storage-system",
+							instance: "ceph",
+						},
+						search_text: "ceph overview architecture",
+						display: { label: "Ceph", kind: "subject", subtitle: "Ceph", document_count: 3 },
+					},
+				],
+				documents: [
+					{
+						id: "doc:ceph-canonical",
+						title: "Ceph",
+						description: "Canonical subject page",
+						snippet: "Canonical subject page",
+						headings: ["Overview"],
+						keywords: ["ceph"],
+						url: "/docs/entity/data/storage-system/ceph",
+						subject_ref: "subject:ceph",
+						subject_title: "Ceph",
+						ontology: {
+							role: "entity",
+							domain: "data",
+							class: "storage-system",
+							instance: "ceph",
+							aspect: "overview",
+						},
+						search_text: "ceph canonical subject page",
+						display: { label: "Ceph", kind: "document", subtitle: "Ceph" },
+					},
+					{
+						id: "doc:ceph-osd",
+						title: "Ceph OSD",
+						description: "OSD management guide",
+						snippet: "OSD management guide",
+						headings: ["OSD 관리"],
+						keywords: ["ceph", "osd"],
+						url: "/docs/operation/data/storage-system/ceph/osd",
+						subject_ref: "subject:ceph",
+						subject_title: "Ceph",
+						ontology: {
+							role: "operation",
+							domain: "data",
+							class: "storage-system",
+							instance: "ceph",
+							aspect: "osd",
+						},
+						search_text: "ceph osd management",
+						display: { label: "Ceph OSD", kind: "document", subtitle: "Ceph" },
+					},
+					{
+						id: "doc:ceph-mon",
+						title: "Ceph MON",
+						description: "MON management guide",
+						snippet: "MON management guide",
+						headings: ["MON 관리"],
+						keywords: ["ceph", "mon"],
+						url: "/docs/operation/data/storage-system/ceph/mon",
+						subject_ref: "subject:ceph",
+						subject_title: "Ceph",
+						ontology: {
+							role: "operation",
+							domain: "data",
+							class: "storage-system",
+							instance: "ceph",
+							aspect: "mon",
+						},
+						search_text: "ceph mon management",
+						display: { label: "Ceph MON", kind: "document", subtitle: "Ceph" },
+					},
+				],
+			},
+			{ limit: 2 },
+		),
+	);
+
+	assert.equal(results.subjects.length, 1);
+	assert.equal(results.documents.length, 2);
+	assert.deepEqual(
+		results.documents.map((document) => document.id).sort(),
+		["doc:ceph-mon", "doc:ceph-osd"],
 	);
 });
