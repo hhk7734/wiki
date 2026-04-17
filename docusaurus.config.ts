@@ -6,6 +6,7 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
 import tailwindPlugin from "./plugins/tailwind-config";
+import guardedGoogleGtagPlugin from "./plugins/guarded-google-gtag.mjs";
 
 const config: Config = {
 	title: "lol-IoT by HHK",
@@ -69,9 +70,9 @@ const config: Config = {
 			},
 		],
 		[
-			"@docusaurus/plugin-google-gtag",
+			guardedGoogleGtagPlugin,
 			{
-				trackingID: "G-E8VGH1197Y",
+				trackingID: ["G-E8VGH1197Y"],
 				anonymizeIP: false,
 			},
 		],

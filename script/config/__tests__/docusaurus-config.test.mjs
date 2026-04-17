@@ -12,8 +12,9 @@ test("docusaurus config does not enable legacy google analytics", () => {
 	);
 });
 
-test("docusaurus config keeps gtag analytics", () => {
-	assert.equal(configSource.includes('"@docusaurus/plugin-google-gtag"'), true);
+test("docusaurus config uses the guarded local gtag plugin", () => {
+	assert.equal(configSource.includes('"@docusaurus/plugin-google-gtag"'), false);
+	assert.equal(configSource.includes('./plugins/guarded-google-gtag.mjs'), true);
 });
 
 test("docusaurus docs config excludes agent instruction symlinks", () => {
