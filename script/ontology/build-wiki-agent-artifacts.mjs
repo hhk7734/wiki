@@ -3,7 +3,7 @@ import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
 import { buildWikiKnowledgeCore } from "./build-wiki-knowledge-core.mjs";
-import { compareStrings, selectCanonicalSubjectDocument } from "./wiki-knowledge-shared.mjs";
+import { compareStrings, selectCanonicalSubjectDocument, toDocRoute } from "./wiki-knowledge-shared.mjs";
 
 export const WIKI_AGENT_API_DIR = resolve(ROOT_DIR, "static", "api", "wiki");
 export const WIKI_AGENT_QUERY_INDEX_PATH = resolve(WIKI_AGENT_API_DIR, "query-index.json");
@@ -18,30 +18,30 @@ function buildDisplayTitle(record) {
 	return record.title || record.canonical_name || record.ontology?.instance || record.id;
 }
 
-function buildFallbackPageUrl(record) {
-	const domain = record.ontology?.domain;
-	const className = record.ontology?.class;
-	const instance = record.ontology?.instance;
-
-	if (domain && className && instance) {
-		return `/docs/${domain}/${className}/${instance}`;
+function buildDocumentPageUrl(document) {
+	if (document.url) {
+		return document.url;
 	}
 
-	return record.url ?? "";
+	if (document.source_path) {
+		return `/${toDocRoute(document.source_path)}`;
+	}
+
+	return "";
 }
 
 function buildPageUrl(record, canonicalDocumentBySubjectId) {
 	if (record.type === "document") {
-		return record.url ?? buildFallbackPageUrl(record);
+		return buildDocumentPageUrl(record);
 	}
 
 	const canonicalDocument = canonicalDocumentBySubjectId.get(record.id);
 
-	if (canonicalDocument?.url) {
-		return canonicalDocument.url;
+	if (canonicalDocument) {
+		return buildDocumentPageUrl(canonicalDocument);
 	}
 
-	return buildFallbackPageUrl(record);
+	return "";
 }
 
 function buildQueryRecord(record, canonicalDocumentBySubjectId) {
@@ -79,7 +79,8 @@ function buildRelationLookup(relations, id) {
 		.map((relation) => ({
 			id: relation.id ?? `relation:${relation.from}:${relation.predicate}:${relation.to}`,
 			predicate: relation.predicate,
-			to: relation.to,
+			other_id: relation.from === id ? relation.to : relation.from,
+			direction: relation.from === id ? "outgoing" : "incoming",
 		}));
 }
 
@@ -117,7 +118,7 @@ function buildSubjectLookupPayload(subject, documents, canonicalDocumentBySubjec
 		documents: documents.map((document) => ({
 			id: document.id,
 			title: document.title,
-			url: document.url,
+			url: buildDocumentPageUrl(document),
 			snippet: document.snippet,
 			ontology: document.ontology,
 		})),
