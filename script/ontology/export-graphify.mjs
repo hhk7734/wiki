@@ -1,4 +1,4 @@
-import { basename, dirname, resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
@@ -6,6 +6,7 @@ import { inventory } from "./inventory.mjs";
 import { splitFrontmatter } from "./frontmatter.mjs";
 import { CLASSIFICATION_REGISTRY_PATH } from "./bootstrap-registry.mjs";
 import { loadRegistry as loadValidatedRegistry } from "./validate.mjs";
+import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, makeRelationId, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
 
 export const GRAPHIFY_EXPORT_PATH = resolve(ROOT_DIR, "ontology", "graphify-export.jsonl");
 
@@ -13,107 +14,25 @@ function loadRegistry() {
 	return loadValidatedRegistry(CLASSIFICATION_REGISTRY_PATH);
 }
 
-function makeSubjectId(ontology) {
-	return `subject:${ontology.domain}:${ontology.class}:${ontology.instance}`;
-}
-
-function makeDocumentId(sourcePath) {
-	return `doc:${sourcePath}`;
-}
-
-function extractHeadings(body) {
-	return body
-		.split(/\r?\n/)
-		.map((line) => line.match(/^#{1,6}\s+(.+)$/)?.[1]?.trim())
-		.filter(Boolean);
-}
-
-function normalizeWhitespace(value) {
-	return value.replace(/\r/g, "").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
-}
-
-function normalizeMdxText(body) {
-	return normalizeWhitespace(
-		body
-			.replace(/^import\s.+$/gm, "")
-			.replace(/^export\s.+$/gm, "")
-			.replace(/^:::+.*$/gm, "")
-			.replace(/<\/?Tabs[^>]*>/g, "")
-			.replace(/<\/?TabItem[^>]*>/g, "")
-			.replace(/<\/?[A-Z][A-Za-z0-9._-]*[^>]*>/g, "")
-			.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
-			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-			.replace(/`([^`]+)`/g, "$1")
-			.replace(/^\s*```[^\n]*$/gm, "")
-			.replace(/^\s*---\s*$/gm, "")
-			.replace(/^\s*>\s?/gm, "")
-			.replace(/<[^>]+>/g, "")
-			.replace(/[ \t]+\n/g, "\n"),
-	);
-}
-
-function trimExtension(pathname) {
-	return pathname.replace(/\.mdx$/, "");
-}
-
-function toDocRoute(pathname) {
-	const withoutExtension = trimExtension(pathname);
-	const stem = basename(withoutExtension);
-	const parent = basename(dirname(withoutExtension));
-
-	if (stem === parent) {
-		return dirname(withoutExtension);
-	}
-
-	return withoutExtension;
-}
-
 function buildDocumentRecord(sourcePath, entry) {
+	const snapshot = buildDocumentSnapshot(sourcePath, entry.ontology);
 	const content = readFileSync(resolve(ROOT_DIR, sourcePath), "utf8");
-	const { data, body } = splitFrontmatter(content);
-	const headings = extractHeadings(body);
-	const text = normalizeMdxText(body);
-	const ontology = entry.ontology;
-	const aliases = Array.isArray(data.subject?.aliases) ? data.subject.aliases : [];
+	const { data } = splitFrontmatter(content);
 
 	return {
-		type: "document",
-		id: makeDocumentId(sourcePath),
-		source_path: sourcePath,
-		url: `/${toDocRoute(sourcePath)}`,
-		title: data.title ?? "",
-		description: data.description ?? "",
-		keywords: Array.isArray(data.keywords) ? data.keywords : [],
-		ontology,
-		subject_ref: makeSubjectId(ontology),
-		headings,
-		aliases,
-		text,
+		...snapshot,
 		relations: data.relations ?? {},
-	};
-}
-
-function buildSubjectRecord(subjectId, ontology, document, documentRefs) {
-	return {
-		type: "subject",
-		id: subjectId,
-		canonical_name: document.title || ontology.instance,
-		ontology: {
-			domain: ontology.domain,
-			class: ontology.class,
-			instance: ontology.instance,
-		},
-		aliases: document.aliases,
-		document_refs: documentRefs,
 	};
 }
 
 function buildRelationRecord(document) {
 	return {
 		type: "relation",
+		id: makeRelationId(document.id, "about_subject", document.subject_ref),
 		from: document.id,
 		predicate: "about_subject",
 		to: document.subject_ref,
+		snippet: document.snippet,
 	};
 }
 
@@ -134,7 +53,9 @@ export function buildGraphifyExport(selectedSources = inventory()) {
 
 	const documentsBySubject = new Map();
 
-	for (const document of documents) {
+	const orderedDocuments = sortDocumentsByStableOrder(documents);
+
+	for (const document of orderedDocuments) {
 		if (!documentsBySubject.has(document.subject_ref)) {
 			documentsBySubject.set(document.subject_ref, []);
 		}
@@ -142,12 +63,12 @@ export function buildGraphifyExport(selectedSources = inventory()) {
 		documentsBySubject.get(document.subject_ref).push(document);
 	}
 
-	const subjects = [...documentsBySubject.entries()].map(([subjectId, docs]) =>
-		buildSubjectRecord(subjectId, docs[0].ontology, docs[0], docs.map((doc) => doc.id).sort()),
-	);
-	const relations = documents.map((document) => buildRelationRecord(document));
+	const subjects = [...documentsBySubject.entries()]
+		.map(([subjectId, docs]) => buildCanonicalSubjectSnapshot(subjectId, docs))
+		.sort((left, right) => left.id.localeCompare(right.id));
+	const relations = orderedDocuments.map((document) => buildRelationRecord(document));
 
-	return [...documents, ...subjects, ...relations];
+	return [...orderedDocuments, ...subjects, ...relations];
 }
 
 export function serializeGraphifyJsonl(records) {

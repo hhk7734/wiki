@@ -34,6 +34,30 @@ test("graphify export keeps searchable text and headings", () => {
 	assert.ok(document.headings.includes("관련 문서"));
 });
 
+test("graphify export keeps multi-document subject ordering deterministic", () => {
+	const forward = buildGraphifyExport([
+		"docs/entity/data/storage-system/ceph/ceph.mdx",
+		"docs/operation/data/storage-system/ceph/osd.mdx",
+	]);
+	const reverse = buildGraphifyExport([
+		"docs/operation/data/storage-system/ceph/osd.mdx",
+		"docs/entity/data/storage-system/ceph/ceph.mdx",
+	]);
+
+	assert.deepEqual(
+		forward.map((record) => `${record.type}:${record.id}`),
+		reverse.map((record) => `${record.type}:${record.id}`),
+	);
+
+	const subject = forward.find((record) => record.type === "subject");
+
+	assert.deepEqual(subject.document_refs, [
+		"doc:docs/entity/data/storage-system/ceph/ceph.mdx",
+		"doc:docs/operation/data/storage-system/ceph/osd.mdx",
+	]);
+	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
+});
+
 test("graphify export serializes newline-delimited JSON", () => {
 	const jsonl = serializeGraphifyJsonl([
 		{ type: "document", id: "doc:one" },
