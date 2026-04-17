@@ -1,5 +1,5 @@
+import { basename, dirname, resolve } from "node:path";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
 import { inventory } from "./inventory.mjs";
@@ -52,6 +52,22 @@ function normalizeMdxText(body) {
 	);
 }
 
+function trimExtension(pathname) {
+	return pathname.replace(/\.mdx$/, "");
+}
+
+function toDocRoute(pathname) {
+	const withoutExtension = trimExtension(pathname);
+	const stem = basename(withoutExtension);
+	const parent = basename(dirname(withoutExtension));
+
+	if (stem === parent) {
+		return dirname(withoutExtension);
+	}
+
+	return withoutExtension;
+}
+
 function buildDocumentRecord(sourcePath, entry) {
 	const content = readFileSync(resolve(ROOT_DIR, sourcePath), "utf8");
 	const { data, body } = splitFrontmatter(content);
@@ -64,7 +80,7 @@ function buildDocumentRecord(sourcePath, entry) {
 		type: "document",
 		id: makeDocumentId(sourcePath),
 		source_path: sourcePath,
-		url: `/${sourcePath}`,
+		url: `/${toDocRoute(sourcePath)}`,
 		title: data.title ?? "",
 		description: data.description ?? "",
 		keywords: Array.isArray(data.keywords) ? data.keywords : [],

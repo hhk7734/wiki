@@ -8,7 +8,7 @@ test("graphify search index emits searchable static records", () => {
 			type: "document",
 			id: "doc:docs/operation/data/storage-system/ceph/osd.mdx",
 			source_path: "docs/operation/data/storage-system/ceph/osd.mdx",
-			url: "/docs/operation/data/storage-system/ceph/osd.mdx",
+			url: "/docs/operation/data/storage-system/ceph/osd",
 			title: "Ceph OSD",
 			description: "OSD management guide",
 			keywords: ["ceph", "osd"],

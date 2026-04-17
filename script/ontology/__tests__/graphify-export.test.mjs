@@ -16,6 +16,7 @@ test("graphify export emits a document, a subject, and an about_subject relation
 	assert.ok(relation);
 
 	assert.equal(document.source_path, "docs/entity/mlops/iac-tool/pulumi/pulumi.mdx");
+	assert.equal(document.url, "/docs/entity/mlops/iac-tool/pulumi");
 	assert.equal(document.subject_ref, "subject:mlops:iac-tool:pulumi");
 	assert.equal(subject.id, "subject:mlops:iac-tool:pulumi");
 	assert.equal(relation.predicate, "about_subject");

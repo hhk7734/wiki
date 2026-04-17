@@ -19,7 +19,7 @@ test("graphify search ranks ceph osd operation docs highly for natural-language 
 			},
 			search_text: "ceph osd 관리 방법과 교체 절차",
 			terms: ["ceph", "osd", "관리", "방법", "교체", "절차"],
-			url: "/docs/operation/data/storage-system/ceph/osd.mdx",
+			url: "/docs/operation/data/storage-system/ceph/osd",
 		},
 		{
 			id: "doc:ceph-overview",
@@ -36,7 +36,7 @@ test("graphify search ranks ceph osd operation docs highly for natural-language 
 			},
 			search_text: "ceph overview and architecture",
 			terms: ["ceph", "overview", "architecture"],
-			url: "/docs/entity/data/storage-system/ceph/ceph.mdx",
+			url: "/docs/entity/data/storage-system/ceph",
 		},
 	]);
 
