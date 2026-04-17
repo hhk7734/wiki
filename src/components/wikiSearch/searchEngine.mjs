@@ -180,12 +180,25 @@ function rankAndLimit(records, scorer, query, limit) {
 export function searchWikiIndex(query, index, { limit = 6 } = {}) {
 	const trimmed = query.trim();
 
-	if (!trimmed) {
+	if (!trimmed || tokenizeQuery(trimmed).length === 0) {
 		return { subjects: [], documents: [] };
 	}
 
 	return {
 		subjects: rankAndLimit(index.subjects ?? [], scoreSubject, trimmed, limit),
 		documents: rankAndLimit(index.documents ?? [], scoreDocument, trimmed, limit),
+	};
+}
+
+export function dedupeGroupedWikiResults(results) {
+	const subjectUrls = new Set(
+		(results.subjects ?? [])
+			.map((subject) => subject.url?.trim())
+			.filter((url) => url),
+	);
+
+	return {
+		subjects: results.subjects ?? [],
+		documents: (results.documents ?? []).filter((document) => !subjectUrls.has(document.url?.trim())),
 	};
 }
