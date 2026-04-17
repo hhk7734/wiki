@@ -64,6 +64,13 @@ docs/concept/language/concept/goroutine/goroutine.mdx
 
 Note: this repository uses `id == filename`, so canonical subject pages do not use repeated `overview.mdx` filenames even when the ontology `aspect` is conceptually `overview`.
 
+Operational constraints:
+
+- canonical docs should already live under `docs/<role>/<domain>/<class>/<instance>/<aspect>.mdx`
+- avoid hidden intermediate buckets once content is migrated into the canonical tree
+- do not create directories whose names end with `.mdx`
+- do not rely on `source-path` fallback classification for maintained docs
+
 ## Controlled Vocabulary
 
 Fixed `role` vocabulary:
@@ -89,7 +96,7 @@ Preferred `domain` vocabulary for this corpus:
 Representative `class` vocabulary:
 
 - `language`: `programming-language`, `library`, `framework`, `toolchain`, `runtime`
-- `platform`: `orchestrator`, `cluster-addon`, `service-mesh`, `iac-tool`, `workflow-engine`
+- `platform`: `orchestrator`, `cluster-addon`, `service-mesh`, `iac-tool`, `workflow-system`
 - `hardware`: `mcu-family`, `board`, `peripheral`, `sensor`
 - `protocol`: `application-protocol`, `wire-protocol`, `interface-definition`, `api-spec`
 - `data`: `database`, `storage-system`, `schema-language`
@@ -251,6 +258,7 @@ Validation expectations:
 - no duplicate canonical target paths
 - action pages must not be stored as entity pages
 - rule or standard pages must not be stored as operations unless they are procedural
+- `ontology/classification-registry.json` should contain zero `source-path` fallback entries for maintained docs
 
 ## Tooling
 
@@ -258,6 +266,13 @@ Keep file moves, link rewrites, and validation aligned with:
 
 - `ontology/classification-registry.json`
 - `script/ontology/`
+
+Operational workflow after doc additions or moves:
+
+1. run `npm run ontology:bootstrap`
+2. confirm there are no unintended `source-path` fallbacks
+3. run `npm run ontology:validate`
+4. run `npm run build`
 
 The ontology system is designed to behave like a deterministic ontology compiler over the docs tree:
 

@@ -16,6 +16,8 @@ For files under `docs/`, follow `docs/AGENTS.md` as the canonical source for:
 - frontmatter alignment
 - role and class classification
 - validation and link rewrite expectations
+- canonical role-tree path expectations
+- `source-path` fallback avoidance
 
 ### Metadata
 
@@ -53,6 +55,7 @@ keywords:
 - Use English for code snippets, commands, and configuration files.
 - Use mermaid diagrams for flowcharts, architecture diagrams etc.
 - Refer to the contents of the Reference block to improve the quality of the documentation.
+- After adding, moving, or splitting docs under `docs/`, rerun `npm run ontology:bootstrap`, `npm run ontology:validate`, and `npm run build`.
 
 ## docusaurus MDX Features
 
