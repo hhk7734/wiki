@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_REGISTRY_PATH } from "./bootstrap-registry.mjs";
 import { inventory } from "./inventory.mjs";
-import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, makeRelationId, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
+import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, makeRelationId, selectCanonicalSubjectDocument, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
 import { loadRegistry as loadValidatedRegistry, validateDocumentFile } from "./validate.mjs";
 
 function loadRegistry() {
@@ -54,7 +54,7 @@ export function buildWikiKnowledgeCore(selectedSources = inventory()) {
 	}
 
 	const subjects = [...subjectsById.entries()]
-		.map(([subjectId, docs]) => buildCanonicalSubjectSnapshot(subjectId, docs))
+		.map(([subjectId, docs]) => buildCanonicalSubjectSnapshot(subjectId, docs, selectCanonicalSubjectDocument(docs)))
 		.sort((left, right) => left.id.localeCompare(right.id));
 	const relations = orderedDocuments.map((document) => buildRelationRecord(document));
 

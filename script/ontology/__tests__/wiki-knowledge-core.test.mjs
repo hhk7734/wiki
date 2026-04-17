@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildWikiKnowledgeCore } from "../build-wiki-knowledge-core.mjs";
+import { buildCanonicalSubjectSnapshot, selectCanonicalSubjectDocument } from "../wiki-knowledge-shared.mjs";
 
 test("wiki knowledge core emits stable document ids, urls, and normalized snippets", () => {
 	const records = buildWikiKnowledgeCore([
@@ -39,5 +40,47 @@ test("wiki knowledge core keeps multi-document subject records deterministic", (
 		"doc:docs/operation/data/storage-system/ceph/osd.mdx",
 	]);
 	assert.equal(forward.subjects[0].canonical_name, "Ceph Storage Cluster란?");
+	assert.equal(forward.subjects[0].snippet, forward.documents[0].snippet);
+	assert.equal(reverse.subjects[0].snippet, forward.subjects[0].snippet);
 	assert.equal(reverse.subjects[0].canonical_name, forward.subjects[0].canonical_name);
+});
+
+test("wiki knowledge core selects the canonical subject representative explicitly", () => {
+	const overviewDocument = {
+		id: "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
+		source_path: "docs/entity/data/storage-system/ceph/ceph.mdx",
+		title: "Ceph Storage Cluster란?",
+		snippet: "overview snippet",
+		aliases: ["ceph", "storage cluster"],
+		ontology: {
+			role: "entity",
+			domain: "data",
+			class: "storage-system",
+			instance: "ceph",
+			aspect: "overview",
+		},
+	};
+	const detailDocument = {
+		id: "doc:docs/operation/data/storage-system/ceph/osd.mdx",
+		source_path: "docs/operation/data/storage-system/ceph/osd.mdx",
+		title: "Ceph OSD 관리",
+		snippet: "detail snippet",
+		aliases: ["osd", "ceph"],
+		ontology: {
+			role: "operation",
+			domain: "data",
+			class: "storage-system",
+			instance: "ceph",
+			aspect: "osd",
+		},
+	};
+
+	assert.equal(selectCanonicalSubjectDocument([detailDocument, overviewDocument]).id, overviewDocument.id);
+
+	const subject = buildCanonicalSubjectSnapshot("subject:data:storage-system:ceph", [detailDocument, overviewDocument], overviewDocument);
+
+	assert.equal(subject.canonical_name, overviewDocument.title);
+	assert.equal(subject.snippet, overviewDocument.snippet);
+	assert.deepEqual(subject.aliases, ["ceph", "osd", "storage cluster"]);
+	assert.deepEqual(subject.document_refs, [overviewDocument.id, detailDocument.id]);
 });

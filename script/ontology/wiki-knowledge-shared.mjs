@@ -96,6 +96,37 @@ function uniqueSorted(values) {
 	return [...new Set(values.filter(Boolean))].sort((left, right) => left.localeCompare(right));
 }
 
+function canonicalAspectRank(aspect = "") {
+	return aspect === "overview" ? 0 : 1;
+}
+
+function canonicalRoleRank(role = "") {
+	return (
+		{
+			entity: 0,
+			concept: 1,
+			specification: 2,
+			operation: 3,
+			troubleshooting: 4,
+			comparison: 5,
+		}[role] ?? 99
+	);
+}
+
+export function selectCanonicalSubjectDocument(documents) {
+	if (documents.length === 0) {
+		throw new Error("cannot select canonical subject document from an empty set");
+	}
+
+	return [...documents].sort((left, right) =>
+		canonicalAspectRank(left.ontology?.aspect) - canonicalAspectRank(right.ontology?.aspect) ||
+		canonicalRoleRank(left.ontology?.role) - canonicalRoleRank(right.ontology?.role) ||
+		(left.title ?? "").localeCompare(right.title ?? "") ||
+		(left.source_path ?? left.id).localeCompare(right.source_path ?? right.id) ||
+		left.id.localeCompare(right.id),
+	)[0];
+}
+
 export function summarizeText(text, { title = "", keywords = [], ontology = {} } = {}) {
 	const lowerText = text.toLowerCase();
 	const terms = [
@@ -155,9 +186,9 @@ export function buildDocumentSnapshot(sourcePath, ontology, filePath = resolve(R
 	};
 }
 
-export function buildCanonicalSubjectSnapshot(subjectId, documents) {
+export function buildCanonicalSubjectSnapshot(subjectId, documents, canonicalDocument = selectCanonicalSubjectDocument(documents)) {
 	const sortedDocuments = sortDocumentsByStableOrder(documents);
-	const primaryDocument = sortedDocuments[0];
+	const primaryDocument = canonicalDocument;
 	const ontology = primaryDocument.ontology ?? {};
 
 	return {

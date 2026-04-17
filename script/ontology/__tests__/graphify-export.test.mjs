@@ -56,6 +56,7 @@ test("graphify export keeps multi-document subject ordering deterministic", () =
 		"doc:docs/operation/data/storage-system/ceph/osd.mdx",
 	]);
 	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
+	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/entity/data/storage-system/ceph/ceph.mdx").snippet);
 });
 
 test("graphify export serializes newline-delimited JSON", () => {
