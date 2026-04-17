@@ -51,19 +51,19 @@ test("agent artifacts expose compact query and node payloads", () => {
 	assert.equal(artifacts.queryIndex.subjects[0].id, "subject:data:storage-system:ceph");
 	assert.equal(artifacts.queryIndex.documents[0].snippet, "Ceph OSD management guide");
 	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[0].id, "doc:ceph-osd");
-		assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[1].url, "/docs/concept/data/storage-system/ceph/ha");
-		assert.equal(artifacts.nodes["doc:ceph-ha"].subject.url, "/docs/concept/data/storage-system/ceph/ha");
-		assert.deepEqual(artifacts.graph.edges, [
-			{
-				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
-				from: "doc:ceph-osd",
-				to: "subject:data:storage-system:ceph",
-				predicate: "about_subject",
-			},
-		]);
-		assert.deepEqual(artifacts.nodes["subject:data:storage-system:ceph"].relations, [
-			{
-				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
+	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[1].url, "/docs/concept/data/storage-system/ceph/ha");
+	assert.equal(artifacts.nodes["doc:ceph-ha"].subject.url, "/docs/concept/data/storage-system/ceph/ha");
+	assert.deepEqual(artifacts.graph.edges, [
+		{
+			id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
+			from: "doc:ceph-osd",
+			to: "subject:data:storage-system:ceph",
+			predicate: "about_subject",
+		},
+	]);
+	assert.deepEqual(artifacts.nodes["subject:data:storage-system:ceph"].relations, [
+		{
+			id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
 			predicate: "about_subject",
 			other_id: "doc:ceph-osd",
 			direction: "incoming",
@@ -139,6 +139,14 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 		const documentNode = JSON.parse(readFileSync(documentNodePath, "utf8"));
 		const sourcePathDocumentNode = JSON.parse(readFileSync(pathBasedDocumentNodePath, "utf8"));
 		assert.ok(readFileSync(subjectNodePath, "utf8").includes('"relations": ['));
+		assert.deepEqual(JSON.parse(readFileSync(join(outputDir, "graph.json"), "utf8")).edges, [
+			{
+				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
+				from: "doc:ceph-osd",
+				to: "subject:data:storage-system:ceph",
+				predicate: "about_subject",
+			},
+		]);
 		assert.deepEqual(subjectNode.relations, [
 			{
 				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",

@@ -3,8 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"prestart": "npm run ontology:prepare:graphify-search",
-		"prebuild": "npm run ontology:prepare:graphify-search",
+		"prestart": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki-agent",
+		"prebuild": "npm run ontology:prepare:graphify-search && npm run ontology:build:wiki-agent",
 		"docusaurus": "docusaurus",
 		"start": "docusaurus start --host 0.0.0.0 --port 3333 --no-open",
 		"build": "docusaurus build",
