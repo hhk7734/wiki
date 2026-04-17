@@ -253,6 +253,7 @@ const PREFIX_RULES = [
 	{ prefix: ["docs", "linux", "kernel"], domain: "platform", className: "kernel", roleOverview: "operation", roleDetail: "operation", aspectPrefixes: ["kernel"] },
 	{ prefix: ["docs", "linux", "package", "debian"], domain: "platform", className: "package-manager", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["debian"] },
 	{ prefix: ["docs", "linux", "package"], domain: "platform", className: "package-manager", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["package"] },
+	{ prefix: ["docs", "concept", "hardware", "electronics"], domain: "hardware", className: "electronics", roleOverview: "concept", roleDetail: "concept", aspectPrefixes: ["electronics"] },
 	{ prefix: ["docs", "mcu", "avr"], domain: "hardware", className: "mcu-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["avr"] },
 	{ prefix: ["docs", "mcu", "sam"], domain: "hardware", className: "mcu-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["sam"] },
 	{ prefix: ["docs", "mcu", "stm32"], domain: "hardware", className: "mcu-family", roleOverview: "entity", roleDetail: "operation", aspectPrefixes: ["stm32"] },
