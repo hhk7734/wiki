@@ -19,3 +19,7 @@ test("docusaurus config keeps gtag analytics", () => {
 test("docusaurus docs config excludes agent instruction symlinks", () => {
 	assert.equal(configSource.includes('exclude: ["**/AGENTS.md", "**/CLAUDE.md"]'), true);
 });
+
+test("docusaurus config does not use docusaurus-search-local", () => {
+	assert.equal(configSource.includes("@easyops-cn/docusaurus-search-local"), false);
+});

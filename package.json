@@ -3,6 +3,8 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
+		"prestart": "npm run ontology:prepare:graphify-search",
+		"prebuild": "npm run ontology:prepare:graphify-search",
 		"docusaurus": "docusaurus",
 		"start": "docusaurus start --host 0.0.0.0 --port 3333 --no-open",
 		"build": "docusaurus build",
@@ -17,6 +19,8 @@
 		"ontology:inventory": "node script/ontology/inventory.mjs",
 		"ontology:bootstrap": "node script/ontology/bootstrap-registry.mjs",
 		"ontology:export:graphify": "node script/ontology/export-graphify.mjs",
+		"ontology:build:graphify-search": "node script/ontology/build-graphify-search-index.mjs",
+		"ontology:prepare:graphify-search": "npm run ontology:export:graphify && npm run ontology:build:graphify-search",
 		"ontology:migrate": "node script/ontology/migrate.mjs",
 		"ontology:rewrite-links": "node script/ontology/rewrite-links.mjs",
 		"test:ontology": "node --test script/ontology/__tests__/*.test.mjs"
@@ -27,7 +31,6 @@
 		"@docusaurus/plugin-ideal-image": "^3.10.0",
 		"@docusaurus/preset-classic": "^3.10.0",
 		"@docusaurus/theme-mermaid": "^3.10.0",
-		"@easyops-cn/docusaurus-search-local": "^0.44.0",
 		"@mdx-js/react": "^3.1.0",
 		"@mermaid-js/layout-elk": "^0.1.9",
 		"@react-three/drei": "^9.117.3",

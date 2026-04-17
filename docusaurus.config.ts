@@ -6,7 +6,6 @@ import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import { themes } from "prism-react-renderer";
 import tailwindPlugin from "./plugins/tailwind-config";
-import { navbarItems } from "./navbar";
 
 const config: Config = {
 	title: "lol-IoT by HHK",
@@ -76,7 +75,6 @@ const config: Config = {
 				anonymizeIP: false,
 			},
 		],
-		["@easyops-cn/docusaurus-search-local", { hashed: true }],
 		"docusaurus-plugin-image-zoom",
 		tailwindPlugin,
 	],
@@ -113,22 +111,20 @@ const config: Config = {
 				alt: "lol-IoT Logo",
 				src: "img/logo.svg",
 			},
-			items: (() => {
-				return navbarItems.concat([
-					{
-						"aria-label": "LinkedIn",
-						href: "https://www.linkedin.com/in/hyeonki-hong/",
-						position: "right",
-						className: "header-linkedin-link",
-					},
-					{
-						"aria-label": "GitHub",
-						href: "https://github.com/hhk7734/wiki",
-						position: "right",
-						className: "header-github-link",
-					},
-				]);
-			})(),
+			items: [
+				{
+					"aria-label": "LinkedIn",
+					href: "https://www.linkedin.com/in/hyeonki-hong/",
+					position: "right",
+					className: "header-linkedin-link",
+				},
+				{
+					"aria-label": "GitHub",
+					href: "https://github.com/hhk7734/wiki",
+					position: "right",
+					className: "header-github-link",
+				},
+			] satisfies NavbarItem[],
 		},
 		prism: {
 			// https://prismjs.com/#supported-languages
