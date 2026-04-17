@@ -89,6 +89,37 @@ function directConcept(source, domain, className, instance = fileStem(source)) {
 	});
 }
 
+function classifyCanonicalRoleTree(source) {
+	const parts = splitPath(source);
+
+	if (parts.length !== 6 || parts[0] !== "docs") {
+		return null;
+	}
+
+	const role = parts[1];
+
+	if (!["entity", "concept", "operation", "comparison", "specification"].includes(role)) {
+		return null;
+	}
+
+	const instance = parts[4];
+
+	if (!instance || instance.endsWith(".mdx")) {
+		return null;
+	}
+
+	const stem = fileStem(source);
+	const aspect = stem === instance ? "overview" : stem;
+
+	return makeSeed(source, {
+		role,
+		domain: parts[2],
+		className: parts[3],
+		instance,
+		aspect,
+	});
+}
+
 function namespaceLibraryInstance(parts, stem) {
 	return `${parts[2]}-${parts[4] ?? stem}`;
 }
@@ -276,6 +307,11 @@ export function buildTargetPath({ role, domain, className, instance, aspect }) {
 
 export function classifySeed(source) {
 	const sourcePath = normalizeSourcePath(source);
+	const canonicalRoleTree = classifyCanonicalRoleTree(sourcePath);
+
+	if (canonicalRoleTree) {
+		return canonicalRoleTree;
+	}
 
 	if (EXACT_RULES.has(sourcePath)) {
 		return EXACT_RULES.get(sourcePath)();
