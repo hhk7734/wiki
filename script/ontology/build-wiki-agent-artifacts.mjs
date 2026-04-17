@@ -91,7 +91,7 @@ function buildDocumentLookupPayload(document, subject, canonicalDocumentBySubjec
 		title: document.title,
 		snippet: document.snippet,
 		ontology: document.ontology,
-		url: document.url,
+		url: buildDocumentPageUrl(document),
 		node_url: makeNodeUrl(document.id),
 		subject: subject
 			? {
