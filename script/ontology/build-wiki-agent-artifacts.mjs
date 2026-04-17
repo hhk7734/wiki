@@ -150,7 +150,12 @@ export function buildWikiAgentArtifacts(core = buildWikiKnowledgeCore()) {
 		nodes: [...core.subjects.map((subject) => buildGraphNode(subject, canonicalDocumentBySubjectId)), ...core.documents.map((document) => buildGraphNode(document, canonicalDocumentBySubjectId))].sort((left, right) =>
 			compareStrings(left.id, right.id),
 		),
-		edges: core.relations.map((relation) => ({ ...relation })),
+		edges: core.relations.map((relation) => ({
+			id: relation.id ?? `relation:${relation.from}:${relation.predicate}:${relation.to}`,
+			from: relation.from,
+			to: relation.to,
+			predicate: relation.predicate,
+		})),
 	};
 
 	const nodes = {};

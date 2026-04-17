@@ -51,11 +51,19 @@ test("agent artifacts expose compact query and node payloads", () => {
 	assert.equal(artifacts.queryIndex.subjects[0].id, "subject:data:storage-system:ceph");
 	assert.equal(artifacts.queryIndex.documents[0].snippet, "Ceph OSD management guide");
 	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[0].id, "doc:ceph-osd");
-	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[1].url, "/docs/concept/data/storage-system/ceph/ha");
-	assert.equal(artifacts.nodes["doc:ceph-ha"].subject.url, "/docs/concept/data/storage-system/ceph/ha");
-	assert.deepEqual(artifacts.nodes["subject:data:storage-system:ceph"].relations, [
-		{
-			id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
+		assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[1].url, "/docs/concept/data/storage-system/ceph/ha");
+		assert.equal(artifacts.nodes["doc:ceph-ha"].subject.url, "/docs/concept/data/storage-system/ceph/ha");
+		assert.deepEqual(artifacts.graph.edges, [
+			{
+				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
+				from: "doc:ceph-osd",
+				to: "subject:data:storage-system:ceph",
+				predicate: "about_subject",
+			},
+		]);
+		assert.deepEqual(artifacts.nodes["subject:data:storage-system:ceph"].relations, [
+			{
+				id: "relation:doc:ceph-osd:about_subject:subject:data:storage-system:ceph",
 			predicate: "about_subject",
 			other_id: "doc:ceph-osd",
 			direction: "incoming",
@@ -77,6 +85,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 	try {
 		const subjectNodePath = join(outputDir, "nodes", "subject:data:storage-system:ceph.json");
 		const documentNodePath = join(outputDir, "nodes", "doc:ceph-osd.json");
+		const pathBasedDocumentNodePath = join(outputDir, "nodes", "doc:docs/concept/data/storage-system/ceph/ha.mdx.json");
 		const result = writeWikiAgentArtifacts(outputDir, {
 			documents: [
 				{
@@ -90,7 +99,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 					subject_ref: "subject:data:storage-system:ceph",
 				},
 				{
-					id: "doc:ceph-ha",
+					id: "doc:docs/concept/data/storage-system/ceph/ha.mdx",
 					type: "document",
 					title: "Ceph HA",
 					source_path: "docs/concept/data/storage-system/ceph/ha.mdx",
@@ -128,7 +137,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 		assert.equal(readFileSync(join(outputDir, "graph.json"), "utf8").includes("FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED"), false);
 		const subjectNode = JSON.parse(readFileSync(subjectNodePath, "utf8"));
 		const documentNode = JSON.parse(readFileSync(documentNodePath, "utf8"));
-		const sourcePathDocumentNode = JSON.parse(readFileSync(join(outputDir, "nodes", "doc:ceph-ha.json"), "utf8"));
+		const sourcePathDocumentNode = JSON.parse(readFileSync(pathBasedDocumentNodePath, "utf8"));
 		assert.ok(readFileSync(subjectNodePath, "utf8").includes('"relations": ['));
 		assert.deepEqual(subjectNode.relations, [
 			{
@@ -149,8 +158,9 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 		assert.equal(Object.hasOwn(documentNode, "text"), false);
 		assert.equal(sourcePathDocumentNode.url, "/docs/concept/data/storage-system/ceph/ha");
 		assert.equal(readFileSync(join(outputDir, "nodes", "doc:ceph-osd.json"), "utf8").includes("FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED"), false);
-		assert.equal(readFileSync(join(outputDir, "nodes", "doc:ceph-ha.json"), "utf8").includes("FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED"), false);
+		assert.equal(readFileSync(pathBasedDocumentNodePath, "utf8").includes("FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED"), false);
 		assert.equal(sourcePathDocumentNode.subject.url, "/docs/concept/data/storage-system/ceph/ha");
+		assert.ok(readFileSync(pathBasedDocumentNodePath, "utf8").includes('"subject": {'));
 	} finally {
 		rmSync(outputDir, { recursive: true, force: true });
 	}
