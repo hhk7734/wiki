@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import Link from "@docusaurus/Link";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 import clsx from "clsx";
-import { searchGraphifyIndex } from "@site/src/components/graphifySearch/searchEngine.mjs";
+import { searchWikiIndex } from "@site/src/components/wikiSearch/searchEngine.mjs";
 import styles from "./styles.module.css";
 
 type SearchRecord = {
@@ -10,24 +10,32 @@ type SearchRecord = {
 	url: string;
 	title: string;
 	description: string;
+	snippet: string;
 	keywords: string[];
 	headings: string[];
 	ontology: {
-		role: string;
+		role?: string;
 		domain: string;
 		class: string;
 		instance: string;
-		aspect: string;
+		aspect?: string;
 	};
 	search_text: string;
-	terms: string[];
+	display: {
+		label: string;
+		kind: "subject" | "document";
+		subtitle?: string;
+		document_count?: number;
+	};
+	subject_title?: string;
+	document_refs?: string[];
 };
 
 export default function SearchBar(): React.ReactNode {
-	const indexUrl = useBaseUrl("/graphify-search-index.json");
+	const indexUrl = useBaseUrl("/wiki-search-index.json");
 	const rootRef = useRef<HTMLDivElement | null>(null);
 	const [query, setQuery] = useState("");
-	const [records, setRecords] = useState<SearchRecord[] | null>(null);
+	const [records, setRecords] = useState<{ subjects: SearchRecord[]; documents: SearchRecord[] } | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
 	const [open, setOpen] = useState(false);
@@ -57,7 +65,7 @@ export default function SearchBar(): React.ReactNode {
 				throw new Error(`Failed to load search index: ${response.status}`);
 			}
 
-			const json = (await response.json()) as SearchRecord[];
+			const json = (await response.json()) as { subjects: SearchRecord[]; documents: SearchRecord[] };
 			setRecords(json);
 		} catch (nextError) {
 			setError(nextError instanceof Error ? nextError.message : "Failed to load search index");
@@ -68,18 +76,44 @@ export default function SearchBar(): React.ReactNode {
 
 	const results = useMemo(() => {
 		if (!records) {
-			return [];
+			return { subjects: [], documents: [] };
 		}
 
-		return searchGraphifyIndex(query, records);
+		return searchWikiIndex(query, records);
 	}, [query, records]);
+
+	function renderResult(result: SearchRecord & { score?: number }, kind: "subject" | "document") {
+		const subtitle = kind === "subject" ? result.display.subtitle ?? result.ontology.class : result.subject_title ?? result.display.subtitle ?? result.ontology.class;
+		const metadata = [
+			result.ontology.domain,
+			result.ontology.class,
+			kind === "document" && result.ontology.aspect ? result.ontology.aspect : null,
+		].filter(Boolean);
+		const snippet = result.snippet || result.description;
+
+		return (
+			<Link key={result.id} to={result.url} className={styles.resultItem} onClick={() => setOpen(false)}>
+				<div className={styles.resultHeader}>
+					<div className={styles.resultTitleBlock}>
+						<strong className={styles.resultTitle}>{result.title}</strong>
+						<div className={styles.resultSubtitle}>{subtitle}</div>
+					</div>
+					<span className={clsx(styles.resultBadge, kind === "subject" ? styles.subjectBadge : styles.documentBadge)}>
+						{kind === "subject" ? `${result.display.document_count ?? 0} docs` : result.ontology.role ?? "document"}
+					</span>
+				</div>
+				{snippet ? <div className={styles.resultDescription}>{snippet}</div> : null}
+				<div className={styles.resultMeta}>{metadata.join(" · ")}</div>
+			</Link>
+		);
+	}
 
 	return (
 		<div ref={rootRef} className={styles.searchRoot}>
 			<input
 				type="search"
 				className={clsx("navbar__search-input", styles.searchInput)}
-				placeholder="Search docs"
+				placeholder="Search wiki"
 				value={query}
 				onFocus={() => {
 					setOpen(true);
@@ -92,28 +126,26 @@ export default function SearchBar(): React.ReactNode {
 			/>
 			{open ? (
 				<div className={styles.searchPanel}>
-					{loading ? <div className={styles.searchState}>Loading graphify index...</div> : null}
+					{loading ? <div className={styles.searchState}>Loading wiki index...</div> : null}
 					{error ? <div className={styles.searchState}>{error}</div> : null}
 					{!loading && !error && query.trim() === "" ? (
 						<div className={styles.searchState}>Type a natural-language query like `ceph osd 관리 방법`.</div>
 					) : null}
-					{!loading && !error && query.trim() !== "" && results.length === 0 ? (
-						<div className={styles.searchState}>No matching documents</div>
+					{!loading && !error && query.trim() !== "" && results.subjects.length === 0 && results.documents.length === 0 ? (
+						<div className={styles.searchState}>No matching wiki pages</div>
 					) : null}
-					{results.map((result) => (
-						<Link key={result.id} to={result.url} className={styles.resultItem} onClick={() => setOpen(false)}>
-							<div className={styles.resultHeader}>
-								<strong>{result.title}</strong>
-								<span className={styles.resultBadge}>
-									{result.ontology.role} / {result.ontology.instance}
-								</span>
-							</div>
-							{result.description ? <div className={styles.resultDescription}>{result.description}</div> : null}
-							<div className={styles.resultMeta}>
-								{result.ontology.class} · {result.ontology.aspect}
-							</div>
-						</Link>
-					))}
+					{results.subjects.length > 0 ? (
+						<section className={styles.resultGroup}>
+							<div className={styles.groupHeader}>Subjects</div>
+							{results.subjects.map((result) => renderResult(result, "subject"))}
+						</section>
+					) : null}
+					{results.documents.length > 0 ? (
+						<section className={styles.resultGroup}>
+							<div className={styles.groupHeader}>Documents</div>
+							{results.documents.map((result) => renderResult(result, "document"))}
+						</section>
+					) : null}
 				</div>
 			) : null}
 		</div>
