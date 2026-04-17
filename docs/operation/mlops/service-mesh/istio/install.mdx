@@ -1,0 +1,147 @@
+---
+id: install
+title: "Istio 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "Istio 설치 가이드"
+keywords:
+  - Istio
+ontology:
+  role: operation
+  domain: mlops
+  class: service-mesh
+  instance: istio
+  aspect: install
+---
+
+:::info
+[Istio 개요](/docs/entity/mlops/service-mesh/istio/istio.mdx) 문서에서 서비스 메쉬와 Envoy 개념을 먼저 확인할 수 있습니다.
+:::
+
+## 설치
+
+:::info[References]
+
+- [Istio / Sidecar Mode / Install with Helm](https://istio.io/latest/docs/setup/install/helm/)
+
+:::
+
+```shell
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+```
+
+```shell
+helm repo update istio \
+&& helm search repo istio/ -l
+```
+
+```shell
+kubectl create namespace istio-system
+```
+
+### Istio CSR, Multi Cluster
+
+해당 기능을 사용하려면 설치 전에
+
+- [Istio CSR](/docs/operation/mlops/service-mesh/istio-csr/csr.mdx)
+- [Multi Cluster](/docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx)
+
+를 먼저 확인하고 설치해야합니다.
+
+### base
+
+base는 `ServiceAccount`, `ValidatingWebhookConfiguration` 등을 생성합니다.
+
+```shell
+helm pull istio/base --version 1.27.1
+```
+
+```shell
+helm show values istio/base \
+    --version 1.27.1 \
+    > istio-base-values.yaml
+```
+
+```yaml title="istio-base-values.yaml"
+defaultRevision: 1-27-1
+```
+
+```shell
+helm template istio-base istio/base \
+    --version 1.27.1 \
+    -n istio-system \
+    -f istio-base-values.yaml \
+    > istio-base.yaml
+```
+
+```shell
+helm upgrade -i istio-base istio/base \
+    --history-max 5 \
+    --create-namespace \
+    --version 1.27.1 \
+    -n istio-system \
+    -f istio-base-values.yaml
+```
+
+### istiod
+
+```shell
+helm pull istio/istiod --version 1.27.1
+```
+
+```shell
+helm show values istio/istiod \
+    --version 1.27.1 \
+    > istiod-values.yaml
+```
+
+```yaml title="istiod-values.yaml"
+resources:
+  requests:
+    cpu: 500m
+    memory: 2048Mi
+
+affinity: {}
+
+tolerations: []
+
+revision: 1-27-1
+
+pilot:
+  env:
+    PILOT_ENABLE_ALPHA_GATEWAY_API: "true"
+    ENABLE_GATEWAY_API_INFERENCE_EXTENSION: "true"
+```
+
+```shell
+helm template istiod-1-27-1 istio/istiod \
+    --version 1.27.1 \
+    -n istio-system \
+    -f istiod-values.yaml \
+    > istiod.yaml
+```
+
+```shell
+helm upgrade -i istiod-1-27-1 istio/istiod \
+    --history-max 5 \
+    --version 1.27.1 \
+    -n istio-system \
+    -f istiod-values.yaml
+```
+
+## Removal
+
+```shell
+helm uninstall -n istio-system istiod
+```
+
+```shell
+helm uninstall -n istio-system istio-base
+```
+
+```shell
+kubectl delete namespace istio-system
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'istio.io' | xargs kubectl delete
+```
