@@ -14,6 +14,15 @@ test("agent artifacts expose compact query and node payloads", () => {
 				ontology: { role: "operation", domain: "data", class: "storage-system", instance: "ceph", aspect: "osd" },
 				subject_ref: "subject:data:storage-system:ceph",
 			},
+			{
+				id: "doc:ceph-ha",
+				type: "document",
+				title: "Ceph HA",
+				url: "/docs/concept/data/storage-system/ceph/ha",
+				snippet: "Ceph HA overview",
+				ontology: { role: "concept", domain: "data", class: "storage-system", instance: "ceph", aspect: "ha" },
+				subject_ref: "subject:data:storage-system:ceph",
+			},
 		],
 		subjects: [
 			{
@@ -30,4 +39,5 @@ test("agent artifacts expose compact query and node payloads", () => {
 	assert.equal(artifacts.queryIndex.subjects[0].id, "subject:data:storage-system:ceph");
 	assert.equal(artifacts.queryIndex.documents[0].snippet, "Ceph OSD management guide");
 	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[0].id, "doc:ceph-osd");
+	assert.equal(artifacts.nodes["doc:ceph-ha"].subject.url, "/docs/concept/data/storage-system/ceph/ha");
 });

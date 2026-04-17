@@ -69,7 +69,7 @@ function buildRelationLookup(relations, id) {
 	return relations.filter((relation) => relation.from === id || relation.to === id);
 }
 
-function buildDocumentLookupPayload(document, subject, relations) {
+function buildDocumentLookupPayload(document, subject, core, relations) {
 	return {
 		type: "document",
 		id: document.id,
@@ -83,7 +83,7 @@ function buildDocumentLookupPayload(document, subject, relations) {
 					id: subject.id,
 					title: subject.canonical_name,
 					ontology: subject.ontology,
-					url: buildPageUrl(subject, { documents: [document] }),
+					url: buildPageUrl(subject, core),
 			  }
 			: null,
 		relations,
@@ -144,6 +144,7 @@ export function buildWikiAgentArtifacts(core = buildWikiKnowledgeCore()) {
 		nodes[document.id] = buildDocumentLookupPayload(
 			document,
 			subjectById.get(document.subject_ref),
+			core,
 			buildRelationLookup(core.relations, document.id),
 		);
 	}
