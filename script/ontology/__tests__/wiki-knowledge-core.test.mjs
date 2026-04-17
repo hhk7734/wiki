@@ -51,7 +51,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 		source_path: "docs/entity/data/storage-system/ceph/ceph.mdx",
 		title: "Ceph Storage Cluster란?",
 		snippet: "overview snippet",
-		aliases: ["ceph", "storage cluster"],
+		aliases: ["z", "ä"],
 		ontology: {
 			role: "entity",
 			domain: "data",
@@ -65,7 +65,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 		source_path: "docs/operation/data/storage-system/ceph/osd.mdx",
 		title: "Ceph OSD 관리",
 		snippet: "detail snippet",
-		aliases: ["osd", "ceph"],
+		aliases: ["a", "z"],
 		ontology: {
 			role: "operation",
 			domain: "data",
@@ -81,6 +81,6 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 
 	assert.equal(subject.canonical_name, overviewDocument.title);
 	assert.equal(subject.snippet, overviewDocument.snippet);
-	assert.deepEqual(subject.aliases, ["ceph", "osd", "storage cluster"]);
+	assert.deepEqual(subject.aliases, ["a", "z", "ä"]);
 	assert.deepEqual(subject.document_refs, [overviewDocument.id, detailDocument.id]);
 });

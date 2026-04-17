@@ -62,29 +62,41 @@ export function makeRelationId(documentId, predicate, targetId) {
 	return `relation:${documentId}:${predicate}:${targetId}`;
 }
 
-function roleRank(role = "") {
-	return (
-		{
-			entity: 0,
-			concept: 1,
-			specification: 2,
-			operation: 3,
-			troubleshooting: 4,
-			comparison: 5,
-		}[role] ?? 99
-	);
+export function compareStrings(left = "", right = "") {
+	const leftText = String(left ?? "");
+	const rightText = String(right ?? "");
+
+	if (leftText === rightText) {
+		return 0;
+	}
+
+	return leftText < rightText ? -1 : 1;
 }
 
-function aspectRank(aspect = "") {
-	return aspect === "overview" ? 0 : 1;
-}
+const STABLE_ORDER_RANKS = {
+	aspect(aspect = "") {
+		return aspect === "overview" ? 0 : 1;
+	},
+	role(role = "") {
+		return (
+			{
+				entity: 0,
+				concept: 1,
+				specification: 2,
+				operation: 3,
+				troubleshooting: 4,
+				comparison: 5,
+			}[role] ?? 99
+		);
+	},
+};
 
 export function compareDocuments(left, right) {
 	return (
-		aspectRank(left.ontology?.aspect) - aspectRank(right.ontology?.aspect) ||
-		roleRank(left.ontology?.role) - roleRank(right.ontology?.role) ||
-		(left.source_path ?? left.id).localeCompare(right.source_path ?? right.id) ||
-		left.id.localeCompare(right.id)
+		STABLE_ORDER_RANKS.aspect(left.ontology?.aspect) - STABLE_ORDER_RANKS.aspect(right.ontology?.aspect) ||
+		STABLE_ORDER_RANKS.role(left.ontology?.role) - STABLE_ORDER_RANKS.role(right.ontology?.role) ||
+		compareStrings(left.source_path ?? left.id, right.source_path ?? right.id) ||
+		compareStrings(left.id, right.id)
 	);
 }
 
@@ -93,24 +105,7 @@ export function sortDocumentsByStableOrder(documents) {
 }
 
 function uniqueSorted(values) {
-	return [...new Set(values.filter(Boolean))].sort((left, right) => left.localeCompare(right));
-}
-
-function canonicalAspectRank(aspect = "") {
-	return aspect === "overview" ? 0 : 1;
-}
-
-function canonicalRoleRank(role = "") {
-	return (
-		{
-			entity: 0,
-			concept: 1,
-			specification: 2,
-			operation: 3,
-			troubleshooting: 4,
-			comparison: 5,
-		}[role] ?? 99
-	);
+	return [...new Set(values.filter(Boolean))].sort(compareStrings);
 }
 
 export function selectCanonicalSubjectDocument(documents) {
@@ -119,11 +114,11 @@ export function selectCanonicalSubjectDocument(documents) {
 	}
 
 	return [...documents].sort((left, right) =>
-		canonicalAspectRank(left.ontology?.aspect) - canonicalAspectRank(right.ontology?.aspect) ||
-		canonicalRoleRank(left.ontology?.role) - canonicalRoleRank(right.ontology?.role) ||
-		(left.title ?? "").localeCompare(right.title ?? "") ||
-		(left.source_path ?? left.id).localeCompare(right.source_path ?? right.id) ||
-		left.id.localeCompare(right.id),
+		STABLE_ORDER_RANKS.aspect(left.ontology?.aspect) - STABLE_ORDER_RANKS.aspect(right.ontology?.aspect) ||
+		STABLE_ORDER_RANKS.role(left.ontology?.role) - STABLE_ORDER_RANKS.role(right.ontology?.role) ||
+		compareStrings(left.title ?? "", right.title ?? "") ||
+		compareStrings(left.source_path ?? left.id, right.source_path ?? right.id) ||
+		compareStrings(left.id, right.id),
 	)[0];
 }
 
@@ -137,7 +132,7 @@ export function summarizeText(text, { title = "", keywords = [], ontology = {} }
 	]
 		.map((term) => term?.toString().trim())
 		.filter(Boolean)
-		.sort((left, right) => right.length - left.length || left.localeCompare(right));
+		.sort((left, right) => right.length - left.length || compareStrings(left, right));
 
 	for (const term of terms) {
 		const index = lowerText.indexOf(term.toLowerCase());

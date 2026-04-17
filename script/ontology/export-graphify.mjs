@@ -6,7 +6,7 @@ import { inventory } from "./inventory.mjs";
 import { splitFrontmatter } from "./frontmatter.mjs";
 import { CLASSIFICATION_REGISTRY_PATH } from "./bootstrap-registry.mjs";
 import { loadRegistry as loadValidatedRegistry } from "./validate.mjs";
-import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, makeRelationId, selectCanonicalSubjectDocument, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
+import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, compareStrings, makeRelationId, selectCanonicalSubjectDocument, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
 
 export const GRAPHIFY_EXPORT_PATH = resolve(ROOT_DIR, "ontology", "graphify-export.jsonl");
 
@@ -65,7 +65,7 @@ export function buildGraphifyExport(selectedSources = inventory()) {
 
 	const subjects = [...documentsBySubject.entries()]
 		.map(([subjectId, docs]) => buildCanonicalSubjectSnapshot(subjectId, docs, selectCanonicalSubjectDocument(docs)))
-		.sort((left, right) => left.id.localeCompare(right.id));
+		.sort((left, right) => compareStrings(left.id, right.id));
 	const relations = orderedDocuments.map((document) => buildRelationRecord(document));
 
 	return [...orderedDocuments, ...subjects, ...relations];
