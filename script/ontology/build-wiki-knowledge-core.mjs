@@ -2,6 +2,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_REGISTRY_PATH } from "./bootstrap-registry.mjs";
 import { inventory } from "./inventory.mjs";
+import { parseTaxonomyPath } from "./taxonomy-paths.mjs";
 import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, compareStrings, makeRelationId, selectCanonicalSubjectDocument, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
 import { loadRegistry as loadValidatedRegistry, validateDocumentFile } from "./validate.mjs";
 
@@ -9,10 +10,20 @@ function loadRegistry() {
 	return loadValidatedRegistry(CLASSIFICATION_REGISTRY_PATH);
 }
 
+function buildTaxonomyInfo(sourcePath) {
+	try {
+		return parseTaxonomyPath(sourcePath);
+	} catch {
+		return null;
+	}
+}
+
 function buildDocumentRecord(sourcePath, entry) {
 	validateDocumentFile(sourcePath);
 
-	return buildDocumentSnapshot(sourcePath, entry.ontology);
+	return buildDocumentSnapshot(sourcePath, entry.ontology, {
+		taxonomy: buildTaxonomyInfo(sourcePath),
+	});
 }
 
 function buildRelationRecord(document) {
@@ -26,8 +37,7 @@ function buildRelationRecord(document) {
 	};
 }
 
-export function buildWikiKnowledgeCore(selectedSources = inventory()) {
-	const registry = loadRegistry();
+export function buildWikiKnowledgeCore(selectedSources = inventory(), { registry = loadRegistry() } = {}) {
 	const entryBySource = new Map(registry.map((entry) => [entry.source, entry]));
 	const documents = [];
 

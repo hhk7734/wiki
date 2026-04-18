@@ -173,3 +173,34 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 		rmSync(outputDir, { recursive: true, force: true });
 	}
 });
+
+test("agent artifacts keep subtitles and graph labels tied to ontology identity", () => {
+	const artifacts = buildWikiAgentArtifacts({
+		documents: [
+			{
+				id: "doc:docs/language/library/grpc/go/client.mdx",
+				type: "document",
+				title: "gRPC Go Client",
+				source_path: "docs/language/library/grpc/go/client.mdx",
+				snippet: "gRPC client guide",
+				ontology: { role: "entity", domain: "language", class: "library", instance: "grpc", aspect: "client" },
+				subject_ref: "subject:language:library:grpc",
+			},
+		],
+		subjects: [
+			{
+				id: "subject:language:library:grpc",
+				type: "subject",
+				canonical_name: "gRPC",
+				ontology: { domain: "language", class: "library", instance: "grpc" },
+				document_refs: ["doc:docs/language/library/grpc/go/client.mdx"],
+			},
+		],
+		relations: [],
+	});
+
+	assert.equal(artifacts.queryIndex.subjects[0].title, "gRPC");
+	assert.equal(artifacts.queryIndex.documents[0].title, "gRPC Go Client");
+	assert.equal(artifacts.graph.nodes.find((node) => node.id === "subject:language:library:grpc").title, "gRPC");
+	assert.equal(artifacts.graph.nodes.find((node) => node.id === "doc:docs/language/library/grpc/go/client.mdx").title, "gRPC Go Client");
+});

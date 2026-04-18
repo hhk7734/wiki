@@ -5,6 +5,7 @@ import { ROOT_DIR } from "./constants.mjs";
 import { inventory } from "./inventory.mjs";
 import { splitFrontmatter } from "./frontmatter.mjs";
 import { CLASSIFICATION_REGISTRY_PATH } from "./bootstrap-registry.mjs";
+import { parseTaxonomyPath } from "./taxonomy-paths.mjs";
 import { loadRegistry as loadValidatedRegistry } from "./validate.mjs";
 import { buildCanonicalSubjectSnapshot, buildDocumentSnapshot, compareStrings, makeRelationId, selectCanonicalSubjectDocument, sortDocumentsByStableOrder } from "./wiki-knowledge-shared.mjs";
 
@@ -15,7 +16,15 @@ function loadRegistry() {
 }
 
 function buildDocumentRecord(sourcePath, entry) {
-	const snapshot = buildDocumentSnapshot(sourcePath, entry.ontology);
+	let taxonomy = null;
+
+	try {
+		taxonomy = parseTaxonomyPath(sourcePath);
+	} catch {
+		taxonomy = null;
+	}
+
+	const snapshot = buildDocumentSnapshot(sourcePath, entry.ontology, { taxonomy });
 	const content = readFileSync(resolve(ROOT_DIR, sourcePath), "utf8");
 	const { data } = splitFrontmatter(content);
 
@@ -36,8 +45,7 @@ function buildRelationRecord(document) {
 	};
 }
 
-export function buildGraphifyExport(selectedSources = inventory()) {
-	const registry = loadRegistry();
+export function buildGraphifyExport(selectedSources = inventory(), { registry = loadRegistry() } = {}) {
 	const entryBySource = new Map(registry.map((entry) => [entry.source, entry]));
 	const documents = [];
 

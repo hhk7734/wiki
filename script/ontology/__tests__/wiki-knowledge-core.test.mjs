@@ -1,6 +1,9 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
+import { dirname, join, relative, resolve } from "node:path";
 import { buildWikiKnowledgeCore } from "../build-wiki-knowledge-core.mjs";
+import { ROOT_DIR } from "../constants.mjs";
 import { buildCanonicalSubjectSnapshot, selectCanonicalSubjectDocument } from "../wiki-knowledge-shared.mjs";
 
 test("wiki knowledge core emits stable document ids, urls, and normalized snippets", () => {
@@ -83,4 +86,63 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 	assert.equal(subject.snippet, overviewDocument.snippet);
 	assert.deepEqual(subject.aliases, ["a", "z", "ä"]);
 	assert.deepEqual(subject.document_refs, [overviewDocument.id, detailDocument.id]);
+});
+
+test("wiki knowledge core keeps source paths and subject refs independent for maintained taxonomy docs", () => {
+	const tempDir = mkdtempSync(join(resolve(ROOT_DIR, "docs", "language"), "__wiki-core-taxonomy-"));
+	const filePath = join(tempDir, "grpc", "client.mdx");
+	const sourcePath = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+	const fileDir = dirname(filePath);
+	const registryEntry = {
+		source: sourcePath,
+		target: sourcePath,
+		ontology: {
+			role: "entity",
+			domain: "language",
+			class: "library",
+			instance: "grpc",
+			aspect: "client",
+		},
+	};
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: client
+title: gRPC Go Client
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: client
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		const records = buildWikiKnowledgeCore([sourcePath], { registry: [registryEntry] });
+		const document = records.documents[0];
+
+		assert.equal(document.source_path, sourcePath);
+		assert.equal(document.id, `doc:${sourcePath}`);
+		assert.equal(document.subject_ref, "subject:language:library:grpc");
+		assert.equal(document.url, `/${sourcePath.replace(/\.mdx$/, "")}`);
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
 });

@@ -153,7 +153,8 @@ export function summarizeText(text, { title = "", keywords = [], ontology = {} }
 	return normalizeWhitespace(text.slice(0, 160));
 }
 
-export function buildDocumentSnapshot(sourcePath, ontology, filePath = resolve(ROOT_DIR, sourcePath)) {
+export function buildDocumentSnapshot(sourcePath, ontology, options = {}) {
+	const { filePath = resolve(ROOT_DIR, sourcePath), taxonomy = null } = options;
 	const content = readFileSync(filePath, "utf8");
 	const { data, body } = splitFrontmatter(content);
 	const keywords = Array.isArray(data.keywords) ? data.keywords : [];
@@ -170,6 +171,7 @@ export function buildDocumentSnapshot(sourcePath, ontology, filePath = resolve(R
 		keywords,
 		ontology,
 		subject_ref: makeSubjectId(ontology),
+		taxonomy,
 		headings: extractHeadings(body),
 		aliases,
 		text,

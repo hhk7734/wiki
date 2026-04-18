@@ -1,5 +1,8 @@
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import test from "node:test";
 import assert from "node:assert/strict";
+import { dirname, join, relative, resolve } from "node:path";
+import { ROOT_DIR } from "../constants.mjs";
 import { buildGraphifyExport, serializeGraphifyJsonl } from "../export-graphify.mjs";
 
 test("graphify export emits a document, a subject, and an about_subject relation", () => {
@@ -57,6 +60,66 @@ test("graphify export keeps multi-document subject ordering deterministic", () =
 	]);
 	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
 	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/entity/data/storage-system/ceph/ceph.mdx").snippet);
+});
+
+test("graphify export keeps source paths and subject identity separate for maintained taxonomy docs", () => {
+	const tempDir = mkdtempSync(join(resolve(ROOT_DIR, "docs", "language"), "__graphify-taxonomy-"));
+	const filePath = join(tempDir, "grpc", "client.mdx");
+	const sourcePath = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+	const fileDir = dirname(filePath);
+	const registryEntry = {
+		source: sourcePath,
+		target: sourcePath,
+		ontology: {
+			role: "entity",
+			domain: "language",
+			class: "library",
+			instance: "grpc",
+			aspect: "client",
+		},
+	};
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: client
+title: gRPC Go Client
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: client
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		const records = buildGraphifyExport([sourcePath], { registry: [registryEntry] });
+		const document = records.find((record) => record.type === "document");
+		const subject = records.find((record) => record.type === "subject");
+
+		assert.equal(document.source_path, sourcePath);
+		assert.equal(document.subject_ref, "subject:language:library:grpc");
+		assert.equal(document.url, `/${sourcePath.replace(/\.mdx$/, "")}`);
+		assert.equal(subject.id, "subject:language:library:grpc");
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
 });
 
 test("graphify export serializes newline-delimited JSON", () => {
