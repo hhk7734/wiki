@@ -1,42 +1,87 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { buildTargetPath } from "../pathing.mjs";
+import { parseTaxonomyPath, validateTaxonomyPath } from "../taxonomy-paths.mjs";
 
-test("buildTargetPath accepts subject-owned doc pages in the taxonomy tree", () => {
-	assert.equal(
-		buildTargetPath({
-			role: "entity",
-			domain: "language",
-			className: "library",
-			instance: "grpc",
-			aspect: "overview",
-		}),
-		"docs/language/library/grpc/overview.mdx",
+test("parseTaxonomyPath parses the subject-page shape", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/language/grpc/overview.mdx"), {
+		topic: "language",
+		subject: "grpc",
+		facet: null,
+		page: "overview",
+		kind: "subject-page",
+	});
+});
+
+test("parseTaxonomyPath parses the facet-page shape", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/language/grpc/go/client.mdx"), {
+		topic: "language",
+		subject: "grpc",
+		facet: "go",
+		page: "client",
+		kind: "facet-page",
+	});
+});
+
+test("parseTaxonomyPath parses the topic concept shape", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/data/concepts/ontology.mdx"), {
+		topic: "data",
+		subject: "ontology",
+		facet: null,
+		page: "ontology",
+		kind: "topic-concept",
+	});
+});
+
+test("parseTaxonomyPath parses the topic comparison and reference shapes", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/data/comparisons/type.mdx"), {
+		topic: "data",
+		subject: "type",
+		facet: null,
+		page: "type",
+		kind: "topic-comparison",
+	});
+
+	assert.deepEqual(parseTaxonomyPath("docs/data/reference/schema.mdx"), {
+		topic: "data",
+		subject: "schema",
+		facet: null,
+		page: "schema",
+		kind: "topic-reference",
+	});
+});
+
+test("parseTaxonomyPath keeps distinct page basenames distinct", () => {
+	assert.notDeepEqual(
+		parseTaxonomyPath("docs/language/grpc/overview.mdx"),
+		parseTaxonomyPath("docs/language/grpc/install.mdx"),
+	);
+
+	assert.notDeepEqual(
+		parseTaxonomyPath("docs/language/grpc/go/client.mdx"),
+		parseTaxonomyPath("docs/language/grpc/go/server.mdx"),
 	);
 });
 
-test("buildTargetPath accepts subject facet pages in the taxonomy tree", () => {
-	assert.equal(
-		buildTargetPath({
-			role: "entity",
-			domain: "language",
-			className: "library",
-			instance: "grpc",
-			aspect: "go/client",
-		}),
-		"docs/language/library/grpc/go/client.mdx",
-	);
+test("validateTaxonomyPath rejects unsupported topic buckets", () => {
+	assert.throws(() => validateTaxonomyPath("docs/unknown/grpc/overview.mdx"), /unsupported topic bucket/);
 });
 
-test("buildTargetPath accepts topic concept pages in the taxonomy tree", () => {
-	assert.equal(
-		buildTargetPath({
-			role: "concept",
-			domain: "data",
-			className: "concept",
-			instance: "ontology",
-			aspect: "overview",
-		}),
-		"docs/data/concepts/ontology.mdx",
-	);
+test("validateTaxonomyPath rejects unsupported shapes", () => {
+	assert.throws(() => validateTaxonomyPath("docs/language/grpc/go/client/extra.mdx"), /unsupported taxonomy shape/);
+});
+
+test("validateTaxonomyPath rejects reserved bucket names in deeper subject paths", () => {
+	assert.throws(() => validateTaxonomyPath("docs/data/reference/schema/details.mdx"), /unsupported taxonomy shape/);
+	assert.throws(() => validateTaxonomyPath("docs/language/concepts/go/client.mdx"), /unsupported taxonomy shape/);
+});
+
+test("validateTaxonomyPath rejects malformed empty path segments and basenames", () => {
+	assert.throws(() => validateTaxonomyPath("docs/language/grpc//overview.mdx"), /unsupported taxonomy path/);
+	assert.throws(() => validateTaxonomyPath("docs/data/concepts//ontology.mdx"), /unsupported taxonomy path/);
+	assert.throws(() => validateTaxonomyPath("docs/data/concepts/.mdx"), /unsupported taxonomy path/);
+});
+
+test("validateTaxonomyPath rejects traversal-like path segments", () => {
+	assert.throws(() => validateTaxonomyPath("docs/language/../overview.mdx"), /unsupported taxonomy path/);
+	assert.throws(() => validateTaxonomyPath("docs/language/grpc/../client.mdx"), /unsupported taxonomy path/);
 });

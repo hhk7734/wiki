@@ -1,4 +1,6 @@
 export function normalizeOntologyBlock(parts) {
+	const sourceStatus = parts.sourceStatus ?? (parts.aspect === "overview" ? "canonical" : "supporting");
+
 	return {
 		ontology: {
 			role: parts.role,
@@ -8,8 +10,8 @@ export function normalizeOntologyBlock(parts) {
 			aspect: parts.aspect,
 		},
 		source: {
-			status: parts.aspect === "overview" ? "canonical" : "supporting",
-			confidence: "exact",
+			status: sourceStatus,
+			confidence: parts.sourceConfidence ?? "exact",
 		},
 	};
 }

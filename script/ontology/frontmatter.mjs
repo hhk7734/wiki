@@ -130,6 +130,34 @@ function isPlainObject(value) {
 	return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function hasMeaningfulString(value) {
+	return typeof value === "string" && value.trim().length > 0;
+}
+
+export function requireSemanticFrontmatter(frontmatter, sourcePath) {
+	if (!isPlainObject(frontmatter?.ontology)) {
+		throw new Error(`missing ontology frontmatter in ${sourcePath}`);
+	}
+
+	const { ontology = {}, subject = {}, relations } = frontmatter ?? {};
+
+	for (const field of ["role", "domain", "class", "instance", "aspect"]) {
+		if (!hasMeaningfulString(ontology[field])) {
+			throw new Error(`missing ontology.${field} in ${sourcePath}`);
+		}
+	}
+
+	if (!isPlainObject(subject) || !hasMeaningfulString(subject.canonical_name)) {
+		throw new Error(`missing subject frontmatter in ${sourcePath}`);
+	}
+
+	if (!isPlainObject(relations)) {
+		throw new Error(`missing relations frontmatter in ${sourcePath}`);
+	}
+
+	return frontmatter;
+}
+
 function formatScalar(value) {
 	if (typeof value === "string") {
 		if (/^[A-Za-z0-9_./-]+$/.test(value)) {

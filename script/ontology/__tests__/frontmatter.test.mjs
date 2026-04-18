@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { parseFrontmatter, readFrontmatter } from "../frontmatter.mjs";
+import { parseFrontmatter, readFrontmatter, requireSemanticFrontmatter } from "../frontmatter.mjs";
 import { normalizeOntologyBlock } from "../ontology-frontmatter.mjs";
 
 test("normalizeOntologyBlock preserves explicit supporting source status", () => {
@@ -17,6 +17,119 @@ test("normalizeOntologyBlock preserves explicit supporting source status", () =>
 	});
 
 	assert.equal(next.source.status, "supporting");
+});
+
+test("requireSemanticFrontmatter accepts semantic blocks", () => {
+	assert.doesNotThrow(() =>
+		requireSemanticFrontmatter(
+			{
+				ontology: {
+					role: "entity",
+					domain: "language",
+					class: "programming-language",
+					instance: "go",
+					aspect: "overview",
+				},
+				subject: {
+					canonical_name: "Go",
+				},
+				relations: {
+					related_to: ["golang"],
+				},
+			},
+			"docs/language/programming-language/go/go.mdx",
+		),
+	);
+});
+
+test("requireSemanticFrontmatter rejects incomplete semantic blocks", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "programming-language",
+						aspect: "overview",
+					},
+					subject: {
+						canonical_name: "Go",
+					},
+					relations: {},
+				},
+				"docs/language/programming-language/go/go.mdx",
+			),
+		/missing ontology.instance/,
+	);
+});
+
+test("requireSemanticFrontmatter rejects whitespace-only required strings", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "programming-language",
+						instance: " ",
+						aspect: "overview",
+					},
+					subject: {
+						canonical_name: "   ",
+					},
+					relations: {},
+				},
+				"docs/language/programming-language/go/go.mdx",
+			),
+		/missing ontology.instance/,
+	);
+});
+
+test("requireSemanticFrontmatter rejects whitespace-only subject canonical names", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "programming-language",
+						instance: "go",
+						aspect: "overview",
+					},
+					subject: {
+						canonical_name: "   ",
+					},
+					relations: {},
+				},
+				"docs/language/programming-language/go/go.mdx",
+			),
+		/missing subject frontmatter/,
+	);
+});
+
+test("requireSemanticFrontmatter rejects missing relations blocks", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "programming-language",
+						instance: "go",
+						aspect: "overview",
+					},
+					subject: {
+						canonical_name: "Go",
+					},
+				},
+				"docs/language/programming-language/go/go.mdx",
+			),
+		/missing relations frontmatter/,
+	);
 });
 
 test("parseFrontmatter parses nested objects", () => {
