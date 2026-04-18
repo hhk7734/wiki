@@ -1,0 +1,61 @@
+---
+id: basics
+title: "PostgreSQL 기초 사용"
+sidebar_label: "기초 사용"
+description: "PostgreSQL 기초 사용"
+keywords:
+  - postgresql
+ontology:
+  role: operation
+  domain: data
+  class: database
+  instance: postgresql
+  aspect: basics
+subject:
+  canonical_name: PostgreSQL
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+---
+
+## 초기화
+
+```shell
+sudo su postgres
+```
+
+```shell
+initdb --locale=C.UTF-8 --encoding=UTF8 -D /var/lib/postgres/data
+```
+
+## Access
+
+### Local
+
+```shell
+sudo -u postgres psql
+```
+
+### Remote
+
+```shell
+psql -h <host> -U <user> -d <database>
+```
+
+## Help
+
+```sql
+\h [command]
+```
+
+`\h`만 입력하면 사용가능한 SQL 명령어 목록이 출력됩니다. `command`를 입력하면 해당 명령어의 설명이 출력됩니다.
+
+```sql
+\?
+```
+
+`\`로 시작하는 명령어 목록과 설명이 출력됩니다.

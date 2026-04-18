@@ -1,11 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { basename, dirname, join, relative } from "node:path";
 import { validateCorpus, validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
 import { listRewriteTargets, rewriteDocLinks } from "../rewrite-links.mjs";
 import { ROOT_DIR } from "../constants.mjs";
-import { migrateRegistryEntries } from "../migrate.mjs";
+import { buildMigrationEntries, loadPathMapping, migrateRegistryEntries } from "../migrate.mjs";
 import { bootstrapRegistry } from "../bootstrap-registry.mjs";
 
 test("validateSourcePath rejects editorial etc buckets", () => {
@@ -530,7 +530,7 @@ test("listRewriteTargets includes docs/AGENTS.md", () => {
 	const docs = listRewriteTargets();
 
 	assert.ok(docs.includes("docs/AGENTS.md"));
-	assert.ok(docs.includes("docs/entity/language/programming-language/go/go.mdx"));
+	assert.ok(docs.includes("docs/language/go/overview.mdx"));
 });
 
 test("migrateRegistryEntries rewrites id and ontology on moved documents", () => {
@@ -572,7 +572,9 @@ content
 						aspect: "overview",
 					},
 				},
-			]);
+			], {
+				mappingEntries: [{ source, target }],
+			});
 		} finally {
 			console.log = originalLog;
 		}
@@ -592,10 +594,10 @@ content
 			instance: "migrated-doc",
 			aspect: "overview",
 		});
-	} finally {
-		rmSync(dirname(sourcePath), { recursive: true, force: true });
-	}
-});
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+	});
 
 test("migrateRegistryEntries fails when the source is missing even if the target exists", () => {
 	const tempDir = mkdtempSync(join(ROOT_DIR, "docs", "__ontology-migrate-"));
@@ -621,27 +623,217 @@ content
 		try {
 			assert.throws(
 				() =>
-					migrateRegistryEntries([
-						{
-							source,
-							target,
-							ontology: {
-								role: "entity",
-								domain: "language",
-								class: "programming-language",
-								instance: "migrated-doc",
-								aspect: "overview",
+					migrateRegistryEntries(
+						[
+							{
+								source,
+								target,
+								ontology: {
+									role: "entity",
+									domain: "language",
+									class: "programming-language",
+									instance: "migrated-doc",
+									aspect: "overview",
+								},
 							},
+						],
+						{
+							mappingEntries: [{ source, target }],
 						},
-					]),
+					),
 				/missing source document/,
 			);
 		} finally {
 			console.log = originalLog;
 		}
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+	});
+
+test("loadPathMapping reads the staged batch mapping file", () => {
+	const mappings = loadPathMapping(join(ROOT_DIR, "ontology", "path-mapping.json"));
+
+	assert.equal(mappings.length, 20);
+	assert.deepEqual(mappings[0], {
+		source: "docs/entity/language/programming-language/cpp/cpp.mdx",
+		target: "docs/language/cpp/overview.mdx",
+	});
+});
+
+test("loadPathMapping requires an explicit mapping path", () => {
+	assert.throws(() => loadPathMapping(), /path mapping path is required/);
+});
+
+test("buildMigrationEntries joins registry entries with the mapping targets", () => {
+	const entries = buildMigrationEntries(
+		[
+			{
+				source: "docs/entity/language/programming-language/go/go.mdx",
+				target: "docs/entity/language/programming-language/go/go.mdx",
+				ontology: {
+					role: "entity",
+					domain: "language",
+					class: "programming-language",
+					instance: "go",
+					aspect: "overview",
+				},
+			},
+			{
+				source: "docs/entity/data/database/postgresql/postgresql.mdx",
+				target: "docs/entity/data/database/postgresql/postgresql.mdx",
+				ontology: {
+					role: "entity",
+					domain: "data",
+					class: "database",
+					instance: "postgresql",
+					aspect: "overview",
+				},
+			},
+		],
+		[
+			{
+				source: "docs/entity/language/programming-language/go/go.mdx",
+				target: "docs/language/go/overview.mdx",
+			},
+			{
+				source: "docs/entity/data/database/postgresql/postgresql.mdx",
+				target: "docs/data/postgresql/overview.mdx",
+			},
+		],
+	);
+
+	assert.deepEqual(entries, [
+		{
+			source: "docs/entity/language/programming-language/go/go.mdx",
+			target: "docs/language/go/overview.mdx",
+			ontology: {
+				role: "entity",
+				domain: "language",
+				class: "programming-language",
+				instance: "go",
+				aspect: "overview",
+			},
+		},
+		{
+			source: "docs/entity/data/database/postgresql/postgresql.mdx",
+			target: "docs/data/postgresql/overview.mdx",
+			ontology: {
+				role: "entity",
+				domain: "data",
+				class: "database",
+				instance: "postgresql",
+				aspect: "overview",
+			},
+		},
+	]);
+});
+
+test("migrateRegistryEntries rejects explicit mapping files that reference missing registry entries", () => {
+	const tempDir = mkdtempSync(join(ROOT_DIR, "docs", "__ontology-migrate-map-"));
+	const mappingPath = join(tempDir, "mapping.json");
+
+	try {
+		writeFileSync(
+			mappingPath,
+			JSON.stringify(
+				[
+					{
+						source: "docs/entity/language/programming-language/go/go.mdx",
+						target: "docs/language/go/overview.mdx",
+					},
+				],
+				null,
+				2,
+			),
+		);
+
+		assert.throws(
+			() =>
+				migrateRegistryEntries(
+					[
+						{
+							source: "docs/entity/language/programming-language/python/python.mdx",
+							target: "docs/entity/language/programming-language/python/python.mdx",
+							ontology: {
+								role: "entity",
+								domain: "language",
+								class: "programming-language",
+								instance: "python",
+								aspect: "overview",
+							},
+						},
+					],
+					{
+						dryRun: true,
+						mappingPath,
+					},
+				),
+			/missing registry entries for mapped sources/,
+		);
 	} finally {
-		rmSync(dirname(targetPath), { recursive: true, force: true });
+		rmSync(tempDir, { recursive: true, force: true });
 	}
+});
+
+test("migrateRegistryEntries rejects explicit mapping files with no entries", () => {
+	const tempDir = mkdtempSync(join(ROOT_DIR, "docs", "__ontology-migrate-empty-map-"));
+	const mappingPath = join(tempDir, "mapping.json");
+
+	try {
+		writeFileSync(mappingPath, JSON.stringify([], null, 2));
+
+		assert.throws(
+			() =>
+				migrateRegistryEntries(
+					[
+						{
+							source: "docs/entity/language/programming-language/go/go.mdx",
+							target: "docs/entity/language/programming-language/go/go.mdx",
+							ontology: {
+								role: "entity",
+								domain: "language",
+								class: "programming-language",
+								instance: "go",
+								aspect: "overview",
+							},
+						},
+					],
+					{
+						dryRun: true,
+						mappingPath,
+					},
+				),
+			/path mapping file has no entries/,
+		);
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
+});
+
+test("migrateRegistryEntries requires an explicit mapping source", () => {
+	assert.throws(
+		() =>
+			migrateRegistryEntries(
+				[
+					{
+						source: "docs/entity/language/programming-language/go/go.mdx",
+						target: "docs/entity/language/programming-language/go/go.mdx",
+						ontology: {
+							role: "entity",
+							domain: "language",
+							class: "programming-language",
+							instance: "go",
+							aspect: "overview",
+						},
+					},
+				],
+				{
+					dryRun: true,
+				},
+			),
+		/migration requires explicit mapping entries or --mapping <path>/,
+	);
 });
 
 test("validateCorpus enforces registry source-path invariants in the production path", () => {
@@ -665,4 +857,74 @@ test("validateCorpus enforces registry source-path invariants in the production 
 			}),
 		/source path must point to an \.mdx document/,
 	);
+});
+
+test("migrateRegistryEntries rewrites inbound links through the mapped target paths", () => {
+	const tempDir = mkdtempSync(join(ROOT_DIR, "docs", "__ontology-migrate-links-"));
+	const sourcePath = join(tempDir, "legacy-doc.mdx");
+	const targetPath = join(tempDir, "migrated-doc.mdx");
+	const inboundPath = join(tempDir, "inbound.mdx");
+	const source = relative(ROOT_DIR, sourcePath).replaceAll("\\", "/");
+	const target = relative(ROOT_DIR, targetPath).replaceAll("\\", "/");
+	const inbound = relative(ROOT_DIR, inboundPath).replaceAll("\\", "/");
+
+	try {
+		writeFileSync(
+			sourcePath,
+			`---
+id: legacy-doc
+title: "Legacy"
+ontology:
+  role: concept
+---
+content
+`,
+		);
+		writeFileSync(
+			inboundPath,
+			`---
+id: inbound
+title: "Inbound"
+ontology:
+  role: concept
+---
+See [Legacy](/${source}).
+`,
+		);
+
+		const logs = [];
+		const originalLog = console.log;
+		console.log = (message) => logs.push(message);
+
+		try {
+			migrateRegistryEntries(
+				[
+					{
+						source,
+						target,
+						ontology: {
+							role: "entity",
+							domain: "language",
+							class: "programming-language",
+							instance: "migrated-doc",
+							aspect: "overview",
+						},
+					},
+				],
+				{
+					mappingEntries: [{ source, target }],
+					docs: [target, inbound],
+				},
+			);
+		} finally {
+			console.log = originalLog;
+		}
+
+		assert.deepEqual(logs, [`${source} -> ${target}`]);
+		assert.equal(existsSync(sourcePath), false);
+		assert.equal(existsSync(targetPath), true);
+		assert.match(readFileSync(inboundPath, "utf8"), new RegExp(`\\/docs\\/.*migrated-doc`));
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
 });

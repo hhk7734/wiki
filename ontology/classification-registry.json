@@ -33,17 +33,6 @@
     }
   },
   {
-    "source": "docs/concept/data/database/postgresql/ha.mdx",
-    "target": "docs/concept/data/database/postgresql/ha.mdx",
-    "ontology": {
-      "role": "concept",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "ha"
-    }
-  },
-  {
     "source": "docs/concept/hardware/electronics/capacitor/capacitor.mdx",
     "target": "docs/concept/hardware/electronics/capacitor/capacitor.mdx",
     "ontology": {
@@ -979,8 +968,8 @@
     }
   },
   {
-    "source": "docs/entity/data/database/dynamodb/dynamodb.mdx",
-    "target": "docs/entity/data/database/dynamodb/dynamodb.mdx",
+    "source": "docs/data/dynamodb/overview.mdx",
+    "target": "docs/data/dynamodb/overview.mdx",
     "ontology": {
       "role": "entity",
       "domain": "data",
@@ -990,8 +979,19 @@
     }
   },
   {
-    "source": "docs/entity/data/database/mongodb/mongodb.mdx",
-    "target": "docs/entity/data/database/mongodb/mongodb.mdx",
+    "source": "docs/data/minio/overview.mdx",
+    "target": "docs/data/minio/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "data",
+      "class": "object-storage",
+      "instance": "minio",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/data/mongodb/overview.mdx",
+    "target": "docs/data/mongodb/overview.mdx",
     "ontology": {
       "role": "entity",
       "domain": "data",
@@ -1001,8 +1001,8 @@
     }
   },
   {
-    "source": "docs/entity/data/database/mysql/mysql.mdx",
-    "target": "docs/entity/data/database/mysql/mysql.mdx",
+    "source": "docs/data/mysql/overview.mdx",
+    "target": "docs/data/mysql/overview.mdx",
     "ontology": {
       "role": "entity",
       "domain": "data",
@@ -1012,8 +1012,8 @@
     }
   },
   {
-    "source": "docs/entity/data/database/pgbouncer/pgbouncer.mdx",
-    "target": "docs/entity/data/database/pgbouncer/pgbouncer.mdx",
+    "source": "docs/data/pgbouncer/overview.mdx",
+    "target": "docs/data/pgbouncer/overview.mdx",
     "ontology": {
       "role": "entity",
       "domain": "data",
@@ -1023,13 +1023,90 @@
     }
   },
   {
-    "source": "docs/entity/data/database/postgresql/postgresql.mdx",
-    "target": "docs/entity/data/database/postgresql/postgresql.mdx",
+    "source": "docs/data/postgresql/basics.mdx",
+    "target": "docs/data/postgresql/basics.mdx",
+    "ontology": {
+      "role": "operation",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "basics"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/config.mdx",
+    "target": "docs/data/postgresql/config.mdx",
+    "ontology": {
+      "role": "operation",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "config"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/ha.mdx",
+    "target": "docs/data/postgresql/ha.mdx",
+    "ontology": {
+      "role": "concept",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "ha"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/install.mdx",
+    "target": "docs/data/postgresql/install.mdx",
+    "ontology": {
+      "role": "operation",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "install"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/overview.mdx",
+    "target": "docs/data/postgresql/overview.mdx",
     "ontology": {
       "role": "entity",
       "domain": "data",
       "class": "database",
       "instance": "postgresql",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/table.mdx",
+    "target": "docs/data/postgresql/table.mdx",
+    "ontology": {
+      "role": "operation",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "table"
+    }
+  },
+  {
+    "source": "docs/data/postgresql/user.mdx",
+    "target": "docs/data/postgresql/user.mdx",
+    "ontology": {
+      "role": "operation",
+      "domain": "data",
+      "class": "database",
+      "instance": "postgresql",
+      "aspect": "user"
+    }
+  },
+  {
+    "source": "docs/data/s3/overview.mdx",
+    "target": "docs/data/s3/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "data",
+      "class": "object-storage",
+      "instance": "s3",
       "aspect": "overview"
     }
   },
@@ -1041,28 +1118,6 @@
       "domain": "data",
       "class": "database",
       "instance": "update-item",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/data/object-storage/minio/minio.mdx",
-    "target": "docs/entity/data/object-storage/minio/minio.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "data",
-      "class": "object-storage",
-      "instance": "minio",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/data/object-storage/s3/s3.mdx",
-    "target": "docs/entity/data/object-storage/s3/s3.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "data",
-      "class": "object-storage",
-      "instance": "s3",
       "aspect": "overview"
     }
   },
@@ -1932,83 +1987,6 @@
       "domain": "language",
       "class": "package",
       "instance": "setuptools",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/cpp/cpp.mdx",
-    "target": "docs/entity/language/programming-language/cpp/cpp.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "cpp",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/dart/dart.mdx",
-    "target": "docs/entity/language/programming-language/dart/dart.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "dart",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/go/go.mdx",
-    "target": "docs/entity/language/programming-language/go/go.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "go",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/javascript/javascript.mdx",
-    "target": "docs/entity/language/programming-language/javascript/javascript.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "javascript",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/python/python.mdx",
-    "target": "docs/entity/language/programming-language/python/python.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "python",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/rust/rust.mdx",
-    "target": "docs/entity/language/programming-language/rust/rust.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "rust",
-      "aspect": "overview"
-    }
-  },
-  {
-    "source": "docs/entity/language/programming-language/shellscript/shellscript.mdx",
-    "target": "docs/entity/language/programming-language/shellscript/shellscript.mdx",
-    "ontology": {
-      "role": "entity",
-      "domain": "language",
-      "class": "programming-language",
-      "instance": "shellscript",
       "aspect": "overview"
     }
   },
@@ -2970,6 +2948,83 @@
     }
   },
   {
+    "source": "docs/language/cpp/overview.mdx",
+    "target": "docs/language/cpp/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "cpp",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/dart/overview.mdx",
+    "target": "docs/language/dart/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "dart",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/go/overview.mdx",
+    "target": "docs/language/go/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "go",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/javascript/overview.mdx",
+    "target": "docs/language/javascript/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "javascript",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/python/overview.mdx",
+    "target": "docs/language/python/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "python",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/rust/overview.mdx",
+    "target": "docs/language/rust/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "rust",
+      "aspect": "overview"
+    }
+  },
+  {
+    "source": "docs/language/shellscript/overview.mdx",
+    "target": "docs/language/shellscript/overview.mdx",
+    "ontology": {
+      "role": "entity",
+      "domain": "language",
+      "class": "programming-language",
+      "instance": "shellscript",
+      "aspect": "overview"
+    }
+  },
+  {
     "source": "docs/operation/data/database/design/pagenation.mdx",
     "target": "docs/operation/data/database/design/pagenation.mdx",
     "ontology": {
@@ -3088,61 +3143,6 @@
       "class": "database",
       "instance": "mysql",
       "aspect": "window"
-    }
-  },
-  {
-    "source": "docs/operation/data/database/postgresql/basics.mdx",
-    "target": "docs/operation/data/database/postgresql/basics.mdx",
-    "ontology": {
-      "role": "operation",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "basics"
-    }
-  },
-  {
-    "source": "docs/operation/data/database/postgresql/config.mdx",
-    "target": "docs/operation/data/database/postgresql/config.mdx",
-    "ontology": {
-      "role": "operation",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "config"
-    }
-  },
-  {
-    "source": "docs/operation/data/database/postgresql/install.mdx",
-    "target": "docs/operation/data/database/postgresql/install.mdx",
-    "ontology": {
-      "role": "operation",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "install"
-    }
-  },
-  {
-    "source": "docs/operation/data/database/postgresql/table.mdx",
-    "target": "docs/operation/data/database/postgresql/table.mdx",
-    "ontology": {
-      "role": "operation",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "table"
-    }
-  },
-  {
-    "source": "docs/operation/data/database/postgresql/user.mdx",
-    "target": "docs/operation/data/database/postgresql/user.mdx",
-    "ontology": {
-      "role": "operation",
-      "domain": "data",
-      "class": "database",
-      "instance": "postgresql",
-      "aspect": "user"
     }
   },
   {
