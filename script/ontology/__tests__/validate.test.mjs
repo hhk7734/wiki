@@ -52,6 +52,61 @@ test("validateEntries rejects duplicate targets", () => {
 	);
 });
 
+test("validateRegistryDeterminism accepts taxonomy-path registry entries", () => {
+	assert.doesNotThrow(() =>
+		validateRegistryDeterminism(
+			[
+				{
+					source: "docs/data/concepts/ontology.mdx",
+					target: "docs/data/concepts/ontology.mdx",
+					ontology: {
+						role: "concept",
+						domain: "data",
+						class: "concept",
+						instance: "ontology",
+						aspect: "overview",
+					},
+				},
+				{
+					source: "docs/language/library/grpc/overview.mdx",
+					target: "docs/language/library/grpc/overview.mdx",
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "library",
+						instance: "grpc",
+						aspect: "overview",
+					},
+				},
+			],
+			[
+				{
+					source: "docs/data/concepts/ontology.mdx",
+					target: "docs/concept/data/concept/ontology/ontology.mdx",
+					ontology: {
+						role: "concept",
+						domain: "data",
+						class: "concept",
+						instance: "ontology",
+						aspect: "overview",
+					},
+				},
+				{
+					source: "docs/language/library/grpc/overview.mdx",
+					target: "docs/entity/language/library/grpc/grpc.mdx",
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "library",
+						instance: "grpc",
+						aspect: "overview",
+					},
+				},
+			],
+		),
+	);
+});
+
 test("validateFrontmatter rejects ids that do not match the filename", () => {
 	assert.throws(
 		() =>

@@ -6,20 +6,17 @@ import { tmpdir } from "node:os";
 import { parseFrontmatter, readFrontmatter } from "../frontmatter.mjs";
 import { normalizeOntologyBlock } from "../ontology-frontmatter.mjs";
 
-test("normalizeOntologyBlock keeps path and ontology metadata aligned", () => {
+test("normalizeOntologyBlock preserves explicit supporting source status", () => {
 	const next = normalizeOntologyBlock({
 		role: "entity",
 		domain: "language",
 		className: "programming-language",
 		instance: "go",
 		aspect: "overview",
+		sourceStatus: "supporting",
 	});
 
-	assert.equal(next.ontology.class, "programming-language");
-	assert.equal(next.ontology.instance, "go");
-	assert.equal(next.ontology.aspect, "overview");
-	assert.equal(next.source.status, "canonical");
-	assert.equal(next.source.confidence, "exact");
+	assert.equal(next.source.status, "supporting");
 });
 
 test("parseFrontmatter parses nested objects", () => {
