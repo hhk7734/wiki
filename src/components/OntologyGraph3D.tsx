@@ -1,0 +1,319 @@
+import globalData from "@generated/globalData";
+import React, { useEffect, useRef, useState } from "react";
+import ForceGraph3D, { type ForceGraphMethods } from "react-force-graph-3d";
+
+import OntologyPreviewPanel from "./ontologyGraph/OntologyPreviewPanel";
+import { buildOntologyGraph } from "./ontologyGraph/buildOntologyGraph.mjs";
+import styles from "./ontologyGraph/ontologyGraph.module.css";
+import type { OntologyGraphData, OntologyGraphLink, OntologyGraphNode, SelectedOntologyNode } from "./ontologyGraph/ontologyGraph.types";
+
+type GlobalDoc = {
+	id: string;
+	sidebar?: string;
+	path?: string;
+};
+
+type DocMetadata = {
+	id: string;
+	title?: string;
+	description?: string;
+	permalink?: string;
+	frontMatter?: {
+		sidebar_label?: string;
+	};
+};
+
+type DocsContext = {
+	keys: () => string[];
+	(key: string): DocMetadata;
+};
+
+declare const require: {
+	context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => DocsContext;
+};
+
+const ontologySections = {
+	Entity: "entity",
+	Concept: "concept",
+	Operation: "operation",
+	Specification: "specification",
+	Troubleshooting: "troubleshooting",
+	Comparison: "comparison",
+} as const;
+
+const roleColors: Record<string, string> = {
+	entity: "#38bdf8",
+	concept: "#f97316",
+	operation: "#14b8a6",
+	specification: "#a78bfa",
+	troubleshooting: "#f43f5e",
+	comparison: "#facc15",
+};
+
+const docMetadataById = (() => {
+	const docsContext = require.context("../../.docusaurus/docusaurus-plugin-content-docs/default", false, /^\.\/site-docs-.*\.json$/);
+
+	return new Map(
+		docsContext.keys().map((key) => {
+			const metadata = docsContext(key);
+			return [metadata.id, metadata];
+		}),
+	);
+})();
+
+function hashString(value: string): number {
+	let hash = 0;
+
+	for (let index = 0; index < value.length; index += 1) {
+		hash = (hash * 31 + value.charCodeAt(index)) % 100000;
+	}
+
+	return hash;
+}
+
+function polarOffset(seed: string, radius: number) {
+	const hash = hashString(seed);
+	const angle = ((hash % 360) * Math.PI) / 180;
+	const tilt = ((hash % 13) - 6) * 12;
+
+	return {
+		x: Math.cos(angle) * radius,
+		y: tilt,
+		z: Math.sin(angle) * radius,
+	};
+}
+
+function withLayout(graph: OntologyGraphData): OntologyGraphData {
+	const roleNodes = graph.nodes.filter((node) => node.type === "role");
+	const roleCenters = new Map<string, { x: number; y: number; z: number }>();
+
+	roleNodes.forEach((node, index) => {
+		const angle = (index / Math.max(roleNodes.length, 1)) * Math.PI * 2;
+		const position = {
+			x: Math.cos(angle) * 220,
+			y: index % 2 === 0 ? 40 : -40,
+			z: Math.sin(angle) * 220,
+		};
+
+		roleCenters.set(node.role ?? node.id, position);
+	});
+
+	return {
+		nodes: graph.nodes.map((node) => {
+			if (node.type === "root") {
+				return { ...node, fx: 0, fy: 0, fz: 0 };
+			}
+
+			if (node.type === "role") {
+				const center = roleCenters.get(node.role ?? node.id) ?? { x: 0, y: 0, z: 0 };
+				return { ...node, ...center, fx: center.x, fy: center.y, fz: center.z };
+			}
+
+			const center = roleCenters.get(node.role ?? "") ?? { x: 0, y: 0, z: 0 };
+			const offset = polarOffset(node.id, 55 + node.depth * 26);
+
+			return {
+				...node,
+				x: center.x + offset.x,
+				y: center.y + offset.y,
+				z: center.z + offset.z,
+			};
+		}),
+		links: graph.links,
+	};
+}
+
+function getOntologyGraphData(): OntologyGraphData {
+	const docs = (
+		(globalData as Record<string, { default?: { versions?: Array<{ docs?: GlobalDoc[] }> } }>)[
+			"docusaurus-plugin-content-docs"
+		]?.default?.versions?.[0]?.docs ?? []
+	).filter((doc): doc is GlobalDoc => typeof doc?.id === "string");
+
+	const graph = buildOntologyGraph({
+		docs,
+		ontologySections,
+		docMetadataById,
+		rootLabel: "lol-IoT",
+	});
+
+	return withLayout(graph as OntologyGraphData);
+}
+
+function getNodeColor(node: OntologyGraphNode, selectedNode: SelectedOntologyNode): string {
+	if (selectedNode?.id === node.id) {
+		return "#f8fafc";
+	}
+
+	if (node.type === "root") {
+		return "#ffffff";
+	}
+
+	if (node.type === "doc") {
+		return "#cbd5e1";
+	}
+
+	return roleColors[node.role ?? ""] ?? "#94a3b8";
+}
+
+function getNodeValue(node: OntologyGraphNode): number {
+	switch (node.type) {
+		case "root":
+			return 9;
+		case "role":
+			return 7;
+		case "group":
+			return 3.6;
+		case "doc":
+			return 2.2;
+		default:
+			return 2.2;
+	}
+}
+
+function getNodeLabel(node: OntologyGraphNode): string {
+	const role = node.role ? `${node.role} / ` : "";
+	return `${role}${node.label}`;
+}
+
+export default function OntologyGraph3D() {
+	const graphRef = useRef<ForceGraphMethods<OntologyGraphNode, OntologyGraphLink>>();
+	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+	const [selectedNode, setSelectedNode] = useState<SelectedOntologyNode>(null);
+	const [graphData] = useState<OntologyGraphData>(() => getOntologyGraphData());
+
+	useEffect(() => {
+		const updateDimensions = () => {
+			setDimensions({
+				width: window.innerWidth,
+				height: Math.max(window.innerHeight - 60, 640),
+			});
+		};
+
+		updateDimensions();
+		window.addEventListener("resize", updateDimensions);
+
+		return () => {
+			window.removeEventListener("resize", updateDimensions);
+		};
+	}, []);
+
+	useEffect(() => {
+		if (!graphRef.current) {
+			return;
+		}
+
+		const linkForce = graphRef.current.d3Force("link");
+		const chargeForce = graphRef.current.d3Force("charge");
+		const centerForce = graphRef.current.d3Force("center");
+
+		linkForce?.distance?.((link: { source?: { type?: string }; target?: { type?: string } }) => {
+			if (link.target?.type === "doc") {
+				return 28;
+			}
+
+			return link.source?.type === "root" ? 140 : 75;
+		});
+		linkForce?.strength?.((link: { target?: { type?: string } }) => (link.target?.type === "doc" ? 0.4 : 0.8));
+		chargeForce?.strength?.((node: OntologyGraphNode) => {
+			if (node.type === "root" || node.type === "role") {
+				return -220;
+			}
+
+			return node.type === "doc" ? -32 : -80;
+		});
+		centerForce?.strength?.(0.08);
+		graphRef.current.d3ReheatSimulation();
+		graphRef.current.cameraPosition({ z: 620 }, { x: 0, y: 0, z: 0 }, 0);
+	}, []);
+
+	useEffect(() => {
+		if (!selectedNode || !graphRef.current) {
+			return;
+		}
+
+		if (
+			typeof (selectedNode as OntologyGraphNode & { x?: number }).x !== "number" ||
+			typeof (selectedNode as OntologyGraphNode & { y?: number }).y !== "number" ||
+			typeof (selectedNode as OntologyGraphNode & { z?: number }).z !== "number"
+		) {
+			return;
+		}
+
+		const positionedNode = selectedNode as OntologyGraphNode & { x: number; y: number; z: number };
+
+		graphRef.current.cameraPosition(
+			{
+				x: positionedNode.x * 1.2,
+				y: positionedNode.y * 1.2 + 30,
+				z: positionedNode.z * 1.2 + 160,
+			},
+			{ x: positionedNode.x, y: positionedNode.y, z: positionedNode.z },
+			900,
+		);
+	}, [selectedNode]);
+
+	if (!graphData.nodes.length) {
+		return (
+			<div className={styles.graphShell}>
+				<div className={styles.emptyState}>
+					<div className={styles.emptyStateCard}>
+						<h2>Ontology graph unavailable</h2>
+						<p>The homepage could not derive ontology graph data from the current docs metadata.</p>
+					</div>
+				</div>
+			</div>
+		);
+	}
+
+	return (
+		<div className={styles.graphShell}>
+			<div className={styles.statusPill}>
+				<span className={styles.statusDot} />
+				<span>{graphData.nodes.length} ontology nodes live on the homepage map</span>
+			</div>
+
+			<div className={styles.graphCanvas}>
+				{dimensions.width > 0 ? (
+					<ForceGraph3D<OntologyGraphNode, OntologyGraphLink>
+						ref={graphRef}
+						width={dimensions.width}
+						height={dimensions.height}
+						graphData={graphData}
+						backgroundColor="#020617"
+						showNavInfo={false}
+						nodeLabel={getNodeLabel}
+						nodeColor={(node) => getNodeColor(node as OntologyGraphNode, selectedNode)}
+						nodeVal={(node) => getNodeValue(node as OntologyGraphNode)}
+						linkColor={(link) => {
+							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
+							return roleColors[target?.role ?? ""] ?? "#334155";
+						}}
+						linkOpacity={0.18}
+						linkWidth={(link) => {
+							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
+							return target?.type === "doc" ? 0.35 : 0.9;
+						}}
+						linkDirectionalParticles={(link) => {
+							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
+							return target?.type === "doc" ? 1 : 0;
+						}}
+						linkDirectionalParticleSpeed={0.004}
+						enableNodeDrag={false}
+						enableNavigationControls
+						showPointerCursor={(item) => Boolean(item)}
+						onNodeClick={(node) => {
+							setSelectedNode(node as OntologyGraphNode);
+						}}
+						onBackgroundClick={() => {
+							setSelectedNode(null);
+							graphRef.current?.cameraPosition({ x: 0, y: 0, z: 620 }, { x: 0, y: 0, z: 0 }, 900);
+						}}
+					/>
+				) : null}
+			</div>
+
+			<OntologyPreviewPanel selectedNode={selectedNode} onClose={() => setSelectedNode(null)} />
+		</div>
+	);
+}

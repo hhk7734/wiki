@@ -6,8 +6,8 @@ function toDisplayLabel(value) {
 		.replace(/\b\w/g, (letter) => letter.toUpperCase()) ?? value;
 }
 
-function getDocHref(doc) {
-	return doc.path ?? doc.permalink ?? `/docs/${doc.id}`;
+function getDocHref(doc, metadata) {
+	return metadata?.permalink ?? doc.path ?? doc.permalink ?? `/docs/${doc.id}`;
 }
 
 function getDocLabel(docId, metadata) {
@@ -90,7 +90,7 @@ export function buildOntologyGraph({
 				depth: groupSegments.length + 2,
 				role: sidebarId,
 				docId: doc.id,
-				href: getDocHref(doc),
+				href: getDocHref(doc, metadata),
 				description: metadata?.description,
 			});
 
