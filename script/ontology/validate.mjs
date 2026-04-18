@@ -3,8 +3,10 @@ import { fileURLToPath } from "node:url";
 import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry } from "./bootstrap-registry.mjs";
 import { ROOT_DIR } from "./constants.mjs";
 import { inventory } from "./inventory.mjs";
-import { readFrontmatter } from "./frontmatter.mjs";
+import { readFrontmatter, requireSemanticFrontmatter } from "./frontmatter.mjs";
 import { readFileSync } from "node:fs";
+import { isMaintainedTaxonomyPath } from "./pathing.mjs";
+import { hasApprovedTaxonomyTopicPrefix, validateTaxonomyPath } from "./taxonomy-paths.mjs";
 
 export function validateSourcePath(legacyPath, { allowEditorialBuckets = false } = {}) {
 	const normalizedPath = legacyPath.replaceAll("\\", "/");
@@ -20,20 +22,31 @@ export function validateSourcePath(legacyPath, { allowEditorialBuckets = false }
 	if (!allowEditorialBuckets && normalizedPath.includes("/etc/")) {
 		throw new Error("forbidden editorial bucket");
 	}
+
+	if (hasApprovedTaxonomyTopicPrefix(normalizedPath)) {
+		validateTaxonomyPath(normalizedPath);
+		return;
+	}
 }
 
 export function validateEntries(entries, { validateSourcePaths = false, allowEditorialBuckets = false } = {}) {
 	const seenTargets = new Set();
+	const seenSources = new Set();
 
 	for (const entry of entries) {
 		if (validateSourcePaths) {
 			validateSourcePath(entry.source, { allowEditorialBuckets });
 		}
 
+		if (seenSources.has(entry.source)) {
+			throw new Error(`duplicate source path: ${entry.source}`);
+		}
+
 		if (seenTargets.has(entry.target)) {
 			throw new Error(`duplicate target path: ${entry.target}`);
 		}
 
+		seenSources.add(entry.source);
 		seenTargets.add(entry.target);
 	}
 }
@@ -108,55 +121,25 @@ export function validateDocumentFile(source) {
 	const frontmatter = readFrontmatter(absolutePath);
 
 	validateFrontmatter({ source, frontmatter });
+
+	if (isMaintainedTaxonomyPath(source)) {
+		requireSemanticFrontmatter(frontmatter, source);
+	}
+
 	return frontmatter;
 }
 
-function detectCorpusShape(entries, docs) {
-	const sources = new Set(entries.map((entry) => entry.source));
-	const targets = new Set(entries.map((entry) => entry.target));
-	const docsSet = new Set(docs);
+function validateDocumentOntology(source, entry, frontmatter) {
+	const ontology = frontmatter?.ontology ?? {};
 
-	const matchesSources = docs.length === sources.size && docs.every((doc) => sources.has(doc));
-	const matchesTargets = docs.length === targets.size && docs.every((doc) => targets.has(doc));
-
-	if (matchesSources) {
-		return "legacy";
-	}
-
-	if (matchesTargets) {
-		return "migrated";
-	}
-
-	const overlappingSources = docs.filter((doc) => sources.has(doc)).length;
-	const overlappingTargets = docs.filter((doc) => targets.has(doc)).length;
-
-	throw new Error(
-		`docs corpus does not match registry sources or targets (sources=${overlappingSources}, targets=${overlappingTargets}, docs=${docsSet.size}, registry=${entries.length})`,
-	);
-}
-
-function validateMigratedCorpus(entries, docs) {
-	const entryByTarget = new Map(entries.map((entry) => [entry.target, entry]));
-
-	for (const target of docs) {
-		const frontmatter = validateDocumentFile(target);
-		const entry = entryByTarget.get(target);
-
-		if (!entry) {
-			throw new Error(`missing registry entry for migrated document: ${target}`);
-		}
-
-		const ontology = frontmatter?.ontology ?? {};
-
-		if (
-			ontology.role !== entry.ontology.role ||
-			ontology.domain !== entry.ontology.domain ||
-			ontology.class !== entry.ontology.class ||
-			ontology.instance !== entry.ontology.instance ||
-			ontology.aspect !== entry.ontology.aspect
-		) {
-			throw new Error(`ontology mismatch: ${target}`);
-		}
+	if (
+		ontology.role !== entry.ontology.role ||
+		ontology.domain !== entry.ontology.domain ||
+		ontology.class !== entry.ontology.class ||
+		ontology.instance !== entry.ontology.instance ||
+		ontology.aspect !== entry.ontology.aspect
+	) {
+		throw new Error(`ontology mismatch: ${source}`);
 	}
 }
 
@@ -165,18 +148,23 @@ export function validateCorpus({ entries = loadRegistry(), docs = inventory() } 
 		validateSourcePaths: true,
 		allowEditorialBuckets: true,
 	});
+	validateRegistryDeterminism(entries, bootstrapRegistry(docs));
 
-	if (detectCorpusShape(entries, docs) === "legacy") {
-		validateRegistryDeterminism(entries);
+	const entryBySource = new Map(entries.map((entry) => [entry.source, entry]));
+	const entryByTarget = new Map(entries.map((entry) => [entry.target, entry]));
 
-		for (const source of docs) {
-			validateDocumentFile(source);
+	for (const source of docs) {
+		const frontmatter = validateDocumentFile(source);
+		const entry = entryBySource.get(source) ?? entryByTarget.get(source);
+
+		if (!entry) {
+			throw new Error(`missing registry entry for document: ${source}`);
 		}
 
-		return;
+		if (isMaintainedTaxonomyPath(source)) {
+			validateDocumentOntology(source, entry, frontmatter);
+		}
 	}
-
-	validateMigratedCorpus(entries, docs);
 }
 
 function main() {

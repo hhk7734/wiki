@@ -1,5 +1,9 @@
 import { basename } from "node:path";
+import { resolve } from "node:path";
+import { ROOT_DIR } from "./constants.mjs";
+import { readFrontmatter, requireSemanticFrontmatter } from "./frontmatter.mjs";
 import { normalizeOntologyBlock } from "./ontology-frontmatter.mjs";
+import { hasApprovedTaxonomyTopicPrefix, parseTaxonomyPath, validateTaxonomyPath } from "./taxonomy-paths.mjs";
 
 function normalizeSourcePath(source) {
 	return source.replaceAll("\\", "/").replace(/^\.?\//, "");
@@ -55,6 +59,47 @@ function makeSeed(source, ontology) {
 		source: normalizeSourcePath(source),
 		target: buildTargetPath(ontology),
 		ontology: normalized.ontology,
+	};
+}
+
+function taxonomyPathInfo(source) {
+	try {
+		return parseTaxonomyPath(source);
+	} catch {
+		return null;
+	}
+}
+
+function frontmatterOntology(frontmatter) {
+	return {
+		role: frontmatter.ontology.role,
+		domain: frontmatter.ontology.domain,
+		class: frontmatter.ontology.class,
+		instance: frontmatter.ontology.instance,
+		aspect: frontmatter.ontology.aspect,
+	};
+}
+
+function assertFrontmatterIdMatchesSource(frontmatter, sourcePath) {
+	const docId = frontmatter?.id;
+	const expectedId = fileStem(sourcePath);
+
+	if (docId !== expectedId) {
+		throw new Error(`id mismatch: ${docId} != ${expectedId}`);
+	}
+}
+
+export function classifySeedFromFrontmatter(source) {
+	const sourcePath = normalizeSourcePath(source);
+	const frontmatter = readFrontmatter(resolve(ROOT_DIR, sourcePath));
+
+	assertFrontmatterIdMatchesSource(frontmatter, sourcePath);
+	requireSemanticFrontmatter(frontmatter, sourcePath);
+
+	return {
+		source: sourcePath,
+		target: sourcePath,
+		ontology: frontmatterOntology(frontmatter),
 	};
 }
 
@@ -118,6 +163,62 @@ function classifyCanonicalRoleTree(source) {
 		instance,
 		aspect,
 	});
+}
+
+export function classifyLegacySeed(source) {
+	const sourcePath = normalizeSourcePath(source);
+	const canonicalRoleTree = classifyCanonicalRoleTree(sourcePath);
+
+	if (canonicalRoleTree) {
+		return canonicalRoleTree;
+	}
+
+	if (EXACT_RULES.has(sourcePath)) {
+		return EXACT_RULES.get(sourcePath)();
+	}
+
+	for (const rule of PREFIX_RULES) {
+		if (hasPrefix(splitPath(sourcePath), rule.prefix)) {
+			return classifyPrefixGroup(sourcePath, rule);
+		}
+	}
+
+	const parts = splitPath(sourcePath);
+	const stem = fileStem(sourcePath);
+	const root = parts[1] ?? "";
+	const branch = parts[2] ?? "";
+
+	if (parts[0] !== "docs") {
+		throw new Error(`Unsupported source path: ${sourcePath}`);
+	}
+
+	if (root === "lang") {
+		return directConcept(sourcePath, "language", "source-path", sourceSlug(sourcePath));
+	}
+
+	if (root === "mlops") {
+		return directConcept(sourcePath, "mlops", "source-path", sourceSlug(sourcePath));
+	}
+
+	if (root === "linux") {
+		return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
+	}
+
+	if (root === "mcu") {
+		return makeSeed(sourcePath, {
+			role: "entity",
+			domain: "hardware",
+			className: "mcu-family",
+			instance: branch || stem,
+			aspect: stem === (branch || stem) ? "overview" : stem,
+		});
+	}
+
+	if (root === "etc") {
+		return directConcept(sourcePath, "management", "source-path", sourceSlug(sourcePath));
+	}
+
+	return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
 }
 
 function namespaceLibraryInstance(parts, stem) {
@@ -305,58 +406,17 @@ export function buildTargetPath({ role, domain, className, instance, aspect }) {
 	return `docs/${role}/${domain}/${className}/${instance}/${filename}.mdx`;
 }
 
+export function isMaintainedTaxonomyPath(source) {
+	return taxonomyPathInfo(normalizeSourcePath(source)) !== null;
+}
+
 export function classifySeed(source) {
 	const sourcePath = normalizeSourcePath(source);
-	const canonicalRoleTree = classifyCanonicalRoleTree(sourcePath);
 
-	if (canonicalRoleTree) {
-		return canonicalRoleTree;
+	if (hasApprovedTaxonomyTopicPrefix(sourcePath)) {
+		validateTaxonomyPath(sourcePath);
+		return classifySeedFromFrontmatter(sourcePath);
 	}
 
-	if (EXACT_RULES.has(sourcePath)) {
-		return EXACT_RULES.get(sourcePath)();
-	}
-
-	for (const rule of PREFIX_RULES) {
-		if (hasPrefix(splitPath(sourcePath), rule.prefix)) {
-			return classifyPrefixGroup(sourcePath, rule);
-		}
-	}
-
-	const parts = splitPath(sourcePath);
-	const stem = fileStem(sourcePath);
-	const root = parts[1] ?? "";
-	const branch = parts[2] ?? "";
-
-	if (parts[0] !== "docs") {
-		throw new Error(`Unsupported source path: ${sourcePath}`);
-	}
-
-	if (root === "lang") {
-		return directConcept(sourcePath, "language", "source-path", sourceSlug(sourcePath));
-	}
-
-	if (root === "mlops") {
-		return directConcept(sourcePath, "mlops", "source-path", sourceSlug(sourcePath));
-	}
-
-	if (root === "linux") {
-		return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
-	}
-
-	if (root === "mcu") {
-		return makeSeed(sourcePath, {
-			role: "entity",
-			domain: "hardware",
-			className: "mcu-family",
-			instance: branch || stem,
-			aspect: stem === (branch || stem) ? "overview" : stem,
-		});
-	}
-
-	if (root === "etc") {
-		return directConcept(sourcePath, "management", "source-path", sourceSlug(sourcePath));
-	}
-
-	return directConcept(sourcePath, "platform", "source-path", sourceSlug(sourcePath));
+	return classifyLegacySeed(sourcePath);
 }

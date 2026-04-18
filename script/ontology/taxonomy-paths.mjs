@@ -19,6 +19,11 @@ function splitTaxonomyPath(sourcePath) {
 	return normalizeTaxonomyPath(sourcePath).split("/");
 }
 
+export function hasApprovedTaxonomyTopicPrefix(sourcePath) {
+	const parts = splitTaxonomyPath(sourcePath);
+	return parts[0] === "docs" && APPROVED_TOPICS.has(parts[1] ?? "");
+}
+
 function assertApprovedTopic(topic, sourcePath) {
 	if (!APPROVED_TOPICS.has(topic)) {
 		throw new Error(`unsupported topic bucket: ${topic} (${sourcePath})`);

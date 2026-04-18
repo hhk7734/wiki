@@ -52,8 +52,8 @@ export function stabilizeTargets(entries) {
 	});
 }
 
-export function bootstrapRegistry() {
-	return stabilizeTargets(inventory().map((source) => classifySeed(source)));
+export function bootstrapRegistry(sources = inventory()) {
+	return stabilizeTargets(sources.map((source) => classifySeed(source)));
 }
 
 export function writeClassificationRegistry(entries = bootstrapRegistry()) {

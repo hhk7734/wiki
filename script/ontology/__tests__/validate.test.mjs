@@ -1,11 +1,12 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { dirname, join, relative } from "node:path";
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { basename, dirname, join, relative } from "node:path";
 import { validateCorpus, validateDocumentFile, validateEntries, validateFrontmatter, validateRegistryDeterminism, validateSourcePath } from "../validate.mjs";
 import { listRewriteTargets, rewriteDocLinks } from "../rewrite-links.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { migrateRegistryEntries } from "../migrate.mjs";
+import { bootstrapRegistry } from "../bootstrap-registry.mjs";
 
 test("validateSourcePath rejects editorial etc buckets", () => {
 	assert.throws(
@@ -17,6 +18,20 @@ test("validateSourcePath rejects editorial etc buckets", () => {
 test("validateSourcePath normalizes backslashes before checking editorial buckets", () => {
 	assert.throws(
 		() => validateSourcePath("docs\\lang\\go\\etc\\notes.mdx"),
+		/forbidden editorial bucket/,
+	);
+});
+
+test("validateSourcePath rejects malformed taxonomy-like paths", () => {
+	assert.throws(
+		() => validateSourcePath("docs/language/grpc//overview.mdx"),
+		/unsupported taxonomy path/,
+	);
+});
+
+test("validateSourcePath still rejects editorial buckets under approved taxonomy topics", () => {
+	assert.throws(
+		() => validateSourcePath("docs/language/etc/foo.mdx"),
 		/forbidden editorial bucket/,
 	);
 });
@@ -49,10 +64,31 @@ test("validateEntries rejects duplicate targets", () => {
 				},
 			]),
 		/duplicate target path: docs\/entity\/language\/programming-language\/go\/go.mdx/,
+		);
+});
+
+test("validateEntries does not derive target alignment from ontology for taxonomy docs", () => {
+	assert.doesNotThrow(() =>
+		validateEntries(
+			[
+				{
+					source: "docs/data/concepts/ontology.mdx",
+					target: "docs/concept/data/concept/ontology/ontology.mdx",
+					ontology: {
+						role: "concept",
+						domain: "data",
+						class: "concept",
+						instance: "ontology",
+						aspect: "overview",
+					},
+				},
+			],
+			{ validateSourcePaths: true },
+		),
 	);
 });
 
-test("validateRegistryDeterminism accepts taxonomy-path registry entries", () => {
+test("validateRegistryDeterminism requires exact targets for taxonomy-path registry entries", () => {
 	assert.doesNotThrow(() =>
 		validateRegistryDeterminism(
 			[
@@ -79,31 +115,66 @@ test("validateRegistryDeterminism accepts taxonomy-path registry entries", () =>
 					},
 				},
 			],
-			[
-				{
-					source: "docs/data/concepts/ontology.mdx",
-					target: "docs/concept/data/concept/ontology/ontology.mdx",
-					ontology: {
-						role: "concept",
-						domain: "data",
+				[
+					{
+						source: "docs/data/concepts/ontology.mdx",
+						target: "docs/data/concepts/ontology.mdx",
+						ontology: {
+							role: "concept",
+							domain: "data",
 						class: "concept",
 						instance: "ontology",
 						aspect: "overview",
 					},
 				},
-				{
-					source: "docs/language/library/grpc/overview.mdx",
-					target: "docs/entity/language/library/grpc/grpc.mdx",
-					ontology: {
-						role: "entity",
-						domain: "language",
+					{
+						source: "docs/language/library/grpc/overview.mdx",
+						target: "docs/language/library/grpc/overview.mdx",
+						ontology: {
+							role: "entity",
+							domain: "language",
 						class: "library",
 						instance: "grpc",
 						aspect: "overview",
 					},
 				},
 			],
-		),
+			),
+	);
+});
+
+test("validateRegistryDeterminism rejects taxonomy entries that keep legacy targets", () => {
+	assert.throws(
+		() =>
+			validateRegistryDeterminism(
+				[
+					{
+						source: "docs/data/concepts/ontology.mdx",
+						target: "docs/data/concepts/ontology.mdx",
+						ontology: {
+							role: "concept",
+							domain: "data",
+							class: "concept",
+							instance: "ontology",
+							aspect: "overview",
+						},
+					},
+				],
+				[
+					{
+						source: "docs/data/concepts/ontology.mdx",
+						target: "docs/concept/data/concept/ontology/ontology.mdx",
+						ontology: {
+							role: "concept",
+							domain: "data",
+							class: "concept",
+							instance: "ontology",
+							aspect: "overview",
+						},
+					},
+				],
+			),
+		/classification registry is out of date/,
 	);
 });
 
@@ -193,6 +264,170 @@ test("validateRegistryDeterminism rejects semantic differences", () => {
 	);
 });
 
+test("validateCorpus accepts maintained taxonomy docs with frontmatter-first registry entries", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-validate-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: overview
+title: "gRPC Overview"
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: overview
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		assert.doesNotThrow(() =>
+			validateCorpus({
+				entries: [
+					{
+						source,
+						target: source,
+						ontology: {
+							role: "entity",
+							domain: "language",
+							class: "library",
+							instance: "grpc",
+							aspect: "overview",
+						},
+					},
+				],
+				docs: [source],
+			}),
+		);
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+});
+
+test("validateCorpus preserves legacy ontology-path compatibility when frontmatter drifts", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "operation", "language", "library");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-legacy-"));
+	const filePath = join(tempDir, `${basename(tempDir)}.mdx`);
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		writeFileSync(
+			filePath,
+			`---
+id: ${basename(tempDir)}
+title: "Legacy Library Doc"
+ontology:
+  role: concept
+  domain: data
+  class: concept
+  instance: drifted
+  aspect: overview
+---
+content
+`,
+		);
+
+		assert.doesNotThrow(() =>
+			validateCorpus({
+				entries: [
+					{
+						source,
+						target: source,
+						ontology: {
+							role: "operation",
+							domain: "language",
+							class: "library",
+							instance: basename(tempDir),
+							aspect: "overview",
+						},
+					},
+				],
+				docs: [source],
+			}),
+		);
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+});
+
+test("bootstrapRegistry reads ontology metadata from frontmatter for maintained taxonomy docs", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-bootstrap-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: overview
+title: "gRPC Overview"
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: overview
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		assert.deepEqual(bootstrapRegistry([source]), [
+			{
+				source,
+				target: source,
+				ontology: {
+					role: "entity",
+					domain: "language",
+					class: "library",
+					instance: "grpc",
+					aspect: "overview",
+				},
+			},
+		]);
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+});
+
 test("validateDocumentFile reads and validates a real document file", () => {
 	const tempDir = mkdtempSync(join(ROOT_DIR, "docs", "__ontology-validate-"));
 	const filePath = join(tempDir, "temp-doc.mdx");
@@ -218,9 +453,9 @@ content
 				role: "concept",
 			},
 		});
-	} finally {
-		rmSync(dirname(filePath), { recursive: true, force: true });
-	}
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
 });
 
 test("rewriteDocLinks updates absolute doc links using the registry map", () => {

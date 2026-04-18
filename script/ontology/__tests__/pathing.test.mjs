@@ -1,7 +1,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { resolve } from "node:path";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
 import { buildTargetPath, classifySeed } from "../pathing.mjs";
 import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry, stabilizeTargets } from "../bootstrap-registry.mjs";
 import { ROOT_DIR } from "../constants.mjs";
@@ -54,12 +55,126 @@ test("classifySeed uses normalized ontology metadata", () => {
 	);
 });
 
+test("classifySeed reads maintained taxonomy docs from semantic frontmatter", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-pathing-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: overview
+title: "gRPC Overview"
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: overview
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		assert.deepEqual(classifySeed(source), {
+			source,
+			target: source,
+			ontology: {
+				role: "entity",
+				domain: "language",
+				class: "library",
+				instance: "grpc",
+				aspect: "overview",
+			},
+		});
+		} finally {
+			rmSync(tempDir, { recursive: true, force: true });
+		}
+	});
+
+test("classifySeed requires frontmatter for maintained taxonomy paths", () => {
+	assert.throws(
+		() => classifySeed("docs/data/concepts/__missing__.mdx"),
+		/no such file or directory|ENOENT/i,
+	);
+});
+
+test("classifySeed rejects malformed taxonomy-like paths instead of falling back", () => {
+	assert.throws(
+		() => classifySeed("docs/language/grpc//overview.mdx"),
+		/unsupported taxonomy path/i,
+	);
+});
+
+test("classifySeed rejects taxonomy docs whose id does not match the filename", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-pathing-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeFileSync(
+			filePath,
+			`---
+id: wrong-id
+title: "gRPC Overview"
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: grpc
+  aspect: overview
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		assert.throws(() => classifySeed(source), /id mismatch: wrong-id != overview/);
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
+});
+
 test("inventory excludes docs/AGENTS.md", () => {
 	assert.equal(inventory().includes("docs/AGENTS.md"), false);
 });
 
 test("bootstrap registry keeps targets unique for the current corpus", () => {
-	const entries = bootstrapRegistry();
+	const entries = bootstrapRegistry(
+		inventory().filter((source) => !source.includes("/__ontology-")),
+	);
 	const targets = entries.map((entry) => entry.target);
 
 	assert.equal(new Set(targets).size, targets.length);
@@ -77,9 +192,9 @@ test("grpc family members stay distinguishable before bootstrap disambiguation",
 
 test("workflow crd family members stay distinguishable before bootstrap disambiguation", () => {
 	const targets = [
-		"docs/mlops/workflow/argo-cd/crd.mdx",
-		"docs/mlops/workflow/argo-workflows/crd.mdx",
-		"docs/mlops/workflow/awx/crd.mdx",
+		"docs/operation/mlops/workflow-system/argo-cd/crd.mdx",
+		"docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
+		"docs/operation/mlops/workflow-system/awx/crd.mdx",
 	].map((source) => classifySeed(source).target);
 
 	assert.equal(new Set(targets).size, targets.length);
