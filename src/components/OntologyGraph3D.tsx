@@ -2,9 +2,12 @@ import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import globalData from "@generated/globalData";
 import React, { useEffect, useRef, useState } from "react";
 import type { ForceGraphMethods } from "react-force-graph-3d";
+import * as THREE from "three";
 
 import OntologyPreviewPanel from "./ontologyGraph/OntologyPreviewPanel";
 import { buildOntologyGraph } from "./ontologyGraph/buildOntologyGraph.mjs";
+import { getLinkVisuals } from "./ontologyGraph/linkStyling.mjs";
+import { getPersistentLabelConfig } from "./ontologyGraph/persistentLabelConfig.mjs";
 import styles from "./ontologyGraph/ontologyGraph.module.css";
 import type { OntologyGraphData, OntologyGraphLink, OntologyGraphNode, SelectedOntologyNode } from "./ontologyGraph/ontologyGraph.types";
 
@@ -177,12 +180,60 @@ function getNodeLabel(node: OntologyGraphNode): string {
 	return `${role}${node.label}`;
 }
 
+function createLabelSprite(node: OntologyGraphNode): THREE.Sprite {
+	const { color, fontSize, scale, yOffset } = getPersistentLabelConfig(node);
+	const canvas = document.createElement("canvas");
+	const context = canvas.getContext("2d");
+
+	if (!context) {
+		return new THREE.Sprite();
+	}
+
+	const fontFamily = "\"IBM Plex Sans\", \"Segoe UI\", sans-serif";
+	context.font = `700 ${fontSize}px ${fontFamily}`;
+	const metrics = context.measureText(node.label);
+	const width = Math.ceil(metrics.width + fontSize * 1.2);
+	const height = Math.ceil(fontSize * 2);
+
+	canvas.width = width * 2;
+	canvas.height = height * 2;
+
+	context.scale(2, 2);
+	context.font = `700 ${fontSize}px ${fontFamily}`;
+	context.textAlign = "center";
+	context.textBaseline = "middle";
+	context.lineJoin = "round";
+	context.lineWidth = Math.max(4, fontSize * 0.22);
+	context.strokeStyle = "rgba(2, 6, 23, 0.92)";
+	context.fillStyle = color;
+	context.strokeText(node.label, width / 2, height / 2);
+	context.fillText(node.label, width / 2, height / 2);
+
+	const texture = new THREE.CanvasTexture(canvas);
+	texture.needsUpdate = true;
+
+	const material = new THREE.SpriteMaterial({
+		map: texture,
+		transparent: true,
+		depthWrite: false,
+	});
+
+	const sprite = new THREE.Sprite(material);
+	sprite.scale.set(scale, scale * (height / width), 1);
+	sprite.position.set(0, yOffset, 0);
+
+	return sprite;
+}
+
 export default function OntologyGraph3D() {
 	const graphRef = useRef<ForceGraphMethods<OntologyGraphNode, OntologyGraphLink>>();
+	const labelSpriteCache = useRef<Map<string, THREE.Sprite>>(new Map());
 	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 	const [selectedNode, setSelectedNode] = useState<SelectedOntologyNode>(null);
+	const [hoveredNode, setHoveredNode] = useState<SelectedOntologyNode>(null);
 	const [graphData] = useState<OntologyGraphData>(() => getOntologyGraphData());
 	const ForceGraph3D = ExecutionEnvironment.canUseDOM ? require("react-force-graph-3d").default : null;
+	const activeNodeId = hoveredNode?.id ?? selectedNode?.id ?? null;
 
 	useEffect(() => {
 		const updateDimensions = () => {
@@ -289,29 +340,67 @@ export default function OntologyGraph3D() {
 						backgroundColor="#020617"
 						showNavInfo={false}
 						nodeLabel={getNodeLabel}
+						nodeThreeObject={(node) => {
+							const typedNode = node as OntologyGraphNode;
+							const cachedSprite = labelSpriteCache.current.get(typedNode.id);
+
+							if (cachedSprite) {
+								return cachedSprite;
+							}
+
+							const sprite = createLabelSprite(typedNode);
+							labelSpriteCache.current.set(typedNode.id, sprite);
+							return sprite;
+						}}
+						nodeThreeObjectExtend
 						nodeColor={(node) => getNodeColor(node as OntologyGraphNode, selectedNode)}
 						nodeVal={(node) => getNodeValue(node as OntologyGraphNode)}
 						linkColor={(link) => {
-							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
-							return roleColors[target?.role ?? ""] ?? "#334155";
+							return getLinkVisuals({
+								link,
+								activeNodeId,
+								roleColors,
+							}).color;
 						}}
-						linkOpacity={0.18}
+						linkOpacity={(link) =>
+							getLinkVisuals({
+								link,
+								activeNodeId,
+								roleColors,
+							}).opacity
+						}
 						linkWidth={(link) => {
-							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
-							return target?.type === "doc" ? 0.35 : 0.9;
+							return getLinkVisuals({
+								link,
+								activeNodeId,
+								roleColors,
+							}).width;
 						}}
 						linkDirectionalParticles={(link) => {
-							const target = typeof link.target === "object" ? (link.target as OntologyGraphNode) : null;
-							return target?.type === "doc" ? 1 : 0;
+							return getLinkVisuals({
+								link,
+								activeNodeId,
+								roleColors,
+							}).particles;
 						}}
-						linkDirectionalParticleSpeed={0.004}
+						linkDirectionalParticleSpeed={(link) =>
+							getLinkVisuals({
+								link,
+								activeNodeId,
+								roleColors,
+							}).particleSpeed
+						}
 						enableNodeDrag={false}
 						enableNavigationControls
 						showPointerCursor={(item) => Boolean(item)}
+						onNodeHover={(node) => {
+							setHoveredNode((node as OntologyGraphNode | null) ?? null);
+						}}
 						onNodeClick={(node) => {
 							setSelectedNode(node as OntologyGraphNode);
 						}}
 						onBackgroundClick={() => {
+							setHoveredNode(null);
 							setSelectedNode(null);
 							graphRef.current?.cameraPosition({ x: 0, y: 0, z: 620 }, { x: 0, y: 0, z: 0 }, 900);
 						}}
