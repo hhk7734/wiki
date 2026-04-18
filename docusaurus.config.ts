@@ -114,6 +114,36 @@ const config: Config = {
 			},
 			items: [
 				{
+					label: "Entrypoints",
+					position: "left",
+					items: [
+						{
+							label: "Entity",
+							to: "/docs/entity",
+						},
+						{
+							label: "Operation",
+							to: "/docs/operation",
+						},
+						{
+							label: "Concept",
+							to: "/docs/concept",
+						},
+						{
+							label: "Comparison",
+							to: "/docs/comparison",
+						},
+						{
+							label: "Specification",
+							to: "/docs/specification",
+						},
+						{
+							label: "Troubleshooting",
+							to: "/docs/troubleshooting",
+						},
+					],
+				},
+				{
 					"aria-label": "LinkedIn",
 					href: "https://www.linkedin.com/in/hyeonki-hong/",
 					position: "right",
