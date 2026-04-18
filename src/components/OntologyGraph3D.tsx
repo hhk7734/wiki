@@ -1,6 +1,7 @@
+import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import globalData from "@generated/globalData";
 import React, { useEffect, useRef, useState } from "react";
-import ForceGraph3D, { type ForceGraphMethods } from "react-force-graph-3d";
+import type { ForceGraphMethods } from "react-force-graph-3d";
 
 import OntologyPreviewPanel from "./ontologyGraph/OntologyPreviewPanel";
 import { buildOntologyGraph } from "./ontologyGraph/buildOntologyGraph.mjs";
@@ -181,6 +182,7 @@ export default function OntologyGraph3D() {
 	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 	const [selectedNode, setSelectedNode] = useState<SelectedOntologyNode>(null);
 	const [graphData] = useState<OntologyGraphData>(() => getOntologyGraphData());
+	const ForceGraph3D = ExecutionEnvironment.canUseDOM ? require("react-force-graph-3d").default : null;
 
 	useEffect(() => {
 		const updateDimensions = () => {
@@ -264,6 +266,10 @@ export default function OntologyGraph3D() {
 				</div>
 			</div>
 		);
+	}
+
+	if (!ForceGraph3D) {
+		return null;
 	}
 
 	return (
