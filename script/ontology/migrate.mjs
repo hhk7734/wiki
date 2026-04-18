@@ -4,6 +4,7 @@ import { fileURLToPath } from "node:url";
 import { ROOT_DIR } from "./constants.mjs";
 import { parseFrontmatter, replaceFrontmatter } from "./frontmatter.mjs";
 import { normalizeOntologyBlock } from "./ontology-frontmatter.mjs";
+import { buildDocLinkMap, rewriteDocLinks } from "./rewrite-links.mjs";
 import { loadRegistry, validateEntries } from "./validate.mjs";
 
 function toOntologyParts(ontology) {
@@ -16,7 +17,7 @@ function toOntologyParts(ontology) {
 	};
 }
 
-function rewriteMigratedFrontmatter(content, entry) {
+function rewriteMigratedFrontmatter(content, entry, linkMap) {
 	const frontmatter = {
 		...parseFrontmatter(content),
 	};
@@ -26,7 +27,7 @@ function rewriteMigratedFrontmatter(content, entry) {
 	frontmatter.id = filename;
 	frontmatter.ontology = normalized.ontology;
 
-	return replaceFrontmatter(content, frontmatter);
+	return rewriteDocLinks(replaceFrontmatter(content, frontmatter), linkMap);
 }
 
 function pruneEmptyDirectories(startDir) {
@@ -67,6 +68,7 @@ export function migrateRegistryEntries(entries = loadRegistry(), { dryRun = fals
 		allowEditorialBuckets: true,
 	});
 	assertSourceDocumentsExist(entries);
+	const linkMap = buildDocLinkMap(entries);
 
 	for (const entry of entries) {
 		console.log(`${entry.source} -> ${entry.target}`);
@@ -81,7 +83,7 @@ export function migrateRegistryEntries(entries = loadRegistry(), { dryRun = fals
 		const targetPath = resolve(ROOT_DIR, entry.target);
 
 		const content = readFileSync(sourcePath, "utf8");
-		const nextContent = rewriteMigratedFrontmatter(content, entry);
+		const nextContent = rewriteMigratedFrontmatter(content, entry, linkMap);
 
 		mkdirSync(dirname(targetPath), { recursive: true });
 		writeFileSync(targetPath, nextContent);

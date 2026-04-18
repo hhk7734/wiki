@@ -2,10 +2,10 @@
 
 ## Scope
 
-- `docs/` is an ontology-first documentation tree.
+- `docs/` is a taxonomy-first documentation tree.
 - Agent-only instructions live in this file and should not be published as site docs.
-- The goal of the `docs/` tree is deterministic categorization, not human-first navigation.
-- Treat the ontology filesystem and aligned frontmatter as the canonical semantic source for the wiki.
+- The filesystem path is the canonical navigation path for humans.
+- Frontmatter provides semantic metadata for ontology, graph extraction, and agent use.
 
 ## Ontology System
 
@@ -38,35 +38,44 @@ Core relations:
 
 ## Canonical Path Model
 
-Use the ontology path model below as the source of truth:
+Use the taxonomy path model below as the source of truth:
 
 ```text
-docs/<role>/<domain>/<class>/<instance>/<aspect>.mdx
+docs/<topic>/<subject>/<page>.mdx
+docs/<topic>/<subject>/<facet>/<page>.mdx
+docs/<topic>/concepts/<concept>.mdx
+docs/<topic>/comparisons/<name>.mdx
+docs/<topic>/reference/<name>.mdx
 ```
 
 Path semantics:
 
-- `role`: what kind of knowledge the page contains
-- `domain`: broad ontology area
-- `class`: formal ontology class
-- `instance`: concrete subject identifier
-- `aspect`: one page facet
+- `topic`: broad navigation bucket
+- `subject`: human-facing subject anchor
+- `facet`: optional subtopic or slice within a subject
+- `page`: the document filename and canonical route leaf
 
 Examples:
 
 ```text
-docs/entity/language/programming-language/go/go.mdx
-docs/entity/platform/cluster-addon/node-feature-discovery/node-feature-discovery.mdx
-docs/operation/hardware/mcu-family/avr/i2c.mdx
-docs/specification/protocol/application-protocol/http/cors.mdx
-docs/concept/language/concept/goroutine/goroutine.mdx
+docs/data/concepts/ontology.mdx
+docs/data/concepts/taxonomy.mdx
+docs/language/grpc/overview.mdx
+docs/language/grpc/go/client.mdx
+docs/data/comparisons/type.mdx
 ```
 
-Note: this repository uses `id == filename`, so canonical subject pages do not use repeated `overview.mdx` filenames even when the ontology `aspect` is conceptually `overview`.
+Ontology metadata in frontmatter still carries the semantic contract:
+
+- `role`
+- `domain`
+- `class`
+- `instance`
+- `aspect`
 
 Operational constraints:
 
-- canonical docs should already live under `docs/<role>/<domain>/<class>/<instance>/<aspect>.mdx`
+- canonical docs should already live under a taxonomy path, not under ontology-shaped folders
 - avoid hidden intermediate buckets once content is migrated into the canonical tree
 - do not create directories whose names end with `.mdx`
 - do not rely on `source-path` fallback classification for maintained docs
@@ -248,7 +257,7 @@ Repository-specific corrections:
 - Use English for prose in `docs/**/*.mdx`.
 - Use English for code blocks, commands, and configuration snippets.
 - Keep `id` equal to the filename without the extension.
-- Keep the `ontology` frontmatter block aligned with the filesystem path.
+- Keep the `ontology` frontmatter block aligned with the document's intended primary subject, even when the path is taxonomy-first.
 - Prefer `/docs/...` links for cross-doc references.
 - Keep reference blocks, Mermaid diagrams, tabs, and other Docusaurus features consistent with the repository conventions in the root `AGENTS.md`.
 
@@ -293,7 +302,7 @@ Rules:
 
 - the filesystem path is the primary structural signal
 - frontmatter provides explicit semantic metadata not safely encoded by the path alone
-- if path and frontmatter disagree, frontmatter is wrong
+- if path and frontmatter disagree about the intended primary subject, fix the document rather than relying on fallback inference
 
 Validation expectations:
 
@@ -318,20 +327,20 @@ Operational workflow after doc additions or moves:
 3. run `npm run ontology:validate`
 4. run `npm run build`
 
-The ontology system is designed to behave like a deterministic ontology compiler over the docs tree:
+The ontology system is designed to behave like a deterministic taxonomy-plus-semantics compiler over the docs tree:
 
-1. classify every MDX file into `role`, `domain`, `class`, `instance`, `aspect`
-2. derive the canonical target path
-3. use the path as the primary structural encoding
-4. use metadata for extra semantic relations
+1. validate every MDX file against an approved taxonomy path pattern
+2. read `role`, `domain`, `class`, `instance`, and `aspect` from frontmatter
+3. use the path as the primary structural encoding for navigation and routing
+4. use metadata for semantic identity and extra relations
 
 ## Graph Integration
 
 This ontology design is intentionally compatible with `graphify`.
 
-`graphify` is a good fit as a graph extraction, query, and exploration layer because the ontology-first paths and explicit frontmatter provide strong identity and relationship signals.
+`graphify` is a good fit as a graph extraction, query, and exploration layer because taxonomy paths and explicit frontmatter provide strong navigation and relationship signals.
 
-Do not treat `graphify` as the ontology engine itself. It is not a formal ontology reasoner or an RDF/OWL/SPARQL system. The canonical ontology source remains the filesystem plus aligned frontmatter.
+Do not treat `graphify` as the ontology engine itself. It is not a formal ontology reasoner or an RDF/OWL/SPARQL system. The canonical source remains taxonomy paths plus semantic frontmatter.
 
 ## Agent Notes
 
