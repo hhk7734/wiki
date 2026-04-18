@@ -1,0 +1,142 @@
+.panel {
+	position: absolute;
+	top: 1.5rem;
+	right: 1.5rem;
+	z-index: 10;
+	width: min(24rem, calc(100vw - 3rem));
+	padding: 1.25rem;
+	border: 1px solid rgba(148, 163, 184, 0.22);
+	border-radius: 1.25rem;
+	background:
+		linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(2, 6, 23, 0.96)),
+		rgba(2, 6, 23, 0.96);
+	box-shadow:
+		0 24px 80px rgba(2, 6, 23, 0.45),
+		inset 0 1px 0 rgba(255, 255, 255, 0.05);
+	backdrop-filter: blur(18px);
+	color: #e2e8f0;
+}
+
+.header {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	margin-bottom: 0.875rem;
+}
+
+.eyebrow {
+	display: inline-block;
+	margin-bottom: 0.5rem;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	color: #7dd3fc;
+}
+
+.title {
+	margin: 0;
+	font-size: 1.5rem;
+	line-height: 1.05;
+	color: #f8fafc;
+}
+
+.closeButton {
+	border: 0;
+	border-radius: 999px;
+	background: rgba(148, 163, 184, 0.16);
+	color: #e2e8f0;
+	cursor: pointer;
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1;
+	padding: 0.55rem 0.8rem;
+}
+
+.closeButton:hover {
+	background: rgba(148, 163, 184, 0.26);
+}
+
+.description {
+	margin: 0 0 1rem;
+	color: #cbd5e1;
+	line-height: 1.55;
+}
+
+.metaList {
+	display: grid;
+	gap: 0.75rem;
+	margin: 0 0 1.25rem;
+}
+
+.metaRow {
+	display: grid;
+	grid-template-columns: 5rem 1fr;
+	gap: 0.75rem;
+	align-items: start;
+}
+
+.metaLabel {
+	font-size: 0.8rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: #94a3b8;
+}
+
+.metaValue {
+	margin: 0;
+	word-break: break-word;
+	color: #f8fafc;
+}
+
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.actionLink {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.8rem 1rem;
+	border-radius: 999px;
+	background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+	color: #ecfeff;
+	font-weight: 700;
+	text-decoration: none;
+}
+
+.actionLink:hover {
+	color: #f8fafc;
+	text-decoration: none;
+	filter: brightness(1.05);
+}
+
+.hint {
+	margin: 0;
+	font-size: 0.92rem;
+	color: #94a3b8;
+}
+
+@media screen and (max-width: 996px) {
+	.panel {
+		top: auto;
+		right: 0.75rem;
+		bottom: 0.75rem;
+		left: 0.75rem;
+		width: auto;
+		border-radius: 1.4rem;
+	}
+
+	.title {
+		font-size: 1.3rem;
+	}
+
+	.metaRow {
+		grid-template-columns: 1fr;
+		gap: 0.3rem;
+	}
+}
