@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:probot",
+  "title": "Probot",
+  "snippet": "Probot is a JavaScript framework-style library for building GitHub Apps and automation bots.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "probot"
+  },
+  "url": "/docs/entity/language/library/probot",
+  "node_url": "/api/wiki/nodes/subject:language:library:probot.json",
+  "document_refs": [
+    "doc:docs/entity/language/library/probot/probot.mdx",
+    "doc:docs/operation/language/library/probot/github-probot.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/entity/language/library/probot/probot.mdx",
+      "title": "Probot",
+      "url": "/docs/entity/language/library/probot",
+      "snippet": "Probot is a JavaScript framework-style library for building GitHub Apps and automation bots.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "probot",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/operation/language/library/probot/github-probot.mdx",
+      "title": "GitHub Probot",
+      "url": "/docs/operation/language/library/probot/github-probot",
+      "snippet": "## Probot\n\n- https://github.com/hhk7734/hhk7734-bot\n\n### Auth\n\nbot 권한을 가지고 쓰기 명령을 실행하려면\n\n- APP_ID\n- PRIVATE…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "probot",
+        "aspect": "github-probot"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/probot/probot.mdx:about_subject:subject:language:library:probot",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/probot/probot.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/operation/language/library/probot/github-probot.mdx:about_subject:subject:language:library:probot",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/operation/language/library/probot/github-probot.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

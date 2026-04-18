@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:cpp-eigen",
-  "title": "Eigen Basics",
-  "snippet": "## Create Project\n\nDownload: https://eigen.tuxfamily.org\n\n``shell\nexample\n├── CMakeLists.txt\n├── eigen-3.3.9\n│ ├── bench\n│…",
+  "title": "Eigen",
+  "snippet": "Eigen is a library subject in the CPP language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "cpp-eigen"
   },
-  "url": "/docs/operation/language/library/cpp-eigen/eigen-basics",
+  "url": "/docs/entity/language/library/cpp-eigen",
   "node_url": "/api/wiki/nodes/subject:language:library:cpp-eigen.json",
   "document_refs": [
+    "doc:docs/entity/language/library/cpp-eigen/cpp-eigen.mdx",
     "doc:docs/operation/language/library/cpp-eigen/eigen-basics.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/cpp-eigen/cpp-eigen.mdx",
+      "title": "Eigen",
+      "url": "/docs/entity/language/library/cpp-eigen",
+      "snippet": "Eigen is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "cpp-eigen",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/cpp-eigen/eigen-basics.mdx",
       "title": "Eigen Basics",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/cpp-eigen/cpp-eigen.mdx:about_subject:subject:language:library:cpp-eigen",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/cpp-eigen/cpp-eigen.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/cpp-eigen/eigen-basics.mdx:about_subject:subject:language:library:cpp-eigen",
       "predicate": "about_subject",

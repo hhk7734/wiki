@@ -1,20 +1,34 @@
 {
   "type": "subject",
   "id": "subject:language:library:python-sqlalchemy",
-  "title": "Atlas와 SQLAlchemy 연동하기",
-  "snippet": "## 스키마 마이그레이션 파일 생성\n\n- Automatic migration planning for SQLAlchemy\n\n``shell\npython3 -m pip install atlas-provider-sqlalchemy\n`\n\n`hcl\ndata \"externa…",
+  "title": "SQLAlchemy for Python",
+  "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "python-sqlalchemy"
   },
-  "url": "/docs/operation/language/library/python-sqlalchemy/atlas",
+  "url": "/docs/entity/language/library/python-sqlalchemy",
   "node_url": "/api/wiki/nodes/subject:language:library:python-sqlalchemy.json",
   "document_refs": [
+    "doc:docs/entity/language/library/python-sqlalchemy/python-sqlalchemy.mdx",
     "doc:docs/operation/language/library/python-sqlalchemy/atlas.mdx",
     "doc:docs/operation/language/library/python-sqlalchemy/sqlalchemy.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/python-sqlalchemy/python-sqlalchemy.mdx",
+      "title": "SQLAlchemy for Python",
+      "url": "/docs/entity/language/library/python-sqlalchemy",
+      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-sqlalchemy",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/python-sqlalchemy/atlas.mdx",
       "title": "Atlas와 SQLAlchemy 연동하기",
@@ -43,6 +57,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/python-sqlalchemy/python-sqlalchemy.mdx:about_subject:subject:language:library:python-sqlalchemy",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/python-sqlalchemy/python-sqlalchemy.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/python-sqlalchemy/atlas.mdx:about_subject:subject:language:library:python-sqlalchemy",
       "predicate": "about_subject",

@@ -1,20 +1,34 @@
 {
   "type": "subject",
   "id": "subject:language:library:javascript-firebase",
-  "title": "Firebase Authentication",
-  "snippet": "….google.com/docs/reference/js/auth.md#initializeauth\n\n아래 코드는 Next.js에서 Firebase Authentication을 사용하기 위한 초기화 코드입니다.\n\n``ts\n\n browserLocalPersistence,\n browserPopupRedirectResol…",
+  "title": "Firebase for JavaScript",
+  "snippet": "Firebase for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "javascript-firebase"
   },
-  "url": "/docs/operation/language/library/javascript-firebase/authentication",
+  "url": "/docs/entity/language/library/javascript-firebase",
   "node_url": "/api/wiki/nodes/subject:language:library:javascript-firebase.json",
   "document_refs": [
+    "doc:docs/entity/language/library/javascript-firebase/javascript-firebase.mdx",
     "doc:docs/operation/language/library/javascript-firebase/authentication.mdx",
     "doc:docs/operation/language/library/javascript-firebase/custom-email-handler.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/javascript-firebase/javascript-firebase.mdx",
+      "title": "Firebase for JavaScript",
+      "url": "/docs/entity/language/library/javascript-firebase",
+      "snippet": "Firebase for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "javascript-firebase",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/javascript-firebase/authentication.mdx",
       "title": "Firebase Authentication",
@@ -43,6 +57,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/javascript-firebase/javascript-firebase.mdx:about_subject:subject:language:library:javascript-firebase",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/javascript-firebase/javascript-firebase.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/javascript-firebase/authentication.mdx:about_subject:subject:language:library:javascript-firebase",
       "predicate": "about_subject",

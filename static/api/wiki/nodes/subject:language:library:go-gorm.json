@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-gorm",
-  "title": "gorm",
-  "snippet": "## 설치\n\n- https://github.com/go-gorm\n\n``shell\ngo get -u gorm.io/gorm\n`\n\n`shell\ngo get -u gorm.io/driver/mysql\n`\n\n`sh…",
+  "title": "GORM",
+  "snippet": "GORM is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-gorm"
   },
-  "url": "/docs/operation/language/library/go-gorm/gorm",
+  "url": "/docs/entity/language/library/go-gorm",
   "node_url": "/api/wiki/nodes/subject:language:library:go-gorm.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-gorm/go-gorm.mdx",
     "doc:docs/operation/language/library/go-gorm/gorm.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-gorm/go-gorm.mdx",
+      "title": "GORM",
+      "url": "/docs/entity/language/library/go-gorm",
+      "snippet": "GORM is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-gorm",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-gorm/gorm.mdx",
       "title": "gorm",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-gorm/go-gorm.mdx:about_subject:subject:language:library:go-gorm",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-gorm/go-gorm.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-gorm/gorm.mdx:about_subject:subject:language:library:go-gorm",
       "predicate": "about_subject",

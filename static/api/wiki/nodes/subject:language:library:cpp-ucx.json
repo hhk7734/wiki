@@ -2,18 +2,32 @@
   "type": "subject",
   "id": "subject:language:library:cpp-ucx",
   "title": "UCX",
-  "snippet": "## Architecture\n\n UCX Architecture\n\n## 설치\n\n- OpenUCX / Running\n- UCX GitHub / Releases\n\n``shell\nwget …",
+  "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "cpp-ucx"
   },
-  "url": "/docs/operation/language/library/cpp-ucx/ucx",
+  "url": "/docs/entity/language/library/cpp-ucx",
   "node_url": "/api/wiki/nodes/subject:language:library:cpp-ucx.json",
   "document_refs": [
+    "doc:docs/entity/language/library/cpp-ucx/cpp-ucx.mdx",
     "doc:docs/operation/language/library/cpp-ucx/ucx.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/cpp-ucx/cpp-ucx.mdx",
+      "title": "UCX",
+      "url": "/docs/entity/language/library/cpp-ucx",
+      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "cpp-ucx",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/cpp-ucx/ucx.mdx",
       "title": "UCX",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/cpp-ucx/cpp-ucx.mdx:about_subject:subject:language:library:cpp-ucx",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/cpp-ucx/cpp-ucx.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/cpp-ucx/ucx.mdx:about_subject:subject:language:library:cpp-ucx",
       "predicate": "about_subject",

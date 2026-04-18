@@ -1,16 +1,17 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-kubebuilder",
-  "title": "Kubebuilder controller-gen CLI",
-  "snippet": "## controller-gen\n\n- controller-gen\n\n``shell\ncontroller-gen []\n`\n\n-\n - [:[,]]\n - webhook\n - schem…",
+  "title": "Kubebuilder",
+  "snippet": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-kubebuilder"
   },
-  "url": "/docs/operation/language/library/go-kubebuilder/controller-gen",
+  "url": "/docs/entity/language/library/go-kubebuilder",
   "node_url": "/api/wiki/nodes/subject:language:library:go-kubebuilder.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
     "doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx",
     "doc:docs/operation/language/library/go-kubebuilder/kubebuilder.mdx",
     "doc:docs/operation/language/library/go-kubebuilder/namespace.mdx",
@@ -18,6 +19,19 @@
     "doc:docs/operation/language/library/go-kubebuilder/trigger.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
+      "title": "Kubebuilder",
+      "url": "/docs/entity/language/library/go-kubebuilder",
+      "snippet": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-kubebuilder",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx",
       "title": "Kubebuilder controller-gen CLI",
@@ -85,6 +99,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",

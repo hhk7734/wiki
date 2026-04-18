@@ -1,0 +1,122 @@
+---
+id: github-probot
+title: "GitHub Probot"
+sidebar_label: "GitHub Probot"
+description: "GitHub Probot"
+keywords:
+  - github
+  - probot
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: probot
+  aspect: github-probot
+
+subject:
+  canonical_name: Probot
+  aliases: []
+
+relations:
+  related_to: []
+  depends_on:
+    - javascript
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Probot
+
+- https://github.com/hhk7734/hhk7734-bot
+
+### Auth
+
+bot 권한을 가지고 쓰기 명령을 실행하려면
+
+- `APP_ID`
+- `PRIVATE_KEY` or `PRIVATE_KEY_PATH`
+
+가 있으면 됩니다.
+
+GitHub 일부 기능은 bot이 수행할 수 없는 작업이 있습니다. 이런 경우에는 GITHUB Personal Access Token을 사용해야 합니다. `src/main.ts`는
+
+- `GITHUB_TOKEN`
+
+환경 변수를 읽을 수 있도록 수정된 코드입니다.
+
+:::warning
+https://github.com/probot/probot/blob/7b09369f4b417f9fc60ca0bcea5678b5169a3421/src/octokit/get-probot-octokit-with-defaults.ts#L31-L40 코드를 보면 `GITHUB_TOKEN`을 설정한 경우 `APP_ID`를 무시하도록 되어 있기 때문에 주의해야합니다.
+:::
+
+### Event
+
+- https://docs.github.com/en/rest?apiVersion=2022-11-28
+
+<br />
+
+- Pull Request
+  - Open: `pull_request.opened`
+  - Draft -> Ready for review: `pull_request.ready_for_review`
+
+## GitHub App
+
+Settings -> Developer settings -> GitHub Apps -> New GitHub App
+
+- `GitHub App name`
+- `Homepage URL`
+- `Webhook URL`: Probot이 실행 되는 서버의 URL
+- `Webhook secret`: GitHub에서 Probot으로 웹훅을 보낼 때 생성되는 해시 서명을 위한 시크릿으로 아무 값이나 입력하면 됩니다.
+  - `X-Hub-Signature-256`: 해시 서명 헤더 (`sha256=<hexdigest>`)
+- `Permissions`: 접근 권한을 선택하면 해당하는 이벤트 목록이 `Subscribe to events`에 추가됩니다.
+- `Subscribe to events`
+
+:::info
+아래 명령어를 통해 `<hexdigest>`를 구해볼 수 있습니다.
+
+```shell
+openssl dgst -sha256 -hmac <secret> -hex <body file>
+```
+
+:::
+
+:::warning
+App을 생성하고 등록한 후 권한을 변경하면 등록한 곳에서 권한 변경에 대한 승인을 해야 적용됩니다.
+:::
+
+## 등록
+
+`https://github.com/apps/<appName>` -> Install
+
+등록 후에는
+
+- 개인: Settings -> Applications -> Installed GitHub Apps
+- Organization: Settings -> GitHub Apps -> Installed GitHub Apps
+
+에서 확인 가능합니다.
+
+## Test
+
+### smee.io
+
+- https://smee.io/
+  - strat a new channel
+
+<br />
+
+- GitHub
+  - Settings -> Developer settings -> GitHub Apps -> `<bot>` -> Edit -> General
+    - `Webhook URL`: `https://smee.io/<channel>`
+- Probot
+  `WEBHOOK_PROXY_URL=https://smee.io/<channel>` 환경 변수를 설정
+
+### Simulation
+
+- https://probot.github.io/docs/simulating-webhooks/
+
+Settings -> Developer settings -> GitHub Apps -> `<bot>` -> Edit -> Advanced

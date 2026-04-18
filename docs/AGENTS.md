@@ -111,6 +111,9 @@ Naming rules:
 - use kebab-case everywhere
 - `class` names must be formal, stable, and singular
 - `instance` names should be practical canonical names such as `go`, `postgresql`, `fastapi`, `istio`, `node-feature-discovery`
+- `instance` must name the real primary subject, not a placeholder bucket such as `package`, `engine`, `command`, or another editorial grouping
+- avoid duplicated namespace prefixes in `instance` names such as `python-python-*` or `cpp-cpp-*`
+- encode host-language or ecosystem relationships in metadata and relations unless the qualifier is required to distinguish a genuinely different subject
 - `aspect` should capture one facet only, such as `overview`, `install`, `config`, `authentication`, `middleware`
 - avoid editorial buckets such as `etc`, `misc`, `advanced`, `libraries`, `workflow` unless they are true ontology classes
 - prefer an already-established class name over near-synonyms such as `workflow-engine` vs `workflow-system`
@@ -168,6 +171,42 @@ General rules:
 - vendor products and deployable systems such as `kubeflow`, `istio`, `argo-workflows`, and `karpenter` are usually entity pages
 - hardware families and boards are `entity/hardware/...`
 - troubleshooting material should use `role=troubleshooting` rather than being hidden under operations
+
+Language-domain rules:
+
+- `programming-language` means the language itself, not one of its standard-library modules, language features, or ecosystem bindings
+- `framework` means a subject that imposes application structure, lifecycle, routing, rendering flow, plugin flow, or other major architectural conventions
+- `library` means a reusable package, module, SDK, binding, toolkit, or standard-library component consumed from user code
+- do not promote a library to `framework` just because it is commonly used with a framework
+- if the subject is the framework itself, create or maintain a canonical entity page for that framework
+- if operation or concept pages exist for a language/framework/library subject, anchor them to the same canonical `instance` as the entity page whenever practical
+- if the page title naturally reads as `<product> <facet>`, the `instance` should almost always be `<product>` and the `aspect` should be `<facet>`
+- if the current path encodes a category bucket but the page is actually about a named product, move the page so `instance` names that product
+
+Language-domain class guidance:
+
+- `JavaScript`, `Go`, `Rust`, `Dart` -> `programming-language`
+- `React`, `Next.js`, `Flutter`, `SvelteKit` -> `framework`
+- `Jotai`, `TanStack Query`, `Redux Toolkit`, `flutter_bloc`, `Prisma`, `FastAPI`, `Three.js` -> usually `library` unless the page is truly about a framework-level subject
+
+Framework-versus-library test:
+
+- if the subject primarily provides APIs you import and call, it is usually a `library`
+- if the subject primarily dictates how the application is structured or executed, it is usually a `framework`
+
+Qualified-instance rules for the language domain:
+
+- keep a language-qualified `instance` only when it distinguishes genuinely different bindings or SDKs such as `go-grpc` vs `python-grpc`
+- prefer a single prefix at most; collapse repeated forms such as `python-python-tkinter` to one canonical subject name
+- if the subject already has a stable public product name such as `jotai`, `nextjs`, or `sveltekit`, prefer the short canonical name over a synthetic language prefix
+
+Relation guidance for the language domain:
+
+- use `depends_on` for primary host-language, host-framework, or required-runtime relationships such as `nextjs -> react`, `react -> javascript`, or `flutter-bloc -> flutter`
+- use `uses` for meaningful but non-defining runtime or integration dependencies
+- use `part_of` only when the subject is a real subsystem of a larger named subject, not merely in the same ecosystem
+- use `related_to` only when a strong relationship exists but a directional dependency would be misleading
+- do not rely on `title`, `description`, `keywords`, or code snippets alone to express host-language or framework relationships; add explicit `subject` and `relations` metadata
 
 Role guidance for tool-specific pages:
 

@@ -1,21 +1,35 @@
 {
   "type": "subject",
   "id": "subject:language:library:cpp-opencl",
-  "title": "OpenCL Basics",
-  "snippet": "…elopers/reference-cards/\n- http://developer.amd.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide2.pdf\n\n## Platform model\n\n## Execution model\n\n- kernel: A…",
+  "title": "OpenCL for C++",
+  "snippet": "OpenCL for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "cpp-opencl"
   },
-  "url": "/docs/operation/language/library/cpp-opencl/opencl-basics",
+  "url": "/docs/entity/language/library/cpp-opencl",
   "node_url": "/api/wiki/nodes/subject:language:library:cpp-opencl.json",
   "document_refs": [
+    "doc:docs/entity/language/library/cpp-opencl/cpp-opencl.mdx",
     "doc:docs/operation/language/library/cpp-opencl/opencl-basics.mdx",
     "doc:docs/operation/language/library/cpp-opencl/opencl-example.mdx",
     "doc:docs/operation/language/library/cpp-opencl/opencl-with-mali-gpu.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/cpp-opencl/cpp-opencl.mdx",
+      "title": "OpenCL for C++",
+      "url": "/docs/entity/language/library/cpp-opencl",
+      "snippet": "OpenCL for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "cpp-opencl",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/cpp-opencl/opencl-basics.mdx",
       "title": "OpenCL Basics",
@@ -57,6 +71,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/cpp-opencl/cpp-opencl.mdx:about_subject:subject:language:library:cpp-opencl",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/cpp-opencl/cpp-opencl.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/cpp-opencl/opencl-basics.mdx:about_subject:subject:language:library:cpp-opencl",
       "predicate": "about_subject",

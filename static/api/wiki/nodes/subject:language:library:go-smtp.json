@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-smtp",
-  "title": "SMTP",
-  "snippet": "## SMTP\n\n### HTML\n\n``html\n\n Title\n\n {{.Something}}\n\n {{.Something}}\n\n {{.Something}}\n\n`…",
+  "title": "Go SMTP",
+  "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-smtp"
   },
-  "url": "/docs/operation/language/library/go-smtp/smtp",
+  "url": "/docs/entity/language/library/go-smtp",
   "node_url": "/api/wiki/nodes/subject:language:library:go-smtp.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-smtp/go-smtp.mdx",
     "doc:docs/operation/language/library/go-smtp/smtp.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-smtp/go-smtp.mdx",
+      "title": "Go SMTP",
+      "url": "/docs/entity/language/library/go-smtp",
+      "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-smtp",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-smtp/smtp.mdx",
       "title": "SMTP",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-smtp/go-smtp.mdx:about_subject:subject:language:library:go-smtp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-smtp/go-smtp.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-smtp/smtp.mdx:about_subject:subject:language:library:go-smtp",
       "predicate": "about_subject",

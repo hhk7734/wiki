@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:framework:sveltekit",
-  "title": "SvelteKit Routing",
-  "snippet": "## Routing\n\n- https://kit.svelte.dev/docs/routing\n\nSvelteKit은 디렉토리 구조를 기반으로 라우팅 합니다.\n\n``shell\nsrc/routes/\n├── +layout.ts # or +layout.server…",
+  "title": "SvelteKit",
+  "snippet": "SvelteKit is a full-stack application framework in the Svelte ecosystem.\n\nIt provides rou…",
   "ontology": {
     "domain": "language",
     "class": "framework",
     "instance": "sveltekit"
   },
-  "url": "/docs/operation/language/framework/sveltekit/routing",
+  "url": "/docs/entity/language/framework/sveltekit",
   "node_url": "/api/wiki/nodes/subject:language:framework:sveltekit.json",
   "document_refs": [
+    "doc:docs/entity/language/framework/sveltekit/sveltekit.mdx",
     "doc:docs/operation/language/framework/sveltekit/routing.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/framework/sveltekit/sveltekit.mdx",
+      "title": "SvelteKit",
+      "url": "/docs/entity/language/framework/sveltekit",
+      "snippet": "SvelteKit is a full-stack application framework in the Svelte ecosystem.\n\nIt provides rou…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "sveltekit",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/framework/sveltekit/routing.mdx",
       "title": "SvelteKit Routing",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/framework/sveltekit/sveltekit.mdx:about_subject:subject:language:framework:sveltekit",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/framework/sveltekit/sveltekit.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/framework/sveltekit/routing.mdx:about_subject:subject:language:framework:sveltekit",
       "predicate": "about_subject",

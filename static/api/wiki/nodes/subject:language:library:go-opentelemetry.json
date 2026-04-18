@@ -1,20 +1,34 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-opentelemetry",
-  "title": "Go OpenTelemetry Propagation 설정 가이드",
-  "snippet": "…CompositeTextMapPropagator\n\n여러 propagator를 조합하여 사용하는 propagator입니다.\n\n``go\n\n \"go.opentelemetry.io/otel\"\n \"go.opentelemetry.io/otel/propagation\"\n)\n\notel.SetTextMapPropagator(p…",
+  "title": "OpenTelemetry for Go",
+  "snippet": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-opentelemetry"
   },
-  "url": "/docs/operation/language/library/go-opentelemetry/propagation",
+  "url": "/docs/entity/language/library/go-opentelemetry",
   "node_url": "/api/wiki/nodes/subject:language:library:go-opentelemetry.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-opentelemetry/go-opentelemetry.mdx",
     "doc:docs/operation/language/library/go-opentelemetry/propagation.mdx",
     "doc:docs/operation/language/library/go-opentelemetry/trace.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-opentelemetry/go-opentelemetry.mdx",
+      "title": "OpenTelemetry for Go",
+      "url": "/docs/entity/language/library/go-opentelemetry",
+      "snippet": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-opentelemetry",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-opentelemetry/propagation.mdx",
       "title": "Go OpenTelemetry Propagation 설정 가이드",
@@ -43,6 +57,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-opentelemetry/go-opentelemetry.mdx:about_subject:subject:language:library:go-opentelemetry",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-opentelemetry/go-opentelemetry.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-opentelemetry/propagation.mdx:about_subject:subject:language:library:go-opentelemetry",
       "predicate": "about_subject",

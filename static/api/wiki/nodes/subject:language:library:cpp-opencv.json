@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:cpp-opencv",
-  "title": "OpenCV installation",
-  "snippet": "Ref: https://docs.opencv.org/master/\n\nLicense: 3-clause BSD License\n\n## Dependencies\n\nbuild-essential, c…",
+  "title": "OpenCV for C++",
+  "snippet": "OpenCV for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "cpp-opencv"
   },
-  "url": "/docs/operation/language/library/cpp-opencv/opencv-installation",
+  "url": "/docs/entity/language/library/cpp-opencv",
   "node_url": "/api/wiki/nodes/subject:language:library:cpp-opencv.json",
   "document_refs": [
+    "doc:docs/entity/language/library/cpp-opencv/cpp-opencv.mdx",
     "doc:docs/operation/language/library/cpp-opencv/opencv-installation.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/cpp-opencv/cpp-opencv.mdx",
+      "title": "OpenCV for C++",
+      "url": "/docs/entity/language/library/cpp-opencv",
+      "snippet": "OpenCV for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "cpp-opencv",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/cpp-opencv/opencv-installation.mdx",
       "title": "OpenCV installation",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/cpp-opencv/cpp-opencv.mdx:about_subject:subject:language:library:cpp-opencv",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/cpp-opencv/cpp-opencv.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/cpp-opencv/opencv-installation.mdx:about_subject:subject:language:library:cpp-opencv",
       "predicate": "about_subject",

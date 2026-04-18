@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:framework:react",
-  "title": "React Lifecycle",
-  "snippet": "## React.Component Lifecycle\n\nhttps://twitter.com/dan_abramov/status/981712092611989509\n\n## React Hooks Life…",
+  "title": "React",
+  "snippet": "React is a UI framework for building component-based web applications.\n\nIt owns the component rendering…",
   "ontology": {
     "domain": "language",
     "class": "framework",
     "instance": "react"
   },
-  "url": "/docs/concept/language/framework/react/lifecycle",
+  "url": "/docs/entity/language/framework/react",
   "node_url": "/api/wiki/nodes/subject:language:framework:react.json",
   "document_refs": [
+    "doc:docs/entity/language/framework/react/react.mdx",
     "doc:docs/concept/language/framework/react/lifecycle.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/framework/react/react.mdx",
+      "title": "React",
+      "url": "/docs/entity/language/framework/react",
+      "snippet": "React is a UI framework for building component-based web applications.\n\nIt owns the component rendering…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "react",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/concept/language/framework/react/lifecycle.mdx",
       "title": "React Lifecycle",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/framework/react/react.mdx:about_subject:subject:language:framework:react",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/framework/react/react.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/concept/language/framework/react/lifecycle.mdx:about_subject:subject:language:framework:react",
       "predicate": "about_subject",

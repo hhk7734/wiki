@@ -1,22 +1,36 @@
 {
   "type": "subject",
   "id": "subject:language:library:python-opencv",
-  "title": "OpenCV Color spaces",
-  "snippet": "Ref: https://docs.opencv.org/master/\n\nBGR, RGB, YUV, HSV 등은 8 bits 3 채널로 픽셀마다 24 bits 값을 갖고, Grayscale은 …",
+  "title": "OpenCV for Python",
+  "snippet": "OpenCV for Python is a library subject in the PYTHON language ecosystem covered by thi…",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "python-opencv"
   },
-  "url": "/docs/operation/language/library/python-opencv/opencv-color-spaces",
+  "url": "/docs/entity/language/library/python-opencv",
   "node_url": "/api/wiki/nodes/subject:language:library:python-opencv.json",
   "document_refs": [
+    "doc:docs/entity/language/library/python-opencv/python-opencv.mdx",
     "doc:docs/operation/language/library/python-opencv/opencv-color-spaces.mdx",
     "doc:docs/operation/language/library/python-opencv/opencv-draw-figure.mdx",
     "doc:docs/operation/language/library/python-opencv/opencv-histogram.mdx",
     "doc:docs/operation/language/library/python-opencv/opencv-read-image-video.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/python-opencv/python-opencv.mdx",
+      "title": "OpenCV for Python",
+      "url": "/docs/entity/language/library/python-opencv",
+      "snippet": "OpenCV for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-opencv",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/python-opencv/opencv-color-spaces.mdx",
       "title": "OpenCV Color spaces",
@@ -71,6 +85,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/python-opencv/python-opencv.mdx:about_subject:subject:language:library:python-opencv",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/python-opencv/python-opencv.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/python-opencv/opencv-color-spaces.mdx:about_subject:subject:language:library:python-opencv",
       "predicate": "about_subject",

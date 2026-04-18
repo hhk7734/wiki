@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:python-mpi4py",
-  "title": "MPI Basics",
-  "snippet": "## 설치\n\n### OpenMPI\n\nOpenMPI\n\n### MPI4PY\n\n``shell\nenv SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pi…",
+  "title": "mpi4py",
+  "snippet": "mpi4py is a library subject in the PYTHON language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "python-mpi4py"
   },
-  "url": "/docs/operation/language/library/python-mpi4py/basics",
+  "url": "/docs/entity/language/library/python-mpi4py",
   "node_url": "/api/wiki/nodes/subject:language:library:python-mpi4py.json",
   "document_refs": [
+    "doc:docs/entity/language/library/python-mpi4py/python-mpi4py.mdx",
     "doc:docs/operation/language/library/python-mpi4py/basics.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/python-mpi4py/python-mpi4py.mdx",
+      "title": "mpi4py",
+      "url": "/docs/entity/language/library/python-mpi4py",
+      "snippet": "mpi4py is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "python-mpi4py",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/python-mpi4py/basics.mdx",
       "title": "MPI Basics",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/python-mpi4py/python-mpi4py.mdx:about_subject:subject:language:library:python-mpi4py",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/python-mpi4py/python-mpi4py.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/python-mpi4py/basics.mdx:about_subject:subject:language:library:python-mpi4py",
       "predicate": "about_subject",

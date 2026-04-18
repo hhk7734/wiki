@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-firebase",
-  "title": "Firebase Custom Email 보내기",
-  "snippet": "## Custom Email 보내기\n\n- https://firebase.google.com/docs/auth/admin/email-action-links\n- https:/…",
+  "title": "Firebase for Go",
+  "snippet": "Firebase for Go is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-firebase"
   },
-  "url": "/docs/operation/language/library/go-firebase/custom-email",
+  "url": "/docs/entity/language/library/go-firebase",
   "node_url": "/api/wiki/nodes/subject:language:library:go-firebase.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-firebase/go-firebase.mdx",
     "doc:docs/operation/language/library/go-firebase/custom-email.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-firebase/go-firebase.mdx",
+      "title": "Firebase for Go",
+      "url": "/docs/entity/language/library/go-firebase",
+      "snippet": "Firebase for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-firebase",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-firebase/custom-email.mdx",
       "title": "Firebase Custom Email 보내기",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-firebase/go-firebase.mdx:about_subject:subject:language:library:go-firebase",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-firebase/go-firebase.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-firebase/custom-email.mdx:about_subject:subject:language:library:go-firebase",
       "predicate": "about_subject",

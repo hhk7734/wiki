@@ -1,21 +1,35 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-grpc",
-  "title": "Protobuf",
-  "snippet": "## Protobuf\n\n- Protobuf\n\n## 컴파일\n\n``shell\ngo install google.golang.org/protobuf/cmd/protoc-g…",
+  "title": "gRPC for Go",
+  "snippet": "gRPC for Go is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-grpc"
   },
-  "url": "/docs/operation/language/library/go-grpc/protobuf",
+  "url": "/docs/entity/language/library/go-grpc",
   "node_url": "/api/wiki/nodes/subject:language:library:go-grpc.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-grpc/go-grpc.mdx",
     "doc:docs/operation/language/library/go-grpc/grpc.mdx",
     "doc:docs/operation/language/library/go-grpc/protobuf.mdx",
     "doc:docs/operation/language/library/go-grpc/type.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-grpc/go-grpc.mdx",
+      "title": "gRPC for Go",
+      "url": "/docs/entity/language/library/go-grpc",
+      "snippet": "gRPC for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-grpc",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-grpc/grpc.mdx",
       "title": "gRPC",
@@ -57,6 +71,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-grpc/go-grpc.mdx:about_subject:subject:language:library:go-grpc",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-grpc/go-grpc.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-grpc/grpc.mdx:about_subject:subject:language:library:go-grpc",
       "predicate": "about_subject",

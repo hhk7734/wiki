@@ -1,19 +1,33 @@
 {
   "type": "subject",
   "id": "subject:language:library:go-reverse-proxy",
-  "title": "HTTP Reverse Proxy 설정 가이드",
-  "snippet": "## httputil.ReverseProxy\n\n``go\n\n \"net/http\"\n \"net/http/httputil\"\n)\n`\n\n### Director or Rewrite 설정\n\nD…",
+  "title": "Go Reverse Proxy",
+  "snippet": "Go Reverse Proxy is a library subject in the GO language ecosystem covered by this wiki.",
   "ontology": {
     "domain": "language",
     "class": "library",
     "instance": "go-reverse-proxy"
   },
-  "url": "/docs/operation/language/library/go-reverse-proxy/reverse-proxy",
+  "url": "/docs/entity/language/library/go-reverse-proxy",
   "node_url": "/api/wiki/nodes/subject:language:library:go-reverse-proxy.json",
   "document_refs": [
+    "doc:docs/entity/language/library/go-reverse-proxy/go-reverse-proxy.mdx",
     "doc:docs/operation/language/library/go-reverse-proxy/reverse-proxy.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/entity/language/library/go-reverse-proxy/go-reverse-proxy.mdx",
+      "title": "Go Reverse Proxy",
+      "url": "/docs/entity/language/library/go-reverse-proxy",
+      "snippet": "Go Reverse Proxy is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "go-reverse-proxy",
+        "aspect": "overview"
+      }
+    },
     {
       "id": "doc:docs/operation/language/library/go-reverse-proxy/reverse-proxy.mdx",
       "title": "HTTP Reverse Proxy 설정 가이드",
@@ -29,6 +43,12 @@
     }
   ],
   "relations": [
+    {
+      "id": "relation:doc:docs/entity/language/library/go-reverse-proxy/go-reverse-proxy.mdx:about_subject:subject:language:library:go-reverse-proxy",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/entity/language/library/go-reverse-proxy/go-reverse-proxy.mdx",
+      "direction": "incoming"
+    },
     {
       "id": "relation:doc:docs/operation/language/library/go-reverse-proxy/reverse-proxy.mdx:about_subject:subject:language:library:go-reverse-proxy",
       "predicate": "about_subject",
