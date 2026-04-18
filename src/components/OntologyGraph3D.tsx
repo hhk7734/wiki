@@ -6,6 +6,7 @@ import * as THREE from "three";
 
 import OntologyPreviewPanel from "./ontologyGraph/OntologyPreviewPanel";
 import { buildOntologyGraph } from "./ontologyGraph/buildOntologyGraph.mjs";
+import { getCameraFocusPosition } from "./ontologyGraph/cameraFocus.mjs";
 import { getLinkVisuals } from "./ontologyGraph/linkStyling.mjs";
 import { getPersistentLabelConfig } from "./ontologyGraph/persistentLabelConfig.mjs";
 import styles from "./ontologyGraph/ontologyGraph.module.css";
@@ -294,13 +295,26 @@ export default function OntologyGraph3D() {
 		}
 
 		const positionedNode = selectedNode as OntologyGraphNode & { x: number; y: number; z: number };
+		const camera = graphRef.current.camera();
+		const controls = graphRef.current.controls() as { target?: { x: number; y: number; z: number } } | undefined;
+		const cameraPosition = getCameraFocusPosition({
+			cameraPosition: {
+				x: camera.position.x,
+				y: camera.position.y,
+				z: camera.position.z,
+			},
+			targetPosition: controls?.target
+				? {
+						x: controls.target.x,
+						y: controls.target.y,
+						z: controls.target.z,
+					}
+				: undefined,
+			node: positionedNode,
+		});
 
 		graphRef.current.cameraPosition(
-			{
-				x: positionedNode.x * 1.2,
-				y: positionedNode.y * 1.2 + 30,
-				z: positionedNode.z * 1.2 + 160,
-			},
+			cameraPosition,
 			{ x: positionedNode.x, y: positionedNode.y, z: positionedNode.z },
 			900,
 		);
