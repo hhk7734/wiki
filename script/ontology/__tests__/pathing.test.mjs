@@ -3,73 +3,17 @@ import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
-import { buildTargetPath, classifySeed } from "../pathing.mjs";
-import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry, stabilizeTargets } from "../bootstrap-registry.mjs";
+import { classifySeed, classifySeedFromFrontmatter, isMaintainedTaxonomyPath } from "../pathing.mjs";
+import { CLASSIFICATION_REGISTRY_PATH, bootstrapRegistry } from "../bootstrap-registry.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { inventory } from "../inventory.mjs";
-import { normalizeOntologyBlock } from "../ontology-frontmatter.mjs";
 
-test("buildTargetPath uses unique canonical filenames for overview pages", () => {
-	assert.equal(
-		buildTargetPath({
-			role: "entity",
-			domain: "language",
-			className: "programming-language",
-			instance: "go",
-			aspect: "overview",
-		}),
-		"docs/entity/language/programming-language/go/go.mdx",
-	);
-});
-
-test("buildTargetPath uses the aspect name for non-overview pages", () => {
-	assert.equal(
-		buildTargetPath({
-			role: "operation",
-			domain: "platform",
-			className: "cluster-addon",
-			instance: "node-feature-discovery",
-			aspect: "install",
-		}),
-		"docs/operation/platform/cluster-addon/node-feature-discovery/install.mdx",
-	);
-});
-
-test("current Go overview path maps to canonical ontology path", () => {
-	assert.equal(
-		classifySeed("docs/lang/go/go.mdx").target,
-		"docs/entity/language/programming-language/go/go.mdx",
-	);
-});
-
-test("classifySeed uses normalized ontology metadata", () => {
-	assert.deepEqual(
-		classifySeed("docs/lang/go/go.mdx").ontology,
-		normalizeOntologyBlock({
-			role: "entity",
-			domain: "language",
-			className: "programming-language",
-			instance: "go",
-			aspect: "overview",
-		}).ontology,
-	);
-});
-
-test("classifySeed reads maintained taxonomy docs from semantic frontmatter", () => {
-	const tempRoot = join(ROOT_DIR, "docs", "language");
-	mkdirSync(tempRoot, { recursive: true });
-	const tempDir = mkdtempSync(join(tempRoot, "__ontology-pathing-"));
-	const fileDir = join(tempDir, "grpc");
-	const filePath = join(fileDir, "overview.mdx");
-	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
-
-	try {
-		mkdirSync(fileDir, { recursive: true });
-		writeFileSync(
-			filePath,
-			`---
-id: overview
-title: "gRPC Overview"
+function writeTaxonomyDoc(filePath, { id = "overview", title = "gRPC Overview" } = {}) {
+	writeFileSync(
+		filePath,
+		`---
+id: ${id}
+title: "${title}"
 ontology:
   role: entity
   domain: language
@@ -91,7 +35,20 @@ source:
 ---
 content
 `,
-		);
+	);
+}
+
+test("classifySeed reads maintained taxonomy docs from semantic frontmatter", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-pathing-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeTaxonomyDoc(filePath);
 
 		assert.deepEqual(classifySeed(source), {
 			source,
@@ -104,10 +61,28 @@ content
 				aspect: "overview",
 			},
 		});
-		} finally {
-			rmSync(tempDir, { recursive: true, force: true });
-		}
-	});
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
+});
+
+test("classifySeedFromFrontmatter matches classifySeed for maintained taxonomy docs", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
+	mkdirSync(tempRoot, { recursive: true });
+	const tempDir = mkdtempSync(join(tempRoot, "__ontology-pathing-"));
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
+	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(fileDir, { recursive: true });
+		writeTaxonomyDoc(filePath);
+
+		assert.deepEqual(classifySeedFromFrontmatter(source), classifySeed(source));
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
+});
 
 test("classifySeed requires frontmatter for maintained taxonomy paths", () => {
 	assert.throws(
@@ -116,7 +91,14 @@ test("classifySeed requires frontmatter for maintained taxonomy paths", () => {
 	);
 });
 
-test("classifySeed rejects malformed taxonomy-like paths instead of falling back", () => {
+test("classifySeed rejects non-taxonomy legacy paths", () => {
+	assert.throws(
+		() => classifySeed("docs/lang/go/go.mdx"),
+		/unsupported taxonomy path/i,
+	);
+});
+
+test("classifySeed rejects malformed taxonomy-like paths", () => {
 	assert.throws(
 		() => classifySeed("docs/language/grpc//overview.mdx"),
 		/unsupported taxonomy path/i,
@@ -133,33 +115,7 @@ test("classifySeed rejects taxonomy docs whose id does not match the filename", 
 
 	try {
 		mkdirSync(fileDir, { recursive: true });
-		writeFileSync(
-			filePath,
-			`---
-id: wrong-id
-title: "gRPC Overview"
-ontology:
-  role: entity
-  domain: language
-  class: library
-  instance: grpc
-  aspect: overview
-subject:
-  canonical_name: gRPC
-relations:
-  related_to: []
-  depends_on: []
-  prerequisite_for: []
-  part_of: []
-  implements: []
-  uses: []
-source:
-  status: canonical
-  confidence: exact
----
-content
-`,
-		);
+		writeTaxonomyDoc(filePath, { id: "wrong-id" });
 
 		assert.throws(() => classifySeed(source), /id mismatch: wrong-id != overview/);
 	} finally {
@@ -167,60 +123,23 @@ content
 	}
 });
 
+test("isMaintainedTaxonomyPath recognizes approved topic-first paths", () => {
+	assert.equal(isMaintainedTaxonomyPath("docs/language/go/overview.mdx"), true);
+	assert.equal(isMaintainedTaxonomyPath("docs/data/concepts/ontology.mdx"), true);
+	assert.equal(isMaintainedTaxonomyPath("docs/lang/go/go.mdx"), false);
+});
+
 test("inventory excludes docs/AGENTS.md", () => {
 	assert.equal(inventory().includes("docs/AGENTS.md"), false);
 });
 
-test("bootstrap registry keeps targets unique for the current corpus", () => {
+test("bootstrap registry preserves source-target identity for the current corpus", () => {
 	const entries = bootstrapRegistry(
 		inventory().filter((source) => !source.includes("/__ontology-")),
 	);
-	const targets = entries.map((entry) => entry.target);
 
-	assert.equal(new Set(targets).size, targets.length);
-});
-
-test("grpc family members stay distinguishable before bootstrap disambiguation", () => {
-	const targets = [
-		"docs/lang/cpp/libraries/grpc/grpc.mdx",
-		"docs/lang/go/libraries/grpc/grpc.mdx",
-		"docs/lang/python/libraries/grpc/grpc.mdx",
-	].map((source) => classifySeed(source).target);
-
-	assert.equal(new Set(targets).size, targets.length);
-});
-
-test("workflow crd family members stay distinguishable before bootstrap disambiguation", () => {
-	const targets = [
-		"docs/operation/mlops/workflow-system/argo-cd/crd.mdx",
-		"docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
-		"docs/operation/mlops/workflow-system/awx/crd.mdx",
-	].map((source) => classifySeed(source).target);
-
-	assert.equal(new Set(targets).size, targets.length);
-});
-
-test("bootstrap disambiguation is deterministic for collision groups", () => {
-	const entries = stabilizeTargets([
-		{
-			source: "docs/example/first.mdx",
-			target: "docs/entity/platform/tool/example/overview.mdx",
-			ontology: { role: "entity", domain: "platform", class: "tool", instance: "example", aspect: "overview" },
-		},
-		{
-			source: "docs/example/second.mdx",
-			target: "docs/entity/platform/tool/example/overview.mdx",
-			ontology: { role: "entity", domain: "platform", class: "tool", instance: "example", aspect: "overview" },
-		},
-	].reverse());
-
-	assert.deepEqual(
-		entries.map((entry) => [entry.source, entry.target]),
-		[
-			["docs/example/second.mdx", "docs/entity/platform/tool/example/overview--example-second.mdx"],
-			["docs/example/first.mdx", "docs/entity/platform/tool/example/overview--example-first.mdx"],
-		],
-	);
+	assert.ok(entries.length > 0);
+	assert.equal(entries.every((entry) => entry.source === entry.target), true);
 });
 
 test("classification registry path is rooted to the repo", () => {

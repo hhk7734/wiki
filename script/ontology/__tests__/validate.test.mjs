@@ -325,51 +325,66 @@ content
 		}
 });
 
-test("validateCorpus preserves legacy ontology-path compatibility when frontmatter drifts", () => {
-	const tempRoot = join(ROOT_DIR, "docs", "operation", "language", "library");
+test("validateCorpus rejects taxonomy docs when the registry no longer matches taxonomy docs", () => {
+	const tempRoot = join(ROOT_DIR, "docs", "language");
 	mkdirSync(tempRoot, { recursive: true });
 	const tempDir = mkdtempSync(join(tempRoot, "__ontology-legacy-"));
-	const filePath = join(tempDir, `${basename(tempDir)}.mdx`);
+	const fileDir = join(tempDir, "grpc");
+	const filePath = join(fileDir, "overview.mdx");
 	const source = relative(ROOT_DIR, filePath).replaceAll("\\", "/");
 
 	try {
+		mkdirSync(fileDir, { recursive: true });
 		writeFileSync(
 			filePath,
 			`---
-id: ${basename(tempDir)}
+id: overview
 title: "Legacy Library Doc"
 ontology:
   role: concept
-  domain: data
-  class: concept
-  instance: drifted
+  domain: language
+  class: library
+  instance: grpc
   aspect: overview
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
 ---
 content
 `,
 		);
 
-		assert.doesNotThrow(() =>
+		assert.throws(() =>
 			validateCorpus({
 				entries: [
 					{
 						source,
 						target: source,
 						ontology: {
-							role: "operation",
+							role: "entity",
 							domain: "language",
 							class: "library",
-							instance: basename(tempDir),
+							instance: "grpc",
 							aspect: "overview",
 						},
 					},
 				],
 				docs: [source],
 			}),
+			/classification registry is out of date/,
 		);
-		} finally {
-			rmSync(tempDir, { recursive: true, force: true });
-		}
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
 });
 
 test("bootstrapRegistry reads ontology metadata from frontmatter for maintained taxonomy docs", () => {

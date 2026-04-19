@@ -50,6 +50,18 @@ test("parseTaxonomyPath parses the topic comparison and reference shapes", () =>
 	});
 });
 
+test("parseTaxonomyPath parses the dedicated comparison topic shape", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/comparison/data/database/type/type.mdx"), {
+		topic: "comparison",
+		subject: "data/database",
+		facet: "type",
+		page: "type",
+		kind: "comparison-facet-page",
+		area: "data",
+		subject_group: "database",
+	});
+});
+
 test("parseTaxonomyPath keeps distinct page basenames distinct", () => {
 	assert.notDeepEqual(
 		parseTaxonomyPath("docs/language/grpc/overview.mdx"),
