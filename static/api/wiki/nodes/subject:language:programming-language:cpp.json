@@ -11,7 +11,8 @@
   "url": "/docs/language/cpp/overview",
   "node_url": "/api/wiki/nodes/subject:language:programming-language:cpp.json",
   "document_refs": [
-    "doc:docs/language/cpp/overview.mdx"
+    "doc:docs/language/cpp/overview.mdx",
+    "doc:docs/language/cpp/linting-formatting/overview.mdx"
   ],
   "documents": [
     {
@@ -26,6 +27,19 @@
         "instance": "cpp",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/language/cpp/linting-formatting/overview.mdx",
+      "title": "Linting & Formatting",
+      "url": "/docs/language/cpp/linting-formatting/overview",
+      "snippet": "## clang-format\n\n- Clang-Format Style Options\n\n``shell\nwget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format\n`\n\n`shell\nclang",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "cpp",
+        "aspect": "linting-formatting"
+      }
     }
   ],
   "relations": [
@@ -33,6 +47,12 @@
       "id": "relation:doc:docs/language/cpp/overview.mdx:about_subject:subject:language:programming-language:cpp",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/cpp/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:cpp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/linting-formatting/overview.mdx",
       "direction": "incoming"
     }
   ]

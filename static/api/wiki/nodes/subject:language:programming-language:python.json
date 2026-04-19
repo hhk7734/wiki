@@ -11,7 +11,11 @@
   "url": "/docs/language/python/overview",
   "node_url": "/api/wiki/nodes/subject:language:programming-language:python.json",
   "document_refs": [
-    "doc:docs/language/python/overview.mdx"
+    "doc:docs/language/python/overview.mdx",
+    "doc:docs/language/python/package-repository.mdx",
+    "doc:docs/language/python/linting-formatting/overview.mdx",
+    "doc:docs/language/python/package-sphinx.mdx",
+    "doc:docs/language/python/version/overview.mdx"
   ],
   "documents": [
     {
@@ -26,6 +30,58 @@
         "instance": "python",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/language/python/package-repository.mdx",
+      "title": "Python Package Repository",
+      "url": "/docs/language/python/package-repository",
+      "snippet": "## Repository\n\n- PEP 503 – Simple Repository API\n- PEP 691 – JSON-based Simple API for Python…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "package-repository"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/linting-formatting/overview.mdx",
+      "title": "Linting & Formatting",
+      "url": "/docs/language/python/linting-formatting/overview",
+      "snippet": "## ruff\n\n``shell\npoetry add --group dev ruff\n`\n\n`shell\npython3 -m pip install ruff\n`\n\n- https://docs.astral.sh/ruff/configuration/\n\n`toml tit…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "linting-formatting"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/package-sphinx.mdx",
+      "title": "Documentation using Sphinx",
+      "url": "/docs/language/python/package-sphinx",
+      "snippet": "…\n\n`python {20-22,25} title=\"py_src/conf.py\"\n# Configuration file for the Sphinx documentation builder.\n#\n# This file only contains a selection of the most common options. Fo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "package-sphinx"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/version/overview.mdx",
+      "title": "Python 런타임 버전 관리",
+      "url": "/docs/language/python/version/overview",
+      "snippet": "…\"\neval \"$(pyenv init -)\"\n`\n\n`shell\nrm -rf $(pyenv root)\n`\n\n### 버전 관리\n\n- pyenv --version: pyenv 버전\n- pyenv version: 현재 기본 python 버전\n- pyenv versions: 설치된 python 버전\n- py…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "version"
+      }
     }
   ],
   "relations": [
@@ -33,6 +89,30 @@
       "id": "relation:doc:docs/language/python/overview.mdx:about_subject:subject:language:programming-language:python",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/python/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/package-repository.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/package-repository.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/linting-formatting/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/package-sphinx.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/package-sphinx.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/version/overview.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/version/overview.mdx",
       "direction": "incoming"
     }
   ]

@@ -11,7 +11,9 @@
   "url": "/docs/language/go/overview",
   "node_url": "/api/wiki/nodes/subject:language:programming-language:go.json",
   "document_refs": [
-    "doc:docs/language/go/overview.mdx"
+    "doc:docs/language/go/overview.mdx",
+    "doc:docs/language/go/cgo.mdx",
+    "doc:docs/language/go/package.mdx"
   ],
   "documents": [
     {
@@ -26,6 +28,32 @@
         "instance": "go",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/language/go/cgo.mdx",
+      "title": "Go에서 C 코드 사용하기",
+      "url": "/docs/language/go/cgo",
+      "snippet": "## import \"C\"\n\n- https://pkg.go.dev/cmd/cgo\n\n``go\n/*\n\n// C 코드\n\n*/\n\n`\n\nimport \"C\" 바로 윗줄의 주석을 preamble이라고 합니다. preamble은 /* 주…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "cgo"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/package.mdx",
+      "title": "Package 만들기",
+      "url": "/docs/language/go/package",
+      "snippet": "## go.mod\n\n``shell\ngo mod init\n`\n\n- 로 go.mod 파일이 저장될 원격 서버의 주소를 지정합니다.\n - 예를 들어 githu…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "package"
+      }
     }
   ],
   "relations": [
@@ -33,6 +61,18 @@
       "id": "relation:doc:docs/language/go/overview.mdx:about_subject:subject:language:programming-language:go",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/go/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/cgo.mdx:about_subject:subject:language:programming-language:go",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/cgo.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/package.mdx:about_subject:subject:language:programming-language:go",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/package.mdx",
       "direction": "incoming"
     }
   ]

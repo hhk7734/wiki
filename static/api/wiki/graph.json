@@ -1537,86 +1537,6 @@
       "subject_ref": "subject:hardware:mcu-family:tricore-upload-executable-file-in-udevisualplatform"
     },
     {
-      "id": "doc:docs/entity/language/api/class-binding/class-binding.mdx",
-      "type": "document",
-      "title": "Class binding with node-addon-api",
-      "snippet": "## Setup\n\n``shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-addon-api\n│ └── ...\n├── package.json\n├── package-lock.json\n├── test\n│ └── ...\n├── .clang-…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "api",
-        "instance": "class-binding",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/api/class-binding",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/api/class-binding/class-binding.mdx.json",
-      "subject_ref": "subject:language:api:class-binding"
-    },
-    {
-      "id": "doc:docs/entity/language/api/node-addon-api/node-addon-api.mdx",
-      "type": "document",
-      "title": "node-addon-api",
-      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "api",
-        "instance": "node-addon-api",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/api/node-addon-api",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/api/node-addon-api/node-addon-api.mdx.json",
-      "subject_ref": "subject:language:api:node-addon-api"
-    },
-    {
-      "id": "doc:docs/entity/language/framework/flutter-engine/flutter-engine.mdx",
-      "type": "document",
-      "title": "Flutter Engine",
-      "snippet": "Flutter Engine is the runtime and rendering subsystem underlying the Flutter framework.\n\n- Flu…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "framework",
-        "instance": "flutter-engine",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/framework/flutter-engine",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/framework/flutter-engine/flutter-engine.mdx.json",
-      "subject_ref": "subject:language:framework:flutter-engine"
-    },
-    {
-      "id": "doc:docs/entity/language/package/package/package.mdx",
-      "type": "document",
-      "title": "Package 만들기",
-      "snippet": "## go.mod\n\n``shell\ngo mod init\n`\n\n- 로 go.mod 파일이 저장될 원격 서버의 주소를 지정합니다.\n - 예를 들어 github.com/hhk7734/example-go라고 하면 go.mod 파일은 해당 리포지토리의 루트 디렉토리에 있어야합니다.\n - 하위 폴",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "package",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/package",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/package/package.mdx.json",
-      "subject_ref": "subject:language:package:package"
-    },
-    {
-      "id": "doc:docs/entity/language/package/repository/repository.mdx",
-      "type": "document",
-      "title": "Python Package Repository",
-      "snippet": "## Repository\n\n- PEP 503 – Simple Repository API\n- PEP 691 – JSON-based Simple API for Python…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "repository",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/repository",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/repository/repository.mdx.json",
-      "subject_ref": "subject:language:package:repository"
-    },
-    {
       "id": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
       "type": "document",
       "title": "Kubernetes 인증(Authn)",
@@ -3777,6 +3697,22 @@
       "subject_ref": "subject:language:library:cpp-ucx"
     },
     {
+      "id": "doc:docs/language/cpp/linting-formatting/overview.mdx",
+      "type": "document",
+      "title": "Linting & Formatting",
+      "snippet": "## clang-format\n\n- Clang-Format Style Options\n\n``shell\nwget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format\n`\n\n`shell\nclang",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "cpp",
+        "aspect": "linting-formatting"
+      },
+      "url": "/docs/language/cpp/linting-formatting/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/linting-formatting/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:cpp"
+    },
+    {
       "id": "doc:docs/language/cpp/overview.mdx",
       "type": "document",
       "title": "C++",
@@ -3871,6 +3807,54 @@
       "url": "/docs/language/flutter-bloc/widgets",
       "node_url": "/api/wiki/nodes/doc:docs/language/flutter-bloc/widgets.mdx.json",
       "subject_ref": "subject:language:library:flutter-bloc"
+    },
+    {
+      "id": "doc:docs/language/flutter-engine/build-for-linux-arm64.mdx",
+      "type": "document",
+      "title": "Build Flutter engine for linux-arm/arm64",
+      "snippet": "…next command!!\n\n## Dependencies\n\n### Host(Linux x86_64)\n\n``shell\nmkdir -p $HOME/flutter-engine/sdk/toolchain \\\n&& mkdir -p $HOME/flutter-engine/sdk/sysroot \\\n&& mkdir -p $HOM…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "flutter-engine",
+        "aspect": "build-for-linux-arm64"
+      },
+      "url": "/docs/language/flutter-engine/build-for-linux-arm64",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-engine/build-for-linux-arm64.mdx.json",
+      "subject_ref": "subject:language:framework:flutter-engine"
+    },
+    {
+      "id": "doc:docs/language/flutter-engine/overview.mdx",
+      "type": "document",
+      "title": "Flutter Engine",
+      "snippet": "Flutter Engine is the runtime and rendering subsystem underlying the Flutter framework.\n\n- Flu…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "flutter-engine",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/flutter-engine/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-engine/overview.mdx.json",
+      "subject_ref": "subject:language:framework:flutter-engine"
+    },
+    {
+      "id": "doc:docs/language/flutter/build-for-linux-arm64.mdx",
+      "type": "document",
+      "title": "Build Flutter app for linux-arm/arm64",
+      "snippet": "…Native Build\n\n### Target(Linux ARM/ARM64)\n\n``shell\ngit clone https://github.com/flutter/flutter.git $HOME/development/flutter\n`\n\n`shell\ncd $HOME/development/flutter \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "flutter",
+        "aspect": "build-for-linux-arm64"
+      },
+      "url": "/docs/language/flutter/build-for-linux-arm64",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/build-for-linux-arm64.mdx.json",
+      "subject_ref": "subject:language:framework:flutter"
     },
     {
       "id": "doc:docs/language/flutter/linux-methodchannel.mdx",
@@ -4529,6 +4513,22 @@
       "subject_ref": "subject:language:library:go-websocket"
     },
     {
+      "id": "doc:docs/language/go/cgo.mdx",
+      "type": "document",
+      "title": "Go에서 C 코드 사용하기",
+      "snippet": "## import \"C\"\n\n- https://pkg.go.dev/cmd/cgo\n\n``go\n/*\n\n// C 코드\n\n*/\n\n`\n\nimport \"C\" 바로 윗줄의 주석을 preamble이라고 합니다. preamble은 /* 주…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "cgo"
+      },
+      "url": "/docs/language/go/cgo",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/cgo.mdx.json",
+      "subject_ref": "subject:language:programming-language:go"
+    },
+    {
       "id": "doc:docs/language/go/overview.mdx",
       "type": "document",
       "title": "Go",
@@ -4542,6 +4542,22 @@
       },
       "url": "/docs/language/go/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/go/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:go"
+    },
+    {
+      "id": "doc:docs/language/go/package.mdx",
+      "type": "document",
+      "title": "Package 만들기",
+      "snippet": "## go.mod\n\n``shell\ngo mod init\n`\n\n- 로 go.mod 파일이 저장될 원격 서버의 주소를 지정합니다.\n - 예를 들어 githu…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "package"
+      },
+      "url": "/docs/language/go/package",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/package.mdx.json",
       "subject_ref": "subject:language:programming-language:go"
     },
     {
@@ -4641,6 +4657,22 @@
       "subject_ref": "subject:language:library:javascript-prisma"
     },
     {
+      "id": "doc:docs/language/javascript/linting-formatting/overview.mdx",
+      "type": "document",
+      "title": "Linting & Formatting",
+      "snippet": "…e,\n};\n`\n\n`ignore title=\".prettierignore\"\n### macOS ###\n# General\n.DS_Store\n\n### JavaScript ###\n# Dependencies\nnode_modules\npnpm-lock.yaml\npackage-lock.json\nyarn.lock\n\n# B…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "javascript",
+        "aspect": "linting-formatting"
+      },
+      "url": "/docs/language/javascript/linting-formatting/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/linting-formatting/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:javascript"
+    },
+    {
       "id": "doc:docs/language/javascript/overview.mdx",
       "type": "document",
       "title": "JavaScript",
@@ -4654,6 +4686,22 @@
       },
       "url": "/docs/language/javascript/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:javascript"
+    },
+    {
+      "id": "doc:docs/language/javascript/version/overview.mdx",
+      "type": "document",
+      "title": "Node.js 런타임 버전 관리",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## yarn\n\n``shell\nnpm install -g yarn\n`\n\n`shell\nyarn install\n`\n\n`shell\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "javascript",
+        "aspect": "version"
+      },
+      "url": "/docs/language/javascript/version/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/version/overview.mdx.json",
       "subject_ref": "subject:language:programming-language:javascript"
     },
     {
@@ -4751,6 +4799,38 @@
       "url": "/docs/language/nextjs/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/nextjs/overview.mdx.json",
       "subject_ref": "subject:language:framework:nextjs"
+    },
+    {
+      "id": "doc:docs/language/node-addon-api/class-binding.mdx",
+      "type": "document",
+      "title": "Class binding with node-addon-api",
+      "snippet": "## Setup\n\n``shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-addon-api\n│ └── ...\n├── package.json\n├── package-lock.json\n├── test\n│ └── ...\n├── .clang-…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "node-addon-api",
+        "aspect": "class-binding"
+      },
+      "url": "/docs/language/node-addon-api/class-binding",
+      "node_url": "/api/wiki/nodes/doc:docs/language/node-addon-api/class-binding.mdx.json",
+      "subject_ref": "subject:language:library:node-addon-api"
+    },
+    {
+      "id": "doc:docs/language/node-addon-api/overview.mdx",
+      "type": "document",
+      "title": "node-addon-api",
+      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "node-addon-api",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/node-addon-api/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/node-addon-api/overview.mdx.json",
+      "subject_ref": "subject:language:library:node-addon-api"
     },
     {
       "id": "doc:docs/language/probot/github-probot.mdx",
@@ -5601,6 +5681,22 @@
       "subject_ref": "subject:language:package:conda"
     },
     {
+      "id": "doc:docs/language/python/linting-formatting/overview.mdx",
+      "type": "document",
+      "title": "Linting & Formatting",
+      "snippet": "## ruff\n\n``shell\npoetry add --group dev ruff\n`\n\n`shell\npython3 -m pip install ruff\n`\n\n- https://docs.astral.sh/ruff/configuration/\n\n`toml tit…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "linting-formatting"
+      },
+      "url": "/docs/language/python/linting-formatting/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/linting-formatting/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:python"
+    },
+    {
       "id": "doc:docs/language/python/overview.mdx",
       "type": "document",
       "title": "Python",
@@ -5614,6 +5710,38 @@
       },
       "url": "/docs/language/python/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:python"
+    },
+    {
+      "id": "doc:docs/language/python/package-repository.mdx",
+      "type": "document",
+      "title": "Python Package Repository",
+      "snippet": "## Repository\n\n- PEP 503 – Simple Repository API\n- PEP 691 – JSON-based Simple API for Python…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "package-repository"
+      },
+      "url": "/docs/language/python/package-repository",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/package-repository.mdx.json",
+      "subject_ref": "subject:language:programming-language:python"
+    },
+    {
+      "id": "doc:docs/language/python/package-sphinx.mdx",
+      "type": "document",
+      "title": "Documentation using Sphinx",
+      "snippet": "…\n\n`python {20-22,25} title=\"py_src/conf.py\"\n# Configuration file for the Sphinx documentation builder.\n#\n# This file only contains a selection of the most common options. Fo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "package-sphinx"
+      },
+      "url": "/docs/language/python/package-sphinx",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/package-sphinx.mdx.json",
       "subject_ref": "subject:language:programming-language:python"
     },
     {
@@ -5711,6 +5839,22 @@
       "url": "/docs/language/python/setuptools/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/setuptools/overview.mdx.json",
       "subject_ref": "subject:language:package:setuptools"
+    },
+    {
+      "id": "doc:docs/language/python/version/overview.mdx",
+      "type": "document",
+      "title": "Python 런타임 버전 관리",
+      "snippet": "…\"\neval \"$(pyenv init -)\"\n`\n\n`shell\nrm -rf $(pyenv root)\n`\n\n### 버전 관리\n\n- pyenv --version: pyenv 버전\n- pyenv version: 현재 기본 python 버전\n- pyenv versions: 설치된 python 버전\n- py…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "version"
+      },
+      "url": "/docs/language/python/version/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/version/overview.mdx.json",
+      "subject_ref": "subject:language:programming-language:python"
     },
     {
       "id": "doc:docs/language/react-query/overview.mdx",
@@ -6751,150 +6895,6 @@
       "url": "/docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide",
       "node_url": "/api/wiki/nodes/doc:docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide.mdx.json",
       "subject_ref": "subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx",
-      "type": "document",
-      "title": "Linting & Formatting",
-      "snippet": "## clang-format\n\n- Clang-Format Style Options\n\n``shell\nwget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format\n`\n\n`shell\nclang",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "linting-formatting",
-        "aspect": "overview--lang-cpp-env-linting-formatting"
-      },
-      "url": "/docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx.json",
-      "subject_ref": "subject:language:environment:linting-formatting"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting.mdx",
-      "type": "document",
-      "title": "Linting & Formatting",
-      "snippet": "…e,\n};\n`\n\n`ignore title=\".prettierignore\"\n### macOS ###\n# General\n.DS_Store\n\n### JavaScript ###\n# Dependencies\nnode_modules\npnpm-lock.yaml\npackage-lock.json\nyarn.lock\n\n# B…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "linting-formatting",
-        "aspect": "overview--lang-javascript-env-linting-formatting"
-      },
-      "url": "/docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting.mdx.json",
-      "subject_ref": "subject:language:environment:linting-formatting"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx",
-      "type": "document",
-      "title": "Linting & Formatting",
-      "snippet": "## ruff\n\n``shell\npoetry add --group dev ruff\n`\n\n`shell\npython3 -m pip install ruff\n`\n\n- https://docs.astral.sh/ruff/configuration/\n\n`toml tit…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "linting-formatting",
-        "aspect": "overview--lang-python-env-linting-formatting"
-      },
-      "url": "/docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx.json",
-      "subject_ref": "subject:language:environment:linting-formatting"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx",
-      "type": "document",
-      "title": "Node.js 런타임 버전 관리",
-      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## yarn\n\n``shell\nnpm install -g yarn\n`\n\n`shell\nyarn install\n`\n\n`shell\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "version",
-        "aspect": "overview--lang-javascript-env-version"
-      },
-      "url": "/docs/operation/language/environment/version/overview--lang-javascript-env-version",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx.json",
-      "subject_ref": "subject:language:environment:version"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/version/overview--lang-python-env-version.mdx",
-      "type": "document",
-      "title": "Python 런타임 버전 관리",
-      "snippet": "…\"\neval \"$(pyenv init -)\"\n`\n\n`shell\nrm -rf $(pyenv root)\n`\n\n### 버전 관리\n\n- pyenv --version: pyenv 버전\n- pyenv version: 현재 기본 python 버전\n- pyenv versions: 설치된 python 버전\n- py…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "version",
-        "aspect": "overview--lang-python-env-version"
-      },
-      "url": "/docs/operation/language/environment/version/overview--lang-python-env-version",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/version/overview--lang-python-env-version.mdx.json",
-      "subject_ref": "subject:language:environment:version"
-    },
-    {
-      "id": "doc:docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64.mdx",
-      "type": "document",
-      "title": "Build Flutter engine for linux-arm/arm64",
-      "snippet": "…next command!!\n\n## Dependencies\n\n### Host(Linux x86_64)\n\n``shell\nmkdir -p $HOME/flutter-engine/sdk/toolchain \\\n&& mkdir -p $HOME/flutter-engine/sdk/sysroot \\\n&& mkdir -p $HOM…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "framework",
-        "instance": "flutter-engine",
-        "aspect": "for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64"
-      },
-      "url": "/docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64.mdx.json",
-      "subject_ref": "subject:language:framework:flutter-engine"
-    },
-    {
-      "id": "doc:docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64.mdx",
-      "type": "document",
-      "title": "Build Flutter app for linux-arm/arm64",
-      "snippet": "…Native Build\n\n### Target(Linux ARM/ARM64)\n\n``shell\ngit clone https://github.com/flutter/flutter.git $HOME/development/flutter\n`\n\n`shell\ncd $HOME/development/flutter \\\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "framework",
-        "instance": "flutter",
-        "aspect": "for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64"
-      },
-      "url": "/docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64.mdx.json",
-      "subject_ref": "subject:language:framework:flutter"
-    },
-    {
-      "id": "doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx",
-      "type": "document",
-      "title": "Documentation using Sphinx",
-      "snippet": "…\n\n`python {20-22,25} title=\"py_src/conf.py\"\n# Configuration file for the Sphinx documentation builder.\n#\n# This file only contains a selection of the most common options. Fo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "package",
-        "instance": "python-package-sphinx",
-        "aspect": "package-sphinx"
-      },
-      "url": "/docs/operation/language/package/python-package-sphinx/package-sphinx",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx.json",
-      "subject_ref": "subject:language:package:python-package-sphinx"
-    },
-    {
-      "id": "doc:docs/operation/language/toolchain/cgo/cgo.mdx",
-      "type": "document",
-      "title": "Go에서 C 코드 사용하기",
-      "snippet": "## import \"C\"\n\n- https://pkg.go.dev/cmd/cgo\n\n``go\n/*\n\n// C 코드\n\n*/\n\n`\n\nimport \"C\" 바로 윗줄의 주석을 preamble이라고 합니다. preamble은 /* 주…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "toolchain",
-        "instance": "cgo",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/toolchain/cgo",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/toolchain/cgo/cgo.mdx.json",
-      "subject_ref": "subject:language:toolchain:cgo"
     },
     {
       "id": "doc:docs/operation/mlops/auth-system/authentik/install.mdx",
@@ -12253,38 +12253,6 @@
       ]
     },
     {
-      "id": "subject:language:api:class-binding",
-      "type": "subject",
-      "title": "Class binding with node-addon-api",
-      "snippet": "## Setup\n\n``shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-addon-api\n│ └── ...\n├── package.json\n├── package-lock.json\n├── test\n│ └── ...\n├── .clang-…",
-      "ontology": {
-        "domain": "language",
-        "class": "api",
-        "instance": "class-binding"
-      },
-      "url": "/docs/entity/language/api/class-binding",
-      "node_url": "/api/wiki/nodes/subject:language:api:class-binding.json",
-      "document_refs": [
-        "doc:docs/entity/language/api/class-binding/class-binding.mdx"
-      ]
-    },
-    {
-      "id": "subject:language:api:node-addon-api",
-      "type": "subject",
-      "title": "node-addon-api",
-      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
-      "ontology": {
-        "domain": "language",
-        "class": "api",
-        "instance": "node-addon-api"
-      },
-      "url": "/docs/entity/language/api/node-addon-api",
-      "node_url": "/api/wiki/nodes/subject:language:api:node-addon-api.json",
-      "document_refs": [
-        "doc:docs/entity/language/api/node-addon-api/node-addon-api.mdx"
-      ]
-    },
-    {
       "id": "subject:language:build-tooling:cmake",
       "type": "subject",
       "title": "CMake",
@@ -13000,24 +12968,6 @@
       ]
     },
     {
-      "id": "subject:language:environment:linting-formatting",
-      "type": "subject",
-      "title": "Linting & Formatting",
-      "snippet": "## clang-format\n\n- Clang-Format Style Options\n\n``shell\nwget https://raw.githubusercontent.com/hhk7734/conf/master/.clang-format -O .clang-format\n`\n\n`shell\nclang",
-      "ontology": {
-        "domain": "language",
-        "class": "environment",
-        "instance": "linting-formatting"
-      },
-      "url": "/docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting",
-      "node_url": "/api/wiki/nodes/subject:language:environment:linting-formatting.json",
-      "document_refs": [
-        "doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx",
-        "doc:docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting.mdx",
-        "doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx"
-      ]
-    },
-    {
       "id": "subject:language:environment:pipenv",
       "type": "subject",
       "title": "Pipenv",
@@ -13066,23 +13016,6 @@
       ]
     },
     {
-      "id": "subject:language:environment:version",
-      "type": "subject",
-      "title": "Node.js 런타임 버전 관리",
-      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## yarn\n\n``shell\nnpm install -g yarn\n`\n\n`shell\nyarn install\n`\n\n`shell\n…",
-      "ontology": {
-        "domain": "language",
-        "class": "environment",
-        "instance": "version"
-      },
-      "url": "/docs/operation/language/environment/version/overview--lang-javascript-env-version",
-      "node_url": "/api/wiki/nodes/subject:language:environment:version.json",
-      "document_refs": [
-        "doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx",
-        "doc:docs/operation/language/environment/version/overview--lang-python-env-version.mdx"
-      ]
-    },
-    {
       "id": "subject:language:framework:flutter",
       "type": "subject",
       "title": "Flutter",
@@ -13096,8 +13029,8 @@
       "node_url": "/api/wiki/nodes/subject:language:framework:flutter.json",
       "document_refs": [
         "doc:docs/language/flutter/overview.mdx",
-        "doc:docs/language/flutter/linux-methodchannel.mdx",
-        "doc:docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64.mdx"
+        "doc:docs/language/flutter/build-for-linux-arm64.mdx",
+        "doc:docs/language/flutter/linux-methodchannel.mdx"
       ]
     },
     {
@@ -13110,11 +13043,11 @@
         "class": "framework",
         "instance": "flutter-engine"
       },
-      "url": "/docs/entity/language/framework/flutter-engine",
+      "url": "/docs/language/flutter-engine/overview",
       "node_url": "/api/wiki/nodes/subject:language:framework:flutter-engine.json",
       "document_refs": [
-        "doc:docs/entity/language/framework/flutter-engine/flutter-engine.mdx",
-        "doc:docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64.mdx"
+        "doc:docs/language/flutter-engine/overview.mdx",
+        "doc:docs/language/flutter-engine/build-for-linux-arm64.mdx"
       ]
     },
     {
@@ -13645,6 +13578,23 @@
       ]
     },
     {
+      "id": "subject:language:library:node-addon-api",
+      "type": "subject",
+      "title": "node-addon-api",
+      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "node-addon-api"
+      },
+      "url": "/docs/language/node-addon-api/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:node-addon-api.json",
+      "document_refs": [
+        "doc:docs/language/node-addon-api/overview.mdx",
+        "doc:docs/language/node-addon-api/class-binding.mdx"
+      ]
+    },
+    {
       "id": "subject:language:library:probot",
       "type": "subject",
       "title": "Probot",
@@ -14006,22 +13956,6 @@
       ]
     },
     {
-      "id": "subject:language:package:package",
-      "type": "subject",
-      "title": "Package 만들기",
-      "snippet": "## go.mod\n\n``shell\ngo mod init\n`\n\n- 로 go.mod 파일이 저장될 원격 서버의 주소를 지정합니다.\n - 예를 들어 github.com/hhk7734/example-go라고 하면 go.mod 파일은 해당 리포지토리의 루트 디렉토리에 있어야합니다.\n - 하위 폴",
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "package"
-      },
-      "url": "/docs/entity/language/package/package",
-      "node_url": "/api/wiki/nodes/subject:language:package:package.json",
-      "document_refs": [
-        "doc:docs/entity/language/package/package/package.mdx"
-      ]
-    },
-    {
       "id": "subject:language:package:poetry",
       "type": "subject",
       "title": "Package with Poetry",
@@ -14052,38 +13986,6 @@
       "document_refs": [
         "doc:docs/language/python/pybind11/overview.mdx",
         "doc:docs/language/python/pybind11/type.mdx"
-      ]
-    },
-    {
-      "id": "subject:language:package:python-package-sphinx",
-      "type": "subject",
-      "title": "Documentation using Sphinx",
-      "snippet": "…\n\n`python {20-22,25} title=\"py_src/conf.py\"\n# Configuration file for the Sphinx documentation builder.\n#\n# This file only contains a selection of the most common options. Fo…",
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "python-package-sphinx"
-      },
-      "url": "/docs/operation/language/package/python-package-sphinx/package-sphinx",
-      "node_url": "/api/wiki/nodes/subject:language:package:python-package-sphinx.json",
-      "document_refs": [
-        "doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx"
-      ]
-    },
-    {
-      "id": "subject:language:package:repository",
-      "type": "subject",
-      "title": "Python Package Repository",
-      "snippet": "## Repository\n\n- PEP 503 – Simple Repository API\n- PEP 691 – JSON-based Simple API for Python…",
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "repository"
-      },
-      "url": "/docs/entity/language/package/repository",
-      "node_url": "/api/wiki/nodes/subject:language:package:repository.json",
-      "document_refs": [
-        "doc:docs/entity/language/package/repository/repository.mdx"
       ]
     },
     {
@@ -14132,7 +14034,8 @@
       "url": "/docs/language/cpp/overview",
       "node_url": "/api/wiki/nodes/subject:language:programming-language:cpp.json",
       "document_refs": [
-        "doc:docs/language/cpp/overview.mdx"
+        "doc:docs/language/cpp/overview.mdx",
+        "doc:docs/language/cpp/linting-formatting/overview.mdx"
       ]
     },
     {
@@ -14164,7 +14067,9 @@
       "url": "/docs/language/go/overview",
       "node_url": "/api/wiki/nodes/subject:language:programming-language:go.json",
       "document_refs": [
-        "doc:docs/language/go/overview.mdx"
+        "doc:docs/language/go/overview.mdx",
+        "doc:docs/language/go/cgo.mdx",
+        "doc:docs/language/go/package.mdx"
       ]
     },
     {
@@ -14180,7 +14085,9 @@
       "url": "/docs/language/javascript/overview",
       "node_url": "/api/wiki/nodes/subject:language:programming-language:javascript.json",
       "document_refs": [
-        "doc:docs/language/javascript/overview.mdx"
+        "doc:docs/language/javascript/overview.mdx",
+        "doc:docs/language/javascript/linting-formatting/overview.mdx",
+        "doc:docs/language/javascript/version/overview.mdx"
       ]
     },
     {
@@ -14196,7 +14103,11 @@
       "url": "/docs/language/python/overview",
       "node_url": "/api/wiki/nodes/subject:language:programming-language:python.json",
       "document_refs": [
-        "doc:docs/language/python/overview.mdx"
+        "doc:docs/language/python/overview.mdx",
+        "doc:docs/language/python/package-repository.mdx",
+        "doc:docs/language/python/linting-formatting/overview.mdx",
+        "doc:docs/language/python/package-sphinx.mdx",
+        "doc:docs/language/python/version/overview.mdx"
       ]
     },
     {
@@ -14229,22 +14140,6 @@
       "node_url": "/api/wiki/nodes/subject:language:programming-language:shellscript.json",
       "document_refs": [
         "doc:docs/language/shellscript/overview.mdx"
-      ]
-    },
-    {
-      "id": "subject:language:toolchain:cgo",
-      "type": "subject",
-      "title": "Go에서 C 코드 사용하기",
-      "snippet": "## import \"C\"\n\n- https://pkg.go.dev/cmd/cgo\n\n``go\n/*\n\n// C 코드\n\n*/\n\n`\n\nimport \"C\" 바로 윗줄의 주석을 preamble이라고 합니다. preamble은 /* 주…",
-      "ontology": {
-        "domain": "language",
-        "class": "toolchain",
-        "instance": "cgo"
-      },
-      "url": "/docs/operation/language/toolchain/cgo",
-      "node_url": "/api/wiki/nodes/subject:language:toolchain:cgo.json",
-      "document_refs": [
-        "doc:docs/operation/language/toolchain/cgo/cgo.mdx"
       ]
     },
     {
@@ -18584,36 +18479,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/language/api/class-binding/class-binding.mdx:about_subject:subject:language:api:class-binding",
-      "from": "doc:docs/entity/language/api/class-binding/class-binding.mdx",
-      "to": "subject:language:api:class-binding",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/api/node-addon-api/node-addon-api.mdx:about_subject:subject:language:api:node-addon-api",
-      "from": "doc:docs/entity/language/api/node-addon-api/node-addon-api.mdx",
-      "to": "subject:language:api:node-addon-api",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/framework/flutter-engine/flutter-engine.mdx:about_subject:subject:language:framework:flutter-engine",
-      "from": "doc:docs/entity/language/framework/flutter-engine/flutter-engine.mdx",
-      "to": "subject:language:framework:flutter-engine",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/package/package/package.mdx:about_subject:subject:language:package:package",
-      "from": "doc:docs/entity/language/package/package/package.mdx",
-      "to": "subject:language:package:package",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/package/repository/repository.mdx:about_subject:subject:language:package:repository",
-      "from": "doc:docs/entity/language/package/repository/repository.mdx",
-      "to": "subject:language:package:repository",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/mlops/auth-system/authn/authn.mdx:about_subject:subject:mlops:auth-system:authn",
       "from": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
       "to": "subject:mlops:auth-system:authn",
@@ -19424,6 +19289,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/cpp/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:cpp",
+      "from": "doc:docs/language/cpp/linting-formatting/overview.mdx",
+      "to": "subject:language:programming-language:cpp",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/cpp/overview.mdx:about_subject:subject:language:programming-language:cpp",
       "from": "doc:docs/language/cpp/overview.mdx",
       "to": "subject:language:programming-language:cpp",
@@ -19457,6 +19328,24 @@
       "id": "relation:doc:docs/language/flutter-bloc/widgets.mdx:about_subject:subject:language:library:flutter-bloc",
       "from": "doc:docs/language/flutter-bloc/widgets.mdx",
       "to": "subject:language:library:flutter-bloc",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/flutter-engine/build-for-linux-arm64.mdx:about_subject:subject:language:framework:flutter-engine",
+      "from": "doc:docs/language/flutter-engine/build-for-linux-arm64.mdx",
+      "to": "subject:language:framework:flutter-engine",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/flutter-engine/overview.mdx:about_subject:subject:language:framework:flutter-engine",
+      "from": "doc:docs/language/flutter-engine/overview.mdx",
+      "to": "subject:language:framework:flutter-engine",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/flutter/build-for-linux-arm64.mdx:about_subject:subject:language:framework:flutter",
+      "from": "doc:docs/language/flutter/build-for-linux-arm64.mdx",
+      "to": "subject:language:framework:flutter",
       "predicate": "about_subject"
     },
     {
@@ -19706,8 +19595,20 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/go/cgo.mdx:about_subject:subject:language:programming-language:go",
+      "from": "doc:docs/language/go/cgo.mdx",
+      "to": "subject:language:programming-language:go",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/go/overview.mdx:about_subject:subject:language:programming-language:go",
       "from": "doc:docs/language/go/overview.mdx",
+      "to": "subject:language:programming-language:go",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/go/package.mdx:about_subject:subject:language:programming-language:go",
+      "from": "doc:docs/language/go/package.mdx",
       "to": "subject:language:programming-language:go",
       "predicate": "about_subject"
     },
@@ -19748,8 +19649,20 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/javascript/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:javascript",
+      "from": "doc:docs/language/javascript/linting-formatting/overview.mdx",
+      "to": "subject:language:programming-language:javascript",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/javascript/overview.mdx:about_subject:subject:language:programming-language:javascript",
       "from": "doc:docs/language/javascript/overview.mdx",
+      "to": "subject:language:programming-language:javascript",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/javascript/version/overview.mdx:about_subject:subject:language:programming-language:javascript",
+      "from": "doc:docs/language/javascript/version/overview.mdx",
       "to": "subject:language:programming-language:javascript",
       "predicate": "about_subject"
     },
@@ -19787,6 +19700,18 @@
       "id": "relation:doc:docs/language/nextjs/overview.mdx:about_subject:subject:language:framework:nextjs",
       "from": "doc:docs/language/nextjs/overview.mdx",
       "to": "subject:language:framework:nextjs",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/node-addon-api/class-binding.mdx:about_subject:subject:language:library:node-addon-api",
+      "from": "doc:docs/language/node-addon-api/class-binding.mdx",
+      "to": "subject:language:library:node-addon-api",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/node-addon-api/overview.mdx:about_subject:subject:language:library:node-addon-api",
+      "from": "doc:docs/language/node-addon-api/overview.mdx",
+      "to": "subject:language:library:node-addon-api",
       "predicate": "about_subject"
     },
     {
@@ -20108,8 +20033,26 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/python/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:python",
+      "from": "doc:docs/language/python/linting-formatting/overview.mdx",
+      "to": "subject:language:programming-language:python",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/python/overview.mdx:about_subject:subject:language:programming-language:python",
       "from": "doc:docs/language/python/overview.mdx",
+      "to": "subject:language:programming-language:python",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/package-repository.mdx:about_subject:subject:language:programming-language:python",
+      "from": "doc:docs/language/python/package-repository.mdx",
+      "to": "subject:language:programming-language:python",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/package-sphinx.mdx:about_subject:subject:language:programming-language:python",
+      "from": "doc:docs/language/python/package-sphinx.mdx",
       "to": "subject:language:programming-language:python",
       "predicate": "about_subject"
     },
@@ -20147,6 +20090,12 @@
       "id": "relation:doc:docs/language/python/setuptools/overview.mdx:about_subject:subject:language:package:setuptools",
       "from": "doc:docs/language/python/setuptools/overview.mdx",
       "to": "subject:language:package:setuptools",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/version/overview.mdx:about_subject:subject:language:programming-language:python",
+      "from": "doc:docs/language/python/version/overview.mdx",
+      "to": "subject:language:programming-language:python",
       "predicate": "about_subject"
     },
     {
@@ -20537,60 +20486,6 @@
       "id": "relation:doc:docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide.mdx:about_subject:subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide",
       "from": "doc:docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide.mdx",
       "to": "subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx:about_subject:subject:language:environment:linting-formatting",
-      "from": "doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx",
-      "to": "subject:language:environment:linting-formatting",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting.mdx:about_subject:subject:language:environment:linting-formatting",
-      "from": "doc:docs/operation/language/environment/linting-formatting/overview--lang-javascript-env-linting-formatting.mdx",
-      "to": "subject:language:environment:linting-formatting",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx:about_subject:subject:language:environment:linting-formatting",
-      "from": "doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx",
-      "to": "subject:language:environment:linting-formatting",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx:about_subject:subject:language:environment:version",
-      "from": "doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx",
-      "to": "subject:language:environment:version",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/version/overview--lang-python-env-version.mdx:about_subject:subject:language:environment:version",
-      "from": "doc:docs/operation/language/environment/version/overview--lang-python-env-version.mdx",
-      "to": "subject:language:environment:version",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64.mdx:about_subject:subject:language:framework:flutter-engine",
-      "from": "doc:docs/operation/language/framework/flutter-engine/for-linux-arm64--lang-flutter-engine-flutter-engine-for-linux-arm64.mdx",
-      "to": "subject:language:framework:flutter-engine",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64.mdx:about_subject:subject:language:framework:flutter",
-      "from": "doc:docs/operation/language/framework/flutter/for-linux-arm64--lang-flutter-engine-flutter-for-linux-arm64.mdx",
-      "to": "subject:language:framework:flutter",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx:about_subject:subject:language:package:python-package-sphinx",
-      "from": "doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx",
-      "to": "subject:language:package:python-package-sphinx",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/toolchain/cgo/cgo.mdx:about_subject:subject:language:toolchain:cgo",
-      "from": "doc:docs/operation/language/toolchain/cgo/cgo.mdx",
-      "to": "subject:language:toolchain:cgo",
       "predicate": "about_subject"
     },
     {

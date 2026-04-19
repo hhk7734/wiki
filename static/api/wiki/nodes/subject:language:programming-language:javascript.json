@@ -11,7 +11,9 @@
   "url": "/docs/language/javascript/overview",
   "node_url": "/api/wiki/nodes/subject:language:programming-language:javascript.json",
   "document_refs": [
-    "doc:docs/language/javascript/overview.mdx"
+    "doc:docs/language/javascript/overview.mdx",
+    "doc:docs/language/javascript/linting-formatting/overview.mdx",
+    "doc:docs/language/javascript/version/overview.mdx"
   ],
   "documents": [
     {
@@ -26,6 +28,32 @@
         "instance": "javascript",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/language/javascript/linting-formatting/overview.mdx",
+      "title": "Linting & Formatting",
+      "url": "/docs/language/javascript/linting-formatting/overview",
+      "snippet": "…e,\n};\n`\n\n`ignore title=\".prettierignore\"\n### macOS ###\n# General\n.DS_Store\n\n### JavaScript ###\n# Dependencies\nnode_modules\npnpm-lock.yaml\npackage-lock.json\nyarn.lock\n\n# B…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "javascript",
+        "aspect": "linting-formatting"
+      }
+    },
+    {
+      "id": "doc:docs/language/javascript/version/overview.mdx",
+      "title": "Node.js 런타임 버전 관리",
+      "url": "/docs/language/javascript/version/overview",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## yarn\n\n``shell\nnpm install -g yarn\n`\n\n`shell\nyarn install\n`\n\n`shell\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "javascript",
+        "aspect": "version"
+      }
     }
   ],
   "relations": [
@@ -33,6 +61,18 @@
       "id": "relation:doc:docs/language/javascript/overview.mdx:about_subject:subject:language:programming-language:javascript",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/javascript/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/javascript/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:javascript",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/javascript/linting-formatting/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/javascript/version/overview.mdx:about_subject:subject:language:programming-language:javascript",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/javascript/version/overview.mdx",
       "direction": "incoming"
     }
   ]
