@@ -1009,22 +1009,6 @@
       "subject_ref": "subject:data:object-storage:s3"
     },
     {
-      "id": "doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx",
-      "type": "document",
-      "title": "pipeline",
-      "snippet": "- https://github.com/metacontroller/metacontroller",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "pipeline",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/ml-platform/pipeline",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:pipeline"
-    },
-    {
       "id": "doc:docs/hardware/arduino/how-to-use-library.mdx",
       "type": "document",
       "title": "Arduino How to use library",
@@ -7729,6 +7713,22 @@
       "subject_ref": "subject:mlops:cluster-orchestrator:kubeadm"
     },
     {
+      "id": "doc:docs/mlops/kubectl/overview.mdx",
+      "type": "document",
+      "title": "kubectl Tooling",
+      "snippet": "## kubectl\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\".zshrc\"\n# kubectl\nsource [-n ] [-p]\n`\n\n## …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "tool",
+        "instance": "kubectl",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/kubectl/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubectl/overview.mdx.json",
+      "subject_ref": "subject:mlops:tool:kubectl"
+    },
+    {
       "id": "doc:docs/mlops/kubeflow-trainer/overview.mdx",
       "type": "document",
       "title": "Kubeflow Trainer",
@@ -8703,6 +8703,22 @@
       "url": "/docs/mlops/persistent-volume/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/persistent-volume/overview.mdx.json",
       "subject_ref": "subject:mlops:storage:persistent-volume"
+    },
+    {
+      "id": "doc:docs/mlops/pipeline/overview.mdx",
+      "type": "document",
+      "title": "pipeline",
+      "snippet": "- https://github.com/metacontroller/metacontroller",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "pipeline",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/pipeline/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/pipeline/overview.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:pipeline"
     },
     {
       "id": "doc:docs/mlops/pod-lifecycle/overview.mdx",
@@ -9807,22 +9823,6 @@
       "url": "/docs/operation/mlops/networking/service",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking/service/service.mdx.json",
       "subject_ref": "subject:mlops:networking:service"
-    },
-    {
-      "id": "doc:docs/operation/mlops/tool/etc/etc.mdx",
-      "type": "document",
-      "title": "Etc",
-      "snippet": "## kubectl\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\".zshrc\"\n# kubectl\nsource [-n ] [-p]\n`\n\n## node-shell\n\n- https://github.com/kvaps/kubectl-node-shell\n\n`shell\nkube",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "tool",
-        "instance": "etc",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/tool/etc",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/tool/etc/etc.mdx.json",
-      "subject_ref": "subject:mlops:tool:etc"
     },
     {
       "id": "doc:docs/platform/alacritty/overview.mdx",
@@ -14829,10 +14829,10 @@
         "class": "ml-platform",
         "instance": "pipeline"
       },
-      "url": "/docs/entity/mlops/ml-platform/pipeline",
+      "url": "/docs/mlops/pipeline/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:pipeline.json",
       "document_refs": [
-        "doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx"
+        "doc:docs/mlops/pipeline/overview.mdx"
       ]
     },
     {
@@ -15891,22 +15891,6 @@
       ]
     },
     {
-      "id": "subject:mlops:tool:etc",
-      "type": "subject",
-      "title": "Etc",
-      "snippet": "## kubectl\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\".zshrc\"\n# kubectl\nsource [-n ] [-p]\n`\n\n## node-shell\n\n- https://github.com/kvaps/kubectl-node-shell\n\n`shell\nkube",
-      "ontology": {
-        "domain": "mlops",
-        "class": "tool",
-        "instance": "etc"
-      },
-      "url": "/docs/operation/mlops/tool/etc",
-      "node_url": "/api/wiki/nodes/subject:mlops:tool:etc.json",
-      "document_refs": [
-        "doc:docs/operation/mlops/tool/etc/etc.mdx"
-      ]
-    },
-    {
       "id": "subject:mlops:tool:helm",
       "type": "subject",
       "title": "Helm 명령어로 애플리케이션 배포하기",
@@ -15921,6 +15905,22 @@
       "document_refs": [
         "doc:docs/mlops/helm/overview.mdx",
         "doc:docs/mlops/helm/custom-chart.mdx"
+      ]
+    },
+    {
+      "id": "subject:mlops:tool:kubectl",
+      "type": "subject",
+      "title": "kubectl Tooling",
+      "snippet": "## kubectl\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\".zshrc\"\n# kubectl\nsource [-n ] [-p]\n`\n\n## …",
+      "ontology": {
+        "domain": "mlops",
+        "class": "tool",
+        "instance": "kubectl"
+      },
+      "url": "/docs/mlops/kubectl/overview",
+      "node_url": "/api/wiki/nodes/subject:mlops:tool:kubectl.json",
+      "document_refs": [
+        "doc:docs/mlops/kubectl/overview.mdx"
       ]
     },
     {
@@ -17465,12 +17465,6 @@
       "id": "relation:doc:docs/data/s3/overview.mdx:about_subject:subject:data:object-storage:s3",
       "from": "doc:docs/data/s3/overview.mdx",
       "to": "subject:data:object-storage:s3",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx:about_subject:subject:mlops:ml-platform:pipeline",
-      "from": "doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx",
-      "to": "subject:mlops:ml-platform:pipeline",
       "predicate": "about_subject"
     },
     {
@@ -19988,6 +19982,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/kubectl/overview.mdx:about_subject:subject:mlops:tool:kubectl",
+      "from": "doc:docs/mlops/kubectl/overview.mdx",
+      "to": "subject:mlops:tool:kubectl",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/kubeflow-trainer/overview.mdx:about_subject:subject:mlops:workflow-system:kubeflow-trainer",
       "from": "doc:docs/mlops/kubeflow-trainer/overview.mdx",
       "to": "subject:mlops:workflow-system:kubeflow-trainer",
@@ -20351,6 +20351,12 @@
       "id": "relation:doc:docs/mlops/persistent-volume/overview.mdx:about_subject:subject:mlops:storage:persistent-volume",
       "from": "doc:docs/mlops/persistent-volume/overview.mdx",
       "to": "subject:mlops:storage:persistent-volume",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/pipeline/overview.mdx:about_subject:subject:mlops:ml-platform:pipeline",
+      "from": "doc:docs/mlops/pipeline/overview.mdx",
+      "to": "subject:mlops:ml-platform:pipeline",
       "predicate": "about_subject"
     },
     {
@@ -20765,12 +20771,6 @@
       "id": "relation:doc:docs/operation/mlops/networking/service/service.mdx:about_subject:subject:mlops:networking:service",
       "from": "doc:docs/operation/mlops/networking/service/service.mdx",
       "to": "subject:mlops:networking:service",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/tool/etc/etc.mdx:about_subject:subject:mlops:tool:etc",
-      "from": "doc:docs/operation/mlops/tool/etc/etc.mdx",
-      "to": "subject:mlops:tool:etc",
       "predicate": "about_subject"
     },
     {
