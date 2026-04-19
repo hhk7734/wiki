@@ -623,9 +623,9 @@
       "title": "Authentik 설치 가이드",
       "description": "## 설치\n\n- authentik Docs / Installation / Kubernetes installation\n\n``shell\nhelm repo add authentik …",
       "snippet": "## 설치\n\n- authentik Docs / Installation / Kubernetes installation\n\n``shell\nhelm repo add authentik …",
-      "url": "/docs/operation/mlops/auth-system/authentik/install",
+      "url": "/docs/mlops/authentik/install",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/authentik/install.mdx"
+        "doc:docs/mlops/authentik/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -1800,10 +1800,10 @@
       "title": "Dex",
       "description": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
       "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
-      "url": "/docs/operation/mlops/auth-system/dex/install",
+      "url": "/docs/mlops/dex/install",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/dex/google.mdx",
-        "doc:docs/operation/mlops/auth-system/dex/install.mdx"
+        "doc:docs/mlops/dex/google.mdx",
+        "doc:docs/mlops/dex/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -3520,13 +3520,13 @@
       "title": "Keycloak",
       "description": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
       "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
-      "url": "/docs/operation/mlops/auth-system/keycloak/install",
+      "url": "/docs/mlops/keycloak/install",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx"
+        "doc:docs/mlops/keycloak/config-cli.mdx",
+        "doc:docs/mlops/keycloak/identity-providers.mdx",
+        "doc:docs/mlops/keycloak/install.mdx",
+        "doc:docs/mlops/keycloak/openid-connect.mdx",
+        "doc:docs/mlops/keycloak/realm.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4017,9 +4017,9 @@
       "title": "Kubernetes 인가(Authz); RBAC",
       "description": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
       "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
-      "url": "/docs/entity/mlops/auth-system/rbac",
+      "url": "/docs/mlops/rbac/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/rbac/rbac.mdx"
+        "doc:docs/mlops/rbac/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4040,9 +4040,9 @@
       "title": "Kubernetes 인증(Authn)",
       "description": "…p으로 인식됩니다.\n\n## Authn\n\n### X.509 인증서로 인증하기\n\nRoot CA 파일은 Control plane Node의 /etc/kubernetes/pki/ 또는 /etc/kubernetes/ssl/ 디렉토리에 위치합니다.\n\n- X.509 인증서\n\n``shell\nopenssl genrsa …",
       "snippet": "…p으로 인식됩니다.\n\n## Authn\n\n### X.509 인증서로 인증하기\n\nRoot CA 파일은 Control plane Node의 /etc/kubernetes/pki/ 또는 /etc/kubernetes/ssl/ 디렉토리에 위치합니다.\n\n- X.509 인증서\n\n``shell\nopenssl genrsa …",
-      "url": "/docs/entity/mlops/auth-system/authn",
+      "url": "/docs/mlops/authn/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/authn/authn.mdx"
+        "doc:docs/mlops/authn/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4186,11 +4186,11 @@
       "title": "Let's Encrypt with cert-manager",
       "description": "## Let's Encrypt\n\n- - https://cert-manager.io/docs/faq/acme/\n\n### HTTP-01 challenge\n\n인증을 시작하면 와 …",
       "snippet": "## Let's Encrypt\n\n- - https://cert-manager.io/docs/faq/acme/\n\n### HTTP-01 challenge\n\n인증을 시작하면 와 …",
-      "url": "/docs/operation/mlops/auth-system/cert-manager/lets-encrypt",
+      "url": "/docs/mlops/cert-manager/lets-encrypt",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx",
-        "doc:docs/operation/mlops/auth-system/cert-manager/install.mdx",
-        "doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx"
+        "doc:docs/mlops/cert-manager/crds.mdx",
+        "doc:docs/mlops/cert-manager/install.mdx",
+        "doc:docs/mlops/cert-manager/lets-encrypt.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -6966,10 +6966,10 @@
       "title": "Transport Layer Security(전송 계층 보안)",
       "description": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
       "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
-      "url": "/docs/entity/mlops/auth-system/tls",
+      "url": "/docs/mlops/tls/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/tls/tls.mdx",
-        "doc:docs/operation/mlops/auth-system/tls/x509.mdx"
+        "doc:docs/mlops/tls/overview.mdx",
+        "doc:docs/mlops/tls/x509.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -7448,9 +7448,9 @@
       "title": "casdoor",
       "description": "## Casdoor\n\nCasdoor는 Application에 대한 인증/인가를 관리하는 서비스입니다.\n\n- User는 하나의 Organization에만 속할 수 …",
       "snippet": "## Casdoor\n\nCasdoor는 Application에 대한 인증/인가를 관리하는 서비스입니다.\n\n- User는 하나의 Organization에만 속할 수 …",
-      "url": "/docs/operation/mlops/auth-system/casdoor/install",
+      "url": "/docs/mlops/casdoor/install",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/casdoor/install.mdx"
+        "doc:docs/mlops/casdoor/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8366,10 +8366,10 @@
       "title": "oauth2-proxy로 간단한 인증 절차 추가하기",
       "description": "…되어 있습니다.\n\n### OAuth2 Reverse Proxy\n\n``mermaid\nflowchart LR\n Client\n Oauth2Proxy(oauth2-proxy)\n OIDCProvider\n Upstream\n\n style Oauth2Proxy fill:#4B7,color:#fff\n\n Client Oaut…",
       "snippet": "…되어 있습니다.\n\n### OAuth2 Reverse Proxy\n\n``mermaid\nflowchart LR\n Client\n Oauth2Proxy(oauth2-proxy)\n OIDCProvider\n Upstream\n\n style Oauth2Proxy fill:#4B7,color:#fff\n\n Client Oaut…",
-      "url": "/docs/entity/mlops/auth-system/oauth2-proxy",
+      "url": "/docs/mlops/oauth2-proxy/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx",
-        "doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx"
+        "doc:docs/mlops/oauth2-proxy/overview.mdx",
+        "doc:docs/mlops/oauth2-proxy/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -10902,7 +10902,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/authentik/install.mdx",
+      "id": "doc:docs/mlops/authentik/install.mdx",
       "title": "Authentik 설치 가이드",
       "description": "Authentik 설치 가이드",
       "snippet": "## 설치\n\n- authentik Docs / Installation / Kubernetes installation\n\n``shell\nhelm repo add authentik …",
@@ -10912,7 +10912,7 @@
       "keywords": [
         "authentik"
       ],
-      "url": "/docs/operation/mlops/auth-system/authentik/install",
+      "url": "/docs/mlops/authentik/install",
       "subject_ref": "subject:mlops:auth-system:authentik",
       "subject_title": "Authentik",
       "ontology": {
@@ -13898,7 +13898,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/dex/install.mdx",
+      "id": "doc:docs/mlops/dex/install.mdx",
       "title": "Dex",
       "description": "Dex",
       "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
@@ -13910,7 +13910,7 @@
         "dex",
         "oidc"
       ],
-      "url": "/docs/operation/mlops/auth-system/dex/install",
+      "url": "/docs/mlops/dex/install",
       "subject_ref": "subject:mlops:auth-system:dex",
       "subject_title": "Dex",
       "ontology": {
@@ -13929,7 +13929,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/dex/google.mdx",
+      "id": "doc:docs/mlops/dex/google.mdx",
       "title": "Dex에 Google 연결하기",
       "description": "Dex에 Google 연결하기",
       "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…",
@@ -13949,7 +13949,7 @@
         "google",
         "connector"
       ],
-      "url": "/docs/operation/mlops/auth-system/dex/google",
+      "url": "/docs/mlops/dex/google",
       "subject_ref": "subject:mlops:auth-system:dex",
       "subject_title": "Dex",
       "ontology": {
@@ -17931,7 +17931,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+      "id": "doc:docs/mlops/keycloak/install.mdx",
       "title": "Keycloak",
       "description": "Keycloak",
       "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
@@ -17943,7 +17943,7 @@
       "keywords": [
         "keycloak"
       ],
-      "url": "/docs/operation/mlops/auth-system/keycloak/install",
+      "url": "/docs/mlops/keycloak/install",
       "subject_ref": "subject:mlops:auth-system:keycloak",
       "subject_title": "Keycloak",
       "ontology": {
@@ -17962,7 +17962,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+      "id": "doc:docs/mlops/keycloak/identity-providers.mdx",
       "title": "Keycloak Identity Providers",
       "description": "Keycloak Identity Providers",
       "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…",
@@ -17973,7 +17973,7 @@
         "keycloak",
         "identity providers"
       ],
-      "url": "/docs/operation/mlops/auth-system/keycloak/identity-providers",
+      "url": "/docs/mlops/keycloak/identity-providers",
       "subject_ref": "subject:mlops:auth-system:keycloak",
       "subject_title": "Keycloak",
       "ontology": {
@@ -17992,7 +17992,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+      "id": "doc:docs/mlops/keycloak/openid-connect.mdx",
       "title": "Keycloak OpenID Connect",
       "description": "Keycloak OpenID Connect",
       "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
@@ -18010,7 +18010,7 @@
         "openid",
         "connect"
       ],
-      "url": "/docs/operation/mlops/auth-system/keycloak/openid-connect",
+      "url": "/docs/mlops/keycloak/openid-connect",
       "subject_ref": "subject:mlops:auth-system:keycloak",
       "subject_title": "Keycloak",
       "ontology": {
@@ -18989,7 +18989,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/auth-system/rbac/rbac.mdx",
+      "id": "doc:docs/mlops/rbac/overview.mdx",
       "title": "Kubernetes 인가(Authz); RBAC",
       "description": "kubernetes 인가(Authz); RBAC",
       "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
@@ -19006,7 +19006,7 @@
         "authz",
         "rbac"
       ],
-      "url": "/docs/entity/mlops/auth-system/rbac",
+      "url": "/docs/mlops/rbac/overview",
       "subject_ref": "subject:mlops:auth-system:rbac",
       "subject_title": "Rbac",
       "ontology": {
@@ -19025,7 +19025,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
+      "id": "doc:docs/mlops/authn/overview.mdx",
       "title": "Kubernetes 인증(Authn)",
       "description": "Kubernetes 인증(Authn)",
       "snippet": "…p으로 인식됩니다.\n\n## Authn\n\n### X.509 인증서로 인증하기\n\nRoot CA 파일은 Control plane Node의 /etc/kubernetes/pki/ 또는 /etc/kubernetes/ssl/ 디렉토리에 위치합니다.\n\n- X.509 인증서\n\n``shell\nopenssl genrsa …",
@@ -19049,7 +19049,7 @@
         "authn",
         "kubeconfig"
       ],
-      "url": "/docs/entity/mlops/auth-system/authn",
+      "url": "/docs/mlops/authn/overview",
       "subject_ref": "subject:mlops:auth-system:authn",
       "subject_title": "Authn",
       "ontology": {
@@ -19695,7 +19695,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx",
+      "id": "doc:docs/mlops/cert-manager/lets-encrypt.mdx",
       "title": "Let's Encrypt with cert-manager",
       "description": "Let's Encrypt with cert-manager",
       "snippet": "## Let's Encrypt\n\n- - https://cert-manager.io/docs/faq/acme/\n\n### HTTP-01 challenge\n\n인증을 시작하면 와 …",
@@ -19709,7 +19709,7 @@
         "cert-manager",
         "Let's Encrypt"
       ],
-      "url": "/docs/operation/mlops/auth-system/cert-manager/lets-encrypt",
+      "url": "/docs/mlops/cert-manager/lets-encrypt",
       "subject_ref": "subject:mlops:auth-system:cert-manager",
       "subject_title": "Cert Manager",
       "ontology": {
@@ -25533,7 +25533,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
+      "id": "doc:docs/mlops/keycloak/realm.mdx",
       "title": "Realm",
       "description": "Keycloak Realm",
       "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
@@ -25555,7 +25555,7 @@
         "keycloak",
         "realm"
       ],
-      "url": "/docs/operation/mlops/auth-system/keycloak/realm",
+      "url": "/docs/mlops/keycloak/realm",
       "subject_ref": "subject:mlops:auth-system:keycloak",
       "subject_title": "Keycloak",
       "ontology": {
@@ -28234,7 +28234,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/auth-system/tls/tls.mdx",
+      "id": "doc:docs/mlops/tls/overview.mdx",
       "title": "Transport Layer Security(전송 계층 보안)",
       "description": "Transport Layer Security(전송 계층 보안)",
       "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
@@ -28250,7 +28250,7 @@
         "Private Key",
         "X.509"
       ],
-      "url": "/docs/entity/mlops/auth-system/tls",
+      "url": "/docs/mlops/tls/overview",
       "subject_ref": "subject:mlops:auth-system:tls",
       "subject_title": "Tls",
       "ontology": {
@@ -29138,7 +29138,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/tls/x509.mdx",
+      "id": "doc:docs/mlops/tls/x509.mdx",
       "title": "X.509",
       "description": "X.509",
       "snippet": "…t_bits = 3072\nencrypt_key = no\nprompt = no\nutf8 = yes\n\nreq_extensions = req_ext\nx509_extensions = req_ext\n\ndistinguished_name = req_distinguished_name\n\n[ req_ext ]\n…",
@@ -29159,7 +29159,7 @@
         "X.509",
         "PKI"
       ],
-      "url": "/docs/operation/mlops/auth-system/tls/x509",
+      "url": "/docs/mlops/tls/x509",
       "subject_ref": "subject:mlops:auth-system:tls",
       "subject_title": "Tls",
       "ontology": {
@@ -29580,7 +29580,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/casdoor/install.mdx",
+      "id": "doc:docs/mlops/casdoor/install.mdx",
       "title": "casdoor",
       "description": "casdoor",
       "snippet": "## Casdoor\n\nCasdoor는 Application에 대한 인증/인가를 관리하는 서비스입니다.\n\n- User는 하나의 Organization에만 속할 수 …",
@@ -29591,7 +29591,7 @@
       "keywords": [
         "casdoor"
       ],
-      "url": "/docs/operation/mlops/auth-system/casdoor/install",
+      "url": "/docs/mlops/casdoor/install",
       "subject_ref": "subject:mlops:auth-system:casdoor",
       "subject_title": "Casdoor",
       "ontology": {
@@ -29610,7 +29610,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/install.mdx",
+      "id": "doc:docs/mlops/cert-manager/install.mdx",
       "title": "cert-manager",
       "description": "cert-manager",
       "snippet": "## 설치\n\n- cert-manager / Helm\n\n``shell\nhelm pull oci://quay.io/jetstack/charts/cert-manager --version …",
@@ -29625,7 +29625,7 @@
       "keywords": [
         "cert-manager"
       ],
-      "url": "/docs/operation/mlops/auth-system/cert-manager/install",
+      "url": "/docs/mlops/cert-manager/install",
       "subject_ref": "subject:mlops:auth-system:cert-manager",
       "subject_title": "Cert Manager",
       "ontology": {
@@ -29644,7 +29644,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx",
+      "id": "doc:docs/mlops/cert-manager/crds.mdx",
       "title": "cert-manager CRDs",
       "description": "cert-manager CRDs",
       "snippet": "## Issure\n\n- https://cert-manager.io/docs/concepts/issuer/\n- https://cert-manager.io/docs/configuration/\n- https:…",
@@ -29658,7 +29658,7 @@
         "issuer",
         "certificate"
       ],
-      "url": "/docs/operation/mlops/auth-system/cert-manager/crds",
+      "url": "/docs/mlops/cert-manager/crds",
       "subject_ref": "subject:mlops:auth-system:cert-manager",
       "subject_title": "Cert Manager",
       "ontology": {
@@ -30903,7 +30903,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+      "id": "doc:docs/mlops/keycloak/config-cli.mdx",
       "title": "keycloak-config-cli",
       "description": "keycloak-config-cli",
       "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…",
@@ -30915,7 +30915,7 @@
         "keycloak",
         "keycloak-config-cli"
       ],
-      "url": "/docs/operation/mlops/auth-system/keycloak/config-cli",
+      "url": "/docs/mlops/keycloak/config-cli",
       "subject_ref": "subject:mlops:auth-system:keycloak",
       "subject_title": "Keycloak",
       "ontology": {
@@ -31483,7 +31483,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx",
+      "id": "doc:docs/mlops/oauth2-proxy/install.mdx",
       "title": "oauth2-proxy 설치 및 설정",
       "description": "oauth2-proxy 설치 및 설정",
       "snippet": "oauth2-proxy 개요 문서에서 인증 방식을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- oauth2-proxy manifests GitHub / helm / …",
@@ -31494,7 +31494,7 @@
       "keywords": [
         "oauth2-proxy"
       ],
-      "url": "/docs/operation/mlops/auth-system/oauth2-proxy/install",
+      "url": "/docs/mlops/oauth2-proxy/install",
       "subject_ref": "subject:mlops:auth-system:oauth2-proxy",
       "subject_title": "Oauth2 Proxy",
       "ontology": {
@@ -31513,7 +31513,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx",
+      "id": "doc:docs/mlops/oauth2-proxy/overview.mdx",
       "title": "oauth2-proxy로 간단한 인증 절차 추가하기",
       "description": "oauth2-proxy로 간단한 인증 절차 추가하기",
       "snippet": "…되어 있습니다.\n\n### OAuth2 Reverse Proxy\n\n``mermaid\nflowchart LR\n Client\n Oauth2Proxy(oauth2-proxy)\n OIDCProvider\n Upstream\n\n style Oauth2Proxy fill:#4B7,color:#fff\n\n Client Oaut…",
@@ -31525,7 +31525,7 @@
       "keywords": [
         "oauth2-proxy"
       ],
-      "url": "/docs/entity/mlops/auth-system/oauth2-proxy",
+      "url": "/docs/mlops/oauth2-proxy/overview",
       "subject_ref": "subject:mlops:auth-system:oauth2-proxy",
       "subject_title": "Oauth2 Proxy",
       "ontology": {

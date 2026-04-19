@@ -1057,70 +1057,6 @@
       "subject_ref": "subject:data:object-storage:s3"
     },
     {
-      "id": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
-      "type": "document",
-      "title": "Kubernetes 인증(Authn)",
-      "snippet": "…p으로 인식됩니다.\n\n## Authn\n\n### X.509 인증서로 인증하기\n\nRoot CA 파일은 Control plane Node의 /etc/kubernetes/pki/ 또는 /etc/kubernetes/ssl/ 디렉토리에 위치합니다.\n\n- X.509 인증서\n\n``shell\nopenssl genrsa …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "authn",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/auth-system/authn",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/auth-system/authn/authn.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:authn"
-    },
-    {
-      "id": "doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx",
-      "type": "document",
-      "title": "oauth2-proxy로 간단한 인증 절차 추가하기",
-      "snippet": "…되어 있습니다.\n\n### OAuth2 Reverse Proxy\n\n``mermaid\nflowchart LR\n Client\n Oauth2Proxy(oauth2-proxy)\n OIDCProvider\n Upstream\n\n style Oauth2Proxy fill:#4B7,color:#fff\n\n Client Oaut…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "oauth2-proxy",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/auth-system/oauth2-proxy",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:oauth2-proxy"
-    },
-    {
-      "id": "doc:docs/entity/mlops/auth-system/rbac/rbac.mdx",
-      "type": "document",
-      "title": "Kubernetes 인가(Authz); RBAC",
-      "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "rbac",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/auth-system/rbac",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/auth-system/rbac/rbac.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:rbac"
-    },
-    {
-      "id": "doc:docs/entity/mlops/auth-system/tls/tls.mdx",
-      "type": "document",
-      "title": "Transport Layer Security(전송 계층 보안)",
-      "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "tls",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/auth-system/tls",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/auth-system/tls/tls.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:tls"
-    },
-    {
       "id": "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
       "type": "document",
       "title": "IAM",
@@ -6497,6 +6433,38 @@
       "subject_ref": "subject:mlops:workflow-system:argo-workflows"
     },
     {
+      "id": "doc:docs/mlops/authentik/install.mdx",
+      "type": "document",
+      "title": "Authentik 설치 가이드",
+      "snippet": "## 설치\n\n- authentik Docs / Installation / Kubernetes installation\n\n``shell\nhelm repo add authentik …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "authentik",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/authentik/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/authentik/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:authentik"
+    },
+    {
+      "id": "doc:docs/mlops/authn/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes 인증(Authn)",
+      "snippet": "…p으로 인식됩니다.\n\n## Authn\n\n### X.509 인증서로 인증하기\n\nRoot CA 파일은 Control plane Node의 /etc/kubernetes/pki/ 또는 /etc/kubernetes/ssl/ 디렉토리에 위치합니다.\n\n- X.509 인증서\n\n``shell\nopenssl genrsa …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "authn",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/authn/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/authn/overview.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:authn"
+    },
+    {
       "id": "doc:docs/mlops/awx-operator/crd.mdx",
       "type": "document",
       "title": "AWX operator CRD",
@@ -6527,6 +6495,70 @@
       "url": "/docs/mlops/awx-operator/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/awx-operator/overview.mdx.json",
       "subject_ref": "subject:mlops:workflow-system:awx-operator"
+    },
+    {
+      "id": "doc:docs/mlops/casdoor/install.mdx",
+      "type": "document",
+      "title": "casdoor",
+      "snippet": "## Casdoor\n\nCasdoor는 Application에 대한 인증/인가를 관리하는 서비스입니다.\n\n- User는 하나의 Organization에만 속할 수 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "casdoor",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/casdoor/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/casdoor/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:casdoor"
+    },
+    {
+      "id": "doc:docs/mlops/cert-manager/crds.mdx",
+      "type": "document",
+      "title": "cert-manager CRDs",
+      "snippet": "## Issure\n\n- https://cert-manager.io/docs/concepts/issuer/\n- https://cert-manager.io/docs/configuration/\n- https:…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "cert-manager",
+        "aspect": "crds"
+      },
+      "url": "/docs/mlops/cert-manager/crds",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cert-manager/crds.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:cert-manager"
+    },
+    {
+      "id": "doc:docs/mlops/cert-manager/install.mdx",
+      "type": "document",
+      "title": "cert-manager",
+      "snippet": "## 설치\n\n- cert-manager / Helm\n\n``shell\nhelm pull oci://quay.io/jetstack/charts/cert-manager --version …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "cert-manager",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/cert-manager/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cert-manager/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:cert-manager"
+    },
+    {
+      "id": "doc:docs/mlops/cert-manager/lets-encrypt.mdx",
+      "type": "document",
+      "title": "Let's Encrypt with cert-manager",
+      "snippet": "## Let's Encrypt\n\n- - https://cert-manager.io/docs/faq/acme/\n\n### HTTP-01 challenge\n\n인증을 시작하면 와 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "cert-manager",
+        "aspect": "lets-encrypt"
+      },
+      "url": "/docs/mlops/cert-manager/lets-encrypt",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cert-manager/lets-encrypt.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:cert-manager"
     },
     {
       "id": "doc:docs/mlops/cluster-api/bootstrap-k0smotron.mdx",
@@ -6687,6 +6719,38 @@
       "url": "/docs/mlops/dcgm-exporter/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/dcgm-exporter/install.mdx.json",
       "subject_ref": "subject:mlops:observability-system:dcgm-exporter"
+    },
+    {
+      "id": "doc:docs/mlops/dex/google.mdx",
+      "type": "document",
+      "title": "Dex에 Google 연결하기",
+      "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "google"
+      },
+      "url": "/docs/mlops/dex/google",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/dex/google.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:dex"
+    },
+    {
+      "id": "doc:docs/mlops/dex/install.mdx",
+      "type": "document",
+      "title": "Dex",
+      "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/dex/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/dex/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:dex"
     },
     {
       "id": "doc:docs/mlops/eck/operator.mdx",
@@ -6991,6 +7055,86 @@
       "url": "/docs/mlops/k6/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/k6/overview.mdx.json",
       "subject_ref": "subject:mlops:observability-system:k6"
+    },
+    {
+      "id": "doc:docs/mlops/keycloak/config-cli.mdx",
+      "type": "document",
+      "title": "keycloak-config-cli",
+      "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "config-cli"
+      },
+      "url": "/docs/mlops/keycloak/config-cli",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/config-cli.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:keycloak"
+    },
+    {
+      "id": "doc:docs/mlops/keycloak/identity-providers.mdx",
+      "type": "document",
+      "title": "Keycloak Identity Providers",
+      "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "identity-providers"
+      },
+      "url": "/docs/mlops/keycloak/identity-providers",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/identity-providers.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:keycloak"
+    },
+    {
+      "id": "doc:docs/mlops/keycloak/install.mdx",
+      "type": "document",
+      "title": "Keycloak",
+      "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/keycloak/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:keycloak"
+    },
+    {
+      "id": "doc:docs/mlops/keycloak/openid-connect.mdx",
+      "type": "document",
+      "title": "Keycloak OpenID Connect",
+      "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "openid-connect"
+      },
+      "url": "/docs/mlops/keycloak/openid-connect",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/openid-connect.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:keycloak"
+    },
+    {
+      "id": "doc:docs/mlops/keycloak/realm.mdx",
+      "type": "document",
+      "title": "Realm",
+      "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "keycloak",
+        "aspect": "realm"
+      },
+      "url": "/docs/mlops/keycloak/realm",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/realm.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:keycloak"
     },
     {
       "id": "doc:docs/mlops/kind/cluster.mdx",
@@ -7409,6 +7553,38 @@
       "subject_ref": "subject:mlops:observability-system:node-exporter"
     },
     {
+      "id": "doc:docs/mlops/oauth2-proxy/install.mdx",
+      "type": "document",
+      "title": "oauth2-proxy 설치 및 설정",
+      "snippet": "oauth2-proxy 개요 문서에서 인증 방식을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- oauth2-proxy manifests GitHub / helm / …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "oauth2-proxy",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/oauth2-proxy/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/oauth2-proxy/install.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:oauth2-proxy"
+    },
+    {
+      "id": "doc:docs/mlops/oauth2-proxy/overview.mdx",
+      "type": "document",
+      "title": "oauth2-proxy로 간단한 인증 절차 추가하기",
+      "snippet": "…되어 있습니다.\n\n### OAuth2 Reverse Proxy\n\n``mermaid\nflowchart LR\n Client\n Oauth2Proxy(oauth2-proxy)\n OIDCProvider\n Upstream\n\n style Oauth2Proxy fill:#4B7,color:#fff\n\n Client Oaut…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "oauth2-proxy",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/oauth2-proxy/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/oauth2-proxy/overview.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:oauth2-proxy"
+    },
+    {
       "id": "doc:docs/mlops/opensearch/install.mdx",
       "type": "document",
       "title": "OpenSearch",
@@ -7681,6 +7857,22 @@
       "subject_ref": "subject:mlops:iac-tool:pulumi"
     },
     {
+      "id": "doc:docs/mlops/rbac/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes 인가(Authz); RBAC",
+      "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "rbac",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/rbac/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rbac/overview.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:rbac"
+    },
+    {
       "id": "doc:docs/mlops/tempo/install.mdx",
       "type": "document",
       "title": "Grafana Tempo(Tracing)",
@@ -7905,6 +8097,38 @@
       "subject_ref": "subject:mlops:observability-system:thanos"
     },
     {
+      "id": "doc:docs/mlops/tls/overview.mdx",
+      "type": "document",
+      "title": "Transport Layer Security(전송 계층 보안)",
+      "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "tls",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/tls/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/tls/overview.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:tls"
+    },
+    {
+      "id": "doc:docs/mlops/tls/x509.mdx",
+      "type": "document",
+      "title": "X.509",
+      "snippet": "…t_bits = 3072\nencrypt_key = no\nprompt = no\nutf8 = yes\n\nreq_extensions = req_ext\nx509_extensions = req_ext\n\ndistinguished_name = req_distinguished_name\n\n[ req_ext ]\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "auth-system",
+        "instance": "tls",
+        "aspect": "x509"
+      },
+      "url": "/docs/mlops/tls/x509",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/tls/x509.mdx.json",
+      "subject_ref": "subject:mlops:auth-system:tls"
+    },
+    {
       "id": "doc:docs/mlops/vector/install.mdx",
       "type": "document",
       "title": "Vector",
@@ -7967,230 +8191,6 @@
       "url": "/docs/mlops/vector/transform",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/vector/transform.mdx.json",
       "subject_ref": "subject:mlops:observability-system:vector"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/authentik/install.mdx",
-      "type": "document",
-      "title": "Authentik 설치 가이드",
-      "snippet": "## 설치\n\n- authentik Docs / Installation / Kubernetes installation\n\n``shell\nhelm repo add authentik …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "authentik",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/authentik/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/authentik/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:authentik"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/casdoor/install.mdx",
-      "type": "document",
-      "title": "casdoor",
-      "snippet": "## Casdoor\n\nCasdoor는 Application에 대한 인증/인가를 관리하는 서비스입니다.\n\n- User는 하나의 Organization에만 속할 수 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "casdoor",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/casdoor/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/casdoor/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:casdoor"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx",
-      "type": "document",
-      "title": "cert-manager CRDs",
-      "snippet": "## Issure\n\n- https://cert-manager.io/docs/concepts/issuer/\n- https://cert-manager.io/docs/configuration/\n- https:…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "cert-manager",
-        "aspect": "crds"
-      },
-      "url": "/docs/operation/mlops/auth-system/cert-manager/crds",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:cert-manager"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/install.mdx",
-      "type": "document",
-      "title": "cert-manager",
-      "snippet": "## 설치\n\n- cert-manager / Helm\n\n``shell\nhelm pull oci://quay.io/jetstack/charts/cert-manager --version …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "cert-manager",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/cert-manager/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/cert-manager/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:cert-manager"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx",
-      "type": "document",
-      "title": "Let's Encrypt with cert-manager",
-      "snippet": "## Let's Encrypt\n\n- - https://cert-manager.io/docs/faq/acme/\n\n### HTTP-01 challenge\n\n인증을 시작하면 와 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "cert-manager",
-        "aspect": "lets-encrypt"
-      },
-      "url": "/docs/operation/mlops/auth-system/cert-manager/lets-encrypt",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:cert-manager"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/dex/google.mdx",
-      "type": "document",
-      "title": "Dex에 Google 연결하기",
-      "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "dex",
-        "aspect": "google"
-      },
-      "url": "/docs/operation/mlops/auth-system/dex/google",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/dex/google.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:dex"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/dex/install.mdx",
-      "type": "document",
-      "title": "Dex",
-      "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "dex",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/dex/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/dex/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:dex"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
-      "type": "document",
-      "title": "keycloak-config-cli",
-      "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "keycloak",
-        "aspect": "config-cli"
-      },
-      "url": "/docs/operation/mlops/auth-system/keycloak/config-cli",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:keycloak"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
-      "type": "document",
-      "title": "Keycloak Identity Providers",
-      "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "keycloak",
-        "aspect": "identity-providers"
-      },
-      "url": "/docs/operation/mlops/auth-system/keycloak/identity-providers",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:keycloak"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
-      "type": "document",
-      "title": "Keycloak",
-      "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "keycloak",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/keycloak/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/keycloak/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:keycloak"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
-      "type": "document",
-      "title": "Keycloak OpenID Connect",
-      "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "keycloak",
-        "aspect": "openid-connect"
-      },
-      "url": "/docs/operation/mlops/auth-system/keycloak/openid-connect",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:keycloak"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
-      "type": "document",
-      "title": "Realm",
-      "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "keycloak",
-        "aspect": "realm"
-      },
-      "url": "/docs/operation/mlops/auth-system/keycloak/realm",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/keycloak/realm.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:keycloak"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx",
-      "type": "document",
-      "title": "oauth2-proxy 설치 및 설정",
-      "snippet": "oauth2-proxy 개요 문서에서 인증 방식을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- oauth2-proxy manifests GitHub / helm / …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "oauth2-proxy",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/auth-system/oauth2-proxy/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:oauth2-proxy"
-    },
-    {
-      "id": "doc:docs/operation/mlops/auth-system/tls/x509.mdx",
-      "type": "document",
-      "title": "X.509",
-      "snippet": "…t_bits = 3072\nencrypt_key = no\nprompt = no\nutf8 = yes\n\nreq_extensions = req_ext\nx509_extensions = req_ext\n\ndistinguished_name = req_distinguished_name\n\n[ req_ext ]\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "auth-system",
-        "instance": "tls",
-        "aspect": "x509"
-      },
-      "url": "/docs/operation/mlops/auth-system/tls/x509",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/auth-system/tls/x509.mdx.json",
-      "subject_ref": "subject:mlops:auth-system:tls"
     },
     {
       "id": "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx",
@@ -13938,10 +13938,10 @@
         "class": "auth-system",
         "instance": "authentik"
       },
-      "url": "/docs/operation/mlops/auth-system/authentik/install",
+      "url": "/docs/mlops/authentik/install",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:authentik.json",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/authentik/install.mdx"
+        "doc:docs/mlops/authentik/install.mdx"
       ]
     },
     {
@@ -13954,10 +13954,10 @@
         "class": "auth-system",
         "instance": "authn"
       },
-      "url": "/docs/entity/mlops/auth-system/authn",
+      "url": "/docs/mlops/authn/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:authn.json",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/authn/authn.mdx"
+        "doc:docs/mlops/authn/overview.mdx"
       ]
     },
     {
@@ -13970,10 +13970,10 @@
         "class": "auth-system",
         "instance": "casdoor"
       },
-      "url": "/docs/operation/mlops/auth-system/casdoor/install",
+      "url": "/docs/mlops/casdoor/install",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:casdoor.json",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/casdoor/install.mdx"
+        "doc:docs/mlops/casdoor/install.mdx"
       ]
     },
     {
@@ -13986,12 +13986,12 @@
         "class": "auth-system",
         "instance": "cert-manager"
       },
-      "url": "/docs/operation/mlops/auth-system/cert-manager/lets-encrypt",
+      "url": "/docs/mlops/cert-manager/lets-encrypt",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:cert-manager.json",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx",
-        "doc:docs/operation/mlops/auth-system/cert-manager/install.mdx",
-        "doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx"
+        "doc:docs/mlops/cert-manager/crds.mdx",
+        "doc:docs/mlops/cert-manager/install.mdx",
+        "doc:docs/mlops/cert-manager/lets-encrypt.mdx"
       ]
     },
     {
@@ -14004,11 +14004,11 @@
         "class": "auth-system",
         "instance": "dex"
       },
-      "url": "/docs/operation/mlops/auth-system/dex/install",
+      "url": "/docs/mlops/dex/install",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:dex.json",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/dex/google.mdx",
-        "doc:docs/operation/mlops/auth-system/dex/install.mdx"
+        "doc:docs/mlops/dex/google.mdx",
+        "doc:docs/mlops/dex/install.mdx"
       ]
     },
     {
@@ -14021,14 +14021,14 @@
         "class": "auth-system",
         "instance": "keycloak"
       },
-      "url": "/docs/operation/mlops/auth-system/keycloak/install",
+      "url": "/docs/mlops/keycloak/install",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:keycloak.json",
       "document_refs": [
-        "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
-        "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx"
+        "doc:docs/mlops/keycloak/config-cli.mdx",
+        "doc:docs/mlops/keycloak/identity-providers.mdx",
+        "doc:docs/mlops/keycloak/install.mdx",
+        "doc:docs/mlops/keycloak/openid-connect.mdx",
+        "doc:docs/mlops/keycloak/realm.mdx"
       ]
     },
     {
@@ -14041,11 +14041,11 @@
         "class": "auth-system",
         "instance": "oauth2-proxy"
       },
-      "url": "/docs/entity/mlops/auth-system/oauth2-proxy",
+      "url": "/docs/mlops/oauth2-proxy/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:oauth2-proxy.json",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx",
-        "doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx"
+        "doc:docs/mlops/oauth2-proxy/overview.mdx",
+        "doc:docs/mlops/oauth2-proxy/install.mdx"
       ]
     },
     {
@@ -14058,10 +14058,10 @@
         "class": "auth-system",
         "instance": "rbac"
       },
-      "url": "/docs/entity/mlops/auth-system/rbac",
+      "url": "/docs/mlops/rbac/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:rbac.json",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/rbac/rbac.mdx"
+        "doc:docs/mlops/rbac/overview.mdx"
       ]
     },
     {
@@ -14074,11 +14074,11 @@
         "class": "auth-system",
         "instance": "tls"
       },
-      "url": "/docs/entity/mlops/auth-system/tls",
+      "url": "/docs/mlops/tls/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:auth-system:tls.json",
       "document_refs": [
-        "doc:docs/entity/mlops/auth-system/tls/tls.mdx",
-        "doc:docs/operation/mlops/auth-system/tls/x509.mdx"
+        "doc:docs/mlops/tls/overview.mdx",
+        "doc:docs/mlops/tls/x509.mdx"
       ]
     },
     {
@@ -17921,30 +17921,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/mlops/auth-system/authn/authn.mdx:about_subject:subject:mlops:auth-system:authn",
-      "from": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
-      "to": "subject:mlops:auth-system:authn",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx:about_subject:subject:mlops:auth-system:oauth2-proxy",
-      "from": "doc:docs/entity/mlops/auth-system/oauth2-proxy/oauth2-proxy.mdx",
-      "to": "subject:mlops:auth-system:oauth2-proxy",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/auth-system/rbac/rbac.mdx:about_subject:subject:mlops:auth-system:rbac",
-      "from": "doc:docs/entity/mlops/auth-system/rbac/rbac.mdx",
-      "to": "subject:mlops:auth-system:rbac",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/auth-system/tls/tls.mdx:about_subject:subject:mlops:auth-system:tls",
-      "from": "doc:docs/entity/mlops/auth-system/tls/tls.mdx",
-      "to": "subject:mlops:auth-system:tls",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/mlops/cloud-service/iam/iam.mdx:about_subject:subject:mlops:cloud-service:iam",
       "from": "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
       "to": "subject:mlops:cloud-service:iam",
@@ -19961,6 +19937,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/authentik/install.mdx:about_subject:subject:mlops:auth-system:authentik",
+      "from": "doc:docs/mlops/authentik/install.mdx",
+      "to": "subject:mlops:auth-system:authentik",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/authn/overview.mdx:about_subject:subject:mlops:auth-system:authn",
+      "from": "doc:docs/mlops/authn/overview.mdx",
+      "to": "subject:mlops:auth-system:authn",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/awx-operator/crd.mdx:about_subject:subject:mlops:workflow-system:awx-operator",
       "from": "doc:docs/mlops/awx-operator/crd.mdx",
       "to": "subject:mlops:workflow-system:awx-operator",
@@ -19970,6 +19958,30 @@
       "id": "relation:doc:docs/mlops/awx-operator/overview.mdx:about_subject:subject:mlops:workflow-system:awx-operator",
       "from": "doc:docs/mlops/awx-operator/overview.mdx",
       "to": "subject:mlops:workflow-system:awx-operator",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/casdoor/install.mdx:about_subject:subject:mlops:auth-system:casdoor",
+      "from": "doc:docs/mlops/casdoor/install.mdx",
+      "to": "subject:mlops:auth-system:casdoor",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/cert-manager/crds.mdx:about_subject:subject:mlops:auth-system:cert-manager",
+      "from": "doc:docs/mlops/cert-manager/crds.mdx",
+      "to": "subject:mlops:auth-system:cert-manager",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/cert-manager/install.mdx:about_subject:subject:mlops:auth-system:cert-manager",
+      "from": "doc:docs/mlops/cert-manager/install.mdx",
+      "to": "subject:mlops:auth-system:cert-manager",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/cert-manager/lets-encrypt.mdx:about_subject:subject:mlops:auth-system:cert-manager",
+      "from": "doc:docs/mlops/cert-manager/lets-encrypt.mdx",
+      "to": "subject:mlops:auth-system:cert-manager",
       "predicate": "about_subject"
     },
     {
@@ -20030,6 +20042,18 @@
       "id": "relation:doc:docs/mlops/dcgm-exporter/install.mdx:about_subject:subject:mlops:observability-system:dcgm-exporter",
       "from": "doc:docs/mlops/dcgm-exporter/install.mdx",
       "to": "subject:mlops:observability-system:dcgm-exporter",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/dex/google.mdx:about_subject:subject:mlops:auth-system:dex",
+      "from": "doc:docs/mlops/dex/google.mdx",
+      "to": "subject:mlops:auth-system:dex",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/dex/install.mdx:about_subject:subject:mlops:auth-system:dex",
+      "from": "doc:docs/mlops/dex/install.mdx",
+      "to": "subject:mlops:auth-system:dex",
       "predicate": "about_subject"
     },
     {
@@ -20144,6 +20168,36 @@
       "id": "relation:doc:docs/mlops/k6/overview.mdx:about_subject:subject:mlops:observability-system:k6",
       "from": "doc:docs/mlops/k6/overview.mdx",
       "to": "subject:mlops:observability-system:k6",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/keycloak/config-cli.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/mlops/keycloak/config-cli.mdx",
+      "to": "subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/keycloak/identity-providers.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/mlops/keycloak/identity-providers.mdx",
+      "to": "subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/keycloak/install.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/mlops/keycloak/install.mdx",
+      "to": "subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/mlops/keycloak/openid-connect.mdx",
+      "to": "subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "from": "doc:docs/mlops/keycloak/realm.mdx",
+      "to": "subject:mlops:auth-system:keycloak",
       "predicate": "about_subject"
     },
     {
@@ -20303,6 +20357,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/oauth2-proxy/install.mdx:about_subject:subject:mlops:auth-system:oauth2-proxy",
+      "from": "doc:docs/mlops/oauth2-proxy/install.mdx",
+      "to": "subject:mlops:auth-system:oauth2-proxy",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/oauth2-proxy/overview.mdx:about_subject:subject:mlops:auth-system:oauth2-proxy",
+      "from": "doc:docs/mlops/oauth2-proxy/overview.mdx",
+      "to": "subject:mlops:auth-system:oauth2-proxy",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/opensearch/install.mdx:about_subject:subject:mlops:observability-system:opensearch",
       "from": "doc:docs/mlops/opensearch/install.mdx",
       "to": "subject:mlops:observability-system:opensearch",
@@ -20405,6 +20471,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/rbac/overview.mdx:about_subject:subject:mlops:auth-system:rbac",
+      "from": "doc:docs/mlops/rbac/overview.mdx",
+      "to": "subject:mlops:auth-system:rbac",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/tempo/install.mdx:about_subject:subject:mlops:observability-system:tempo",
       "from": "doc:docs/mlops/tempo/install.mdx",
       "to": "subject:mlops:observability-system:tempo",
@@ -20489,6 +20561,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/tls/overview.mdx:about_subject:subject:mlops:auth-system:tls",
+      "from": "doc:docs/mlops/tls/overview.mdx",
+      "to": "subject:mlops:auth-system:tls",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/tls/x509.mdx:about_subject:subject:mlops:auth-system:tls",
+      "from": "doc:docs/mlops/tls/x509.mdx",
+      "to": "subject:mlops:auth-system:tls",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/vector/install.mdx:about_subject:subject:mlops:observability-system:vector",
       "from": "doc:docs/mlops/vector/install.mdx",
       "to": "subject:mlops:observability-system:vector",
@@ -20510,90 +20594,6 @@
       "id": "relation:doc:docs/mlops/vector/transform.mdx:about_subject:subject:mlops:observability-system:vector",
       "from": "doc:docs/mlops/vector/transform.mdx",
       "to": "subject:mlops:observability-system:vector",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/authentik/install.mdx:about_subject:subject:mlops:auth-system:authentik",
-      "from": "doc:docs/operation/mlops/auth-system/authentik/install.mdx",
-      "to": "subject:mlops:auth-system:authentik",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/casdoor/install.mdx:about_subject:subject:mlops:auth-system:casdoor",
-      "from": "doc:docs/operation/mlops/auth-system/casdoor/install.mdx",
-      "to": "subject:mlops:auth-system:casdoor",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx:about_subject:subject:mlops:auth-system:cert-manager",
-      "from": "doc:docs/operation/mlops/auth-system/cert-manager/crds.mdx",
-      "to": "subject:mlops:auth-system:cert-manager",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/cert-manager/install.mdx:about_subject:subject:mlops:auth-system:cert-manager",
-      "from": "doc:docs/operation/mlops/auth-system/cert-manager/install.mdx",
-      "to": "subject:mlops:auth-system:cert-manager",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx:about_subject:subject:mlops:auth-system:cert-manager",
-      "from": "doc:docs/operation/mlops/auth-system/cert-manager/lets-encrypt.mdx",
-      "to": "subject:mlops:auth-system:cert-manager",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/dex/google.mdx:about_subject:subject:mlops:auth-system:dex",
-      "from": "doc:docs/operation/mlops/auth-system/dex/google.mdx",
-      "to": "subject:mlops:auth-system:dex",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/dex/install.mdx:about_subject:subject:mlops:auth-system:dex",
-      "from": "doc:docs/operation/mlops/auth-system/dex/install.mdx",
-      "to": "subject:mlops:auth-system:dex",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx:about_subject:subject:mlops:auth-system:keycloak",
-      "from": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
-      "to": "subject:mlops:auth-system:keycloak",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx:about_subject:subject:mlops:auth-system:keycloak",
-      "from": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
-      "to": "subject:mlops:auth-system:keycloak",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/install.mdx:about_subject:subject:mlops:auth-system:keycloak",
-      "from": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
-      "to": "subject:mlops:auth-system:keycloak",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
-      "from": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
-      "to": "subject:mlops:auth-system:keycloak",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
-      "from": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
-      "to": "subject:mlops:auth-system:keycloak",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx:about_subject:subject:mlops:auth-system:oauth2-proxy",
-      "from": "doc:docs/operation/mlops/auth-system/oauth2-proxy/install.mdx",
-      "to": "subject:mlops:auth-system:oauth2-proxy",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/auth-system/tls/x509.mdx:about_subject:subject:mlops:auth-system:tls",
-      "from": "doc:docs/operation/mlops/auth-system/tls/x509.mdx",
-      "to": "subject:mlops:auth-system:tls",
       "predicate": "about_subject"
     },
     {

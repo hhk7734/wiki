@@ -1,0 +1,126 @@
+---
+id: openid-connect
+title: "Keycloak OpenID Connect"
+sidebar_label: "OpenID Connect"
+description: "Keycloak OpenID Connect"
+keywords:
+  - keycloak
+  - openid
+  - connect
+ontology:
+  role: operation
+  domain: mlops
+  class: auth-system
+  instance: keycloak
+  aspect: openid-connect
+subject:
+  canonical_name: Keycloak
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Keycloak 설정
+
+### Client 생성
+
+- Clients 탭
+  - `Create Client`
+    - General Settings
+      - Client type: `OpenID Connect`
+      - Client ID: `<clientID>`
+    - Capability config
+      - Client authenticatoion: `On` (`secret` or `jwt` or `secret-jwt` 중 하나로 클라이언트 인증을 수행하는 기능)
+      - Authorization: `Off` (keycloak의 정책을 통해 접근 제어를 수행하는 기능)
+      - Authentication flow
+        - `Standard flow`
+        - `Direct access grants`
+  - `<clientID>` 선택
+    - Settings
+      - Enabled: `On`
+      - Valid Redirect URIs
+        - `https://*`
+        - 가능한 좁은 범위로 설정하는 것이 좋습니다
+    - Credentials
+      - Client Authenticator: `Client ID and Secret`
+      - Client Secret: `<clientSecret>`
+
+### groups clinet scope 생성
+
+- Client Scopes 탭
+  - `Create client scope`
+    - Name: `groups`
+    - Protocol: `OpenID Connect`
+    - Include in token scope: `On`
+      - JWT scope에 groups가 추가됩니다.
+  - `groups` 선택
+    - Mappers
+      - `Configure a new mapper`
+        - `Group Membership` 선택
+          - Name: `groups`
+          - Token Claim Name: `groups`
+          - Full group path: `Off`
+          - Add to ID token: `On`
+          - Add to access token: `On`
+
+### Access/ID Token 설정
+
+- Clients 탭
+  - `<clientID>` 선택
+    - Client Scopes
+      - `<clientID>-dedicated` 선택
+        - 해당 클라이언트 전용 설정입니다.
+        - `Configure a new mapper`
+          - `Audience` 선택
+            - Name: `audience`
+            - Included Client Audience: `<clientID>`
+            - Add to ID token: `On`
+            - Add to access token: `On`
+      - `Add client scope`
+        - `groups`
+          - `Add`: `Default`
+      - `email`
+        - Default
+
+### Test
+
+- https://www.keycloak.org/docs/latest/server_development/#examples-of-using-curl
+
+```shell
+curl -k -X POST <keycloakURL>/realms/<realm>/protocol/openid-connect/token \
+    -H "Content-Type: application/x-www-form-urlencoded" \
+    -d "client_id=<clientID>" \
+    -d "client_secret=<clientSecret>" \
+    -d "scope=openid" \
+    -d "grant_type=password" \
+    -d "username=<user>" \
+    -d "password=<password>" \
+    -d "totp=<otp>" \
+| jq '.'
+```
+
+테스트를 통해 토큰을 획득한 후, 어떤 정보가 들어있는지 https://jwt.io/ 에서 확인해보는 것이 좋습니다.
+
+## 클라이언트 연결
+
+- Issuer URL: `<keycloakURL>/realms/<realm>`
+- Client ID: `<clientID>`
+- Client Secret: `<clientSecret>`
+- Username claim
+  - `email`이 많이 사용됩니다.
+  - email을 사용하는 경우 `email_verified`를 확인하는 애플리케이션이 있습니다.
+- Groups claim: `groups`가 많이 사용됩니다.
+
+### 기본 IDP로 리다이렉트
+
+기본적으로 로그인 페이지에 Keycloak으로 로그인하기 버튼을 누르면 Keycloak 로그인 페이지로 이동하지만, Keycloak에서 IDP만 사용하는 경우 로그인 페이지를 생략하고 IDP로 바로 리다이렉트되는 것이 편한 상황이 있습니다.
+
+Keycloak의 Authorization Endpoint는 `<keycloakURL>/realms/<realm>/protocol/openid-connect/auth` 인데, 쿼리에 `kc_idp_hint=<provider>`를 추가하면 로그인 페이지를 생략하고 IDP로 바로 리다이렉트됩니다.

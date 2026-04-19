@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/dex/install.mdx",
+  "title": "Dex",
+  "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "auth-system",
+    "instance": "dex",
+    "aspect": "install"
+  },
+  "url": "/docs/mlops/dex/install",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/dex/install.mdx.json",
+  "subject": {
+    "id": "subject:mlops:auth-system:dex",
+    "title": "Dex",
+    "ontology": {
+      "domain": "mlops",
+      "class": "auth-system",
+      "instance": "dex"
+    },
+    "url": "/docs/mlops/dex/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/dex/install.mdx:about_subject:subject:mlops:auth-system:dex",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:auth-system:dex",
+      "direction": "outgoing"
+    }
+  ]
+}

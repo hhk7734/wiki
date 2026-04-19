@@ -8,20 +8,20 @@
     "class": "auth-system",
     "instance": "keycloak"
   },
-  "url": "/docs/operation/mlops/auth-system/keycloak/install",
+  "url": "/docs/mlops/keycloak/install",
   "node_url": "/api/wiki/nodes/subject:mlops:auth-system:keycloak.json",
   "document_refs": [
-    "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
-    "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
-    "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
-    "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
-    "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx"
+    "doc:docs/mlops/keycloak/config-cli.mdx",
+    "doc:docs/mlops/keycloak/identity-providers.mdx",
+    "doc:docs/mlops/keycloak/install.mdx",
+    "doc:docs/mlops/keycloak/openid-connect.mdx",
+    "doc:docs/mlops/keycloak/realm.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+      "id": "doc:docs/mlops/keycloak/config-cli.mdx",
       "title": "keycloak-config-cli",
-      "url": "/docs/operation/mlops/auth-system/keycloak/config-cli",
+      "url": "/docs/mlops/keycloak/config-cli",
       "snippet": "… Partial export 클릭\n\n``shell\nyq -Poy realm-export.json > realm-export.yaml\n`\n\n## keycloak-config-cli\n\n- https://github.com/adorsys/keycloak-config-cli\n\nyaml파일로 keycloak 설정을 관리할 수 있…",
       "ontology": {
         "role": "operation",
@@ -32,9 +32,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+      "id": "doc:docs/mlops/keycloak/identity-providers.mdx",
       "title": "Keycloak Identity Providers",
-      "url": "/docs/operation/mlops/auth-system/keycloak/identity-providers",
+      "url": "/docs/mlops/keycloak/identity-providers",
       "snippet": "…horized redirect URIs\n - https:///realms//broker/google/endpoint\n\n- Keycloak\n - Identity providers\n - Add provider\n - Google\n - Client ID: OAuth 클라이언트 ID 에서 발급받은 Client ID\n - Cli…",
       "ontology": {
         "role": "operation",
@@ -45,9 +45,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+      "id": "doc:docs/mlops/keycloak/install.mdx",
       "title": "Keycloak",
-      "url": "/docs/operation/mlops/auth-system/keycloak/install",
+      "url": "/docs/mlops/keycloak/install",
       "snippet": "…mi.com/bitnami\n`\n\n`shell\nhelm repo update bitnami \\\n&& helm search repo bitnami/keycloak -l | head -n 10\n`\n\n`shell\nhelm pull bitnami/keycloak --version 24.2.0\n`\n\n`shell…",
       "ontology": {
         "role": "operation",
@@ -58,9 +58,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+      "id": "doc:docs/mlops/keycloak/openid-connect.mdx",
       "title": "Keycloak OpenID Connect",
-      "url": "/docs/operation/mlops/auth-system/keycloak/openid-connect",
+      "url": "/docs/mlops/keycloak/openid-connect",
       "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
       "ontology": {
         "role": "operation",
@@ -71,9 +71,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
+      "id": "doc:docs/mlops/keycloak/realm.mdx",
       "title": "Realm",
-      "url": "/docs/operation/mlops/auth-system/keycloak/realm",
+      "url": "/docs/mlops/keycloak/realm",
       "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
       "ontology": {
         "role": "operation",
@@ -86,33 +86,33 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "id": "relation:doc:docs/mlops/keycloak/config-cli.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/auth-system/keycloak/config-cli.mdx",
+      "other_id": "doc:docs/mlops/keycloak/config-cli.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "id": "relation:doc:docs/mlops/keycloak/identity-providers.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/auth-system/keycloak/identity-providers.mdx",
+      "other_id": "doc:docs/mlops/keycloak/identity-providers.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/install.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "id": "relation:doc:docs/mlops/keycloak/install.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/auth-system/keycloak/install.mdx",
+      "other_id": "doc:docs/mlops/keycloak/install.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "id": "relation:doc:docs/mlops/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/auth-system/keycloak/openid-connect.mdx",
+      "other_id": "doc:docs/mlops/keycloak/openid-connect.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/auth-system/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "id": "relation:doc:docs/mlops/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/auth-system/keycloak/realm.mdx",
+      "other_id": "doc:docs/mlops/keycloak/realm.mdx",
       "direction": "incoming"
     }
   ]

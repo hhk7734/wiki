@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/keycloak/openid-connect.mdx",
+  "title": "Keycloak OpenID Connect",
+  "snippet": "…_development/#examples-of-using-curl\n\n``shell\ncurl -k -X POST /realms//protocol/openid-connect/token \\\n -H \"Content-Type: application/x-www-form-urlencoded\" \\\n -d \"client_id=…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "auth-system",
+    "instance": "keycloak",
+    "aspect": "openid-connect"
+  },
+  "url": "/docs/mlops/keycloak/openid-connect",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/openid-connect.mdx.json",
+  "subject": {
+    "id": "subject:mlops:auth-system:keycloak",
+    "title": "Keycloak",
+    "ontology": {
+      "domain": "mlops",
+      "class": "auth-system",
+      "instance": "keycloak"
+    },
+    "url": "/docs/mlops/keycloak/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/keycloak/openid-connect.mdx:about_subject:subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:auth-system:keycloak",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+---
+id: install
+title: Dex
+sidebar_label: Dex
+description: Dex
+keywords:
+  - dex
+  - oidc
+ontology:
+  role: operation
+  domain: mlops
+  class: auth-system
+  instance: dex
+  aspect: install
+subject:
+  canonical_name: Dex
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+```shell
+helm repo add dex https://charts.dexidp.io
+```
+
+```shell
+helm repo update dex \
+&& helm search repo dex/dex -l | head -n 10
+```
+
+```shell
+helm pull dex/dex --version 0.23.0
+```
+
+```shell
+helm show values dex/dex --version 0.23.0 > dex-0.23.0.yaml
+```
+
+```yaml title="dex-values.yaml"
+config:
+  issuer: <uri>
+
+  storage:
+    type: <type>
+    config:
+      <key>: <value>
+
+  connectors:
+    - type: <type>
+      id: <id>
+      name: <name>
+      config:
+        <key>: <value>
+
+  staticClients:
+    - name: <name>
+      id: <id>
+      secret: <secret>
+      redirectURIs:
+        - <uri>
+```
+
+```shell
+helm template dex dex/dex \
+    --version 0.23.0 \
+    -n dex \
+    -f dex-values.yaml \
+    > dex.yaml
+```
+
+```shell
+helm upgrade -i dex dex/dex \
+    --history-max 5 \
+    --version 0.23.0 \
+    -n dex \
+    -f dex-values.yaml
+```
+
+## 삭제
+
+```shell
+helm uninstall dex -n dex
+```
+
+```shell
+kubectl delete namespace dex
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'dex.coreos.com' | xargs kubectl delete
+```
