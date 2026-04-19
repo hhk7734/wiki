@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:language:toolchain:llvm",
+  "title": "LLVM",
+  "snippet": "https://llvm.org/\n\n## Terms\n\n### LLVM Core\nThe LLVM Core libraries provide a modern source- …",
+  "ontology": {
+    "domain": "language",
+    "class": "toolchain",
+    "instance": "llvm"
+  },
+  "url": "/docs/language/llvm/overview",
+  "node_url": "/api/wiki/nodes/subject:language:toolchain:llvm.json",
+  "document_refs": [
+    "doc:docs/language/llvm/overview.mdx",
+    "doc:docs/language/llvm/cross-compile.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/llvm/overview.mdx",
+      "title": "LLVM",
+      "url": "/docs/language/llvm/overview",
+      "snippet": "https://llvm.org/\n\n## Terms\n\n### LLVM Core\nThe LLVM Core libraries provide a modern source- …",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "toolchain",
+        "instance": "llvm",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/llvm/cross-compile.mdx",
+      "title": "LLVM Cross-compile",
+      "url": "/docs/language/llvm/cross-compile",
+      "snippet": "…T /path/to/sysroot)\nset(TRIPLE aarch64-linux-gnu)\n\nset(TOOLCHAIN /opt/toolchain/clang/11)\nset(CMAKE_C_COMPILER ${TOOLCHAIN}/bin/clang)\nset(CMAKE_CXX_COMPILER ${TOOLC…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "toolchain",
+        "instance": "llvm",
+        "aspect": "cross-compile"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/llvm/overview.mdx:about_subject:subject:language:toolchain:llvm",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/llvm/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/llvm/cross-compile.mdx:about_subject:subject:language:toolchain:llvm",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/llvm/cross-compile.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

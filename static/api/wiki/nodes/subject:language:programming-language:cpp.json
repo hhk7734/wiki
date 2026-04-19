@@ -12,6 +12,9 @@
   "node_url": "/api/wiki/nodes/subject:language:programming-language:cpp.json",
   "document_refs": [
     "doc:docs/language/cpp/overview.mdx",
+    "doc:docs/language/cpp/extern-c/overview.mdx",
+    "doc:docs/language/cpp/constexpr.mdx",
+    "doc:docs/language/cpp/extern-c/class.mdx",
     "doc:docs/language/cpp/linting-formatting/overview.mdx"
   ],
   "documents": [
@@ -26,6 +29,45 @@
         "class": "programming-language",
         "instance": "cpp",
         "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/extern-c/overview.mdx",
+      "title": "C++ 코드를 C에서 또는 C 코드를 C++에서 사용하기",
+      "url": "/docs/language/cpp/extern-c/overview",
+      "snippet": "… 컴파일러는 네임 맹글링 규칙에 따라 전역 변수와 함수 이름을 변경합니다. C의 경우 중복된 이름을 사용할 수 없기 때문에 규칙이 간단하지만, C++에서는 오버로딩을 지원하기 때문에 네임 맹글링 규칙도 복잡합니다. 그래서 C와 C++은 코드상에서 이름이 같더라도 링크를 시도하면 에러가 발생합니다…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "cpp",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/constexpr.mdx",
+      "title": "C++ constexpr",
+      "url": "/docs/language/cpp/constexpr",
+      "snippet": "…e\" \"llo\", ...\n\n### Pointer literal\n\nType: std::nullptr_t\n\nnullptr\n\n## const\n\n## constexpr",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "cpp",
+        "aspect": "constexpr"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/extern-c/class.mdx",
+      "title": "C++ class를 C에서 사용하기",
+      "url": "/docs/language/cpp/extern-c/class",
+      "snippet": "``cpp title=\"foo.h\"\n#pragma once\n\nclass Foo {\npublic:\n Foo(int value) : value(value) {}\n ~Foo() {}\n\n void set_value(int…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "cpp",
+        "aspect": "class"
       }
     },
     {
@@ -47,6 +89,24 @@
       "id": "relation:doc:docs/language/cpp/overview.mdx:about_subject:subject:language:programming-language:cpp",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/cpp/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/extern-c/overview.mdx:about_subject:subject:language:programming-language:cpp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/extern-c/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/constexpr.mdx:about_subject:subject:language:programming-language:cpp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/constexpr.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/extern-c/class.mdx:about_subject:subject:language:programming-language:cpp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/extern-c/class.mdx",
       "direction": "incoming"
     },
     {

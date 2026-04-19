@@ -1,0 +1,54 @@
+---
+id: cross-compile
+title: "LLVM Cross-compile"
+sidebar_label: Cross-compile
+description: "LLVM Cross-compile"
+keywords:
+  - "C++"
+  - LLVM
+  - Clang
+ontology:
+  role: operation
+  domain: language
+  class: toolchain
+  instance: llvm
+  aspect: cross-compile
+subject:
+  canonical_name: LLVM
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## CMake
+
+```cmake
+cmake_minimum_required(VERSION 3.15)
+
+project(example)
+
+set(CMAKE_SYSROOT /path/to/sysroot)
+set(TRIPLE aarch64-linux-gnu)
+
+set(TOOLCHAIN /opt/toolchain/clang/11)
+set(CMAKE_C_COMPILER ${TOOLCHAIN}/bin/clang)
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN}/bin/clang++)
+
+set(SOURCE
+    main.cpp
+)
+
+add_executable(example ${SOURCE})
+
+target_compile_options(example PRIVATE --target=${TRIPLE})
+
+target_link_options(example PRIVATE --target=${TRIPLE})
+```
