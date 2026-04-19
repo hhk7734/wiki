@@ -1,5 +1,5 @@
 import Link from "@docusaurus/Link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import type { OntologyPreviewPanelProps } from "./ontologyGraph.types";
 import styles from "./ontologyGraph.module.css";
@@ -21,11 +21,43 @@ function toTypeLabel(type: OntologyPreviewPanelProps["selectedNode"] extends inf
 }
 
 export default function OntologyPreviewPanel({ selectedNode, onClose }: OntologyPreviewPanelProps) {
+	const [nodeDetails, setNodeDetails] = useState<any>(null);
+
+	useEffect(() => {
+		let active = true;
+
+		if (!selectedNode?.nodeUrl) {
+			setNodeDetails(null);
+			return () => {
+				active = false;
+			};
+		}
+
+		void fetch(selectedNode.nodeUrl)
+			.then((response) => response.json())
+			.then((payload) => {
+				if (active) {
+					setNodeDetails(payload);
+				}
+			})
+			.catch(() => {
+				if (active) {
+					setNodeDetails(null);
+				}
+			});
+
+		return () => {
+			active = false;
+		};
+	}, [selectedNode]);
+
 	if (!selectedNode) {
 		return null;
 	}
 
-	const isDocNode = selectedNode.type === "doc" && typeof selectedNode.href === "string";
+	const isSubjectNode = selectedNode.type === "subject" && typeof selectedNode.href === "string";
+	const relatedCount = nodeDetails?.relations?.filter((relation: { predicate?: string }) => relation.predicate !== "about_subject").length ?? 0;
+	const documentCount = nodeDetails?.documents?.length ?? nodeDetails?.document_refs?.length ?? 0;
 
 	return (
 		<aside className={styles.panel} aria-label="Topic node preview">
@@ -41,9 +73,9 @@ export default function OntologyPreviewPanel({ selectedNode, onClose }: Ontology
 
 			<p className={styles.description}>
 				{selectedNode.description ??
-					(isDocNode
-						? "Open this document to inspect the full wiki entry."
-						: "This structural node groups related documents in the homepage map.")}
+					(isSubjectNode
+						? "Open the canonical subject page to inspect the full wiki entry."
+						: "This structural node groups related subjects in the homepage map.")}
 			</p>
 
 			<div className={styles.metaList}>
@@ -52,13 +84,27 @@ export default function OntologyPreviewPanel({ selectedNode, onClose }: Ontology
 					<p className={styles.metaValue}>{toTypeLabel(selectedNode.type)}</p>
 				</div>
 				<div className={styles.metaRow}>
-					<p className={styles.metaLabel}>Children</p>
+					<p className={styles.metaLabel}>Links</p>
 					<p className={styles.metaValue}>{selectedNode.childCount}</p>
 				</div>
-				{selectedNode.docId ? (
+				{selectedNode.ontology ? (
 					<div className={styles.metaRow}>
-						<p className={styles.metaLabel}>Doc ID</p>
-						<p className={styles.metaValue}>{selectedNode.docId}</p>
+						<p className={styles.metaLabel}>Ontology</p>
+						<p className={styles.metaValue}>
+							{selectedNode.ontology.domain}/{selectedNode.ontology.class}/{selectedNode.ontology.instance}
+						</p>
+					</div>
+				) : null}
+				{isSubjectNode ? (
+					<div className={styles.metaRow}>
+						<p className={styles.metaLabel}>Documents</p>
+						<p className={styles.metaValue}>{documentCount}</p>
+					</div>
+				) : null}
+				{isSubjectNode ? (
+					<div className={styles.metaRow}>
+						<p className={styles.metaLabel}>Relations</p>
+						<p className={styles.metaValue}>{relatedCount}</p>
 					</div>
 				) : null}
 				{selectedNode.href ? (
@@ -70,12 +116,12 @@ export default function OntologyPreviewPanel({ selectedNode, onClose }: Ontology
 			</div>
 
 			<div className={styles.actions}>
-				{isDocNode ? (
+				{isSubjectNode ? (
 					<Link className={styles.actionLink} to={selectedNode.href}>
-						Open document
+						Open subject page
 					</Link>
 				) : (
-					<p className={styles.hint}>Select a document node to navigate into the wiki.</p>
+					<p className={styles.hint}>Select a subject node to inspect semantic relations.</p>
 				)}
 			</div>
 		</aside>

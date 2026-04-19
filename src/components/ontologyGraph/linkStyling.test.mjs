@@ -20,8 +20,8 @@ test("isLinkConnectedToNode matches string and object endpoints", () => {
 test("getLinkVisuals keeps baseline links readable with no active node", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "group:data:ceph", type: "group", topic: "data" },
-			target: { id: "doc:data/ceph/overview", type: "doc", topic: "data" },
+			source: { id: "topic:data", type: "topic", topic: "data" },
+			target: { id: "subject:data:storage-system:ceph", type: "subject", topic: "data" },
 		},
 		activeNodeId: null,
 		topicColors,
@@ -29,17 +29,19 @@ test("getLinkVisuals keeps baseline links readable with no active node", () => {
 
 	assert.equal(visuals.color, "#93c5fd");
 	assert.equal(visuals.opacity, 0.44);
-	assert.equal(visuals.width, 1.1);
-	assert.equal(visuals.particles, 2);
+	assert.equal(visuals.width, 1.35);
+	assert.equal(visuals.particles, 1);
 });
 
 test("getLinkVisuals strongly emphasizes links connected to the active node", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "group:data:ceph", type: "group", topic: "data" },
-			target: { id: "doc:data/ceph/overview", type: "doc", topic: "data" },
+			source: { id: "subject:language:framework:nextjs", type: "subject", topic: "language" },
+			target: { id: "subject:language:framework:react", type: "subject", topic: "language" },
+			kind: "relation",
+			predicate: "depends_on",
 		},
-		activeNodeId: "doc:data/ceph/overview",
+		activeNodeId: "subject:language:framework:react",
 		topicColors,
 	});
 
@@ -53,9 +55,9 @@ test("getLinkVisuals fades unrelated links when a node is active", () => {
 	const visuals = getLinkVisuals({
 		link: {
 			source: { id: "topic:data", type: "topic", topic: "data" },
-			target: { id: "group:data:ceph", type: "group", topic: "data" },
+			target: { id: "subject:data:storage-system:ceph", type: "subject", topic: "data" },
 		},
-		activeNodeId: "doc:language/concepts/goroutine",
+		activeNodeId: "subject:language:concept:goroutine",
 		topicColors,
 	});
 

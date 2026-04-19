@@ -1,5 +1,4 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import globalData from "@generated/globalData";
 import React, { useEffect, useRef, useState } from "react";
 import type { ForceGraphMethods } from "react-force-graph-3d";
 import * as THREE from "three";
@@ -12,43 +11,6 @@ import { getPersistentLabelConfig } from "./ontologyGraph/persistentLabelConfig.
 import styles from "./ontologyGraph/ontologyGraph.module.css";
 import type { OntologyGraphData, OntologyGraphLink, OntologyGraphNode, SelectedOntologyNode } from "./ontologyGraph/ontologyGraph.types";
 
-type GlobalDoc = {
-	id: string;
-	sidebar?: string;
-	path?: string;
-};
-
-type DocMetadata = {
-	id: string;
-	title?: string;
-	description?: string;
-	permalink?: string;
-	frontMatter?: {
-		sidebar_label?: string;
-	};
-};
-
-type DocsContext = {
-	keys: () => string[];
-	(key: string): DocMetadata;
-};
-
-declare const require: {
-	context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => DocsContext;
-};
-
-const topicSections = {
-	Data: "data",
-	Language: "language",
-	MLOps: "mlops",
-	Platform: "platform",
-	Protocol: "protocol",
-	Hardware: "hardware",
-	Science: "science",
-	Management: "management",
-	Comparison: "comparison",
-} as const;
-
 const topicColors: Record<string, string> = {
 	data: "#3b82f6",
 	language: "#ef4444",
@@ -60,17 +22,6 @@ const topicColors: Record<string, string> = {
 	management: "#ec4899",
 	comparison: "#facc15",
 };
-
-const docMetadataById = (() => {
-	const docsContext = require.context("../../.docusaurus/docusaurus-plugin-content-docs/default", false, /^\.\/site-docs-.*\.json$/);
-
-	return new Map(
-		docsContext.keys().map((key) => {
-			const metadata = docsContext(key);
-			return [metadata.id, metadata];
-		}),
-	);
-})();
 
 function hashString(value: string): number {
 	let hash = 0;
@@ -134,17 +85,11 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 	};
 }
 
-function getOntologyGraphData(): OntologyGraphData {
-	const docs = (
-		(globalData as Record<string, { default?: { versions?: Array<{ docs?: GlobalDoc[] }> } }>)[
-			"docusaurus-plugin-content-docs"
-		]?.default?.versions?.[0]?.docs ?? []
-	).filter((doc): doc is GlobalDoc => typeof doc?.id === "string");
-
+async function getOntologyGraphData(): Promise<OntologyGraphData> {
+	const response = await fetch("/api/wiki/graph.json");
+	const wikiGraph = await response.json();
 	const graph = buildOntologyGraph({
-		docs,
-		topicSections,
-		docMetadataById,
+		wikiGraph,
 		rootLabel: "lol-IoT",
 	});
 
@@ -160,7 +105,7 @@ function getNodeColor(node: OntologyGraphNode, selectedNode: SelectedOntologyNod
 		return "#ffffff";
 	}
 
-	if (node.type === "doc") {
+	if (node.type === "subject") {
 		return "#cbd5e1";
 	}
 
@@ -173,10 +118,8 @@ function getNodeValue(node: OntologyGraphNode): number {
 			return 9;
 		case "topic":
 			return 7;
-		case "group":
-			return 3.6;
-		case "doc":
-			return 2.2;
+		case "subject":
+			return 3.4;
 		default:
 			return 2.2;
 	}
@@ -238,9 +181,23 @@ export default function OntologyGraph3D() {
 	const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
 	const [selectedNode, setSelectedNode] = useState<SelectedOntologyNode>(null);
 	const [hoveredNode, setHoveredNode] = useState<SelectedOntologyNode>(null);
-	const [graphData] = useState<OntologyGraphData>(() => getOntologyGraphData());
+	const [graphData, setGraphData] = useState<OntologyGraphData>({ nodes: [], links: [] });
 	const ForceGraph3D = ExecutionEnvironment.canUseDOM ? require("react-force-graph-3d").default : null;
 	const activeNodeId = hoveredNode?.id ?? selectedNode?.id ?? null;
+
+	useEffect(() => {
+		let active = true;
+
+		void getOntologyGraphData().then((data) => {
+			if (active) {
+				setGraphData(data);
+			}
+		});
+
+		return () => {
+			active = false;
+		};
+	}, []);
 
 	useEffect(() => {
 		const updateDimensions = () => {
@@ -267,20 +224,20 @@ export default function OntologyGraph3D() {
 		const chargeForce = graphRef.current.d3Force("charge");
 		const centerForce = graphRef.current.d3Force("center");
 
-		linkForce?.distance?.((link: { source?: { type?: string }; target?: { type?: string } }) => {
-			if (link.target?.type === "doc") {
-				return 28;
+		linkForce?.distance?.((link: { source?: { type?: string }; target?: { type?: string }; kind?: string }) => {
+			if (link.kind === "relation") {
+				return 115;
 			}
 
 			return link.source?.type === "root" ? 140 : 75;
 		});
-		linkForce?.strength?.((link: { target?: { type?: string } }) => (link.target?.type === "doc" ? 0.4 : 0.8));
+		linkForce?.strength?.((link: { kind?: string }) => (link.kind === "relation" ? 0.18 : 0.82));
 		chargeForce?.strength?.((node: OntologyGraphNode) => {
 			if (node.type === "root" || node.type === "topic") {
 				return -220;
 			}
 
-			return node.type === "doc" ? -32 : -80;
+			return node.type === "subject" ? -110 : -80;
 		});
 		centerForce?.strength?.(0.08);
 		graphRef.current.d3ReheatSimulation();
@@ -347,7 +304,7 @@ export default function OntologyGraph3D() {
 		<div className={styles.graphShell}>
 			<div className={styles.statusPill}>
 				<span className={styles.statusDot} />
-				<span>{graphData.nodes.length} topic graph nodes live on the homepage map</span>
+				<span>{graphData.nodes.length} ontology nodes live on the homepage map</span>
 			</div>
 
 			<div className={styles.graphCanvas}>
@@ -410,6 +367,8 @@ export default function OntologyGraph3D() {
 								topicColors,
 							}).particleSpeed
 						}
+						linkDirectionalArrowLength={(link) => ((link as OntologyGraphLink).kind === "relation" ? 5 : 0)}
+						linkDirectionalArrowRelPos={1}
 						enableNodeDrag={false}
 						enableNavigationControls
 						showPointerCursor={(item) => Boolean(item)}

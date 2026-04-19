@@ -1,103 +1,81 @@
-function toDisplayLabel(value) {
-	return value
-		.split("/")
-		.at(-1)
-		?.replaceAll(/[-_]+/g, " ")
-		.replace(/\b\w/g, (letter) => letter.toUpperCase()) ?? value;
-}
-
-function getDocHref(doc, metadata) {
-	return metadata?.permalink ?? doc.path ?? doc.permalink ?? `/docs/${doc.id}`;
-}
-
-function getDocLabel(docId, metadata) {
-	return metadata?.frontMatter?.sidebar_label ?? metadata?.title ?? toDisplayLabel(docId);
-}
-
 function createNode(node) {
 	return {
 		childCount: 0,
 		description: undefined,
-		docId: undefined,
 		href: undefined,
+		nodeUrl: undefined,
+		ontology: undefined,
 		topic: undefined,
 		...node,
 	};
 }
 
+function toTopicLabel(topic) {
+	return topic.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
 export function buildOntologyGraph({
-	docs,
-	topicSections,
-	docMetadataById,
+	wikiGraph,
 	rootLabel = "lol-IoT",
 }) {
+	const subjectRecords = (wikiGraph?.nodes ?? []).filter((node) => node.type === "subject");
+	const subjectIds = new Set(subjectRecords.map((node) => node.id));
 	const nodes = [createNode({ id: "root", label: rootLabel, type: "root", depth: 0 })];
 	const links = [];
 	const nodeById = new Map(nodes.map((node) => [node.id, node]));
+	const topicNodeIds = new Map();
 
-	for (const [topicLabel, sidebarId] of Object.entries(topicSections)) {
-		const sectionDocs = docs.filter((doc) => doc.sidebar === sidebarId);
+	for (const record of subjectRecords) {
+		const topic = record.ontology?.domain ?? "unknown";
+		const topicNodeId = `topic:${topic}`;
 
-		if (!sectionDocs.length) {
+		if (!topicNodeIds.has(topic)) {
+			const topicNode = createNode({
+				id: topicNodeId,
+				label: toTopicLabel(topic),
+				type: "topic",
+				depth: 1,
+				topic,
+			});
+
+			nodes.push(topicNode);
+			nodeById.set(topicNodeId, topicNode);
+			topicNodeIds.set(topic, topicNodeId);
+			links.push({ source: "root", target: topicNodeId, kind: "hierarchy" });
+		}
+
+		const subjectNode = createNode({
+			id: record.id,
+			label: record.title,
+			type: "subject",
+			depth: 2,
+			topic,
+			href: record.url,
+			nodeUrl: record.node_url,
+			description: record.snippet,
+			ontology: record.ontology,
+		});
+
+		nodes.push(subjectNode);
+		nodeById.set(subjectNode.id, subjectNode);
+		links.push({ source: topicNodeIds.get(topic), target: subjectNode.id, kind: "hierarchy" });
+	}
+
+	for (const edge of wikiGraph?.edges ?? []) {
+		if (edge.predicate === "about_subject") {
 			continue;
 		}
 
-		const topicNodeId = `topic:${sidebarId}`;
-		const topicNode = createNode({
-			id: topicNodeId,
-			label: topicLabel,
-			type: "topic",
-			depth: 1,
-			topic: sidebarId,
-		});
-
-		nodes.push(topicNode);
-		nodeById.set(topicNodeId, topicNode);
-		links.push({ source: "root", target: topicNodeId, kind: "hierarchy" });
-
-		for (const doc of sectionDocs) {
-			const metadata = docMetadataById.get(doc.id);
-			const segments = doc.id.split("/");
-			const groupSegments = segments.slice(1, -1);
-			let parentId = topicNodeId;
-
-			groupSegments.forEach((segment, index) => {
-				const partialPath = groupSegments.slice(0, index + 1).join("/");
-				const groupNodeId = `group:${sidebarId}:${partialPath}`;
-
-				if (!nodeById.has(groupNodeId)) {
-					const groupNode = createNode({
-						id: groupNodeId,
-						label: toDisplayLabel(segment),
-						type: "group",
-						depth: index + 2,
-						topic: sidebarId,
-					});
-
-					nodes.push(groupNode);
-					nodeById.set(groupNodeId, groupNode);
-					links.push({ source: parentId, target: groupNodeId, kind: "hierarchy" });
-				}
-
-				parentId = groupNodeId;
-			});
-
-			const docNodeId = `doc:${doc.id}`;
-			const docNode = createNode({
-				id: docNodeId,
-				label: getDocLabel(doc.id, metadata),
-				type: "doc",
-				depth: groupSegments.length + 2,
-				topic: sidebarId,
-				docId: doc.id,
-				href: getDocHref(doc, metadata),
-				description: metadata?.description,
-			});
-
-			nodes.push(docNode);
-			nodeById.set(docNodeId, docNode);
-			links.push({ source: parentId, target: docNodeId, kind: "hierarchy" });
+		if (!subjectIds.has(edge.from) || !subjectIds.has(edge.to)) {
+			continue;
 		}
+
+		links.push({
+			source: edge.from,
+			target: edge.to,
+			kind: "relation",
+			predicate: edge.predicate,
+		});
 	}
 
 	const childCounts = new Map();

@@ -3,51 +3,66 @@ import assert from "node:assert/strict";
 
 import { buildOntologyGraph } from "./buildOntologyGraph.mjs";
 
-const topicSections = {
-	Data: "data",
-	Language: "language",
+const wikiGraph = {
+	nodes: [
+		{
+			id: "subject:data:storage-system:ceph",
+			type: "subject",
+			title: "Ceph",
+			snippet: "Distributed storage cluster.",
+			ontology: { domain: "data", class: "storage-system", instance: "ceph" },
+			url: "/docs/data/ceph/overview",
+			node_url: "/api/wiki/nodes/subject:data:storage-system:ceph.json",
+			document_refs: ["doc:docs/data/ceph/overview.mdx"],
+		},
+		{
+			id: "subject:language:framework:nextjs",
+			type: "subject",
+			title: "Next.js",
+			snippet: "React framework.",
+			ontology: { domain: "language", class: "framework", instance: "nextjs" },
+			url: "/docs/language/nextjs/overview",
+			node_url: "/api/wiki/nodes/subject:language:framework:nextjs.json",
+			document_refs: ["doc:docs/language/nextjs/overview.mdx"],
+		},
+		{
+			id: "subject:language:framework:react",
+			type: "subject",
+			title: "React",
+			snippet: "UI library.",
+			ontology: { domain: "language", class: "framework", instance: "react" },
+			url: "/docs/language/react/overview",
+			node_url: "/api/wiki/nodes/subject:language:framework:react.json",
+			document_refs: ["doc:docs/language/react/overview.mdx"],
+		},
+		{
+			id: "doc:docs/language/react/overview.mdx",
+			type: "document",
+			title: "React Overview",
+			ontology: { role: "entity", domain: "language", class: "framework", instance: "react", aspect: "overview" },
+			url: "/docs/language/react/overview",
+			subject_ref: "subject:language:framework:react",
+		},
+	],
+	edges: [
+		{
+			id: "relation:doc:docs/language/react/overview.mdx:about_subject:subject:language:framework:react",
+			from: "doc:docs/language/react/overview.mdx",
+			to: "subject:language:framework:react",
+			predicate: "about_subject",
+		},
+		{
+			id: "relation:subject:language:framework:nextjs:depends_on:subject:language:framework:react",
+			from: "subject:language:framework:nextjs",
+			to: "subject:language:framework:react",
+			predicate: "depends_on",
+		},
+	],
 };
 
-const docs = [
-	{
-		id: "data/ceph/overview",
-		sidebar: "data",
-		path: "/docs/data/ceph/overview",
-	},
-	{
-		id: "language/concepts/goroutine",
-		sidebar: "language",
-		path: "/docs/language/concepts/goroutine",
-	},
-];
-
-const docMetadataById = new Map([
-	[
-		"data/ceph/overview",
-		{
-			id: "data/ceph/overview",
-			title: "Ceph Storage Cluster란?",
-			description: "Distributed storage cluster.",
-			frontMatter: {
-				sidebar_label: "Ceph Overview",
-			},
-		},
-	],
-	[
-		"language/concepts/goroutine",
-		{
-			id: "language/concepts/goroutine",
-			title: "Goroutine",
-			description: "Lightweight Go concurrency primitive.",
-		},
-	],
-]);
-
-test("buildOntologyGraph creates topic, group, and doc nodes with stable ids", () => {
+test("buildOntologyGraph creates topic anchors and subject nodes from wiki graph subjects", () => {
 	const graph = buildOntologyGraph({
-		docs,
-		topicSections,
-		docMetadataById,
+		wikiGraph,
 		rootLabel: "lol-IoT",
 	});
 
@@ -56,44 +71,38 @@ test("buildOntologyGraph creates topic, group, and doc nodes with stable ids", (
 	assert.equal(graph.nodes.find((node) => node.id === "root")?.type, "root");
 	assert.equal(graph.nodes.find((node) => node.id === "topic:data")?.type, "topic");
 	assert.equal(graph.nodes.find((node) => node.id === "topic:language")?.type, "topic");
-	assert.ok(nodeIds.has("group:data:ceph"));
-	assert.ok(nodeIds.has("group:language:concepts"));
-	assert.ok(nodeIds.has("doc:data/ceph/overview"));
+	assert.ok(nodeIds.has("subject:data:storage-system:ceph"));
+	assert.ok(nodeIds.has("subject:language:framework:nextjs"));
+	assert.ok(nodeIds.has("subject:language:framework:react"));
+	assert.equal(graph.nodes.some((node) => node.id === "doc:docs/language/react/overview.mdx"), false);
 });
 
-test("buildOntologyGraph prefers sidebar labels and preserves doc metadata", () => {
+test("buildOntologyGraph preserves subject metadata for preview and navigation", () => {
 	const graph = buildOntologyGraph({
-		docs,
-		topicSections,
-		docMetadataById,
+		wikiGraph,
 		rootLabel: "lol-IoT",
 	});
 
-	const cephDoc = graph.nodes.find((node) => node.id === "doc:data/ceph/overview");
-	const goroutineDoc = graph.nodes.find((node) => node.id === "doc:language/concepts/goroutine");
+	const nextjsNode = graph.nodes.find((node) => node.id === "subject:language:framework:nextjs");
 
-	assert.equal(cephDoc.label, "Ceph Overview");
-	assert.equal(cephDoc.description, "Distributed storage cluster.");
-	assert.equal(cephDoc.href, "/docs/data/ceph/overview");
-	assert.equal(cephDoc.docId, "data/ceph/overview");
-	assert.equal(goroutineDoc.label, "Goroutine");
+	assert.equal(nextjsNode.label, "Next.js");
+	assert.equal(nextjsNode.description, "React framework.");
+	assert.equal(nextjsNode.href, "/docs/language/nextjs/overview");
+	assert.equal(nextjsNode.topic, "language");
+	assert.equal(nextjsNode.ontology.instance, "nextjs");
 });
 
-test("buildOntologyGraph links parents to children and counts descendants", () => {
+test("buildOntologyGraph adds hierarchy links and semantic relation links between subjects", () => {
 	const graph = buildOntologyGraph({
-		docs,
-		topicSections,
-		docMetadataById,
+		wikiGraph,
 		rootLabel: "lol-IoT",
 	});
 
-	const linkPairs = new Set(graph.links.map((link) => `${link.source}->${link.target}`));
-	const dataTopic = graph.nodes.find((node) => node.id === "topic:data");
-	const cephGroup = graph.nodes.find((node) => node.id === "group:data:ceph");
+	const linkPairs = new Set(graph.links.map((link) => `${link.source}->${link.target}:${link.kind}`));
+	const languageTopic = graph.nodes.find((node) => node.id === "topic:language");
 
-	assert.ok(linkPairs.has("root->topic:data"));
-	assert.ok(linkPairs.has("topic:data->group:data:ceph"));
-	assert.ok(linkPairs.has("group:data:ceph->doc:data/ceph/overview"));
-	assert.equal(dataTopic.childCount, 1);
-	assert.equal(cephGroup.childCount, 1);
+	assert.ok(linkPairs.has("root->topic:language:hierarchy"));
+	assert.ok(linkPairs.has("topic:language->subject:language:framework:nextjs:hierarchy"));
+	assert.ok(linkPairs.has("subject:language:framework:nextjs->subject:language:framework:react:relation"));
+	assert.equal(languageTopic.childCount, 2);
 });

@@ -1,4 +1,4 @@
-export type OntologyGraphNodeType = "root" | "topic" | "group" | "doc";
+export type OntologyGraphNodeType = "root" | "topic" | "subject";
 
 export type OntologyGraphNode = {
 	id: string;
@@ -6,16 +6,24 @@ export type OntologyGraphNode = {
 	type: OntologyGraphNodeType;
 	depth: number;
 	topic?: string;
-	docId?: string;
 	href?: string;
 	description?: string;
+	nodeUrl?: string;
+	ontology?: {
+		domain?: string;
+		class?: string;
+		instance?: string;
+		aspect?: string;
+		role?: string;
+	};
 	childCount: number;
 };
 
 export type OntologyGraphLink = {
 	source: string;
 	target: string;
-	kind: "hierarchy";
+	kind: "hierarchy" | "relation";
+	predicate?: string;
 };
 
 export type OntologyGraphData = {

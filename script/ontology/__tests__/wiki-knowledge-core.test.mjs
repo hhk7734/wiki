@@ -146,3 +146,109 @@ content
 		rmSync(tempDir, { recursive: true, force: true });
 	}
 });
+
+test("wiki knowledge core emits semantic subject relations from frontmatter metadata", () => {
+	const tempDir = mkdtempSync(join(resolve(ROOT_DIR, "docs", "language"), "__wiki-core-relations-"));
+	const nextjsPath = join(tempDir, "nextjs", "overview.mdx");
+	const reactPath = join(tempDir, "react", "overview.mdx");
+	const nextjsSource = relative(ROOT_DIR, nextjsPath).replaceAll("\\", "/");
+	const reactSource = relative(ROOT_DIR, reactPath).replaceAll("\\", "/");
+
+	try {
+		mkdirSync(dirname(nextjsPath), { recursive: true });
+		mkdirSync(dirname(reactPath), { recursive: true });
+		writeFileSync(
+			nextjsPath,
+			`---
+id: overview
+title: Next.js
+ontology:
+  role: entity
+  domain: language
+  class: framework
+  instance: nextjs
+  aspect: overview
+subject:
+  canonical_name: Next.js
+relations:
+  related_to: []
+  depends_on:
+    - react
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+		writeFileSync(
+			reactPath,
+			`---
+id: overview
+title: React
+ontology:
+  role: entity
+  domain: language
+  class: framework
+  instance: react
+  aspect: overview
+subject:
+  canonical_name: React
+relations:
+  related_to: []
+  depends_on:
+    - javascript
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+content
+`,
+		);
+
+		const records = buildWikiKnowledgeCore([nextjsSource, reactSource], {
+			registry: [
+				{
+					source: nextjsSource,
+					target: nextjsSource,
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "framework",
+						instance: "nextjs",
+						aspect: "overview",
+					},
+				},
+				{
+					source: reactSource,
+					target: reactSource,
+					ontology: {
+						role: "entity",
+						domain: "language",
+						class: "framework",
+						instance: "react",
+						aspect: "overview",
+					},
+				},
+			],
+		});
+
+		assert.ok(
+			records.relations.some((relation) =>
+				relation.from === "subject:language:framework:nextjs" &&
+				relation.to === "subject:language:framework:react" &&
+				relation.predicate === "depends_on",
+			),
+		);
+	} finally {
+		rmSync(tempDir, { recursive: true, force: true });
+	}
+});

@@ -204,3 +204,73 @@ test("agent artifacts keep subtitles and graph labels tied to ontology identity"
 	assert.equal(artifacts.graph.nodes.find((node) => node.id === "subject:language:library:grpc").title, "gRPC");
 	assert.equal(artifacts.graph.nodes.find((node) => node.id === "doc:docs/language/library/grpc/go/client.mdx").title, "gRPC Go Client");
 });
+
+test("agent artifacts preserve semantic subject-to-subject edges", () => {
+	const artifacts = buildWikiAgentArtifacts({
+		documents: [
+			{
+				id: "doc:nextjs",
+				type: "document",
+				title: "Next.js",
+				url: "/docs/language/nextjs/overview",
+				snippet: "Next.js overview",
+				ontology: { role: "entity", domain: "language", class: "framework", instance: "nextjs", aspect: "overview" },
+				subject_ref: "subject:language:framework:nextjs",
+			},
+			{
+				id: "doc:react",
+				type: "document",
+				title: "React",
+				url: "/docs/language/react/overview",
+				snippet: "React overview",
+				ontology: { role: "entity", domain: "language", class: "framework", instance: "react", aspect: "overview" },
+				subject_ref: "subject:language:framework:react",
+			},
+		],
+		subjects: [
+			{
+				id: "subject:language:framework:nextjs",
+				type: "subject",
+				canonical_name: "Next.js",
+				ontology: { domain: "language", class: "framework", instance: "nextjs" },
+				document_refs: ["doc:nextjs"],
+			},
+			{
+				id: "subject:language:framework:react",
+				type: "subject",
+				canonical_name: "React",
+				ontology: { domain: "language", class: "framework", instance: "react" },
+				document_refs: ["doc:react"],
+			},
+		],
+		relations: [
+			{
+				id: "relation:doc:nextjs:about_subject:subject:language:framework:nextjs",
+				from: "doc:nextjs",
+				predicate: "about_subject",
+				to: "subject:language:framework:nextjs",
+				snippet: "Next.js overview",
+			},
+			{
+				id: "relation:subject:language:framework:nextjs:depends_on:subject:language:framework:react",
+				from: "subject:language:framework:nextjs",
+				predicate: "depends_on",
+				to: "subject:language:framework:react",
+				snippet: "Next.js depends on React",
+			},
+		],
+	});
+
+	assert.ok(
+		artifacts.graph.edges.some((edge) =>
+			edge.from === "subject:language:framework:nextjs" &&
+			edge.to === "subject:language:framework:react" &&
+			edge.predicate === "depends_on",
+		),
+	);
+	assert.ok(
+		artifacts.nodes["subject:language:framework:nextjs"].relations.some((relation) =>
+			relation.other_id === "subject:language:framework:react" && relation.predicate === "depends_on",
+		),
+	);
+});

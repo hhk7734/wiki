@@ -19,11 +19,14 @@ function buildTaxonomyInfo(sourcePath) {
 }
 
 function buildDocumentRecord(sourcePath, entry) {
-	validateDocumentFile(sourcePath);
+	const frontmatter = validateDocumentFile(sourcePath);
 
-	return buildDocumentSnapshot(sourcePath, entry.ontology, {
+	return {
+		...buildDocumentSnapshot(sourcePath, entry.ontology, {
 		taxonomy: buildTaxonomyInfo(sourcePath),
-	});
+		}),
+		semantic_relations: frontmatter?.relations ?? {},
+	};
 }
 
 function buildRelationRecord(document) {
@@ -35,6 +38,92 @@ function buildRelationRecord(document) {
 		to: document.subject_ref,
 		snippet: document.snippet,
 	};
+}
+
+function normalizeRelationTargets(value) {
+	if (Array.isArray(value)) {
+		return value
+			.map((item) => item?.toString().trim())
+			.filter(Boolean);
+	}
+
+	if (typeof value !== "string") {
+		return [];
+	}
+
+	const trimmed = value.trim();
+
+	if (!trimmed || trimmed === "[]") {
+		return [];
+	}
+
+	if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+		return trimmed
+			.slice(1, -1)
+			.split(",")
+			.map((item) => item.trim())
+			.filter(Boolean);
+	}
+
+	return [trimmed];
+}
+
+function buildSubjectSemanticRelations(documents, subjects) {
+	const subjectIds = new Set(subjects.map((subject) => subject.id));
+	const byDomainAndInstance = new Map(
+		subjects.map((subject) => [`${subject.ontology.domain}:${subject.ontology.instance}`, subject.id]),
+	);
+	const byInstance = new Map();
+
+	for (const subject of subjects) {
+		const instance = subject.ontology.instance;
+		const ids = byInstance.get(instance) ?? [];
+		ids.push(subject.id);
+		byInstance.set(instance, ids);
+	}
+
+	const semanticRelations = [];
+	const seen = new Set();
+
+	for (const document of documents) {
+		const from = document.subject_ref;
+		const domain = document.ontology?.domain;
+		const relationEntries = Object.entries(document.semantic_relations ?? {});
+
+		for (const [predicate, rawTargets] of relationEntries) {
+			if (predicate === "about_subject") {
+				continue;
+			}
+
+			for (const targetInstance of normalizeRelationTargets(rawTargets)) {
+				const preferred = byDomainAndInstance.get(`${domain}:${targetInstance}`);
+				const fallbackIds = byInstance.get(targetInstance) ?? [];
+				const to = preferred ?? (fallbackIds.length === 1 ? fallbackIds[0] : null);
+
+				if (!to || !subjectIds.has(from) || !subjectIds.has(to)) {
+					continue;
+				}
+
+				const id = makeRelationId(from, predicate, to);
+
+				if (seen.has(id)) {
+					continue;
+				}
+
+				seen.add(id);
+				semanticRelations.push({
+					type: "relation",
+					id,
+					from,
+					predicate,
+					to,
+					snippet: document.snippet,
+				});
+			}
+		}
+	}
+
+	return semanticRelations.sort((left, right) => compareStrings(left.id, right.id));
 }
 
 export function buildWikiKnowledgeCore(selectedSources = inventory(), { registry = loadRegistry() } = {}) {
@@ -66,7 +155,10 @@ export function buildWikiKnowledgeCore(selectedSources = inventory(), { registry
 	const subjects = [...subjectsById.entries()]
 		.map(([subjectId, docs]) => buildCanonicalSubjectSnapshot(subjectId, docs, selectCanonicalSubjectDocument(docs)))
 		.sort((left, right) => compareStrings(left.id, right.id));
-	const relations = orderedDocuments.map((document) => buildRelationRecord(document));
+	const relations = [
+		...orderedDocuments.map((document) => buildRelationRecord(document)),
+		...buildSubjectSemanticRelations(orderedDocuments, subjects),
+	];
 
 	return { documents: orderedDocuments, subjects, relations };
 }

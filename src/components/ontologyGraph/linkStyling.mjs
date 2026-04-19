@@ -35,6 +35,25 @@ function getBaselineColor(topic, topicColors) {
 	}
 }
 
+function getPredicateColor(predicate) {
+	switch (predicate) {
+		case "depends_on":
+			return "#f59e0b";
+		case "part_of":
+			return "#22c55e";
+		case "prerequisite_for":
+			return "#38bdf8";
+		case "related_to":
+			return "#a78bfa";
+		case "implements":
+			return "#fb7185";
+		case "uses":
+			return "#14b8a6";
+		default:
+			return "#94a3b8";
+	}
+}
+
 export function isLinkConnectedToNode(link, nodeId) {
 	if (!nodeId) {
 		return false;
@@ -65,10 +84,10 @@ export function getLinkVisuals({ link, activeNodeId, topicColors }) {
 	}
 
 	return {
-		color: getBaselineColor(getTopic(link), topicColors),
+		color: link?.kind === "relation" ? getPredicateColor(link?.predicate) : getBaselineColor(getTopic(link), topicColors),
 		opacity: 0.44,
-		width: link?.target?.type === "doc" ? 1.1 : 1.35,
-		particles: link?.target?.type === "doc" ? 2 : 1,
+		width: link?.kind === "relation" ? 1.9 : 1.35,
+		particles: link?.kind === "relation" ? 3 : 1,
 		particleSpeed: 0.0045,
 	};
 }

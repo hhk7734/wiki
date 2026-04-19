@@ -12,23 +12,17 @@ test("getPersistentLabelConfig gives the root the largest label treatment", () =
 	});
 });
 
-test("getPersistentLabelConfig distinguishes topic, group, and doc labels", () => {
+test("getPersistentLabelConfig distinguishes topic and subject labels", () => {
 	assert.deepEqual(getPersistentLabelConfig({ type: "topic" }), {
 		fontSize: 28,
 		color: "#f8fafc",
 		scale: 38,
 		yOffset: 12,
 	});
-	assert.deepEqual(getPersistentLabelConfig({ type: "group" }), {
-		fontSize: 20,
+	assert.deepEqual(getPersistentLabelConfig({ type: "subject" }), {
+		fontSize: 18,
 		color: "#dbeafe",
-		scale: 26,
-		yOffset: 8,
-	});
-	assert.deepEqual(getPersistentLabelConfig({ type: "doc" }), {
-		fontSize: 16,
-		color: "#cbd5e1",
-		scale: 18,
-		yOffset: 5,
+		scale: 22,
+		yOffset: 7,
 	});
 });
