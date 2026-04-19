@@ -2817,11 +2817,11 @@
         "class": "container-platform",
         "instance": "apptainer"
       },
-      "url": "/docs/operation/mlops/container-platform/apptainer/install",
+      "url": "/docs/mlops/apptainer/install",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:apptainer.json"
     },
     {
-      "id": "subject:mlops:container-platform:build",
+      "id": "subject:mlops:container-platform:container-build",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -2830,10 +2830,10 @@
       "ontology": {
         "domain": "mlops",
         "class": "container-platform",
-        "instance": "build"
+        "instance": "container-build"
       },
-      "url": "/docs/operation/mlops/container-platform/build/dockerignore",
-      "node_url": "/api/wiki/nodes/subject:mlops:container-platform:build.json"
+      "url": "/docs/mlops/container-build/dockerignore",
+      "node_url": "/api/wiki/nodes/subject:mlops:container-platform:container-build.json"
     },
     {
       "id": "subject:mlops:container-platform:containerd",
@@ -2847,7 +2847,7 @@
         "class": "container-platform",
         "instance": "containerd"
       },
-      "url": "/docs/entity/mlops/container-platform/containerd",
+      "url": "/docs/mlops/containerd/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:containerd.json"
     },
     {
@@ -2862,7 +2862,7 @@
         "class": "container-platform",
         "instance": "docker"
       },
-      "url": "/docs/operation/mlops/container-platform/docker/install",
+      "url": "/docs/mlops/docker/install",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:docker.json"
     },
     {
@@ -2877,7 +2877,7 @@
         "class": "container-platform",
         "instance": "nvidia-container-toolkit"
       },
-      "url": "/docs/operation/mlops/container-platform/nvidia-container-toolkit/install",
+      "url": "/docs/mlops/nvidia-container-toolkit/install",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:nvidia-container-toolkit.json"
     },
     {
@@ -2892,7 +2892,7 @@
         "class": "container-platform",
         "instance": "podman"
       },
-      "url": "/docs/entity/mlops/container-platform/podman",
+      "url": "/docs/mlops/podman/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:podman.json"
     },
     {
@@ -2907,7 +2907,7 @@
         "class": "container-platform",
         "instance": "s6-overlay"
       },
-      "url": "/docs/entity/mlops/container-platform/s6-overlay",
+      "url": "/docs/mlops/s6-overlay/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:container-platform:s6-overlay.json"
     },
     {
@@ -5644,57 +5644,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx.json"
     },
     {
-      "id": "doc:docs/entity/mlops/container-platform/containerd/containerd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "containerd",
-      "snippet": "설치 및 설정 문서는 별도로 분리되어 있습니다.\n\n## Architecture\n\n containerd Architecture",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "containerd",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/container-platform/containerd",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/container-platform/containerd/containerd.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/container-platform/podman/podman.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Podman, Buildah, Skopeo",
-      "snippet": "…ah, Skopeo\n\n- Podman\n - Docker daemon 없이 컨테이너를 실행하고 관리하는 도구입니다.\n - rootless 실행과 containers/* 설정 파일을 적극적으로 사용합니다.\n- Buildah\n - 컨테이너 이미지를 빌드하는 데 초점을 둔 도구입니다.\n - Dockerfile…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "podman",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/container-platform/podman",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/container-platform/podman/podman.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/container-platform/s6-overlay/s6-overlay.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "s6-overlay",
-      "snippet": "- s6-overlay GitHub\n\n설치와 서비스 설정 문서는 별도로 분리되어 있습니다.\n\n## s6-overlay\ns6 is a collection of util…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "s6-overlay",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/container-platform/s6-overlay",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/container-platform/s6-overlay/s6-overlay.mdx.json"
-    },
-    {
       "id": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
       "type": "document",
       "score": 0,
@@ -7038,6 +6987,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/cni/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/containerd/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "containerd",
+      "snippet": "설치 및 설정 문서는 별도로 분리되어 있습니다.\n\n## Architecture\n\n containerd Architecture",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "containerd",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/containerd/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/containerd/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/crd2pulumi/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7344,6 +7310,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/ofed/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/podman/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Podman, Buildah, Skopeo",
+      "snippet": "…ah, Skopeo\n\n- Podman\n - Docker daemon 없이 컨테이너를 실행하고 관리하는 도구입니다.\n - rootless 실행과 containers/* 설정 파일을 적극적으로 사용합니다.\n- Buildah\n - 컨테이너 이미지를 빌드하는 데 초점을 둔 도구입니다.\n - Dockerfile…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/podman/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/podman/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/promql/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7410,6 +7393,23 @@
       },
       "url": "/docs/mlops/rdma-shared-device-plugin/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/s6-overlay/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "s6-overlay",
+      "snippet": "- s6-overlay GitHub\n\n설치와 서비스 설정 문서는 별도로 분리되어 있습니다.\n\n## s6-overlay\ns6 is a collection of util…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "s6-overlay",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/s6-overlay/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/s6-overlay/overview.mdx.json"
     },
     {
       "id": "doc:docs/mlops/spegel/overview.mdx",
@@ -13719,6 +13719,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/vault.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/apptainer/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Apptainer for HPC",
+      "snippet": "… wget \\\n pkg-config \\\n git \\\n cryptsetup-bin\n`\n\nGolang is required to build the apptainer.\n\n### Apptainer\n\n`shell\n\n`\n\n`shell\nsudo mkdir -p /opt/apptainer/$APPTAINER_VERS…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "apptainer",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/apptainer/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/apptainer/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/argo-cd/act.mdx",
       "type": "document",
       "score": 0,
@@ -14195,6 +14212,74 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/cluster-api/kubevirt.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/container-build/cache.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cache를 사용하여 Container 빌드하기",
+      "snippet": "## Build Cache\n\n- Docker Build Cache\n- Layer\n\nDockerfile의 명령어들은 레이어를 생성합니다. 레이어는 이전 레이어에서 명령어를…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "container-build",
+        "aspect": "cache"
+      },
+      "url": "/docs/mlops/container-build/cache",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/container-build/cache.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/container-build/dockerignore.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": ".dockerignore로 가볍고 캐싱이 잘되는 Container 빌드하기",
+      "snippet": "## .dockerignore\n\n빌드를 시작할 때, context에 .dockerignore가 있다면, 컨테이너 툴은 해당 파일을 읽어 무시할 파일을 정의합니다. podma…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "container-build",
+        "aspect": "dockerignore"
+      },
+      "url": "/docs/mlops/container-build/dockerignore",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/container-build/dockerignore.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/container-build/layer.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Container Layer",
+      "snippet": "…D file:e7cff353f027ecf... 75.2 MB\n 2 months ago /bin/sh -c #(nop) LABEL org.opencontainer... 0 B\n 2 months ago /bin/sh -c #(nop) LABEL org.opencontainer... 0 B\n 2 months…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "container-build",
+        "aspect": "layer"
+      },
+      "url": "/docs/mlops/container-build/layer",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/container-build/layer.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/containerd/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "containerd 설치 및 설정",
+      "snippet": "containerd 개요 문서에서 아키텍처를 먼저 확인할 수 있습니다.\n\n## 설치\n\n### 바이너리 설치\n\n- containerd GitHub / getting…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "containerd",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/containerd/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/containerd/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/coredns/install.mdx",
       "type": "document",
       "score": 0,
@@ -14278,6 +14363,23 @@
       },
       "url": "/docs/mlops/dex/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/dex/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/docker/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Docker",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "docker",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/docker/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/docker/install.mdx.json"
     },
     {
       "id": "doc:docs/mlops/eck/operator.mdx",
@@ -15283,6 +15385,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/node-exporter/install.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/nvidia-container-toolkit/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NVIDIA Container Toolkit",
+      "snippet": "…om/datacenter/cloud-native/container-toolkit/install-guide.html\n\n``shell\nyay -S nvidia-container-toolkit\n`\n\n`shell\nnvidia-ctk --version\n`\n\n`shell\nsudo nvidia-ctk cdi generate --output=…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "nvidia-container-toolkit",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/nvidia-container-toolkit/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nvidia-container-toolkit/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/oauth2-proxy/install.mdx",
       "type": "document",
       "score": 0,
@@ -15349,6 +15468,40 @@
       },
       "url": "/docs/mlops/opentelemetry/semantic-conventions",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/opentelemetry/semantic-conventions.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/podman/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Podman 설치 및 환경 설정",
+      "snippet": "…l flathub io.podman_desktop.PodmanDesktop\n`\n\n## 설정\n\n### registries.conf\n\n- /etc/containers/registries.conf\n- /etc/containers/registries.conf.d/*.conf\n- $HOME/.config/con…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/podman/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/podman/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/podman/usage.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Podman 사용 가이드",
+      "snippet": "… flags\n - -f|--file : Dockerfile 경로\n - -t|--tag\n\n### ShellScript\n\n`shell title=\"containerize.sh\"\n#!/usr/bin/env bash\n\nset -x\n\nbuild=$(buildah from golang:1.17)\nbuild_roo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "usage"
+      },
+      "url": "/docs/mlops/podman/usage",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/podman/usage.mdx.json"
     },
     {
       "id": "doc:docs/mlops/prometheus-operator/alertmanager.mdx",
@@ -15502,6 +15655,23 @@
       },
       "url": "/docs/mlops/rdma-shared-device-plugin/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/s6-overlay/configure.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "s6-overlay 설치와 서비스 설정",
+      "snippet": "s6-overlay 개요 문서에서 프로세스 관리 구조를 먼저 확인할 수 있습니다.\n\n- s6-overlay GitHub\n\n## 설치\n\n``dockerfile\nFR…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "container-platform",
+        "instance": "s6-overlay",
+        "aspect": "configure"
+      },
+      "url": "/docs/mlops/s6-overlay/configure",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/s6-overlay/configure.mdx.json"
     },
     {
       "id": "doc:docs/mlops/spegel/install.mdx",
@@ -16097,176 +16267,6 @@
       },
       "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/apptainer/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Apptainer for HPC",
-      "snippet": "… wget \\\n pkg-config \\\n git \\\n cryptsetup-bin\n`\n\nGolang is required to build the apptainer.\n\n### Apptainer\n\n`shell\n\n`\n\n`shell\nsudo mkdir -p /opt/apptainer/$APPTAINER_VERS…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "apptainer",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/container-platform/apptainer/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/apptainer/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/build/cache.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cache를 사용하여 Container 빌드하기",
-      "snippet": "## Build Cache\n\n- Docker Build Cache\n- Layer\n\nDockerfile의 명령어들은 레이어를 생성합니다. 레이어는 이전 레이어에…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "build",
-        "aspect": "cache"
-      },
-      "url": "/docs/operation/mlops/container-platform/build/cache",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/build/cache.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/build/dockerignore.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": ".dockerignore로 가볍고 캐싱이 잘되는 Container 빌드하기",
-      "snippet": "## .dockerignore\n\n빌드를 시작할 때, context에 .dockerignore가 있다면, 컨테이너 툴은 해당 파일을 읽어 무시할 파일을 정의합니다. podma…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "build",
-        "aspect": "dockerignore"
-      },
-      "url": "/docs/operation/mlops/container-platform/build/dockerignore",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/build/dockerignore.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/build/layer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Container Layer",
-      "snippet": "…D file:e7cff353f027ecf... 75.2 MB\n 2 months ago /bin/sh -c #(nop) LABEL org.opencontainer... 0 B\n 2 months ago /bin/sh -c #(nop) LABEL org.opencontainer... 0 B\n 2 months…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "build",
-        "aspect": "layer"
-      },
-      "url": "/docs/operation/mlops/container-platform/build/layer",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/build/layer.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/containerd/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "containerd 설치 및 설정",
-      "snippet": "containerd 개요 문서에서 아키텍처를 먼저 확인할 수 있습니다.\n\n## 설치\n\n### 바이너리 설치\n\n- containerd GitHub / getting…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "containerd",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/container-platform/containerd/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/containerd/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/docker/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Docker",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "docker",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/container-platform/docker/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/docker/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/nvidia-container-toolkit/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NVIDIA Container Toolkit",
-      "snippet": "…om/datacenter/cloud-native/container-toolkit/install-guide.html\n\n``shell\nyay -S nvidia-container-toolkit\n`\n\n`shell\nnvidia-ctk --version\n`\n\n`shell\nsudo nvidia-ctk cdi generate --output=…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "nvidia-container-toolkit",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/container-platform/nvidia-container-toolkit/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/nvidia-container-toolkit/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/podman/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Podman 설치 및 환경 설정",
-      "snippet": "…l flathub io.podman_desktop.PodmanDesktop\n`\n\n## 설정\n\n### registries.conf\n\n- /etc/containers/registries.conf\n- /etc/containers/registries.conf.d/*.conf\n- $HOME/.config/con…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "podman",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/container-platform/podman/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/podman/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/podman/usage.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Podman 사용 가이드",
-      "snippet": "… flags\n - -f|--file : Dockerfile 경로\n - -t|--tag\n\n### ShellScript\n\n`shell title=\"containerize.sh\"\n#!/usr/bin/env bash\n\nset -x\n\nbuild=$(buildah from golang:1.17)\nbuild_roo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "podman",
-        "aspect": "usage"
-      },
-      "url": "/docs/operation/mlops/container-platform/podman/usage",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/podman/usage.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/container-platform/s6-overlay/configure.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "s6-overlay 설치와 서비스 설정",
-      "snippet": "s6-overlay 개요 문서에서 프로세스 관리 구조를 먼저 확인할 수 있습니다.\n\n- s6-overlay GitHub\n\n## 설치\n\n``dockerfile\nFR…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "container-platform",
-        "instance": "s6-overlay",
-        "aspect": "configure"
-      },
-      "url": "/docs/operation/mlops/container-platform/s6-overlay/configure",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/container-platform/s6-overlay/configure.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx",

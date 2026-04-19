@@ -1,0 +1,106 @@
+---
+id: configure
+title: "s6-overlay 설치와 서비스 설정"
+sidebar_label: "설치와 서비스 설정"
+description: "s6-overlay 설치와 서비스 설정"
+keywords:
+  - s6-overlay
+  - s6
+  - container
+ontology:
+  role: operation
+  domain: mlops
+  class: container-platform
+  instance: s6-overlay
+  aspect: configure
+subject:
+  canonical_name: s6-overlay
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[s6-overlay 개요](/docs/mlops/s6-overlay/overview.mdx) 문서에서 프로세스 관리 구조를 먼저 확인할 수 있습니다.
+:::
+
+:::info[References]
+
+- [s6-overlay GitHub](https://github.com/just-containers/s6-overlay)
+
+:::
+
+## 설치
+
+```dockerfile
+FROM ubuntu:22.04
+
+ARG S6_OVERLAY_VERSION=3.2.1.0
+
+# 2: Stop the container
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ca-certificates \
+    curl \
+    xz-utils \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz \
+    && curl -fsSLO https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz \
+    && tar -C / -Jxpf s6-overlay-noarch.tar.xz \
+    && tar -C / -Jxpf s6-overlay-x86_64.tar.xz \
+    && rm s6-overlay-noarch.tar.xz \
+    && rm s6-overlay-x86_64.tar.xz
+
+ENTRYPOINT [ "/init" ]
+```
+
+## 서비스 설정
+
+### 디렉토리 구조
+
+```shell
+/etc/s6-overlay/s6-rc.d/
+├── user/
+│   ├── contents.d/
+│   │   ├── <service>
+│   │   └── ...
+│   └── ...
+├── <service>/
+│   ├── type
+│   ├── run
+│   ├── dependencies.d/
+│   │   ├── base
+│   │   ├── <dependency>
+│   │   └── ...
+│   └── ...
+└── ...
+```
+
+- `/etc/s6-overlay/s6-rc.d`
+  - `user`
+    - 항상 실행되는 서비스입니다.
+    - `contents.d`에 있는 파일들의 이름에 해당하는 서비스가 의존성에 따라 실행됩니다.
+  - `<service>`
+    - 사용자 정의 서비스입니다.
+    - `type`
+      - `oneshot` 또는 `longrun`을 파일에 작성합니다.
+      - `user`는 `bundle`입니다.
+    - `run`
+      - 실행될 스크립트를 작성합니다.
+    - `dependencies.d`
+      - 해당 서비스가 실행되기 전에 실행될 서비스 리스트를 파일명으로 작성합니다.
+      - `base`
+        - 의존성으로 가져야 race condition을 피할 수 있습니다.
+        - ~~`legacy-cont-init`이 모두 실행된 이후에 실행되도록 해주는 것 같습니다.~~

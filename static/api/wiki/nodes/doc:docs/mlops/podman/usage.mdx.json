@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/podman/usage.mdx",
+  "title": "Podman 사용 가이드",
+  "snippet": "… flags\n - -f|--file : Dockerfile 경로\n - -t|--tag\n\n### ShellScript\n\n`shell title=\"containerize.sh\"\n#!/usr/bin/env bash\n\nset -x\n\nbuild=$(buildah from golang:1.17)\nbuild_roo…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "container-platform",
+    "instance": "podman",
+    "aspect": "usage"
+  },
+  "url": "/docs/mlops/podman/usage",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/podman/usage.mdx.json",
+  "subject": {
+    "id": "subject:mlops:container-platform:podman",
+    "title": "Podman, Buildah, Skopeo",
+    "ontology": {
+      "domain": "mlops",
+      "class": "container-platform",
+      "instance": "podman"
+    },
+    "url": "/docs/mlops/podman/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/podman/usage.mdx:about_subject:subject:mlops:container-platform:podman",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:container-platform:podman",
+      "direction": "outgoing"
+    }
+  ]
+}
