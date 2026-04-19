@@ -8,17 +8,18 @@
     "class": "model-family",
     "instance": "nn"
   },
-  "url": "/docs/concept/science/model-family/nn",
+  "url": "/docs/science/nn/overview",
   "node_url": "/api/wiki/nodes/subject:science:model-family:nn.json",
   "document_refs": [
-    "doc:docs/concept/science/model-family/nn/nn.mdx",
-    "doc:docs/operation/science/model-family/nn/derivative.mdx"
+    "doc:docs/science/nn/overview.mdx",
+    "doc:docs/science/nn/cpu-gpu-npu.mdx",
+    "doc:docs/science/nn/derivative.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/concept/science/model-family/nn/nn.mdx",
+      "id": "doc:docs/science/nn/overview.mdx",
       "title": "Neural Network",
-      "url": "/docs/concept/science/model-family/nn",
+      "url": "/docs/science/nn/overview",
       "snippet": "Neural Network\n\n## Neuron(Perceptron)\n\n Neuron(Perceptron)\n\n$$\nz^l_j = \\sum_k{\\omega^l_{jk}a^{…",
       "ontology": {
         "role": "concept",
@@ -29,9 +30,22 @@
       }
     },
     {
-      "id": "doc:docs/operation/science/model-family/nn/derivative.mdx",
+      "id": "doc:docs/science/nn/cpu-gpu-npu.mdx",
+      "title": "Neural Network CPU vs. GPU vs. NPU",
+      "url": "/docs/science/nn/cpu-gpu-npu",
+      "snippet": "…d **systolic array** architecture.\n\nLet's see how a systolic array executes the neural network calculations. At first, TPU loads the parameters from memory into the matrix of…",
+      "ontology": {
+        "role": "operation",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "nn",
+        "aspect": "cpu-gpu-npu"
+      }
+    },
+    {
+      "id": "doc:docs/science/nn/derivative.mdx",
       "title": "Derivative",
-      "url": "/docs/operation/science/model-family/nn/derivative",
+      "url": "/docs/science/nn/derivative",
       "snippet": "## Loss function\n\n### Mean Square Error\n\n$$\nLoss = \\dfrac{ 1 }{ 2 } \\sum_i \\left( y_i - a^L_i \\right)^2\n$$\n\n$$\n\\dfrac{ \\partial Loss }{ \\partial a^L_i } = - \\le",
       "ontology": {
         "role": "operation",
@@ -44,15 +58,21 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/concept/science/model-family/nn/nn.mdx:about_subject:subject:science:model-family:nn",
+      "id": "relation:doc:docs/science/nn/overview.mdx:about_subject:subject:science:model-family:nn",
       "predicate": "about_subject",
-      "other_id": "doc:docs/concept/science/model-family/nn/nn.mdx",
+      "other_id": "doc:docs/science/nn/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/science/model-family/nn/derivative.mdx:about_subject:subject:science:model-family:nn",
+      "id": "relation:doc:docs/science/nn/cpu-gpu-npu.mdx:about_subject:subject:science:model-family:nn",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/science/model-family/nn/derivative.mdx",
+      "other_id": "doc:docs/science/nn/cpu-gpu-npu.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/science/nn/derivative.mdx:about_subject:subject:science:model-family:nn",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/science/nn/derivative.mdx",
       "direction": "incoming"
     }
   ]

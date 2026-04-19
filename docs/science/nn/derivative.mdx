@@ -1,0 +1,66 @@
+---
+id: derivative
+title: Derivative
+sidebar_label: Derivative
+description: "Neural Network Derivative"
+keywords:
+  - "Neural Network"
+  - Derivative
+ontology:
+  role: operation
+  domain: science
+  class: model-family
+  instance: nn
+  aspect: derivative
+subject:
+  canonical_name: "Neural Network"
+  aliases:
+    - nn
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Loss function
+
+### Mean Square Error
+
+$$
+Loss = \dfrac{ 1 }{ 2 } \sum_i \left( y_i - a^L_i \right)^2
+$$
+
+$$
+\dfrac{ \partial Loss }{ \partial a^L_i } = - \left( y_i - a^L_i \right)
+$$
+
+### Binary Cross-Entropy
+
+$$
+Loss = \sum_i \left[ -y_i \log a^L_i - (1 - y_i) \log \left( 1 - a^L_i \right) \right]
+$$
+
+$$
+\dfrac{\partial Loss}{\partial a^L_i}
+= \dfrac{ - \left( y_i - a^L_i \right)}{a^L_i \left( 1 - a^L_i \right) }
+$$
+
+## Activation
+
+### logistic
+
+$$
+a^l_i = \sigma ( z^l_i ) = logistic ( z^l_i ) = \dfrac{ 1 }{ 1 + e^{ -z^l_i } }
+$$
+
+$$
+\dfrac{\partial \sigma ( z^l_i )}{\partial z^l_i }
+= \dfrac{  e^{ -z^l_i } }{ \left( 1 + e^{ -z^l_i } \right)^2 }
+= a^l_i \left( 1 - a^l_i \right)
+$$
