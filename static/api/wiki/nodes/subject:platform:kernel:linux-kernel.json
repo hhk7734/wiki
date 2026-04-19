@@ -1,0 +1,99 @@
+{
+  "type": "subject",
+  "id": "subject:platform:kernel:linux-kernel",
+  "title": "Build kernel",
+  "snippet": "…/www.linaro.org/downloads/\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## Building Linux kernel\n\nIf a customized repository exists for the board, clone or download it.\n\nDownlo…",
+  "ontology": {
+    "domain": "platform",
+    "class": "kernel",
+    "instance": "linux-kernel"
+  },
+  "url": "/docs/platform/linux-kernel/build",
+  "node_url": "/api/wiki/nodes/subject:platform:kernel:linux-kernel.json",
+  "document_refs": [
+    "doc:docs/platform/linux-kernel/build.mdx",
+    "doc:docs/platform/linux-kernel/ftrace.mdx",
+    "doc:docs/platform/linux-kernel/how-to-contribute.mdx",
+    "doc:docs/platform/linux-kernel/tty0uart.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/platform/linux-kernel/build.mdx",
+      "title": "Build kernel",
+      "url": "/docs/platform/linux-kernel/build",
+      "snippet": "…/www.linaro.org/downloads/\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## Building Linux kernel\n\nIf a customized repository exists for the board, clone or download it.\n\nDownlo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "linux-kernel",
+        "aspect": "build"
+      }
+    },
+    {
+      "id": "doc:docs/platform/linux-kernel/ftrace.mdx",
+      "title": "ftrace",
+      "url": "/docs/platform/linux-kernel/ftrace",
+      "snippet": "…Linux kernel configuration\n\nRef: https://www.kernel.org/doc/Documentation/trace/ftrace.txt\n\n### \\\\_defconfig\n\n- kernel/trace/Kconfig: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "linux-kernel",
+        "aspect": "ftrace"
+      }
+    },
+    {
+      "id": "doc:docs/platform/linux-kernel/how-to-contribute.mdx",
+      "title": "How to contribute to Linux kernel",
+      "url": "/docs/platform/linux-kernel/how-to-contribute",
+      "snippet": "…a GPIO bank has greater than 16 pins, PAD_DS_REG is split into two\n> registers. However, when register and bit were calculated, the first\n> register defined in the…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "linux-kernel",
+        "aspect": "how-to-contribute"
+      }
+    },
+    {
+      "id": "doc:docs/platform/linux-kernel/tty0uart.mdx",
+      "title": "Null-modem emulator tty0uart",
+      "url": "/docs/platform/linux-kernel/tty0uart",
+      "snippet": "…evice와 platform_driver의 name이 같아야 연결 됨\n\n## Git\n\nGit: https://github.com/hhk7734/tty0uart\n\n## Flow control\n\n- DCD: Data Carrier Detect\n- RXD: Receive Data\n- TXD: Transmi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "linux-kernel",
+        "aspect": "tty0uart"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/platform/linux-kernel/build.mdx:about_subject:subject:platform:kernel:linux-kernel",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/linux-kernel/build.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/platform/linux-kernel/ftrace.mdx:about_subject:subject:platform:kernel:linux-kernel",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/linux-kernel/ftrace.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/platform/linux-kernel/how-to-contribute.mdx:about_subject:subject:platform:kernel:linux-kernel",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/linux-kernel/how-to-contribute.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/platform/linux-kernel/tty0uart.mdx:about_subject:subject:platform:kernel:linux-kernel",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/linux-kernel/tty0uart.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

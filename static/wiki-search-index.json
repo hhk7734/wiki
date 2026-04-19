@@ -983,48 +983,53 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:kernel:build-linux-kernel",
+      "id": "subject:platform:kernel:linux-kernel",
       "title": "Build kernel",
       "description": "…/www.linaro.org/downloads/\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## Building Linux kernel\n\nIf a customized repository exists for the board, clone or download it.\n\nDownlo…",
       "snippet": "…/www.linaro.org/downloads/\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## Building Linux kernel\n\nIf a customized repository exists for the board, clone or download it.\n\nDownlo…",
-      "url": "/docs/entity/platform/kernel/build-linux-kernel",
+      "url": "/docs/platform/linux-kernel/build",
       "document_refs": [
-        "doc:docs/entity/platform/kernel/build-linux-kernel/build-linux-kernel.mdx"
+        "doc:docs/platform/linux-kernel/build.mdx",
+        "doc:docs/platform/linux-kernel/ftrace.mdx",
+        "doc:docs/platform/linux-kernel/how-to-contribute.mdx",
+        "doc:docs/platform/linux-kernel/tty0uart.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "kernel",
-        "instance": "build-linux-kernel"
+        "instance": "linux-kernel"
       },
-      "search_text": "build kernel /www linaro org/downloads/ shell shell shell building linux kernel if a customized repository exists for the board clone or download it downlo build kernel toolchain building linux kernel /lib/modules boot platform kernel build-linux-kernel",
+      "search_text": "build kernel /www linaro org/downloads/ shell shell shell building linux kernel if a customized repository exists for the board clone or download it downlo build kernel ftrace how to contribute to linux kernel null-modem emulator tty0uart toolchain building linux kernel /lib/modules boot linux kernel configuration board defconfig options trace printk ftrace setup ftrace on restart /off ftrace event on/off set ftrace filter ftrace tracer setup trace example linux kernel configuration board defconfig linux kernel driver build linux kernel ftrace setup trace tracer function graph cpu duration function calls consequence write commit message make patch set mutt send patch mail get maintainer send patch using mutt reply to comments example git flow control platform kernel linux-kernel",
       "display": {
         "label": "Build kernel",
         "kind": "subject",
-        "subtitle": "Build Linux Kernel",
-        "document_count": 1
+        "subtitle": "Linux Kernel",
+        "document_count": 4
       }
     },
     {
       "type": "subject",
-      "id": "subject:platform:bootloader:build-uboot",
+      "id": "subject:platform:bootloader:u-boot",
       "title": "Build u-boot",
       "description": "…oper-tools/gnu-toolchain/gnu-rm/downloads\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## u-boot\n\n사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다.\n\n`shell\ngit clone …",
       "snippet": "…oper-tools/gnu-toolchain/gnu-rm/downloads\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## u-boot\n\n사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다.\n\n`shell\ngit clone …",
-      "url": "/docs/entity/platform/bootloader/build-uboot",
+      "url": "/docs/platform/u-boot/build",
       "document_refs": [
-        "doc:docs/entity/platform/bootloader/build-uboot/build-uboot.mdx"
+        "doc:docs/platform/u-boot/build.mdx",
+        "doc:docs/platform/u-boot/configuration.mdx",
+        "doc:docs/platform/u-boot/custom-command.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "bootloader",
-        "instance": "build-uboot"
+        "instance": "u-boot"
       },
-      "search_text": "build u-boot oper-tools/gnu-toolchain/gnu-rm/downloads shell shell shell u-boot 사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다 shell git clone build u-boot toolchain u-boot platform bootloader build-uboot",
+      "search_text": "build u-boot oper-tools/gnu-toolchain/gnu-rm/downloads shell shell shell u-boot 사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다 shell git clone build u-boot u-boot configuration u-boot custom command toolchain u-boot tips to add/remove boards spdx-license-identifier gpl-2 0 this helper makefile is used for creating - symbolic links arch/ arch/include/asm/arch - include/autoconf mk spl tpl /include/autoconf mk - include/config h when our migration to kconfig is done when we move all configs from header files to kconfig this makefile can be deleted etc config sys cpu config sys soc if arch/ arch /mach- soc /include/mach exists make a symbolic link to that directory otherwise create a symbolic link to arch/ arch /include/asm/arch- soc config sys vendor config sys board config sys config name reference example reference platform bootloader u-boot",
       "display": {
         "label": "Build u-boot",
         "kind": "subject",
-        "subtitle": "Build Uboot",
-        "document_count": 1
+        "subtitle": "U Boot",
+        "document_count": 3
       }
     },
     {
@@ -3342,29 +3347,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:kernel:linux-kernel-how-to-contribute",
-      "title": "How to contribute to Linux kernel",
-      "description": "…a GPIO bank has greater than 16 pins, PAD_DS_REG is split into two\n> registers. However, when register and bit were calculated, the first\n> register defined in the…",
-      "snippet": "…a GPIO bank has greater than 16 pins, PAD_DS_REG is split into two\n> registers. However, when register and bit were calculated, the first\n> register defined in the…",
-      "url": "/docs/operation/platform/kernel/linux-kernel-how-to-contribute/how-to-contribute",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/linux-kernel-how-to-contribute/how-to-contribute.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "linux-kernel-how-to-contribute"
-      },
-      "search_text": "how to contribute to linux kernel a gpio bank has greater than 16 pins pad ds reg is split into two registers however when register and bit were calculated the first register defined in the how to contribute to linux kernel write commit message make patch set mutt send patch mail get maintainer send patch using mutt reply to comments example platform kernel linux-kernel-how-to-contribute",
-      "display": {
-        "label": "How to contribute to Linux kernel",
-        "kind": "subject",
-        "subtitle": "Linux Kernel How To Contribute",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:mlops:cloud-service:iam",
       "title": "IAM",
       "description": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
@@ -5241,29 +5223,6 @@
         "label": "Node를 비우고 제거하기",
         "kind": "subject",
         "subtitle": "Administer Cluster",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:kernel:linux-kernel-tty0uart",
-      "title": "Null-modem emulator tty0uart",
-      "description": "…evice와 platform_driver의 name이 같아야 연결 됨\n\n## Git\n\nGit: https://github.com/hhk7734/tty0uart\n\n## Flow control\n\n- DCD: Data Carrier Detect\n- RXD: Receive Data\n- TXD: Transmi…",
-      "snippet": "…evice와 platform_driver의 name이 같아야 연결 됨\n\n## Git\n\nGit: https://github.com/hhk7734/tty0uart\n\n## Flow control\n\n- DCD: Data Carrier Detect\n- RXD: Receive Data\n- TXD: Transmi…",
-      "url": "/docs/operation/platform/kernel/linux-kernel-tty0uart/tty0uart",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/linux-kernel-tty0uart/tty0uart.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "linux-kernel-tty0uart"
-      },
-      "search_text": "null-modem emulator tty0uart evice와 platform driver의 name이 같아야 연결 됨 git git https //github com/hhk7734/tty0uart flow control - dcd data carrier detect - rxd receive data - txd transmi null-modem emulator tty0uart git flow control platform kernel linux-kernel-tty0uart",
-      "display": {
-        "label": "Null-modem emulator tty0uart",
-        "kind": "subject",
-        "subtitle": "Linux Kernel Tty0uart",
         "document_count": 1
       }
     },
@@ -8424,29 +8383,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:kernel:linux-kernel-ftrace",
-      "title": "ftrace",
-      "description": "…Linux kernel configuration\n\nRef: https://www.kernel.org/doc/Documentation/trace/ftrace.txt\n\n### \\\\_defconfig\n\n- kernel/trace/Kconfig: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기…",
-      "snippet": "…Linux kernel configuration\n\nRef: https://www.kernel.org/doc/Documentation/trace/ftrace.txt\n\n### \\\\_defconfig\n\n- kernel/trace/Kconfig: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기…",
-      "url": "/docs/operation/platform/kernel/linux-kernel-ftrace/ftrace",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/linux-kernel-ftrace/ftrace.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "linux-kernel-ftrace"
-      },
-      "search_text": "ftrace linux kernel configuration ref https //www kernel org/doc/documentation/trace/ftrace txt defconfig - kernel/trace/kconfig 설정 가능한 옵션 의존성 설명 등이 있으므로 참고하시기 ftrace linux kernel configuration board defconfig options trace printk ftrace setup ftrace on restart /off ftrace event on/off set ftrace filter ftrace tracer setup trace example linux kernel configuration board defconfig linux kernel driver build linux kernel ftrace setup trace tracer function graph cpu duration function calls consequence platform kernel linux-kernel-ftrace",
-      "display": {
-        "label": "ftrace",
-        "kind": "subject",
-        "subtitle": "Linux Kernel Ftrace",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:library:cpp-grpc",
       "title": "gRPC for C++",
       "description": "gRPC for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
@@ -9175,52 +9111,6 @@
         "kind": "subject",
         "subtitle": "Python Tkinter",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:bootloader:uboot-configuration",
-      "title": "u-boot configuration",
-      "description": "…m the board select menu in Kconfig\n [6] Add an entry to doc/README.scrapyard\n`\n\nConfiguration files for use in C sources\n\n- include/generated/autoconf.h (generated by Kconfi…",
-      "snippet": "…m the board select menu in Kconfig\n [6] Add an entry to doc/README.scrapyard\n`\n\nConfiguration files for use in C sources\n\n- include/generated/autoconf.h (generated by Kconfi…",
-      "url": "/docs/entity/platform/bootloader/uboot-configuration",
-      "document_refs": [
-        "doc:docs/entity/platform/bootloader/uboot-configuration/uboot-configuration.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "bootloader",
-        "instance": "uboot-configuration"
-      },
-      "search_text": "u-boot configuration m the board select menu in kconfig 6 add an entry to doc/readme scrapyard configuration files for use in c sources - include/generated/autoconf h generated by kconfi u-boot configuration tips to add/remove boards spdx-license-identifier gpl-2 0 this helper makefile is used for creating - symbolic links arch/ arch/include/asm/arch - include/autoconf mk spl tpl /include/autoconf mk - include/config h when our migration to kconfig is done when we move all configs from header files to kconfig this makefile can be deleted etc config sys cpu config sys soc if arch/ arch /mach- soc /include/mach exists make a symbolic link to that directory otherwise create a symbolic link to arch/ arch /include/asm/arch- soc config sys vendor config sys board config sys config name reference platform bootloader uboot-configuration",
-      "display": {
-        "label": "u-boot configuration",
-        "kind": "subject",
-        "subtitle": "Uboot Configuration",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:bootloader:uboot-custom-command",
-      "title": "u-boot custom command",
-      "description": "… set ts=8 sw=8 tw=80: */\n`\n\n`Kconfig title=\"u-boot/cmd/Kconfig\"\n...\n\nmenu \"Misc commands\"\n\nconfig CMD_HELLO\n bool \"Enable 'hello' command for test\"\n depends on CMDLINE…",
-      "snippet": "… set ts=8 sw=8 tw=80: */\n`\n\n`Kconfig title=\"u-boot/cmd/Kconfig\"\n...\n\nmenu \"Misc commands\"\n\nconfig CMD_HELLO\n bool \"Enable 'hello' command for test\"\n depends on CMDLINE…",
-      "url": "/docs/entity/platform/bootloader/uboot-custom-command",
-      "document_refs": [
-        "doc:docs/entity/platform/bootloader/uboot-custom-command/uboot-custom-command.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "bootloader",
-        "instance": "uboot-custom-command"
-      },
-      "search_text": "u-boot custom command set ts 8 sw 8 tw 80 / kconfig title u-boot/cmd/kconfig menu misc commands config cmd hello bool enable hello command for test depends on cmdline u-boot custom command example reference platform bootloader uboot-custom-command",
-      "display": {
-        "label": "u-boot custom command",
-        "kind": "subject",
-        "subtitle": "Uboot Custom Command",
-        "document_count": 1
       }
     },
     {
@@ -11986,7 +11876,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/platform/kernel/build-linux-kernel/build-linux-kernel.mdx",
+      "id": "doc:docs/platform/linux-kernel/build.mdx",
       "title": "Build kernel",
       "description": "Build kernel",
       "snippet": "…/www.linaro.org/downloads/\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## Building Linux kernel\n\nIf a customized repository exists for the board, clone or download it.\n\nDownlo…",
@@ -11999,26 +11889,26 @@
       "keywords": [
         "kernel"
       ],
-      "url": "/docs/entity/platform/kernel/build-linux-kernel",
-      "subject_ref": "subject:platform:kernel:build-linux-kernel",
-      "subject_title": "Build Linux Kernel",
+      "url": "/docs/platform/linux-kernel/build",
+      "subject_ref": "subject:platform:kernel:linux-kernel",
+      "subject_title": "Linux Kernel",
       "ontology": {
-        "role": "entity",
+        "role": "operation",
         "domain": "platform",
         "class": "kernel",
-        "instance": "build-linux-kernel",
-        "aspect": "overview"
+        "instance": "linux-kernel",
+        "aspect": "build"
       },
-      "search_text": "build kernel build kernel /www linaro org/downloads/ shell shell shell building linux kernel if a customized repository exists for the board clone or download it downlo toolchain building linux kernel /lib/modules boot kernel entity platform kernel build-linux-kernel overview",
+      "search_text": "build kernel build kernel /www linaro org/downloads/ shell shell shell building linux kernel if a customized repository exists for the board clone or download it downlo toolchain building linux kernel /lib/modules boot kernel operation platform kernel linux-kernel build",
       "display": {
         "label": "Build kernel",
         "kind": "document",
-        "subtitle": "Build Linux Kernel"
+        "subtitle": "Linux Kernel"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/platform/bootloader/build-uboot/build-uboot.mdx",
+      "id": "doc:docs/platform/u-boot/build.mdx",
       "title": "Build u-boot",
       "description": "Build u-boot",
       "snippet": "…oper-tools/gnu-toolchain/gnu-rm/downloads\n\n``shell\n\n`\n\n`shell\n\n`\n\n`shell\n\n`\n\n## u-boot\n\n사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다.\n\n`shell\ngit clone …",
@@ -12030,21 +11920,21 @@
         "u-boot",
         "build"
       ],
-      "url": "/docs/entity/platform/bootloader/build-uboot",
-      "subject_ref": "subject:platform:bootloader:build-uboot",
-      "subject_title": "Build Uboot",
+      "url": "/docs/platform/u-boot/build",
+      "subject_ref": "subject:platform:bootloader:u-boot",
+      "subject_title": "U Boot",
       "ontology": {
-        "role": "entity",
+        "role": "operation",
         "domain": "platform",
         "class": "bootloader",
-        "instance": "build-uboot",
-        "aspect": "overview"
+        "instance": "u-boot",
+        "aspect": "build"
       },
-      "search_text": "build u-boot build u-boot oper-tools/gnu-toolchain/gnu-rm/downloads shell shell shell u-boot 사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다 shell git clone toolchain u-boot u-boot build entity platform bootloader build-uboot overview",
+      "search_text": "build u-boot build u-boot oper-tools/gnu-toolchain/gnu-rm/downloads shell shell shell u-boot 사용 중인 보드에 맞게 설정이 추가된 저장소가 있으면 해당 저장소를 클론하거나 다운로드 받으시기 바랍니다 shell git clone toolchain u-boot u-boot build operation platform bootloader u-boot build",
       "display": {
         "label": "Build u-boot",
         "kind": "document",
-        "subtitle": "Build Uboot"
+        "subtitle": "U Boot"
       }
     },
     {
@@ -17740,7 +17630,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/kernel/linux-kernel-how-to-contribute/how-to-contribute.mdx",
+      "id": "doc:docs/platform/linux-kernel/how-to-contribute.mdx",
       "title": "How to contribute to Linux kernel",
       "description": "How to contribute to Linux kernel",
       "snippet": "…a GPIO bank has greater than 16 pins, PAD_DS_REG is split into two\n> registers. However, when register and bit were calculated, the first\n> register defined in the…",
@@ -17758,21 +17648,21 @@
         "kernel",
         "contribute"
       ],
-      "url": "/docs/operation/platform/kernel/linux-kernel-how-to-contribute/how-to-contribute",
-      "subject_ref": "subject:platform:kernel:linux-kernel-how-to-contribute",
-      "subject_title": "Linux Kernel How To Contribute",
+      "url": "/docs/platform/linux-kernel/how-to-contribute",
+      "subject_ref": "subject:platform:kernel:linux-kernel",
+      "subject_title": "Linux Kernel",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "kernel",
-        "instance": "linux-kernel-how-to-contribute",
+        "instance": "linux-kernel",
         "aspect": "how-to-contribute"
       },
-      "search_text": "how to contribute to linux kernel how to contribute to linux kernel a gpio bank has greater than 16 pins pad ds reg is split into two registers however when register and bit were calculated the first register defined in the write commit message make patch set mutt send patch mail get maintainer send patch using mutt reply to comments example kernel contribute operation platform kernel linux-kernel-how-to-contribute how-to-contribute",
+      "search_text": "how to contribute to linux kernel how to contribute to linux kernel a gpio bank has greater than 16 pins pad ds reg is split into two registers however when register and bit were calculated the first register defined in the write commit message make patch set mutt send patch mail get maintainer send patch using mutt reply to comments example kernel contribute operation platform kernel linux-kernel how-to-contribute",
       "display": {
         "label": "How to contribute to Linux kernel",
         "kind": "document",
-        "subtitle": "Linux Kernel How To Contribute"
+        "subtitle": "Linux Kernel"
       }
     },
     {
@@ -22588,7 +22478,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/kernel/linux-kernel-tty0uart/tty0uart.mdx",
+      "id": "doc:docs/platform/linux-kernel/tty0uart.mdx",
       "title": "Null-modem emulator tty0uart",
       "description": "Null-modem emulator tty0uart",
       "snippet": "…evice와 platform_driver의 name이 같아야 연결 됨\n\n## Git\n\nGit: https://github.com/hhk7734/tty0uart\n\n## Flow control\n\n- DCD: Data Carrier Detect\n- RXD: Receive Data\n- TXD: Transmi…",
@@ -22601,21 +22491,21 @@
         "tty0uart",
         "null modem"
       ],
-      "url": "/docs/operation/platform/kernel/linux-kernel-tty0uart/tty0uart",
-      "subject_ref": "subject:platform:kernel:linux-kernel-tty0uart",
-      "subject_title": "Linux Kernel Tty0uart",
+      "url": "/docs/platform/linux-kernel/tty0uart",
+      "subject_ref": "subject:platform:kernel:linux-kernel",
+      "subject_title": "Linux Kernel",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "kernel",
-        "instance": "linux-kernel-tty0uart",
+        "instance": "linux-kernel",
         "aspect": "tty0uart"
       },
-      "search_text": "null-modem emulator tty0uart null-modem emulator tty0uart evice와 platform driver의 name이 같아야 연결 됨 git git https //github com/hhk7734/tty0uart flow control - dcd data carrier detect - rxd receive data - txd transmi git flow control kernel tty0uart null modem operation platform kernel linux-kernel-tty0uart tty0uart",
+      "search_text": "null-modem emulator tty0uart null-modem emulator tty0uart evice와 platform driver의 name이 같아야 연결 됨 git git https //github com/hhk7734/tty0uart flow control - dcd data carrier detect - rxd receive data - txd transmi git flow control kernel tty0uart null modem operation platform kernel linux-kernel tty0uart",
       "display": {
         "label": "Null-modem emulator tty0uart",
         "kind": "document",
-        "subtitle": "Linux Kernel Tty0uart"
+        "subtitle": "Linux Kernel"
       }
     },
     {
@@ -30817,7 +30707,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/kernel/linux-kernel-ftrace/ftrace.mdx",
+      "id": "doc:docs/platform/linux-kernel/ftrace.mdx",
       "title": "ftrace",
       "description": "ftrace",
       "snippet": "…Linux kernel configuration\n\nRef: https://www.kernel.org/doc/Documentation/trace/ftrace.txt\n\n### \\\\_defconfig\n\n- kernel/trace/Kconfig: 설정 가능한 옵션, 의존성, 설명 등이 있으므로 참고하시기…",
@@ -30848,21 +30738,21 @@
         "kernel",
         "ftrace"
       ],
-      "url": "/docs/operation/platform/kernel/linux-kernel-ftrace/ftrace",
-      "subject_ref": "subject:platform:kernel:linux-kernel-ftrace",
-      "subject_title": "Linux Kernel Ftrace",
+      "url": "/docs/platform/linux-kernel/ftrace",
+      "subject_ref": "subject:platform:kernel:linux-kernel",
+      "subject_title": "Linux Kernel",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "kernel",
-        "instance": "linux-kernel-ftrace",
+        "instance": "linux-kernel",
         "aspect": "ftrace"
       },
-      "search_text": "ftrace ftrace linux kernel configuration ref https //www kernel org/doc/documentation/trace/ftrace txt defconfig - kernel/trace/kconfig 설정 가능한 옵션 의존성 설명 등이 있으므로 참고하시기 linux kernel configuration board defconfig options trace printk ftrace setup ftrace on restart /off ftrace event on/off set ftrace filter ftrace tracer setup trace example linux kernel configuration board defconfig linux kernel driver build linux kernel ftrace setup trace tracer function graph cpu duration function calls consequence kernel ftrace operation platform kernel linux-kernel-ftrace ftrace",
+      "search_text": "ftrace ftrace linux kernel configuration ref https //www kernel org/doc/documentation/trace/ftrace txt defconfig - kernel/trace/kconfig 설정 가능한 옵션 의존성 설명 등이 있으므로 참고하시기 linux kernel configuration board defconfig options trace printk ftrace setup ftrace on restart /off ftrace event on/off set ftrace filter ftrace tracer setup trace example linux kernel configuration board defconfig linux kernel driver build linux kernel ftrace setup trace tracer function graph cpu duration function calls consequence kernel ftrace operation platform kernel linux-kernel ftrace",
       "display": {
         "label": "ftrace",
         "kind": "document",
-        "subtitle": "Linux Kernel Ftrace"
+        "subtitle": "Linux Kernel"
       }
     },
     {
@@ -32418,7 +32308,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/platform/bootloader/uboot-configuration/uboot-configuration.mdx",
+      "id": "doc:docs/platform/u-boot/configuration.mdx",
       "title": "u-boot configuration",
       "description": "u-boot configuration",
       "snippet": "…m the board select menu in Kconfig\n [6] Add an entry to doc/README.scrapyard\n`\n\nConfiguration files for use in C sources\n\n- include/generated/autoconf.h (generated by Kconfi…",
@@ -32447,26 +32337,26 @@
         "u-boot",
         "configuration"
       ],
-      "url": "/docs/entity/platform/bootloader/uboot-configuration",
-      "subject_ref": "subject:platform:bootloader:uboot-configuration",
-      "subject_title": "Uboot Configuration",
+      "url": "/docs/platform/u-boot/configuration",
+      "subject_ref": "subject:platform:bootloader:u-boot",
+      "subject_title": "U Boot",
       "ontology": {
-        "role": "entity",
+        "role": "operation",
         "domain": "platform",
         "class": "bootloader",
-        "instance": "uboot-configuration",
-        "aspect": "overview"
+        "instance": "u-boot",
+        "aspect": "configuration"
       },
-      "search_text": "u-boot configuration u-boot configuration m the board select menu in kconfig 6 add an entry to doc/readme scrapyard configuration files for use in c sources - include/generated/autoconf h generated by kconfi tips to add/remove boards spdx-license-identifier gpl-2 0 this helper makefile is used for creating - symbolic links arch/ arch/include/asm/arch - include/autoconf mk spl tpl /include/autoconf mk - include/config h when our migration to kconfig is done when we move all configs from header files to kconfig this makefile can be deleted etc config sys cpu config sys soc if arch/ arch /mach- soc /include/mach exists make a symbolic link to that directory otherwise create a symbolic link to arch/ arch /include/asm/arch- soc config sys vendor config sys board config sys config name reference u-boot configuration entity platform bootloader uboot-configuration overview",
+      "search_text": "u-boot configuration u-boot configuration m the board select menu in kconfig 6 add an entry to doc/readme scrapyard configuration files for use in c sources - include/generated/autoconf h generated by kconfi tips to add/remove boards spdx-license-identifier gpl-2 0 this helper makefile is used for creating - symbolic links arch/ arch/include/asm/arch - include/autoconf mk spl tpl /include/autoconf mk - include/config h when our migration to kconfig is done when we move all configs from header files to kconfig this makefile can be deleted etc config sys cpu config sys soc if arch/ arch /mach- soc /include/mach exists make a symbolic link to that directory otherwise create a symbolic link to arch/ arch /include/asm/arch- soc config sys vendor config sys board config sys config name reference u-boot configuration operation platform bootloader u-boot configuration",
       "display": {
         "label": "u-boot configuration",
         "kind": "document",
-        "subtitle": "Uboot Configuration"
+        "subtitle": "U Boot"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/platform/bootloader/uboot-custom-command/uboot-custom-command.mdx",
+      "id": "doc:docs/platform/u-boot/custom-command.mdx",
       "title": "u-boot custom command",
       "description": "u-boot custom command",
       "snippet": "… set ts=8 sw=8 tw=80: */\n`\n\n`Kconfig title=\"u-boot/cmd/Kconfig\"\n...\n\nmenu \"Misc commands\"\n\nconfig CMD_HELLO\n bool \"Enable 'hello' command for test\"\n depends on CMDLINE…",
@@ -32478,21 +32368,21 @@
         "u-boot",
         "custom command"
       ],
-      "url": "/docs/entity/platform/bootloader/uboot-custom-command",
-      "subject_ref": "subject:platform:bootloader:uboot-custom-command",
-      "subject_title": "Uboot Custom Command",
+      "url": "/docs/platform/u-boot/custom-command",
+      "subject_ref": "subject:platform:bootloader:u-boot",
+      "subject_title": "U Boot",
       "ontology": {
-        "role": "entity",
+        "role": "operation",
         "domain": "platform",
         "class": "bootloader",
-        "instance": "uboot-custom-command",
-        "aspect": "overview"
+        "instance": "u-boot",
+        "aspect": "custom-command"
       },
-      "search_text": "u-boot custom command u-boot custom command set ts 8 sw 8 tw 80 / kconfig title u-boot/cmd/kconfig menu misc commands config cmd hello bool enable hello command for test depends on cmdline example reference u-boot custom command entity platform bootloader uboot-custom-command overview",
+      "search_text": "u-boot custom command u-boot custom command set ts 8 sw 8 tw 80 / kconfig title u-boot/cmd/kconfig menu misc commands config cmd hello bool enable hello command for test depends on cmdline example reference u-boot custom command operation platform bootloader u-boot custom-command",
       "display": {
         "label": "u-boot custom command",
         "kind": "document",
-        "subtitle": "Uboot Custom Command"
+        "subtitle": "U Boot"
       }
     },
     {
