@@ -1,0 +1,84 @@
+---
+id: sink
+title: "Vector Sink(내보내기)"
+sidebar_label: "Sink(내보내기)"
+description: "Vector Sink(내보내기)"
+keywords:
+  - vector
+  - sink
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: vector
+  aspect: sink
+subject:
+  canonical_name: Vector
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Sink 설정 방법
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: <sinkType>
+      inputs:
+        - <sourceID|transformID>
+      <option>: <value>
+```
+
+## Console\(for Debug\)
+
+:::info[References]
+
+- [Vector / Console](https://vector.dev/docs/reference/configuration/sinks/console/)
+
+:::
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: console
+      inputs:
+        - <sourceID|transformID>
+      encoding:
+        codec: json
+      <option>: <value>
+```
+
+## Loki
+
+:::info[References]
+
+- [Vector / Loki](https://vector.dev/docs/reference/configuration/sinks/loki/)
+
+:::
+
+```yaml title="vector-values.yaml"
+customConfig:
+  sinks:
+    <sinkID>:
+      type: loki
+      endpoint: "http://loki-gateway.loki.svc"
+      inputs:
+        - <sourceID|transformID>
+      encoding:
+        codec: json
+      labels:
+        # Label Expansion
+        <label>: <value>
+      <option>: <value>
+```

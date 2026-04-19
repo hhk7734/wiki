@@ -1,0 +1,55 @@
+---
+id: overview
+title: kubelet
+sidebar_label: kubelet
+description: kubelet
+keywords:
+  - kubelet
+ontology:
+  role: entity
+  domain: mlops
+  class: observability-system
+  instance: kubelet
+  aspect: overview
+subject:
+  canonical_name: kubelet
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## kubelet
+
+:::info
+[설정 가이드](/docs/mlops/kubelet/configure.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
+```shell
+kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics
+```
+
+```shell
+kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/cadvisor
+```
+
+```shell
+kubectl get --raw /api/v1/nodes/<nodeName>/proxy/metrics/probes
+```
+
+## Metrics
+
+- https://kubernetes.io/docs/reference/instrumentation/metrics/
+- https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md
+
+<br />
+
+- `container` `_cpu` `_usage_seconds_total`
+  - CPU 사용량: `sum by(pod) (rate(container_cpu_usage_seconds_total[1m]))`

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/k6/local.mdx",
+  "title": "k6 Local 부하 테스트",
+  "snippet": "…, // --duration\n};\n\n return {}; // data\n}\n\n // VU가 실행하는 코드\n const url = \"http://localhost:8080/v2/models/model/infer\";\n const params = {\n headers: {\n \"Content-Type\":…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "observability-system",
+    "instance": "k6",
+    "aspect": "local"
+  },
+  "url": "/docs/mlops/k6/local",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/k6/local.mdx.json",
+  "subject": {
+    "id": "subject:mlops:observability-system:k6",
+    "title": "k6",
+    "ontology": {
+      "domain": "mlops",
+      "class": "observability-system",
+      "instance": "k6"
+    },
+    "url": "/docs/mlops/k6/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/k6/local.mdx:about_subject:subject:mlops:observability-system:k6",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:observability-system:k6",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,26 +1,40 @@
 {
   "type": "subject",
   "id": "subject:mlops:observability-system:grafana",
-  "title": "Grafana",
-  "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+  "title": "Grafana Alert",
+  "snippet": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
   "ontology": {
     "domain": "mlops",
     "class": "observability-system",
     "instance": "grafana"
   },
-  "url": "/docs/operation/mlops/observability-system/grafana/install",
+  "url": "/docs/mlops/grafana/alert",
   "node_url": "/api/wiki/nodes/subject:mlops:observability-system:grafana.json",
   "document_refs": [
-    "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
-    "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
-    "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
-    "doc:docs/operation/mlops/observability-system/grafana/install.mdx"
+    "doc:docs/mlops/grafana/alert.mdx",
+    "doc:docs/mlops/grafana/auth.mdx",
+    "doc:docs/mlops/grafana/dashboard.mdx",
+    "doc:docs/mlops/grafana/datasource.mdx",
+    "doc:docs/mlops/grafana/install.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+      "id": "doc:docs/mlops/grafana/alert.mdx",
+      "title": "Grafana Alert",
+      "url": "/docs/mlops/grafana/alert",
+      "snippet": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "observability-system",
+        "instance": "grafana",
+        "aspect": "alert"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/grafana/auth.mdx",
       "title": "Grafana 인증/인가",
-      "url": "/docs/operation/mlops/observability-system/grafana/auth",
+      "url": "/docs/mlops/grafana/auth",
       "snippet": "## OpenID Connect\\(OIDC\\)\n\n- Grafana / Configure generic OAuth2 authentication\n- Keycloak OIDC\n\n사용하려는 OpenID Connect…",
       "ontology": {
         "role": "operation",
@@ -31,9 +45,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+      "id": "doc:docs/mlops/grafana/dashboard.mdx",
       "title": "Grafana Dashboard",
-      "url": "/docs/operation/mlops/observability-system/grafana/dashboard",
+      "url": "/docs/mlops/grafana/dashboard",
       "snippet": "## Dashboard\n\n``yaml title=\"grafana-values.yaml\"\ndashboardProviders:\n dashboardproviders.yam…",
       "ontology": {
         "role": "operation",
@@ -44,9 +58,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+      "id": "doc:docs/mlops/grafana/datasource.mdx",
       "title": "Grafana Data Source",
-      "url": "/docs/operation/mlops/observability-system/grafana/datasource",
+      "url": "/docs/mlops/grafana/datasource",
       "snippet": "## Data Source\n\n- Grafana / Provision Grafana / Data Sources\n\n``yaml title=\"grafana-values.yam…",
       "ontology": {
         "role": "operation",
@@ -57,9 +71,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/observability-system/grafana/install.mdx",
+      "id": "doc:docs/mlops/grafana/install.mdx",
       "title": "Grafana",
-      "url": "/docs/operation/mlops/observability-system/grafana/install",
+      "url": "/docs/mlops/grafana/install",
       "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
       "ontology": {
         "role": "operation",
@@ -72,27 +86,33 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/auth.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "id": "relation:doc:docs/mlops/grafana/alert.mdx:about_subject:subject:mlops:observability-system:grafana",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+      "other_id": "doc:docs/mlops/grafana/alert.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "id": "relation:doc:docs/mlops/grafana/auth.mdx:about_subject:subject:mlops:observability-system:grafana",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+      "other_id": "doc:docs/mlops/grafana/auth.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/datasource.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "id": "relation:doc:docs/mlops/grafana/dashboard.mdx:about_subject:subject:mlops:observability-system:grafana",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+      "other_id": "doc:docs/mlops/grafana/dashboard.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/observability-system/grafana/install.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "id": "relation:doc:docs/mlops/grafana/datasource.mdx:about_subject:subject:mlops:observability-system:grafana",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/observability-system/grafana/install.mdx",
+      "other_id": "doc:docs/mlops/grafana/datasource.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/grafana/install.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/grafana/install.mdx",
       "direction": "incoming"
     }
   ]

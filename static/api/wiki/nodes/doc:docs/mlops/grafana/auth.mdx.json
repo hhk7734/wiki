@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/grafana/auth.mdx",
+  "title": "Grafana 인증/인가",
+  "snippet": "## OpenID Connect\\(OIDC\\)\n\n- Grafana / Configure generic OAuth2 authentication\n- Keycloak OIDC\n\n사용하려는 OpenID Connect…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "observability-system",
+    "instance": "grafana",
+    "aspect": "auth"
+  },
+  "url": "/docs/mlops/grafana/auth",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/grafana/auth.mdx.json",
+  "subject": {
+    "id": "subject:mlops:observability-system:grafana",
+    "title": "Grafana Alert",
+    "ontology": {
+      "domain": "mlops",
+      "class": "observability-system",
+      "instance": "grafana"
+    },
+    "url": "/docs/mlops/grafana/alert"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/grafana/auth.mdx:about_subject:subject:mlops:observability-system:grafana",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:observability-system:grafana",
+      "direction": "outgoing"
+    }
+  ]
+}

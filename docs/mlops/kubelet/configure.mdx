@@ -1,0 +1,53 @@
+---
+id: configure
+title: "kubelet 메트릭 수집 설정"
+sidebar_label: "메트릭 수집 설정"
+description: "kubelet 메트릭 수집 설정"
+keywords:
+  - kubelet
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: kubelet
+  aspect: configure
+subject:
+  canonical_name: kubelet
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[kubelet 개요](/docs/mlops/kubelet/overview.mdx) 문서에서 직접 메트릭 엔드포인트를 확인할 수 있습니다.
+:::
+
+## kube-prometheus-stack
+
+```yaml title="kube-prometheus-stack-values.yaml"
+kubernetesServiceMonitors:
+  enabled: true
+
+kubelet:
+  enabled: true
+
+  serviceMonitor:
+    additionalLabels: {}
+
+prometheusOperator:
+  enabled: true
+
+  kubeletService:
+    enabled: true
+    namespace: kube-system
+    # '{{ template "kube-prometheus-stack.fullname" . }}-kubelet' by default
+    name: ""
+```

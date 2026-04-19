@@ -1,0 +1,83 @@
+---
+id: overview
+title: Loki
+sidebar_label: Loki
+description: Loki
+keywords:
+  - Loki
+ontology:
+  role: entity
+  domain: mlops
+  class: observability-system
+  instance: loki
+  aspect: overview
+subject:
+  canonical_name: Loki
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::info
+[설치 가이드](/docs/mlops/loki/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
+## 배포 Mode
+
+:::info[References]
+
+- [Loki Docs / Deployment Modes](https://grafana.com/docs/loki/latest/get-started/deployment-modes/)
+
+:::
+
+- Monolithic
+  - 모든 컴포넌트를 하나의 인스턴스에 배포
+  - 하루에 20GB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+- Simple scalable
+  - 읽기 컴포넌트들과 쓰기 컴포넌트들로 분리하여 배포
+  - 하루에 ~ 10TB 정도의 읽기/쓰기가 있는 환경에서 사용 가능
+- Microservices
+  - 모든 컴포넌트를 분리하여 배포, 가장 자유도가 높지만 유지보수도 어려움
+
+## 컴포넌트
+
+:::info[References]
+
+- [Loki Docs / Components](https://grafana.com/docs/loki/latest/get-started/components/)
+
+:::
+
+<center>
+	<figure>
+		<img src={useBaseUrl("img/mlops/monitoring/plg/loki_architecture_components.png")} />
+		<figcaption>[Loki Docs / Architecture](https://grafana.com/docs/loki/latest/get-started/architecture/)</figcaption>
+	</figure>
+</center>
+
+<br />
+
+- Distributor: 클라이언트에서 들어오는 로그를 검증 후 Ingester로 전달
+- Ingester: Distributor로부터 받은 로그를 임시 또는 장기 저장
+- Query Frontend: 쿼리를 조정, 쿼리 대기열 관리 등을 수행
+- Querier: Ingester 또는 장기 저장소에서 로그를 쿼리
+
+| Component       | microservice | single | read | write | backend |
+| --------------- | :----------: | :----: | :--: | :---: | :-----: |
+| Distributor     |      O       |   O    |  -   |   O   |    -    |
+| Ingester        |      O       |   O    |  -   |   O   |    -    |
+| Query Frontend  |      O       |   O    |  O   |   -   |    -    |
+| Query Scheduler |      O       |   O    |  -   |   -   |    O    |
+| Querier         |      O       |   O    |  O   |   -   |    -    |
+| Index Gateway   |      O       |   -    |  -   |   -   |    O    |
+| Compactor       |      O       |   O    |  -   |   -   |    O    |
+| Ruler           |      O       |   O    |  -   |   -   |    O    |

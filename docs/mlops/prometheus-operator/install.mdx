@@ -1,0 +1,159 @@
+---
+id: install
+title: prometheus-operator
+sidebar_label: Operator
+description: prometheus-operator
+keywords:
+  - prometheus
+  - operator
+ontology:
+  role: operation
+  domain: mlops
+  class: observability-system
+  instance: prometheus-operator
+  aspect: install
+subject:
+  canonical_name: "Prometheus Operator"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Kubernetes 호환성
+
+- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix
+
+## 설치
+
+:::info[References]
+
+- [kube-prometheus-stack Chart GitHub](https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack)
+
+:::
+
+```shell
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+```shell
+helm repo update prometheus-community \
+&& helm search repo prometheus-community/kube-prometheus-stack -l | head -n 10
+```
+
+```shell
+helm pull prometheus-community/kube-prometheus-stack --version 77.11.1
+```
+
+```shell
+helm show values prometheus-community/kube-prometheus-stack \
+    --version 77.11.1 \
+    > kube-prometheus-stack-77.11.1.yaml
+```
+
+```yaml title="kube-prometheus-stack-values.yaml"
+fullnameOverride: prometheus-stack
+
+commonLabels: {}
+
+defaultRules:
+  # Chart가 제공하는 기본 alert and record rules의 집합
+  # https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack/templates/prometheus/rules-1.14
+  create: false
+
+windowsMonitoring:
+  enabled: false
+alertmanager:
+  enabled: false
+grafana:
+  enabled: false
+kubernetesServiceMonitors:
+  enabled: false
+kubeApiServer:
+  enabled: false
+kubelet:
+  enabled: false
+kubeControllerManager:
+  enabled: false
+coreDns:
+  enabled: false
+kubeDns:
+  enabled: false
+kubeEtcd:
+  enabled: false
+kubeScheduler:
+  enabled: false
+kubeProxy:
+  enabled: false
+kubeStateMetrics:
+  enabled: false
+nodeExporter:
+  enabled: false
+
+prometheusOperator:
+  enabled: true
+  tls:
+    enabled: false
+
+  admissionWebhooks:
+    enabled: true
+    patch:
+      tolerations: []
+
+  serviceMonitor:
+    selfMonitor: false
+
+  tolerations: []
+
+prometheus:
+  enabled: false
+
+thanosRuler:
+  enabled: false
+```
+
+- `prometheusOperator`
+  - `enabled: true`: `-operator`를 설치합니다.
+
+```shell
+helm template prometheus-stack prometheus-community/kube-prometheus-stack \
+    --version 77.11.1 \
+    -n prometheus-stack \
+    -f kube-prometheus-stack-values.yaml \
+    > kube-prometheus-stack.yaml
+```
+
+```shell
+helm upgrade -i prometheus-stack prometheus-community/kube-prometheus-stack \
+    --history-max 5 \
+    --version 77.11.1 \
+    -n prometheus-stack \
+    -f kube-prometheus-stack-values.yaml
+```
+
+## 업그레이드
+
+:::info[References]
+
+- [prometheus-community GitHub / kube-prometheus-stack / UPGRADE.md](https://github.com/prometheus-community/helm-charts/blob/main/charts/kube-prometheus-stack/UPGRADE.md)
+
+:::
+
+## 삭제
+
+```shell
+helm uninstall -n prometheus-stack prometheus-operator
+```
+
+helm으로 삭제한 후 CRDs 삭제를 위해 아래 명령어를 실행해줍니다.
+
+```shell
+kubectl get crd -oname | grep --color=never 'monitoring.coreos.com' | xargs kubectl delete
+```

@@ -1537,9 +1537,9 @@
       "title": "Custom Exporter 만들기",
       "description": "## Exporter\n\n- custom_exporter.go\n\n## metric 이름\n\n__의 형식이 많이 사용됩니다.\n\n- container_cpu_usage_s…",
       "snippet": "## Exporter\n\n- custom_exporter.go\n\n## metric 이름\n\n__의 형식이 많이 사용됩니다.\n\n- container_cpu_usage_s…",
-      "url": "/docs/entity/mlops/observability-system/custom-exporter",
+      "url": "/docs/mlops/custom-exporter/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/custom-exporter/custom-exporter.mdx"
+        "doc:docs/mlops/custom-exporter/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -1894,9 +1894,9 @@
       "title": "ECK Operator",
       "description": "…-f eck-crds.yaml\n`\n\n`shell\nwget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O eck-operator.yaml\n`\n\n`shell\nkubectl apply -f eck-operator.yaml\n`\n\nistio…",
       "snippet": "…-f eck-crds.yaml\n`\n\n`shell\nwget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O eck-operator.yaml\n`\n\n`shell\nkubectl apply -f eck-operator.yaml\n`\n\nistio…",
-      "url": "/docs/operation/mlops/observability-system/eck/operator",
+      "url": "/docs/mlops/eck/operator",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/eck/operator.mdx"
+        "doc:docs/mlops/eck/operator.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -2364,9 +2364,9 @@
       "title": "Fluent Bit",
       "description": "…## 업그레이드\n\n- https://docs.fluentbit.io/manual/installation/upgrade-notes\n\n## 설정\n\nFluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.\n\n### Format\n\nFormat은 기본적으로 out…",
       "snippet": "…## 업그레이드\n\n- https://docs.fluentbit.io/manual/installation/upgrade-notes\n\n## 설정\n\nFluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.\n\n### Format\n\nFormat은 기본적으로 out…",
-      "url": "/docs/operation/mlops/observability-system/fluent-bit/install",
+      "url": "/docs/mlops/fluent-bit/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/fluent-bit/install.mdx"
+        "doc:docs/mlops/fluent-bit/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -2387,10 +2387,10 @@
       "title": "Fluentd",
       "description": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- Fluentd Docs / Configuration\n\n## Fluentd\n\nhttps://kubesphere.io/blogs/deep-dive-into-ku…",
       "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- Fluentd Docs / Configuration\n\n## Fluentd\n\nhttps://kubesphere.io/blogs/deep-dive-into-ku…",
-      "url": "/docs/entity/mlops/observability-system/fluentd",
+      "url": "/docs/mlops/fluentd/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/fluentd/fluentd.mdx",
-        "doc:docs/operation/mlops/observability-system/fluentd/install.mdx"
+        "doc:docs/mlops/fluentd/overview.mdx",
+        "doc:docs/mlops/fluentd/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -2922,50 +2922,28 @@
     {
       "type": "subject",
       "id": "subject:mlops:observability-system:grafana",
-      "title": "Grafana",
-      "description": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
-      "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
-      "url": "/docs/operation/mlops/observability-system/grafana/install",
+      "title": "Grafana Alert",
+      "description": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
+      "snippet": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
+      "url": "/docs/mlops/grafana/alert",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
-        "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
-        "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
-        "doc:docs/operation/mlops/observability-system/grafana/install.mdx"
+        "doc:docs/mlops/grafana/alert.mdx",
+        "doc:docs/mlops/grafana/auth.mdx",
+        "doc:docs/mlops/grafana/dashboard.mdx",
+        "doc:docs/mlops/grafana/datasource.mdx",
+        "doc:docs/mlops/grafana/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "observability-system",
         "instance": "grafana"
       },
-      "search_text": "grafana 설치 shell helm repo add grafana https //grafana github io/helm-charts shell helm repo update grafana h grafana 인증/인가 grafana dashboard grafana data source grafana openid connect oidc dashboard variables query data source prometheus loki tempo 설치 mlops observability-system grafana",
-      "display": {
-        "label": "Grafana",
-        "kind": "subject",
-        "subtitle": "Grafana",
-        "document_count": 4
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:observability-system:alert",
-      "title": "Grafana Alert",
-      "description": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
-      "snippet": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
-      "url": "/docs/entity/mlops/observability-system/alert",
-      "document_refs": [
-        "doc:docs/entity/mlops/observability-system/alert/alert.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "observability-system",
-        "instance": "alert"
-      },
-      "search_text": "grafana alert https //grafana com/docs/grafana/latest/alerting/ alert rules - https //grafana com/docs/g grafana alert alert rules contact points template notification policies mlops observability-system alert",
+      "search_text": "grafana alert https //grafana com/docs/grafana/latest/alerting/ alert rules - https //grafana com/docs/g grafana alert grafana 인증/인가 grafana dashboard grafana data source grafana alert rules contact points template notification policies openid connect oidc dashboard variables query data source prometheus loki tempo 설치 mlops observability-system grafana",
       "display": {
         "label": "Grafana Alert",
         "kind": "subject",
-        "subtitle": "Alert",
-        "document_count": 1
+        "subtitle": "Grafana",
+        "document_count": 5
       }
     },
     {
@@ -2974,9 +2952,9 @@
       "title": "Grafana Tempo(Tracing)",
       "description": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
       "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
-      "url": "/docs/operation/mlops/observability-system/tempo/install",
+      "url": "/docs/mlops/tempo/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/tempo/install.mdx"
+        "doc:docs/mlops/tempo/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -3947,9 +3925,9 @@
       "title": "Kubernetes Dashboard",
       "description": "## 설치\n\n``shell\nhelm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \\\n&& helm repo update kubernetes-dashbo…",
       "snippet": "## 설치\n\n``shell\nhelm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \\\n&& helm repo update kubernetes-dashbo…",
-      "url": "/docs/operation/mlops/observability-system/kubernetes-dashboard/install",
+      "url": "/docs/mlops/kubernetes-dashboard/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/kubernetes-dashboard/install.mdx"
+        "doc:docs/mlops/kubernetes-dashboard/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4350,13 +4328,13 @@
       "title": "Loki",
       "description": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## 배포 Mode\n\n- Loki Docs / Deployment Modes\n\n- Monolithic\n - 모든 컴포넌트를 하나의 인스턴스에 배포\n - 하루에 20GB 정도의 …",
       "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## 배포 Mode\n\n- Loki Docs / Deployment Modes\n\n- Monolithic\n - 모든 컴포넌트를 하나의 인스턴스에 배포\n - 하루에 20GB 정도의 …",
-      "url": "/docs/entity/mlops/observability-system/loki",
+      "url": "/docs/mlops/loki/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/loki/loki.mdx",
-        "doc:docs/concept/mlops/observability-system/loki/label.mdx",
-        "doc:docs/operation/mlops/observability-system/loki/collector.mdx",
-        "doc:docs/operation/mlops/observability-system/loki/compactor.mdx",
-        "doc:docs/operation/mlops/observability-system/loki/install.mdx"
+        "doc:docs/mlops/loki/overview.mdx",
+        "doc:docs/mlops/loki/label.mdx",
+        "doc:docs/mlops/loki/collector.mdx",
+        "doc:docs/mlops/loki/compactor.mdx",
+        "doc:docs/mlops/loki/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5100,9 +5078,9 @@
       "title": "OpenSearch",
       "description": "OIDC 관련 설정에 실패한 내용입니다. 추후 성공하면 수정하도록 하겠습니다.\n\n## 설치\n\n``shell\nhelm repo add opensearch https://opensearch-project.github.io/helm-charts \\\n&& helm repo update opensear…",
       "snippet": "OIDC 관련 설정에 실패한 내용입니다. 추후 성공하면 수정하도록 하겠습니다.\n\n## 설치\n\n``shell\nhelm repo add opensearch https://opensearch-project.github.io/helm-charts \\\n&& helm repo update opensear…",
-      "url": "/docs/operation/mlops/observability-system/opensearch/install",
+      "url": "/docs/mlops/opensearch/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/opensearch/install.mdx"
+        "doc:docs/mlops/opensearch/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5123,9 +5101,9 @@
       "title": "OpenTelemetry Semantic Conventions 설정 가이드",
       "description": "## Semantic Conventions\n\n- OpenTelemetry Semantic Conventions\n\nOpenTelemetry Semantic Conventions은 수집하는 데이터에 정의할 수 있는 표준…",
       "snippet": "## Semantic Conventions\n\n- OpenTelemetry Semantic Conventions\n\nOpenTelemetry Semantic Conventions은 수집하는 데이터에 정의할 수 있는 표준…",
-      "url": "/docs/operation/mlops/observability-system/opentelemetry/semantic-conventions",
+      "url": "/docs/mlops/opentelemetry/semantic-conventions",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/opentelemetry/semantic-conventions.mdx"
+        "doc:docs/mlops/opentelemetry/semantic-conventions.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5551,9 +5529,9 @@
       "title": "PromQL",
       "description": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
       "snippet": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
-      "url": "/docs/entity/mlops/observability-system/promql",
+      "url": "/docs/mlops/promql/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/promql/promql.mdx"
+        "doc:docs/mlops/promql/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5570,27 +5548,28 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:observability-system:crd",
+      "id": "subject:mlops:observability-system:prometheus-operator",
       "title": "Prometheus",
       "description": "Prometheus Operator Architecture\n\n## ServiceAccount\n\n- Prometheus Operator / Getting Start…",
       "snippet": "Prometheus Operator Architecture\n\n## ServiceAccount\n\n- Prometheus Operator / Getting Start…",
-      "url": "/docs/operation/mlops/observability-system/crd/prometheus",
+      "url": "/docs/mlops/prometheus-operator/prometheus",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/crd/alertmanager.mdx",
-        "doc:docs/operation/mlops/observability-system/crd/monitor.mdx",
-        "doc:docs/operation/mlops/observability-system/crd/prometheus.mdx"
+        "doc:docs/mlops/prometheus-operator/alertmanager.mdx",
+        "doc:docs/mlops/prometheus-operator/install.mdx",
+        "doc:docs/mlops/prometheus-operator/monitor.mdx",
+        "doc:docs/mlops/prometheus-operator/prometheus.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "observability-system",
-        "instance": "crd"
+        "instance": "prometheus-operator"
       },
-      "search_text": "prometheus prometheus operator architecture serviceaccount - prometheus operator / getting start prometheus operator alertmanager cr 생성하기 servicemonitor/podmonitor prometheus alertmanager alertmanagerconfig 수집하기 alertmanagerconfig servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 mlops observability-system crd",
+      "search_text": "prometheus prometheus operator architecture serviceaccount - prometheus operator / getting start prometheus operator alertmanager cr 생성하기 prometheus-operator servicemonitor/podmonitor prometheus alertmanager alertmanagerconfig 수집하기 alertmanagerconfig kubernetes 호환성 설치 업그레이드 삭제 servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 mlops observability-system prometheus-operator",
       "display": {
         "label": "Prometheus",
         "kind": "subject",
-        "subtitle": "Crd",
-        "document_count": 3
+        "subtitle": "Prometheus Operator",
+        "document_count": 4
       }
     },
     {
@@ -5599,9 +5578,9 @@
       "title": "Promtail Pipeline(로그 변환)",
       "description": "## Pipeline\n\n- Pipeline\n\npromtail 시작 시 discovery(or static) -\\> relabel -\\> pipeline 순으로 진행되며, pipeline이 무한 반복되면서…",
       "snippet": "## Pipeline\n\n- Pipeline\n\npromtail 시작 시 discovery(or static) -\\> relabel -\\> pipeline 순으로 진행되며, pipeline이 무한 반복되면서…",
-      "url": "/docs/operation/mlops/observability-system/promtail/pipeline-stage",
+      "url": "/docs/mlops/promtail/pipeline-stage",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/promtail/pipeline-stage.mdx"
+        "doc:docs/mlops/promtail/pipeline-stage.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -6917,9 +6896,9 @@
       "title": "Thanos",
       "description": "## Architecture\n\nThanos with Sidecar\nhttps://github.com/thanos-io/thanos\n\n## 설치\n\n``shell\nhelm repo add …",
       "snippet": "## Architecture\n\nThanos with Sidecar\nhttps://github.com/thanos-io/thanos\n\n## 설치\n\n``shell\nhelm repo add …",
-      "url": "/docs/operation/mlops/observability-system/thanos/install",
+      "url": "/docs/mlops/thanos/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/thanos/install.mdx"
+        "doc:docs/mlops/thanos/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -7179,12 +7158,12 @@
       "title": "Vector",
       "description": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
       "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
-      "url": "/docs/operation/mlops/observability-system/vector/install",
+      "url": "/docs/mlops/vector/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/vector/install.mdx",
-        "doc:docs/operation/mlops/observability-system/vector/sink.mdx",
-        "doc:docs/operation/mlops/observability-system/vector/source.mdx",
-        "doc:docs/operation/mlops/observability-system/vector/transform.mdx"
+        "doc:docs/mlops/vector/install.mdx",
+        "doc:docs/mlops/vector/sink.mdx",
+        "doc:docs/mlops/vector/source.mdx",
+        "doc:docs/mlops/vector/transform.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -7655,9 +7634,9 @@
       "title": "dcgm-exporter",
       "description": "## 설치\n\n``shell\nhelm repo add dcgm-exporter https://nvidia.github.io/gpu-monitoring-tools/helm-charts \\\n&& helm repo update…",
       "snippet": "## 설치\n\n``shell\nhelm repo add dcgm-exporter https://nvidia.github.io/gpu-monitoring-tools/helm-charts \\\n&& helm repo update…",
-      "url": "/docs/operation/mlops/observability-system/dcgm-exporter/install",
+      "url": "/docs/mlops/dcgm-exporter/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/dcgm-exporter/install.mdx"
+        "doc:docs/mlops/dcgm-exporter/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8059,11 +8038,11 @@
       "title": "k6",
       "description": "k6는 HTTP API, gRPC, WebSocket 같은 워크로드를 스크립트 기반으로 부하 테스트할 수 있는 도구입니다. 로컬 실행부터 확장 프로…",
       "snippet": "k6는 HTTP API, gRPC, WebSocket 같은 워크로드를 스크립트 기반으로 부하 테스트할 수 있는 도구입니다. 로컬 실행부터 확장 프로…",
-      "url": "/docs/entity/mlops/observability-system/k6",
+      "url": "/docs/mlops/k6/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/k6/k6.mdx",
-        "doc:docs/concept/mlops/observability-system/k6/extensions.mdx",
-        "doc:docs/operation/mlops/observability-system/k6/local.mdx"
+        "doc:docs/mlops/k6/overview.mdx",
+        "doc:docs/mlops/k6/extensions.mdx",
+        "doc:docs/mlops/k6/local.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8107,9 +8086,9 @@
       "title": "kube-state-metrics",
       "description": "## kube-state-metrics\n\n- https://github.com/kubernetes/kube-state-metrics\n\nKubernetes API를 사용하여 Deplo…",
       "snippet": "## kube-state-metrics\n\n- https://github.com/kubernetes/kube-state-metrics\n\nKubernetes API를 사용하여 Deplo…",
-      "url": "/docs/operation/mlops/observability-system/kube-state-metrics/install",
+      "url": "/docs/mlops/kube-state-metrics/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/kube-state-metrics/install.mdx"
+        "doc:docs/mlops/kube-state-metrics/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8130,10 +8109,10 @@
       "title": "kubelet",
       "description": "## kubelet\n\n설정 가이드 문서는 별도로 분리되어 있습니다.\n\n``shell\nkubectl get --raw /api/v1/nodes//proxy/metr…",
       "snippet": "## kubelet\n\n설정 가이드 문서는 별도로 분리되어 있습니다.\n\n``shell\nkubectl get --raw /api/v1/nodes//proxy/metr…",
-      "url": "/docs/entity/mlops/observability-system/kubelet",
+      "url": "/docs/mlops/kubelet/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/observability-system/kubelet/kubelet.mdx",
-        "doc:docs/operation/mlops/observability-system/kubelet/configure.mdx"
+        "doc:docs/mlops/kubelet/overview.mdx",
+        "doc:docs/mlops/kubelet/configure.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8224,9 +8203,9 @@
       "title": "metrics-server",
       "description": "…er\n\nhttps://ssup2.github.io/theory_analysis/Kubernetes_Metric_Server/\n\n## 설치\n\n- metrics-server\n\n``shell\nhelm repo add metrics-server https://kubernetes-sigs.github.io/metrics…",
       "snippet": "…er\n\nhttps://ssup2.github.io/theory_analysis/Kubernetes_Metric_Server/\n\n## 설치\n\n- metrics-server\n\n``shell\nhelm repo add metrics-server https://kubernetes-sigs.github.io/metrics…",
-      "url": "/docs/operation/mlops/observability-system/metrics-server/install",
+      "url": "/docs/mlops/metrics-server/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/metrics-server/install.mdx"
+        "doc:docs/mlops/metrics-server/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -8364,16 +8343,16 @@
       "title": "node-exporter",
       "description": "## 설치\n\n### Helm\n\n- Node exporter GitHub\n- prometheus-node-exporter Chart\n\n``shell\nhelm repo add prometheus-community https://prometheus-community.…",
       "snippet": "## 설치\n\n### Helm\n\n- Node exporter GitHub\n- prometheus-node-exporter Chart\n\n``shell\nhelm repo add prometheus-community https://prometheus-community.…",
-      "url": "/docs/operation/mlops/observability-system/node-exporter/install",
+      "url": "/docs/mlops/node-exporter/install",
       "document_refs": [
-        "doc:docs/operation/mlops/observability-system/node-exporter/install.mdx"
+        "doc:docs/mlops/node-exporter/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "observability-system",
         "instance": "node-exporter"
       },
-      "search_text": "node-exporter 설치 helm - node exporter github - prometheus-node-exporter chart shell helm repo add prometheus-community https //prometheus-community node-exporter 설치 helm kube-prometheus-stack helm prometheus-node-exporter-values yaml을 참고하여 작성하면 됩니다 fluent bit host 네트워크를 사용하면 container의 ip가 host의 ip로 설정됩니다 metrics cpu memory filesystem mlops observability-system node-exporter",
+      "search_text": "node-exporter 설치 helm - node exporter github - prometheus-node-exporter chart shell helm repo add prometheus-community https //prometheus-community node-exporter node-exporter 설치 helm kube-prometheus-stack helm prometheus-node-exporter-values yaml을 참고하여 작성하면 됩니다 fluent bit host 네트워크를 사용하면 container의 ip가 host의 ip로 설정됩니다 metrics cpu memory filesystem mlops observability-system node-exporter",
       "display": {
         "label": "node-exporter",
         "kind": "subject",
@@ -8425,29 +8404,6 @@
         "label": "pipeline",
         "kind": "subject",
         "subtitle": "Pipeline",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:observability-system:prometheus-operator",
-      "title": "prometheus-operator",
-      "description": "## Kubernetes 호환성\n\n- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix\n\n## 설치\n\n- kube-prometheus-stack…",
-      "snippet": "## Kubernetes 호환성\n\n- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix\n\n## 설치\n\n- kube-prometheus-stack…",
-      "url": "/docs/operation/mlops/observability-system/prometheus-operator/install",
-      "document_refs": [
-        "doc:docs/operation/mlops/observability-system/prometheus-operator/install.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "observability-system",
-        "instance": "prometheus-operator"
-      },
-      "search_text": "prometheus-operator kubernetes 호환성 - https //github com/prometheus-operator/kube-prometheus kubernetes-compatibility-matrix 설치 - kube-prometheus-stack prometheus-operator kubernetes 호환성 설치 업그레이드 삭제 mlops observability-system prometheus-operator",
-      "display": {
-        "label": "prometheus-operator",
-        "kind": "subject",
-        "subtitle": "Prometheus Operator",
         "document_count": 1
       }
     },
@@ -13241,7 +13197,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/custom-exporter/custom-exporter.mdx",
+      "id": "doc:docs/mlops/custom-exporter/overview.mdx",
       "title": "Custom Exporter 만들기",
       "description": "Custom Exporter 만들기",
       "snippet": "## Exporter\n\n- custom_exporter.go\n\n## metric 이름\n\n__의 형식이 많이 사용됩니다.\n\n- container_cpu_usage_s…",
@@ -13253,7 +13209,7 @@
         "prometheus",
         "custom-exporter"
       ],
-      "url": "/docs/entity/mlops/observability-system/custom-exporter",
+      "url": "/docs/mlops/custom-exporter/overview",
       "subject_ref": "subject:mlops:observability-system:custom-exporter",
       "subject_title": "Custom Exporter",
       "ontology": {
@@ -14234,7 +14190,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/eck/operator.mdx",
+      "id": "doc:docs/mlops/eck/operator.mdx",
       "title": "ECK Operator",
       "description": "ECK Operator",
       "snippet": "…-f eck-crds.yaml\n`\n\n`shell\nwget https://download.elastic.co/downloads/eck/2.1.0/operator.yaml -O eck-operator.yaml\n`\n\n`shell\nkubectl apply -f eck-operator.yaml\n`\n\nistio…",
@@ -14246,7 +14202,7 @@
       "keywords": [
         "ECK Operator"
       ],
-      "url": "/docs/operation/mlops/observability-system/eck/operator",
+      "url": "/docs/mlops/eck/operator",
       "subject_ref": "subject:mlops:observability-system:eck",
       "subject_title": "Eck",
       "ontology": {
@@ -15234,7 +15190,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/fluent-bit/install.mdx",
+      "id": "doc:docs/mlops/fluent-bit/install.mdx",
       "title": "Fluent Bit",
       "description": "Fluent Bit",
       "snippet": "…## 업그레이드\n\n- https://docs.fluentbit.io/manual/installation/upgrade-notes\n\n## 설정\n\nFluent Bit에서 사용하는 Regex 테스트는 https://rubular.com/ 에서 가능합니다.\n\n### Format\n\nFormat은 기본적으로 out…",
@@ -15255,7 +15211,7 @@
         "fluentbit",
         "Fluent Bit"
       ],
-      "url": "/docs/operation/mlops/observability-system/fluent-bit/install",
+      "url": "/docs/mlops/fluent-bit/install",
       "subject_ref": "subject:mlops:observability-system:fluent-bit",
       "subject_title": "Fluent Bit",
       "ontology": {
@@ -15274,7 +15230,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/fluentd/fluentd.mdx",
+      "id": "doc:docs/mlops/fluentd/overview.mdx",
       "title": "Fluentd",
       "description": "Fluentd",
       "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- Fluentd Docs / Configuration\n\n## Fluentd\n\nhttps://kubesphere.io/blogs/deep-dive-into-ku…",
@@ -15293,7 +15249,7 @@
       "keywords": [
         "fluentd"
       ],
-      "url": "/docs/entity/mlops/observability-system/fluentd",
+      "url": "/docs/mlops/fluentd/overview",
       "subject_ref": "subject:mlops:observability-system:fluentd",
       "subject_title": "Fluentd",
       "ontology": {
@@ -15312,7 +15268,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/fluentd/install.mdx",
+      "id": "doc:docs/mlops/fluentd/install.mdx",
       "title": "Fluentd 설치 가이드",
       "description": "Fluentd 설치 가이드",
       "snippet": "Fluentd 개요 문서에서 기본 파이프라인과 설정 모델을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Fluent Helm Charts\n\n``shell\nh…",
@@ -15322,7 +15278,7 @@
       "keywords": [
         "fluentd"
       ],
-      "url": "/docs/operation/mlops/observability-system/fluentd/install",
+      "url": "/docs/mlops/fluentd/install",
       "subject_ref": "subject:mlops:observability-system:fluentd",
       "subject_title": "Fluentd",
       "ontology": {
@@ -16677,7 +16633,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/grafana/install.mdx",
+      "id": "doc:docs/mlops/grafana/install.mdx",
       "title": "Grafana",
       "description": "Grafana",
       "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
@@ -16687,7 +16643,7 @@
       "keywords": [
         "Grafana"
       ],
-      "url": "/docs/operation/mlops/observability-system/grafana/install",
+      "url": "/docs/mlops/grafana/install",
       "subject_ref": "subject:mlops:observability-system:grafana",
       "subject_title": "Grafana",
       "ontology": {
@@ -16706,7 +16662,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/alert/alert.mdx",
+      "id": "doc:docs/mlops/grafana/alert.mdx",
       "title": "Grafana Alert",
       "description": "Grafana Alert",
       "snippet": "https://grafana.com/docs/grafana/latest/alerting/\n\n## Alert rules\n\n- https://grafana.com/docs/g…",
@@ -16720,26 +16676,26 @@
         "Grafana",
         "Alert"
       ],
-      "url": "/docs/entity/mlops/observability-system/alert",
-      "subject_ref": "subject:mlops:observability-system:alert",
-      "subject_title": "Alert",
+      "url": "/docs/mlops/grafana/alert",
+      "subject_ref": "subject:mlops:observability-system:grafana",
+      "subject_title": "Grafana",
       "ontology": {
         "role": "entity",
         "domain": "mlops",
         "class": "observability-system",
-        "instance": "alert",
-        "aspect": "overview"
+        "instance": "grafana",
+        "aspect": "alert"
       },
-      "search_text": "grafana alert grafana alert https //grafana com/docs/grafana/latest/alerting/ alert rules - https //grafana com/docs/g alert rules contact points template notification policies grafana alert entity mlops observability-system alert overview",
+      "search_text": "grafana alert grafana alert https //grafana com/docs/grafana/latest/alerting/ alert rules - https //grafana com/docs/g alert rules contact points template notification policies grafana alert entity mlops observability-system grafana alert",
       "display": {
         "label": "Grafana Alert",
         "kind": "document",
-        "subtitle": "Alert"
+        "subtitle": "Grafana"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/grafana/dashboard.mdx",
+      "id": "doc:docs/mlops/grafana/dashboard.mdx",
       "title": "Grafana Dashboard",
       "description": "Grafana Dashboard",
       "snippet": "## Dashboard\n\n``yaml title=\"grafana-values.yaml\"\ndashboardProviders:\n dashboardproviders.yam…",
@@ -16752,7 +16708,7 @@
         "Grafana",
         "Dashboard"
       ],
-      "url": "/docs/operation/mlops/observability-system/grafana/dashboard",
+      "url": "/docs/mlops/grafana/dashboard",
       "subject_ref": "subject:mlops:observability-system:grafana",
       "subject_title": "Grafana",
       "ontology": {
@@ -16771,7 +16727,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/grafana/datasource.mdx",
+      "id": "doc:docs/mlops/grafana/datasource.mdx",
       "title": "Grafana Data Source",
       "description": "Grafana Data Source",
       "snippet": "## Data Source\n\n- Grafana / Provision Grafana / Data Sources\n\n``yaml title=\"grafana-values.yam…",
@@ -16785,7 +16741,7 @@
         "Grafana",
         "Data Source"
       ],
-      "url": "/docs/operation/mlops/observability-system/grafana/datasource",
+      "url": "/docs/mlops/grafana/datasource",
       "subject_ref": "subject:mlops:observability-system:grafana",
       "subject_title": "Grafana",
       "ontology": {
@@ -16804,7 +16760,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/tempo/install.mdx",
+      "id": "doc:docs/mlops/tempo/install.mdx",
       "title": "Grafana Tempo(Tracing)",
       "description": "Grafana Tempo(Tracing)",
       "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
@@ -16817,7 +16773,7 @@
         "tempo",
         "tracing"
       ],
-      "url": "/docs/operation/mlops/observability-system/tempo/install",
+      "url": "/docs/mlops/tempo/install",
       "subject_ref": "subject:mlops:observability-system:tempo",
       "subject_title": "Tempo",
       "ontology": {
@@ -16836,7 +16792,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/grafana/auth.mdx",
+      "id": "doc:docs/mlops/grafana/auth.mdx",
       "title": "Grafana 인증/인가",
       "description": "Grafana 인증/인가",
       "snippet": "## OpenID Connect\\(OIDC\\)\n\n- Grafana / Configure generic OAuth2 authentication\n- Keycloak OIDC\n\n사용하려는 OpenID Connect…",
@@ -16847,7 +16803,7 @@
         "grafana",
         "auth"
       ],
-      "url": "/docs/operation/mlops/observability-system/grafana/auth",
+      "url": "/docs/mlops/grafana/auth",
       "subject_ref": "subject:mlops:observability-system:grafana",
       "subject_title": "Grafana",
       "ontology": {
@@ -18868,7 +18824,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/kubernetes-dashboard/install.mdx",
+      "id": "doc:docs/mlops/kubernetes-dashboard/install.mdx",
       "title": "Kubernetes Dashboard",
       "description": "Kubernetes Dashboard",
       "snippet": "## 설치\n\n``shell\nhelm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \\\n&& helm repo update kubernetes-dashbo…",
@@ -18884,7 +18840,7 @@
       "keywords": [
         "kubernetes"
       ],
-      "url": "/docs/operation/mlops/observability-system/kubernetes-dashboard/install",
+      "url": "/docs/mlops/kubernetes-dashboard/install",
       "subject_ref": "subject:mlops:observability-system:kubernetes-dashboard",
       "subject_title": "Kubernetes Dashboard",
       "ontology": {
@@ -19674,7 +19630,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/mlops/observability-system/loki/label.mdx",
+      "id": "doc:docs/mlops/loki/label.mdx",
       "title": "Label",
       "description": "Loki Label",
       "snippet": "## Label\n\n- Label best practices\n- https://grafana.com/blog/2020/04/21/how-labels-in-lok…",
@@ -19688,7 +19644,7 @@
       "keywords": [
         "label"
       ],
-      "url": "/docs/concept/mlops/observability-system/loki/label",
+      "url": "/docs/mlops/loki/label",
       "subject_ref": "subject:mlops:observability-system:loki",
       "subject_title": "Loki",
       "ontology": {
@@ -20245,7 +20201,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/loki/loki.mdx",
+      "id": "doc:docs/mlops/loki/overview.mdx",
       "title": "Loki",
       "description": "Loki",
       "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## 배포 Mode\n\n- Loki Docs / Deployment Modes\n\n- Monolithic\n - 모든 컴포넌트를 하나의 인스턴스에 배포\n - 하루에 20GB 정도의 …",
@@ -20256,7 +20212,7 @@
       "keywords": [
         "Loki"
       ],
-      "url": "/docs/entity/mlops/observability-system/loki",
+      "url": "/docs/mlops/loki/overview",
       "subject_ref": "subject:mlops:observability-system:loki",
       "subject_title": "Loki",
       "ontology": {
@@ -20275,7 +20231,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/loki/compactor.mdx",
+      "id": "doc:docs/mlops/loki/compactor.mdx",
       "title": "Loki Compactor로 로그 저장량 조절하기",
       "description": "Loki Compactor로 로그 저장량 조절하기",
       "snippet": "## Log Retention\n\n- Loki Docs / Configuration parameters # compactor\n\n``yaml title=\"loki-distributed-values.yaml\"\nloki:\n compactor:\n retention_enabl…",
@@ -20286,7 +20242,7 @@
         "Loki",
         "compactor"
       ],
-      "url": "/docs/operation/mlops/observability-system/loki/compactor",
+      "url": "/docs/mlops/loki/compactor",
       "subject_ref": "subject:mlops:observability-system:loki",
       "subject_title": "Loki",
       "ontology": {
@@ -20305,7 +20261,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/loki/install.mdx",
+      "id": "doc:docs/mlops/loki/install.mdx",
       "title": "Loki 설치 가이드",
       "description": "Loki 설치 가이드",
       "snippet": "Loki 개요 문서에서 배포 모드와 컴포넌트를 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Loki Docs / Install the simple scalable Helm chart\n\n``shell\nhelm repo add grafana https://grafana.g…",
@@ -20316,7 +20272,7 @@
       "keywords": [
         "Loki"
       ],
-      "url": "/docs/operation/mlops/observability-system/loki/install",
+      "url": "/docs/mlops/loki/install",
       "subject_ref": "subject:mlops:observability-system:loki",
       "subject_title": "Loki",
       "ontology": {
@@ -22617,7 +22573,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/opensearch/install.mdx",
+      "id": "doc:docs/mlops/opensearch/install.mdx",
       "title": "OpenSearch",
       "description": "OpenSearch",
       "snippet": "OIDC 관련 설정에 실패한 내용입니다. 추후 성공하면 수정하도록 하겠습니다.\n\n## 설치\n\n``shell\nhelm repo add opensearch https://opensearch-project.github.io/helm-charts \\\n&& helm repo update opensear…",
@@ -22635,7 +22591,7 @@
       "keywords": [
         "OpenSearch Basics"
       ],
-      "url": "/docs/operation/mlops/observability-system/opensearch/install",
+      "url": "/docs/mlops/opensearch/install",
       "subject_ref": "subject:mlops:observability-system:opensearch",
       "subject_title": "Opensearch",
       "ontology": {
@@ -22654,7 +22610,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/opentelemetry/semantic-conventions.mdx",
+      "id": "doc:docs/mlops/opentelemetry/semantic-conventions.mdx",
       "title": "OpenTelemetry Semantic Conventions 설정 가이드",
       "description": "OpenTelemetry Semantic Conventions 설정 가이드",
       "snippet": "## Semantic Conventions\n\n- OpenTelemetry Semantic Conventions\n\nOpenTelemetry Semantic Conventions은 수집하는 데이터에 정의할 수 있는 표준…",
@@ -22666,7 +22622,7 @@
         "opentelemetry",
         "semantic-conventions"
       ],
-      "url": "/docs/operation/mlops/observability-system/opentelemetry/semantic-conventions",
+      "url": "/docs/mlops/opentelemetry/semantic-conventions",
       "subject_ref": "subject:mlops:observability-system:opentelemetry",
       "subject_title": "Opentelemetry",
       "ontology": {
@@ -23648,7 +23604,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/promql/promql.mdx",
+      "id": "doc:docs/mlops/promql/overview.mdx",
       "title": "PromQL",
       "description": "PromQL",
       "snippet": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
@@ -23669,7 +23625,7 @@
       "keywords": [
         "promql"
       ],
-      "url": "/docs/entity/mlops/observability-system/promql",
+      "url": "/docs/mlops/promql/overview",
       "subject_ref": "subject:mlops:observability-system:promql",
       "subject_title": "Promql",
       "ontology": {
@@ -23688,7 +23644,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/crd/prometheus.mdx",
+      "id": "doc:docs/mlops/prometheus-operator/prometheus.mdx",
       "title": "Prometheus",
       "description": "Prometheus",
       "snippet": "Prometheus Operator Architecture\n\n## ServiceAccount\n\n- Prometheus Operator / Getting Start…",
@@ -23705,26 +23661,26 @@
         "operator",
         "CRD"
       ],
-      "url": "/docs/operation/mlops/observability-system/crd/prometheus",
-      "subject_ref": "subject:mlops:observability-system:crd",
-      "subject_title": "Crd",
+      "url": "/docs/mlops/prometheus-operator/prometheus",
+      "subject_ref": "subject:mlops:observability-system:prometheus-operator",
+      "subject_title": "Prometheus Operator",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "observability-system",
-        "instance": "crd",
+        "instance": "prometheus-operator",
         "aspect": "prometheus"
       },
-      "search_text": "prometheus prometheus prometheus operator architecture serviceaccount - prometheus operator / getting start serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 prometheus operator crd operation mlops observability-system crd prometheus",
+      "search_text": "prometheus prometheus prometheus operator architecture serviceaccount - prometheus operator / getting start serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 prometheus operator crd operation mlops observability-system prometheus-operator prometheus",
       "display": {
         "label": "Prometheus",
         "kind": "document",
-        "subtitle": "Crd"
+        "subtitle": "Prometheus Operator"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/crd/alertmanager.mdx",
+      "id": "doc:docs/mlops/prometheus-operator/alertmanager.mdx",
       "title": "Prometheus Operator Alertmanager CR 생성하기",
       "description": "Prometheus Operator Alertmanager CR 생성하기",
       "snippet": "## Alertmanager\n\n- Prometheus Operator / API reference # Alertmanager\n\n``yaml\napiVersion: monit…",
@@ -23739,26 +23695,26 @@
         "CR",
         "alertmanager"
       ],
-      "url": "/docs/operation/mlops/observability-system/crd/alertmanager",
-      "subject_ref": "subject:mlops:observability-system:crd",
-      "subject_title": "Crd",
+      "url": "/docs/mlops/prometheus-operator/alertmanager",
+      "subject_ref": "subject:mlops:observability-system:prometheus-operator",
+      "subject_title": "Prometheus Operator",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "observability-system",
-        "instance": "crd",
+        "instance": "prometheus-operator",
         "aspect": "alertmanager"
       },
-      "search_text": "prometheus operator alertmanager cr 생성하기 prometheus operator alertmanager cr 생성하기 alertmanager - prometheus operator / api reference alertmanager yaml apiversion monit alertmanager alertmanagerconfig 수집하기 alertmanagerconfig prometheus operator cr alertmanager operation mlops observability-system crd alertmanager",
+      "search_text": "prometheus operator alertmanager cr 생성하기 prometheus operator alertmanager cr 생성하기 alertmanager - prometheus operator / api reference alertmanager yaml apiversion monit alertmanager alertmanagerconfig 수집하기 alertmanagerconfig prometheus operator cr alertmanager operation mlops observability-system prometheus-operator alertmanager",
       "display": {
         "label": "Prometheus Operator Alertmanager CR 생성하기",
         "kind": "document",
-        "subtitle": "Crd"
+        "subtitle": "Prometheus Operator"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/promtail/pipeline-stage.mdx",
+      "id": "doc:docs/mlops/promtail/pipeline-stage.mdx",
       "title": "Promtail Pipeline(로그 변환)",
       "description": "Promtail Pipeline(로그 변환)",
       "snippet": "## Pipeline\n\n- Pipeline\n\npromtail 시작 시 discovery(or static) -\\> relabel -\\> pipeline 순으로 진행되며, pipeline이 무한 반복되면서…",
@@ -23777,7 +23733,7 @@
         "promtail",
         "pipeline"
       ],
-      "url": "/docs/operation/mlops/observability-system/promtail/pipeline-stage",
+      "url": "/docs/mlops/promtail/pipeline-stage",
       "subject_ref": "subject:mlops:observability-system:promtail",
       "subject_title": "Promtail",
       "ontology": {
@@ -27081,7 +27037,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/crd/monitor.mdx",
+      "id": "doc:docs/mlops/prometheus-operator/monitor.mdx",
       "title": "ServiceMonitor/PodMonitor",
       "description": "ServiceMonitor/PodMonitor",
       "snippet": "## ServiceMonitor\n\n- Prometheus Operator / Docs / API reference # ServiceMonitor\n- Prometheus / D…",
@@ -27101,21 +27057,21 @@
         "operator",
         "CRD"
       ],
-      "url": "/docs/operation/mlops/observability-system/crd/monitor",
-      "subject_ref": "subject:mlops:observability-system:crd",
-      "subject_title": "Crd",
+      "url": "/docs/mlops/prometheus-operator/monitor",
+      "subject_ref": "subject:mlops:observability-system:prometheus-operator",
+      "subject_title": "Prometheus Operator",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "observability-system",
-        "instance": "crd",
+        "instance": "prometheus-operator",
         "aspect": "monitor"
       },
-      "search_text": "servicemonitor/podmonitor servicemonitor/podmonitor servicemonitor - prometheus operator / docs / api reference servicemonitor - prometheus / d servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs servicemonitor podmonitor monitor operator crd operation mlops observability-system crd monitor",
+      "search_text": "servicemonitor/podmonitor servicemonitor/podmonitor servicemonitor - prometheus operator / docs / api reference servicemonitor - prometheus / d servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs servicemonitor podmonitor monitor operator crd operation mlops observability-system prometheus-operator monitor",
       "display": {
         "label": "ServiceMonitor/PodMonitor",
         "kind": "document",
-        "subtitle": "Crd"
+        "subtitle": "Prometheus Operator"
       }
     },
     {
@@ -28113,7 +28069,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/thanos/install.mdx",
+      "id": "doc:docs/mlops/thanos/install.mdx",
       "title": "Thanos",
       "description": "Thanos",
       "snippet": "## Architecture\n\nThanos with Sidecar\nhttps://github.com/thanos-io/thanos\n\n## 설치\n\n``shell\nhelm repo add …",
@@ -28124,7 +28080,7 @@
       "keywords": [
         "thanos"
       ],
-      "url": "/docs/operation/mlops/observability-system/thanos/install",
+      "url": "/docs/mlops/thanos/install",
       "subject_ref": "subject:mlops:observability-system:thanos",
       "subject_title": "Thanos",
       "ontology": {
@@ -28812,7 +28768,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/vector/install.mdx",
+      "id": "doc:docs/mlops/vector/install.mdx",
       "title": "Vector",
       "description": "Vector",
       "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
@@ -28823,7 +28779,7 @@
       "keywords": [
         "vector"
       ],
-      "url": "/docs/operation/mlops/observability-system/vector/install",
+      "url": "/docs/mlops/vector/install",
       "subject_ref": "subject:mlops:observability-system:vector",
       "subject_title": "Vector",
       "ontology": {
@@ -28842,7 +28798,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/vector/sink.mdx",
+      "id": "doc:docs/mlops/vector/sink.mdx",
       "title": "Vector Sink(내보내기)",
       "description": "Vector Sink(내보내기)",
       "snippet": "## Sink 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sinks:\n :\n type:\n inputs:\n -\n :\n`\n\n## Console\\(for …",
@@ -28855,7 +28811,7 @@
         "vector",
         "sink"
       ],
-      "url": "/docs/operation/mlops/observability-system/vector/sink",
+      "url": "/docs/mlops/vector/sink",
       "subject_ref": "subject:mlops:observability-system:vector",
       "subject_title": "Vector",
       "ontology": {
@@ -28874,7 +28830,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/vector/source.mdx",
+      "id": "doc:docs/mlops/vector/source.mdx",
       "title": "Vector Source(수집하기)",
       "description": "Vector Source(수집하기)",
       "snippet": "## Source 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sources:\n :\n type:\n :\n`\n\n## Kubernetes Log\n\n- Vecto…",
@@ -28891,7 +28847,7 @@
         "vector",
         "source"
       ],
-      "url": "/docs/operation/mlops/observability-system/vector/source",
+      "url": "/docs/mlops/vector/source",
       "subject_ref": "subject:mlops:observability-system:vector",
       "subject_title": "Vector",
       "ontology": {
@@ -28910,7 +28866,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/vector/transform.mdx",
+      "id": "doc:docs/mlops/vector/transform.mdx",
       "title": "Vector Transform(변환하기)",
       "description": "Vector Transform(변환하기)",
       "snippet": "## Transform 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n transforms:\n :\n type:\n …",
@@ -28923,7 +28879,7 @@
         "vector",
         "transform"
       ],
-      "url": "/docs/operation/mlops/observability-system/vector/transform",
+      "url": "/docs/mlops/vector/transform",
       "subject_ref": "subject:mlops:observability-system:vector",
       "subject_title": "Vector",
       "ontology": {
@@ -30011,7 +29967,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/dcgm-exporter/install.mdx",
+      "id": "doc:docs/mlops/dcgm-exporter/install.mdx",
       "title": "dcgm-exporter",
       "description": "dcgm-exporter",
       "snippet": "## 설치\n\n``shell\nhelm repo add dcgm-exporter https://nvidia.github.io/gpu-monitoring-tools/helm-charts \\\n&& helm repo update…",
@@ -30023,7 +29979,7 @@
       "keywords": [
         "dcgm-exporter"
       ],
-      "url": "/docs/operation/mlops/observability-system/dcgm-exporter/install",
+      "url": "/docs/mlops/dcgm-exporter/install",
       "subject_ref": "subject:mlops:observability-system:dcgm-exporter",
       "subject_title": "Dcgm Exporter",
       "ontology": {
@@ -30819,7 +30775,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/k6/k6.mdx",
+      "id": "doc:docs/mlops/k6/overview.mdx",
       "title": "k6",
       "description": "k6",
       "snippet": "k6는 HTTP API, gRPC, WebSocket 같은 워크로드를 스크립트 기반으로 부하 테스트할 수 있는 도구입니다. 로컬 실행부터 확장 프로…",
@@ -30829,7 +30785,7 @@
       "keywords": [
         "k6"
       ],
-      "url": "/docs/entity/mlops/observability-system/k6",
+      "url": "/docs/mlops/k6/overview",
       "subject_ref": "subject:mlops:observability-system:k6",
       "subject_title": "K6",
       "ontology": {
@@ -30848,7 +30804,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/k6/local.mdx",
+      "id": "doc:docs/mlops/k6/local.mdx",
       "title": "k6 Local 부하 테스트",
       "description": "k6 Local 부하 테스트",
       "snippet": "…, // --duration\n};\n\n return {}; // data\n}\n\n // VU가 실행하는 코드\n const url = \"http://localhost:8080/v2/models/model/infer\";\n const params = {\n headers: {\n \"Content-Type\":…",
@@ -30862,7 +30818,7 @@
         "Local",
         "load test"
       ],
-      "url": "/docs/operation/mlops/observability-system/k6/local",
+      "url": "/docs/mlops/k6/local",
       "subject_ref": "subject:mlops:observability-system:k6",
       "subject_title": "K6",
       "ontology": {
@@ -30881,7 +30837,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/mlops/observability-system/k6/extensions.mdx",
+      "id": "doc:docs/mlops/k6/extensions.mdx",
       "title": "k6 확장 프로그램(Extensions)",
       "description": "k6 확장 프로그램(Extensions)",
       "snippet": "…tall go.k6.io/xk6/cmd/xk6@latest\n`\n\n## 확장 프로그램을 추가해서 빌드하기\n\n- https://k6.io/docs/extensions/get-started/bundle/\n\n`shell\nxk6 build \\\n [] \\\n --with [@][=] \\\n [--with [@][=]]…",
@@ -30895,7 +30851,7 @@
         "extensions",
         "확장 프로그램"
       ],
-      "url": "/docs/concept/mlops/observability-system/k6/extensions",
+      "url": "/docs/mlops/k6/extensions",
       "subject_ref": "subject:mlops:observability-system:k6",
       "subject_title": "K6",
       "ontology": {
@@ -31011,7 +30967,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/kube-state-metrics/install.mdx",
+      "id": "doc:docs/mlops/kube-state-metrics/install.mdx",
       "title": "kube-state-metrics",
       "description": "kube-state-metrics",
       "snippet": "## kube-state-metrics\n\n- https://github.com/kubernetes/kube-state-metrics\n\nKubernetes API를 사용하여 Deplo…",
@@ -31026,7 +30982,7 @@
       "keywords": [
         "kube-state-metrics"
       ],
-      "url": "/docs/operation/mlops/observability-system/kube-state-metrics/install",
+      "url": "/docs/mlops/kube-state-metrics/install",
       "subject_ref": "subject:mlops:observability-system:kube-state-metrics",
       "subject_title": "Kube State Metrics",
       "ontology": {
@@ -31077,7 +31033,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/observability-system/kubelet/kubelet.mdx",
+      "id": "doc:docs/mlops/kubelet/overview.mdx",
       "title": "kubelet",
       "description": "kubelet",
       "snippet": "## kubelet\n\n설정 가이드 문서는 별도로 분리되어 있습니다.\n\n``shell\nkubectl get --raw /api/v1/nodes//proxy/metr…",
@@ -31088,7 +31044,7 @@
       "keywords": [
         "kubelet"
       ],
-      "url": "/docs/entity/mlops/observability-system/kubelet",
+      "url": "/docs/mlops/kubelet/overview",
       "subject_ref": "subject:mlops:observability-system:kubelet",
       "subject_title": "Kubelet",
       "ontology": {
@@ -31107,7 +31063,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/kubelet/configure.mdx",
+      "id": "doc:docs/mlops/kubelet/configure.mdx",
       "title": "kubelet 메트릭 수집 설정",
       "description": "kubelet 메트릭 수집 설정",
       "snippet": "kubelet 개요 문서에서 직접 메트릭 엔드포인트를 확인할 수 있습니다.\n\n## kube-prometheus-stack\n\n``yaml title=\"kube…",
@@ -31117,7 +31073,7 @@
       "keywords": [
         "kubelet"
       ],
-      "url": "/docs/operation/mlops/observability-system/kubelet/configure",
+      "url": "/docs/mlops/kubelet/configure",
       "subject_ref": "subject:mlops:observability-system:kubelet",
       "subject_title": "Kubelet",
       "ontology": {
@@ -31255,7 +31211,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/metrics-server/install.mdx",
+      "id": "doc:docs/mlops/metrics-server/install.mdx",
       "title": "metrics-server",
       "description": "metrics-server",
       "snippet": "…er\n\nhttps://ssup2.github.io/theory_analysis/Kubernetes_Metric_Server/\n\n## 설치\n\n- metrics-server\n\n``shell\nhelm repo add metrics-server https://kubernetes-sigs.github.io/metrics…",
@@ -31268,7 +31224,7 @@
       "keywords": [
         "metrics-server"
       ],
-      "url": "/docs/operation/mlops/observability-system/metrics-server/install",
+      "url": "/docs/mlops/metrics-server/install",
       "subject_ref": "subject:mlops:observability-system:metrics-server",
       "subject_title": "Metrics Server",
       "ontology": {
@@ -31487,7 +31443,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/node-exporter/install.mdx",
+      "id": "doc:docs/mlops/node-exporter/install.mdx",
       "title": "node-exporter",
       "description": "node-exporter",
       "snippet": "## 설치\n\n### Helm\n\n- Node exporter GitHub\n- prometheus-node-exporter Chart\n\n``shell\nhelm repo add prometheus-community https://prometheus-community.…",
@@ -31508,7 +31464,7 @@
         "node-exporter",
         "fluent-bit"
       ],
-      "url": "/docs/operation/mlops/observability-system/node-exporter/install",
+      "url": "/docs/mlops/node-exporter/install",
       "subject_ref": "subject:mlops:observability-system:node-exporter",
       "subject_title": "Node Exporter",
       "ontology": {
@@ -31655,7 +31611,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/prometheus-operator/install.mdx",
+      "id": "doc:docs/mlops/prometheus-operator/install.mdx",
       "title": "prometheus-operator",
       "description": "prometheus-operator",
       "snippet": "## Kubernetes 호환성\n\n- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix\n\n## 설치\n\n- kube-prometheus-stack…",
@@ -31669,7 +31625,7 @@
         "prometheus",
         "operator"
       ],
-      "url": "/docs/operation/mlops/observability-system/prometheus-operator/install",
+      "url": "/docs/mlops/prometheus-operator/install",
       "subject_ref": "subject:mlops:observability-system:prometheus-operator",
       "subject_title": "Prometheus Operator",
       "ontology": {
@@ -32522,7 +32478,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/observability-system/loki/collector.mdx",
+      "id": "doc:docs/mlops/loki/collector.mdx",
       "title": "로그 수집기에서 Loki로 로그 전송하기",
       "description": "로그 수집기에서 Loki로 로그 전송하기",
       "snippet": "## vector\n\n- Vector Loki Sink\n\n## Fluent Bit\n\n- https://docs.fluentbit.io/manual/pipeline/outputs/loki\n\n…",
@@ -32535,7 +32491,7 @@
         "Loki",
         "collector"
       ],
-      "url": "/docs/operation/mlops/observability-system/loki/collector",
+      "url": "/docs/mlops/loki/collector",
       "subject_ref": "subject:mlops:observability-system:loki",
       "subject_title": "Loki",
       "ontology": {
