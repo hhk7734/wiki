@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:platform:tool:asdf",
+  "title": "asdf로 런타임 버전 관리하기",
+  "snippet": "…le\"\n# asdf\n\n`\n\n`shell title=\".bashrc\"\n# asdf\n. []\n`\n\n`shell\ncut -d' ' -f1 .tool-versions | xargs -i asdf plugin add {}\n`\n\n.tool-versions에 명시된 플러그인을 모두 설치합니다.\n\n`shell\na…",
+  "ontology": {
+    "domain": "platform",
+    "class": "tool",
+    "instance": "asdf"
+  },
+  "url": "/docs/platform/asdf/overview",
+  "node_url": "/api/wiki/nodes/subject:platform:tool:asdf.json",
+  "document_refs": [
+    "doc:docs/platform/asdf/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/platform/asdf/overview.mdx",
+      "title": "asdf로 런타임 버전 관리하기",
+      "url": "/docs/platform/asdf/overview",
+      "snippet": "…le\"\n# asdf\n\n`\n\n`shell title=\".bashrc\"\n# asdf\n. []\n`\n\n`shell\ncut -d' ' -f1 .tool-versions | xargs -i asdf plugin add {}\n`\n\n.tool-versions에 명시된 플러그인을 모두 설치합니다.\n\n`shell\na…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "asdf",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/platform/asdf/overview.mdx:about_subject:subject:platform:tool:asdf",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/asdf/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}
