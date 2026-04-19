@@ -251,11 +251,11 @@
       "title": "AWS ParallelCluster",
       "description": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
       "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/cluster",
+      "url": "/docs/mlops/parallel-cluster/cluster",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx",
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx",
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx"
+        "doc:docs/mlops/parallel-cluster/cluster.mdx",
+        "doc:docs/mlops/parallel-cluster/custom-action.mdx",
+        "doc:docs/mlops/parallel-cluster/etc.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -2890,11 +2890,11 @@
       "title": "IAM",
       "description": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
       "snippet": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
-      "url": "/docs/entity/mlops/cloud-service/iam",
+      "url": "/docs/mlops/iam/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
-        "doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx",
-        "doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx"
+        "doc:docs/mlops/iam/overview.mdx",
+        "doc:docs/mlops/iam/cross-accounts-access.mdx",
+        "doc:docs/mlops/iam/spot-role.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -6026,9 +6026,9 @@
       "title": "SES",
       "description": "## Create\n\n``python\n\nname = \"ses\"\nses = aws.ses.DomainIdentity(\n name,\n domain=\"\",\n opts=…",
       "snippet": "## Create\n\n``python\n\nname = \"ses\"\nses = aws.ses.DomainIdentity(\n name,\n domain=\"\",\n opts=…",
-      "url": "/docs/operation/mlops/cloud-service/ses/create",
+      "url": "/docs/mlops/ses/create",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/ses/create.mdx"
+        "doc:docs/mlops/ses/create.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -7076,9 +7076,9 @@
       "title": "cluster-autoscaler",
       "description": "…)\n\n- Auto Scaling 그룹에 아래 태그가 있어야합니다.\n - kubernetes.io/cluster/: owned\n - k8s.io/cluster-autoscaler/: owned\n - k8s.io/cluster-autoscaler/enabled: true\n- 사용자 데이터를 사용하여 **Control pl…",
       "snippet": "…)\n\n- Auto Scaling 그룹에 아래 태그가 있어야합니다.\n - kubernetes.io/cluster/: owned\n - k8s.io/cluster-autoscaler/: owned\n - k8s.io/cluster-autoscaler/enabled: true\n- 사용자 데이터를 사용하여 **Control pl…",
-      "url": "/docs/operation/mlops/cloud-service/cluster-autoscaler/install",
+      "url": "/docs/mlops/cluster-autoscaler/install",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx"
+        "doc:docs/mlops/cluster-autoscaler/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -9118,7 +9118,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx",
+      "id": "doc:docs/mlops/parallel-cluster/cluster.mdx",
       "title": "AWS ParallelCluster",
       "description": "AWS ParallelCluster",
       "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
@@ -9134,7 +9134,7 @@
         "ParallelCluster",
         "pcluster"
       ],
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/cluster",
+      "url": "/docs/mlops/parallel-cluster/cluster",
       "subject_ref": "subject:mlops:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {
@@ -9153,7 +9153,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx",
+      "id": "doc:docs/mlops/parallel-cluster/custom-action.mdx",
       "title": "AWS ParallelCluster CustomActions",
       "description": "AWS ParallelCluster CustomActions",
       "snippet": "## HeadNode.CustomActions\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/HeadNode-v3.html#HeadNode-v3-CustomActions\n\n``yaml title=\"cluster-con…",
@@ -9167,7 +9167,7 @@
         "custom actions",
         "start scripts"
       ],
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/custom-action",
+      "url": "/docs/mlops/parallel-cluster/custom-action",
       "subject_ref": "subject:mlops:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {
@@ -12716,7 +12716,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx",
+      "id": "doc:docs/mlops/iam/cross-accounts-access.mdx",
       "title": "Cross-Accounts Access",
       "description": "Cross-Accounts Access",
       "snippet": "## User를 사용한 접근\n\n## Role을 사용한 접근",
@@ -12727,7 +12727,7 @@
       "keywords": [
         "Cross-Accounts Access"
       ],
-      "url": "/docs/operation/mlops/cloud-service/iam/cross-accounts-access",
+      "url": "/docs/mlops/iam/cross-accounts-access",
       "subject_ref": "subject:mlops:cloud-service:iam",
       "subject_title": "Iam",
       "ontology": {
@@ -16683,7 +16683,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
+      "id": "doc:docs/mlops/iam/overview.mdx",
       "title": "IAM",
       "description": "IAM",
       "snippet": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
@@ -16696,7 +16696,7 @@
       "keywords": [
         "IAM"
       ],
-      "url": "/docs/entity/mlops/cloud-service/iam",
+      "url": "/docs/mlops/iam/overview",
       "subject_ref": "subject:mlops:cloud-service:iam",
       "subject_title": "Iam",
       "ontology": {
@@ -26051,7 +26051,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/ses/create.mdx",
+      "id": "doc:docs/mlops/ses/create.mdx",
       "title": "SES",
       "description": "SES",
       "snippet": "## Create\n\n``python\n\nname = \"ses\"\nses = aws.ses.DomainIdentity(\n name,\n domain=\"\",\n opts=…",
@@ -26062,7 +26062,7 @@
       "keywords": [
         "SES"
       ],
-      "url": "/docs/operation/mlops/cloud-service/ses/create",
+      "url": "/docs/mlops/ses/create",
       "subject_ref": "subject:mlops:cloud-service:ses",
       "subject_title": "Ses",
       "ontology": {
@@ -26889,7 +26889,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx",
+      "id": "doc:docs/mlops/iam/spot-role.mdx",
       "title": "Spot Role",
       "description": "Spot Role",
       "snippet": "- https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html\n\n## AmazonEC2SpotFleetTaggingRole\n\n``ts\n\nconst roleName = \"AmazonEC2SpotFl…",
@@ -26901,7 +26901,7 @@
       "keywords": [
         "Spot Role"
       ],
-      "url": "/docs/operation/mlops/cloud-service/iam/spot-role",
+      "url": "/docs/mlops/iam/spot-role",
       "subject_ref": "subject:mlops:cloud-service:iam",
       "subject_title": "Iam",
       "ontology": {
@@ -29289,7 +29289,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx",
+      "id": "doc:docs/mlops/cluster-autoscaler/install.mdx",
       "title": "cluster-autoscaler",
       "description": "cluster-autoscaler",
       "snippet": "…)\n\n- Auto Scaling 그룹에 아래 태그가 있어야합니다.\n - kubernetes.io/cluster/: owned\n - k8s.io/cluster-autoscaler/: owned\n - k8s.io/cluster-autoscaler/enabled: true\n- 사용자 데이터를 사용하여 **Control pl…",
@@ -29309,7 +29309,7 @@
       "keywords": [
         "cluster-autoscaler"
       ],
-      "url": "/docs/operation/mlops/cloud-service/cluster-autoscaler/install",
+      "url": "/docs/mlops/cluster-autoscaler/install",
       "subject_ref": "subject:mlops:cloud-service:cluster-autoscaler",
       "subject_title": "Cluster Autoscaler",
       "ontology": {
@@ -29644,7 +29644,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx",
+      "id": "doc:docs/mlops/parallel-cluster/etc.mdx",
       "title": "etc",
       "description": "etc",
       "snippet": "## Instance 설정\n\n### Environment\n\n- /opt/slurm\n- /opt/slurm/etc/slurm.conf\n- /opt/slurm/etc/slurm.sh\n- /etc/profile.d/slurm.sh -> /opt/slurm/et…",
@@ -29658,7 +29658,7 @@
       "keywords": [
         "ParallelCluster"
       ],
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/etc",
+      "url": "/docs/mlops/parallel-cluster/etc",
       "subject_ref": "subject:mlops:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {

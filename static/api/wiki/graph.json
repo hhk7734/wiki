@@ -1041,22 +1041,6 @@
       "subject_ref": "subject:data:object-storage:s3"
     },
     {
-      "id": "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
-      "type": "document",
-      "title": "IAM",
-      "snippet": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "iam",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/cloud-service/iam",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/cloud-service/iam/iam.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:iam"
-    },
-    {
       "id": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
       "type": "document",
       "title": "Gateway API 사용시 조직에 따른 역할",
@@ -6097,6 +6081,22 @@
       "subject_ref": "subject:mlops:cluster-orchestrator:cluster-api"
     },
     {
+      "id": "doc:docs/mlops/cluster-autoscaler/install.mdx",
+      "type": "document",
+      "title": "cluster-autoscaler",
+      "snippet": "…)\n\n- Auto Scaling 그룹에 아래 태그가 있어야합니다.\n - kubernetes.io/cluster/: owned\n - k8s.io/cluster-autoscaler/: owned\n - k8s.io/cluster-autoscaler/enabled: true\n- 사용자 데이터를 사용하여 **Control pl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "cluster-autoscaler",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/cluster-autoscaler/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cluster-autoscaler/install.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:cluster-autoscaler"
+    },
+    {
       "id": "doc:docs/mlops/cni/overview.mdx",
       "type": "document",
       "title": "Container Network Interface(CNI)",
@@ -6783,6 +6783,54 @@
       "url": "/docs/mlops/harbor/proxy-cache",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/harbor/proxy-cache.mdx.json",
       "subject_ref": "subject:mlops:provisioning-tool:harbor"
+    },
+    {
+      "id": "doc:docs/mlops/iam/cross-accounts-access.mdx",
+      "type": "document",
+      "title": "Cross-Accounts Access",
+      "snippet": "## User를 사용한 접근\n\n## Role을 사용한 접근",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "iam",
+        "aspect": "cross-accounts-access"
+      },
+      "url": "/docs/mlops/iam/cross-accounts-access",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/iam/cross-accounts-access.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:iam"
+    },
+    {
+      "id": "doc:docs/mlops/iam/overview.mdx",
+      "type": "document",
+      "title": "IAM",
+      "snippet": "- https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/id.html\n\n## User\n\n- Root User(arn:aws:iam:::root): 해당 계정의 모든 권…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "iam",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/iam/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/iam/overview.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:iam"
+    },
+    {
+      "id": "doc:docs/mlops/iam/spot-role.mdx",
+      "type": "document",
+      "title": "Spot Role",
+      "snippet": "- https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html\n\n## AmazonEC2SpotFleetTaggingRole\n\n``ts\n\nconst roleName = \"AmazonEC2SpotFl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "iam",
+        "aspect": "spot-role"
+      },
+      "url": "/docs/mlops/iam/spot-role",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/iam/spot-role.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:iam"
     },
     {
       "id": "doc:docs/mlops/ipoib/overview.mdx",
@@ -8177,6 +8225,54 @@
       "subject_ref": "subject:mlops:observability-system:opentelemetry"
     },
     {
+      "id": "doc:docs/mlops/parallel-cluster/cluster.mdx",
+      "type": "document",
+      "title": "AWS ParallelCluster",
+      "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "parallel-cluster",
+        "aspect": "cluster"
+      },
+      "url": "/docs/mlops/parallel-cluster/cluster",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/parallel-cluster/cluster.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
+    },
+    {
+      "id": "doc:docs/mlops/parallel-cluster/custom-action.mdx",
+      "type": "document",
+      "title": "AWS ParallelCluster CustomActions",
+      "snippet": "## HeadNode.CustomActions\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/HeadNode-v3.html#HeadNode-v3-CustomActions\n\n``yaml title=\"cluster-con…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "parallel-cluster",
+        "aspect": "custom-action"
+      },
+      "url": "/docs/mlops/parallel-cluster/custom-action",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/parallel-cluster/custom-action.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
+    },
+    {
+      "id": "doc:docs/mlops/parallel-cluster/etc.mdx",
+      "type": "document",
+      "title": "etc",
+      "snippet": "## Instance 설정\n\n### Environment\n\n- /opt/slurm\n- /opt/slurm/etc/slurm.conf\n- /opt/slurm/etc/slurm.sh\n- /etc/profile.d/slurm.sh -> /opt/slurm/et…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "parallel-cluster",
+        "aspect": "etc"
+      },
+      "url": "/docs/mlops/parallel-cluster/etc",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/parallel-cluster/etc.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
+    },
+    {
       "id": "doc:docs/mlops/podman/install.mdx",
       "type": "document",
       "title": "Podman 설치 및 환경 설정",
@@ -8607,6 +8703,22 @@
       "url": "/docs/mlops/s6-overlay/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/s6-overlay/overview.mdx.json",
       "subject_ref": "subject:mlops:container-platform:s6-overlay"
+    },
+    {
+      "id": "doc:docs/mlops/ses/create.mdx",
+      "type": "document",
+      "title": "SES",
+      "snippet": "## Create\n\n``python\n\nname = \"ses\"\nses = aws.ses.DomainIdentity(\n name,\n domain=\"\",\n opts=…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cloud-service",
+        "instance": "ses",
+        "aspect": "create"
+      },
+      "url": "/docs/mlops/ses/create",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ses/create.mdx.json",
+      "subject_ref": "subject:mlops:cloud-service:ses"
     },
     {
       "id": "doc:docs/mlops/spegel/install.mdx",
@@ -9055,118 +9167,6 @@
       "url": "/docs/mlops/wireguard/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/wireguard/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:wireguard"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx",
-      "type": "document",
-      "title": "cluster-autoscaler",
-      "snippet": "…)\n\n- Auto Scaling 그룹에 아래 태그가 있어야합니다.\n - kubernetes.io/cluster/: owned\n - k8s.io/cluster-autoscaler/: owned\n - k8s.io/cluster-autoscaler/enabled: true\n- 사용자 데이터를 사용하여 **Control pl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "cluster-autoscaler",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/cloud-service/cluster-autoscaler/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:cluster-autoscaler"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx",
-      "type": "document",
-      "title": "Cross-Accounts Access",
-      "snippet": "## User를 사용한 접근\n\n## Role을 사용한 접근",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "iam",
-        "aspect": "cross-accounts-access"
-      },
-      "url": "/docs/operation/mlops/cloud-service/iam/cross-accounts-access",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:iam"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx",
-      "type": "document",
-      "title": "Spot Role",
-      "snippet": "- https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html\n\n## AmazonEC2SpotFleetTaggingRole\n\n``ts\n\nconst roleName = \"AmazonEC2SpotFl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "iam",
-        "aspect": "spot-role"
-      },
-      "url": "/docs/operation/mlops/cloud-service/iam/spot-role",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:iam"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx",
-      "type": "document",
-      "title": "AWS ParallelCluster",
-      "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "parallel-cluster",
-        "aspect": "cluster"
-      },
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/cluster",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx",
-      "type": "document",
-      "title": "AWS ParallelCluster CustomActions",
-      "snippet": "## HeadNode.CustomActions\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/HeadNode-v3.html#HeadNode-v3-CustomActions\n\n``yaml title=\"cluster-con…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "parallel-cluster",
-        "aspect": "custom-action"
-      },
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/custom-action",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx",
-      "type": "document",
-      "title": "etc",
-      "snippet": "## Instance 설정\n\n### Environment\n\n- /opt/slurm\n- /opt/slurm/etc/slurm.conf\n- /opt/slurm/etc/slurm.sh\n- /etc/profile.d/slurm.sh -> /opt/slurm/et…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "parallel-cluster",
-        "aspect": "etc"
-      },
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/etc",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cloud-service/ses/create.mdx",
-      "type": "document",
-      "title": "SES",
-      "snippet": "## Create\n\n``python\n\nname = \"ses\"\nses = aws.ses.DomainIdentity(\n name,\n domain=\"\",\n opts=…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cloud-service",
-        "instance": "ses",
-        "aspect": "create"
-      },
-      "url": "/docs/operation/mlops/cloud-service/ses/create",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/ses/create.mdx.json",
-      "subject_ref": "subject:mlops:cloud-service:ses"
     },
     {
       "id": "doc:docs/operation/mlops/configuration/configmap/configmap.mdx",
@@ -14091,10 +14091,10 @@
         "class": "cloud-service",
         "instance": "cluster-autoscaler"
       },
-      "url": "/docs/operation/mlops/cloud-service/cluster-autoscaler/install",
+      "url": "/docs/mlops/cluster-autoscaler/install",
       "node_url": "/api/wiki/nodes/subject:mlops:cloud-service:cluster-autoscaler.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx"
+        "doc:docs/mlops/cluster-autoscaler/install.mdx"
       ]
     },
     {
@@ -14107,12 +14107,12 @@
         "class": "cloud-service",
         "instance": "iam"
       },
-      "url": "/docs/entity/mlops/cloud-service/iam",
+      "url": "/docs/mlops/iam/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:cloud-service:iam.json",
       "document_refs": [
-        "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
-        "doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx",
-        "doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx"
+        "doc:docs/mlops/iam/overview.mdx",
+        "doc:docs/mlops/iam/cross-accounts-access.mdx",
+        "doc:docs/mlops/iam/spot-role.mdx"
       ]
     },
     {
@@ -14125,12 +14125,12 @@
         "class": "cloud-service",
         "instance": "parallel-cluster"
       },
-      "url": "/docs/operation/mlops/cloud-service/parallel-cluster/cluster",
+      "url": "/docs/mlops/parallel-cluster/cluster",
       "node_url": "/api/wiki/nodes/subject:mlops:cloud-service:parallel-cluster.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx",
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx",
-        "doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx"
+        "doc:docs/mlops/parallel-cluster/cluster.mdx",
+        "doc:docs/mlops/parallel-cluster/custom-action.mdx",
+        "doc:docs/mlops/parallel-cluster/etc.mdx"
       ]
     },
     {
@@ -14143,10 +14143,10 @@
         "class": "cloud-service",
         "instance": "ses"
       },
-      "url": "/docs/operation/mlops/cloud-service/ses/create",
+      "url": "/docs/mlops/ses/create",
       "node_url": "/api/wiki/nodes/subject:mlops:cloud-service:ses.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cloud-service/ses/create.mdx"
+        "doc:docs/mlops/ses/create.mdx"
       ]
     },
     {
@@ -17630,12 +17630,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/mlops/cloud-service/iam/iam.mdx:about_subject:subject:mlops:cloud-service:iam",
-      "from": "doc:docs/entity/mlops/cloud-service/iam/iam.mdx",
-      "to": "subject:mlops:cloud-service:iam",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/mlops/gateway-api/role/role.mdx:about_subject:subject:mlops:gateway-api:role",
       "from": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
       "to": "subject:mlops:gateway-api:role",
@@ -19526,6 +19520,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/cluster-autoscaler/install.mdx:about_subject:subject:mlops:cloud-service:cluster-autoscaler",
+      "from": "doc:docs/mlops/cluster-autoscaler/install.mdx",
+      "to": "subject:mlops:cloud-service:cluster-autoscaler",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/cni/overview.mdx:about_subject:subject:mlops:networking-stack:cni",
       "from": "doc:docs/mlops/cni/overview.mdx",
       "to": "subject:mlops:networking-stack:cni",
@@ -19781,6 +19781,24 @@
       "id": "relation:doc:docs/mlops/harbor/proxy-cache.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
       "from": "doc:docs/mlops/harbor/proxy-cache.mdx",
       "to": "subject:mlops:provisioning-tool:harbor",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/iam/cross-accounts-access.mdx:about_subject:subject:mlops:cloud-service:iam",
+      "from": "doc:docs/mlops/iam/cross-accounts-access.mdx",
+      "to": "subject:mlops:cloud-service:iam",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/iam/overview.mdx:about_subject:subject:mlops:cloud-service:iam",
+      "from": "doc:docs/mlops/iam/overview.mdx",
+      "to": "subject:mlops:cloud-service:iam",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/iam/spot-role.mdx:about_subject:subject:mlops:cloud-service:iam",
+      "from": "doc:docs/mlops/iam/spot-role.mdx",
+      "to": "subject:mlops:cloud-service:iam",
       "predicate": "about_subject"
     },
     {
@@ -20306,6 +20324,24 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/parallel-cluster/cluster.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
+      "from": "doc:docs/mlops/parallel-cluster/cluster.mdx",
+      "to": "subject:mlops:cloud-service:parallel-cluster",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/parallel-cluster/custom-action.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
+      "from": "doc:docs/mlops/parallel-cluster/custom-action.mdx",
+      "to": "subject:mlops:cloud-service:parallel-cluster",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/parallel-cluster/etc.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
+      "from": "doc:docs/mlops/parallel-cluster/etc.mdx",
+      "to": "subject:mlops:cloud-service:parallel-cluster",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/podman/install.mdx:about_subject:subject:mlops:container-platform:podman",
       "from": "doc:docs/mlops/podman/install.mdx",
       "to": "subject:mlops:container-platform:podman",
@@ -20465,6 +20501,12 @@
       "id": "relation:doc:docs/mlops/s6-overlay/overview.mdx:about_subject:subject:mlops:container-platform:s6-overlay",
       "from": "doc:docs/mlops/s6-overlay/overview.mdx",
       "to": "subject:mlops:container-platform:s6-overlay",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/ses/create.mdx:about_subject:subject:mlops:cloud-service:ses",
+      "from": "doc:docs/mlops/ses/create.mdx",
+      "to": "subject:mlops:cloud-service:ses",
       "predicate": "about_subject"
     },
     {
@@ -20633,48 +20675,6 @@
       "id": "relation:doc:docs/mlops/wireguard/overview.mdx:about_subject:subject:mlops:networking-stack:wireguard",
       "from": "doc:docs/mlops/wireguard/overview.mdx",
       "to": "subject:mlops:networking-stack:wireguard",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx:about_subject:subject:mlops:cloud-service:cluster-autoscaler",
-      "from": "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx",
-      "to": "subject:mlops:cloud-service:cluster-autoscaler",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx:about_subject:subject:mlops:cloud-service:iam",
-      "from": "doc:docs/operation/mlops/cloud-service/iam/cross-accounts-access.mdx",
-      "to": "subject:mlops:cloud-service:iam",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx:about_subject:subject:mlops:cloud-service:iam",
-      "from": "doc:docs/operation/mlops/cloud-service/iam/spot-role.mdx",
-      "to": "subject:mlops:cloud-service:iam",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
-      "from": "doc:docs/operation/mlops/cloud-service/parallel-cluster/cluster.mdx",
-      "to": "subject:mlops:cloud-service:parallel-cluster",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
-      "from": "doc:docs/operation/mlops/cloud-service/parallel-cluster/custom-action.mdx",
-      "to": "subject:mlops:cloud-service:parallel-cluster",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx:about_subject:subject:mlops:cloud-service:parallel-cluster",
-      "from": "doc:docs/operation/mlops/cloud-service/parallel-cluster/etc.mdx",
-      "to": "subject:mlops:cloud-service:parallel-cluster",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cloud-service/ses/create.mdx:about_subject:subject:mlops:cloud-service:ses",
-      "from": "doc:docs/operation/mlops/cloud-service/ses/create.mdx",
-      "to": "subject:mlops:cloud-service:ses",
       "predicate": "about_subject"
     },
     {
