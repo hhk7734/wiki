@@ -1473,150 +1473,6 @@
       "subject_ref": "subject:mlops:provisioning-tool:spot-event"
     },
     {
-      "id": "doc:docs/entity/mlops/service-mesh/compressor/compressor.mdx",
-      "type": "document",
-      "title": "EnvoyFilter로 HTTP 압축 관리하기",
-      "snippet": "## Compressor\n\n- Envoy / Configuration / HTTP / Filter / Compressor\n- Envoy / API / V3 / Exte…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "compressor",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/compressor",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/compressor/compressor.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:compressor"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx",
-      "type": "document",
-      "title": "EnvoyFilter",
-      "snippet": "…oy 문서에서는 Envoy proxy 그룹입니다.\n- **Runtime configuration**: 실시간으로 변경가능한 설정입니다.\n\n## EnvoyFilter\n\n- Istio / Traffic management / Envoy Filter\n\n``yaml\napiVersion: networking.ist…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "envoy-filter",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/envoy-filter",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:envoy-filter"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/ext-proc/ext-proc.mdx",
-      "type": "document",
-      "title": "EnvoyFilter로 외부 프로세서와 통신하기",
-      "snippet": "## ExternalProcessor\n\n- Envoy / Configuration / HTTP / Filter / External Processor\n- Envoy / API / V3 / Extensions / Filters / HTTP / External Processor\n\n``yaml",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "ext-proc",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/ext-proc",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/ext-proc/ext-proc.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:ext-proc"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/gateway/gateway.mdx",
-      "type": "document",
-      "title": "Gateway API로 라우팅 관리하기",
-      "snippet": "## Gateway\n\n- Gateway API로 라우팅 관리하기 # Gateway\n- Istio / Kubernetes Gateway API # Automated…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "gateway",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/gateway",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/gateway/gateway.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:gateway"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
-      "type": "document",
-      "title": "Istio",
-      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## Proxy & Service mesh\n\n Before utilizing Istio\n\n After utilizing Istio\n\n``txt\nClient ─── Service A ┬── Service B\n └── Service …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/istio",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/istio/istio.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx",
-      "type": "document",
-      "title": "JWT",
-      "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "jwt",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/jwt",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:jwt"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx",
-      "type": "document",
-      "title": "Multi-cluster",
-      "snippet": "## Configure Trust\n\n- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/\n- x509\n\n### Root CA\n\n``ini title=\"root-ca.conf\"\n[ req ]\ndefaul",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "multi-cluster",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/multi-cluster",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:multi-cluster"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/upgrade/upgrade.mdx",
-      "type": "document",
-      "title": "Upgrade",
-      "snippet": "## Canary 업그레이드\n\n- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended\n\n### 사전 체크\n\n``shell\nistioctl x precheck\n`\n\n###…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "upgrade",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/upgrade",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/upgrade/upgrade.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:upgrade"
-    },
-    {
-      "id": "doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx",
-      "type": "document",
-      "title": "VirtualService",
-      "snippet": "## HTTP redirect\n\n- https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect\n\n``yaml\napiVersion: networking.istio.io/v1beta1\nkind: VirtualServ…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "virtual-service",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/service-mesh/virtual-service",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:virtual-service"
-    },
-    {
       "id": "doc:docs/hardware/arduino/how-to-use-library.mdx",
       "type": "document",
       "title": "Arduino How to use library",
@@ -6721,6 +6577,54 @@
       "subject_ref": "subject:mlops:cluster-orchestrator:eks"
     },
     {
+      "id": "doc:docs/mlops/envoy-filter/compressor.mdx",
+      "type": "document",
+      "title": "EnvoyFilter로 HTTP 압축 관리하기",
+      "snippet": "## Compressor\n\n- Envoy / Configuration / HTTP / Filter / Compressor\n- Envoy / API / V3 / Exte…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "envoy-filter",
+        "aspect": "compressor"
+      },
+      "url": "/docs/mlops/envoy-filter/compressor",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/envoy-filter/compressor.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:envoy-filter"
+    },
+    {
+      "id": "doc:docs/mlops/envoy-filter/ext-proc.mdx",
+      "type": "document",
+      "title": "EnvoyFilter로 외부 프로세서와 통신하기",
+      "snippet": "## ExternalProcessor\n\n- Envoy / Configuration / HTTP / Filter / External Processor\n- Envoy / API / V3 / Extensions / Filters / HTTP / External Processor\n\n``yaml",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "envoy-filter",
+        "aspect": "ext-proc"
+      },
+      "url": "/docs/mlops/envoy-filter/ext-proc",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/envoy-filter/ext-proc.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:envoy-filter"
+    },
+    {
+      "id": "doc:docs/mlops/envoy-filter/overview.mdx",
+      "type": "document",
+      "title": "EnvoyFilter",
+      "snippet": "…oy 문서에서는 Envoy proxy 그룹입니다.\n- **Runtime configuration**: 실시간으로 변경가능한 설정입니다.\n\n## EnvoyFilter\n\n- Istio / Traffic management / Envoy Filter\n\n``yaml\napiVersion: networking.ist…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "envoy-filter",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/envoy-filter/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/envoy-filter/overview.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:envoy-filter"
+    },
+    {
       "id": "doc:docs/mlops/fluent-bit/install.mdx",
       "type": "document",
       "title": "Fluent Bit",
@@ -6783,6 +6687,22 @@
       "url": "/docs/mlops/gateway-api/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:gateway-api"
+    },
+    {
+      "id": "doc:docs/mlops/gateway/overview.mdx",
+      "type": "document",
+      "title": "Gateway API로 라우팅 관리하기",
+      "snippet": "## Gateway\n\n- Gateway API로 라우팅 관리하기 # Gateway\n- Istio / Kubernetes Gateway API # Automated…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "gateway",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/gateway/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway/overview.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:gateway"
     },
     {
       "id": "doc:docs/mlops/gke/node-pool.mdx",
@@ -6895,6 +6815,182 @@
       "url": "/docs/mlops/ipoib/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/ipoib/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:ipoib"
+    },
+    {
+      "id": "doc:docs/mlops/istio-csr/csr.mdx",
+      "type": "document",
+      "title": "Istio CSR",
+      "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio-csr",
+        "aspect": "csr"
+      },
+      "url": "/docs/mlops/istio-csr/csr",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio-csr/csr.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio-csr"
+    },
+    {
+      "id": "doc:docs/mlops/istio/accesslog.mdx",
+      "type": "document",
+      "title": "Istio Access Log 설정 가이드",
+      "snippet": "## Access Log Provider 설정\n\n- Istio / Configuration / Global Mesh Options\n- Envoy / Configurat…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "accesslog"
+      },
+      "url": "/docs/mlops/istio/accesslog",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/accesslog.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/authorization.mdx",
+      "type": "document",
+      "title": "Istio Authorization",
+      "snippet": "## Istio Authorization\n\n- https://istio.io/latest/docs/concepts/security/#authorization\n\n- 인가 정책(Autho…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "authorization"
+      },
+      "url": "/docs/mlops/istio/authorization",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/authorization.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/ext-authz.mdx",
+      "type": "document",
+      "title": "EnvoyFilter로 외부 인증서버와 통신하기",
+      "snippet": "## ExtAuthz\n\n- Envoy / Configuration / HTTP / Filters / ExtAuthz\n- Envoy / API / V3 / Extensions / Filters / HTTP / ExtAuthz\n\n``yaml\nspec:\n configPatches:\n - ap",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "ext-authz"
+      },
+      "url": "/docs/mlops/istio/ext-authz",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/ext-authz.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/install.mdx",
+      "type": "document",
+      "title": "Istio 설치 가이드",
+      "snippet": "Istio 개요 문서에서 서비스 메쉬와 Envoy 개념을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Istio / Sidecar Mode / Install with Helm\n\n``shell\nhelm repo add istio https://istio-release.storage.googleapis…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/istio/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/install.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/multi-cluster.mdx",
+      "type": "document",
+      "title": "Multi-cluster",
+      "snippet": "## Configure Trust\n\n- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/\n- x509\n\n### Root …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "multi-cluster"
+      },
+      "url": "/docs/mlops/istio/multi-cluster",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/multi-cluster.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/opentelemetry.mdx",
+      "type": "document",
+      "title": "Istio OpenTelemetry 설정 가이드",
+      "snippet": "## OpenTelemetry TracingProvider 설정\n\n- Istio / Configuration / Global Mesh Options\n\n``yaml title…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "opentelemetry"
+      },
+      "url": "/docs/mlops/istio/opentelemetry",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/opentelemetry.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/overview.mdx",
+      "type": "document",
+      "title": "Istio",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## Proxy & Service mesh\n\n Before utilizing Istio\n\n After utilizing Istio\n\n``txt\nClient ─── Service A ┬── Service B\n └── Service …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/istio/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/overview.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/istio/upgrade.mdx",
+      "type": "document",
+      "title": "Upgrade",
+      "snippet": "## Canary 업그레이드\n\n- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended\n\n### 사전 체크\n\n``shell\nistioctl x precheck\n`\n\n###…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "upgrade"
+      },
+      "url": "/docs/mlops/istio/upgrade",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/istio/upgrade.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:istio"
+    },
+    {
+      "id": "doc:docs/mlops/jaeger/install.mdx",
+      "type": "document",
+      "title": "Jaeger",
+      "snippet": "## 설치\n\n``shell\nhelm repo add jaegertracing https://jaegertracing.github.io/helm-charts\n`\n\n`shell\nhelm repo update j…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "jaeger",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/jaeger/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/jaeger/install.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:jaeger"
+    },
+    {
+      "id": "doc:docs/mlops/jwt/overview.mdx",
+      "type": "document",
+      "title": "JWT",
+      "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "jwt",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/jwt/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/jwt/overview.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:jwt"
     },
     {
       "id": "doc:docs/mlops/k0s/cri.mdx",
@@ -7055,6 +7151,22 @@
       "url": "/docs/mlops/keycloak/realm",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/keycloak/realm.mdx.json",
       "subject_ref": "subject:mlops:auth-system:keycloak"
+    },
+    {
+      "id": "doc:docs/mlops/kiali/install.mdx",
+      "type": "document",
+      "title": "Kiali",
+      "snippet": "…rg/helm-charts\n`\n\nIstio 버전에 따라 호환되는 Kiali 버전을 선택해야합니다.\n\n- https://kiali.io/docs/installation/installation-guide/prerequisites/\n\n`shell\nhelm repo update kiali \\\n&& helm…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "kiali",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/kiali/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kiali/install.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:kiali"
     },
     {
       "id": "doc:docs/mlops/kind/cluster.mdx",
@@ -8289,6 +8401,22 @@
       "subject_ref": "subject:mlops:observability-system:vector"
     },
     {
+      "id": "doc:docs/mlops/virtual-service/overview.mdx",
+      "type": "document",
+      "title": "VirtualService",
+      "snippet": "## HTTP redirect\n\n- https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect\n\n``yaml\napiVersion: networking.istio.io/v1beta1\nkind: VirtualServ…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "virtual-service",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/virtual-service/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/virtual-service/overview.mdx.json",
+      "subject_ref": "subject:mlops:service-mesh:virtual-service"
+    },
+    {
       "id": "doc:docs/mlops/vpc/aws.mdx",
       "type": "document",
       "title": "VPC",
@@ -9391,134 +9519,6 @@
       "url": "/docs/operation/mlops/security/security-context",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/security/security-context/security-context.mdx.json",
       "subject_ref": "subject:mlops:security:security-context"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/istio-csr/csr.mdx",
-      "type": "document",
-      "title": "Istio CSR",
-      "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio-csr",
-        "aspect": "csr"
-      },
-      "url": "/docs/operation/mlops/service-mesh/istio-csr/csr",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/istio-csr/csr.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio-csr"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
-      "type": "document",
-      "title": "Istio Access Log 설정 가이드",
-      "snippet": "## Access Log Provider 설정\n\n- Istio / Configuration / Global Mesh Options\n- Envoy / Configurat…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio",
-        "aspect": "accesslog"
-      },
-      "url": "/docs/operation/mlops/service-mesh/istio/accesslog",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
-      "type": "document",
-      "title": "EnvoyFilter로 외부 인증서버와 통신하기",
-      "snippet": "## ExtAuthz\n\n- Envoy / Configuration / HTTP / Filters / ExtAuthz\n- Envoy / API / V3 / Extensions / Filters / HTTP / ExtAuthz\n\n``yaml\nspec:\n configPatches:\n - ap",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio",
-        "aspect": "ext-authz"
-      },
-      "url": "/docs/operation/mlops/service-mesh/istio/ext-authz",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
-      "type": "document",
-      "title": "Istio 설치 가이드",
-      "snippet": "Istio 개요 문서에서 서비스 메쉬와 Envoy 개념을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Istio / Sidecar Mode / Install with Helm\n\n``shell\nhelm repo add istio https://istio-release.storage.googleapis…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/service-mesh/istio/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/istio/install.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx",
-      "type": "document",
-      "title": "Istio OpenTelemetry 설정 가이드",
-      "snippet": "## OpenTelemetry TracingProvider 설정\n\n- Istio / Configuration / Global Mesh Options\n\n``yaml title…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "istio",
-        "aspect": "opentelemetry"
-      },
-      "url": "/docs/operation/mlops/service-mesh/istio/opentelemetry",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:istio"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/jaeger/install.mdx",
-      "type": "document",
-      "title": "Jaeger",
-      "snippet": "## 설치\n\n``shell\nhelm repo add jaegertracing https://jaegertracing.github.io/helm-charts\n`\n\n`shell\nhelm repo update j…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "jaeger",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/service-mesh/jaeger/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/jaeger/install.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:jaeger"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/kiali/install.mdx",
-      "type": "document",
-      "title": "Kiali",
-      "snippet": "…rg/helm-charts\n`\n\nIstio 버전에 따라 호환되는 Kiali 버전을 선택해야합니다.\n\n- https://kiali.io/docs/installation/installation-guide/prerequisites/\n\n`shell\nhelm repo update kiali \\\n&& helm…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "kiali",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/service-mesh/kiali/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/kiali/install.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:kiali"
-    },
-    {
-      "id": "doc:docs/operation/mlops/service-mesh/security/authorization.mdx",
-      "type": "document",
-      "title": "Istio Authorization",
-      "snippet": "## Istio Authorization\n\n- https://istio.io/latest/docs/concepts/security/#authorization\n\n- 인가 정책(Autho…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "security",
-        "aspect": "authorization"
-      },
-      "url": "/docs/operation/mlops/service-mesh/security/authorization",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/service-mesh/security/authorization.mdx.json",
-      "subject_ref": "subject:mlops:service-mesh:security"
     },
     {
       "id": "doc:docs/operation/mlops/serving-system/benchmark/inference-perf.mdx",
@@ -15925,22 +15925,6 @@
       ]
     },
     {
-      "id": "subject:mlops:service-mesh:compressor",
-      "type": "subject",
-      "title": "EnvoyFilter로 HTTP 압축 관리하기",
-      "snippet": "## Compressor\n\n- Envoy / Configuration / HTTP / Filter / Compressor\n- Envoy / API / V3 / Exte…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "compressor"
-      },
-      "url": "/docs/entity/mlops/service-mesh/compressor",
-      "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:compressor.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/compressor/compressor.mdx"
-      ]
-    },
-    {
       "id": "subject:mlops:service-mesh:envoy-filter",
       "type": "subject",
       "title": "EnvoyFilter",
@@ -15950,26 +15934,12 @@
         "class": "service-mesh",
         "instance": "envoy-filter"
       },
-      "url": "/docs/entity/mlops/service-mesh/envoy-filter",
+      "url": "/docs/mlops/envoy-filter/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:envoy-filter.json",
       "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:service-mesh:ext-proc",
-      "type": "subject",
-      "title": "EnvoyFilter로 외부 프로세서와 통신하기",
-      "snippet": "## ExternalProcessor\n\n- Envoy / Configuration / HTTP / Filter / External Processor\n- Envoy / API / V3 / Extensions / Filters / HTTP / External Processor\n\n``yaml",
-      "ontology": {
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "ext-proc"
-      },
-      "url": "/docs/entity/mlops/service-mesh/ext-proc",
-      "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:ext-proc.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/ext-proc/ext-proc.mdx"
+        "doc:docs/mlops/envoy-filter/overview.mdx",
+        "doc:docs/mlops/envoy-filter/compressor.mdx",
+        "doc:docs/mlops/envoy-filter/ext-proc.mdx"
       ]
     },
     {
@@ -15982,10 +15952,10 @@
         "class": "service-mesh",
         "instance": "gateway"
       },
-      "url": "/docs/entity/mlops/service-mesh/gateway",
+      "url": "/docs/mlops/gateway/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:gateway.json",
       "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/gateway/gateway.mdx"
+        "doc:docs/mlops/gateway/overview.mdx"
       ]
     },
     {
@@ -15998,14 +15968,17 @@
         "class": "service-mesh",
         "instance": "istio"
       },
-      "url": "/docs/entity/mlops/service-mesh/istio",
+      "url": "/docs/mlops/istio/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:istio.json",
       "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
-        "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
-        "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
-        "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
-        "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx"
+        "doc:docs/mlops/istio/overview.mdx",
+        "doc:docs/mlops/istio/multi-cluster.mdx",
+        "doc:docs/mlops/istio/upgrade.mdx",
+        "doc:docs/mlops/istio/accesslog.mdx",
+        "doc:docs/mlops/istio/authorization.mdx",
+        "doc:docs/mlops/istio/ext-authz.mdx",
+        "doc:docs/mlops/istio/install.mdx",
+        "doc:docs/mlops/istio/opentelemetry.mdx"
       ]
     },
     {
@@ -16018,10 +15991,10 @@
         "class": "service-mesh",
         "instance": "istio-csr"
       },
-      "url": "/docs/operation/mlops/service-mesh/istio-csr/csr",
+      "url": "/docs/mlops/istio-csr/csr",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:istio-csr.json",
       "document_refs": [
-        "doc:docs/operation/mlops/service-mesh/istio-csr/csr.mdx"
+        "doc:docs/mlops/istio-csr/csr.mdx"
       ]
     },
     {
@@ -16034,10 +16007,10 @@
         "class": "service-mesh",
         "instance": "jaeger"
       },
-      "url": "/docs/operation/mlops/service-mesh/jaeger/install",
+      "url": "/docs/mlops/jaeger/install",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:jaeger.json",
       "document_refs": [
-        "doc:docs/operation/mlops/service-mesh/jaeger/install.mdx"
+        "doc:docs/mlops/jaeger/install.mdx"
       ]
     },
     {
@@ -16050,10 +16023,10 @@
         "class": "service-mesh",
         "instance": "jwt"
       },
-      "url": "/docs/entity/mlops/service-mesh/jwt",
+      "url": "/docs/mlops/jwt/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:jwt.json",
       "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx"
+        "doc:docs/mlops/jwt/overview.mdx"
       ]
     },
     {
@@ -16066,58 +16039,10 @@
         "class": "service-mesh",
         "instance": "kiali"
       },
-      "url": "/docs/operation/mlops/service-mesh/kiali/install",
+      "url": "/docs/mlops/kiali/install",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:kiali.json",
       "document_refs": [
-        "doc:docs/operation/mlops/service-mesh/kiali/install.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:service-mesh:multi-cluster",
-      "type": "subject",
-      "title": "Multi-cluster",
-      "snippet": "## Configure Trust\n\n- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/\n- x509\n\n### Root CA\n\n``ini title=\"root-ca.conf\"\n[ req ]\ndefaul",
-      "ontology": {
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "multi-cluster"
-      },
-      "url": "/docs/entity/mlops/service-mesh/multi-cluster",
-      "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:multi-cluster.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:service-mesh:security",
-      "type": "subject",
-      "title": "Istio Authorization",
-      "snippet": "## Istio Authorization\n\n- https://istio.io/latest/docs/concepts/security/#authorization\n\n- 인가 정책(Autho…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "security"
-      },
-      "url": "/docs/operation/mlops/service-mesh/security/authorization",
-      "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:security.json",
-      "document_refs": [
-        "doc:docs/operation/mlops/service-mesh/security/authorization.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:service-mesh:upgrade",
-      "type": "subject",
-      "title": "Upgrade",
-      "snippet": "## Canary 업그레이드\n\n- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended\n\n### 사전 체크\n\n``shell\nistioctl x precheck\n`\n\n###…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "service-mesh",
-        "instance": "upgrade"
-      },
-      "url": "/docs/entity/mlops/service-mesh/upgrade",
-      "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:upgrade.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/upgrade/upgrade.mdx"
+        "doc:docs/mlops/kiali/install.mdx"
       ]
     },
     {
@@ -16130,10 +16055,10 @@
         "class": "service-mesh",
         "instance": "virtual-service"
       },
-      "url": "/docs/entity/mlops/service-mesh/virtual-service",
+      "url": "/docs/mlops/virtual-service/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:virtual-service.json",
       "document_refs": [
-        "doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx"
+        "doc:docs/mlops/virtual-service/overview.mdx"
       ]
     },
     {
@@ -17999,60 +17924,6 @@
       "id": "relation:doc:docs/entity/mlops/provisioning-tool/spot-event/spot-event.mdx:about_subject:subject:mlops:provisioning-tool:spot-event",
       "from": "doc:docs/entity/mlops/provisioning-tool/spot-event/spot-event.mdx",
       "to": "subject:mlops:provisioning-tool:spot-event",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/compressor/compressor.mdx:about_subject:subject:mlops:service-mesh:compressor",
-      "from": "doc:docs/entity/mlops/service-mesh/compressor/compressor.mdx",
-      "to": "subject:mlops:service-mesh:compressor",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
-      "from": "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx",
-      "to": "subject:mlops:service-mesh:envoy-filter",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/ext-proc/ext-proc.mdx:about_subject:subject:mlops:service-mesh:ext-proc",
-      "from": "doc:docs/entity/mlops/service-mesh/ext-proc/ext-proc.mdx",
-      "to": "subject:mlops:service-mesh:ext-proc",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/gateway/gateway.mdx:about_subject:subject:mlops:service-mesh:gateway",
-      "from": "doc:docs/entity/mlops/service-mesh/gateway/gateway.mdx",
-      "to": "subject:mlops:service-mesh:gateway",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/istio/istio.mdx:about_subject:subject:mlops:service-mesh:istio",
-      "from": "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
-      "to": "subject:mlops:service-mesh:istio",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx:about_subject:subject:mlops:service-mesh:jwt",
-      "from": "doc:docs/entity/mlops/service-mesh/jwt/jwt.mdx",
-      "to": "subject:mlops:service-mesh:jwt",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx:about_subject:subject:mlops:service-mesh:multi-cluster",
-      "from": "doc:docs/entity/mlops/service-mesh/multi-cluster/multi-cluster.mdx",
-      "to": "subject:mlops:service-mesh:multi-cluster",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/upgrade/upgrade.mdx:about_subject:subject:mlops:service-mesh:upgrade",
-      "from": "doc:docs/entity/mlops/service-mesh/upgrade/upgrade.mdx",
-      "to": "subject:mlops:service-mesh:upgrade",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx:about_subject:subject:mlops:service-mesh:virtual-service",
-      "from": "doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx",
-      "to": "subject:mlops:service-mesh:virtual-service",
       "predicate": "about_subject"
     },
     {
@@ -19970,6 +19841,24 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/envoy-filter/compressor.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "from": "doc:docs/mlops/envoy-filter/compressor.mdx",
+      "to": "subject:mlops:service-mesh:envoy-filter",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/envoy-filter/ext-proc.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "from": "doc:docs/mlops/envoy-filter/ext-proc.mdx",
+      "to": "subject:mlops:service-mesh:envoy-filter",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/envoy-filter/overview.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "from": "doc:docs/mlops/envoy-filter/overview.mdx",
+      "to": "subject:mlops:service-mesh:envoy-filter",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/fluent-bit/install.mdx:about_subject:subject:mlops:observability-system:fluent-bit",
       "from": "doc:docs/mlops/fluent-bit/install.mdx",
       "to": "subject:mlops:observability-system:fluent-bit",
@@ -19991,6 +19880,12 @@
       "id": "relation:doc:docs/mlops/gateway-api/overview.mdx:about_subject:subject:mlops:networking-stack:gateway-api",
       "from": "doc:docs/mlops/gateway-api/overview.mdx",
       "to": "subject:mlops:networking-stack:gateway-api",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gateway/overview.mdx:about_subject:subject:mlops:service-mesh:gateway",
+      "from": "doc:docs/mlops/gateway/overview.mdx",
+      "to": "subject:mlops:service-mesh:gateway",
       "predicate": "about_subject"
     },
     {
@@ -20033,6 +19928,72 @@
       "id": "relation:doc:docs/mlops/ipoib/overview.mdx:about_subject:subject:mlops:networking-stack:ipoib",
       "from": "doc:docs/mlops/ipoib/overview.mdx",
       "to": "subject:mlops:networking-stack:ipoib",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio-csr/csr.mdx:about_subject:subject:mlops:service-mesh:istio-csr",
+      "from": "doc:docs/mlops/istio-csr/csr.mdx",
+      "to": "subject:mlops:service-mesh:istio-csr",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/accesslog.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/accesslog.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/authorization.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/authorization.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/ext-authz.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/ext-authz.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/install.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/install.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/multi-cluster.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/multi-cluster.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/opentelemetry.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/opentelemetry.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/overview.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/overview.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/upgrade.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "from": "doc:docs/mlops/istio/upgrade.mdx",
+      "to": "subject:mlops:service-mesh:istio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/jaeger/install.mdx:about_subject:subject:mlops:service-mesh:jaeger",
+      "from": "doc:docs/mlops/jaeger/install.mdx",
+      "to": "subject:mlops:service-mesh:jaeger",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/jwt/overview.mdx:about_subject:subject:mlops:service-mesh:jwt",
+      "from": "doc:docs/mlops/jwt/overview.mdx",
+      "to": "subject:mlops:service-mesh:jwt",
       "predicate": "about_subject"
     },
     {
@@ -20093,6 +20054,12 @@
       "id": "relation:doc:docs/mlops/keycloak/realm.mdx:about_subject:subject:mlops:auth-system:keycloak",
       "from": "doc:docs/mlops/keycloak/realm.mdx",
       "to": "subject:mlops:auth-system:keycloak",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kiali/install.mdx:about_subject:subject:mlops:service-mesh:kiali",
+      "from": "doc:docs/mlops/kiali/install.mdx",
+      "to": "subject:mlops:service-mesh:kiali",
       "predicate": "about_subject"
     },
     {
@@ -20558,6 +20525,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/virtual-service/overview.mdx:about_subject:subject:mlops:service-mesh:virtual-service",
+      "from": "doc:docs/mlops/virtual-service/overview.mdx",
+      "to": "subject:mlops:service-mesh:virtual-service",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/vpc/aws.mdx:about_subject:subject:mlops:networking-stack:vpc",
       "from": "doc:docs/mlops/vpc/aws.mdx",
       "to": "subject:mlops:networking-stack:vpc",
@@ -20969,54 +20942,6 @@
       "id": "relation:doc:docs/operation/mlops/security/security-context/security-context.mdx:about_subject:subject:mlops:security:security-context",
       "from": "doc:docs/operation/mlops/security/security-context/security-context.mdx",
       "to": "subject:mlops:security:security-context",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio-csr/csr.mdx:about_subject:subject:mlops:service-mesh:istio-csr",
-      "from": "doc:docs/operation/mlops/service-mesh/istio-csr/csr.mdx",
-      "to": "subject:mlops:service-mesh:istio-csr",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx:about_subject:subject:mlops:service-mesh:istio",
-      "from": "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
-      "to": "subject:mlops:service-mesh:istio",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx:about_subject:subject:mlops:service-mesh:istio",
-      "from": "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
-      "to": "subject:mlops:service-mesh:istio",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/install.mdx:about_subject:subject:mlops:service-mesh:istio",
-      "from": "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
-      "to": "subject:mlops:service-mesh:istio",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx:about_subject:subject:mlops:service-mesh:istio",
-      "from": "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx",
-      "to": "subject:mlops:service-mesh:istio",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/jaeger/install.mdx:about_subject:subject:mlops:service-mesh:jaeger",
-      "from": "doc:docs/operation/mlops/service-mesh/jaeger/install.mdx",
-      "to": "subject:mlops:service-mesh:jaeger",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/kiali/install.mdx:about_subject:subject:mlops:service-mesh:kiali",
-      "from": "doc:docs/operation/mlops/service-mesh/kiali/install.mdx",
-      "to": "subject:mlops:service-mesh:kiali",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/security/authorization.mdx:about_subject:subject:mlops:service-mesh:security",
-      "from": "doc:docs/operation/mlops/service-mesh/security/authorization.mdx",
-      "to": "subject:mlops:service-mesh:security",
       "predicate": "about_subject"
     },
     {

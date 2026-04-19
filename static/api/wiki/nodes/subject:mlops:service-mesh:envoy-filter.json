@@ -8,16 +8,18 @@
     "class": "service-mesh",
     "instance": "envoy-filter"
   },
-  "url": "/docs/entity/mlops/service-mesh/envoy-filter",
+  "url": "/docs/mlops/envoy-filter/overview",
   "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:envoy-filter.json",
   "document_refs": [
-    "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx"
+    "doc:docs/mlops/envoy-filter/overview.mdx",
+    "doc:docs/mlops/envoy-filter/compressor.mdx",
+    "doc:docs/mlops/envoy-filter/ext-proc.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx",
+      "id": "doc:docs/mlops/envoy-filter/overview.mdx",
       "title": "EnvoyFilter",
-      "url": "/docs/entity/mlops/service-mesh/envoy-filter",
+      "url": "/docs/mlops/envoy-filter/overview",
       "snippet": "…oy 문서에서는 Envoy proxy 그룹입니다.\n- **Runtime configuration**: 실시간으로 변경가능한 설정입니다.\n\n## EnvoyFilter\n\n- Istio / Traffic management / Envoy Filter\n\n``yaml\napiVersion: networking.ist…",
       "ontology": {
         "role": "entity",
@@ -26,13 +28,51 @@
         "instance": "envoy-filter",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/mlops/envoy-filter/compressor.mdx",
+      "title": "EnvoyFilter로 HTTP 압축 관리하기",
+      "url": "/docs/mlops/envoy-filter/compressor",
+      "snippet": "## Compressor\n\n- Envoy / Configuration / HTTP / Filter / Compressor\n- Envoy / API / V3 / Exte…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "envoy-filter",
+        "aspect": "compressor"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/envoy-filter/ext-proc.mdx",
+      "title": "EnvoyFilter로 외부 프로세서와 통신하기",
+      "url": "/docs/mlops/envoy-filter/ext-proc",
+      "snippet": "## ExternalProcessor\n\n- Envoy / Configuration / HTTP / Filter / External Processor\n- Envoy / API / V3 / Extensions / Filters / HTTP / External Processor\n\n``yaml",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "envoy-filter",
+        "aspect": "ext-proc"
+      }
     }
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "id": "relation:doc:docs/mlops/envoy-filter/overview.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/mlops/service-mesh/envoy-filter/envoy-filter.mdx",
+      "other_id": "doc:docs/mlops/envoy-filter/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/envoy-filter/compressor.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/envoy-filter/compressor.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/envoy-filter/ext-proc.mdx:about_subject:subject:mlops:service-mesh:envoy-filter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/envoy-filter/ext-proc.mdx",
       "direction": "incoming"
     }
   ]

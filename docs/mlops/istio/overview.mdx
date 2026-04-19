@@ -1,0 +1,158 @@
+---
+id: overview
+title: Istio
+sidebar_label: Istio
+description: Istio
+keywords:
+  - Istio
+ontology:
+  role: entity
+  domain: mlops
+  class: service-mesh
+  instance: istio
+  aspect: overview
+subject:
+  canonical_name: Istio
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+:::info
+[설치 가이드](/docs/mlops/istio/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
+## Proxy & Service mesh
+
+<center>
+	<img src={useBaseUrl("img/mlops/network/istio/service-mesh-before.svg")} />
+</center>
+
+<center>
+	<strong>Before utilizing Istio</strong>
+</center>
+<br />
+
+<center>
+	<img src={useBaseUrl("img/mlops/network/istio/service-mesh.svg")} />
+</center>
+
+<center>
+	<strong>After utilizing Istio</strong>
+</center>
+
+```txt
+Client ─── Service A ┬── Service B
+                     └── Service C
+```
+
+`Client`가 `Service A`에 어떤 요청을 하냐에 따라 `Service B` 또는 `Service C`를 호출하는 시스템이 있다고 가정합니다.
+
+`Service B`에 문제가 발생해서 `Service A`로부터의 호출에 응답을 못하면 `Service A`의 한 스레드가 대기 상태에 들어가게 될 수 있습니다. 이러한 상황이 반복되면 대기중인 스레드가 많아지고, 그 결과 `Service A`가 멈출 수 있고, `Service C`를 호출해서 진행되는 과정에도 문제가 발생할 수 있습니다.
+
+```txt
+Client ─── Service A ┬── Circuit breaker B ─── Service B
+                     └── Circuit breaker C ─── Service C
+```
+
+이러한 지연을 감지하여 네트워크를 끊어주는 서킷 브레이커(Circuit breaker)를 서비스들 사이에 추가하면 문제가 발생했을 때, 네트워크가 끊기면서 `Service A`의 대기 중인 스레드가 통신 에러를 감지하게 되고 그에 따라 스레드를 정리할 수 있습니다. 그렇게 되면 `Service C`를 이용하던 서비스는 문제없이 제공될 수 있습니다.
+
+```txt
+Client ─── Service A ─── Proxy A ┬── Proxy B ─── Service B
+                                 └── Proxy C ─── Service C
+```
+
+통신 장애 처리 외에도, 통신 흐름을 제어하거나 통신 흐름을 모니터링하는 등 다양한 문제가 있는데, 서비스들을 직접 연결하는 것이 아니라 서비스 사이에 프록시를 추가하여 연결하면 이러한 문제를 해결할 수 있습니다.
+
+```txt
+Client ─── Service A ─── Proxy A ┬── Proxy B ─── Service B
+                                 └── Proxy C ─── Service C
+Client ─── Service D ─── Proxy D ┬── Proxy E ─── Service E
+                                 └── Proxy F ─── Service F
+
+...
+
+Control Plane
+```
+
+서비스 규모가 작을 때는 직접 프록시 설정을 변경해가며 네트워크를 구성할 수 있지만 규모가 커지면 설정이 어려워집니다. 프록시들(`Data Plane`)을 한 번에 관리할 수 있는 `Control Plane`을 추가하면 이러한 문제를 해결 할 수 있습니다.
+
+이렇게 서비스간 통신을 관리하기 위해 구축한 전용 인프라 계층을 서비스 메쉬라고 합니다.
+
+## Envoy
+
+`Envoy`는 L7 프록시로 Istio에서는 수정된 Envoy가 사용됩니다.
+
+사이드카(sidecar)란 Pod에 기능을 추가하기 위해 추가된 컨테이너를 말하는 데, Istio는 Pod가 생성될 때 Injection rules에 따라 Envoy를 사이드카로 추가합니다.
+
+| Resource  | Label                   | Enabled value | Disabled value |
+| --------- | ----------------------- | ------------- | -------------- |
+| Namespace | istio-injection         | enabled       | disabled       |
+| Pod       | sidecar.istio.io/inject | "true"        | "false"        |
+
+revision을 활용하는 경우 아래와 같은 방식으로도 활성/비활성을 설정할 수 있습니다.
+
+| Resource  | Enabled label       | Disabled label                  |
+| --------- | ------------------- | ------------------------------- |
+| Namespace | istio.io/rev=1-27-1 | istio-injection=disabled        |
+| Pod       | istio.io/rev=1-27-1 | sidecar.istio.io/inject="false" |
+
+:::warning
+
+- `kube-system`, `kube-public` 네임스페이스는 자동 주입이 되지 않습니다.
+- `hostNetwork: true`인 Pod는 자동 주입이 되지 않습니다.
+
+:::
+
+### Injection rule examples
+
+아래와 같이 설정한 파일을 `Kustomize`를 사용하여 패치하면 같이 설정되는 모든 `Deployment`에 사이드카가 주입됩니다.
+
+```yaml title="kubeflow/common/knative/knative-serving/base/patches/sidecar-injection.yaml" {10}
+patches:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "*"
+spec:
+  template:
+    metadata:
+      labels:
+        sidecar.istio.io/inject: "true"
+```
+
+아래와 같이 설정한 경우 해당 `Namespace`에 있는 Pod에는 사이드카가 주입되지 않습니다.
+
+```yaml title="kubeflow/manifests/common/istio-1-9-0/istio-namespace/base/namespace.yaml" {7}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: istio-system
+  labels:
+    istio-operator-managed: Reconcile
+    istio-injection: disabled
+```
+
+아래 명령으로 namespace에 `istio-injection` 라벨을 추가/변경/제거/확인 할 수 있습니다.
+
+```shell
+kubectl label namespace <namespace> istio-injection=<enabled|disabled>
+```
+
+```shell
+kubectl label namespace <namespace> istio-injection-
+```
+
+```shell
+kubectl get namespace -L istio-injection
+```

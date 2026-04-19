@@ -1,0 +1,134 @@
+---
+id: overview
+title: VirtualService
+sidebar_label: VirtualService
+description: VirtualService
+keywords:
+  - istio
+  - gateway
+  - virtualservice
+ontology:
+  role: entity
+  domain: mlops
+  class: service-mesh
+  instance: virtual-service
+  aspect: overview
+subject:
+  canonical_name: VirtualService
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## HTTP redirect
+
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect
+
+```yaml
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  hosts:
+    - <host>
+  gateways:
+    - <gateway>
+    - <namespace>/<gateway>
+  http:
+    # 먼저 설정한 규칙의 우선순위가 높습니다.
+    - name: <name> # 디버깅에 사용되는 이름
+      match:
+        # 이 규칙을 적용할 트래픽을 선택합니다. uri, schema, method, headers 등
+      redirect:
+        authority: <host> # Optional
+        uri: <path> # Optional, 설정하면 전체 path가 대체됩니다
+        redirectCode: 301 # Optional, 설정하지 않으면 301로 설정됩니다
+```
+
+## TCP route
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: <name>
+  namespace: <namespace>
+spec:
+  hosts:
+    - <host>
+  gateways:
+    - <gateway>
+    - <namespace>/<gateway>
+  tcp: # TCP 라우팅 규칙입니다.
+    # 먼저 설정한 규칙의 우선순위가 높습니다.
+    - name: <name> # 디버깅에 사용되는 이름
+      match:
+        # 이 규칙을 적용할 트래픽을 선택합니다. port 등
+      route:
+        - destination:
+            host: <host>
+            subset: <subset>
+            port:
+              number: <port>
+          weight: <0-100>
+```
+
+## CorsPolicy
+
+- https://istio.io/latest/docs/reference/config/networking/virtual-service/#CorsPolicy
+- [Cross-Origin Resource Sharing(CORS)](/docs/specification/protocol/application-protocol/http/cors.mdx)
+
+```yaml
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: "backend"
+spec:
+  hosts:
+    - domain-b.com
+  gateways:
+    - <namespace>/<gateway>
+  http:
+    - match:
+        - uri:
+            prefix: "/v1/"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: backend.default.svc.cluster.local
+      corsPolicy:
+        # Access-Control-Allow-Origin
+        allowOrigins:
+          - https://domain-a.com
+        # Access-Control-Allow-Methods
+        allowMethods:
+          - POST
+          - GET
+          - PUT
+          - DELETE
+          - OPTIONS
+          - PATCH
+        # Access-Control-Allow-Headers
+        allowHeaders: # Request
+          - Authorization
+          - Content-Type
+        # Access-Control-Expose-Headers
+        exposeHeaders: # Response
+          - Ratelimit-Limit
+          - Ratelimit-Remaining
+        # Access-Control-Max-Age
+        maxAge: "24h"
+        # Access-Control-Allow-Credentials
+        allowCredentials: true
+```

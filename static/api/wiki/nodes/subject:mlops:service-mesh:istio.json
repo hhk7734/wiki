@@ -8,20 +8,23 @@
     "class": "service-mesh",
     "instance": "istio"
   },
-  "url": "/docs/entity/mlops/service-mesh/istio",
+  "url": "/docs/mlops/istio/overview",
   "node_url": "/api/wiki/nodes/subject:mlops:service-mesh:istio.json",
   "document_refs": [
-    "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
-    "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
-    "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
-    "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
-    "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx"
+    "doc:docs/mlops/istio/overview.mdx",
+    "doc:docs/mlops/istio/multi-cluster.mdx",
+    "doc:docs/mlops/istio/upgrade.mdx",
+    "doc:docs/mlops/istio/accesslog.mdx",
+    "doc:docs/mlops/istio/authorization.mdx",
+    "doc:docs/mlops/istio/ext-authz.mdx",
+    "doc:docs/mlops/istio/install.mdx",
+    "doc:docs/mlops/istio/opentelemetry.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
+      "id": "doc:docs/mlops/istio/overview.mdx",
       "title": "Istio",
-      "url": "/docs/entity/mlops/service-mesh/istio",
+      "url": "/docs/mlops/istio/overview",
       "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## Proxy & Service mesh\n\n Before utilizing Istio\n\n After utilizing Istio\n\n``txt\nClient ─── Service A ┬── Service B\n └── Service …",
       "ontology": {
         "role": "entity",
@@ -32,9 +35,35 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
+      "id": "doc:docs/mlops/istio/multi-cluster.mdx",
+      "title": "Multi-cluster",
+      "url": "/docs/mlops/istio/multi-cluster",
+      "snippet": "## Configure Trust\n\n- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/\n- x509\n\n### Root …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "multi-cluster"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/istio/upgrade.mdx",
+      "title": "Upgrade",
+      "url": "/docs/mlops/istio/upgrade",
+      "snippet": "## Canary 업그레이드\n\n- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended\n\n### 사전 체크\n\n``shell\nistioctl x precheck\n`\n\n###…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "upgrade"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/istio/accesslog.mdx",
       "title": "Istio Access Log 설정 가이드",
-      "url": "/docs/operation/mlops/service-mesh/istio/accesslog",
+      "url": "/docs/mlops/istio/accesslog",
       "snippet": "## Access Log Provider 설정\n\n- Istio / Configuration / Global Mesh Options\n- Envoy / Configurat…",
       "ontology": {
         "role": "operation",
@@ -45,9 +74,22 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
+      "id": "doc:docs/mlops/istio/authorization.mdx",
+      "title": "Istio Authorization",
+      "url": "/docs/mlops/istio/authorization",
+      "snippet": "## Istio Authorization\n\n- https://istio.io/latest/docs/concepts/security/#authorization\n\n- 인가 정책(Autho…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "authorization"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/istio/ext-authz.mdx",
       "title": "EnvoyFilter로 외부 인증서버와 통신하기",
-      "url": "/docs/operation/mlops/service-mesh/istio/ext-authz",
+      "url": "/docs/mlops/istio/ext-authz",
       "snippet": "## ExtAuthz\n\n- Envoy / Configuration / HTTP / Filters / ExtAuthz\n- Envoy / API / V3 / Extensions / Filters / HTTP / ExtAuthz\n\n``yaml\nspec:\n configPatches:\n - ap",
       "ontology": {
         "role": "operation",
@@ -58,9 +100,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
+      "id": "doc:docs/mlops/istio/install.mdx",
       "title": "Istio 설치 가이드",
-      "url": "/docs/operation/mlops/service-mesh/istio/install",
+      "url": "/docs/mlops/istio/install",
       "snippet": "Istio 개요 문서에서 서비스 메쉬와 Envoy 개념을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Istio / Sidecar Mode / Install with Helm\n\n``shell\nhelm repo add istio https://istio-release.storage.googleapis…",
       "ontology": {
         "role": "operation",
@@ -71,9 +113,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx",
+      "id": "doc:docs/mlops/istio/opentelemetry.mdx",
       "title": "Istio OpenTelemetry 설정 가이드",
-      "url": "/docs/operation/mlops/service-mesh/istio/opentelemetry",
+      "url": "/docs/mlops/istio/opentelemetry",
       "snippet": "## OpenTelemetry TracingProvider 설정\n\n- Istio / Configuration / Global Mesh Options\n\n``yaml title…",
       "ontology": {
         "role": "operation",
@@ -86,33 +128,51 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/mlops/service-mesh/istio/istio.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "id": "relation:doc:docs/mlops/istio/overview.mdx:about_subject:subject:mlops:service-mesh:istio",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/mlops/service-mesh/istio/istio.mdx",
+      "other_id": "doc:docs/mlops/istio/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "id": "relation:doc:docs/mlops/istio/multi-cluster.mdx:about_subject:subject:mlops:service-mesh:istio",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/service-mesh/istio/accesslog.mdx",
+      "other_id": "doc:docs/mlops/istio/multi-cluster.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "id": "relation:doc:docs/mlops/istio/upgrade.mdx:about_subject:subject:mlops:service-mesh:istio",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/service-mesh/istio/ext-authz.mdx",
+      "other_id": "doc:docs/mlops/istio/upgrade.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/install.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "id": "relation:doc:docs/mlops/istio/accesslog.mdx:about_subject:subject:mlops:service-mesh:istio",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/service-mesh/istio/install.mdx",
+      "other_id": "doc:docs/mlops/istio/accesslog.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "id": "relation:doc:docs/mlops/istio/authorization.mdx:about_subject:subject:mlops:service-mesh:istio",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/service-mesh/istio/opentelemetry.mdx",
+      "other_id": "doc:docs/mlops/istio/authorization.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/ext-authz.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/istio/ext-authz.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/install.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/istio/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/istio/opentelemetry.mdx:about_subject:subject:mlops:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/istio/opentelemetry.mdx",
       "direction": "incoming"
     }
   ]
