@@ -588,24 +588,24 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:tool:emulator",
+      "id": "subject:platform:tool:alacritty",
       "title": "Alacritty",
       "description": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
-      "url": "/docs/operation/platform/tool/emulator/alacritty",
+      "url": "/docs/platform/alacritty/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/emulator/alacritty.mdx"
+        "doc:docs/platform/alacritty/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "emulator"
+        "instance": "alacritty"
       },
-      "search_text": "alacritty 설치 shell sudo pacman -s alacritty shell brew install --cask alacritty shell curl -ssl https //github com/ alacritty 설치 설정 font window theme we use alacritty s default linux config directory as our storage location here platform tool emulator",
+      "search_text": "alacritty 설치 shell sudo pacman -s alacritty shell brew install --cask alacritty shell curl -ssl https //github com/ alacritty 설치 설정 font window theme we use alacritty s default linux config directory as our storage location here platform tool alacritty",
       "display": {
         "label": "Alacritty",
         "kind": "subject",
-        "subtitle": "Emulator",
+        "subtitle": "Alacritty",
         "document_count": 1
       }
     },
@@ -5129,9 +5129,9 @@
       "title": "Neovim 설치 가이드",
       "description": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
-      "url": "/docs/operation/platform/tool/nvim",
+      "url": "/docs/platform/nvim/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/nvim/nvim.mdx"
+        "doc:docs/platform/nvim/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
@@ -7426,9 +7426,9 @@
       "title": "Systemd Service",
       "description": "## Systemd Service\n\n시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.\n\n``shell\nsudo…",
       "snippet": "## Systemd Service\n\n시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.\n\n``shell\nsudo…",
-      "url": "/docs/operation/platform/tool/systemd/service",
+      "url": "/docs/platform/systemd/service",
       "document_refs": [
-        "doc:docs/operation/platform/tool/systemd/service.mdx"
+        "doc:docs/platform/systemd/service.mdx"
       ],
       "ontology": {
         "domain": "platform",
@@ -8659,27 +8659,48 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:tool:network",
+      "id": "subject:platform:tool:ip",
       "title": "ip 사용법",
       "description": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
-      "url": "/docs/operation/platform/tool/network/ip",
+      "url": "/docs/platform/ip/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/network/ip.mdx",
-        "doc:docs/operation/platform/tool/network/iptables.mdx",
-        "doc:docs/operation/platform/tool/network/nmap.mdx"
+        "doc:docs/platform/ip/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "network"
+        "instance": "ip"
       },
-      "search_text": "ip 사용법 설치 shell sudo pacman -s iproute2 shell sudo apt install iproute2 ip - https //man7 org/linux/ma ip 사용법 iptables 사용법 nmap network mapper 설치 ip ip link veth 가상 이더넷 인터페이스 bridge 이더넷 브리지 ip addr ip route ip netns iptables 규칙 추가 규칙 확인 target specification host discovery examples scan techniques examples output misc examples platform tool network",
+      "search_text": "ip 사용법 설치 shell sudo pacman -s iproute2 shell sudo apt install iproute2 ip - https //man7 org/linux/ma ip 사용법 설치 ip ip link veth 가상 이더넷 인터페이스 bridge 이더넷 브리지 ip addr ip route ip netns platform tool ip",
       "display": {
         "label": "ip 사용법",
         "kind": "subject",
-        "subtitle": "Network",
-        "document_count": 3
+        "subtitle": "Ip",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:platform:tool:iptables",
+      "title": "iptables 사용법",
+      "description": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
+      "snippet": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
+      "url": "/docs/platform/iptables/overview",
+      "document_refs": [
+        "doc:docs/platform/iptables/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "iptables"
+      },
+      "search_text": "iptables 사용법 iptables iptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다 패킷은 체인을 따라 흐르며 각 테이블에는 체인에 iptables 사용법 iptables 규칙 추가 규칙 확인 platform tool iptables",
+      "display": {
+        "label": "iptables 사용법",
+        "kind": "subject",
+        "subtitle": "Iptables",
+        "document_count": 1
       }
     },
     {
@@ -8966,6 +8987,29 @@
     },
     {
       "type": "subject",
+      "id": "subject:platform:tool:nmap",
+      "title": "nmap(Network Mapper)",
+      "description": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
+      "snippet": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
+      "url": "/docs/platform/nmap/overview",
+      "document_refs": [
+        "doc:docs/platform/nmap/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "nmap"
+      },
+      "search_text": "nmap network mapper shell nmap 7 80 https //nmap org usage nmap scan type s options target specific nmap network mapper target specification host discovery examples scan techniques examples output misc examples platform tool nmap",
+      "display": {
+        "label": "nmap(Network Mapper)",
+        "kind": "subject",
+        "subtitle": "Nmap",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:language:library:node-addon-api",
       "title": "node-addon-api",
       "description": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
@@ -9106,27 +9150,25 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:tool:remote",
+      "id": "subject:platform:tool:rsync",
       "title": "rsync 사용법",
       "description": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
       "snippet": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
-      "url": "/docs/operation/platform/tool/remote/rsync",
+      "url": "/docs/platform/rsync/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/remote/rsync.mdx",
-        "doc:docs/operation/platform/tool/remote/ssh.mdx",
-        "doc:docs/operation/platform/tool/remote/zellij.mdx"
+        "doc:docs/platform/rsync/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "remote"
+        "instance": "rsync"
       },
-      "search_text": "rsync 사용법 사용법 shell rsync - - -a --archive archive 모드 -rlptgod - -v --verbose - -h rsync 사용법 ssh 사용법 zellij 사용법 사용법 include/exclude pattern ssh agent 실행 ssh 설정 키 생성 config 전역 설정 호스트별 설정 ssh로 원격 서버 접속 ssh tunnel local port forwarding remote port forwarding ssh proxyjump ssh host key ssh 환경변수 설정 설치 platform tool remote",
+      "search_text": "rsync 사용법 사용법 shell rsync - - -a --archive archive 모드 -rlptgod - -v --verbose - -h rsync 사용법 사용법 include/exclude pattern platform tool rsync",
       "display": {
         "label": "rsync 사용법",
         "kind": "subject",
-        "subtitle": "Remote",
-        "document_count": 3
+        "subtitle": "Rsync",
+        "document_count": 1
       }
     },
     {
@@ -9173,6 +9215,29 @@
         "label": "setuptools",
         "kind": "subject",
         "subtitle": "Setuptools",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:platform:tool:ssh",
+      "title": "ssh 사용법",
+      "description": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
+      "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
+      "url": "/docs/platform/ssh/overview",
+      "document_refs": [
+        "doc:docs/platform/ssh/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "ssh"
+      },
+      "search_text": "ssh 사용법 ssh agent 실행 shell eval ssh-agent -s shell title zshrc plugins ss ssh 사용법 ssh agent 실행 ssh 설정 키 생성 config 전역 설정 호스트별 설정 ssh로 원격 서버 접속 ssh tunnel local port forwarding remote port forwarding ssh proxyjump ssh host key ssh 환경변수 설정 platform tool ssh",
+      "display": {
+        "label": "ssh 사용법",
+        "kind": "subject",
+        "subtitle": "Ssh",
         "document_count": 1
       }
     },
@@ -9388,24 +9453,47 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:tool:shell",
-      "title": "zsh",
-      "description": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which …",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which …",
-      "url": "/docs/operation/platform/tool/shell/zsh",
+      "id": "subject:platform:tool:zellij",
+      "title": "zellij 사용법",
+      "description": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
+      "url": "/docs/platform/zellij/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/shell/zsh.mdx"
+        "doc:docs/platform/zellij/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "shell"
+        "instance": "zellij"
       },
-      "search_text": "zsh 설치 shell sudo pacman -s zsh shell sudo apt install -y zsh shell chsh -s which zsh 설치 starship 플러그인 zshrc user configuration history key bindings up arrow goes to history only at the end of a multiline buffer plugins 마지막 줄 여러 줄 입력에서 up/down 키 동작 변경 platform tool shell",
+      "search_text": "zellij 사용법 설치 - mise로 런타임 버전 관리하기 shell mise use zellij - zellij / installation shell wget https //github com/zellij-org/zellij/re zellij 사용법 설치 platform tool zellij",
+      "display": {
+        "label": "zellij 사용법",
+        "kind": "subject",
+        "subtitle": "Zellij",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:platform:tool:zsh",
+      "title": "zsh",
+      "description": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+      "url": "/docs/platform/zsh/overview",
+      "document_refs": [
+        "doc:docs/platform/zsh/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "zsh"
+      },
+      "search_text": "zsh 설치 shell sudo pacman -s zsh shell sudo apt install -y zsh shell chsh -s which zsh starship zsh 설치 starship 플러그인 zshrc user configuration history key bindings up arrow goes to history only at the end of a multiline buffer plugins 마지막 줄 여러 줄 입력에서 up/down 키 동작 변경 platform tool zsh",
       "display": {
         "label": "zsh",
         "kind": "subject",
-        "subtitle": "Shell",
+        "subtitle": "Zsh",
         "document_count": 1
       }
     },
@@ -10501,7 +10589,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/emulator/alacritty.mdx",
+      "id": "doc:docs/platform/alacritty/overview.mdx",
       "title": "Alacritty",
       "description": "Alacritty",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
@@ -10516,21 +10604,21 @@
       "keywords": [
         "alacritty"
       ],
-      "url": "/docs/operation/platform/tool/emulator/alacritty",
-      "subject_ref": "subject:platform:tool:emulator",
-      "subject_title": "Emulator",
+      "url": "/docs/platform/alacritty/overview",
+      "subject_ref": "subject:platform:tool:alacritty",
+      "subject_title": "Alacritty",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "emulator",
-        "aspect": "alacritty"
+        "instance": "alacritty",
+        "aspect": "overview"
       },
-      "search_text": "alacritty alacritty 설치 shell sudo pacman -s alacritty shell brew install --cask alacritty shell curl -ssl https //github com/ 설치 설정 font window theme we use alacritty s default linux config directory as our storage location here alacritty operation platform tool emulator alacritty",
+      "search_text": "alacritty alacritty 설치 shell sudo pacman -s alacritty shell brew install --cask alacritty shell curl -ssl https //github com/ 설치 설정 font window theme we use alacritty s default linux config directory as our storage location here alacritty entity platform tool alacritty overview",
       "display": {
         "label": "Alacritty",
         "kind": "document",
-        "subtitle": "Emulator"
+        "subtitle": "Alacritty"
       }
     },
     {
@@ -22279,7 +22367,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/nvim/nvim.mdx",
+      "id": "doc:docs/platform/nvim/overview.mdx",
       "title": "Neovim 설치 가이드",
       "description": "Neovim 설치 가이드",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
@@ -22293,17 +22381,17 @@
         "nvim",
         "neovim"
       ],
-      "url": "/docs/operation/platform/tool/nvim",
+      "url": "/docs/platform/nvim/overview",
       "subject_ref": "subject:platform:tool:nvim",
       "subject_title": "Nvim",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
         "instance": "nvim",
         "aspect": "overview"
       },
-      "search_text": "neovim 설치 가이드 neovim 설치 가이드 설치 shell sudo pacman -s neovim shell sudo ln -s which nvim /usr/local/bin/vim shell sudo snap install 설치 설정 neovim startup 순서 init lua 설정 nvim neovim operation platform tool nvim overview",
+      "search_text": "neovim 설치 가이드 neovim 설치 가이드 설치 shell sudo pacman -s neovim shell sudo ln -s which nvim /usr/local/bin/vim shell sudo snap install 설치 설정 neovim startup 순서 init lua 설정 nvim neovim entity platform tool nvim overview",
       "display": {
         "label": "Neovim 설치 가이드",
         "kind": "document",
@@ -28211,7 +28299,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/systemd/service.mdx",
+      "id": "doc:docs/platform/systemd/service.mdx",
       "title": "Systemd Service",
       "description": "Systemd Service",
       "snippet": "## Systemd Service\n\n시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.\n\n``shell\nsudo…",
@@ -28236,7 +28324,7 @@
         "systemd",
         "service"
       ],
-      "url": "/docs/operation/platform/tool/systemd/service",
+      "url": "/docs/platform/systemd/service",
       "subject_ref": "subject:platform:tool:systemd",
       "subject_title": "Systemd",
       "ontology": {
@@ -31138,7 +31226,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/network/ip.mdx",
+      "id": "doc:docs/platform/ip/overview.mdx",
       "title": "ip 사용법",
       "description": "ip 사용법",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
@@ -31155,26 +31243,26 @@
       "keywords": [
         "ip"
       ],
-      "url": "/docs/operation/platform/tool/network/ip",
-      "subject_ref": "subject:platform:tool:network",
-      "subject_title": "Network",
+      "url": "/docs/platform/ip/overview",
+      "subject_ref": "subject:platform:tool:ip",
+      "subject_title": "Ip",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "network",
-        "aspect": "ip"
+        "instance": "ip",
+        "aspect": "overview"
       },
-      "search_text": "ip 사용법 ip 사용법 설치 shell sudo pacman -s iproute2 shell sudo apt install iproute2 ip - https //man7 org/linux/ma 설치 ip ip link veth 가상 이더넷 인터페이스 bridge 이더넷 브리지 ip addr ip route ip netns ip operation platform tool network ip",
+      "search_text": "ip 사용법 ip 사용법 설치 shell sudo pacman -s iproute2 shell sudo apt install iproute2 ip - https //man7 org/linux/ma 설치 ip ip link veth 가상 이더넷 인터페이스 bridge 이더넷 브리지 ip addr ip route ip netns ip entity platform tool ip overview",
       "display": {
         "label": "ip 사용법",
         "kind": "document",
-        "subtitle": "Network"
+        "subtitle": "Ip"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/network/iptables.mdx",
+      "id": "doc:docs/platform/iptables/overview.mdx",
       "title": "iptables 사용법",
       "description": "iptables 사용법",
       "snippet": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
@@ -31186,21 +31274,21 @@
       "keywords": [
         "iptables"
       ],
-      "url": "/docs/operation/platform/tool/network/iptables",
-      "subject_ref": "subject:platform:tool:network",
-      "subject_title": "Network",
+      "url": "/docs/platform/iptables/overview",
+      "subject_ref": "subject:platform:tool:iptables",
+      "subject_title": "Iptables",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "network",
-        "aspect": "iptables"
+        "instance": "iptables",
+        "aspect": "overview"
       },
-      "search_text": "iptables 사용법 iptables 사용법 iptables iptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다 패킷은 체인을 따라 흐르며 각 테이블에는 체인에 iptables 규칙 추가 규칙 확인 iptables operation platform tool network iptables",
+      "search_text": "iptables 사용법 iptables 사용법 iptables iptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다 패킷은 체인을 따라 흐르며 각 테이블에는 체인에 iptables 규칙 추가 규칙 확인 iptables entity platform tool iptables overview",
       "display": {
         "label": "iptables 사용법",
         "kind": "document",
-        "subtitle": "Network"
+        "subtitle": "Iptables"
       }
     },
     {
@@ -31868,7 +31956,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/network/nmap.mdx",
+      "id": "doc:docs/platform/nmap/overview.mdx",
       "title": "nmap(Network Mapper)",
       "description": "nmap",
       "snippet": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
@@ -31886,21 +31974,21 @@
         "Linux",
         "nmap"
       ],
-      "url": "/docs/operation/platform/tool/network/nmap",
-      "subject_ref": "subject:platform:tool:network",
-      "subject_title": "Network",
+      "url": "/docs/platform/nmap/overview",
+      "subject_ref": "subject:platform:tool:nmap",
+      "subject_title": "Nmap",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "network",
-        "aspect": "nmap"
+        "instance": "nmap",
+        "aspect": "overview"
       },
-      "search_text": "nmap network mapper nmap shell nmap 7 80 https //nmap org usage nmap scan type s options target specific target specification host discovery examples scan techniques examples output misc examples linux nmap operation platform tool network nmap",
+      "search_text": "nmap network mapper nmap shell nmap 7 80 https //nmap org usage nmap scan type s options target specific target specification host discovery examples scan techniques examples output misc examples linux nmap entity platform tool nmap overview",
       "display": {
         "label": "nmap(Network Mapper)",
         "kind": "document",
-        "subtitle": "Network"
+        "subtitle": "Nmap"
       }
     },
     {
@@ -32174,7 +32262,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/remote/rsync.mdx",
+      "id": "doc:docs/platform/rsync/overview.mdx",
       "title": "rsync 사용법",
       "description": "rsync 사용법",
       "snippet": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
@@ -32185,21 +32273,21 @@
       "keywords": [
         "rsync"
       ],
-      "url": "/docs/operation/platform/tool/remote/rsync",
-      "subject_ref": "subject:platform:tool:remote",
-      "subject_title": "Remote",
+      "url": "/docs/platform/rsync/overview",
+      "subject_ref": "subject:platform:tool:rsync",
+      "subject_title": "Rsync",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "remote",
-        "aspect": "rsync"
+        "instance": "rsync",
+        "aspect": "overview"
       },
-      "search_text": "rsync 사용법 rsync 사용법 사용법 shell rsync - - -a --archive archive 모드 -rlptgod - -v --verbose - -h 사용법 include/exclude pattern rsync operation platform tool remote rsync",
+      "search_text": "rsync 사용법 rsync 사용법 사용법 shell rsync - - -a --archive archive 모드 -rlptgod - -v --verbose - -h 사용법 include/exclude pattern rsync entity platform tool rsync overview",
       "display": {
         "label": "rsync 사용법",
         "kind": "document",
-        "subtitle": "Remote"
+        "subtitle": "Rsync"
       }
     },
     {
@@ -32320,10 +32408,10 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/remote/ssh.mdx",
+      "id": "doc:docs/platform/ssh/overview.mdx",
       "title": "ssh 사용법",
       "description": "ssh 사용법",
-      "snippet": "…니다.\n -\n - sshd가 접근 가능한 호스트를 설정하면됩니다.\n - sshd가 bastion 서버와 같은 역할을 할 수 있습니다.\n\n### Remote Port Forwarding\n\n`shell\nssh [-f] -N \\\n -R [:]:: \\\n [-p ] @\n`\n\n`mermaid\nsequence…",
+      "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
       "headings": [
         "SSH agent 실행",
         "SSH 설정",
@@ -32342,21 +32430,21 @@
       "keywords": [
         "ssh"
       ],
-      "url": "/docs/operation/platform/tool/remote/ssh",
-      "subject_ref": "subject:platform:tool:remote",
-      "subject_title": "Remote",
+      "url": "/docs/platform/ssh/overview",
+      "subject_ref": "subject:platform:tool:ssh",
+      "subject_title": "Ssh",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "remote",
-        "aspect": "ssh"
+        "instance": "ssh",
+        "aspect": "overview"
       },
-      "search_text": "ssh 사용법 ssh 사용법 니다 - - sshd가 접근 가능한 호스트를 설정하면됩니다 - sshd가 bastion 서버와 같은 역할을 할 수 있습니다 remote port forwarding shell ssh -f -n -r -p mermaid sequence ssh agent 실행 ssh 설정 키 생성 config 전역 설정 호스트별 설정 ssh로 원격 서버 접속 ssh tunnel local port forwarding remote port forwarding ssh proxyjump ssh host key ssh 환경변수 설정 ssh operation platform tool remote ssh",
+      "search_text": "ssh 사용법 ssh 사용법 ssh agent 실행 shell eval ssh-agent -s shell title zshrc plugins ss ssh agent 실행 ssh 설정 키 생성 config 전역 설정 호스트별 설정 ssh로 원격 서버 접속 ssh tunnel local port forwarding remote port forwarding ssh proxyjump ssh host key ssh 환경변수 설정 ssh entity platform tool ssh overview",
       "display": {
         "label": "ssh 사용법",
         "kind": "document",
-        "subtitle": "Remote"
+        "subtitle": "Ssh"
       }
     },
     {
@@ -32878,7 +32966,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/remote/zellij.mdx",
+      "id": "doc:docs/platform/zellij/overview.mdx",
       "title": "zellij 사용법",
       "description": "zellij 사용법",
       "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
@@ -32888,29 +32976,29 @@
       "keywords": [
         "zellij"
       ],
-      "url": "/docs/operation/platform/tool/remote/zellij",
-      "subject_ref": "subject:platform:tool:remote",
-      "subject_title": "Remote",
+      "url": "/docs/platform/zellij/overview",
+      "subject_ref": "subject:platform:tool:zellij",
+      "subject_title": "Zellij",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "remote",
-        "aspect": "zellij"
+        "instance": "zellij",
+        "aspect": "overview"
       },
-      "search_text": "zellij 사용법 zellij 사용법 설치 - mise로 런타임 버전 관리하기 shell mise use zellij - zellij / installation shell wget https //github com/zellij-org/zellij/re 설치 zellij operation platform tool remote zellij",
+      "search_text": "zellij 사용법 zellij 사용법 설치 - mise로 런타임 버전 관리하기 shell mise use zellij - zellij / installation shell wget https //github com/zellij-org/zellij/re 설치 zellij entity platform tool zellij overview",
       "display": {
         "label": "zellij 사용법",
         "kind": "document",
-        "subtitle": "Remote"
+        "subtitle": "Zellij"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/shell/zsh.mdx",
+      "id": "doc:docs/platform/zsh/overview.mdx",
       "title": "zsh",
       "description": "zsh",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which …",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
       "headings": [
         "설치",
         "starship",
@@ -32927,21 +33015,21 @@
       "keywords": [
         "zsh"
       ],
-      "url": "/docs/operation/platform/tool/shell/zsh",
-      "subject_ref": "subject:platform:tool:shell",
-      "subject_title": "Shell",
+      "url": "/docs/platform/zsh/overview",
+      "subject_ref": "subject:platform:tool:zsh",
+      "subject_title": "Zsh",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
-        "instance": "shell",
-        "aspect": "zsh"
+        "instance": "zsh",
+        "aspect": "overview"
       },
-      "search_text": "zsh zsh 설치 shell sudo pacman -s zsh shell sudo apt install -y zsh shell chsh -s which 설치 starship 플러그인 zshrc user configuration history key bindings up arrow goes to history only at the end of a multiline buffer plugins 마지막 줄 여러 줄 입력에서 up/down 키 동작 변경 zsh operation platform tool shell zsh",
+      "search_text": "zsh zsh 설치 shell sudo pacman -s zsh shell sudo apt install -y zsh shell chsh -s which zsh starship 설치 starship 플러그인 zshrc user configuration history key bindings up arrow goes to history only at the end of a multiline buffer plugins 마지막 줄 여러 줄 입력에서 up/down 키 동작 변경 zsh entity platform tool zsh overview",
       "display": {
         "label": "zsh",
         "kind": "document",
-        "subtitle": "Shell"
+        "subtitle": "Zsh"
       }
     },
     {

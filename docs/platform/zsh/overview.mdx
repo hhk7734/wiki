@@ -1,0 +1,218 @@
+---
+id: overview
+title: zsh
+sidebar_label: zsh
+description: zsh
+keywords:
+  - zsh
+ontology:
+  role: entity
+  domain: platform
+  class: tool
+  instance: zsh
+  aspect: overview
+subject:
+  canonical_name: zsh
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S zsh
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install -y zsh
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+chsh -s $(which zsh)
+```
+
+## starship
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S ttf-d2coding-nerd
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo mkdir -p /usr/share/fonts/NerdFonts
+```
+
+```shell
+curl -sL https://github.com/ryanoasis/nerd-fonts/releases/latest/download/D2Coding.tar.xz \
+  | sudo tar -xvJf - -C /usr/share/fonts/NerdFonts \
+&& sudo fc-cache -fv
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+curl -sS https://starship.rs/install.sh | sh
+```
+
+## 플러그인
+
+- https://github.com/zsh-users/zsh-completions
+- https://github.com/zsh-users/zsh-syntax-highlighting
+- https://github.com/zsh-users/zsh-autosuggestions
+
+```shell
+ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins \
+&& mkdir -p $ZSH_PLUGINS_DIR \
+&& git clone https://github.com/zsh-users/zsh-completions.git $ZSH_PLUGINS_DIR/zsh-completions \
+&& git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_PLUGINS_DIR/zsh-syntax-highlighting \
+&& git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_PLUGINS_DIR/zsh-autosuggestions
+```
+
+## .zshrc
+
+```shell title="~/.zshrc"
+is_installed() {
+    [ -n "$(command -v "$1" 2>/dev/null)" ]
+}
+
+######################
+# User configuration #
+######################
+
+# History
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+
+export PATH=$PATH:$HOME/.local/bin
+
+# Key bindings
+bindkey -e                   # Use emacs key bindings
+bindkey '\e[3~' delete-char  # Delete key
+
+# Up arrow goes to history only at the end of a multiline buffer
+autoload -Uz up-line-or-history down-line-or-history up-history
+_should_up_history_at_multiline_end() {
+    [[ "$BUFFER" == *$'\n'* ]] && (( CURSOR == ${#BUFFER} ))
+}
+smart-up-line-or-history() {
+    if _should_up_history_at_multiline_end; then
+        zle up-history
+    else
+        zle up-line-or-history
+    fi
+}
+zle -N smart-up-line-or-history
+bindkey "^[[A" smart-up-line-or-history
+bindkey "^[OA" smart-up-line-or-history
+bindkey "^[[B" down-line-or-history
+bindkey "^[OB" down-line-or-history
+
+# Plugins
+ZSH_PLUGINS_DIR=${XDG_DATA_HOME:-$HOME/.local/share}/zsh/plugins
+
+fpath+=$ZSH_PLUGINS_DIR/zsh-completions/src
+autoload -Uz compinit && compinit
+
+source $ZSH_PLUGINS_DIR/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $ZSH_PLUGINS_DIR/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+is_installed fzf && eval "$(fzf --zsh)"
+
+git_remove_local_branch () {
+    git remote update --prune \
+    && git switch --detach origin/HEAD \
+    && git for-each-ref --format '%(refname:short)' refs/heads | xargs -r -t git branch -D \
+    && git switch main
+}
+
+# 마지막 줄
+eval "$(starship init zsh)"
+```
+
+## 여러 줄 입력에서 Up/Down 키 동작 변경
+
+`\`를 사용해서 여러 줄을 입력할 때 `Up` 키를 눌렀을 때의 동작을 커서 위치에 따라 나눌 수 있습니다. 아래 설정은 커서가 여러 줄 입력의 마지막 줄 끝에 있을 때만 이전 히스토리로 이동하고, 그 외에는 현재 입력 버퍼 안에서 윗줄로 이동합니다.
+
+```shell title="~/.zshrc"
+autoload -Uz up-line-or-history down-line-or-history up-history
+_should_up_history_at_multiline_end() {
+    [[ "$BUFFER" == *$'\n'* ]] && (( CURSOR == ${#BUFFER} ))
+}
+smart-up-line-or-history() {
+    if _should_up_history_at_multiline_end; then
+        zle up-history
+    else
+        zle up-line-or-history
+    fi
+}
+zle -N smart-up-line-or-history
+bindkey "^[[A" smart-up-line-or-history
+bindkey "^[OA" smart-up-line-or-history
+bindkey "^[[B" down-line-or-history
+bindkey "^[OB" down-line-or-history
+```
+
+이 설정을 적용하면 다음과 같이 동작합니다.
+
+- 커서가 여러 줄 입력의 마지막 줄 마지막 위치에 있을 때 `Up` 키를 누르면 이전 히스토리로 이동합니다.
+- 커서가 마지막 줄 끝보다 한 글자라도 왼쪽에 있거나, 윗줄에 있을 때 `Up` 키를 누르면 현재 버퍼 안의 윗줄로 이동합니다.
+- `Down` 키는 현재 버퍼 안의 아랫줄로 이동하고, 끝에 도달하면 히스토리 방향으로 동작합니다.
+
+이미 `history-beginning-search-backward-end`, `history-beginning-search-forward-end` 같은 위젯을 `Up`, `Down`에 바인딩한 경우에는 현재 입력 prefix 기반 히스토리 검색이 우선되므로, 여러 줄 이동을 원하면 위 설정으로 교체해야 합니다.
+
+설정 변경 후에는 아래 명령으로 다시 로드합니다.
+
+```shell
+source ~/.zshrc
+```

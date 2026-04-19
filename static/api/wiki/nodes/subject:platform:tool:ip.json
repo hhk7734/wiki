@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:platform:tool:ip",
+  "title": "ip 사용법",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
+  "ontology": {
+    "domain": "platform",
+    "class": "tool",
+    "instance": "ip"
+  },
+  "url": "/docs/platform/ip/overview",
+  "node_url": "/api/wiki/nodes/subject:platform:tool:ip.json",
+  "document_refs": [
+    "doc:docs/platform/ip/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/platform/ip/overview.mdx",
+      "title": "ip 사용법",
+      "url": "/docs/platform/ip/overview",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "ip",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/platform/ip/overview.mdx:about_subject:subject:platform:tool:ip",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/platform/ip/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

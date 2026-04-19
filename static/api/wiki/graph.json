@@ -10449,22 +10449,6 @@
       "subject_ref": "subject:platform:kernel:user"
     },
     {
-      "id": "doc:docs/operation/platform/tool/emulator/alacritty.mdx",
-      "type": "document",
-      "title": "Alacritty",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "emulator",
-        "aspect": "alacritty"
-      },
-      "url": "/docs/operation/platform/tool/emulator/alacritty",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/emulator/alacritty.mdx.json",
-      "subject_ref": "subject:platform:tool:emulator"
-    },
-    {
       "id": "doc:docs/operation/platform/tool/keymap/keymap.mdx",
       "type": "document",
       "title": "Neovim Keymap 가이드",
@@ -10497,70 +10481,6 @@
       "subject_ref": "subject:platform:tool:lua"
     },
     {
-      "id": "doc:docs/operation/platform/tool/network/ip.mdx",
-      "type": "document",
-      "title": "ip 사용법",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "network",
-        "aspect": "ip"
-      },
-      "url": "/docs/operation/platform/tool/network/ip",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/network/ip.mdx.json",
-      "subject_ref": "subject:platform:tool:network"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/network/iptables.mdx",
-      "type": "document",
-      "title": "iptables 사용법",
-      "snippet": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "network",
-        "aspect": "iptables"
-      },
-      "url": "/docs/operation/platform/tool/network/iptables",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/network/iptables.mdx.json",
-      "subject_ref": "subject:platform:tool:network"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/network/nmap.mdx",
-      "type": "document",
-      "title": "nmap(Network Mapper)",
-      "snippet": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "network",
-        "aspect": "nmap"
-      },
-      "url": "/docs/operation/platform/tool/network/nmap",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/network/nmap.mdx.json",
-      "subject_ref": "subject:platform:tool:network"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/nvim/nvim.mdx",
-      "type": "document",
-      "title": "Neovim 설치 가이드",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "nvim",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/tool/nvim",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/nvim/nvim.mdx.json",
-      "subject_ref": "subject:platform:tool:nvim"
-    },
-    {
       "id": "doc:docs/operation/platform/tool/plugin/plugin.mdx",
       "type": "document",
       "title": "Neovim Plugin 가이드",
@@ -10591,86 +10511,6 @@
       "url": "/docs/operation/platform/tool/regex",
       "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/regex/regex.mdx.json",
       "subject_ref": "subject:platform:tool:regex"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/remote/rsync.mdx",
-      "type": "document",
-      "title": "rsync 사용법",
-      "snippet": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "remote",
-        "aspect": "rsync"
-      },
-      "url": "/docs/operation/platform/tool/remote/rsync",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/remote/rsync.mdx.json",
-      "subject_ref": "subject:platform:tool:remote"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/remote/ssh.mdx",
-      "type": "document",
-      "title": "ssh 사용법",
-      "snippet": "…니다.\n -\n - sshd가 접근 가능한 호스트를 설정하면됩니다.\n - sshd가 bastion 서버와 같은 역할을 할 수 있습니다.\n\n### Remote Port Forwarding\n\n`shell\nssh [-f] -N \\\n -R [:]:: \\\n [-p ] @\n`\n\n`mermaid\nsequence…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "remote",
-        "aspect": "ssh"
-      },
-      "url": "/docs/operation/platform/tool/remote/ssh",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/remote/ssh.mdx.json",
-      "subject_ref": "subject:platform:tool:remote"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/remote/zellij.mdx",
-      "type": "document",
-      "title": "zellij 사용법",
-      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "remote",
-        "aspect": "zellij"
-      },
-      "url": "/docs/operation/platform/tool/remote/zellij",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/remote/zellij.mdx.json",
-      "subject_ref": "subject:platform:tool:remote"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/shell/zsh.mdx",
-      "type": "document",
-      "title": "zsh",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which …",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "shell",
-        "aspect": "zsh"
-      },
-      "url": "/docs/operation/platform/tool/shell/zsh",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/shell/zsh.mdx.json",
-      "subject_ref": "subject:platform:tool:shell"
-    },
-    {
-      "id": "doc:docs/operation/platform/tool/systemd/service.mdx",
-      "type": "document",
-      "title": "Systemd Service",
-      "snippet": "## Systemd Service\n\n시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.\n\n``shell\nsudo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "tool",
-        "instance": "systemd",
-        "aspect": "service"
-      },
-      "url": "/docs/operation/platform/tool/systemd/service",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/tool/systemd/service.mdx.json",
-      "subject_ref": "subject:platform:tool:systemd"
     },
     {
       "id": "doc:docs/operation/platform/tool/user-management/user-management.mdx",
@@ -10735,6 +10575,22 @@
       "url": "/docs/operation/science/model-family/nn/derivative",
       "node_url": "/api/wiki/nodes/doc:docs/operation/science/model-family/nn/derivative.mdx.json",
       "subject_ref": "subject:science:model-family:nn"
+    },
+    {
+      "id": "doc:docs/platform/alacritty/overview.mdx",
+      "type": "document",
+      "title": "Alacritty",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "alacritty",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/alacritty/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/alacritty/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:alacritty"
     },
     {
       "id": "doc:docs/platform/asdf/overview.mdx",
@@ -10977,6 +10833,38 @@
       "subject_ref": "subject:platform:tool:git"
     },
     {
+      "id": "doc:docs/platform/ip/overview.mdx",
+      "type": "document",
+      "title": "ip 사용법",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "ip",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/ip/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/ip/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:ip"
+    },
+    {
+      "id": "doc:docs/platform/iptables/overview.mdx",
+      "type": "document",
+      "title": "iptables 사용법",
+      "snippet": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "iptables",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/iptables/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/iptables/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:iptables"
+    },
+    {
       "id": "doc:docs/platform/mise/overview.mdx",
       "type": "document",
       "title": "mise로 런타임 버전 관리하기",
@@ -10991,6 +10879,118 @@
       "url": "/docs/platform/mise/overview",
       "node_url": "/api/wiki/nodes/doc:docs/platform/mise/overview.mdx.json",
       "subject_ref": "subject:platform:tool:mise"
+    },
+    {
+      "id": "doc:docs/platform/nmap/overview.mdx",
+      "type": "document",
+      "title": "nmap(Network Mapper)",
+      "snippet": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "nmap",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/nmap/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/nmap/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:nmap"
+    },
+    {
+      "id": "doc:docs/platform/nvim/overview.mdx",
+      "type": "document",
+      "title": "Neovim 설치 가이드",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "nvim",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/nvim/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/nvim/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:nvim"
+    },
+    {
+      "id": "doc:docs/platform/rsync/overview.mdx",
+      "type": "document",
+      "title": "rsync 사용법",
+      "snippet": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "rsync",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/rsync/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/rsync/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:rsync"
+    },
+    {
+      "id": "doc:docs/platform/ssh/overview.mdx",
+      "type": "document",
+      "title": "ssh 사용법",
+      "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "ssh",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/ssh/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/ssh/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:ssh"
+    },
+    {
+      "id": "doc:docs/platform/systemd/service.mdx",
+      "type": "document",
+      "title": "Systemd Service",
+      "snippet": "## Systemd Service\n\n시작 서비스 등록을 위해 필요 옵션만 골라서 사용하면 됩니다. 다양한 옵션이 있으므로 필요에 따라 검색해봐야합니다.\n\n``shell\nsudo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "systemd",
+        "aspect": "service"
+      },
+      "url": "/docs/platform/systemd/service",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/systemd/service.mdx.json",
+      "subject_ref": "subject:platform:tool:systemd"
+    },
+    {
+      "id": "doc:docs/platform/zellij/overview.mdx",
+      "type": "document",
+      "title": "zellij 사용법",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "zellij",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/zellij/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/zellij/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:zellij"
+    },
+    {
+      "id": "doc:docs/platform/zsh/overview.mdx",
+      "type": "document",
+      "title": "zsh",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+      "ontology": {
+        "role": "entity",
+        "domain": "platform",
+        "class": "tool",
+        "instance": "zsh",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/zsh/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/zsh/overview.mdx.json",
+      "subject_ref": "subject:platform:tool:zsh"
     },
     {
       "id": "doc:docs/specification/protocol/api-spec/openapi/openapi.mdx",
@@ -17210,6 +17210,22 @@
       ]
     },
     {
+      "id": "subject:platform:tool:alacritty",
+      "type": "subject",
+      "title": "Alacritty",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "alacritty"
+      },
+      "url": "/docs/platform/alacritty/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:alacritty.json",
+      "document_refs": [
+        "doc:docs/platform/alacritty/overview.mdx"
+      ]
+    },
+    {
       "id": "subject:platform:tool:asdf",
       "type": "subject",
       "title": "asdf로 런타임 버전 관리하기",
@@ -17223,22 +17239,6 @@
       "node_url": "/api/wiki/nodes/subject:platform:tool:asdf.json",
       "document_refs": [
         "doc:docs/platform/asdf/overview.mdx"
-      ]
-    },
-    {
-      "id": "subject:platform:tool:emulator",
-      "type": "subject",
-      "title": "Alacritty",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S alacritty\n`\n\n`shell\nbrew install --cask alacritty\n`\n\n`shell\ncurl -sSL https://github.com/…",
-      "ontology": {
-        "domain": "platform",
-        "class": "tool",
-        "instance": "emulator"
-      },
-      "url": "/docs/operation/platform/tool/emulator/alacritty",
-      "node_url": "/api/wiki/nodes/subject:platform:tool:emulator.json",
-      "document_refs": [
-        "doc:docs/operation/platform/tool/emulator/alacritty.mdx"
       ]
     },
     {
@@ -17263,6 +17263,38 @@
         "doc:docs/platform/git/pre-commit.mdx",
         "doc:docs/platform/git/submodule.mdx",
         "doc:docs/platform/git/tag.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:tool:ip",
+      "type": "subject",
+      "title": "ip 사용법",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "ip"
+      },
+      "url": "/docs/platform/ip/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:ip.json",
+      "document_refs": [
+        "doc:docs/platform/ip/overview.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:tool:iptables",
+      "type": "subject",
+      "title": "iptables 사용법",
+      "snippet": "## iptables\n\niptables은 패킷이 netfilter를 통과할 때 적용되는 규칙을 관리하는 툴입니다. 패킷은 체인을 따라 흐르며, 각 테이블에는 체인에…",
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "iptables"
+      },
+      "url": "/docs/platform/iptables/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:iptables.json",
+      "document_refs": [
+        "doc:docs/platform/iptables/overview.mdx"
       ]
     },
     {
@@ -17314,21 +17346,19 @@
       ]
     },
     {
-      "id": "subject:platform:tool:network",
+      "id": "subject:platform:tool:nmap",
       "type": "subject",
-      "title": "ip 사용법",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S iproute2\n`\n\n`shell\nsudo apt install iproute2\n`\n\n## ip\n\n- https://man7.org/linux/ma…",
+      "title": "nmap(Network Mapper)",
+      "snippet": "``shell\nNmap 7.80 ( https://nmap.org )\nUsage: nmap [Scan Type(s)] [Options] {TARGET SPECIFIC…",
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "network"
+        "instance": "nmap"
       },
-      "url": "/docs/operation/platform/tool/network/ip",
-      "node_url": "/api/wiki/nodes/subject:platform:tool:network.json",
+      "url": "/docs/platform/nmap/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:nmap.json",
       "document_refs": [
-        "doc:docs/operation/platform/tool/network/ip.mdx",
-        "doc:docs/operation/platform/tool/network/iptables.mdx",
-        "doc:docs/operation/platform/tool/network/nmap.mdx"
+        "doc:docs/platform/nmap/overview.mdx"
       ]
     },
     {
@@ -17341,10 +17371,10 @@
         "class": "tool",
         "instance": "nvim"
       },
-      "url": "/docs/operation/platform/tool/nvim",
+      "url": "/docs/platform/nvim/overview",
       "node_url": "/api/wiki/nodes/subject:platform:tool:nvim.json",
       "document_refs": [
-        "doc:docs/operation/platform/tool/nvim/nvim.mdx"
+        "doc:docs/platform/nvim/overview.mdx"
       ]
     },
     {
@@ -17380,37 +17410,35 @@
       ]
     },
     {
-      "id": "subject:platform:tool:remote",
+      "id": "subject:platform:tool:rsync",
       "type": "subject",
       "title": "rsync 사용법",
       "snippet": "## 사용법\n\n``shell\nrsync [ ...] [ ...]\n`\n\n-\n - -a|--archive: archive 모드(-rlptgoD)\n - -v|--verbose\n - -h|…",
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "remote"
+        "instance": "rsync"
       },
-      "url": "/docs/operation/platform/tool/remote/rsync",
-      "node_url": "/api/wiki/nodes/subject:platform:tool:remote.json",
+      "url": "/docs/platform/rsync/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:rsync.json",
       "document_refs": [
-        "doc:docs/operation/platform/tool/remote/rsync.mdx",
-        "doc:docs/operation/platform/tool/remote/ssh.mdx",
-        "doc:docs/operation/platform/tool/remote/zellij.mdx"
+        "doc:docs/platform/rsync/overview.mdx"
       ]
     },
     {
-      "id": "subject:platform:tool:shell",
+      "id": "subject:platform:tool:ssh",
       "type": "subject",
-      "title": "zsh",
-      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which …",
+      "title": "ssh 사용법",
+      "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
       "ontology": {
         "domain": "platform",
         "class": "tool",
-        "instance": "shell"
+        "instance": "ssh"
       },
-      "url": "/docs/operation/platform/tool/shell/zsh",
-      "node_url": "/api/wiki/nodes/subject:platform:tool:shell.json",
+      "url": "/docs/platform/ssh/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:ssh.json",
       "document_refs": [
-        "doc:docs/operation/platform/tool/shell/zsh.mdx"
+        "doc:docs/platform/ssh/overview.mdx"
       ]
     },
     {
@@ -17423,10 +17451,10 @@
         "class": "tool",
         "instance": "systemd"
       },
-      "url": "/docs/operation/platform/tool/systemd/service",
+      "url": "/docs/platform/systemd/service",
       "node_url": "/api/wiki/nodes/subject:platform:tool:systemd.json",
       "document_refs": [
-        "doc:docs/operation/platform/tool/systemd/service.mdx"
+        "doc:docs/platform/systemd/service.mdx"
       ]
     },
     {
@@ -17459,6 +17487,38 @@
       "node_url": "/api/wiki/nodes/subject:platform:tool:utility.json",
       "document_refs": [
         "doc:docs/operation/platform/tool/utility/utility.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:tool:zellij",
+      "type": "subject",
+      "title": "zellij 사용법",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell\nmise use zellij\n`\n\n- Zellij / Installation\n\n`shell\nwget https://github.com/zellij-org/zellij/re…",
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "zellij"
+      },
+      "url": "/docs/platform/zellij/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:zellij.json",
+      "document_refs": [
+        "doc:docs/platform/zellij/overview.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:tool:zsh",
+      "type": "subject",
+      "title": "zsh",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+      "ontology": {
+        "domain": "platform",
+        "class": "tool",
+        "instance": "zsh"
+      },
+      "url": "/docs/platform/zsh/overview",
+      "node_url": "/api/wiki/nodes/subject:platform:tool:zsh.json",
+      "document_refs": [
+        "doc:docs/platform/zsh/overview.mdx"
       ]
     },
     {
@@ -21806,12 +21866,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/platform/tool/emulator/alacritty.mdx:about_subject:subject:platform:tool:emulator",
-      "from": "doc:docs/operation/platform/tool/emulator/alacritty.mdx",
-      "to": "subject:platform:tool:emulator",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/platform/tool/keymap/keymap.mdx:about_subject:subject:platform:tool:keymap",
       "from": "doc:docs/operation/platform/tool/keymap/keymap.mdx",
       "to": "subject:platform:tool:keymap",
@@ -21824,30 +21878,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/platform/tool/network/ip.mdx:about_subject:subject:platform:tool:network",
-      "from": "doc:docs/operation/platform/tool/network/ip.mdx",
-      "to": "subject:platform:tool:network",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/network/iptables.mdx:about_subject:subject:platform:tool:network",
-      "from": "doc:docs/operation/platform/tool/network/iptables.mdx",
-      "to": "subject:platform:tool:network",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/network/nmap.mdx:about_subject:subject:platform:tool:network",
-      "from": "doc:docs/operation/platform/tool/network/nmap.mdx",
-      "to": "subject:platform:tool:network",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/nvim/nvim.mdx:about_subject:subject:platform:tool:nvim",
-      "from": "doc:docs/operation/platform/tool/nvim/nvim.mdx",
-      "to": "subject:platform:tool:nvim",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/platform/tool/plugin/plugin.mdx:about_subject:subject:platform:tool:plugin",
       "from": "doc:docs/operation/platform/tool/plugin/plugin.mdx",
       "to": "subject:platform:tool:plugin",
@@ -21857,36 +21887,6 @@
       "id": "relation:doc:docs/operation/platform/tool/regex/regex.mdx:about_subject:subject:platform:tool:regex",
       "from": "doc:docs/operation/platform/tool/regex/regex.mdx",
       "to": "subject:platform:tool:regex",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/remote/rsync.mdx:about_subject:subject:platform:tool:remote",
-      "from": "doc:docs/operation/platform/tool/remote/rsync.mdx",
-      "to": "subject:platform:tool:remote",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/remote/ssh.mdx:about_subject:subject:platform:tool:remote",
-      "from": "doc:docs/operation/platform/tool/remote/ssh.mdx",
-      "to": "subject:platform:tool:remote",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/remote/zellij.mdx:about_subject:subject:platform:tool:remote",
-      "from": "doc:docs/operation/platform/tool/remote/zellij.mdx",
-      "to": "subject:platform:tool:remote",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/shell/zsh.mdx:about_subject:subject:platform:tool:shell",
-      "from": "doc:docs/operation/platform/tool/shell/zsh.mdx",
-      "to": "subject:platform:tool:shell",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/tool/systemd/service.mdx:about_subject:subject:platform:tool:systemd",
-      "from": "doc:docs/operation/platform/tool/systemd/service.mdx",
-      "to": "subject:platform:tool:systemd",
       "predicate": "about_subject"
     },
     {
@@ -21911,6 +21911,12 @@
       "id": "relation:doc:docs/operation/science/model-family/nn/derivative.mdx:about_subject:subject:science:model-family:nn",
       "from": "doc:docs/operation/science/model-family/nn/derivative.mdx",
       "to": "subject:science:model-family:nn",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/alacritty/overview.mdx:about_subject:subject:platform:tool:alacritty",
+      "from": "doc:docs/platform/alacritty/overview.mdx",
+      "to": "subject:platform:tool:alacritty",
       "predicate": "about_subject"
     },
     {
@@ -22004,9 +22010,63 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/platform/ip/overview.mdx:about_subject:subject:platform:tool:ip",
+      "from": "doc:docs/platform/ip/overview.mdx",
+      "to": "subject:platform:tool:ip",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/iptables/overview.mdx:about_subject:subject:platform:tool:iptables",
+      "from": "doc:docs/platform/iptables/overview.mdx",
+      "to": "subject:platform:tool:iptables",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/platform/mise/overview.mdx:about_subject:subject:platform:tool:mise",
       "from": "doc:docs/platform/mise/overview.mdx",
       "to": "subject:platform:tool:mise",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/nmap/overview.mdx:about_subject:subject:platform:tool:nmap",
+      "from": "doc:docs/platform/nmap/overview.mdx",
+      "to": "subject:platform:tool:nmap",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/nvim/overview.mdx:about_subject:subject:platform:tool:nvim",
+      "from": "doc:docs/platform/nvim/overview.mdx",
+      "to": "subject:platform:tool:nvim",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/rsync/overview.mdx:about_subject:subject:platform:tool:rsync",
+      "from": "doc:docs/platform/rsync/overview.mdx",
+      "to": "subject:platform:tool:rsync",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/ssh/overview.mdx:about_subject:subject:platform:tool:ssh",
+      "from": "doc:docs/platform/ssh/overview.mdx",
+      "to": "subject:platform:tool:ssh",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/systemd/service.mdx:about_subject:subject:platform:tool:systemd",
+      "from": "doc:docs/platform/systemd/service.mdx",
+      "to": "subject:platform:tool:systemd",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/zellij/overview.mdx:about_subject:subject:platform:tool:zellij",
+      "from": "doc:docs/platform/zellij/overview.mdx",
+      "to": "subject:platform:tool:zellij",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/zsh/overview.mdx:about_subject:subject:platform:tool:zsh",
+      "from": "doc:docs/platform/zsh/overview.mdx",
+      "to": "subject:platform:tool:zsh",
       "predicate": "about_subject"
     },
     {
