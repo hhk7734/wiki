@@ -4317,7 +4317,7 @@
         "class": "workload",
         "instance": "deployment"
       },
-      "url": "/docs/operation/mlops/workload/deployment",
+      "url": "/docs/mlops/deployment/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:deployment.json"
     },
     {
@@ -4332,7 +4332,7 @@
         "class": "workload",
         "instance": "horizontalpodautoscaler"
       },
-      "url": "/docs/operation/mlops/workload/horizontalpodautoscaler",
+      "url": "/docs/mlops/horizontalpodautoscaler/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:horizontalpodautoscaler.json"
     },
     {
@@ -4347,7 +4347,7 @@
         "class": "workload",
         "instance": "initcontainer"
       },
-      "url": "/docs/operation/mlops/workload/initcontainer",
+      "url": "/docs/mlops/initcontainer/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:initcontainer.json"
     },
     {
@@ -4362,7 +4362,7 @@
         "class": "workload",
         "instance": "leaderworkerset"
       },
-      "url": "/docs/operation/mlops/workload/leaderworkerset",
+      "url": "/docs/mlops/leaderworkerset/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:leaderworkerset.json"
     },
     {
@@ -4377,7 +4377,7 @@
         "class": "workload",
         "instance": "pod-lifecycle"
       },
-      "url": "/docs/operation/mlops/workload/pod-lifecycle",
+      "url": "/docs/mlops/pod-lifecycle/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:pod-lifecycle.json"
     },
     {
@@ -4392,7 +4392,7 @@
         "class": "workload",
         "instance": "statefulset"
       },
-      "url": "/docs/operation/mlops/workload/statefulset",
+      "url": "/docs/mlops/statefulset/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:statefulset.json"
     },
     {
@@ -9116,6 +9116,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/awx-operator/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/deployment/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Deployment",
+      "snippet": "## Deployment\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/deployment/\n\n Depl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "deployment",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/deployment/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/deployment/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/dra/overview.mdx",
       "type": "document",
       "score": 0,
@@ -9133,6 +9150,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/dra/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/horizontalpodautoscaler/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Kubernetes HorizontalPodAutoscaler 가이드",
+      "snippet": "…ler-downscale-stabilization 5m\n - --horizontal-pod-autoscaler-tolerance 0.1\n\n## HorizontalPodAutoscaler\n\n### Specification\n\n``yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutosc…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "horizontalpodautoscaler",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/horizontalpodautoscaler/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/horizontalpodautoscaler/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/initcontainer/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Kubernetes Init/Sidecar Container 사용 가이드",
+      "snippet": "…rs feature gate를 통해 기본으로 활성화되어 있으며, v1.33부터 stable 기능으로 제공됩니다.\n\n아래와 같이 pod.spec.initContainers.restartPolicy를 Always로 설정하면 sidecar container로 동작합니다.\n\n``yaml\napiVersion: v1\nk…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "initcontainer",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/initcontainer/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/initcontainer/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/kubeflow-trainer/overview.mdx",
       "type": "document",
       "score": 0,
@@ -9148,6 +9199,57 @@
       },
       "url": "/docs/mlops/kubeflow-trainer/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow-trainer/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/leaderworkerset/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Kubernetes LeaderWorkerSet 사용 가이드",
+      "snippet": "## 설치\n\n- LeaderWorkerSet / Installation\n\n``shell\nhelm pull oci://registry.k8s.io/lws/charts/lws --versio…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "leaderworkerset",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/leaderworkerset/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/leaderworkerset/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/pod-lifecycle/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Pod 수명 주기",
+      "snippet": "## Probe\n\n- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes\n\nkubelet에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "pod-lifecycle",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/pod-lifecycle/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/pod-lifecycle/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/statefulset/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "StatefulSet",
+      "snippet": "## StatefulSet\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/\n\nstat…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "statefulset",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/statefulset/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/statefulset/overview.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/configuration/configmap/configmap.mdx",
@@ -9437,108 +9539,6 @@
       },
       "url": "/docs/operation/mlops/upgrade-plan/1-24-1-25",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/upgrade-plan/1-24-1-25/1-24-1-25.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/deployment/deployment.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Deployment",
-      "snippet": "## Deployment\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/deployment/\n\n Depl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "deployment",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/deployment",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/deployment/deployment.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Kubernetes HorizontalPodAutoscaler 가이드",
-      "snippet": "…ler-downscale-stabilization 5m\n - --horizontal-pod-autoscaler-tolerance 0.1\n\n## HorizontalPodAutoscaler\n\n### Specification\n\n``yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutosc…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "horizontalpodautoscaler",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/horizontalpodautoscaler",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Kubernetes Init/Sidecar Container 사용 가이드",
-      "snippet": "…rs feature gate를 통해 기본으로 활성화되어 있으며, v1.33부터 stable 기능으로 제공됩니다.\n\n아래와 같이 pod.spec.initContainers.restartPolicy를 Always로 설정하면 sidecar container로 동작합니다.\n\n``yaml\napiVersion: v1\nk…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "initcontainer",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/initcontainer",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Kubernetes LeaderWorkerSet 사용 가이드",
-      "snippet": "## 설치\n\n- LeaderWorkerSet / Installation\n\n``shell\nhelm pull oci://registry.k8s.io/lws/charts/lws --versio…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "leaderworkerset",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/leaderworkerset",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Pod 수명 주기",
-      "snippet": "## Probe\n\n- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes\n\nkubelet에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "pod-lifecycle",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/pod-lifecycle",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/statefulset/statefulset.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "StatefulSet",
-      "snippet": "## StatefulSet\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/\n\nstat…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "statefulset",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/statefulset",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/statefulset/statefulset.mdx.json"
     },
     {
       "id": "doc:docs/platform/clone-os-image/overview.mdx",

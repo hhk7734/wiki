@@ -6257,6 +6257,22 @@
       "subject_ref": "subject:mlops:observability-system:dcgm-exporter"
     },
     {
+      "id": "doc:docs/mlops/deployment/overview.mdx",
+      "type": "document",
+      "title": "Deployment",
+      "snippet": "## Deployment\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/deployment/\n\n Depl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "deployment",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/deployment/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/deployment/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:deployment"
+    },
+    {
       "id": "doc:docs/mlops/dex/google.mdx",
       "type": "document",
       "title": "Dex에 Google 연결하기",
@@ -6801,6 +6817,22 @@
       "subject_ref": "subject:mlops:provisioning-tool:harbor"
     },
     {
+      "id": "doc:docs/mlops/horizontalpodautoscaler/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes HorizontalPodAutoscaler 가이드",
+      "snippet": "…ler-downscale-stabilization 5m\n - --horizontal-pod-autoscaler-tolerance 0.1\n\n## HorizontalPodAutoscaler\n\n### Specification\n\n``yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutosc…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "horizontalpodautoscaler",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/horizontalpodautoscaler/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/horizontalpodautoscaler/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:horizontalpodautoscaler"
+    },
+    {
       "id": "doc:docs/mlops/iam/cross-accounts-access.mdx",
       "type": "document",
       "title": "Cross-Accounts Access",
@@ -6847,6 +6879,22 @@
       "url": "/docs/mlops/iam/spot-role",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/iam/spot-role.mdx.json",
       "subject_ref": "subject:mlops:cloud-service:iam"
+    },
+    {
+      "id": "doc:docs/mlops/initcontainer/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes Init/Sidecar Container 사용 가이드",
+      "snippet": "…rs feature gate를 통해 기본으로 활성화되어 있으며, v1.33부터 stable 기능으로 제공됩니다.\n\n아래와 같이 pod.spec.initContainers.restartPolicy를 Always로 설정하면 sidecar container로 동작합니다.\n\n``yaml\napiVersion: v1\nk…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "initcontainer",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/initcontainer/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/initcontainer/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:initcontainer"
     },
     {
       "id": "doc:docs/mlops/ipoib/overview.mdx",
@@ -7777,6 +7825,22 @@
       "subject_ref": "subject:mlops:cluster-addon:kyverno"
     },
     {
+      "id": "doc:docs/mlops/leaderworkerset/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes LeaderWorkerSet 사용 가이드",
+      "snippet": "## 설치\n\n- LeaderWorkerSet / Installation\n\n``shell\nhelm pull oci://registry.k8s.io/lws/charts/lws --versio…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "leaderworkerset",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/leaderworkerset/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/leaderworkerset/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:leaderworkerset"
+    },
+    {
       "id": "doc:docs/mlops/loki/collector.mdx",
       "type": "document",
       "title": "로그 수집기에서 Loki로 로그 전송하기",
@@ -8289,6 +8353,22 @@
       "subject_ref": "subject:mlops:cloud-service:parallel-cluster"
     },
     {
+      "id": "doc:docs/mlops/pod-lifecycle/overview.mdx",
+      "type": "document",
+      "title": "Pod 수명 주기",
+      "snippet": "## Probe\n\n- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes\n\nkubelet에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "pod-lifecycle",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/pod-lifecycle/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/pod-lifecycle/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:pod-lifecycle"
+    },
+    {
       "id": "doc:docs/mlops/podman/install.mdx",
       "type": "document",
       "title": "Podman 설치 및 환경 설정",
@@ -8767,6 +8847,22 @@
       "url": "/docs/mlops/spegel/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/spegel/overview.mdx.json",
       "subject_ref": "subject:mlops:provisioning-tool:spegel"
+    },
+    {
+      "id": "doc:docs/mlops/statefulset/overview.mdx",
+      "type": "document",
+      "title": "StatefulSet",
+      "snippet": "## StatefulSet\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/\n\nstat…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workload",
+        "instance": "statefulset",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/statefulset/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/statefulset/overview.mdx.json",
+      "subject_ref": "subject:mlops:workload:statefulset"
     },
     {
       "id": "doc:docs/mlops/tempo/install.mdx",
@@ -9727,102 +9823,6 @@
       "url": "/docs/operation/mlops/upgrade-plan/1-24-1-25",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/upgrade-plan/1-24-1-25/1-24-1-25.mdx.json",
       "subject_ref": "subject:mlops:upgrade-plan:1-24-1-25"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/deployment/deployment.mdx",
-      "type": "document",
-      "title": "Deployment",
-      "snippet": "## Deployment\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/deployment/\n\n Depl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "deployment",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/deployment",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/deployment/deployment.mdx.json",
-      "subject_ref": "subject:mlops:workload:deployment"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx",
-      "type": "document",
-      "title": "Kubernetes HorizontalPodAutoscaler 가이드",
-      "snippet": "…ler-downscale-stabilization 5m\n - --horizontal-pod-autoscaler-tolerance 0.1\n\n## HorizontalPodAutoscaler\n\n### Specification\n\n``yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutosc…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "horizontalpodautoscaler",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/horizontalpodautoscaler",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx.json",
-      "subject_ref": "subject:mlops:workload:horizontalpodautoscaler"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx",
-      "type": "document",
-      "title": "Kubernetes Init/Sidecar Container 사용 가이드",
-      "snippet": "…rs feature gate를 통해 기본으로 활성화되어 있으며, v1.33부터 stable 기능으로 제공됩니다.\n\n아래와 같이 pod.spec.initContainers.restartPolicy를 Always로 설정하면 sidecar container로 동작합니다.\n\n``yaml\napiVersion: v1\nk…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "initcontainer",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/initcontainer",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx.json",
-      "subject_ref": "subject:mlops:workload:initcontainer"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx",
-      "type": "document",
-      "title": "Kubernetes LeaderWorkerSet 사용 가이드",
-      "snippet": "## 설치\n\n- LeaderWorkerSet / Installation\n\n``shell\nhelm pull oci://registry.k8s.io/lws/charts/lws --versio…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "leaderworkerset",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/leaderworkerset",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx.json",
-      "subject_ref": "subject:mlops:workload:leaderworkerset"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx",
-      "type": "document",
-      "title": "Pod 수명 주기",
-      "snippet": "## Probe\n\n- https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#container-probes\n\nkubelet에 의해 주기적으로 수행되는 진단 작업을 Probe라고 합니다. 진단 작업 수행을 위해 미리 구…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "pod-lifecycle",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/pod-lifecycle",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx.json",
-      "subject_ref": "subject:mlops:workload:pod-lifecycle"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workload/statefulset/statefulset.mdx",
-      "type": "document",
-      "title": "StatefulSet",
-      "snippet": "## StatefulSet\n\n- https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/\n\nstat…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workload",
-        "instance": "statefulset",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workload/statefulset",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workload/statefulset/statefulset.mdx.json",
-      "subject_ref": "subject:mlops:workload:statefulset"
     },
     {
       "id": "doc:docs/platform/alacritty/overview.mdx",
@@ -16219,10 +16219,10 @@
         "class": "workload",
         "instance": "deployment"
       },
-      "url": "/docs/operation/mlops/workload/deployment",
+      "url": "/docs/mlops/deployment/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:deployment.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/deployment/deployment.mdx"
+        "doc:docs/mlops/deployment/overview.mdx"
       ]
     },
     {
@@ -16235,10 +16235,10 @@
         "class": "workload",
         "instance": "horizontalpodautoscaler"
       },
-      "url": "/docs/operation/mlops/workload/horizontalpodautoscaler",
+      "url": "/docs/mlops/horizontalpodautoscaler/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:horizontalpodautoscaler.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx"
+        "doc:docs/mlops/horizontalpodautoscaler/overview.mdx"
       ]
     },
     {
@@ -16251,10 +16251,10 @@
         "class": "workload",
         "instance": "initcontainer"
       },
-      "url": "/docs/operation/mlops/workload/initcontainer",
+      "url": "/docs/mlops/initcontainer/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:initcontainer.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx"
+        "doc:docs/mlops/initcontainer/overview.mdx"
       ]
     },
     {
@@ -16267,10 +16267,10 @@
         "class": "workload",
         "instance": "leaderworkerset"
       },
-      "url": "/docs/operation/mlops/workload/leaderworkerset",
+      "url": "/docs/mlops/leaderworkerset/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:leaderworkerset.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx"
+        "doc:docs/mlops/leaderworkerset/overview.mdx"
       ]
     },
     {
@@ -16283,10 +16283,10 @@
         "class": "workload",
         "instance": "pod-lifecycle"
       },
-      "url": "/docs/operation/mlops/workload/pod-lifecycle",
+      "url": "/docs/mlops/pod-lifecycle/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:pod-lifecycle.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx"
+        "doc:docs/mlops/pod-lifecycle/overview.mdx"
       ]
     },
     {
@@ -16299,10 +16299,10 @@
         "class": "workload",
         "instance": "statefulset"
       },
-      "url": "/docs/operation/mlops/workload/statefulset",
+      "url": "/docs/mlops/statefulset/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workload:statefulset.json",
       "document_refs": [
-        "doc:docs/operation/mlops/workload/statefulset/statefulset.mdx"
+        "doc:docs/mlops/statefulset/overview.mdx"
       ]
     },
     {
@@ -19571,6 +19571,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/deployment/overview.mdx:about_subject:subject:mlops:workload:deployment",
+      "from": "doc:docs/mlops/deployment/overview.mdx",
+      "to": "subject:mlops:workload:deployment",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/dex/google.mdx:about_subject:subject:mlops:auth-system:dex",
       "from": "doc:docs/mlops/dex/google.mdx",
       "to": "subject:mlops:auth-system:dex",
@@ -19775,6 +19781,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/horizontalpodautoscaler/overview.mdx:about_subject:subject:mlops:workload:horizontalpodautoscaler",
+      "from": "doc:docs/mlops/horizontalpodautoscaler/overview.mdx",
+      "to": "subject:mlops:workload:horizontalpodautoscaler",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/iam/cross-accounts-access.mdx:about_subject:subject:mlops:cloud-service:iam",
       "from": "doc:docs/mlops/iam/cross-accounts-access.mdx",
       "to": "subject:mlops:cloud-service:iam",
@@ -19790,6 +19802,12 @@
       "id": "relation:doc:docs/mlops/iam/spot-role.mdx:about_subject:subject:mlops:cloud-service:iam",
       "from": "doc:docs/mlops/iam/spot-role.mdx",
       "to": "subject:mlops:cloud-service:iam",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/initcontainer/overview.mdx:about_subject:subject:mlops:workload:initcontainer",
+      "from": "doc:docs/mlops/initcontainer/overview.mdx",
+      "to": "subject:mlops:workload:initcontainer",
       "predicate": "about_subject"
     },
     {
@@ -20141,6 +20159,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/leaderworkerset/overview.mdx:about_subject:subject:mlops:workload:leaderworkerset",
+      "from": "doc:docs/mlops/leaderworkerset/overview.mdx",
+      "to": "subject:mlops:workload:leaderworkerset",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/loki/collector.mdx:about_subject:subject:mlops:observability-system:loki",
       "from": "doc:docs/mlops/loki/collector.mdx",
       "to": "subject:mlops:observability-system:loki",
@@ -20333,6 +20357,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/pod-lifecycle/overview.mdx:about_subject:subject:mlops:workload:pod-lifecycle",
+      "from": "doc:docs/mlops/pod-lifecycle/overview.mdx",
+      "to": "subject:mlops:workload:pod-lifecycle",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/podman/install.mdx:about_subject:subject:mlops:container-platform:podman",
       "from": "doc:docs/mlops/podman/install.mdx",
       "to": "subject:mlops:container-platform:podman",
@@ -20510,6 +20540,12 @@
       "id": "relation:doc:docs/mlops/spegel/overview.mdx:about_subject:subject:mlops:provisioning-tool:spegel",
       "from": "doc:docs/mlops/spegel/overview.mdx",
       "to": "subject:mlops:provisioning-tool:spegel",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/statefulset/overview.mdx:about_subject:subject:mlops:workload:statefulset",
+      "from": "doc:docs/mlops/statefulset/overview.mdx",
+      "to": "subject:mlops:workload:statefulset",
       "predicate": "about_subject"
     },
     {
@@ -20870,42 +20906,6 @@
       "id": "relation:doc:docs/operation/mlops/upgrade-plan/1-24-1-25/1-24-1-25.mdx:about_subject:subject:mlops:upgrade-plan:1-24-1-25",
       "from": "doc:docs/operation/mlops/upgrade-plan/1-24-1-25/1-24-1-25.mdx",
       "to": "subject:mlops:upgrade-plan:1-24-1-25",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/deployment/deployment.mdx:about_subject:subject:mlops:workload:deployment",
-      "from": "doc:docs/operation/mlops/workload/deployment/deployment.mdx",
-      "to": "subject:mlops:workload:deployment",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx:about_subject:subject:mlops:workload:horizontalpodautoscaler",
-      "from": "doc:docs/operation/mlops/workload/horizontalpodautoscaler/horizontalpodautoscaler.mdx",
-      "to": "subject:mlops:workload:horizontalpodautoscaler",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx:about_subject:subject:mlops:workload:initcontainer",
-      "from": "doc:docs/operation/mlops/workload/initcontainer/initcontainer.mdx",
-      "to": "subject:mlops:workload:initcontainer",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx:about_subject:subject:mlops:workload:leaderworkerset",
-      "from": "doc:docs/operation/mlops/workload/leaderworkerset/leaderworkerset.mdx",
-      "to": "subject:mlops:workload:leaderworkerset",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx:about_subject:subject:mlops:workload:pod-lifecycle",
-      "from": "doc:docs/operation/mlops/workload/pod-lifecycle/pod-lifecycle.mdx",
-      "to": "subject:mlops:workload:pod-lifecycle",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/workload/statefulset/statefulset.mdx:about_subject:subject:mlops:workload:statefulset",
-      "from": "doc:docs/operation/mlops/workload/statefulset/statefulset.mdx",
-      "to": "subject:mlops:workload:statefulset",
       "predicate": "about_subject"
     },
     {
