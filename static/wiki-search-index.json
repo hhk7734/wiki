@@ -2244,10 +2244,10 @@
       "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
       "description": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
       "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker",
+      "url": "/docs/mlops/gateway-api-inference-extension/endpoint-picker",
       "document_refs": [
-        "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
-        "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
+        "doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx",
+        "doc:docs/mlops/gateway-api-inference-extension/plugins.mdx",
         "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
         "doc:docs/mlops/gateway-api-inference-extension/route.mdx"
       ],
@@ -3200,25 +3200,26 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:networking:konnectivity",
+      "id": "subject:mlops:networking:kubernetes",
       "title": "Konnectivity를 통해 Node에 접근하기",
       "description": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
       "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
-      "url": "/docs/operation/mlops/networking/konnectivity",
+      "url": "/docs/mlops/kubernetes/konnectivity",
       "document_refs": [
-        "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx"
+        "doc:docs/mlops/kubernetes/konnectivity.mdx",
+        "doc:docs/mlops/kubernetes/service.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "networking",
-        "instance": "konnectivity"
+        "instance": "kubernetes"
       },
-      "search_text": "konnectivity를 통해 node에 접근하기 node에서 control plane은 접근할 수 있지만 control plane에서 node는 접근할 수 없는 경우가 있습니다 이때 konnectivity를 사용하여 각 node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 node의 kubelet에 접근할 konnectivity를 통해 node에 접근하기 konnectivity 설정 konnectivity server konnectivity agent mlops networking konnectivity",
+      "search_text": "konnectivity를 통해 node에 접근하기 node에서 control plane은 접근할 수 있지만 control plane에서 node는 접근할 수 없는 경우가 있습니다 이때 konnectivity를 사용하여 각 node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 node의 kubelet에 접근할 konnectivity를 통해 node에 접근하기 service konnectivity 설정 konnectivity server konnectivity agent service fqdn nodeport externaltrafficpolicy selector 없이 service 생성 debug reference mlops networking kubernetes",
       "display": {
         "label": "Konnectivity를 통해 Node에 접근하기",
         "kind": "subject",
-        "subtitle": "Konnectivity",
-        "document_count": 1
+        "subtitle": "Kubernetes",
+        "document_count": 2
       }
     },
     {
@@ -5965,29 +5966,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:networking:service",
-      "title": "Service",
-      "description": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
-      "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
-      "url": "/docs/operation/mlops/networking/service",
-      "document_refs": [
-        "doc:docs/operation/mlops/networking/service/service.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking",
-        "instance": "service"
-      },
-      "search_text": "service cpolicy cluster local - externaltrafficpolicy fqdn svc cluster local이 kubernetes dns에 등록됩니다 컨테이너 내부에서 service를 찾을 때 등을 사용하여 찾을 수 있습니다 앞의 일부만 적었을 때 /etc service service fqdn nodeport externaltrafficpolicy selector 없이 service 생성 debug reference mlops networking service",
-      "display": {
-        "label": "Service",
-        "kind": "subject",
-        "subtitle": "Service",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:programming-language:shellscript",
       "title": "ShellScript",
       "description": "## Basic script\n\n``shell\n#!/bin/sh\n\n# comment\n\n# command\necho \"ShellScript\"\n`\n\n## Exit\n\n`shell\n# 스크립트 종료\nexit\n`\n\n`shell\n# 스크립트 종료, 종료 상태 반환\n# exit state\ne…",
@@ -7961,9 +7939,9 @@
       "title": "vLLM KVCache 분석",
       "description": "…: end set_forward_context()\n deactivate ModelRunner\n`\n\n- start_load_kv()\n - 불러올 KVCache가 있는 경우 KVCache를 불러오기 시작합니다.\n - 두 가지 구현방식이 있습니다.\n - 한 번에 모든 layer의 KVCache를 불러오기…",
       "snippet": "…: end set_forward_context()\n deactivate ModelRunner\n`\n\n- start_load_kv()\n - 불러올 KVCache가 있는 경우 KVCache를 불러오기 시작합니다.\n - 두 가지 구현방식이 있습니다.\n - 한 번에 모든 layer의 KVCache를 불러오기…",
-      "url": "/docs/concept/mlops/serving-system/vllm/kvcache",
+      "url": "/docs/mlops/vllm/kvcache",
       "document_refs": [
-        "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
+        "doc:docs/mlops/vllm/kvcache.mdx",
         "doc:docs/mlops/vllm/config.mdx"
       ],
       "ontology": {
@@ -14826,7 +14804,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
+      "id": "doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx",
       "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
       "description": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
       "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
@@ -14841,7 +14819,7 @@
         "Inference Extension",
         "Endpoint Picker"
       ],
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker",
+      "url": "/docs/mlops/gateway-api-inference-extension/endpoint-picker",
       "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension",
       "subject_title": "Gateway Api Inference Extension",
       "ontology": {
@@ -14891,7 +14869,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
+      "id": "doc:docs/mlops/gateway-api-inference-extension/plugins.mdx",
       "title": "Gateway API Inference Extension Plugin 설정 가이드",
       "description": "Gateway API Inference Extension Plugin 설정 가이드",
       "snippet": "- gateway-api-inference-extension GitHub / pkg / epp / scheduling /framework / plugins\n- EndPoint Picker (EPP)\n\n#…",
@@ -14909,7 +14887,7 @@
         "Inference Extension",
         "Plugin"
       ],
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins",
+      "url": "/docs/mlops/gateway-api-inference-extension/plugins",
       "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension",
       "subject_title": "Gateway Api Inference Extension",
       "ontology": {
@@ -17559,7 +17537,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx",
+      "id": "doc:docs/mlops/kubernetes/konnectivity.mdx",
       "title": "Konnectivity를 통해 Node에 접근하기",
       "description": "Konnectivity를 통해 Node에 접근하기",
       "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
@@ -17574,21 +17552,21 @@
         "service",
         "konnectivity"
       ],
-      "url": "/docs/operation/mlops/networking/konnectivity",
-      "subject_ref": "subject:mlops:networking:konnectivity",
-      "subject_title": "Konnectivity",
+      "url": "/docs/mlops/kubernetes/konnectivity",
+      "subject_ref": "subject:mlops:networking:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "networking",
-        "instance": "konnectivity",
-        "aspect": "overview"
+        "instance": "kubernetes",
+        "aspect": "konnectivity"
       },
-      "search_text": "konnectivity를 통해 node에 접근하기 konnectivity를 통해 node에 접근하기 node에서 control plane은 접근할 수 있지만 control plane에서 node는 접근할 수 없는 경우가 있습니다 이때 konnectivity를 사용하여 각 node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 node의 kubelet에 접근할 konnectivity 설정 konnectivity server konnectivity agent kubernetes service konnectivity operation mlops networking konnectivity overview",
+      "search_text": "konnectivity를 통해 node에 접근하기 konnectivity를 통해 node에 접근하기 node에서 control plane은 접근할 수 있지만 control plane에서 node는 접근할 수 없는 경우가 있습니다 이때 konnectivity를 사용하여 각 node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 node의 kubelet에 접근할 konnectivity 설정 konnectivity server konnectivity agent kubernetes service konnectivity operation mlops networking kubernetes konnectivity",
       "display": {
         "label": "Konnectivity를 통해 Node에 접근하기",
         "kind": "document",
-        "subtitle": "Konnectivity"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -26323,7 +26301,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/networking/service/service.mdx",
+      "id": "doc:docs/mlops/kubernetes/service.mdx",
       "title": "Service",
       "description": "kubernetes service",
       "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
@@ -26340,21 +26318,21 @@
         "kubernetes",
         "service"
       ],
-      "url": "/docs/operation/mlops/networking/service",
-      "subject_ref": "subject:mlops:networking:service",
-      "subject_title": "Service",
+      "url": "/docs/mlops/kubernetes/service",
+      "subject_ref": "subject:mlops:networking:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "networking",
-        "instance": "service",
-        "aspect": "overview"
+        "instance": "kubernetes",
+        "aspect": "service"
       },
-      "search_text": "service kubernetes service cpolicy cluster local - externaltrafficpolicy fqdn svc cluster local이 kubernetes dns에 등록됩니다 컨테이너 내부에서 service를 찾을 때 등을 사용하여 찾을 수 있습니다 앞의 일부만 적었을 때 /etc service fqdn nodeport externaltrafficpolicy selector 없이 service 생성 debug reference kubernetes service operation mlops networking service overview",
+      "search_text": "service kubernetes service cpolicy cluster local - externaltrafficpolicy fqdn svc cluster local이 kubernetes dns에 등록됩니다 컨테이너 내부에서 service를 찾을 때 등을 사용하여 찾을 수 있습니다 앞의 일부만 적었을 때 /etc service fqdn nodeport externaltrafficpolicy selector 없이 service 생성 debug reference kubernetes service operation mlops networking kubernetes service",
       "display": {
         "label": "Service",
         "kind": "document",
-        "subtitle": "Service"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -31431,7 +31409,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
+      "id": "doc:docs/mlops/vllm/kvcache.mdx",
       "title": "vLLM KVCache 분석",
       "description": "vLLM KVCache 분석",
       "snippet": "…: end set_forward_context()\n deactivate ModelRunner\n`\n\n- start_load_kv()\n - 불러올 KVCache가 있는 경우 KVCache를 불러오기 시작합니다.\n - 두 가지 구현방식이 있습니다.\n - 한 번에 모든 layer의 KVCache를 불러오기…",
@@ -31445,7 +31423,7 @@
         "vLLM",
         "KVCache"
       ],
-      "url": "/docs/concept/mlops/serving-system/vllm/kvcache",
+      "url": "/docs/mlops/vllm/kvcache",
       "subject_ref": "subject:mlops:serving-system:vllm",
       "subject_title": "Vllm",
       "ontology": {

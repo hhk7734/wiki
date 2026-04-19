@@ -113,54 +113,6 @@
       "subject_ref": "subject:management:memo:team-management"
     },
     {
-      "id": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
-      "type": "document",
-      "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
-      "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "serving-system",
-        "instance": "gateway-api-inference-extension",
-        "aspect": "endpoint-picker"
-      },
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx.json",
-      "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension"
-    },
-    {
-      "id": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
-      "type": "document",
-      "title": "Gateway API Inference Extension Plugin 설정 가이드",
-      "snippet": "- gateway-api-inference-extension GitHub / pkg / epp / scheduling /framework / plugins\n- EndPoint Picker (EPP)\n\n#…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "serving-system",
-        "instance": "gateway-api-inference-extension",
-        "aspect": "plugins"
-      },
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx.json",
-      "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension"
-    },
-    {
-      "id": "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
-      "type": "document",
-      "title": "vLLM KVCache 분석",
-      "snippet": "…: end set_forward_context()\n deactivate ModelRunner\n`\n\n- start_load_kv()\n - 불러올 KVCache가 있는 경우 KVCache를 불러오기 시작합니다.\n - 두 가지 구현방식이 있습니다.\n - 한 번에 모든 layer의 KVCache를 불러오기…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "serving-system",
-        "instance": "vllm",
-        "aspect": "kvcache"
-      },
-      "url": "/docs/concept/mlops/serving-system/vllm/kvcache",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx.json",
-      "subject_ref": "subject:mlops:serving-system:vllm"
-    },
-    {
       "id": "doc:docs/data/aws-ebs-csi-driver/install.mdx",
       "type": "document",
       "title": "aws-ebs-csi-driver 설치 가이드",
@@ -6513,6 +6465,22 @@
       "subject_ref": "subject:mlops:observability-system:fluentd"
     },
     {
+      "id": "doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx",
+      "type": "document",
+      "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
+      "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "endpoint-picker"
+      },
+      "url": "/docs/mlops/gateway-api-inference-extension/endpoint-picker",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx.json",
+      "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension"
+    },
+    {
       "id": "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
       "type": "document",
       "title": "Gateway API Inference Extension (GIE) CRD 설치 가이드",
@@ -6526,6 +6494,22 @@
       },
       "url": "/docs/mlops/gateway-api-inference-extension/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api-inference-extension/install.mdx.json",
+      "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension"
+    },
+    {
+      "id": "doc:docs/mlops/gateway-api-inference-extension/plugins.mdx",
+      "type": "document",
+      "title": "Gateway API Inference Extension Plugin 설정 가이드",
+      "snippet": "- gateway-api-inference-extension GitHub / pkg / epp / scheduling /framework / plugins\n- EndPoint Picker (EPP)\n\n#…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "plugins"
+      },
+      "url": "/docs/mlops/gateway-api-inference-extension/plugins",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api-inference-extension/plugins.mdx.json",
       "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension"
     },
     {
@@ -7889,6 +7873,22 @@
       "subject_ref": "subject:mlops:orchestrator:kubernetes"
     },
     {
+      "id": "doc:docs/mlops/kubernetes/konnectivity.mdx",
+      "type": "document",
+      "title": "Konnectivity를 통해 Node에 접근하기",
+      "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking",
+        "instance": "kubernetes",
+        "aspect": "konnectivity"
+      },
+      "url": "/docs/mlops/kubernetes/konnectivity",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubernetes/konnectivity.mdx.json",
+      "subject_ref": "subject:mlops:networking:kubernetes"
+    },
+    {
       "id": "doc:docs/mlops/kubernetes/labels.mdx",
       "type": "document",
       "title": "Label",
@@ -7967,6 +7967,22 @@
       "url": "/docs/mlops/kubernetes/scheduling/topology-spread-constraints",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/kubernetes/scheduling/topology-spread-constraints.mdx.json",
       "subject_ref": "subject:mlops:orchestrator:kubernetes"
+    },
+    {
+      "id": "doc:docs/mlops/kubernetes/service.mdx",
+      "type": "document",
+      "title": "Service",
+      "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking",
+        "instance": "kubernetes",
+        "aspect": "service"
+      },
+      "url": "/docs/mlops/kubernetes/service",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubernetes/service.mdx.json",
+      "subject_ref": "subject:mlops:networking:kubernetes"
     },
     {
       "id": "doc:docs/mlops/kubespray/auth.mdx",
@@ -9697,6 +9713,22 @@
       "subject_ref": "subject:mlops:serving-system:vllm"
     },
     {
+      "id": "doc:docs/mlops/vllm/kvcache.mdx",
+      "type": "document",
+      "title": "vLLM KVCache 분석",
+      "snippet": "…: end set_forward_context()\n deactivate ModelRunner\n`\n\n- start_load_kv()\n - 불러올 KVCache가 있는 경우 KVCache를 불러오기 시작합니다.\n - 두 가지 구현방식이 있습니다.\n - 한 번에 모든 layer의 KVCache를 불러오기…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "serving-system",
+        "instance": "vllm",
+        "aspect": "kvcache"
+      },
+      "url": "/docs/mlops/vllm/kvcache",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/vllm/kvcache.mdx.json",
+      "subject_ref": "subject:mlops:serving-system:vllm"
+    },
+    {
       "id": "doc:docs/mlops/volumes/overview.mdx",
       "type": "document",
       "title": "volumes",
@@ -9791,38 +9823,6 @@
       "url": "/docs/mlops/wireguard/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/wireguard/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:wireguard"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx",
-      "type": "document",
-      "title": "Konnectivity를 통해 Node에 접근하기",
-      "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking",
-        "instance": "konnectivity",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/networking/konnectivity",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx.json",
-      "subject_ref": "subject:mlops:networking:konnectivity"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking/service/service.mdx",
-      "type": "document",
-      "title": "Service",
-      "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking",
-        "instance": "service",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/networking/service",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking/service/service.mdx.json",
-      "subject_ref": "subject:mlops:networking:service"
     },
     {
       "id": "doc:docs/platform/alacritty/overview.mdx",
@@ -15088,35 +15088,20 @@
       ]
     },
     {
-      "id": "subject:mlops:networking:konnectivity",
+      "id": "subject:mlops:networking:kubernetes",
       "type": "subject",
       "title": "Konnectivity를 통해 Node에 접근하기",
       "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
       "ontology": {
         "domain": "mlops",
         "class": "networking",
-        "instance": "konnectivity"
+        "instance": "kubernetes"
       },
-      "url": "/docs/operation/mlops/networking/konnectivity",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking:konnectivity.json",
+      "url": "/docs/mlops/kubernetes/konnectivity",
+      "node_url": "/api/wiki/nodes/subject:mlops:networking:kubernetes.json",
       "document_refs": [
-        "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:networking:service",
-      "type": "subject",
-      "title": "Service",
-      "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking",
-        "instance": "service"
-      },
-      "url": "/docs/operation/mlops/networking/service",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking:service.json",
-      "document_refs": [
-        "doc:docs/operation/mlops/networking/service/service.mdx"
+        "doc:docs/mlops/kubernetes/konnectivity.mdx",
+        "doc:docs/mlops/kubernetes/service.mdx"
       ]
     },
     {
@@ -15816,11 +15801,11 @@
         "class": "serving-system",
         "instance": "gateway-api-inference-extension"
       },
-      "url": "/docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker",
+      "url": "/docs/mlops/gateway-api-inference-extension/endpoint-picker",
       "node_url": "/api/wiki/nodes/subject:mlops:serving-system:gateway-api-inference-extension.json",
       "document_refs": [
-        "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
-        "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
+        "doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx",
+        "doc:docs/mlops/gateway-api-inference-extension/plugins.mdx",
         "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
         "doc:docs/mlops/gateway-api-inference-extension/route.mdx"
       ]
@@ -15851,10 +15836,10 @@
         "class": "serving-system",
         "instance": "vllm"
       },
-      "url": "/docs/concept/mlops/serving-system/vllm/kvcache",
+      "url": "/docs/mlops/vllm/kvcache",
       "node_url": "/api/wiki/nodes/subject:mlops:serving-system:vllm.json",
       "document_refs": [
-        "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
+        "doc:docs/mlops/vllm/kvcache.mdx",
         "doc:docs/mlops/vllm/config.mdx"
       ]
     },
@@ -17129,24 +17114,6 @@
       "id": "relation:doc:docs/concept/management/memo/team-management/team-management.mdx:about_subject:subject:management:memo:team-management",
       "from": "doc:docs/concept/management/memo/team-management/team-management.mdx",
       "to": "subject:management:memo:team-management",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
-      "from": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
-      "to": "subject:mlops:serving-system:gateway-api-inference-extension",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
-      "from": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
-      "to": "subject:mlops:serving-system:gateway-api-inference-extension",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx:about_subject:subject:mlops:serving-system:vllm",
-      "from": "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
-      "to": "subject:mlops:serving-system:vllm",
       "predicate": "about_subject"
     },
     {
@@ -19532,8 +19499,20 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
+      "from": "doc:docs/mlops/gateway-api-inference-extension/endpoint-picker.mdx",
+      "to": "subject:mlops:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/gateway-api-inference-extension/install.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
       "from": "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
+      "to": "subject:mlops:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gateway-api-inference-extension/plugins.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
+      "from": "doc:docs/mlops/gateway-api-inference-extension/plugins.mdx",
       "to": "subject:mlops:serving-system:gateway-api-inference-extension",
       "predicate": "about_subject"
     },
@@ -20048,6 +20027,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/kubernetes/konnectivity.mdx:about_subject:subject:mlops:networking:kubernetes",
+      "from": "doc:docs/mlops/kubernetes/konnectivity.mdx",
+      "to": "subject:mlops:networking:kubernetes",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/kubernetes/labels.mdx:about_subject:subject:mlops:orchestrator:kubernetes",
       "from": "doc:docs/mlops/kubernetes/labels.mdx",
       "to": "subject:mlops:orchestrator:kubernetes",
@@ -20075,6 +20060,12 @@
       "id": "relation:doc:docs/mlops/kubernetes/scheduling/topology-spread-constraints.mdx:about_subject:subject:mlops:orchestrator:kubernetes",
       "from": "doc:docs/mlops/kubernetes/scheduling/topology-spread-constraints.mdx",
       "to": "subject:mlops:orchestrator:kubernetes",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kubernetes/service.mdx:about_subject:subject:mlops:networking:kubernetes",
+      "from": "doc:docs/mlops/kubernetes/service.mdx",
+      "to": "subject:mlops:networking:kubernetes",
       "predicate": "about_subject"
     },
     {
@@ -20726,6 +20717,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/vllm/kvcache.mdx:about_subject:subject:mlops:serving-system:vllm",
+      "from": "doc:docs/mlops/vllm/kvcache.mdx",
+      "to": "subject:mlops:serving-system:vllm",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/volumes/overview.mdx:about_subject:subject:mlops:storage:volumes",
       "from": "doc:docs/mlops/volumes/overview.mdx",
       "to": "subject:mlops:storage:volumes",
@@ -20759,18 +20756,6 @@
       "id": "relation:doc:docs/mlops/wireguard/overview.mdx:about_subject:subject:mlops:networking-stack:wireguard",
       "from": "doc:docs/mlops/wireguard/overview.mdx",
       "to": "subject:mlops:networking-stack:wireguard",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx:about_subject:subject:mlops:networking:konnectivity",
-      "from": "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx",
-      "to": "subject:mlops:networking:konnectivity",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/networking/service/service.mdx:about_subject:subject:mlops:networking:service",
-      "from": "doc:docs/operation/mlops/networking/service/service.mdx",
-      "to": "subject:mlops:networking:service",
       "predicate": "about_subject"
     },
     {
