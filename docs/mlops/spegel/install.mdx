@@ -1,0 +1,81 @@
+---
+id: install
+title: "Spegel 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "Spegel 설치 가이드"
+keywords:
+  - spegel
+  - p2p
+  - registry
+  - container
+ontology:
+  role: operation
+  domain: mlops
+  class: provisioning-tool
+  instance: spegel
+  aspect: install
+subject:
+  canonical_name: Spegel
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[Spegel 개요](/docs/mlops/spegel/overview.mdx) 문서에서 P2P 캐시 역할을 먼저 확인할 수 있습니다.
+:::
+
+:::info[References]
+
+- [Spegel Docs / Getting Started](https://spegel.dev/docs/getting-started/)
+- [Spegel GitHub / Releases](https://github.com/spegel-org/spegel/releases)
+
+:::
+
+## containerd 설정
+
+```toml title="/etc/containerd/config.toml"
+version = 2
+
+[plugins."io.containerd.grpc.v1.cri".registry]
+   config_path = "/etc/containerd/certs.d"
+[plugins."io.containerd.grpc.v1.cri".containerd]
+   discard_unpacked_layers = false
+```
+
+## 설치
+
+```shell
+helm pull oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0
+```
+
+```shell
+helm show values oci://ghcr.io/spegel-org/helm-charts/spegel --version 0.2.0 > spegel-0.2.0.yaml
+```
+
+```yaml title="spegel-values.yaml"
+spegel:
+```
+
+```shell
+helm template spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
+  --version 0.2.0 \
+  -n spegel \
+  -f spegel-values.yaml > spegel.yaml
+```
+
+```shell
+helm upgrade -i spegel oci://ghcr.io/spegel-org/helm-charts/spegel \
+  --history-max 5 \
+  --version 0.2.0 \
+  -n spegel \
+  -f spegel-values.yaml
+```

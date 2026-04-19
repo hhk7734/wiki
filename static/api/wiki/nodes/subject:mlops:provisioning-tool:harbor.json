@@ -1,24 +1,38 @@
 {
   "type": "subject",
   "id": "subject:mlops:provisioning-tool:harbor",
-  "title": "Harbor 인증/인가(authn/authz)",
-  "snippet": "## Robot 계정\n\n- https://goharbor.io/docs/latest/administration/robot-accounts/",
+  "title": "Harbor Proxy Cache",
+  "snippet": "## Proxy Cache\n\n### ECR Proxy Cache\n\n``yaml\nname:\ntype: aws-ecr\nurl: https://\ncredential:\n acc…",
   "ontology": {
     "domain": "mlops",
     "class": "provisioning-tool",
     "instance": "harbor"
   },
-  "url": "/docs/concept/mlops/provisioning-tool/harbor/auth",
+  "url": "/docs/mlops/harbor/proxy-cache",
   "node_url": "/api/wiki/nodes/subject:mlops:provisioning-tool:harbor.json",
   "document_refs": [
-    "doc:docs/concept/mlops/provisioning-tool/harbor/auth.mdx",
-    "doc:docs/operation/mlops/provisioning-tool/harbor/install.mdx"
+    "doc:docs/mlops/harbor/proxy-cache.mdx",
+    "doc:docs/mlops/harbor/auth.mdx",
+    "doc:docs/mlops/harbor/install.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/concept/mlops/provisioning-tool/harbor/auth.mdx",
+      "id": "doc:docs/mlops/harbor/proxy-cache.mdx",
+      "title": "Harbor Proxy Cache",
+      "url": "/docs/mlops/harbor/proxy-cache",
+      "snippet": "## Proxy Cache\n\n### ECR Proxy Cache\n\n``yaml\nname:\ntype: aws-ecr\nurl: https://\ncredential:\n acc…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "provisioning-tool",
+        "instance": "harbor",
+        "aspect": "proxy-cache"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/harbor/auth.mdx",
       "title": "Harbor 인증/인가(authn/authz)",
-      "url": "/docs/concept/mlops/provisioning-tool/harbor/auth",
+      "url": "/docs/mlops/harbor/auth",
       "snippet": "## Robot 계정\n\n- https://goharbor.io/docs/latest/administration/robot-accounts/",
       "ontology": {
         "role": "concept",
@@ -29,9 +43,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/provisioning-tool/harbor/install.mdx",
+      "id": "doc:docs/mlops/harbor/install.mdx",
       "title": "Harbor",
-      "url": "/docs/operation/mlops/provisioning-tool/harbor/install",
+      "url": "/docs/mlops/harbor/install",
       "snippet": "… 도움말에 사용됩니다.\nexternalURL:\n\npersistence:\n enabled: true\n persistentVolumeClaim:\n registry:\n accessMode: ReadWriteMany\n jobservice:\n jobLog:\n accessMode: ReadWriteMany\n d…",
       "ontology": {
         "role": "operation",
@@ -44,15 +58,21 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/concept/mlops/provisioning-tool/harbor/auth.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
+      "id": "relation:doc:docs/mlops/harbor/proxy-cache.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
       "predicate": "about_subject",
-      "other_id": "doc:docs/concept/mlops/provisioning-tool/harbor/auth.mdx",
+      "other_id": "doc:docs/mlops/harbor/proxy-cache.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/provisioning-tool/harbor/install.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
+      "id": "relation:doc:docs/mlops/harbor/auth.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/provisioning-tool/harbor/install.mdx",
+      "other_id": "doc:docs/mlops/harbor/auth.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/harbor/install.mdx:about_subject:subject:mlops:provisioning-tool:harbor",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/harbor/install.mdx",
       "direction": "incoming"
     }
   ]
