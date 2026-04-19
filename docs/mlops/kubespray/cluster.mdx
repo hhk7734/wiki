@@ -1,0 +1,193 @@
+---
+id: cluster
+title: "Kubespray로 Kubernetes 클러스터 생성하기"
+sidebar_label: Kubespray
+description: "Kubespray로 Kubernetes 클러스터 생성하기"
+keywords:
+  - kubespray
+  - kubeadm
+  - ansible
+ontology:
+  role: operation
+  domain: mlops
+  class: cluster-orchestrator
+  instance: kubespray
+  aspect: cluster
+subject:
+  canonical_name: Kubespray
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 사전 작업
+
+- 최소 필요 조건
+  - 2 CPU
+  - 2 GB memory
+  - 모든 노드에 대한 고유한 호스트 이름, MAC 주소, prodcut_uuid
+    - `ip link`
+    - `sudo cat /sys/class/dmi/id/product_uuid`
+
+```shell
+awk '{printf "%-20s %-20s %-20s %-20s\n", $1, $2, $3, $4}' /proc/cgroups
+```
+
+모든 subsystem의 `enabled` 값이 `1` 이어야 합니다.
+
+## 프로젝트 생성
+
+### 컨테이너 사용하기
+
+kubespray의 기본 기능만 사용하면서 인벤토리만 관리하면 된다면 컨테이너를 활용하는 것이 편리합니다.
+
+```shell
+kubespray/
+└── inventory/
+```
+
+```shell
+podman run --rm -it \
+    --mount type=bind,src=$PWD/inventory,dst=/myinventory \
+    quay.io/kubespray/kubespray:v2.28.1 \
+    cp -rfp /kubespray/inventory/sample/. /myinventory
+```
+
+```shell
+kubespray/
+└── inventory/
+    ├── group_vars/
+    │   └── ...
+    └── hosts.yaml
+```
+
+아래 명령어로 컨테이너 내에서 작업을 하면 됩니다.
+
+```shell
+podman run --rm -it \
+    --mount type=bind,src=${PWD}/inventory,dst=/kubespray/inventory \
+    -e ANSIBLE_HOST_KEY_CHECKING=False \
+    -e ANSIBLE_TIMEOUT=60 \
+    -e ANSIBLE_LOAD_CALLBACK_PLUGINS=True \
+    -e ANSIBLE_STDOUT_CALLBACK=yaml \
+    quay.io/kubespray/kubespray:v2.28.1 \
+    bash
+```
+
+## 인벤토리 작성
+
+:::info[References]
+
+- 인벤토리 작성은 [Inventory](/docs/mlops/ansible/inventory.mdx) 문서를 참고하시면 됩니다.
+
+:::
+
+```yaml title="inventory/hosts.yaml"
+all:
+  hosts:
+    <hostname>:
+      ansible_host: <host>
+      ip: <ip>
+
+etcd:
+  hosts:
+    <hostname>:
+
+kube_control_plane:
+  hosts:
+    <hostname>:
+
+kube_node:
+  hosts:
+    <hostname>:
+
+bastion:
+  hosts: {}
+
+k8s_cluster:
+  children:
+    kube_control_plane:
+    kube_node:
+```
+
+- `all`
+  - `hosts`
+    - `<hostname>`
+      - Node의 호스트 이름입니다.
+      - 일치하지 않으면 설정한 값으로 변경됩니다.
+      - `ansible_host: <ip|hostname>`
+        - ansible이 접속할 주소입니다.
+      - `ip: <ip>`
+        - Node의 IP 주소입니다.
+
+## 클러스터 생성
+
+```shell
+./
+├── inventory/
+│   ├── group_vars/
+│   │   ├── all/
+│   │   │   ├── all.yml
+│   │   │   └── ...
+│   │   ├── k8s_cluster/
+│   │   │   ├── addons.yml
+│   │   │   ├── k8s-cluster.yml
+│   │   │   └── ...
+│   │   └── etcd.yml
+│   ├── hosts.yaml
+│   └── patches/
+│       └── ...
+└── ...
+```
+
+- group_vars/
+  - k8s_cluster/
+    - k8s-cluster.yml: 클러스터의 기본 구성을 설정합니다.
+      - `kube_owner: root`: 일부 파일이나 디렉토리의 소유자를 설정합니다.
+      - `kube_oidc_*`: kube-apiserver에 OIDC 관련 설정을 추가합니다.
+      - `kube_network_plugin: <cni>`
+        - `calico`: 기본값입니다.
+        - `cni`: 최소한의 cni 플러그인들만 설치합니다.
+    - addons.yml: metrics-server, metallb 등 클러스터에 추가할 애드온을 설정합니다.
+- HA
+  - [kube-apiserver HA](/docs/mlops/kubespray/ha.mdx)
+- 다운로드
+  - [바이너리/이미지 다운로드](/docs/mlops/kubespray/download.mdx)
+- 인증서 갱신
+  - [kubeadm 인증서 관리](/docs/mlops/kubeadm/certs.mdx)
+  - `auto_renew_certificates: false`
+  - `auto_renew_certificates_systemd_calendar: "*-01,07-01 03:{{ groups['kube_control_plane'].index(inventory_hostname) }}0:00"`
+    - [systemd.time](https://www.freedesktop.org/software/systemd/man/latest/systemd.time.html)
+- Audit 로그
+  - [Kubernetes Audit 정책 설정하기](/docs/operation/mlops/security/audit/audit.mdx)
+  - `kubernetes_audit: false`
+  - `audit_log_maxage: 30`
+  - `audit_log_maxbackups: 10`
+  - `audit_log_maxsize: 100`
+  - `audit_policy_custom_rules: <rules>`
+- 기타
+  - `kubelet_fail_swap_on: <bool>`
+  - `kubelet_swap_behavior: UnlimitedSwap|LimitedSwap`
+  - `kubelet_feature_gates: ["<key>=<value>"]`
+  - `node_labels: {"<key>": "<value>"}`
+  - `node_taints: ["<key>=<value>:<effect>"]`
+
+```shell
+ansible-playbook -i inventory/ -b cluster.yml \
+  -e kubeconfig_localhost=true \
+  -e kubectl_localhost=true
+```
+
+## 클러스터 삭제
+
+```shell
+ansible-playbook -i inventory/ -b reset.yml
+```

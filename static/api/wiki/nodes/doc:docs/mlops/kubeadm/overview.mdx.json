@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/kubeadm/overview.mdx",
+  "title": "Kubeadm",
+  "snippet": "…odcut_uuid\n - ip link\n - sudo cat /sys/class/dmi/id/product_uuid\n\n``yaml title=\"kubeadm-installation.yaml\" {5}\n\n- hosts: all\n become: yes\n vars:\n version: 1.19.15-00\n …",
+  "ontology": {
+    "role": "entity",
+    "domain": "mlops",
+    "class": "cluster-orchestrator",
+    "instance": "kubeadm",
+    "aspect": "overview"
+  },
+  "url": "/docs/mlops/kubeadm/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeadm/overview.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-orchestrator:kubeadm",
+    "title": "Kubeadm",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-orchestrator",
+      "instance": "kubeadm"
+    },
+    "url": "/docs/mlops/kubeadm/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/kubeadm/overview.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-orchestrator:kubeadm",
+      "direction": "outgoing"
+    }
+  ]
+}

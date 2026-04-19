@@ -8,19 +8,19 @@
     "class": "cluster-orchestrator",
     "instance": "eks"
   },
-  "url": "/docs/operation/mlops/cluster-orchestrator/eks/create",
+  "url": "/docs/mlops/eks/create",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-orchestrator:eks.json",
   "document_refs": [
-    "doc:docs/operation/mlops/cluster-orchestrator/eks/create.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/eks/keycloak.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/eks/node-group.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/eks/rbac.mdx"
+    "doc:docs/mlops/eks/create.mdx",
+    "doc:docs/mlops/eks/keycloak.mdx",
+    "doc:docs/mlops/eks/node-group.mdx",
+    "doc:docs/mlops/eks/rbac.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/eks/create.mdx",
+      "id": "doc:docs/mlops/eks/create.mdx",
       "title": "EKS",
-      "url": "/docs/operation/mlops/cluster-orchestrator/eks/create",
+      "url": "/docs/mlops/eks/create",
       "snippet": "## Create\n\n- https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html\n\n### VP…",
       "ontology": {
         "role": "operation",
@@ -31,9 +31,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/eks/keycloak.mdx",
+      "id": "doc:docs/mlops/eks/keycloak.mdx",
       "title": "keycloak",
-      "url": "/docs/operation/mlops/cluster-orchestrator/eks/keycloak",
+      "url": "/docs/mlops/eks/keycloak",
       "snippet": "## Keycloak\n\n- Keycloak OIDC\n\n## EKS\n\n### Associate Identity Provider\n\nEKS -> Cluster -> ->…",
       "ontology": {
         "role": "operation",
@@ -44,9 +44,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/eks/node-group.mdx",
+      "id": "doc:docs/mlops/eks/node-group.mdx",
       "title": "EKS NodeGroup",
-      "url": "/docs/operation/mlops/cluster-orchestrator/eks/node-group",
+      "url": "/docs/mlops/eks/node-group",
       "snippet": "…Size: 1,\n desiredSize: 1,\n },\n subnetIds: [vpc.privateSubnet1.id],\n labels: {\n \"node-group\": \"eks-ng\",\n },\n taints: [\n {\n key: \"node-group\",\n value: \"eks-ng\",\n effect: \"N…",
       "ontology": {
         "role": "operation",
@@ -57,9 +57,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/eks/rbac.mdx",
+      "id": "doc:docs/mlops/eks/rbac.mdx",
       "title": "EKS RBAC",
-      "url": "/docs/operation/mlops/cluster-orchestrator/eks/rbac",
+      "url": "/docs/mlops/eks/rbac",
       "snippet": "## Kubernetes Group\n\n``yaml\napiVersion: rbac.authorization.k8s.io/v1\nkind: ClusterRole\nmetadata:\n name: guest\nrules:\n - apiG…",
       "ontology": {
         "role": "operation",
@@ -72,27 +72,27 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/eks/create.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
+      "id": "relation:doc:docs/mlops/eks/create.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/eks/create.mdx",
+      "other_id": "doc:docs/mlops/eks/create.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/eks/keycloak.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
+      "id": "relation:doc:docs/mlops/eks/keycloak.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/eks/keycloak.mdx",
+      "other_id": "doc:docs/mlops/eks/keycloak.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/eks/node-group.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
+      "id": "relation:doc:docs/mlops/eks/node-group.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/eks/node-group.mdx",
+      "other_id": "doc:docs/mlops/eks/node-group.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/eks/rbac.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
+      "id": "relation:doc:docs/mlops/eks/rbac.mdx:about_subject:subject:mlops:cluster-orchestrator:eks",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/eks/rbac.mdx",
+      "other_id": "doc:docs/mlops/eks/rbac.mdx",
       "direction": "incoming"
     }
   ]

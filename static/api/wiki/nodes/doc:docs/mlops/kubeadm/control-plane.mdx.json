@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/kubeadm/control-plane.mdx",
+  "title": "Kubeadm으로 Kubernetes Control Plane 관리하기",
+  "snippet": "…manifest가 변경되고, kubelet이 이를 감지하여 static Pod를 재시작합니다.\n\n`shell\nkubeadm init phase control-plane \\\n --config=/etc/kubernetes/kubeadm-config.yaml \\\n [ ...]\n`\n\n-\n - apiserver: ku…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "cluster-orchestrator",
+    "instance": "kubeadm",
+    "aspect": "control-plane"
+  },
+  "url": "/docs/mlops/kubeadm/control-plane",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeadm/control-plane.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-orchestrator:kubeadm",
+    "title": "Kubeadm",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-orchestrator",
+      "instance": "kubeadm"
+    },
+    "url": "/docs/mlops/kubeadm/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/kubeadm/control-plane.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-orchestrator:kubeadm",
+      "direction": "outgoing"
+    }
+  ]
+}

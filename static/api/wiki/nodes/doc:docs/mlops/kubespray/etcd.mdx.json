@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/kubespray/etcd.mdx",
+  "title": "Kubespray etcd 설정",
+  "snippet": "…g_dir: /etc/ssl/etcd\n - etcd_cert_dir: \"{{ etcd_config_dir }}/ssl\"\n\n## etcdctl\n\nKubespray로 설치하면 인증서 옵션이 미리 설정된 etcdctl.sh라는 명령어가 생성됩니다.\n\n``shell\netcdctl.sh get []\n`\n\n-\n …",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "cluster-orchestrator",
+    "instance": "kubespray",
+    "aspect": "etcd"
+  },
+  "url": "/docs/mlops/kubespray/etcd",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/kubespray/etcd.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-orchestrator:kubespray",
+    "title": "Kubespray Control Plane HA endpoint 구성",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-orchestrator",
+      "instance": "kubespray"
+    },
+    "url": "/docs/mlops/kubespray/ha"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/kubespray/etcd.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-orchestrator:kubespray",
+      "direction": "outgoing"
+    }
+  ]
+}

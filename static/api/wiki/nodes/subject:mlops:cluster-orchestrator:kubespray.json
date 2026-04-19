@@ -8,23 +8,23 @@
     "class": "cluster-orchestrator",
     "instance": "kubespray"
   },
-  "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/ha",
+  "url": "/docs/mlops/kubespray/ha",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-orchestrator:kubespray.json",
   "document_refs": [
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/auth.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/cluster.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/download.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/etcd.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/ha.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/node.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/offline.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubespray/upgrade.mdx"
+    "doc:docs/mlops/kubespray/auth.mdx",
+    "doc:docs/mlops/kubespray/cluster.mdx",
+    "doc:docs/mlops/kubespray/download.mdx",
+    "doc:docs/mlops/kubespray/etcd.mdx",
+    "doc:docs/mlops/kubespray/ha.mdx",
+    "doc:docs/mlops/kubespray/node.mdx",
+    "doc:docs/mlops/kubespray/offline.mdx",
+    "doc:docs/mlops/kubespray/upgrade.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/auth.mdx",
+      "id": "doc:docs/mlops/kubespray/auth.mdx",
       "title": "Kubespray 인증/인가 변경",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/auth",
+      "url": "/docs/mlops/kubespray/auth",
       "snippet": "…ble-playbook -i -b upgrade-cluster.yml --tags master\n`\n\n클라이언트 설정은 Kubernetes 인증(Authn)을 참고하세요.\n\n/etc/kubernetes/kubeadm-config.yaml에 OIDC 설정이 반영되었지만 kube-apiserver에 …",
       "ontology": {
         "role": "operation",
@@ -35,9 +35,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/cluster.mdx",
+      "id": "doc:docs/mlops/kubespray/cluster.mdx",
       "title": "Kubespray로 Kubernetes 클러스터 생성하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/cluster",
+      "url": "/docs/mlops/kubespray/cluster",
       "snippet": "…control_plane'].index(inventory_hostname) }}0:00\"\n - systemd.time\n- Audit 로그\n - Kubernetes Audit 정책 설정하기\n - kubernetes_audit: false\n - audit_log_maxage: 30\n - audit_log_m…",
       "ontology": {
         "role": "operation",
@@ -48,9 +48,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/download.mdx",
+      "id": "doc:docs/mlops/kubespray/download.mdx",
       "title": "Kubespray 바이너리/이미지 다운로드 설정",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/download",
+      "url": "/docs/mlops/kubespray/download",
       "snippet": "## 한 노드에서 다운로드 후 다른 노드로 업로드\n\n- Kubespray Docs / Advanced / Downloading binaries and containers\n- Ansible 실행 위치 제어하기\n\n- d…",
       "ontology": {
         "role": "operation",
@@ -61,9 +61,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/etcd.mdx",
+      "id": "doc:docs/mlops/kubespray/etcd.mdx",
       "title": "Kubespray etcd 설정",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/etcd",
+      "url": "/docs/mlops/kubespray/etcd",
       "snippet": "…g_dir: /etc/ssl/etcd\n - etcd_cert_dir: \"{{ etcd_config_dir }}/ssl\"\n\n## etcdctl\n\nKubespray로 설치하면 인증서 옵션이 미리 설정된 etcdctl.sh라는 명령어가 생성됩니다.\n\n``shell\netcdctl.sh get []\n`\n\n-\n …",
       "ontology": {
         "role": "operation",
@@ -74,9 +74,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/ha.mdx",
+      "id": "doc:docs/mlops/kubespray/ha.mdx",
       "title": "Kubespray Control Plane HA endpoint 구성",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/ha",
+      "url": "/docs/mlops/kubespray/ha",
       "snippet": "- Kubespray / HA endpoints for k8s\n\n## kube-apiserver HA endpoint\n\n### LoadBalancer(LB)에 따른 endpoint\n\n| type | kube_control_plane | n…",
       "ontology": {
         "role": "operation",
@@ -87,9 +87,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/node.mdx",
+      "id": "doc:docs/mlops/kubespray/node.mdx",
       "title": "Kubespray Node 추가/제거",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/node",
+      "url": "/docs/mlops/kubespray/node",
       "snippet": "- Kubernetes / Kubernetes Components\n- Kubespray / Adding/replacing a node\n\n## Node 추가\n\n### Control plane\n\n- kube_control_plane …",
       "ontology": {
         "role": "operation",
@@ -100,9 +100,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/offline.mdx",
+      "id": "doc:docs/mlops/kubespray/offline.mdx",
       "title": "Kubespray로 폐쇄망에서 Kubernetes 클러스터 생성하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/offline",
+      "url": "/docs/mlops/kubespray/offline",
       "snippet": "## 다운로드 리스트 생성\n\n- Kubespray / Offline environment\n\ncontrib/offline/generate_list.sh 스크립트를 실행하면 아래 두 파일이 생성됩…",
       "ontology": {
         "role": "operation",
@@ -113,9 +113,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/upgrade.mdx",
+      "id": "doc:docs/mlops/kubespray/upgrade.mdx",
       "title": "Kubespray로 Kubernetes Cluster 업그레이드하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubespray/upgrade",
+      "url": "/docs/mlops/kubespray/upgrade",
       "snippet": "## 사전 준비 사항\n\nKubeadm으로 Kubernetes Cluster 업그레이드하기의 사전 준비 사항을 참고해주세요.(업그레이드 과정을 읽어보는 것도 좋습니다.)\n\nKubernetes 버전만 업그레…",
       "ontology": {
         "role": "operation",
@@ -128,51 +128,51 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/auth.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/auth.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/auth.mdx",
+      "other_id": "doc:docs/mlops/kubespray/auth.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/cluster.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/cluster.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/cluster.mdx",
+      "other_id": "doc:docs/mlops/kubespray/cluster.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/download.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/download.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/download.mdx",
+      "other_id": "doc:docs/mlops/kubespray/download.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/etcd.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/etcd.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/etcd.mdx",
+      "other_id": "doc:docs/mlops/kubespray/etcd.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/ha.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/ha.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/ha.mdx",
+      "other_id": "doc:docs/mlops/kubespray/ha.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/node.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/node.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/node.mdx",
+      "other_id": "doc:docs/mlops/kubespray/node.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/offline.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/offline.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/offline.mdx",
+      "other_id": "doc:docs/mlops/kubespray/offline.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubespray/upgrade.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
+      "id": "relation:doc:docs/mlops/kubespray/upgrade.mdx:about_subject:subject:mlops:cluster-orchestrator:kubespray",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubespray/upgrade.mdx",
+      "other_id": "doc:docs/mlops/kubespray/upgrade.mdx",
       "direction": "incoming"
     }
   ]

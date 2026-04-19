@@ -1,0 +1,223 @@
+---
+id: cluster
+title: "Cluster API로 Kubernetes Cluster 생성하기"
+sidebar_label: "Cluster 생성하기"
+description: "Cluster API로 Kubernetes Cluster 생성하기"
+keywords:
+  - cluster-api
+  - cluster
+ontology:
+  role: operation
+  domain: mlops
+  class: cluster-orchestrator
+  instance: cluster-api
+  aspect: cluster
+subject:
+  canonical_name: "Cluster API"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Cluster
+
+:::info[References]
+
+- [crds Docs / Cluster API / Cluster](https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api/cluster.x-k8s.io/Cluster/v1beta1@v1.10.4)
+
+:::
+
+```mermaid
+---
+config:
+  layout: elk
+---
+classDiagram
+  class Cluster {
+    <<cluster.x-k8s.io/v1beta1>>
+    +spec.controlPlaneRef
+    +spec.infrastructureRef
+  }
+
+  class XXXControlPlane:::controlplane {
+    <<controlplane.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXCluster:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  Cluster "1" ..> "0..1" XXXControlPlane
+  Cluster "1" ..> "1" XXXCluster
+
+  classDef controlplane fill:#bbf,stroke:#333,color:#000
+  classDef infrastructure fill:#fbb,stroke:#333,color:#000
+```
+
+- `Cluster`를 삭제하면 **관련된 모든 리소스가 삭제됩니다**.
+
+```yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+spec:
+  clusterNetwork:
+    pods:
+      cidrBlocks:
+        - 10.243.0.0/16
+    services:
+      cidrBlocks:
+        - 10.95.0.0/16
+  controlPlaneRef:
+    apiVersion: controlplane.cluster.x-k8s.io/v1beta1
+    kind: XXXControlPlane
+    name: <name>
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: XXXCluster
+    name: <name>
+```
+
+- `clusterNetwork`
+  - `pods`
+    - `cidrBlocks: []`
+  - `services`
+    - `cidrBlocks: []`
+- `controlPlaneRef`
+  - `apiVersion: controlplane.cluster.x-k8s.io/v1beta1`
+  - `kind: XXXControlPlane`
+  - `name: <name>`
+  - `namespace: <namespace>`
+- `infrastructureRef`
+  - `apiVersion: infrastructure.cluster.x-k8s.io/v1beta1`
+  - `kind: XXXCluster`
+  - `name: <name>`
+  - `namespace: <namespace>`
+
+```shell
+clusterctl describe cluster <clusterName>
+```
+
+```shell
+clusterctl get kubeconfig <clusterName> > <clusterName>-config.yaml
+```
+
+## Worker
+
+:::info[References]
+
+- [crds Docs / Cluster API / MachineDeployment](https://doc.crds.dev/github.com/kubernetes-sigs/cluster-api/cluster.x-k8s.io/MachineDeployment/v1beta1@v1.10.4)
+
+:::
+
+```mermaid
+---
+config:
+  layout: elk
+---
+classDiagram
+  class Cluster {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class MachineDeployment {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class MachineSet {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXMachineTemplate:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXBootstrapConfigTemplate:::bootstrap {
+    <<bootstrap.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class Machine {
+    <<cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXMachine:::infrastructure {
+    <<infrastructure.cluster.x-k8s.io/v1beta1>>
+  }
+
+  class XXXBootstrapConfig:::bootstrap {
+    <<bootstrap.cluster.x-k8s.io/v1beta1>>
+  }
+
+  MachineDeployment "0..*" ..> "1" Cluster
+  MachineDeployment "1" ..> "1" XXXMachineTemplate
+  MachineDeployment "1" ..> "1" XXXBootstrapConfigTemplate
+  MachineDeployment "1" --> "1" MachineSet
+
+  MachineSet "0..*" ..> "1" Cluster
+  MachineSet "1" ..> "1" XXXMachineTemplate
+  MachineSet "1" ..> "1" XXXBootstrapConfigTemplate
+  MachineSet "1" --> "0..*" XXXMachine
+  MachineSet "1" --> "0..*" XXXBootstrapConfig
+  MachineSet "1" --> "0..*" Machine
+
+
+  Machine "0..*" ..> "1" Cluster
+  Machine "1" ..> "1" XXXMachine
+  Machine "1" ..> "0..1" XXXBootstrapConfig
+
+  classDef infrastructure fill:#fbb,stroke:#333,color:#000
+  classDef bootstrap fill:#bfb,stroke:#333,color:#000
+```
+
+- `Machine`을 삭제하면 `XXXMachine`, `XXXBootstrapConfig`이 삭제됩니다.
+
+```yaml
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+spec:
+  clusterName: <clusterName>
+  replicas: <replicas>
+  selector:
+    matchLabels:
+      cluster.x-k8s.io/cluster-name: <clusterName>
+  template:
+    metadata:
+      labels:
+        cluster.x-k8s.io/cluster-name: <clusterName>
+    spec:
+      clusterName: <clusterName>
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: XXXBootstrapConfigTemplate
+          name: <name>
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: XXXMachineTemplate
+        name: <name>
+```
+
+- `template`
+  - `spec`
+    - `bootstrap`
+      - `configRef`
+        - `apiVersion: bootstrap.cluster.x-k8s.io/v1beta1`
+        - `kind: XXXConfigTemplate`
+        - `name: <name>`
+        - `namespace: <namespace>`
+    - `infrastructureRef`
+      - `apiVersion: infrastructure.cluster.x-k8s.io/v1beta1`
+      - `kind: XXXMachineTemplate`
+      - `name: <name>`
+      - `namespace: <namespace>`
+
+```shell
+clusterctl describe cluster <clusterName>
+```

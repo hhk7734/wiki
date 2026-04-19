@@ -8,19 +8,19 @@
     "class": "cluster-orchestrator",
     "instance": "kubeadm"
   },
-  "url": "/docs/entity/mlops/cluster-orchestrator/kubeadm",
+  "url": "/docs/mlops/kubeadm/overview",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-orchestrator:kubeadm.json",
   "document_refs": [
-    "doc:docs/entity/mlops/cluster-orchestrator/kubeadm/kubeadm.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/certs.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/control-plane.mdx",
-    "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/upgrade.mdx"
+    "doc:docs/mlops/kubeadm/overview.mdx",
+    "doc:docs/mlops/kubeadm/certs.mdx",
+    "doc:docs/mlops/kubeadm/control-plane.mdx",
+    "doc:docs/mlops/kubeadm/upgrade.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/mlops/cluster-orchestrator/kubeadm/kubeadm.mdx",
+      "id": "doc:docs/mlops/kubeadm/overview.mdx",
       "title": "Kubeadm",
-      "url": "/docs/entity/mlops/cluster-orchestrator/kubeadm",
+      "url": "/docs/mlops/kubeadm/overview",
       "snippet": "…odcut_uuid\n - ip link\n - sudo cat /sys/class/dmi/id/product_uuid\n\n``yaml title=\"kubeadm-installation.yaml\" {5}\n\n- hosts: all\n become: yes\n vars:\n version: 1.19.15-00\n …",
       "ontology": {
         "role": "entity",
@@ -31,9 +31,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/certs.mdx",
+      "id": "doc:docs/mlops/kubeadm/certs.mdx",
       "title": "kubeadm certs로 인증서 관리하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubeadm/certs",
+      "url": "/docs/mlops/kubeadm/certs",
       "snippet": "- Kubernetes / Docs / Certificate Management with kubeadm\n\n## 인증서 설정\n\n``yaml title=\"/etc/kubernetes/kubeadm-config.yaml\"\napiVersion: kube…",
       "ontology": {
         "role": "operation",
@@ -44,9 +44,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/control-plane.mdx",
+      "id": "doc:docs/mlops/kubeadm/control-plane.mdx",
       "title": "Kubeadm으로 Kubernetes Control Plane 관리하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubeadm/control-plane",
+      "url": "/docs/mlops/kubeadm/control-plane",
       "snippet": "…manifest가 변경되고, kubelet이 이를 감지하여 static Pod를 재시작합니다.\n\n`shell\nkubeadm init phase control-plane \\\n --config=/etc/kubernetes/kubeadm-config.yaml \\\n [ ...]\n`\n\n-\n - apiserver: ku…",
       "ontology": {
         "role": "operation",
@@ -57,9 +57,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/upgrade.mdx",
+      "id": "doc:docs/mlops/kubeadm/upgrade.mdx",
       "title": "Kubeadm으로 Kubernetes Cluster 업그레이드하기",
-      "url": "/docs/operation/mlops/cluster-orchestrator/kubeadm/upgrade",
+      "url": "/docs/mlops/kubeadm/upgrade",
       "snippet": "- Kubernetes / Docs / Upgrading kubeadm clusters\n\n## 사전 준비 사항\n\n업그레이드할 버전을 선택합니다. Kubernetes …",
       "ontology": {
         "role": "operation",
@@ -72,27 +72,27 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/mlops/cluster-orchestrator/kubeadm/kubeadm.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "id": "relation:doc:docs/mlops/kubeadm/overview.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/mlops/cluster-orchestrator/kubeadm/kubeadm.mdx",
+      "other_id": "doc:docs/mlops/kubeadm/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubeadm/certs.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "id": "relation:doc:docs/mlops/kubeadm/certs.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/certs.mdx",
+      "other_id": "doc:docs/mlops/kubeadm/certs.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubeadm/control-plane.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "id": "relation:doc:docs/mlops/kubeadm/control-plane.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/control-plane.mdx",
+      "other_id": "doc:docs/mlops/kubeadm/control-plane.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-orchestrator/kubeadm/upgrade.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
+      "id": "relation:doc:docs/mlops/kubeadm/upgrade.mdx:about_subject:subject:mlops:cluster-orchestrator:kubeadm",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-orchestrator/kubeadm/upgrade.mdx",
+      "other_id": "doc:docs/mlops/kubeadm/upgrade.mdx",
       "direction": "incoming"
     }
   ]

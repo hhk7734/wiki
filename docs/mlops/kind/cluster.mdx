@@ -1,0 +1,75 @@
+---
+id: cluster
+title: "kind 클러스터 생성 가이드"
+sidebar_label: "클러스터 생성 가이드"
+description: "kind 클러스터 생성 가이드"
+keywords:
+  - kind
+  - kubernetes
+  - cluster
+ontology:
+  role: operation
+  domain: mlops
+  class: cluster-orchestrator
+  instance: kind
+  aspect: cluster
+subject:
+  canonical_name: kind
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+:::info[References]
+
+- [mise로 런타임 버전 관리하기](/docs/platform/mise/overview.mdx#버전-관리)
+
+:::
+
+```shell
+mise use kind
+```
+
+## 클러스터 생성
+
+:::info[References]
+
+- [kind / User Guide / Quick Start](https://kind.sigs.k8s.io/docs/user/quick-start/)
+- [kind / User Guide / Configuration](https://kind.sigs.k8s.io/docs/user/configuration/)
+
+:::
+
+```shell
+kind create cluster [<flags>]
+```
+
+- `--name <clusterName>`
+- `--config <configFilePath>`
+
+```yaml title="config.yaml"
+apiVersion: kind.x-k8s.io/v1alpha4
+kind: Cluster
+```
+
+- `nodes`
+  - `role: control-plane|worker`
+  - `image: kindest/node:<version>[@sha256:<digest>]`
+    - [kind GitHub / Releases](https://github.com/kubernetes-sigs/kind/releases)
+
+## 클러스터 삭제
+
+```shell
+kind delete cluster [<flags>]
+```
+
+- `--name <clusterName>`

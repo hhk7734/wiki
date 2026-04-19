@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/cluster-api/kubevirt.mdx",
+  "title": "Cluster API에서 KubeVirt InfrastructureProvider 사용하기",
+  "snippet": "## KubeVirt\n\n- KubeVirt 설치 가이드\n\n## InfrastructureProvider\n\n``yaml\n\napiVersion: v1\nkind: Namespace\nmetadata:\n name: capi-kubevirt-infrastr…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "cluster-orchestrator",
+    "instance": "cluster-api",
+    "aspect": "kubevirt"
+  },
+  "url": "/docs/mlops/cluster-api/kubevirt",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/cluster-api/kubevirt.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-orchestrator:cluster-api",
+    "title": "Cluster API Operator 설치 가이드",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-orchestrator",
+      "instance": "cluster-api"
+    },
+    "url": "/docs/mlops/cluster-api/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/cluster-api/kubevirt.mdx:about_subject:subject:mlops:cluster-orchestrator:cluster-api",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-orchestrator:cluster-api",
+      "direction": "outgoing"
+    }
+  ]
+}
