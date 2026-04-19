@@ -5617,6 +5617,22 @@
       "subject_ref": "subject:mlops:workflow-system:argo-workflows"
     },
     {
+      "id": "doc:docs/mlops/audit/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes Audit 정책 설정하기",
+      "snippet": "…벤트를 전처리한 후 설정된 백엔드에 저장합니다. 현재는 **log**와 **webhook** 백엔드만 지원합니다.\n\n## Audit 정책\n\n- Kubernetes / Docs / Auditing\n\n``yaml\napiVersion: audit.k8s.io/v1\nkind: Policy\n# omitStages…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "security",
+        "instance": "audit",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/audit/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/audit/overview.mdx.json",
+      "subject_ref": "subject:mlops:security:audit"
+    },
+    {
       "id": "doc:docs/mlops/authentik/install.mdx",
       "type": "document",
       "title": "Authentik 설치 가이드",
@@ -9073,6 +9089,22 @@
       "subject_ref": "subject:mlops:configuration:secret"
     },
     {
+      "id": "doc:docs/mlops/security-context/overview.mdx",
+      "type": "document",
+      "title": "PodSecurityContext와 SecurityContext",
+      "snippet": "## PodSecurityContext\n\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecu…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "security",
+        "instance": "security-context",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/security-context/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/security-context/overview.mdx.json",
+      "subject_ref": "subject:mlops:security:security-context"
+    },
+    {
       "id": "doc:docs/mlops/ses/create.mdx",
       "type": "document",
       "title": "SES",
@@ -9775,38 +9807,6 @@
       "url": "/docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints.mdx.json",
       "subject_ref": "subject:mlops:orchestrator:scheduling"
-    },
-    {
-      "id": "doc:docs/operation/mlops/security/audit/audit.mdx",
-      "type": "document",
-      "title": "Kubernetes Audit 정책 설정하기",
-      "snippet": "…벤트를 전처리한 후 설정된 백엔드에 저장합니다. 현재는 **log**와 **webhook** 백엔드만 지원합니다.\n\n## Audit 정책\n\n- Kubernetes / Docs / Auditing\n\n``yaml\napiVersion: audit.k8s.io/v1\nkind: Policy\n# omitStages…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "security",
-        "instance": "audit",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/security/audit",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/security/audit/audit.mdx.json",
-      "subject_ref": "subject:mlops:security:audit"
-    },
-    {
-      "id": "doc:docs/operation/mlops/security/security-context/security-context.mdx",
-      "type": "document",
-      "title": "PodSecurityContext와 SecurityContext",
-      "snippet": "## PodSecurityContext\n\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecu…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "security",
-        "instance": "security-context",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/security/security-context",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/security/security-context/security-context.mdx.json",
-      "subject_ref": "subject:mlops:security:security-context"
     },
     {
       "id": "doc:docs/operation/mlops/tool/etc/etc.mdx",
@@ -15707,10 +15707,10 @@
         "class": "security",
         "instance": "audit"
       },
-      "url": "/docs/operation/mlops/security/audit",
+      "url": "/docs/mlops/audit/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:security:audit.json",
       "document_refs": [
-        "doc:docs/operation/mlops/security/audit/audit.mdx"
+        "doc:docs/mlops/audit/overview.mdx"
       ]
     },
     {
@@ -15723,10 +15723,10 @@
         "class": "security",
         "instance": "security-context"
       },
-      "url": "/docs/operation/mlops/security/security-context",
+      "url": "/docs/mlops/security-context/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:security:security-context.json",
       "document_refs": [
-        "doc:docs/operation/mlops/security/security-context/security-context.mdx"
+        "doc:docs/mlops/security-context/overview.mdx"
       ]
     },
     {
@@ -19256,6 +19256,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/audit/overview.mdx:about_subject:subject:mlops:security:audit",
+      "from": "doc:docs/mlops/audit/overview.mdx",
+      "to": "subject:mlops:security:audit",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/authentik/install.mdx:about_subject:subject:mlops:auth-system:authentik",
       "from": "doc:docs/mlops/authentik/install.mdx",
       "to": "subject:mlops:auth-system:authentik",
@@ -20552,6 +20558,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/security-context/overview.mdx:about_subject:subject:mlops:security:security-context",
+      "from": "doc:docs/mlops/security-context/overview.mdx",
+      "to": "subject:mlops:security:security-context",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/ses/create.mdx:about_subject:subject:mlops:cloud-service:ses",
       "from": "doc:docs/mlops/ses/create.mdx",
       "to": "subject:mlops:cloud-service:ses",
@@ -20813,18 +20825,6 @@
       "id": "relation:doc:docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints.mdx:about_subject:subject:mlops:orchestrator:scheduling",
       "from": "doc:docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints.mdx",
       "to": "subject:mlops:orchestrator:scheduling",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/security/audit/audit.mdx:about_subject:subject:mlops:security:audit",
-      "from": "doc:docs/operation/mlops/security/audit/audit.mdx",
-      "to": "subject:mlops:security:audit",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/security/security-context/security-context.mdx:about_subject:subject:mlops:security:security-context",
-      "from": "doc:docs/operation/mlops/security/security-context/security-context.mdx",
-      "to": "subject:mlops:security:security-context",
       "predicate": "about_subject"
     },
     {
