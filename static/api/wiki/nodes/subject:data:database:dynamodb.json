@@ -11,7 +11,8 @@
   "url": "/docs/data/dynamodb/overview",
   "node_url": "/api/wiki/nodes/subject:data:database:dynamodb.json",
   "document_refs": [
-    "doc:docs/data/dynamodb/overview.mdx"
+    "doc:docs/data/dynamodb/overview.mdx",
+    "doc:docs/data/dynamodb/update-item.mdx"
   ],
   "documents": [
     {
@@ -26,6 +27,19 @@
         "instance": "dynamodb",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/data/dynamodb/update-item.mdx",
+      "title": "DynamoDB Update Item",
+      "url": "/docs/data/dynamodb/update-item",
+      "snippet": "…with(path, substr)\n - size(path)\n- Logical\n - a AND b\n - a OR b\n - NOT a\n\nboto3.dynamodb.conditions 을 이용해서 표현할 수 있습니다.\n\n## UpdateExpression\n\n- SET path = value [, path …",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "dynamodb",
+        "aspect": "update-item"
+      }
     }
   ],
   "relations": [
@@ -33,6 +47,12 @@
       "id": "relation:doc:docs/data/dynamodb/overview.mdx:about_subject:subject:data:database:dynamodb",
       "predicate": "about_subject",
       "other_id": "doc:docs/data/dynamodb/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/data/dynamodb/update-item.mdx:about_subject:subject:data:database:dynamodb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/data/dynamodb/update-item.mdx",
       "direction": "incoming"
     }
   ]

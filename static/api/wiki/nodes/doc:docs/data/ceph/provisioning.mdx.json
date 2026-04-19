@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/data/ceph/provisioning.mdx",
+  "title": "Rook Ceph에서 정적/동적으로 Volume 생성하기",
+  "snippet": "… Filesystem Storage Overview # Consume the Shared Filesystem across namespaces\n\nDynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 name…",
+  "ontology": {
+    "role": "operation",
+    "domain": "data",
+    "class": "storage-system",
+    "instance": "ceph",
+    "aspect": "provisioning"
+  },
+  "url": "/docs/data/ceph/provisioning",
+  "node_url": "/api/wiki/nodes/doc:docs/data/ceph/provisioning.mdx.json",
+  "subject": {
+    "id": "subject:data:storage-system:ceph",
+    "title": "Ceph Storage Cluster란?",
+    "ontology": {
+      "domain": "data",
+      "class": "storage-system",
+      "instance": "ceph"
+    },
+    "url": "/docs/data/ceph/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/data/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
+      "predicate": "about_subject",
+      "other_id": "subject:data:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+---
+id: overview
+title: "Ceph Storage Cluster란?"
+sidebar_label: "Ceph Storage Cluster"
+description: "Ceph Storage Cluster"
+keywords:
+  - ceph
+  - "storage cluster"
+ontology:
+  role: entity
+  domain: data
+  class: storage-system
+  instance: ceph
+  aspect: overview
+subject:
+  canonical_name: Ceph
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Ceph Storage Cluster
+
+:::info[References]
+
+- [Ceph / Intro to Ceph](https://docs.ceph.com/en/reef/start/)
+
+:::
+
+Ceph Storage Cluster는 Storage Node들과 Ceph 데몬들로 구성된 클러스터로, 네트워크를 통해 **Ceph Block Device**, **Ceph File System**, **Ceph Object Storage** 등의 서비스를 제공합니다.
+
+Ceph은 다음과 같은 컴포넌트로 구성되어 있습니다.
+
+- **Monitor\(MON\)**
+  - 모니터 맵, OSD 맵, MDS 맵, CRUSH 맵 등의 클러스터를 관리하기 위한 상태 맵을 유지하고 관리합니다.
+  - 데몬과 클라이언트 간의 인증을 관리합니다.
+  - HA를 위해 3 개 이상 실행하는 것을 권장합니다.
+- **Manager\(MGR\)**
+  - 스토리지 활용도, 성능 지표, 시스템 로드 등의 정보를 수집하고 관리합니다.
+  - 대시보드, REST API 등의 인터페이스를 제공합니다.
+  - HA를 위해 2 개 이상 실행하는 것을 권장합니다.
+- **Object Storage Daemon\(OSD\)**
+  - 데이터 저장, 복제, 복구, 재조정 등의 기능을 수행합니다.
+  - 다른 OSD의 heartbeat를 확인하여 MON, MGR에 모니터링 정보를 제공합니다.
+  - HA, 데이터 복사본에 따라 3 개 이상 실행하는 것을 권장합니다.
+- **Metadata Server\(MDS\)**
+  - Ceph File System을 위한 메타데이터를 저장하고 관리합니다.
+  - MDS를 사용하면 클러스터에 부담을 주지 않고 `ls`, `find` 같은 명령을 수행할 수 있습니다.
+  - 단일 스레드로 동작하며 CPU 집약적이므로 CPU 클럭이 높은 CPU에서 잘 동작합니다.
+
+## 하드웨어 권장 사항
+
+:::info[References]
+
+- [Cpeh / Hardware Recommendations](https://docs.ceph.com/en/quincy/start/hardware-recommendations)
+
+:::
+
+### 데몬별 권장 사양
+
+- MON
+  - CPU
+    - 최소 2 코어
+  - 메모리
+    - 데몬당 5 GB 이상
+  - 디스크
+    - 데몬당 100 GB 이상, SSD를 권장합니다.
+- OSD
+  - CPU
+    - 최소 1 코어, 권장 2 코어
+    - 200 ~ 500 MB/s 당 1 코어
+    - 1000 ~ 3000 IOPS 당 1 코어, CPU 선택 시 IOPS를 중점으로 선택하는 것을 권장합니다.
+    - 단일 OSD는 최대 약 14 코어를 개별적으로 사용할 수 있습니다.
+  - 메모리
+    - 4 GB ~ (많을수록 좋음)
+    - 2 GB 미만은 권장하지 않습니다.
+  - 스토리지 드라이브
+    - 드라이브 1 개당 OSD 1 개를 권장합니다.
+    - 네트워크, 드라이브 스펙 등을 따져보고 드라이브 1 개에 OSD 여러개를 사용해도 문제가 없는 경우도 있습니다.
+- MDS
+  - CPU
+    - 최소 2 코어
+    - 단일 스레드로 동작하며 CPU 집약적이므로 CPU 클럭이 높은 CPU에서 잘 동작합니다.
+  - 메모리
+    - 데몬당 2 GB
+  - 디스크
+    - 데몬당 1 GB
+
+### 네트워크
+
+아무리 좋은 하드웨어 스펙을 가지고 스토리지 클러스터를 구성해도 네트워크 대역폭을 넘어설 수 없습니다.

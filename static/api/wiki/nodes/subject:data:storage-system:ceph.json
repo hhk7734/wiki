@@ -8,22 +8,22 @@
     "class": "storage-system",
     "instance": "ceph"
   },
-  "url": "/docs/entity/data/storage-system/ceph",
+  "url": "/docs/data/ceph/overview",
   "node_url": "/api/wiki/nodes/subject:data:storage-system:ceph.json",
   "document_refs": [
-    "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
-    "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
-    "doc:docs/operation/data/storage-system/ceph/osd.mdx",
-    "doc:docs/operation/data/storage-system/ceph/pg.mdx",
-    "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
-    "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
-    "doc:docs/operation/data/storage-system/ceph/tuning.mdx"
+    "doc:docs/data/ceph/overview.mdx",
+    "doc:docs/data/ceph/monitoring.mdx",
+    "doc:docs/data/ceph/osd.mdx",
+    "doc:docs/data/ceph/pg.mdx",
+    "doc:docs/data/ceph/provisioning.mdx",
+    "doc:docs/data/ceph/reboot.mdx",
+    "doc:docs/data/ceph/tuning.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
+      "id": "doc:docs/data/ceph/overview.mdx",
       "title": "Ceph Storage Cluster란?",
-      "url": "/docs/entity/data/storage-system/ceph",
+      "url": "/docs/data/ceph/overview",
       "snippet": "## Ceph Storage Cluster\n\n- Ceph / Intro to Ceph\n\nCeph Storage Cluster는 Storage Node들과 Ceph 데몬들로 구성된 클러스…",
       "ontology": {
         "role": "entity",
@@ -34,9 +34,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
+      "id": "doc:docs/data/ceph/monitoring.mdx",
       "title": "Ceph Monitoring",
-      "url": "/docs/operation/data/storage-system/ceph/monitoring",
+      "url": "/docs/data/ceph/monitoring",
       "snippet": "…t-token-ttl:\n- set-pwd-policy-enabled: true\n\n## Prometheus\n\n- Rook / Prometheus Monitoring\n\n### Prometheus 생성\n\nPrometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 …",
       "ontology": {
         "role": "operation",
@@ -47,9 +47,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/osd.mdx",
+      "id": "doc:docs/data/ceph/osd.mdx",
       "title": "Ceph OSD 관리",
-      "url": "/docs/operation/data/storage-system/ceph/osd",
+      "url": "/docs/data/ceph/osd",
       "snippet": "…anager(LVM)\n\n## Data 흐름\n\n https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/4/html/storage_strategies_guide/overview\n\n- Data\n - block device image(…",
       "ontology": {
         "role": "operation",
@@ -60,9 +60,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/pg.mdx",
+      "id": "doc:docs/data/ceph/pg.mdx",
       "title": "Ceph Placement Group(PG) 관리",
-      "url": "/docs/operation/data/storage-system/ceph/pg",
+      "url": "/docs/data/ceph/pg",
       "snippet": "## Placement Group(PG)\n\n- Data 흐름\n\nOSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.\n\n…",
       "ontology": {
         "role": "operation",
@@ -73,9 +73,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
+      "id": "doc:docs/data/ceph/provisioning.mdx",
       "title": "Rook Ceph에서 정적/동적으로 Volume 생성하기",
-      "url": "/docs/operation/data/storage-system/ceph/provisioning",
+      "url": "/docs/data/ceph/provisioning",
       "snippet": "… Filesystem Storage Overview # Consume the Shared Filesystem across namespaces\n\nDynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 name…",
       "ontology": {
         "role": "operation",
@@ -86,9 +86,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
+      "id": "doc:docs/data/ceph/reboot.mdx",
       "title": "Ceph 노드 재시작하기",
-      "url": "/docs/operation/data/storage-system/ceph/reboot",
+      "url": "/docs/data/ceph/reboot",
       "snippet": "## 노드 한 대 재시작\n\n``shell\nfor _option in noout; do\n kubectl rook-ceph ceph osd set ${_option}\ndone\n`\n\n`shell\nkubectl cordon\n`\n\n`shell\nkubectl drain -…",
       "ontology": {
         "role": "operation",
@@ -99,9 +99,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/data/storage-system/ceph/tuning.mdx",
+      "id": "doc:docs/data/ceph/tuning.mdx",
       "title": "Ceph 성능 향상을 위한 튜닝(Tuning)",
-      "url": "/docs/operation/data/storage-system/ceph/tuning",
+      "url": "/docs/data/ceph/tuning",
       "snippet": "## IOMMU OFF\n\n- Ceph / A Journey to 1 TiB/s\n\non 또는 pt 설정보다 off로 설정했을 때 큰 성능 향상을 보였습니다.\n\n## Replica v…",
       "ontology": {
         "role": "operation",
@@ -114,45 +114,45 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/data/storage-system/ceph/ceph.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/overview.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
+      "other_id": "doc:docs/data/ceph/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/monitoring.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/monitoring.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
+      "other_id": "doc:docs/data/ceph/monitoring.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/osd.mdx",
+      "other_id": "doc:docs/data/ceph/osd.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/pg.mdx",
+      "other_id": "doc:docs/data/ceph/pg.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
+      "other_id": "doc:docs/data/ceph/provisioning.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
+      "other_id": "doc:docs/data/ceph/reboot.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/tuning.mdx:about_subject:subject:data:storage-system:ceph",
+      "id": "relation:doc:docs/data/ceph/tuning.mdx:about_subject:subject:data:storage-system:ceph",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/data/storage-system/ceph/tuning.mdx",
+      "other_id": "doc:docs/data/ceph/tuning.mdx",
       "direction": "incoming"
     }
   ]

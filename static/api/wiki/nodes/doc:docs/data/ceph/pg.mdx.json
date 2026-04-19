@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/data/ceph/pg.mdx",
+  "title": "Ceph Placement Group(PG) 관리",
+  "snippet": "## Placement Group(PG)\n\n- Data 흐름\n\nOSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.\n\n…",
+  "ontology": {
+    "role": "operation",
+    "domain": "data",
+    "class": "storage-system",
+    "instance": "ceph",
+    "aspect": "pg"
+  },
+  "url": "/docs/data/ceph/pg",
+  "node_url": "/api/wiki/nodes/doc:docs/data/ceph/pg.mdx.json",
+  "subject": {
+    "id": "subject:data:storage-system:ceph",
+    "title": "Ceph Storage Cluster란?",
+    "ontology": {
+      "domain": "data",
+      "class": "storage-system",
+      "instance": "ceph"
+    },
+    "url": "/docs/data/ceph/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/data/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
+      "predicate": "about_subject",
+      "other_id": "subject:data:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

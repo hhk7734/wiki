@@ -33,22 +33,6 @@
       "subject_ref": "subject:data:storage-system:aws-storage"
     },
     {
-      "id": "doc:docs/concept/data/database/elasticsearch/elasticsearch.mdx",
-      "type": "document",
-      "title": "Elasticsearch",
-      "snippet": "## Query DSL\n\n### match_all\n\n- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-match-all-query.html\n\n``json\nGET //_search\n{\n \"query\": …",
-      "ontology": {
-        "role": "concept",
-        "domain": "data",
-        "class": "database",
-        "instance": "elasticsearch",
-        "aspect": "overview"
-      },
-      "url": "/docs/concept/data/database/elasticsearch",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/data/database/elasticsearch/elasticsearch.mdx.json",
-      "subject_ref": "subject:data:database:elasticsearch"
-    },
-    {
       "id": "doc:docs/concept/hardware/electronics/capacitor/capacitor.mdx",
       "type": "document",
       "title": "Capacitor",
@@ -529,6 +513,198 @@
       "subject_ref": "subject:science:project:ahrs-sensor-calibration"
     },
     {
+      "id": "doc:docs/data/aws-ebs-csi-driver/install.mdx",
+      "type": "document",
+      "title": "aws-ebs-csi-driver 설치 가이드",
+      "snippet": "aws-ebs-csi-driver 개요 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.\n\n## 사전 요구 사항\n\n``ts\n\nconst awsEbsCsiDriverRoleNa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-interface",
+        "instance": "aws-ebs-csi-driver",
+        "aspect": "install"
+      },
+      "url": "/docs/data/aws-ebs-csi-driver/install",
+      "node_url": "/api/wiki/nodes/doc:docs/data/aws-ebs-csi-driver/install.mdx.json",
+      "subject_ref": "subject:data:storage-interface:aws-ebs-csi-driver"
+    },
+    {
+      "id": "doc:docs/data/aws-ebs-csi-driver/overview.mdx",
+      "type": "document",
+      "title": "aws-ebs-csi-driver",
+      "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md\n\naws-ebs-csi-driver는 Amazon EBS 볼륨을 Kubernetes CSI …",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-interface",
+        "instance": "aws-ebs-csi-driver",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/aws-ebs-csi-driver/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/aws-ebs-csi-driver/overview.mdx.json",
+      "subject_ref": "subject:data:storage-interface:aws-ebs-csi-driver"
+    },
+    {
+      "id": "doc:docs/data/aws-efs-csi-driver/install.mdx",
+      "type": "document",
+      "title": "aws-efs-csi-driver 설치 가이드",
+      "snippet": "aws-efs-csi-driver 개요 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.\n\n## 사전 요구 사항\n\n``ts\n\nconst awsEFSCSIDriverRoleNa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-interface",
+        "instance": "aws-efs-csi-driver",
+        "aspect": "install"
+      },
+      "url": "/docs/data/aws-efs-csi-driver/install",
+      "node_url": "/api/wiki/nodes/doc:docs/data/aws-efs-csi-driver/install.mdx.json",
+      "subject_ref": "subject:data:storage-interface:aws-efs-csi-driver"
+    },
+    {
+      "id": "doc:docs/data/aws-efs-csi-driver/overview.mdx",
+      "type": "document",
+      "title": "aws-efs-csi-driver",
+      "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-efs-csi-driver\n\naws-efs-csi-driver는 Amazon EFS 파일 시스템을 Kubernetes CSI 인터페이스로 연결해 주는 드라이버입니다. 여…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-interface",
+        "instance": "aws-efs-csi-driver",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/aws-efs-csi-driver/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/aws-efs-csi-driver/overview.mdx.json",
+      "subject_ref": "subject:data:storage-interface:aws-efs-csi-driver"
+    },
+    {
+      "id": "doc:docs/data/ceph/monitoring.mdx",
+      "type": "document",
+      "title": "Ceph Monitoring",
+      "snippet": "…t-token-ttl:\n- set-pwd-policy-enabled: true\n\n## Prometheus\n\n- Rook / Prometheus Monitoring\n\n### Prometheus 생성\n\nPrometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "monitoring"
+      },
+      "url": "/docs/data/ceph/monitoring",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/monitoring.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/osd.mdx",
+      "type": "document",
+      "title": "Ceph OSD 관리",
+      "snippet": "…anager(LVM)\n\n## Data 흐름\n\n https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/4/html/storage_strategies_guide/overview\n\n- Data\n - block device image(…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "osd"
+      },
+      "url": "/docs/data/ceph/osd",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/osd.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/overview.mdx",
+      "type": "document",
+      "title": "Ceph Storage Cluster란?",
+      "snippet": "## Ceph Storage Cluster\n\n- Ceph / Intro to Ceph\n\nCeph Storage Cluster는 Storage Node들과 Ceph 데몬들로 구성된 클러스…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/ceph/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/pg.mdx",
+      "type": "document",
+      "title": "Ceph Placement Group(PG) 관리",
+      "snippet": "## Placement Group(PG)\n\n- Data 흐름\n\nOSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.\n\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "pg"
+      },
+      "url": "/docs/data/ceph/pg",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/pg.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/provisioning.mdx",
+      "type": "document",
+      "title": "Rook Ceph에서 정적/동적으로 Volume 생성하기",
+      "snippet": "… Filesystem Storage Overview # Consume the Shared Filesystem across namespaces\n\nDynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 name…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "provisioning"
+      },
+      "url": "/docs/data/ceph/provisioning",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/provisioning.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/reboot.mdx",
+      "type": "document",
+      "title": "Ceph 노드 재시작하기",
+      "snippet": "## 노드 한 대 재시작\n\n``shell\nfor _option in noout; do\n kubectl rook-ceph ceph osd set ${_option}\ndone\n`\n\n`shell\nkubectl cordon\n`\n\n`shell\nkubectl drain -…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "reboot"
+      },
+      "url": "/docs/data/ceph/reboot",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/reboot.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/ceph/tuning.mdx",
+      "type": "document",
+      "title": "Ceph 성능 향상을 위한 튜닝(Tuning)",
+      "snippet": "## IOMMU OFF\n\n- Ceph / A Journey to 1 TiB/s\n\non 또는 pt 설정보다 off로 설정했을 때 큰 성능 향상을 보였습니다.\n\n## Replica v…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "ceph",
+        "aspect": "tuning"
+      },
+      "url": "/docs/data/ceph/tuning",
+      "node_url": "/api/wiki/nodes/doc:docs/data/ceph/tuning.mdx.json",
+      "subject_ref": "subject:data:storage-system:ceph"
+    },
+    {
+      "id": "doc:docs/data/cephfs/overview.mdx",
+      "type": "document",
+      "title": "Ceph Shared File System(CephFS)",
+      "snippet": "…DirPath: /var/lib/kubelet\n`\n\n### CephFilesystem 생성\n\n- Rook / Filesystem Storage Overview\n- Rook / CephFilesystem CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephFilesy…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "cephfs",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/cephfs/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/cephfs/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:cephfs"
+    },
+    {
       "id": "doc:docs/data/concepts/knowledge-graph.mdx",
       "type": "document",
       "title": "Knowledge Graph",
@@ -609,6 +785,22 @@
       "subject_ref": "subject:data:concept:taxonomy"
     },
     {
+      "id": "doc:docs/data/csi/overview.mdx",
+      "type": "document",
+      "title": "Container Storage Interface(CSI)",
+      "snippet": "## Node Plugin\n\n## Controller Plugin",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-interface",
+        "instance": "csi",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/csi/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/csi/overview.mdx.json",
+      "subject_ref": "subject:data:storage-interface:csi"
+    },
+    {
       "id": "doc:docs/data/dynamodb/overview.mdx",
       "type": "document",
       "title": "DynamoDB",
@@ -623,6 +815,70 @@
       "url": "/docs/data/dynamodb/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/dynamodb/overview.mdx.json",
       "subject_ref": "subject:data:database:dynamodb"
+    },
+    {
+      "id": "doc:docs/data/dynamodb/update-item.mdx",
+      "type": "document",
+      "title": "DynamoDB Update Item",
+      "snippet": "…with(path, substr)\n - size(path)\n- Logical\n - a AND b\n - a OR b\n - NOT a\n\nboto3.dynamodb.conditions 을 이용해서 표현할 수 있습니다.\n\n## UpdateExpression\n\n- SET path = value [, path …",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "dynamodb",
+        "aspect": "update-item"
+      },
+      "url": "/docs/data/dynamodb/update-item",
+      "node_url": "/api/wiki/nodes/doc:docs/data/dynamodb/update-item.mdx.json",
+      "subject_ref": "subject:data:database:dynamodb"
+    },
+    {
+      "id": "doc:docs/data/elasticsearch/overview.mdx",
+      "type": "document",
+      "title": "Elasticsearch",
+      "snippet": "## Query DSL\n\n### match_all\n\n- https://www.elastic.co/guide/en/elasticsearch/reference/8.4/query-dsl-match-all-query.html\n\n``json\nGET //_search\n{\n \"query\": …",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "database",
+        "instance": "elasticsearch",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/elasticsearch/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/elasticsearch/overview.mdx.json",
+      "subject_ref": "subject:data:database:elasticsearch"
+    },
+    {
+      "id": "doc:docs/data/local-path-provisioner/install.mdx",
+      "type": "document",
+      "title": "local-path-provisioner 설치 가이드",
+      "snippet": "local-path-provisioner 개요 문서에서 도구 역할을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- local-path-provisioner GitHub\n\n``shell\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "local-path-provisioner",
+        "aspect": "install"
+      },
+      "url": "/docs/data/local-path-provisioner/install",
+      "node_url": "/api/wiki/nodes/doc:docs/data/local-path-provisioner/install.mdx.json",
+      "subject_ref": "subject:data:storage-system:local-path-provisioner"
+    },
+    {
+      "id": "doc:docs/data/local-path-provisioner/overview.mdx",
+      "type": "document",
+      "title": "local-path-provisioner",
+      "snippet": "- local-path-provisioner GitHub\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\nlocal-path-provisioner는 노드의 로컬 디렉터리를 기준으로 Pe…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "local-path-provisioner",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/local-path-provisioner/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/local-path-provisioner/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:local-path-provisioner"
     },
     {
       "id": "doc:docs/data/minio/overview.mdx",
@@ -641,6 +897,22 @@
       "subject_ref": "subject:data:object-storage:minio"
     },
     {
+      "id": "doc:docs/data/mongodb/install.mdx",
+      "type": "document",
+      "title": "MongoDB 설치",
+      "snippet": "## 설치\n\n- https://github.com/mongodb/helm-charts\n\n``shell\nhelm repo add bitnami https://charts.bitnami.com/bitnami\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mongodb",
+        "aspect": "install"
+      },
+      "url": "/docs/data/mongodb/install",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mongodb/install.mdx.json",
+      "subject_ref": "subject:data:database:mongodb"
+    },
+    {
       "id": "doc:docs/data/mongodb/overview.mdx",
       "type": "document",
       "title": "MongoDB",
@@ -657,6 +929,86 @@
       "subject_ref": "subject:data:database:mongodb"
     },
     {
+      "id": "doc:docs/data/mongodb/user.mdx",
+      "type": "document",
+      "title": "MongoDB User(Role)",
+      "snippet": "…User\n\n``js\n// use\n\ndb.createUser({\n user: \"\",\n pwd: \"\", // or passwordPrompt()\n roles: [\n // \"\",\n { role: \"\", db: \"\" },\n ],\n});\n``\n\n### User에 Role 부여하기\n\n- grantRole…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mongodb",
+        "aspect": "user"
+      },
+      "url": "/docs/data/mongodb/user",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mongodb/user.mdx.json",
+      "subject_ref": "subject:data:database:mongodb"
+    },
+    {
+      "id": "doc:docs/data/mysql/aggregate.mdx",
+      "type": "document",
+      "title": "Aggregate",
+      "snippet": "## GROUP BY\n\n## COUNT\n\n- https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "aggregate"
+      },
+      "url": "/docs/data/mysql/aggregate",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/aggregate.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/explain.mdx",
+      "type": "document",
+      "title": "EXPLAIN",
+      "snippet": "## EXPLAIN(DESCRIBE)\n\n- https://dev.mysql.com/doc/refman/8.0/en/explain.html\n\nEXPLAIN과 DES…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "explain"
+      },
+      "url": "/docs/data/mysql/explain",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/explain.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/join.mdx",
+      "type": "document",
+      "title": "JOIN",
+      "snippet": "- https://dev.mysql.com/doc/refman/8.0/en/join.html\n\n## [INNER] JOIN\n\n``sql\nSELECT\n\nFROM\n AS\n [INNE…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "join"
+      },
+      "url": "/docs/data/mysql/join",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/join.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/lock.mdx",
+      "type": "document",
+      "title": "Lock",
+      "snippet": "## Row-Level Lock\n\n- https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html\n\n### FOR SHARE\n\n``sql\nSELECT ..…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "lock"
+      },
+      "url": "/docs/data/mysql/lock",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/lock.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
       "id": "doc:docs/data/mysql/overview.mdx",
       "type": "document",
       "title": "MySQL",
@@ -671,6 +1023,70 @@
       "url": "/docs/data/mysql/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/mysql/overview.mdx.json",
       "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/stored-program.mdx",
+      "type": "document",
+      "title": "Stored Program",
+      "snippet": "… 끝난 후엔 다시 ;로 변경해야 합니다.\n\n## PROCEDURE\n\n- https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html\n\n### CREATE PROCEDURE\n\n``sql\nDELIMITER $$\nCREATE PROCEDURE (\n [ …",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "stored-program"
+      },
+      "url": "/docs/data/mysql/stored-program",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/stored-program.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/user.mdx",
+      "type": "document",
+      "title": "MySQL User(Role)",
+      "snippet": "## CREATE USER\n\n- https://dev.mysql.com/doc/refman/8.0/en/create-user.html\n- https://dev.mysql.com/doc/refman/8.0/e…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "user"
+      },
+      "url": "/docs/data/mysql/user",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/user.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/mysql/window.mdx",
+      "type": "document",
+      "title": "WINDOW",
+      "snippet": "## OVER\n\n- https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html\n\nwindow를 사용하는 또는 할 수 있는 함수에 OVER를 사용하여 window를 넘겨줄 수 있습니다.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "window"
+      },
+      "url": "/docs/data/mysql/window",
+      "node_url": "/api/wiki/nodes/doc:docs/data/mysql/window.mdx.json",
+      "subject_ref": "subject:data:database:mysql"
+    },
+    {
+      "id": "doc:docs/data/object-gateway/overview.mdx",
+      "type": "document",
+      "title": "Ceph Object Gateway, S3 호환 Object Storage",
+      "snippet": "…alues.yaml\"\nrbacAggregate:\n enableOBCs: true\n`\n\n## CephObjectStore 생성\n\n- Rook / Object Storage Overview\n\n### Local Object Store\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephO…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "object-gateway",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/object-gateway/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/object-gateway/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:object-gateway"
     },
     {
       "id": "doc:docs/data/pgbouncer/overview.mdx",
@@ -801,6 +1217,70 @@
       "subject_ref": "subject:data:database:postgresql"
     },
     {
+      "id": "doc:docs/data/rbd/overview.mdx",
+      "type": "document",
+      "title": "Ceph Rados Block Device(RBD)",
+      "snippet": "…kubeletDirPath: /var/lib/kubelet\n`\n\n## CephBlockPool 생성\n\n- Rook / Block Storage Overview\n- Rook / CephBlockPool CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephBlockPo…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rbd",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/rbd/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/rbd/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:rbd"
+    },
+    {
+      "id": "doc:docs/data/rook-ceph/central-storage-cluster.mdx",
+      "type": "document",
+      "title": "Rook Ceph Central Storage Cluster 구축하기",
+      "snippet": "## Provider Storage Cluster\n\n- Rook / External Cluster / Export config from the Ceph provider cluster\n- Roo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "central-storage-cluster"
+      },
+      "url": "/docs/data/rook-ceph/central-storage-cluster",
+      "node_url": "/api/wiki/nodes/doc:docs/data/rook-ceph/central-storage-cluster.mdx.json",
+      "subject_ref": "subject:data:storage-system:rook-ceph"
+    },
+    {
+      "id": "doc:docs/data/rook-ceph/cluster.mdx",
+      "type": "document",
+      "title": "Rook Ceph Cluster 생성하기",
+      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "cluster"
+      },
+      "url": "/docs/data/rook-ceph/cluster",
+      "node_url": "/api/wiki/nodes/doc:docs/data/rook-ceph/cluster.mdx.json",
+      "subject_ref": "subject:data:storage-system:rook-ceph"
+    },
+    {
+      "id": "doc:docs/data/rook-ceph/overview.mdx",
+      "type": "document",
+      "title": "Rook Ceph",
+      "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "data",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "overview"
+      },
+      "url": "/docs/data/rook-ceph/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/data/rook-ceph/overview.mdx.json",
+      "subject_ref": "subject:data:storage-system:rook-ceph"
+    },
+    {
       "id": "doc:docs/data/s3/overview.mdx",
       "type": "document",
       "title": "S3",
@@ -815,166 +1295,6 @@
       "url": "/docs/data/s3/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/s3/overview.mdx.json",
       "subject_ref": "subject:data:object-storage:s3"
-    },
-    {
-      "id": "doc:docs/entity/data/database/update-item/update-item.mdx",
-      "type": "document",
-      "title": "DynamoDB Update Item",
-      "snippet": "…with(path, substr)\n - size(path)\n- Logical\n - a AND b\n - a OR b\n - NOT a\n\nboto3.dynamodb.conditions 을 이용해서 표현할 수 있습니다.\n\n## UpdateExpression\n\n- SET path = value [, path …",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "database",
-        "instance": "update-item",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/database/update-item",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/database/update-item/update-item.mdx.json",
-      "subject_ref": "subject:data:database:update-item"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-interface/aws-ebs-csi-driver/aws-ebs-csi-driver.mdx",
-      "type": "document",
-      "title": "aws-ebs-csi-driver",
-      "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/install.md\n\naws-ebs-csi-driver는 Amazon EBS 볼륨을 Kubernetes CSI …",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-interface",
-        "instance": "aws-ebs-csi-driver",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-interface/aws-ebs-csi-driver",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-interface/aws-ebs-csi-driver/aws-ebs-csi-driver.mdx.json",
-      "subject_ref": "subject:data:storage-interface:aws-ebs-csi-driver"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-interface/aws-efs-csi-driver/aws-efs-csi-driver.mdx",
-      "type": "document",
-      "title": "aws-efs-csi-driver",
-      "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-efs-csi-driver\n\naws-efs-csi-driver는 Amazon EFS 파일 시스템을 Kubernetes CSI 인터페이스로 연결해 주는 드라이버입니다. 여…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-interface",
-        "instance": "aws-efs-csi-driver",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-interface/aws-efs-csi-driver",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-interface/aws-efs-csi-driver/aws-efs-csi-driver.mdx.json",
-      "subject_ref": "subject:data:storage-interface:aws-efs-csi-driver"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-interface/csi/csi.mdx",
-      "type": "document",
-      "title": "Container Storage Interface(CSI)",
-      "snippet": "## Node Plugin\n\n## Controller Plugin",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-interface",
-        "instance": "csi",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-interface/csi",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-interface/csi/csi.mdx.json",
-      "subject_ref": "subject:data:storage-interface:csi"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
-      "type": "document",
-      "title": "Ceph Storage Cluster란?",
-      "snippet": "## Ceph Storage Cluster\n\n- Ceph / Intro to Ceph\n\nCeph Storage Cluster는 Storage Node들과 Ceph 데몬들로 구성된 클러스…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/ceph",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/ceph/ceph.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/cephfs/cephfs.mdx",
-      "type": "document",
-      "title": "Ceph Shared File System(CephFS)",
-      "snippet": "…DirPath: /var/lib/kubelet\n`\n\n### CephFilesystem 생성\n\n- Rook / Filesystem Storage Overview\n- Rook / CephFilesystem CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephFilesy…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "cephfs",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/cephfs",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/cephfs/cephfs.mdx.json",
-      "subject_ref": "subject:data:storage-system:cephfs"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx",
-      "type": "document",
-      "title": "local-path-provisioner",
-      "snippet": "- local-path-provisioner GitHub\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\nlocal-path-provisioner는 노드의 로컬 디렉터리를 기준으로 Pe…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "local-path-provisioner",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/local-path-provisioner",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx.json",
-      "subject_ref": "subject:data:storage-system:local-path-provisioner"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/object-gateway/object-gateway.mdx",
-      "type": "document",
-      "title": "Ceph Object Gateway, S3 호환 Object Storage",
-      "snippet": "…alues.yaml\"\nrbacAggregate:\n enableOBCs: true\n`\n\n## CephObjectStore 생성\n\n- Rook / Object Storage Overview\n\n### Local Object Store\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephO…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "object-gateway",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/object-gateway",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/object-gateway/object-gateway.mdx.json",
-      "subject_ref": "subject:data:storage-system:object-gateway"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/rbd/rbd.mdx",
-      "type": "document",
-      "title": "Ceph Rados Block Device(RBD)",
-      "snippet": "…kubeletDirPath: /var/lib/kubelet\n`\n\n## CephBlockPool 생성\n\n- Rook / Block Storage Overview\n- Rook / CephBlockPool CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephBlockPo…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "rbd",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/rbd",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/rbd/rbd.mdx.json",
-      "subject_ref": "subject:data:storage-system:rbd"
-    },
-    {
-      "id": "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
-      "type": "document",
-      "title": "Rook Ceph",
-      "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
-      "ontology": {
-        "role": "entity",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "rook-ceph",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/data/storage-system/rook-ceph",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx.json",
-      "subject_ref": "subject:data:storage-system:rook-ceph"
     },
     {
       "id": "doc:docs/entity/hardware/mcu-family/esp8266-esp-01-module/esp8266-esp-01-module.mdx",
@@ -6177,278 +6497,6 @@
       "subject_ref": "subject:data:database:design"
     },
     {
-      "id": "doc:docs/operation/data/database/mongodb/install.mdx",
-      "type": "document",
-      "title": "MongoDB 설치",
-      "snippet": "## 설치\n\n- https://github.com/mongodb/helm-charts\n\n``shell\nhelm repo add bitnami https://charts.bitnami.com/bitnami\n`…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mongodb",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/data/database/mongodb/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mongodb/install.mdx.json",
-      "subject_ref": "subject:data:database:mongodb"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mongodb/user.mdx",
-      "type": "document",
-      "title": "MongoDB User(Role)",
-      "snippet": "…User\n\n``js\n// use\n\ndb.createUser({\n user: \"\",\n pwd: \"\", // or passwordPrompt()\n roles: [\n // \"\",\n { role: \"\", db: \"\" },\n ],\n});\n``\n\n### User에 Role 부여하기\n\n- grantRole…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mongodb",
-        "aspect": "user"
-      },
-      "url": "/docs/operation/data/database/mongodb/user",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mongodb/user.mdx.json",
-      "subject_ref": "subject:data:database:mongodb"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/aggregate.mdx",
-      "type": "document",
-      "title": "Aggregate",
-      "snippet": "## GROUP BY\n\n## COUNT\n\n- https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "aggregate"
-      },
-      "url": "/docs/operation/data/database/mysql/aggregate",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/aggregate.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/explain.mdx",
-      "type": "document",
-      "title": "EXPLAIN",
-      "snippet": "## EXPLAIN(DESCRIBE)\n\n- https://dev.mysql.com/doc/refman/8.0/en/explain.html\n\nEXPLAIN과 DES…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "explain"
-      },
-      "url": "/docs/operation/data/database/mysql/explain",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/explain.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/join.mdx",
-      "type": "document",
-      "title": "JOIN",
-      "snippet": "- https://dev.mysql.com/doc/refman/8.0/en/join.html\n\n## [INNER] JOIN\n\n``sql\nSELECT\n\nFROM\n AS\n [INNE…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "join"
-      },
-      "url": "/docs/operation/data/database/mysql/join",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/join.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/lock.mdx",
-      "type": "document",
-      "title": "Lock",
-      "snippet": "## Row-Level Lock\n\n- https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html\n\n### FOR SHARE\n\n``sql\nSELECT ..…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "lock"
-      },
-      "url": "/docs/operation/data/database/mysql/lock",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/lock.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/stored-program.mdx",
-      "type": "document",
-      "title": "Stored Program",
-      "snippet": "… 끝난 후엔 다시 ;로 변경해야 합니다.\n\n## PROCEDURE\n\n- https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html\n\n### CREATE PROCEDURE\n\n``sql\nDELIMITER $$\nCREATE PROCEDURE (\n [ …",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "stored-program"
-      },
-      "url": "/docs/operation/data/database/mysql/stored-program",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/stored-program.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/user.mdx",
-      "type": "document",
-      "title": "MySQL User(Role)",
-      "snippet": "## CREATE USER\n\n- https://dev.mysql.com/doc/refman/8.0/en/create-user.html\n- https://dev.mysql.com/doc/refman/8.0/e…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "user"
-      },
-      "url": "/docs/operation/data/database/mysql/user",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/user.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/database/mysql/window.mdx",
-      "type": "document",
-      "title": "WINDOW",
-      "snippet": "## OVER\n\n- https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html\n\nwindow를 사용하는 또는 할 수 있는 함수에 OVER를 사용하여 window를 넘겨줄 수 있습니다.…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "database",
-        "instance": "mysql",
-        "aspect": "window"
-      },
-      "url": "/docs/operation/data/database/mysql/window",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/database/mysql/window.mdx.json",
-      "subject_ref": "subject:data:database:mysql"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-interface/aws-ebs-csi-driver/install.mdx",
-      "type": "document",
-      "title": "aws-ebs-csi-driver 설치 가이드",
-      "snippet": "aws-ebs-csi-driver 개요 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.\n\n## 사전 요구 사항\n\n``ts\n\nconst awsEbsCsiDriverRoleNa…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-interface",
-        "instance": "aws-ebs-csi-driver",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/data/storage-interface/aws-ebs-csi-driver/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-interface/aws-ebs-csi-driver/install.mdx.json",
-      "subject_ref": "subject:data:storage-interface:aws-ebs-csi-driver"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-interface/aws-efs-csi-driver/install.mdx",
-      "type": "document",
-      "title": "aws-efs-csi-driver 설치 가이드",
-      "snippet": "aws-efs-csi-driver 개요 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.\n\n## 사전 요구 사항\n\n``ts\n\nconst awsEFSCSIDriverRoleNa…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-interface",
-        "instance": "aws-efs-csi-driver",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/data/storage-interface/aws-efs-csi-driver/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-interface/aws-efs-csi-driver/install.mdx.json",
-      "subject_ref": "subject:data:storage-interface:aws-efs-csi-driver"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
-      "type": "document",
-      "title": "Ceph Monitoring",
-      "snippet": "…t-token-ttl:\n- set-pwd-policy-enabled: true\n\n## Prometheus\n\n- Rook / Prometheus Monitoring\n\n### Prometheus 생성\n\nPrometheus의 volume으로 Ceph을 사용하는 경우, Ceph에 문제가 생겨 해당 PV 접근이 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "monitoring"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/monitoring",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/monitoring.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/osd.mdx",
-      "type": "document",
-      "title": "Ceph OSD 관리",
-      "snippet": "…anager(LVM)\n\n## Data 흐름\n\n https://access.redhat.com/documentation/en-us/red_hat_ceph_storage/4/html/storage_strategies_guide/overview\n\n- Data\n - block device image(…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "osd"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/osd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/osd.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/pg.mdx",
-      "type": "document",
-      "title": "Ceph Placement Group(PG) 관리",
-      "snippet": "## Placement Group(PG)\n\n- Data 흐름\n\nOSD당 100 개의 PG를 갖는 것이 권장되며, PG 수는(**pg_num**)은 2의 거듭제곱으로 설정해야합니다.\n\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "pg"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/pg",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/pg.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
-      "type": "document",
-      "title": "Rook Ceph에서 정적/동적으로 Volume 생성하기",
-      "snippet": "… Filesystem Storage Overview # Consume the Shared Filesystem across namespaces\n\nDynamic Provisioning으로 생성된 PVC, PV 내용을 참고하여 다른 namespace에 Static Provisioning을 하면 같은 Volume을 다른 name…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "provisioning"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/provisioning",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/provisioning.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
-      "type": "document",
-      "title": "Ceph 노드 재시작하기",
-      "snippet": "## 노드 한 대 재시작\n\n``shell\nfor _option in noout; do\n kubectl rook-ceph ceph osd set ${_option}\ndone\n`\n\n`shell\nkubectl cordon\n`\n\n`shell\nkubectl drain -…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "reboot"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/reboot",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/reboot.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/ceph/tuning.mdx",
-      "type": "document",
-      "title": "Ceph 성능 향상을 위한 튜닝(Tuning)",
-      "snippet": "## IOMMU OFF\n\n- Ceph / A Journey to 1 TiB/s\n\non 또는 pt 설정보다 off로 설정했을 때 큰 성능 향상을 보였습니다.\n\n## Replica v…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "ceph",
-        "aspect": "tuning"
-      },
-      "url": "/docs/operation/data/storage-system/ceph/tuning",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/ceph/tuning.mdx.json",
-      "subject_ref": "subject:data:storage-system:ceph"
-    },
-    {
       "id": "doc:docs/operation/data/storage-system/etc/fio.mdx",
       "type": "document",
       "title": "fio로 스토리지 I/O 성능 테스트하기",
@@ -6479,54 +6527,6 @@
       "url": "/docs/operation/data/storage-system/etc/mdtest",
       "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/etc/mdtest.mdx.json",
       "subject_ref": "subject:data:storage-system:etc"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/local-path-provisioner/install.mdx",
-      "type": "document",
-      "title": "local-path-provisioner 설치 가이드",
-      "snippet": "local-path-provisioner 개요 문서에서 도구 역할을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- local-path-provisioner GitHub\n\n``shell\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "local-path-provisioner",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/data/storage-system/local-path-provisioner/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/local-path-provisioner/install.mdx.json",
-      "subject_ref": "subject:data:storage-system:local-path-provisioner"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
-      "type": "document",
-      "title": "Rook Ceph Central Storage Cluster 구축하기",
-      "snippet": "## Provider Storage Cluster\n\n- Rook / External Cluster / Export config from the Ceph provider cluster\n- Roo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "rook-ceph",
-        "aspect": "central-storage-cluster"
-      },
-      "url": "/docs/operation/data/storage-system/rook-ceph/central-storage-cluster",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx.json",
-      "subject_ref": "subject:data:storage-system:rook-ceph"
-    },
-    {
-      "id": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
-      "type": "document",
-      "title": "Rook Ceph Cluster 생성하기",
-      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "data",
-        "class": "storage-system",
-        "instance": "rook-ceph",
-        "aspect": "cluster"
-      },
-      "url": "/docs/operation/data/storage-system/rook-ceph/cluster",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx.json",
-      "subject_ref": "subject:data:storage-system:rook-ceph"
     },
     {
       "id": "doc:docs/operation/hardware/mcu-family/arduino-how-to-use-library/how-to-use-library.mdx",
@@ -11310,7 +11310,8 @@
       "url": "/docs/data/dynamodb/overview",
       "node_url": "/api/wiki/nodes/subject:data:database:dynamodb.json",
       "document_refs": [
-        "doc:docs/data/dynamodb/overview.mdx"
+        "doc:docs/data/dynamodb/overview.mdx",
+        "doc:docs/data/dynamodb/update-item.mdx"
       ]
     },
     {
@@ -11323,10 +11324,10 @@
         "class": "database",
         "instance": "elasticsearch"
       },
-      "url": "/docs/concept/data/database/elasticsearch",
+      "url": "/docs/data/elasticsearch/overview",
       "node_url": "/api/wiki/nodes/subject:data:database:elasticsearch.json",
       "document_refs": [
-        "doc:docs/concept/data/database/elasticsearch/elasticsearch.mdx"
+        "doc:docs/data/elasticsearch/overview.mdx"
       ]
     },
     {
@@ -11343,8 +11344,8 @@
       "node_url": "/api/wiki/nodes/subject:data:database:mongodb.json",
       "document_refs": [
         "doc:docs/data/mongodb/overview.mdx",
-        "doc:docs/operation/data/database/mongodb/install.mdx",
-        "doc:docs/operation/data/database/mongodb/user.mdx"
+        "doc:docs/data/mongodb/install.mdx",
+        "doc:docs/data/mongodb/user.mdx"
       ]
     },
     {
@@ -11361,13 +11362,13 @@
       "node_url": "/api/wiki/nodes/subject:data:database:mysql.json",
       "document_refs": [
         "doc:docs/data/mysql/overview.mdx",
-        "doc:docs/operation/data/database/mysql/aggregate.mdx",
-        "doc:docs/operation/data/database/mysql/explain.mdx",
-        "doc:docs/operation/data/database/mysql/join.mdx",
-        "doc:docs/operation/data/database/mysql/lock.mdx",
-        "doc:docs/operation/data/database/mysql/stored-program.mdx",
-        "doc:docs/operation/data/database/mysql/user.mdx",
-        "doc:docs/operation/data/database/mysql/window.mdx"
+        "doc:docs/data/mysql/aggregate.mdx",
+        "doc:docs/data/mysql/explain.mdx",
+        "doc:docs/data/mysql/join.mdx",
+        "doc:docs/data/mysql/lock.mdx",
+        "doc:docs/data/mysql/stored-program.mdx",
+        "doc:docs/data/mysql/user.mdx",
+        "doc:docs/data/mysql/window.mdx"
       ]
     },
     {
@@ -11425,22 +11426,6 @@
       ]
     },
     {
-      "id": "subject:data:database:update-item",
-      "type": "subject",
-      "title": "DynamoDB Update Item",
-      "snippet": "…with(path, substr)\n - size(path)\n- Logical\n - a AND b\n - a OR b\n - NOT a\n\nboto3.dynamodb.conditions 을 이용해서 표현할 수 있습니다.\n\n## UpdateExpression\n\n- SET path = value [, path …",
-      "ontology": {
-        "domain": "data",
-        "class": "database",
-        "instance": "update-item"
-      },
-      "url": "/docs/entity/data/database/update-item",
-      "node_url": "/api/wiki/nodes/subject:data:database:update-item.json",
-      "document_refs": [
-        "doc:docs/entity/data/database/update-item/update-item.mdx"
-      ]
-    },
-    {
       "id": "subject:data:object-storage:minio",
       "type": "subject",
       "title": "MinIO, S3 호환 Object Storage",
@@ -11482,11 +11467,11 @@
         "class": "storage-interface",
         "instance": "aws-ebs-csi-driver"
       },
-      "url": "/docs/entity/data/storage-interface/aws-ebs-csi-driver",
+      "url": "/docs/data/aws-ebs-csi-driver/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-interface:aws-ebs-csi-driver.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-interface/aws-ebs-csi-driver/aws-ebs-csi-driver.mdx",
-        "doc:docs/operation/data/storage-interface/aws-ebs-csi-driver/install.mdx"
+        "doc:docs/data/aws-ebs-csi-driver/overview.mdx",
+        "doc:docs/data/aws-ebs-csi-driver/install.mdx"
       ]
     },
     {
@@ -11499,11 +11484,11 @@
         "class": "storage-interface",
         "instance": "aws-efs-csi-driver"
       },
-      "url": "/docs/entity/data/storage-interface/aws-efs-csi-driver",
+      "url": "/docs/data/aws-efs-csi-driver/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-interface:aws-efs-csi-driver.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-interface/aws-efs-csi-driver/aws-efs-csi-driver.mdx",
-        "doc:docs/operation/data/storage-interface/aws-efs-csi-driver/install.mdx"
+        "doc:docs/data/aws-efs-csi-driver/overview.mdx",
+        "doc:docs/data/aws-efs-csi-driver/install.mdx"
       ]
     },
     {
@@ -11516,10 +11501,10 @@
         "class": "storage-interface",
         "instance": "csi"
       },
-      "url": "/docs/entity/data/storage-interface/csi",
+      "url": "/docs/data/csi/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-interface:csi.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-interface/csi/csi.mdx"
+        "doc:docs/data/csi/overview.mdx"
       ]
     },
     {
@@ -11548,16 +11533,16 @@
         "class": "storage-system",
         "instance": "ceph"
       },
-      "url": "/docs/entity/data/storage-system/ceph",
+      "url": "/docs/data/ceph/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:ceph.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
-        "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
-        "doc:docs/operation/data/storage-system/ceph/osd.mdx",
-        "doc:docs/operation/data/storage-system/ceph/pg.mdx",
-        "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
-        "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
-        "doc:docs/operation/data/storage-system/ceph/tuning.mdx"
+        "doc:docs/data/ceph/overview.mdx",
+        "doc:docs/data/ceph/monitoring.mdx",
+        "doc:docs/data/ceph/osd.mdx",
+        "doc:docs/data/ceph/pg.mdx",
+        "doc:docs/data/ceph/provisioning.mdx",
+        "doc:docs/data/ceph/reboot.mdx",
+        "doc:docs/data/ceph/tuning.mdx"
       ]
     },
     {
@@ -11570,10 +11555,10 @@
         "class": "storage-system",
         "instance": "cephfs"
       },
-      "url": "/docs/entity/data/storage-system/cephfs",
+      "url": "/docs/data/cephfs/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:cephfs.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/cephfs/cephfs.mdx"
+        "doc:docs/data/cephfs/overview.mdx"
       ]
     },
     {
@@ -11603,11 +11588,11 @@
         "class": "storage-system",
         "instance": "local-path-provisioner"
       },
-      "url": "/docs/entity/data/storage-system/local-path-provisioner",
+      "url": "/docs/data/local-path-provisioner/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:local-path-provisioner.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx",
-        "doc:docs/operation/data/storage-system/local-path-provisioner/install.mdx"
+        "doc:docs/data/local-path-provisioner/overview.mdx",
+        "doc:docs/data/local-path-provisioner/install.mdx"
       ]
     },
     {
@@ -11620,10 +11605,10 @@
         "class": "storage-system",
         "instance": "object-gateway"
       },
-      "url": "/docs/entity/data/storage-system/object-gateway",
+      "url": "/docs/data/object-gateway/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:object-gateway.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/object-gateway/object-gateway.mdx"
+        "doc:docs/data/object-gateway/overview.mdx"
       ]
     },
     {
@@ -11636,10 +11621,10 @@
         "class": "storage-system",
         "instance": "rbd"
       },
-      "url": "/docs/entity/data/storage-system/rbd",
+      "url": "/docs/data/rbd/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:rbd.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/rbd/rbd.mdx"
+        "doc:docs/data/rbd/overview.mdx"
       ]
     },
     {
@@ -11652,12 +11637,12 @@
         "class": "storage-system",
         "instance": "rook-ceph"
       },
-      "url": "/docs/entity/data/storage-system/rook-ceph",
+      "url": "/docs/data/rook-ceph/overview",
       "node_url": "/api/wiki/nodes/subject:data:storage-system:rook-ceph.json",
       "document_refs": [
-        "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
-        "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
-        "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx"
+        "doc:docs/data/rook-ceph/overview.mdx",
+        "doc:docs/data/rook-ceph/central-storage-cluster.mdx",
+        "doc:docs/data/rook-ceph/cluster.mdx"
       ]
     },
     {
@@ -17870,12 +17855,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/concept/data/database/elasticsearch/elasticsearch.mdx:about_subject:subject:data:database:elasticsearch",
-      "from": "doc:docs/concept/data/database/elasticsearch/elasticsearch.mdx",
-      "to": "subject:data:database:elasticsearch",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/concept/hardware/electronics/capacitor/capacitor.mdx:about_subject:subject:hardware:electronics:capacitor",
       "from": "doc:docs/concept/hardware/electronics/capacitor/capacitor.mdx",
       "to": "subject:hardware:electronics:capacitor",
@@ -18056,6 +18035,78 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/data/aws-ebs-csi-driver/install.mdx:about_subject:subject:data:storage-interface:aws-ebs-csi-driver",
+      "from": "doc:docs/data/aws-ebs-csi-driver/install.mdx",
+      "to": "subject:data:storage-interface:aws-ebs-csi-driver",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/aws-ebs-csi-driver/overview.mdx:about_subject:subject:data:storage-interface:aws-ebs-csi-driver",
+      "from": "doc:docs/data/aws-ebs-csi-driver/overview.mdx",
+      "to": "subject:data:storage-interface:aws-ebs-csi-driver",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/aws-efs-csi-driver/install.mdx:about_subject:subject:data:storage-interface:aws-efs-csi-driver",
+      "from": "doc:docs/data/aws-efs-csi-driver/install.mdx",
+      "to": "subject:data:storage-interface:aws-efs-csi-driver",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/aws-efs-csi-driver/overview.mdx:about_subject:subject:data:storage-interface:aws-efs-csi-driver",
+      "from": "doc:docs/data/aws-efs-csi-driver/overview.mdx",
+      "to": "subject:data:storage-interface:aws-efs-csi-driver",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/monitoring.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/monitoring.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/osd.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/overview.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/overview.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/pg.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/provisioning.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/reboot.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/ceph/tuning.mdx:about_subject:subject:data:storage-system:ceph",
+      "from": "doc:docs/data/ceph/tuning.mdx",
+      "to": "subject:data:storage-system:ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/cephfs/overview.mdx:about_subject:subject:data:storage-system:cephfs",
+      "from": "doc:docs/data/cephfs/overview.mdx",
+      "to": "subject:data:storage-system:cephfs",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/data/concepts/knowledge-graph.mdx:about_subject:subject:data:concept:knowledge-graph",
       "from": "doc:docs/data/concepts/knowledge-graph.mdx",
       "to": "subject:data:concept:knowledge-graph",
@@ -18086,9 +18137,39 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/data/csi/overview.mdx:about_subject:subject:data:storage-interface:csi",
+      "from": "doc:docs/data/csi/overview.mdx",
+      "to": "subject:data:storage-interface:csi",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/data/dynamodb/overview.mdx:about_subject:subject:data:database:dynamodb",
       "from": "doc:docs/data/dynamodb/overview.mdx",
       "to": "subject:data:database:dynamodb",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/dynamodb/update-item.mdx:about_subject:subject:data:database:dynamodb",
+      "from": "doc:docs/data/dynamodb/update-item.mdx",
+      "to": "subject:data:database:dynamodb",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/elasticsearch/overview.mdx:about_subject:subject:data:database:elasticsearch",
+      "from": "doc:docs/data/elasticsearch/overview.mdx",
+      "to": "subject:data:database:elasticsearch",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/local-path-provisioner/install.mdx:about_subject:subject:data:storage-system:local-path-provisioner",
+      "from": "doc:docs/data/local-path-provisioner/install.mdx",
+      "to": "subject:data:storage-system:local-path-provisioner",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/local-path-provisioner/overview.mdx:about_subject:subject:data:storage-system:local-path-provisioner",
+      "from": "doc:docs/data/local-path-provisioner/overview.mdx",
+      "to": "subject:data:storage-system:local-path-provisioner",
       "predicate": "about_subject"
     },
     {
@@ -18098,15 +18179,75 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/data/mongodb/install.mdx:about_subject:subject:data:database:mongodb",
+      "from": "doc:docs/data/mongodb/install.mdx",
+      "to": "subject:data:database:mongodb",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/data/mongodb/overview.mdx:about_subject:subject:data:database:mongodb",
       "from": "doc:docs/data/mongodb/overview.mdx",
       "to": "subject:data:database:mongodb",
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/data/mongodb/user.mdx:about_subject:subject:data:database:mongodb",
+      "from": "doc:docs/data/mongodb/user.mdx",
+      "to": "subject:data:database:mongodb",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/aggregate.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/aggregate.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/explain.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/explain.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/join.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/join.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/lock.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/lock.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/data/mysql/overview.mdx:about_subject:subject:data:database:mysql",
       "from": "doc:docs/data/mysql/overview.mdx",
       "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/stored-program.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/stored-program.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/user.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/user.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/mysql/window.mdx:about_subject:subject:data:database:mysql",
+      "from": "doc:docs/data/mysql/window.mdx",
+      "to": "subject:data:database:mysql",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/object-gateway/overview.mdx:about_subject:subject:data:storage-system:object-gateway",
+      "from": "doc:docs/data/object-gateway/overview.mdx",
+      "to": "subject:data:storage-system:object-gateway",
       "predicate": "about_subject"
     },
     {
@@ -18158,69 +18299,33 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/data/s3/overview.mdx:about_subject:subject:data:object-storage:s3",
-      "from": "doc:docs/data/s3/overview.mdx",
-      "to": "subject:data:object-storage:s3",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/database/update-item/update-item.mdx:about_subject:subject:data:database:update-item",
-      "from": "doc:docs/entity/data/database/update-item/update-item.mdx",
-      "to": "subject:data:database:update-item",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-interface/aws-ebs-csi-driver/aws-ebs-csi-driver.mdx:about_subject:subject:data:storage-interface:aws-ebs-csi-driver",
-      "from": "doc:docs/entity/data/storage-interface/aws-ebs-csi-driver/aws-ebs-csi-driver.mdx",
-      "to": "subject:data:storage-interface:aws-ebs-csi-driver",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-interface/aws-efs-csi-driver/aws-efs-csi-driver.mdx:about_subject:subject:data:storage-interface:aws-efs-csi-driver",
-      "from": "doc:docs/entity/data/storage-interface/aws-efs-csi-driver/aws-efs-csi-driver.mdx",
-      "to": "subject:data:storage-interface:aws-efs-csi-driver",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-interface/csi/csi.mdx:about_subject:subject:data:storage-interface:csi",
-      "from": "doc:docs/entity/data/storage-interface/csi/csi.mdx",
-      "to": "subject:data:storage-interface:csi",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-system/ceph/ceph.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/entity/data/storage-system/ceph/ceph.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-system/cephfs/cephfs.mdx:about_subject:subject:data:storage-system:cephfs",
-      "from": "doc:docs/entity/data/storage-system/cephfs/cephfs.mdx",
-      "to": "subject:data:storage-system:cephfs",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx:about_subject:subject:data:storage-system:local-path-provisioner",
-      "from": "doc:docs/entity/data/storage-system/local-path-provisioner/local-path-provisioner.mdx",
-      "to": "subject:data:storage-system:local-path-provisioner",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-system/object-gateway/object-gateway.mdx:about_subject:subject:data:storage-system:object-gateway",
-      "from": "doc:docs/entity/data/storage-system/object-gateway/object-gateway.mdx",
-      "to": "subject:data:storage-system:object-gateway",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/data/storage-system/rbd/rbd.mdx:about_subject:subject:data:storage-system:rbd",
-      "from": "doc:docs/entity/data/storage-system/rbd/rbd.mdx",
+      "id": "relation:doc:docs/data/rbd/overview.mdx:about_subject:subject:data:storage-system:rbd",
+      "from": "doc:docs/data/rbd/overview.mdx",
       "to": "subject:data:storage-system:rbd",
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx:about_subject:subject:data:storage-system:rook-ceph",
-      "from": "doc:docs/entity/data/storage-system/rook-ceph/rook-ceph.mdx",
+      "id": "relation:doc:docs/data/rook-ceph/central-storage-cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/data/rook-ceph/central-storage-cluster.mdx",
       "to": "subject:data:storage-system:rook-ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/rook-ceph/cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/data/rook-ceph/cluster.mdx",
+      "to": "subject:data:storage-system:rook-ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/rook-ceph/overview.mdx:about_subject:subject:data:storage-system:rook-ceph",
+      "from": "doc:docs/data/rook-ceph/overview.mdx",
+      "to": "subject:data:storage-system:rook-ceph",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/data/s3/overview.mdx:about_subject:subject:data:object-storage:s3",
+      "from": "doc:docs/data/s3/overview.mdx",
+      "to": "subject:data:object-storage:s3",
       "predicate": "about_subject"
     },
     {
@@ -20174,108 +20279,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/data/database/mongodb/install.mdx:about_subject:subject:data:database:mongodb",
-      "from": "doc:docs/operation/data/database/mongodb/install.mdx",
-      "to": "subject:data:database:mongodb",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mongodb/user.mdx:about_subject:subject:data:database:mongodb",
-      "from": "doc:docs/operation/data/database/mongodb/user.mdx",
-      "to": "subject:data:database:mongodb",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/aggregate.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/aggregate.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/explain.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/explain.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/join.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/join.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/lock.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/lock.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/stored-program.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/stored-program.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/user.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/user.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/database/mysql/window.mdx:about_subject:subject:data:database:mysql",
-      "from": "doc:docs/operation/data/database/mysql/window.mdx",
-      "to": "subject:data:database:mysql",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-interface/aws-ebs-csi-driver/install.mdx:about_subject:subject:data:storage-interface:aws-ebs-csi-driver",
-      "from": "doc:docs/operation/data/storage-interface/aws-ebs-csi-driver/install.mdx",
-      "to": "subject:data:storage-interface:aws-ebs-csi-driver",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-interface/aws-efs-csi-driver/install.mdx:about_subject:subject:data:storage-interface:aws-efs-csi-driver",
-      "from": "doc:docs/operation/data/storage-interface/aws-efs-csi-driver/install.mdx",
-      "to": "subject:data:storage-interface:aws-efs-csi-driver",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/monitoring.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/monitoring.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/osd.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/pg.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/pg.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/provisioning.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/provisioning.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/reboot.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/ceph/tuning.mdx:about_subject:subject:data:storage-system:ceph",
-      "from": "doc:docs/operation/data/storage-system/ceph/tuning.mdx",
-      "to": "subject:data:storage-system:ceph",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/data/storage-system/etc/fio.mdx:about_subject:subject:data:storage-system:etc",
       "from": "doc:docs/operation/data/storage-system/etc/fio.mdx",
       "to": "subject:data:storage-system:etc",
@@ -20285,24 +20288,6 @@
       "id": "relation:doc:docs/operation/data/storage-system/etc/mdtest.mdx:about_subject:subject:data:storage-system:etc",
       "from": "doc:docs/operation/data/storage-system/etc/mdtest.mdx",
       "to": "subject:data:storage-system:etc",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/local-path-provisioner/install.mdx:about_subject:subject:data:storage-system:local-path-provisioner",
-      "from": "doc:docs/operation/data/storage-system/local-path-provisioner/install.mdx",
-      "to": "subject:data:storage-system:local-path-provisioner",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
-      "from": "doc:docs/operation/data/storage-system/rook-ceph/central-storage-cluster.mdx",
-      "to": "subject:data:storage-system:rook-ceph",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx:about_subject:subject:data:storage-system:rook-ceph",
-      "from": "doc:docs/operation/data/storage-system/rook-ceph/cluster.mdx",
-      "to": "subject:data:storage-system:rook-ceph",
       "predicate": "about_subject"
     },
     {

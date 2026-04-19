@@ -1,0 +1,271 @@
+---
+id: install
+title: "aws-efs-csi-driver 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "aws-efs-csi-driver 설치 가이드"
+keywords:
+  - aws-efs-csi-driver
+ontology:
+  role: operation
+  domain: data
+  class: storage-interface
+  instance: aws-efs-csi-driver
+  aspect: install
+subject:
+  canonical_name: aws-efs-csi-driver
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - csi
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[aws-efs-csi-driver 개요](/docs/data/aws-efs-csi-driver/overview.mdx) 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.
+:::
+
+## 사전 요구 사항
+
+```ts
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const awsEFSCSIDriverRoleName = "aws-efs-csi-driver-role";
+export const awsEFSCSIDriverRole = new aws.iam.Role(
+	awsEFSCSIDriverRoleName,
+	{
+		namePrefix: `${awsEFSCSIDriverRoleName}-`,
+		assumeRolePolicy: {
+			Version: "2012-10-17",
+			Statement: [
+				{
+					Effect: "Allow",
+					Principal: {
+						Federated: variable.eks.core.eks.apply((eks) => eks.oidcProvider.arn),
+					},
+					Condition: {
+						StringEquals: variable.eks.core.eks.apply((eks) => ({
+							[`${eks.oidcProvider.url}:aud`]: "sts.amazonaws.com",
+							[`${eks.oidcProvider.url}:sub`]:
+								"system:serviceaccount:kube-system:aws-efs-csi-driver",
+						})),
+					},
+					Action: "sts:AssumeRoleWithWebIdentity",
+				},
+			],
+		},
+		tags: {
+			Name: awsEFSCSIDriverRoleName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ protect: true },
+);
+
+new aws.iam.RolePolicyAttachment(
+	"aws-efs-csi-driver-rpa-0",
+	{
+		policyArn: "arn:aws:iam::aws:policy/service-role/AmazonEFSCSIDriverPolicy",
+		role: awsEFSCSIDriverRole.name,
+	},
+	{ protect: true },
+);
+```
+
+## 설치
+
+```shell
+helm repo add aws-efs-csi-driver https://kubernetes-sigs.github.io/aws-efs-csi-driver
+```
+
+```shell
+helm repo update aws-efs-csi-driver \
+&& helm search repo aws-efs-csi-driver/aws-efs-csi-driver -l | head -n 10
+```
+
+```shell
+helm show values aws-efs-csi-driver/aws-efs-csi-driver \
+    --version 2.5.0 \
+    > aws-efs-csi-driver-values.yaml
+```
+
+```yaml title="aws-efs-csi-driver-values.yaml"
+controller:
+  serviceAccount:
+    create: true
+    name: aws-efs-csi-driver
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::<account-id>:role/<role-name>
+```
+
+```shell
+helm template aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+    --version 2.5.0 \
+    -n kube-system \
+    -f aws-efs-csi-driver-values.yaml \
+    > aws-efs-csi-driver.yaml
+```
+
+```shell
+helm upgrade -i aws-efs-csi-driver aws-efs-csi-driver/aws-efs-csi-driver \
+    --history-max 5 \
+    --version 2.5.0 \
+    -n kube-system \
+    -f aws-efs-csi-driver-values.yaml
+```
+
+## EFS
+
+- https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html
+
+```ts
+import * as aws from "@pulumi/aws";
+import * as variable from "@src/variable";
+
+const efs0Name = "efs-0";
+const efs0 = new aws.efs.FileSystem(efs0Name, {
+	availabilityZoneName: "ap-northeast-2a",
+	performanceMode: "generalPurpose",
+	throughputMode: "bursting",
+	lifecyclePolicies: [
+		{
+			transitionToIa: "AFTER_14_DAYS",
+		},
+	],
+	encrypted: true,
+	tags: {
+		Name: efs0Name,
+		"loliot.net/stack": variable.stackName,
+	},
+});
+
+const efs0SecurityGroupName = "efs-0";
+const vpcId = variable.eks.core.vpc.apply((vpc) => vpc.vpc.id);
+const cidrBlocks = variable.eks.core.vpc.apply((vpc) => vpc.vpc.cidrBlock);
+const efs0SecurityGroup = new aws.ec2.SecurityGroup(
+	efs0SecurityGroupName,
+	{
+		namePrefix: efs0SecurityGroupName,
+		vpcId: vpcId,
+		ingress: [
+			{
+				fromPort: 2049,
+				toPort: 2049,
+				protocol: "tcp",
+				cidrBlocks: [cidrBlocks],
+			},
+		],
+		egress: [{ fromPort: 0, toPort: 0, protocol: "all", cidrBlocks: ["0.0.0.0/0"] }],
+		tags: {
+			Name: efs0SecurityGroupName,
+			"loliot.net/stack": variable.stackName,
+		},
+	},
+	{ parent: efs0 },
+);
+
+const efs0MountTarget0Name = "efs-0";
+const subnetId = variable.eks.core.vpc.apply((vpc) => vpc.privateSubnet1.id);
+const efs0MountTarget0 = new aws.efs.MountTarget(
+	efs0MountTarget0Name,
+	{
+		fileSystemId: efs0.id,
+		securityGroups: [efs0SecurityGroup.id],
+		subnetId: subnetId,
+	},
+	{
+		parent: efs0,
+	},
+);
+```
+
+## StorageClass
+
+:::info
+Provisioning 시에 선언되는 storage 크기는 더미 값입니다. 실제 사용 시에는 제한이 없습니다.
+:::
+
+### Static Provisioning
+
+```yaml title="storage/aws-efs-csi-driver/static/efs-sp-sc.yaml"
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-sp-sc
+provisioner: efs.csi.aws.com
+```
+
+```shell
+pulumi stack output efs_id
+```
+
+```yaml title="storage/aws-efs-csi-driver/static/efs-sp-pvc.yaml" {15}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: efs-sp-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: efs-sp-sc
+  csi:
+    driver: efs.csi.aws.com
+    volumeHandle: <FileSystemId>[:<SubPath>][:<AccessPointId>]
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-sp-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-sp-sc
+  resources:
+    requests:
+      storage: 5Gi
+```
+
+:::info
+`<FileSystemId>`, `<FileSystemId>:<SubPath>`, `<FileSystemId>::<AccessPointId>`, `<FileSystemId>:<SubPath>:<AccessPointId>`조합이 가능합니다.
+:::
+
+### Dynamic Provisioning
+
+```yaml title="storage/aws-efs-csi-driver/dynamic/efs-dp-sc.yaml" {8-10}
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: efs-dp-sc
+provisioner: efs.csi.aws.com
+parameters:
+  provisioningMode: efs-ap # PVC를 선언하면 AccessPoint가 생성됩니다.
+  fileSystemId: <FileSystemId>
+  directoryPerms: "755"
+  basePath: "/k8s" # Default: "/". AccessPoint의 루트 디렉터리들이 생성될 위치 입니다.
+```
+
+```yaml title="storage/aws-efs-csi-driver/dynamic/efs-dp-pvc.yaml"
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: efs-dp-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: efs-dp-sc
+  resources:
+    requests:
+      storage: 5Gi
+```

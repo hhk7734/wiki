@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/data/ceph/reboot.mdx",
+  "title": "Ceph 노드 재시작하기",
+  "snippet": "## 노드 한 대 재시작\n\n``shell\nfor _option in noout; do\n kubectl rook-ceph ceph osd set ${_option}\ndone\n`\n\n`shell\nkubectl cordon\n`\n\n`shell\nkubectl drain -…",
+  "ontology": {
+    "role": "operation",
+    "domain": "data",
+    "class": "storage-system",
+    "instance": "ceph",
+    "aspect": "reboot"
+  },
+  "url": "/docs/data/ceph/reboot",
+  "node_url": "/api/wiki/nodes/doc:docs/data/ceph/reboot.mdx.json",
+  "subject": {
+    "id": "subject:data:storage-system:ceph",
+    "title": "Ceph Storage Cluster란?",
+    "ontology": {
+      "domain": "data",
+      "class": "storage-system",
+      "instance": "ceph"
+    },
+    "url": "/docs/data/ceph/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/data/ceph/reboot.mdx:about_subject:subject:data:storage-system:ceph",
+      "predicate": "about_subject",
+      "other_id": "subject:data:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}
