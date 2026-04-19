@@ -298,50 +298,31 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:orchestrator:api-access-control",
+      "id": "subject:mlops:orchestrator:kubernetes",
       "title": "Admission Controller",
       "description": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
       "snippet": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
-      "url": "/docs/operation/mlops/orchestrator/api-access-control/admission-controller",
+      "url": "/docs/mlops/kubernetes/admission-controller",
       "document_refs": [
-        "doc:docs/operation/mlops/orchestrator/api-access-control/admission-controller.mdx"
+        "doc:docs/mlops/kubernetes/admission-controller.mdx",
+        "doc:docs/mlops/kubernetes/controller.mdx",
+        "doc:docs/mlops/kubernetes/labels.mdx",
+        "doc:docs/mlops/kubernetes/node-operations/drain-node.mdx",
+        "doc:docs/mlops/kubernetes/scheduling/affinity.mdx",
+        "doc:docs/mlops/kubernetes/scheduling/taints-and-tolerations.mdx",
+        "doc:docs/mlops/kubernetes/scheduling/topology-spread-constraints.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "api-access-control"
+        "instance": "kubernetes"
       },
-      "search_text": "admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller admission controller mutatingwebhookconfiguration validatingwebhookconfiguration mlops orchestrator api-access-control",
+      "search_text": "admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller kubernetes controller label node를 비우고 제거하기 affinity taints and tolerations topology spread constraints admission controller mutatingwebhookconfiguration validatingwebhookconfiguration controller deployment example labels 권장 labels label selector node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 nodeaffinity podaffinity podantiaffinity taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 mlops orchestrator kubernetes",
       "display": {
         "label": "Admission Controller",
         "kind": "subject",
-        "subtitle": "Api Access Control",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:orchestrator:scheduling",
-      "title": "Affinity",
-      "description": "## nodeAffinity\n\n- Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes\n\nnod…",
-      "snippet": "## nodeAffinity\n\n- Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes\n\nnod…",
-      "url": "/docs/operation/mlops/orchestrator/scheduling/affinity",
-      "document_refs": [
-        "doc:docs/operation/mlops/orchestrator/scheduling/affinity.mdx",
-        "doc:docs/operation/mlops/orchestrator/scheduling/taint-toleration.mdx",
-        "doc:docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "orchestrator",
-        "instance": "scheduling"
-      },
-      "search_text": "affinity nodeaffinity - kubernetes / concepts / scheduling preemption and eviction / assigning pods to nodes nod affinity taints and tolerations topology spread constraints nodeaffinity podaffinity podantiaffinity taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 mlops orchestrator scheduling",
-      "display": {
-        "label": "Affinity",
-        "kind": "subject",
-        "subtitle": "Scheduling",
-        "document_count": 3
+        "subtitle": "Kubernetes",
+        "document_count": 7
       }
     },
     {
@@ -3389,29 +3370,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:orchestrator:architecture",
-      "title": "Kubernetes Controller",
-      "description": "## Controller\n\n- Controllers\n\n로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다. 컨트롤 루프는 현재…",
-      "snippet": "## Controller\n\n- Controllers\n\n로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다. 컨트롤 루프는 현재…",
-      "url": "/docs/operation/mlops/orchestrator/architecture/controller",
-      "document_refs": [
-        "doc:docs/operation/mlops/orchestrator/architecture/controller.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "orchestrator",
-        "instance": "architecture"
-      },
-      "search_text": "kubernetes controller controller - controllers 로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다 컨트롤 루프는 현재 kubernetes controller controller deployment example mlops orchestrator architecture",
-      "display": {
-        "label": "Kubernetes Controller",
-        "kind": "subject",
-        "subtitle": "Architecture",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:mlops:scheduler:custom-scheduler",
       "title": "Kubernetes Custom Scheduler 가이드",
       "description": "## ScorePlugin\n\n- Kubernetes GitHub / staging / src / k8s.io / kube-scheduler / framework / interface.go\n\n``…",
@@ -3692,29 +3650,6 @@
         "kind": "subject",
         "subtitle": "Llvm",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:orchestrator:object-management",
-      "title": "Label",
-      "description": "## Labels\n\n- Kubernetes Docs / Concepts / Overview / Labels and Selectors\n\n- : 형태로 구성됩니다.\n -\n - [/]으로 설…",
-      "snippet": "## Labels\n\n- Kubernetes Docs / Concepts / Overview / Labels and Selectors\n\n- : 형태로 구성됩니다.\n -\n - [/]으로 설…",
-      "url": "/docs/operation/mlops/orchestrator/object-management/label",
-      "document_refs": [
-        "doc:docs/operation/mlops/orchestrator/object-management/label.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "orchestrator",
-        "instance": "object-management"
-      },
-      "search_text": "label labels - kubernetes docs / concepts / overview / labels and selectors - 형태로 구성됩니다 - - / 으로 설 label labels 권장 labels label selector mlops orchestrator object-management",
-      "display": {
-        "label": "Label",
-        "kind": "subject",
-        "subtitle": "Object Management",
-        "document_count": 1
       }
     },
     {
@@ -4371,29 +4306,6 @@
         "kind": "subject",
         "subtitle": "Nextjs",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:orchestrator:administer-cluster",
-      "title": "Node를 비우고 제거하기",
-      "description": "…Pod 비우기\n\n`shell\nkubectl drain --ignore-daemonsets\n`\n\n## Node 제거\n\n`shell\nkubectl delete node\n``",
-      "snippet": "…Pod 비우기\n\n`shell\nkubectl drain --ignore-daemonsets\n`\n\n## Node 제거\n\n`shell\nkubectl delete node\n``",
-      "url": "/docs/operation/mlops/orchestrator/administer-cluster/drain-node",
-      "document_refs": [
-        "doc:docs/operation/mlops/orchestrator/administer-cluster/drain-node.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "orchestrator",
-        "instance": "administer-cluster"
-      },
-      "search_text": "node를 비우고 제거하기 pod 비우기 shell kubectl drain --ignore-daemonsets node 제거 shell kubectl delete node node를 비우고 제거하기 node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 mlops orchestrator administer-cluster",
-      "display": {
-        "label": "Node를 비우고 제거하기",
-        "kind": "subject",
-        "subtitle": "Administer Cluster",
-        "document_count": 1
       }
     },
     {
@@ -9180,7 +9092,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/api-access-control/admission-controller.mdx",
+      "id": "doc:docs/mlops/kubernetes/admission-controller.mdx",
       "title": "Admission Controller",
       "description": "Admission Controller",
       "snippet": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
@@ -9193,26 +9105,26 @@
         "kubernetes",
         "admission controller"
       ],
-      "url": "/docs/operation/mlops/orchestrator/api-access-control/admission-controller",
-      "subject_ref": "subject:mlops:orchestrator:api-access-control",
-      "subject_title": "Api Access Control",
+      "url": "/docs/mlops/kubernetes/admission-controller",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "api-access-control",
+        "instance": "kubernetes",
         "aspect": "admission-controller"
       },
-      "search_text": "admission controller admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller mutatingwebhookconfiguration validatingwebhookconfiguration kubernetes admission controller operation mlops orchestrator api-access-control admission-controller",
+      "search_text": "admission controller admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller mutatingwebhookconfiguration validatingwebhookconfiguration kubernetes admission controller operation mlops orchestrator kubernetes admission-controller",
       "display": {
         "label": "Admission Controller",
         "kind": "document",
-        "subtitle": "Api Access Control"
+        "subtitle": "Kubernetes"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/scheduling/affinity.mdx",
+      "id": "doc:docs/mlops/kubernetes/scheduling/affinity.mdx",
       "title": "Affinity",
       "description": "node/pod affinity/anti-affinity",
       "snippet": "## nodeAffinity\n\n- Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes\n\nnod…",
@@ -9225,21 +9137,21 @@
         "affinity",
         "anti-affinity"
       ],
-      "url": "/docs/operation/mlops/orchestrator/scheduling/affinity",
-      "subject_ref": "subject:mlops:orchestrator:scheduling",
-      "subject_title": "Scheduling",
+      "url": "/docs/mlops/kubernetes/scheduling/affinity",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "scheduling",
+        "instance": "kubernetes",
         "aspect": "affinity"
       },
-      "search_text": "affinity node/pod affinity/anti-affinity nodeaffinity - kubernetes / concepts / scheduling preemption and eviction / assigning pods to nodes nod nodeaffinity podaffinity podantiaffinity kubernetes affinity anti-affinity operation mlops orchestrator scheduling affinity",
+      "search_text": "affinity node/pod affinity/anti-affinity nodeaffinity - kubernetes / concepts / scheduling preemption and eviction / assigning pods to nodes nod nodeaffinity podaffinity podantiaffinity kubernetes affinity anti-affinity operation mlops orchestrator kubernetes affinity",
       "display": {
         "label": "Affinity",
         "kind": "document",
-        "subtitle": "Scheduling"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -18212,7 +18124,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/architecture/controller.mdx",
+      "id": "doc:docs/mlops/kubernetes/controller.mdx",
       "title": "Kubernetes Controller",
       "description": "Kubernetes Controller",
       "snippet": "## Controller\n\n- Controllers\n\n로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다. 컨트롤 루프는 현재…",
@@ -18224,21 +18136,21 @@
         "Makefile",
         "help"
       ],
-      "url": "/docs/operation/mlops/orchestrator/architecture/controller",
-      "subject_ref": "subject:mlops:orchestrator:architecture",
-      "subject_title": "Architecture",
+      "url": "/docs/mlops/kubernetes/controller",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "architecture",
+        "instance": "kubernetes",
         "aspect": "controller"
       },
-      "search_text": "kubernetes controller kubernetes controller controller - controllers 로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다 컨트롤 루프는 현재 controller deployment example makefile help operation mlops orchestrator architecture controller",
+      "search_text": "kubernetes controller kubernetes controller controller - controllers 로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다 컨트롤 루프는 현재 controller deployment example makefile help operation mlops orchestrator kubernetes controller",
       "display": {
         "label": "Kubernetes Controller",
         "kind": "document",
-        "subtitle": "Architecture"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -19080,6 +18992,38 @@
     },
     {
       "type": "document",
+      "id": "doc:docs/mlops/kubernetes/labels.mdx",
+      "title": "Label",
+      "description": "kubernetes label",
+      "snippet": "## Labels\n\n- Kubernetes Docs / Concepts / Overview / Labels and Selectors\n\n- : 형태로 구성됩니다.\n -\n - [/]으로 설…",
+      "headings": [
+        "Labels",
+        "권장 Labels",
+        "Label Selector"
+      ],
+      "keywords": [
+        "kubernetes",
+        "label"
+      ],
+      "url": "/docs/mlops/kubernetes/labels",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "orchestrator",
+        "instance": "kubernetes",
+        "aspect": "labels"
+      },
+      "search_text": "label kubernetes label labels - kubernetes docs / concepts / overview / labels and selectors - 형태로 구성됩니다 - - / 으로 설 labels 권장 labels label selector kubernetes label operation mlops orchestrator kubernetes labels",
+      "display": {
+        "label": "Label",
+        "kind": "document",
+        "subtitle": "Kubernetes"
+      }
+    },
+    {
+      "type": "document",
       "id": "doc:docs/mlops/loki/label.mdx",
       "title": "Label",
       "description": "Loki Label",
@@ -19109,38 +19053,6 @@
         "label": "Label",
         "kind": "document",
         "subtitle": "Loki"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/object-management/label.mdx",
-      "title": "Label",
-      "description": "kubernetes label",
-      "snippet": "## Labels\n\n- Kubernetes Docs / Concepts / Overview / Labels and Selectors\n\n- : 형태로 구성됩니다.\n -\n - [/]으로 설…",
-      "headings": [
-        "Labels",
-        "권장 Labels",
-        "Label Selector"
-      ],
-      "keywords": [
-        "kubernetes",
-        "label"
-      ],
-      "url": "/docs/operation/mlops/orchestrator/object-management/label",
-      "subject_ref": "subject:mlops:orchestrator:object-management",
-      "subject_title": "Object Management",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "orchestrator",
-        "instance": "object-management",
-        "aspect": "label"
-      },
-      "search_text": "label kubernetes label labels - kubernetes docs / concepts / overview / labels and selectors - 형태로 구성됩니다 - - / 으로 설 labels 권장 labels label selector kubernetes label operation mlops orchestrator object-management label",
-      "display": {
-        "label": "Label",
-        "kind": "document",
-        "subtitle": "Object Management"
       }
     },
     {
@@ -21327,7 +21239,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/administer-cluster/drain-node.mdx",
+      "id": "doc:docs/mlops/kubernetes/node-operations/drain-node.mdx",
       "title": "Node를 비우고 제거하기",
       "description": "Node를 비우고 제거하기",
       "snippet": "…Pod 비우기\n\n`shell\nkubectl drain --ignore-daemonsets\n`\n\n## Node 제거\n\n`shell\nkubectl delete node\n``",
@@ -21343,21 +21255,21 @@
         "delete",
         "node"
       ],
-      "url": "/docs/operation/mlops/orchestrator/administer-cluster/drain-node",
-      "subject_ref": "subject:mlops:orchestrator:administer-cluster",
-      "subject_title": "Administer Cluster",
+      "url": "/docs/mlops/kubernetes/node-operations/drain-node",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "administer-cluster",
+        "instance": "kubernetes",
         "aspect": "drain-node"
       },
-      "search_text": "node를 비우고 제거하기 node를 비우고 제거하기 pod 비우기 shell kubectl drain --ignore-daemonsets node 제거 shell kubectl delete node node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 kubernetes drain delete node operation mlops orchestrator administer-cluster drain-node",
+      "search_text": "node를 비우고 제거하기 node를 비우고 제거하기 pod 비우기 shell kubectl drain --ignore-daemonsets node 제거 shell kubectl delete node node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 kubernetes drain delete node operation mlops orchestrator kubernetes drain-node",
       "display": {
         "label": "Node를 비우고 제거하기",
         "kind": "document",
-        "subtitle": "Administer Cluster"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -27069,7 +26981,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/scheduling/taint-toleration.mdx",
+      "id": "doc:docs/mlops/kubernetes/scheduling/taints-and-tolerations.mdx",
       "title": "Taints and Tolerations",
       "description": "kubernetes label",
       "snippet": "…docs/concepts/scheduling-eviction/taint-and-toleration/\n\ntaints가 있는 Node에는 매칭되는 tolerations가 없는 Pod가 스케줄링되지 않습니다.\n\n## taints\n\n### taints 설정\n\n``yaml\napiVersion: v1\nkind: No…",
@@ -27086,21 +26998,21 @@
         "taints",
         "tolerations"
       ],
-      "url": "/docs/operation/mlops/orchestrator/scheduling/taint-toleration",
-      "subject_ref": "subject:mlops:orchestrator:scheduling",
-      "subject_title": "Scheduling",
+      "url": "/docs/mlops/kubernetes/scheduling/taints-and-tolerations",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "scheduling",
-        "aspect": "taint-toleration"
+        "instance": "kubernetes",
+        "aspect": "taints-and-tolerations"
       },
-      "search_text": "taints and tolerations kubernetes label docs/concepts/scheduling-eviction/taint-and-toleration/ taints가 있는 node에는 매칭되는 tolerations가 없는 pod가 스케줄링되지 않습니다 taints taints 설정 yaml apiversion v1 kind no taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 kubernetes taints tolerations operation mlops orchestrator scheduling taint-toleration",
+      "search_text": "taints and tolerations kubernetes label docs/concepts/scheduling-eviction/taint-and-toleration/ taints가 있는 node에는 매칭되는 tolerations가 없는 pod가 스케줄링되지 않습니다 taints taints 설정 yaml apiversion v1 kind no taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 kubernetes taints tolerations operation mlops orchestrator kubernetes taints-and-tolerations",
       "display": {
         "label": "Taints and Tolerations",
         "kind": "document",
-        "subtitle": "Scheduling"
+        "subtitle": "Kubernetes"
       }
     },
     {
@@ -27614,7 +27526,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints.mdx",
+      "id": "doc:docs/mlops/kubernetes/scheduling/topology-spread-constraints.mdx",
       "title": "Topology Spread Constraints",
       "description": "Topology Spread Constraints",
       "snippet": "- https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/",
@@ -27626,21 +27538,21 @@
         "constraints",
         "topologySpreadConstraints"
       ],
-      "url": "/docs/operation/mlops/orchestrator/scheduling/topology-spread-constraints",
-      "subject_ref": "subject:mlops:orchestrator:scheduling",
-      "subject_title": "Scheduling",
+      "url": "/docs/mlops/kubernetes/scheduling/topology-spread-constraints",
+      "subject_ref": "subject:mlops:orchestrator:kubernetes",
+      "subject_title": "Kubernetes",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "orchestrator",
-        "instance": "scheduling",
+        "instance": "kubernetes",
         "aspect": "topology-spread-constraints"
       },
-      "search_text": "topology spread constraints topology spread constraints - https //kubernetes io/docs/concepts/scheduling-eviction/topology-spread-constraints/ kubernetes topology spread constraints topologyspreadconstraints operation mlops orchestrator scheduling topology-spread-constraints",
+      "search_text": "topology spread constraints topology spread constraints - https //kubernetes io/docs/concepts/scheduling-eviction/topology-spread-constraints/ kubernetes topology spread constraints topologyspreadconstraints operation mlops orchestrator kubernetes topology-spread-constraints",
       "display": {
         "label": "Topology Spread Constraints",
         "kind": "document",
-        "subtitle": "Scheduling"
+        "subtitle": "Kubernetes"
       }
     },
     {

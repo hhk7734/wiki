@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/kubernetes/scheduling/taints-and-tolerations.mdx",
+  "title": "Taints and Tolerations",
+  "snippet": "…docs/concepts/scheduling-eviction/taint-and-toleration/\n\ntaints가 있는 Node에는 매칭되는 tolerations가 없는 Pod가 스케줄링되지 않습니다.\n\n## taints\n\n### taints 설정\n\n``yaml\napiVersion: v1\nkind: No…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "orchestrator",
+    "instance": "kubernetes",
+    "aspect": "taints-and-tolerations"
+  },
+  "url": "/docs/mlops/kubernetes/scheduling/taints-and-tolerations",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/kubernetes/scheduling/taints-and-tolerations.mdx.json",
+  "subject": {
+    "id": "subject:mlops:orchestrator:kubernetes",
+    "title": "Admission Controller",
+    "ontology": {
+      "domain": "mlops",
+      "class": "orchestrator",
+      "instance": "kubernetes"
+    },
+    "url": "/docs/mlops/kubernetes/admission-controller"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/kubernetes/scheduling/taints-and-tolerations.mdx:about_subject:subject:mlops:orchestrator:kubernetes",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:orchestrator:kubernetes",
+      "direction": "outgoing"
+    }
+  ]
+}
