@@ -1237,9 +1237,9 @@
       "title": "ConfigMap",
       "description": "## ConfigMap\n\n- https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/config-map-v1/\n\n`…",
       "snippet": "## ConfigMap\n\n- https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/config-map-v1/\n\n`…",
-      "url": "/docs/operation/mlops/configuration/configmap",
+      "url": "/docs/mlops/configmap/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/configuration/configmap/configmap.mdx"
+        "doc:docs/mlops/configmap/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -1260,9 +1260,9 @@
       "title": "ConfigMap, Secret을 여러 namespace에 복제하기",
       "description": "## 설치\n\n- https://github.com/mittwald/kubernetes-replicator\n\n``shell\nhelm repo add mittwald https://helm.mittwald.de\n`\n\n`shell\nh…",
       "snippet": "## 설치\n\n- https://github.com/mittwald/kubernetes-replicator\n\n``shell\nhelm repo add mittwald https://helm.mittwald.de\n`\n\n`shell\nh…",
-      "url": "/docs/operation/mlops/configuration/replicator",
+      "url": "/docs/mlops/replicator/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/configuration/replicator/replicator.mdx"
+        "doc:docs/mlops/replicator/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -2331,8 +2331,8 @@
       "document_refs": [
         "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
         "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/plugins.mdx",
-        "doc:docs/operation/mlops/serving-system/gateway-api-inference-extension/install.mdx",
-        "doc:docs/operation/mlops/serving-system/gateway-api-inference-extension/route.mdx"
+        "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
+        "doc:docs/mlops/gateway-api-inference-extension/route.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4916,9 +4916,9 @@
       "title": "Pod Environment Variables",
       "description": "… https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/\n\n``yaml\nspec:\n containers:\n - env:\n - name: SERVICE_PORT\n value: \"80…",
       "snippet": "… https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/\n\n``yaml\nspec:\n containers:\n - env:\n - name: SERVICE_PORT\n value: \"80…",
-      "url": "/docs/operation/mlops/configuration/env",
+      "url": "/docs/mlops/env/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/configuration/env/env.mdx"
+        "doc:docs/mlops/env/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5767,9 +5767,9 @@
       "title": "Reloader로 ConfigMap, Secret 변경 시 Workload 재시작하기",
       "description": "…n reloader \\\n -f reloader-values.yaml\n`\n\n## 사용법\n\n- Reloader GitHub # Usage\n\n### ConfigMap, Secret 자동 감지\n\n`yaml\nmetadata:\n annotations:\n reloader.stakater.com/auto: \"true\"…",
       "snippet": "…n reloader \\\n -f reloader-values.yaml\n`\n\n## 사용법\n\n- Reloader GitHub # Usage\n\n### ConfigMap, Secret 자동 감지\n\n`yaml\nmetadata:\n annotations:\n reloader.stakater.com/auto: \"true\"…",
-      "url": "/docs/operation/mlops/configuration/reloader",
+      "url": "/docs/mlops/reloader/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/configuration/reloader/reloader.mdx"
+        "doc:docs/mlops/reloader/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -6121,9 +6121,9 @@
       "title": "Secret",
       "description": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
       "snippet": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
-      "url": "/docs/operation/mlops/configuration/secret",
+      "url": "/docs/mlops/secret/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/configuration/secret/secret.mdx"
+        "doc:docs/mlops/secret/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -7478,24 +7478,24 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:serving-system:benchmark",
+      "id": "subject:mlops:serving-system:inference-perf",
       "title": "inference-perf LLM 추론 벤치마크 가이드",
       "description": "## 벤치마크 설정\n\n- inference-perf GitHub / docs / config.md\n\n``yaml config.yaml\nserver: {}\napi: {}\ndata: {}\nload:…",
       "snippet": "## 벤치마크 설정\n\n- inference-perf GitHub / docs / config.md\n\n``yaml config.yaml\nserver: {}\napi: {}\ndata: {}\nload:…",
-      "url": "/docs/operation/mlops/serving-system/benchmark/inference-perf",
+      "url": "/docs/mlops/inference-perf/overview",
       "document_refs": [
-        "doc:docs/operation/mlops/serving-system/benchmark/inference-perf.mdx"
+        "doc:docs/mlops/inference-perf/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "serving-system",
-        "instance": "benchmark"
+        "instance": "inference-perf"
       },
-      "search_text": "inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 - inference-perf github / docs / config md yaml config yaml server api data load inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 모델 서버 설정 server api 설정 api 데이터 설정 data 부하 생성 설정 load 메트릭 수집 metrics 보고서 설정 report 저장소 설정 storage mlops serving-system benchmark",
+      "search_text": "inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 - inference-perf github / docs / config md yaml config yaml server api data load inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 모델 서버 설정 server api 설정 api 데이터 설정 data 부하 생성 설정 load 메트릭 수집 metrics 보고서 설정 report 저장소 설정 storage mlops serving-system inference-perf",
       "display": {
         "label": "inference-perf LLM 추론 벤치마크 가이드",
         "kind": "subject",
-        "subtitle": "Benchmark",
+        "subtitle": "Inference Perf",
         "document_count": 1
       }
     },
@@ -8162,7 +8162,7 @@
       "url": "/docs/concept/mlops/serving-system/vllm/kvcache",
       "document_refs": [
         "doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx",
-        "doc:docs/operation/mlops/serving-system/vllm/config.mdx"
+        "doc:docs/mlops/vllm/config.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -12274,7 +12274,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/configuration/configmap/configmap.mdx",
+      "id": "doc:docs/mlops/configmap/overview.mdx",
       "title": "ConfigMap",
       "description": "Kubernetes ConfigMap",
       "snippet": "## ConfigMap\n\n- https://kubernetes.io/docs/reference/kubernetes-api/config-and-storage-resources/config-map-v1/\n\n`…",
@@ -12290,7 +12290,7 @@
         "kubernetes",
         "configmap"
       ],
-      "url": "/docs/operation/mlops/configuration/configmap",
+      "url": "/docs/mlops/configmap/overview",
       "subject_ref": "subject:mlops:configuration:configmap",
       "subject_title": "Configmap",
       "ontology": {
@@ -12309,7 +12309,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/configuration/replicator/replicator.mdx",
+      "id": "doc:docs/mlops/replicator/overview.mdx",
       "title": "ConfigMap, Secret을 여러 namespace에 복제하기",
       "description": "ConfigMap, Secret을 여러 namespace에 복제하기",
       "snippet": "## 설치\n\n- https://github.com/mittwald/kubernetes-replicator\n\n``shell\nhelm repo add mittwald https://helm.mittwald.de\n`\n\n`shell\nh…",
@@ -12324,7 +12324,7 @@
         "secret",
         "replicator"
       ],
-      "url": "/docs/operation/mlops/configuration/replicator",
+      "url": "/docs/mlops/replicator/overview",
       "subject_ref": "subject:mlops:configuration:replicator",
       "subject_title": "Replicator",
       "ontology": {
@@ -15033,7 +15033,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/serving-system/gateway-api-inference-extension/install.mdx",
+      "id": "doc:docs/mlops/gateway-api-inference-extension/install.mdx",
       "title": "Gateway API Inference Extension (GIE) CRD 설치 가이드",
       "description": "Gateway API Inference Extension (GIE) CRD 설치 가이드",
       "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api-inference-extension -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api-inference-extension --v…",
@@ -15045,7 +15045,7 @@
         "Gateway API",
         "Inference Extension"
       ],
-      "url": "/docs/operation/mlops/serving-system/gateway-api-inference-extension/install",
+      "url": "/docs/mlops/gateway-api-inference-extension/install",
       "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension",
       "subject_title": "Gateway Api Inference Extension",
       "ontology": {
@@ -15098,7 +15098,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/serving-system/gateway-api-inference-extension/route.mdx",
+      "id": "doc:docs/mlops/gateway-api-inference-extension/route.mdx",
       "title": "Gateway API Inference Extension (GIE)로 모델 라우팅 관리하기",
       "description": "Gateway API Inference Extension (GIE)로 모델 라우팅 관리하기",
       "snippet": "## InferencePool\n\n- Gateway API로 라우팅 관리하기 # HTTPRoute\n- GIE / Reference / InferencePool\n\n``yaml\n…",
@@ -15110,7 +15110,7 @@
         "Inference Extension",
         "InferencePool"
       ],
-      "url": "/docs/operation/mlops/serving-system/gateway-api-inference-extension/route",
+      "url": "/docs/mlops/gateway-api-inference-extension/route",
       "subject_ref": "subject:mlops:serving-system:gateway-api-inference-extension",
       "subject_title": "Gateway Api Inference Extension",
       "ontology": {
@@ -22497,7 +22497,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/configuration/env/env.mdx",
+      "id": "doc:docs/mlops/env/overview.mdx",
       "title": "Pod Environment Variables",
       "description": "Pod Environment Variables",
       "snippet": "… https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/\n\n``yaml\nspec:\n containers:\n - env:\n - name: SERVICE_PORT\n value: \"80…",
@@ -22513,7 +22513,7 @@
         "deployment",
         "environment"
       ],
-      "url": "/docs/operation/mlops/configuration/env",
+      "url": "/docs/mlops/env/overview",
       "subject_ref": "subject:mlops:configuration:env",
       "subject_title": "Env",
       "ontology": {
@@ -25432,7 +25432,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/configuration/reloader/reloader.mdx",
+      "id": "doc:docs/mlops/reloader/overview.mdx",
       "title": "Reloader로 ConfigMap, Secret 변경 시 Workload 재시작하기",
       "description": "Reloader로 ConfigMap, Secret 변경 시 Workload 재시작하기",
       "snippet": "…n reloader \\\n -f reloader-values.yaml\n`\n\n## 사용법\n\n- Reloader GitHub # Usage\n\n### ConfigMap, Secret 자동 감지\n\n`yaml\nmetadata:\n annotations:\n reloader.stakater.com/auto: \"true\"…",
@@ -25447,7 +25447,7 @@
         "kubernetes",
         "configuration"
       ],
-      "url": "/docs/operation/mlops/configuration/reloader",
+      "url": "/docs/mlops/reloader/overview",
       "subject_ref": "subject:mlops:configuration:reloader",
       "subject_title": "Reloader",
       "ontology": {
@@ -26447,7 +26447,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/configuration/secret/secret.mdx",
+      "id": "doc:docs/mlops/secret/overview.mdx",
       "title": "Secret",
       "description": "Kubernetes Secret",
       "snippet": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
@@ -26469,7 +26469,7 @@
         "secret",
         "imagePullSecrets"
       ],
-      "url": "/docs/operation/mlops/configuration/secret",
+      "url": "/docs/mlops/secret/overview",
       "subject_ref": "subject:mlops:configuration:secret",
       "subject_title": "Secret",
       "ontology": {
@@ -30132,7 +30132,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/serving-system/benchmark/inference-perf.mdx",
+      "id": "doc:docs/mlops/inference-perf/overview.mdx",
       "title": "inference-perf LLM 추론 벤치마크 가이드",
       "description": "inference-perf LLM 추론 벤치마크 가이드",
       "snippet": "## 벤치마크 설정\n\n- inference-perf GitHub / docs / config.md\n\n``yaml config.yaml\nserver: {}\napi: {}\ndata: {}\nload:…",
@@ -30151,21 +30151,21 @@
         "llm",
         "benchmark"
       ],
-      "url": "/docs/operation/mlops/serving-system/benchmark/inference-perf",
-      "subject_ref": "subject:mlops:serving-system:benchmark",
-      "subject_title": "Benchmark",
+      "url": "/docs/mlops/inference-perf/overview",
+      "subject_ref": "subject:mlops:serving-system:inference-perf",
+      "subject_title": "Inference Perf",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "serving-system",
-        "instance": "benchmark",
-        "aspect": "inference-perf"
+        "instance": "inference-perf",
+        "aspect": "overview"
       },
-      "search_text": "inference-perf llm 추론 벤치마크 가이드 inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 - inference-perf github / docs / config md yaml config yaml server api data load 벤치마크 설정 모델 서버 설정 server api 설정 api 데이터 설정 data 부하 생성 설정 load 메트릭 수집 metrics 보고서 설정 report 저장소 설정 storage inference-perf llm benchmark operation mlops serving-system benchmark inference-perf",
+      "search_text": "inference-perf llm 추론 벤치마크 가이드 inference-perf llm 추론 벤치마크 가이드 벤치마크 설정 - inference-perf github / docs / config md yaml config yaml server api data load 벤치마크 설정 모델 서버 설정 server api 설정 api 데이터 설정 data 부하 생성 설정 load 메트릭 수집 metrics 보고서 설정 report 저장소 설정 storage inference-perf llm benchmark operation mlops serving-system inference-perf overview",
       "display": {
         "label": "inference-perf LLM 추론 벤치마크 가이드",
         "kind": "document",
-        "subtitle": "Benchmark"
+        "subtitle": "Inference Perf"
       }
     },
     {
@@ -31660,7 +31660,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/serving-system/vllm/config.mdx",
+      "id": "doc:docs/mlops/vllm/config.mdx",
       "title": "vLLM 설정 가이드",
       "description": "vLLM 설정 가이드",
       "snippet": "## vLLM 옵션\n\n- vLLM / Configuration / Optimization and Tuning\n\n- ModelConfig\n - --max-model-len\n - prompt와 생…",
@@ -31670,7 +31670,7 @@
       "keywords": [
         "vLLM"
       ],
-      "url": "/docs/operation/mlops/serving-system/vllm/config",
+      "url": "/docs/mlops/vllm/config",
       "subject_ref": "subject:mlops:serving-system:vllm",
       "subject_title": "Vllm",
       "ontology": {

@@ -1,0 +1,133 @@
+---
+id: overview
+title: Pod Environment Variables
+sidebar_label: Pod env
+description: Pod Environment Variables
+keywords:
+  - kubernetes
+  - pod
+  - deployment
+  - environment
+ontology:
+  role: operation
+  domain: mlops
+  class: configuration
+  instance: env
+  aspect: overview
+subject:
+  canonical_name: Pod Environment Variables
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## spec.containers.env
+
+- https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/
+
+```yaml
+spec:
+  containers:
+    - env:
+        - name: SERVICE_PORT
+          value: "8080"
+        - name: SERVICE_IP
+          value: "172.16.1.2"
+        - name: UNCHANGED_REFERENCE
+          # SCHEME이 다음에 정의되어 있으므로 `$(SCHEME)://172.16.1.2:8080` 로 설정됨
+          value: "$(SCHEME)://$(SERVICE_IP):$(SERVICE_PORT)"
+        - name: SCHEME
+          value: "https"
+        - name: SERVICE_ADDRESS
+          # 관련 변수가 이전에 정의도어 있으므로 `https://172.16.1.2:8080`로 설정됨
+          value: "$(SCHEME)://$(SERVICE_IP):$(SERVICE_PORT)"
+        - name: ESCAPED_REFERENCE
+          # SCHEME이 escape되어 있으므로 `$(SCHEME)://172.16.1.2:8080`로 설정됨
+          value: "$$(SCHEME)://$(SERVICE_IP):$(SERVICE_PORT)"
+```
+
+## spec.containers.envFrom
+
+- [ConfigMap](/docs/mlops/configmap/overview.mdx)
+- [Secret](/docs/mlops/secret/overview.mdx)
+
+## Pod fields to env
+
+- https://kubernetes.io/docs/concepts/workloads/pods/downward-api/#downwardapi-fieldRef
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: <podName>
+spec:
+  containers:
+    - env:
+        - name: <envName>
+          valueFrom:
+            fieldRef:
+              fieldPath: <fieldPath>
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+```
+
+- `<fieldPath>`
+  - `metadata.name`
+  - `metadata.namespace`
+  - `metadata.uid`
+  - `metadata.anonotations[<key>]`
+  - `metadata.labels[<key>]`
+  - `spec.serviceAccountName`
+  - `spec.nodeName`
+  - `status.hostIP`
+  - `status.podIP`
+
+## Container fields to env
+
+- https://kubernetes.io/docs/concepts/workloads/pods/downward-api/#downwardapi-resourceFieldRef
+
+```yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: <podName>
+spec:
+  containers:
+    - name: <containerName>
+      env:
+        - name: <envName>
+          valueFrom:
+            resourceFieldRef:
+              # containerName: <containerName>
+              resource: <resource>
+        - name: CONTAINER_CPU_LIMIT
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+```
+
+- `<resource>`
+  - `requests.cpu`
+  - `requests.memory`
+  - `requests.hugepages-*`
+  - `requests.ephemeral-storage`
+  - `limits.cpu`
+  - `limits.memory`
+  - `limits.hugepages-*`
+  - `limits.ephemeral-storage`
+
+<br />
+
+- CPU, Memory 설정이 없으면 kubelet이 할당가능한 최대 할당 가능 값을 사용하게 됩니다
+- CPU는 올림된 Core 수가 사용됩니다(`250m` -> `1`)
+- Memory는 바이트 단위 값이 사용됩니다(`64Mi` -> `67108864`)
