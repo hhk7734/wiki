@@ -1057,22 +1057,6 @@
       "subject_ref": "subject:mlops:cloud-service:iam"
     },
     {
-      "id": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
-      "type": "document",
-      "title": "RabbitMQ Flow",
-      "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "rabbitmq-flow",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/eventing-system/rabbitmq-flow",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:rabbitmq-flow"
-    },
-    {
       "id": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
       "type": "document",
       "title": "Gateway API 사용시 조직에 따른 역할",
@@ -5633,6 +5617,22 @@
       "subject_ref": "subject:mlops:workflow-system:argo-cd"
     },
     {
+      "id": "doc:docs/mlops/argo-events/install.mdx",
+      "type": "document",
+      "title": "Argo Events",
+      "snippet": "…orkflow/argo/events/{helm,eventbus,eventsource}\n`\n\n`shell\nhelm search repo argo/argo-events -l | head -n 10\n`\n\n`shell\nhelm show values argo/argo-events \\\n --version 2.0.0 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "argo-events",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/argo-events/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-events/install.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:argo-events"
+    },
+    {
       "id": "doc:docs/mlops/argo-workflows/client.mdx",
       "type": "document",
       "title": "Argo Workflows Client",
@@ -7905,6 +7905,86 @@
       "subject_ref": "subject:mlops:networking-stack:multus"
     },
     {
+      "id": "doc:docs/mlops/nats/auth.mdx",
+      "type": "document",
+      "title": "NATS Auth",
+      "snippet": "## Authorization(User)\n\n- https://docs.nats.io/running-a-nats-service/configuration/sec…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "auth"
+      },
+      "url": "/docs/mlops/nats/auth",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nats/auth.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:nats"
+    },
+    {
+      "id": "doc:docs/mlops/nats/cli.mdx",
+      "type": "document",
+      "title": "NATS CLI",
+      "snippet": "## 설치\n\n``shell\nyay -S nats-cli\n`\n\n## Context\n\n`shell\nnats context add []\n`\n\n-\n - --server :\n - --descripti…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "cli"
+      },
+      "url": "/docs/mlops/nats/cli",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nats/cli.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:nats"
+    },
+    {
+      "id": "doc:docs/mlops/nats/crd.mdx",
+      "type": "document",
+      "title": "NATS CRD",
+      "snippet": "…## Account\n\n``shell\nkubectl explain account.spec\n`\n\n`yaml\napiVersion: jetstream.nats.io/v1beta2\nkind: Account\nmetadata:\n name:\n namespace: event\nspec:\n name:\n serve…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "crd"
+      },
+      "url": "/docs/mlops/nats/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nats/crd.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:nats"
+    },
+    {
+      "id": "doc:docs/mlops/nats/dlq.mdx",
+      "type": "document",
+      "title": "NATS Dead Letter Queue",
+      "snippet": "…s\":\n}\n`\n\n아래 명령어를 통해 여러번 전달된 메시지가 무엇인지 확인할 수 있습니다.\n\n`shell\nnats stream get\n`\n\n## Dead Letter Queue Stream\n\n이벤트 메시지를 받았을 때 에러처리가 가능한 경우 Max Deleveries 조건에 걸리기 전에 에러 이벤트로 변경하여 처리한 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "dlq"
+      },
+      "url": "/docs/mlops/nats/dlq",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nats/dlq.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:nats"
+    },
+    {
+      "id": "doc:docs/mlops/nats/install.mdx",
+      "type": "document",
+      "title": "NATS",
+      "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/nats/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/nats/install.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:nats"
+    },
+    {
       "id": "doc:docs/mlops/netbird/client.mdx",
       "type": "document",
       "title": "NetBird 클라이언트 사용법 가이드",
@@ -8385,6 +8465,38 @@
       "subject_ref": "subject:mlops:iac-tool:pulumi"
     },
     {
+      "id": "doc:docs/mlops/rabbitmq-flow/overview.mdx",
+      "type": "document",
+      "title": "RabbitMQ Flow",
+      "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "rabbitmq-flow",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/rabbitmq-flow/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rabbitmq-flow/overview.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:rabbitmq-flow"
+    },
+    {
+      "id": "doc:docs/mlops/rabbitmq/install.mdx",
+      "type": "document",
+      "title": "RabbitMQ",
+      "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "rabbitmq",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/rabbitmq/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rabbitmq/install.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:rabbitmq"
+    },
+    {
       "id": "doc:docs/mlops/rbac/overview.mdx",
       "type": "document",
       "title": "Kubernetes 인가(Authz); RBAC",
@@ -8431,6 +8543,22 @@
       "url": "/docs/mlops/rdma-shared-device-plugin/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:rdma-shared-device-plugin"
+    },
+    {
+      "id": "doc:docs/mlops/redis/install.mdx",
+      "type": "document",
+      "title": "Redis 설치 가이드",
+      "snippet": "## 설치\n\n``yaml\n\napiVersion: v1\nkind: Service\nmetadata:\n name: redis-hl\n namespace: redis\n labels:\n app: redis\n app.kubernetes.io/name: redis\n app.k…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "eventing-system",
+        "instance": "redis",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/redis/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/redis/install.mdx.json",
+      "subject_ref": "subject:mlops:eventing-system:redis"
     },
     {
       "id": "doc:docs/mlops/rocm/overview.mdx",
@@ -9119,134 +9247,6 @@
       "url": "/docs/operation/mlops/configuration/secret",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/configuration/secret/secret.mdx.json",
       "subject_ref": "subject:mlops:configuration:secret"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx",
-      "type": "document",
-      "title": "Argo Events",
-      "snippet": "…orkflow/argo/events/{helm,eventbus,eventsource}\n`\n\n`shell\nhelm search repo argo/argo-events -l | head -n 10\n`\n\n`shell\nhelm show values argo/argo-events \\\n --version 2.0.0 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "argo-events",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/eventing-system/argo-events/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/argo-events/install.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:argo-events"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/nats/auth.mdx",
-      "type": "document",
-      "title": "NATS Auth",
-      "snippet": "## Authorization(User)\n\n- https://docs.nats.io/running-a-nats-service/configuration/sec…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "nats",
-        "aspect": "auth"
-      },
-      "url": "/docs/operation/mlops/eventing-system/nats/auth",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/nats/auth.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:nats"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/nats/cli.mdx",
-      "type": "document",
-      "title": "NATS CLI",
-      "snippet": "## 설치\n\n``shell\nyay -S nats-cli\n`\n\n## Context\n\n`shell\nnats context add []\n`\n\n-\n - --server :\n - --descripti…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "nats",
-        "aspect": "cli"
-      },
-      "url": "/docs/operation/mlops/eventing-system/nats/cli",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/nats/cli.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:nats"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/nats/crd.mdx",
-      "type": "document",
-      "title": "NATS CRD",
-      "snippet": "…## Account\n\n``shell\nkubectl explain account.spec\n`\n\n`yaml\napiVersion: jetstream.nats.io/v1beta2\nkind: Account\nmetadata:\n name:\n namespace: event\nspec:\n name:\n serve…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "nats",
-        "aspect": "crd"
-      },
-      "url": "/docs/operation/mlops/eventing-system/nats/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/nats/crd.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:nats"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/nats/dlq.mdx",
-      "type": "document",
-      "title": "NATS Dead Letter Queue",
-      "snippet": "…s\":\n}\n`\n\n아래 명령어를 통해 여러번 전달된 메시지가 무엇인지 확인할 수 있습니다.\n\n`shell\nnats stream get\n`\n\n## Dead Letter Queue Stream\n\n이벤트 메시지를 받았을 때 에러처리가 가능한 경우 Max Deleveries 조건에 걸리기 전에 에러 이벤트로 변경하여 처리한 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "nats",
-        "aspect": "dlq"
-      },
-      "url": "/docs/operation/mlops/eventing-system/nats/dlq",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/nats/dlq.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:nats"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/nats/install.mdx",
-      "type": "document",
-      "title": "NATS",
-      "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "nats",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/eventing-system/nats/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/nats/install.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:nats"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx",
-      "type": "document",
-      "title": "RabbitMQ",
-      "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "rabbitmq",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/eventing-system/rabbitmq/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:rabbitmq"
-    },
-    {
-      "id": "doc:docs/operation/mlops/eventing-system/redis/install.mdx",
-      "type": "document",
-      "title": "Redis 설치 가이드",
-      "snippet": "## 설치\n\n``yaml\n\napiVersion: v1\nkind: Service\nmetadata:\n name: redis-hl\n namespace: redis\n labels:\n app: redis\n app.kubernetes.io/name: redis\n app.k…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "eventing-system",
-        "instance": "redis",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/eventing-system/redis/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/eventing-system/redis/install.mdx.json",
-      "subject_ref": "subject:mlops:eventing-system:redis"
     },
     {
       "id": "doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx",
@@ -14605,10 +14605,10 @@
         "class": "eventing-system",
         "instance": "argo-events"
       },
-      "url": "/docs/operation/mlops/eventing-system/argo-events/install",
+      "url": "/docs/mlops/argo-events/install",
       "node_url": "/api/wiki/nodes/subject:mlops:eventing-system:argo-events.json",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx"
+        "doc:docs/mlops/argo-events/install.mdx"
       ]
     },
     {
@@ -14621,14 +14621,14 @@
         "class": "eventing-system",
         "instance": "nats"
       },
-      "url": "/docs/operation/mlops/eventing-system/nats/install",
+      "url": "/docs/mlops/nats/install",
       "node_url": "/api/wiki/nodes/subject:mlops:eventing-system:nats.json",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/nats/auth.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/cli.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/crd.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/dlq.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/install.mdx"
+        "doc:docs/mlops/nats/auth.mdx",
+        "doc:docs/mlops/nats/cli.mdx",
+        "doc:docs/mlops/nats/crd.mdx",
+        "doc:docs/mlops/nats/dlq.mdx",
+        "doc:docs/mlops/nats/install.mdx"
       ]
     },
     {
@@ -14641,10 +14641,10 @@
         "class": "eventing-system",
         "instance": "rabbitmq"
       },
-      "url": "/docs/operation/mlops/eventing-system/rabbitmq/install",
+      "url": "/docs/mlops/rabbitmq/install",
       "node_url": "/api/wiki/nodes/subject:mlops:eventing-system:rabbitmq.json",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx"
+        "doc:docs/mlops/rabbitmq/install.mdx"
       ]
     },
     {
@@ -14657,10 +14657,10 @@
         "class": "eventing-system",
         "instance": "rabbitmq-flow"
       },
-      "url": "/docs/entity/mlops/eventing-system/rabbitmq-flow",
+      "url": "/docs/mlops/rabbitmq-flow/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:eventing-system:rabbitmq-flow.json",
       "document_refs": [
-        "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx"
+        "doc:docs/mlops/rabbitmq-flow/overview.mdx"
       ]
     },
     {
@@ -14673,10 +14673,10 @@
         "class": "eventing-system",
         "instance": "redis"
       },
-      "url": "/docs/operation/mlops/eventing-system/redis/install",
+      "url": "/docs/mlops/redis/install",
       "node_url": "/api/wiki/nodes/subject:mlops:eventing-system:redis.json",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/redis/install.mdx"
+        "doc:docs/mlops/redis/install.mdx"
       ]
     },
     {
@@ -17636,12 +17636,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx:about_subject:subject:mlops:eventing-system:rabbitmq-flow",
-      "from": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
-      "to": "subject:mlops:eventing-system:rabbitmq-flow",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/mlops/gateway-api/role/role.mdx:about_subject:subject:mlops:gateway-api:role",
       "from": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
       "to": "subject:mlops:gateway-api:role",
@@ -19352,6 +19346,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/argo-events/install.mdx:about_subject:subject:mlops:eventing-system:argo-events",
+      "from": "doc:docs/mlops/argo-events/install.mdx",
+      "to": "subject:mlops:eventing-system:argo-events",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/argo-workflows/client.mdx:about_subject:subject:mlops:workflow-system:argo-workflows",
       "from": "doc:docs/mlops/argo-workflows/client.mdx",
       "to": "subject:mlops:workflow-system:argo-workflows",
@@ -20204,6 +20204,36 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/nats/auth.mdx:about_subject:subject:mlops:eventing-system:nats",
+      "from": "doc:docs/mlops/nats/auth.mdx",
+      "to": "subject:mlops:eventing-system:nats",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/nats/cli.mdx:about_subject:subject:mlops:eventing-system:nats",
+      "from": "doc:docs/mlops/nats/cli.mdx",
+      "to": "subject:mlops:eventing-system:nats",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/nats/crd.mdx:about_subject:subject:mlops:eventing-system:nats",
+      "from": "doc:docs/mlops/nats/crd.mdx",
+      "to": "subject:mlops:eventing-system:nats",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/nats/dlq.mdx:about_subject:subject:mlops:eventing-system:nats",
+      "from": "doc:docs/mlops/nats/dlq.mdx",
+      "to": "subject:mlops:eventing-system:nats",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/nats/install.mdx:about_subject:subject:mlops:eventing-system:nats",
+      "from": "doc:docs/mlops/nats/install.mdx",
+      "to": "subject:mlops:eventing-system:nats",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/netbird/client.mdx:about_subject:subject:mlops:networking-stack:netbird",
       "from": "doc:docs/mlops/netbird/client.mdx",
       "to": "subject:mlops:networking-stack:netbird",
@@ -20384,6 +20414,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/rabbitmq-flow/overview.mdx:about_subject:subject:mlops:eventing-system:rabbitmq-flow",
+      "from": "doc:docs/mlops/rabbitmq-flow/overview.mdx",
+      "to": "subject:mlops:eventing-system:rabbitmq-flow",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/rabbitmq/install.mdx:about_subject:subject:mlops:eventing-system:rabbitmq",
+      "from": "doc:docs/mlops/rabbitmq/install.mdx",
+      "to": "subject:mlops:eventing-system:rabbitmq",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/rbac/overview.mdx:about_subject:subject:mlops:auth-system:rbac",
       "from": "doc:docs/mlops/rbac/overview.mdx",
       "to": "subject:mlops:auth-system:rbac",
@@ -20399,6 +20441,12 @@
       "id": "relation:doc:docs/mlops/rdma-shared-device-plugin/overview.mdx:about_subject:subject:mlops:networking-stack:rdma-shared-device-plugin",
       "from": "doc:docs/mlops/rdma-shared-device-plugin/overview.mdx",
       "to": "subject:mlops:networking-stack:rdma-shared-device-plugin",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/redis/install.mdx:about_subject:subject:mlops:eventing-system:redis",
+      "from": "doc:docs/mlops/redis/install.mdx",
+      "to": "subject:mlops:eventing-system:redis",
       "predicate": "about_subject"
     },
     {
@@ -20657,54 +20705,6 @@
       "id": "relation:doc:docs/operation/mlops/configuration/secret/secret.mdx:about_subject:subject:mlops:configuration:secret",
       "from": "doc:docs/operation/mlops/configuration/secret/secret.mdx",
       "to": "subject:mlops:configuration:secret",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/argo-events/install.mdx:about_subject:subject:mlops:eventing-system:argo-events",
-      "from": "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx",
-      "to": "subject:mlops:eventing-system:argo-events",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/nats/auth.mdx:about_subject:subject:mlops:eventing-system:nats",
-      "from": "doc:docs/operation/mlops/eventing-system/nats/auth.mdx",
-      "to": "subject:mlops:eventing-system:nats",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/nats/cli.mdx:about_subject:subject:mlops:eventing-system:nats",
-      "from": "doc:docs/operation/mlops/eventing-system/nats/cli.mdx",
-      "to": "subject:mlops:eventing-system:nats",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/nats/crd.mdx:about_subject:subject:mlops:eventing-system:nats",
-      "from": "doc:docs/operation/mlops/eventing-system/nats/crd.mdx",
-      "to": "subject:mlops:eventing-system:nats",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/nats/dlq.mdx:about_subject:subject:mlops:eventing-system:nats",
-      "from": "doc:docs/operation/mlops/eventing-system/nats/dlq.mdx",
-      "to": "subject:mlops:eventing-system:nats",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/nats/install.mdx:about_subject:subject:mlops:eventing-system:nats",
-      "from": "doc:docs/operation/mlops/eventing-system/nats/install.mdx",
-      "to": "subject:mlops:eventing-system:nats",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx:about_subject:subject:mlops:eventing-system:rabbitmq",
-      "from": "doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx",
-      "to": "subject:mlops:eventing-system:rabbitmq",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/eventing-system/redis/install.mdx:about_subject:subject:mlops:eventing-system:redis",
-      "from": "doc:docs/operation/mlops/eventing-system/redis/install.mdx",
-      "to": "subject:mlops:eventing-system:redis",
       "predicate": "about_subject"
     },
     {

@@ -548,9 +548,9 @@
       "title": "Argo Events",
       "description": "…orkflow/argo/events/{helm,eventbus,eventsource}\n`\n\n`shell\nhelm search repo argo/argo-events -l | head -n 10\n`\n\n`shell\nhelm show values argo/argo-events \\\n --version 2.0.0 …",
       "snippet": "…orkflow/argo/events/{helm,eventbus,eventsource}\n`\n\n`shell\nhelm search repo argo/argo-events -l | head -n 10\n`\n\n`shell\nhelm show values argo/argo-events \\\n --version 2.0.0 …",
-      "url": "/docs/operation/mlops/eventing-system/argo-events/install",
+      "url": "/docs/mlops/argo-events/install",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx"
+        "doc:docs/mlops/argo-events/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4291,13 +4291,13 @@
       "title": "NATS",
       "description": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
       "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
-      "url": "/docs/operation/mlops/eventing-system/nats/install",
+      "url": "/docs/mlops/nats/install",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/nats/auth.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/cli.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/crd.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/dlq.mdx",
-        "doc:docs/operation/mlops/eventing-system/nats/install.mdx"
+        "doc:docs/mlops/nats/auth.mdx",
+        "doc:docs/mlops/nats/cli.mdx",
+        "doc:docs/mlops/nats/crd.mdx",
+        "doc:docs/mlops/nats/dlq.mdx",
+        "doc:docs/mlops/nats/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5578,9 +5578,9 @@
       "title": "RabbitMQ",
       "description": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
       "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
-      "url": "/docs/operation/mlops/eventing-system/rabbitmq/install",
+      "url": "/docs/mlops/rabbitmq/install",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx"
+        "doc:docs/mlops/rabbitmq/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5601,9 +5601,9 @@
       "title": "RabbitMQ Flow",
       "description": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
       "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
-      "url": "/docs/entity/mlops/eventing-system/rabbitmq-flow",
+      "url": "/docs/mlops/rabbitmq-flow/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx"
+        "doc:docs/mlops/rabbitmq-flow/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -5742,9 +5742,9 @@
       "title": "Redis 설치 가이드",
       "description": "## 설치\n\n``yaml\n\napiVersion: v1\nkind: Service\nmetadata:\n name: redis-hl\n namespace: redis\n labels:\n app: redis\n app.kubernetes.io/name: redis\n app.k…",
       "snippet": "## 설치\n\n``yaml\n\napiVersion: v1\nkind: Service\nmetadata:\n name: redis-hl\n namespace: redis\n labels:\n app: redis\n app.kubernetes.io/name: redis\n app.k…",
-      "url": "/docs/operation/mlops/eventing-system/redis/install",
+      "url": "/docs/mlops/redis/install",
       "document_refs": [
-        "doc:docs/operation/mlops/eventing-system/redis/install.mdx"
+        "doc:docs/mlops/redis/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -10124,7 +10124,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/argo-events/install.mdx",
+      "id": "doc:docs/mlops/argo-events/install.mdx",
       "title": "Argo Events",
       "description": "Argo Events",
       "snippet": "…orkflow/argo/events/{helm,eventbus,eventsource}\n`\n\n`shell\nhelm search repo argo/argo-events -l | head -n 10\n`\n\n`shell\nhelm show values argo/argo-events \\\n --version 2.0.0 …",
@@ -10143,7 +10143,7 @@
         "argo",
         "events"
       ],
-      "url": "/docs/operation/mlops/eventing-system/argo-events/install",
+      "url": "/docs/mlops/argo-events/install",
       "subject_ref": "subject:mlops:eventing-system:argo-events",
       "subject_title": "Argo Events",
       "ontology": {
@@ -20709,7 +20709,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/nats/install.mdx",
+      "id": "doc:docs/mlops/nats/install.mdx",
       "title": "NATS",
       "description": "NATS",
       "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
@@ -20722,7 +20722,7 @@
       "keywords": [
         "nats"
       ],
-      "url": "/docs/operation/mlops/eventing-system/nats/install",
+      "url": "/docs/mlops/nats/install",
       "subject_ref": "subject:mlops:eventing-system:nats",
       "subject_title": "Nats",
       "ontology": {
@@ -20741,7 +20741,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/nats/auth.mdx",
+      "id": "doc:docs/mlops/nats/auth.mdx",
       "title": "NATS Auth",
       "description": "NATS Auth",
       "snippet": "## Authorization(User)\n\n- https://docs.nats.io/running-a-nats-service/configuration/sec…",
@@ -20754,7 +20754,7 @@
         "nats",
         "auth"
       ],
-      "url": "/docs/operation/mlops/eventing-system/nats/auth",
+      "url": "/docs/mlops/nats/auth",
       "subject_ref": "subject:mlops:eventing-system:nats",
       "subject_title": "Nats",
       "ontology": {
@@ -20773,7 +20773,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/nats/cli.mdx",
+      "id": "doc:docs/mlops/nats/cli.mdx",
       "title": "NATS CLI",
       "description": "NATS CLI",
       "snippet": "## 설치\n\n``shell\nyay -S nats-cli\n`\n\n## Context\n\n`shell\nnats context add []\n`\n\n-\n - --server :\n - --descripti…",
@@ -20787,7 +20787,7 @@
         "nats",
         "cli"
       ],
-      "url": "/docs/operation/mlops/eventing-system/nats/cli",
+      "url": "/docs/mlops/nats/cli",
       "subject_ref": "subject:mlops:eventing-system:nats",
       "subject_title": "Nats",
       "ontology": {
@@ -20806,7 +20806,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/nats/crd.mdx",
+      "id": "doc:docs/mlops/nats/crd.mdx",
       "title": "NATS CRD",
       "description": "NATS CRD",
       "snippet": "…## Account\n\n``shell\nkubectl explain account.spec\n`\n\n`yaml\napiVersion: jetstream.nats.io/v1beta2\nkind: Account\nmetadata:\n name:\n namespace: event\nspec:\n name:\n serve…",
@@ -20819,7 +20819,7 @@
         "nats",
         "crd"
       ],
-      "url": "/docs/operation/mlops/eventing-system/nats/crd",
+      "url": "/docs/mlops/nats/crd",
       "subject_ref": "subject:mlops:eventing-system:nats",
       "subject_title": "Nats",
       "ontology": {
@@ -20838,7 +20838,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/nats/dlq.mdx",
+      "id": "doc:docs/mlops/nats/dlq.mdx",
       "title": "NATS Dead Letter Queue",
       "description": "NATS JetStream Dead Letter Queue",
       "snippet": "…s\":\n}\n`\n\n아래 명령어를 통해 여러번 전달된 메시지가 무엇인지 확인할 수 있습니다.\n\n`shell\nnats stream get\n`\n\n## Dead Letter Queue Stream\n\n이벤트 메시지를 받았을 때 에러처리가 가능한 경우 Max Deleveries 조건에 걸리기 전에 에러 이벤트로 변경하여 처리한 …",
@@ -20869,7 +20869,7 @@
         "dead letter queue",
         "dlq"
       ],
-      "url": "/docs/operation/mlops/eventing-system/nats/dlq",
+      "url": "/docs/mlops/nats/dlq",
       "subject_ref": "subject:mlops:eventing-system:nats",
       "subject_title": "Nats",
       "ontology": {
@@ -24893,7 +24893,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/rabbitmq/install.mdx",
+      "id": "doc:docs/mlops/rabbitmq/install.mdx",
       "title": "RabbitMQ",
       "description": "RabbitMQ",
       "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
@@ -24910,7 +24910,7 @@
       "keywords": [
         "rabbitmq"
       ],
-      "url": "/docs/operation/mlops/eventing-system/rabbitmq/install",
+      "url": "/docs/mlops/rabbitmq/install",
       "subject_ref": "subject:mlops:eventing-system:rabbitmq",
       "subject_title": "Rabbitmq",
       "ontology": {
@@ -24929,7 +24929,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
+      "id": "doc:docs/mlops/rabbitmq-flow/overview.mdx",
       "title": "RabbitMQ Flow",
       "description": "RabbitMQ Flow",
       "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
@@ -24944,7 +24944,7 @@
         "rabbitmq",
         "flow"
       ],
-      "url": "/docs/entity/mlops/eventing-system/rabbitmq-flow",
+      "url": "/docs/mlops/rabbitmq-flow/overview",
       "subject_ref": "subject:mlops:eventing-system:rabbitmq-flow",
       "subject_title": "Rabbitmq Flow",
       "ontology": {
@@ -25327,7 +25327,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/eventing-system/redis/install.mdx",
+      "id": "doc:docs/mlops/redis/install.mdx",
       "title": "Redis 설치 가이드",
       "description": "Redis 설치 가이드",
       "snippet": "## 설치\n\n``yaml\n\napiVersion: v1\nkind: Service\nmetadata:\n name: redis-hl\n namespace: redis\n labels:\n app: redis\n app.kubernetes.io/name: redis\n app.k…",
@@ -25338,7 +25338,7 @@
       "keywords": [
         "redis"
       ],
-      "url": "/docs/operation/mlops/eventing-system/redis/install",
+      "url": "/docs/mlops/redis/install",
       "subject_ref": "subject:mlops:eventing-system:redis",
       "subject_title": "Redis",
       "ontology": {
