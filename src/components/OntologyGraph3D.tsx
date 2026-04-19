@@ -37,21 +37,27 @@ declare const require: {
 	context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => DocsContext;
 };
 
-const ontologySections = {
-	Entity: "entity",
-	Concept: "concept",
-	Operation: "operation",
-	Specification: "specification",
-	Troubleshooting: "troubleshooting",
+const topicSections = {
+	Data: "data",
+	Language: "language",
+	MLOps: "mlops",
+	Platform: "platform",
+	Protocol: "protocol",
+	Hardware: "hardware",
+	Science: "science",
+	Management: "management",
 	Comparison: "comparison",
 } as const;
 
-const roleColors: Record<string, string> = {
-	entity: "#38bdf8",
-	concept: "#f97316",
-	operation: "#14b8a6",
-	specification: "#a78bfa",
-	troubleshooting: "#f43f5e",
+const topicColors: Record<string, string> = {
+	data: "#3b82f6",
+	language: "#ef4444",
+	mlops: "#10b981",
+	platform: "#f59e0b",
+	protocol: "#8b5cf6",
+	hardware: "#f97316",
+	science: "#06b6d4",
+	management: "#ec4899",
 	comparison: "#facc15",
 };
 
@@ -89,18 +95,18 @@ function polarOffset(seed: string, radius: number) {
 }
 
 function withLayout(graph: OntologyGraphData): OntologyGraphData {
-	const roleNodes = graph.nodes.filter((node) => node.type === "role");
-	const roleCenters = new Map<string, { x: number; y: number; z: number }>();
+	const topicNodes = graph.nodes.filter((node) => node.type === "topic");
+	const topicCenters = new Map<string, { x: number; y: number; z: number }>();
 
-	roleNodes.forEach((node, index) => {
-		const angle = (index / Math.max(roleNodes.length, 1)) * Math.PI * 2;
+	topicNodes.forEach((node, index) => {
+		const angle = (index / Math.max(topicNodes.length, 1)) * Math.PI * 2;
 		const position = {
 			x: Math.cos(angle) * 220,
 			y: index % 2 === 0 ? 40 : -40,
 			z: Math.sin(angle) * 220,
 		};
 
-		roleCenters.set(node.role ?? node.id, position);
+		topicCenters.set(node.topic ?? node.id, position);
 	});
 
 	return {
@@ -109,12 +115,12 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 				return { ...node, fx: 0, fy: 0, fz: 0 };
 			}
 
-			if (node.type === "role") {
-				const center = roleCenters.get(node.role ?? node.id) ?? { x: 0, y: 0, z: 0 };
+			if (node.type === "topic") {
+				const center = topicCenters.get(node.topic ?? node.id) ?? { x: 0, y: 0, z: 0 };
 				return { ...node, ...center, fx: center.x, fy: center.y, fz: center.z };
 			}
 
-			const center = roleCenters.get(node.role ?? "") ?? { x: 0, y: 0, z: 0 };
+			const center = topicCenters.get(node.topic ?? "") ?? { x: 0, y: 0, z: 0 };
 			const offset = polarOffset(node.id, 55 + node.depth * 26);
 
 			return {
@@ -137,7 +143,7 @@ function getOntologyGraphData(): OntologyGraphData {
 
 	const graph = buildOntologyGraph({
 		docs,
-		ontologySections,
+		topicSections,
 		docMetadataById,
 		rootLabel: "lol-IoT",
 	});
@@ -158,14 +164,14 @@ function getNodeColor(node: OntologyGraphNode, selectedNode: SelectedOntologyNod
 		return "#cbd5e1";
 	}
 
-	return roleColors[node.role ?? ""] ?? "#94a3b8";
+	return topicColors[node.topic ?? ""] ?? "#94a3b8";
 }
 
 function getNodeValue(node: OntologyGraphNode): number {
 	switch (node.type) {
 		case "root":
 			return 9;
-		case "role":
+		case "topic":
 			return 7;
 		case "group":
 			return 3.6;
@@ -177,8 +183,8 @@ function getNodeValue(node: OntologyGraphNode): number {
 }
 
 function getNodeLabel(node: OntologyGraphNode): string {
-	const role = node.role ? `${node.role} / ` : "";
-	return `${role}${node.label}`;
+	const topic = node.topic ? `${node.topic} / ` : "";
+	return `${topic}${node.label}`;
 }
 
 function createLabelSprite(node: OntologyGraphNode): THREE.Sprite {
@@ -270,7 +276,7 @@ export default function OntologyGraph3D() {
 		});
 		linkForce?.strength?.((link: { target?: { type?: string } }) => (link.target?.type === "doc" ? 0.4 : 0.8));
 		chargeForce?.strength?.((node: OntologyGraphNode) => {
-			if (node.type === "root" || node.type === "role") {
+			if (node.type === "root" || node.type === "topic") {
 				return -220;
 			}
 
@@ -326,7 +332,7 @@ export default function OntologyGraph3D() {
 				<div className={styles.emptyState}>
 					<div className={styles.emptyStateCard}>
 						<h2>Ontology graph unavailable</h2>
-						<p>The homepage could not derive ontology graph data from the current docs metadata.</p>
+						<p>The homepage could not derive topic graph data from the current docs metadata.</p>
 					</div>
 				</div>
 			</div>
@@ -341,7 +347,7 @@ export default function OntologyGraph3D() {
 		<div className={styles.graphShell}>
 			<div className={styles.statusPill}>
 				<span className={styles.statusDot} />
-				<span>{graphData.nodes.length} ontology nodes live on the homepage map</span>
+				<span>{graphData.nodes.length} topic graph nodes live on the homepage map</span>
 			</div>
 
 			<div className={styles.graphCanvas}>
@@ -373,35 +379,35 @@ export default function OntologyGraph3D() {
 							return getLinkVisuals({
 								link,
 								activeNodeId,
-								roleColors,
+								topicColors,
 							}).color;
 						}}
 						linkOpacity={(link) =>
 							getLinkVisuals({
 								link,
 								activeNodeId,
-								roleColors,
+								topicColors,
 							}).opacity
 						}
 						linkWidth={(link) => {
 							return getLinkVisuals({
 								link,
 								activeNodeId,
-								roleColors,
+								topicColors,
 							}).width;
 						}}
 						linkDirectionalParticles={(link) => {
 							return getLinkVisuals({
 								link,
 								activeNodeId,
-								roleColors,
+								topicColors,
 							}).particles;
 						}}
 						linkDirectionalParticleSpeed={(link) =>
 							getLinkVisuals({
 								link,
 								activeNodeId,
-								roleColors,
+								topicColors,
 							}).particleSpeed
 						}
 						enableNodeDrag={false}

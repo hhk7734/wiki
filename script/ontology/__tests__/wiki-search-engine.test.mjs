@@ -13,7 +13,7 @@ test("wiki search groups subject and document results for natural-language queri
 					title: "Ceph",
 					description: "Ceph overview",
 					snippet: "Ceph overview",
-					url: "/docs/entity/data/storage-system/ceph",
+					url: "/docs/data/ceph/overview",
 					ontology: {
 						domain: "data",
 						class: "storage-system",
@@ -31,7 +31,7 @@ test("wiki search groups subject and document results for natural-language queri
 					snippet: "OSD management guide",
 					headings: ["OSD 관리"],
 					keywords: ["ceph", "osd"],
-					url: "/docs/operation/data/storage-system/ceph/osd",
+					url: "/docs/data/ceph/osd",
 					subject_ref: "subject:ceph",
 					subject_title: "Ceph",
 					ontology: {
@@ -51,7 +51,7 @@ test("wiki search groups subject and document results for natural-language queri
 					snippet: "Ceph overview",
 					headings: ["구성 요소"],
 					keywords: ["ceph"],
-					url: "/docs/entity/data/storage-system/ceph/overview",
+					url: "/docs/data/ceph/overview",
 					subject_ref: "subject:ceph",
 					subject_title: "Ceph",
 					ontology: {
@@ -71,7 +71,8 @@ test("wiki search groups subject and document results for natural-language queri
 	assert.equal(results.subjects[0]?.id, "subject:ceph");
 	assert.equal(results.documents[0]?.id, "doc:ceph-osd");
 	assert.ok(results.subjects[0]?.score > 0);
-	assert.ok(results.documents[0]?.score > results.documents[1]?.score);
+	assert.equal(results.documents.length, 1);
+	assert.ok(results.documents[0]?.score > 0);
 });
 
 test("wiki search ignores punctuation-only queries after normalization", () => {
@@ -84,7 +85,7 @@ test("wiki search ignores punctuation-only queries after normalization", () => {
 					title: "Ceph",
 					description: "Ceph overview",
 					snippet: "Ceph overview",
-					url: "/docs/entity/data/storage-system/ceph",
+					url: "/docs/data/ceph/overview",
 					ontology: {
 						domain: "data",
 						class: "storage-system",
@@ -102,7 +103,7 @@ test("wiki search ignores punctuation-only queries after normalization", () => {
 					snippet: "OSD management guide",
 					headings: ["OSD 관리"],
 					keywords: ["ceph", "osd"],
-					url: "/docs/operation/data/storage-system/ceph/osd",
+					url: "/docs/data/ceph/osd",
 					subject_ref: "subject:ceph",
 					subject_title: "Ceph",
 					ontology: {
@@ -132,7 +133,7 @@ test("wiki search ignores hyphen-only queries without breaking hyphenated fields
 					title: "Ceph",
 					description: "Ceph overview",
 					snippet: "Ceph overview",
-					url: "/docs/entity/data/storage-system/ceph",
+					url: "/docs/data/ceph/overview",
 					ontology: {
 						domain: "data",
 						class: "storage-system",
@@ -150,7 +151,7 @@ test("wiki search ignores hyphen-only queries without breaking hyphenated fields
 					snippet: "Ceph overview",
 					headings: ["개요"],
 					keywords: ["ceph"],
-					url: "/docs/entity/data/storage-system/ceph/overview",
+					url: "/docs/data/ceph/overview",
 					subject_ref: "subject:ceph",
 					subject_title: "Ceph",
 					ontology: {
@@ -176,24 +177,24 @@ test("wiki search deduplicates canonical subject pages from document results", (
 			{
 				id: "subject:ceph",
 				title: "Ceph",
-				url: "/docs/entity/data/storage-system/ceph",
+				url: "/docs/data/ceph/overview",
 			},
 			{
 				id: "subject:other",
 				title: "Other",
-				url: "/docs/entity/data/storage-system/other",
+				url: "/docs/data/minio/overview",
 			},
 		],
 		documents: [
 			{
 				id: "doc:ceph-overview",
 				title: "Ceph Overview",
-				url: "/docs/entity/data/storage-system/ceph",
+				url: "/docs/data/ceph/overview",
 			},
 			{
 				id: "doc:ceph-osd",
 				title: "Ceph OSD",
-				url: "/docs/operation/data/storage-system/ceph/osd",
+				url: "/docs/data/ceph/osd",
 			},
 		],
 	});
@@ -216,7 +217,7 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 						title: "Ceph",
 						description: "Ceph overview",
 						snippet: "Ceph overview",
-						url: "/docs/entity/data/storage-system/ceph",
+						url: "/docs/data/ceph/overview",
 						ontology: {
 							domain: "data",
 							class: "storage-system",
@@ -234,7 +235,7 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 						snippet: "Canonical subject page",
 						headings: ["Overview"],
 						keywords: ["ceph"],
-						url: "/docs/entity/data/storage-system/ceph",
+						url: "/docs/data/ceph/overview",
 						subject_ref: "subject:ceph",
 						subject_title: "Ceph",
 						ontology: {
@@ -254,7 +255,7 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 						snippet: "OSD management guide",
 						headings: ["OSD 관리"],
 						keywords: ["ceph", "osd"],
-						url: "/docs/operation/data/storage-system/ceph/osd",
+						url: "/docs/data/ceph/osd",
 						subject_ref: "subject:ceph",
 						subject_title: "Ceph",
 						ontology: {
@@ -268,13 +269,13 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 						display: { label: "Ceph OSD", kind: "document", subtitle: "Ceph" },
 					},
 					{
-						id: "doc:ceph-mon",
-						title: "Ceph MON",
-						description: "MON management guide",
-						snippet: "MON management guide",
-						headings: ["MON 관리"],
-						keywords: ["ceph", "mon"],
-						url: "/docs/operation/data/storage-system/ceph/mon",
+						id: "doc:ceph-monitoring",
+						title: "Ceph Monitoring",
+						description: "Monitoring guide",
+						snippet: "Monitoring guide",
+						headings: ["Dashboard"],
+						keywords: ["ceph", "monitoring"],
+						url: "/docs/data/ceph/monitoring",
 						subject_ref: "subject:ceph",
 						subject_title: "Ceph",
 						ontology: {
@@ -282,10 +283,10 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 							domain: "data",
 							class: "storage-system",
 							instance: "ceph",
-							aspect: "mon",
+							aspect: "monitoring",
 						},
-						search_text: "ceph mon management",
-						display: { label: "Ceph MON", kind: "document", subtitle: "Ceph" },
+						search_text: "ceph monitoring dashboard",
+						display: { label: "Ceph Monitoring", kind: "document", subtitle: "Ceph" },
 					},
 				],
 			},
@@ -297,7 +298,7 @@ test("wiki search keeps the full document slot count after canonical-page dedupe
 	assert.equal(results.documents.length, 2);
 	assert.deepEqual(
 		results.documents.map((document) => document.id).sort(),
-		["doc:ceph-mon", "doc:ceph-osd"],
+		["doc:ceph-monitoring", "doc:ceph-osd"],
 	);
 });
 

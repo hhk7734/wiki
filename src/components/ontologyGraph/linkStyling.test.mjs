@@ -3,31 +3,31 @@ import test from "node:test";
 
 import { getLinkVisuals, isLinkConnectedToNode } from "./linkStyling.mjs";
 
-const roleColors = {
-	entity: "#38bdf8",
-	concept: "#f97316",
+const topicColors = {
+	data: "#3b82f6",
+	language: "#ef4444",
 };
 
 test("isLinkConnectedToNode matches string and object endpoints", () => {
-	assert.equal(isLinkConnectedToNode({ source: "root", target: "role:entity" }, "root"), true);
+	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:data" }, "root"), true);
 	assert.equal(
-		isLinkConnectedToNode({ source: { id: "role:entity" }, target: { id: "group:entity:platform" } }, "group:entity:platform"),
+		isLinkConnectedToNode({ source: { id: "topic:data" }, target: { id: "group:data:ceph" } }, "group:data:ceph"),
 		true,
 	);
-	assert.equal(isLinkConnectedToNode({ source: "root", target: "role:entity" }, "role:concept"), false);
+	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:data" }, "topic:language"), false);
 });
 
 test("getLinkVisuals keeps baseline links readable with no active node", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "group:entity:platform", type: "group", role: "entity" },
-			target: { id: "doc:entity/platform/tool/git/git", type: "doc", role: "entity" },
+			source: { id: "group:data:ceph", type: "group", topic: "data" },
+			target: { id: "doc:data/ceph/overview", type: "doc", topic: "data" },
 		},
 		activeNodeId: null,
-		roleColors,
+		topicColors,
 	});
 
-	assert.equal(visuals.color, "#7dd3fc");
+	assert.equal(visuals.color, "#93c5fd");
 	assert.equal(visuals.opacity, 0.44);
 	assert.equal(visuals.width, 1.1);
 	assert.equal(visuals.particles, 2);
@@ -36,11 +36,11 @@ test("getLinkVisuals keeps baseline links readable with no active node", () => {
 test("getLinkVisuals strongly emphasizes links connected to the active node", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "group:entity:platform", type: "group", role: "entity" },
-			target: { id: "doc:entity/platform/tool/git/git", type: "doc", role: "entity" },
+			source: { id: "group:data:ceph", type: "group", topic: "data" },
+			target: { id: "doc:data/ceph/overview", type: "doc", topic: "data" },
 		},
-		activeNodeId: "doc:entity/platform/tool/git/git",
-		roleColors,
+		activeNodeId: "doc:data/ceph/overview",
+		topicColors,
 	});
 
 	assert.equal(visuals.color, "#e0f2fe");
@@ -52,11 +52,11 @@ test("getLinkVisuals strongly emphasizes links connected to the active node", ()
 test("getLinkVisuals fades unrelated links when a node is active", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "role:entity", type: "role", role: "entity" },
-			target: { id: "group:entity:platform", type: "group", role: "entity" },
+			source: { id: "topic:data", type: "topic", topic: "data" },
+			target: { id: "group:data:ceph", type: "group", topic: "data" },
 		},
-		activeNodeId: "doc:concept/language/concept/goroutine/goroutine",
-		roleColors,
+		activeNodeId: "doc:language/concepts/goroutine",
+		topicColors,
 	});
 
 	assert.equal(visuals.color, "#334155");

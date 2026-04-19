@@ -12,8 +12,8 @@ test("getPersistentLabelConfig gives the root the largest label treatment", () =
 	});
 });
 
-test("getPersistentLabelConfig distinguishes role, group, and doc labels", () => {
-	assert.deepEqual(getPersistentLabelConfig({ type: "role" }), {
+test("getPersistentLabelConfig distinguishes topic, group, and doc labels", () => {
+	assert.deepEqual(getPersistentLabelConfig({ type: "topic" }), {
 		fontSize: 28,
 		color: "#f8fafc",
 		scale: 38,

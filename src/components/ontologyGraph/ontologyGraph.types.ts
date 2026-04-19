@@ -1,11 +1,11 @@
-export type OntologyGraphNodeType = "root" | "role" | "group" | "doc";
+export type OntologyGraphNodeType = "root" | "topic" | "group" | "doc";
 
 export type OntologyGraphNode = {
 	id: string;
 	label: string;
 	type: OntologyGraphNodeType;
 	depth: number;
-	role?: string;
+	topic?: string;
 	docId?: string;
 	href?: string;
 	description?: string;

@@ -6,26 +6,32 @@ function getNodeId(nodeOrId) {
 	return typeof nodeOrId === "object" ? nodeOrId.id ?? null : nodeOrId;
 }
 
-function getRole(link) {
-	return link?.target?.role ?? link?.source?.role ?? null;
+function getTopic(link) {
+	return link?.target?.topic ?? link?.source?.topic ?? null;
 }
 
-function getBaselineColor(role, roleColors) {
-	switch (role) {
-		case "entity":
-			return "#7dd3fc";
-		case "concept":
-			return "#fdba74";
-		case "operation":
-			return "#5eead4";
-		case "specification":
+function getBaselineColor(topic, topicColors) {
+	switch (topic) {
+		case "data":
+			return "#93c5fd";
+		case "language":
+			return "#fca5a5";
+		case "mlops":
+			return "#6ee7b7";
+		case "platform":
+			return "#fcd34d";
+		case "protocol":
 			return "#c4b5fd";
-		case "troubleshooting":
-			return "#fda4af";
+		case "hardware":
+			return "#fdba74";
+		case "science":
+			return "#67e8f9";
+		case "management":
+			return "#f9a8d4";
 		case "comparison":
 			return "#fde68a";
 		default:
-			return roleColors?.[role] ?? "#64748b";
+			return topicColors?.[topic] ?? "#64748b";
 	}
 }
 
@@ -37,7 +43,7 @@ export function isLinkConnectedToNode(link, nodeId) {
 	return getNodeId(link?.source) === nodeId || getNodeId(link?.target) === nodeId;
 }
 
-export function getLinkVisuals({ link, activeNodeId, roleColors }) {
+export function getLinkVisuals({ link, activeNodeId, topicColors }) {
 	if (activeNodeId && isLinkConnectedToNode(link, activeNodeId)) {
 		return {
 			color: "#e0f2fe",
@@ -59,7 +65,7 @@ export function getLinkVisuals({ link, activeNodeId, roleColors }) {
 	}
 
 	return {
-		color: getBaselineColor(getRole(link), roleColors),
+		color: getBaselineColor(getTopic(link), topicColors),
 		opacity: 0.44,
 		width: link?.target?.type === "doc" ? 1.1 : 1.35,
 		particles: link?.target?.type === "doc" ? 2 : 1,

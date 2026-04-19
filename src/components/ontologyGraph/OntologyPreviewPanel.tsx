@@ -4,12 +4,12 @@ import React from "react";
 import type { OntologyPreviewPanelProps } from "./ontologyGraph.types";
 import styles from "./ontologyGraph.module.css";
 
-function toRoleLabel(role?: string): string {
-	if (!role) {
+function toTopicLabel(topic?: string): string {
+	if (!topic) {
 		return "Node";
 	}
 
-	return role.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+	return topic.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
 }
 
 function toTypeLabel(type: OntologyPreviewPanelProps["selectedNode"] extends infer T
@@ -28,10 +28,10 @@ export default function OntologyPreviewPanel({ selectedNode, onClose }: Ontology
 	const isDocNode = selectedNode.type === "doc" && typeof selectedNode.href === "string";
 
 	return (
-		<aside className={styles.panel} aria-label="Ontology node preview">
+		<aside className={styles.panel} aria-label="Topic node preview">
 			<div className={styles.header}>
 				<div>
-					<span className={styles.eyebrow}>{toRoleLabel(selectedNode.role)}</span>
+					<span className={styles.eyebrow}>{toTopicLabel(selectedNode.topic)}</span>
 					<h2 className={styles.title}>{selectedNode.label}</h2>
 				</div>
 				<button className={styles.closeButton} type="button" onClick={onClose} aria-label="Close preview">
@@ -42,8 +42,8 @@ export default function OntologyPreviewPanel({ selectedNode, onClose }: Ontology
 			<p className={styles.description}>
 				{selectedNode.description ??
 					(isDocNode
-						? "Open this document to inspect the full ontology entry."
-						: "This structural node groups related ontology entries in the homepage graph.")}
+						? "Open this document to inspect the full wiki entry."
+						: "This structural node groups related documents in the homepage map.")}
 			</p>
 
 			<div className={styles.metaList}>

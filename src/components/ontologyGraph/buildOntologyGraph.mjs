@@ -20,14 +20,14 @@ function createNode(node) {
 		description: undefined,
 		docId: undefined,
 		href: undefined,
-		role: undefined,
+		topic: undefined,
 		...node,
 	};
 }
 
 export function buildOntologyGraph({
 	docs,
-	ontologySections,
+	topicSections,
 	docMetadataById,
 	rootLabel = "lol-IoT",
 }) {
@@ -35,31 +35,31 @@ export function buildOntologyGraph({
 	const links = [];
 	const nodeById = new Map(nodes.map((node) => [node.id, node]));
 
-	for (const [roleLabel, sidebarId] of Object.entries(ontologySections)) {
+	for (const [topicLabel, sidebarId] of Object.entries(topicSections)) {
 		const sectionDocs = docs.filter((doc) => doc.sidebar === sidebarId);
 
 		if (!sectionDocs.length) {
 			continue;
 		}
 
-		const roleNodeId = `role:${sidebarId}`;
-		const roleNode = createNode({
-			id: roleNodeId,
-			label: roleLabel,
-			type: "role",
+		const topicNodeId = `topic:${sidebarId}`;
+		const topicNode = createNode({
+			id: topicNodeId,
+			label: topicLabel,
+			type: "topic",
 			depth: 1,
-			role: sidebarId,
+			topic: sidebarId,
 		});
 
-		nodes.push(roleNode);
-		nodeById.set(roleNodeId, roleNode);
-		links.push({ source: "root", target: roleNodeId, kind: "hierarchy" });
+		nodes.push(topicNode);
+		nodeById.set(topicNodeId, topicNode);
+		links.push({ source: "root", target: topicNodeId, kind: "hierarchy" });
 
 		for (const doc of sectionDocs) {
 			const metadata = docMetadataById.get(doc.id);
 			const segments = doc.id.split("/");
 			const groupSegments = segments.slice(1, -1);
-			let parentId = roleNodeId;
+			let parentId = topicNodeId;
 
 			groupSegments.forEach((segment, index) => {
 				const partialPath = groupSegments.slice(0, index + 1).join("/");
@@ -71,7 +71,7 @@ export function buildOntologyGraph({
 						label: toDisplayLabel(segment),
 						type: "group",
 						depth: index + 2,
-						role: sidebarId,
+						topic: sidebarId,
 					});
 
 					nodes.push(groupNode);
@@ -88,7 +88,7 @@ export function buildOntologyGraph({
 				label: getDocLabel(doc.id, metadata),
 				type: "doc",
 				depth: groupSegments.length + 2,
-				role: sidebarId,
+				topic: sidebarId,
 				docId: doc.id,
 				href: getDocHref(doc, metadata),
 				description: metadata?.description,

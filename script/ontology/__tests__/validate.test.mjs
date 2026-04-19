@@ -460,70 +460,70 @@ content
 
 test("rewriteDocLinks updates absolute doc links using the registry map", () => {
 	const output = rewriteDocLinks(
-		"See [Go](/docs/lang/go/go.mdx) and [CORS](/docs/lang/design/protocol-spec/http/cors.mdx).",
+		"See [Go](/docs/language/go/overview.mdx) and [CORS](/docs/protocol/http/cors.mdx).",
 		new Map([
-			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
-			["/docs/lang/design/protocol-spec/http/cors.mdx", "/docs/specification/protocol/application-protocol/http/cors.mdx"],
+			["/docs/language/go/overview.mdx", "/docs/language/go/overview.mdx"],
+			["/docs/protocol/http/cors.mdx", "/docs/protocol/http/cors.mdx"],
 		]),
 	);
 
-	assert.match(output, /\/docs\/entity\/language\/programming-language\/go\/go\.mdx/);
+	assert.match(output, /\/docs\/language\/go\/overview\.mdx/);
 });
 
 test("rewriteDocLinks updates absolute doc links without extensions", () => {
 	const output = rewriteDocLinks(
-		"See [Lua](/docs/lang/etc/vim/lua#options) and [k0s](/docs/mlops/kubernetes/cluster/k0s#worker).",
+		"See [Lua](/docs/platform/nvim/lua#options) and [k0s](/docs/mlops/k0s/install#worker).",
 		new Map([
-			["/docs/lang/etc/vim/lua", "/docs/operation/platform/tool/lua/lua"],
-			["/docs/mlops/kubernetes/cluster/k0s", "/docs/entity/mlops/cluster-orchestrator/k0s"],
+			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
+			["/docs/mlops/k0s/install", "/docs/mlops/k0s/install"],
 		]),
 	);
 
-	assert.match(output, /\/docs\/operation\/platform\/tool\/lua\/lua#options/);
-	assert.match(output, /\/docs\/entity\/mlops\/cluster-orchestrator\/k0s#worker/);
+	assert.match(output, /\/docs\/platform\/nvim\/lua#options/);
+	assert.match(output, /\/docs\/mlops\/k0s\/install#worker/);
 });
 
 test("rewriteDocLinks rewrites real links but skips fenced code blocks and plain literals", () => {
 	const output = rewriteDocLinks(
 		[
-			'See [Go](/docs/lang/go/go.mdx), <a href="/docs/lang/design/protocol-spec/http/cors">CORS</a>, and <Link to="/docs/lang/etc/vim/lua#options">Lua</Link>.',
-			"Literal /docs/lang/go/go.mdx should stay untouched.",
+			'See [Go](/docs/language/go/overview.mdx), <a href="/docs/protocol/http/cors">CORS</a>, and <Link to="/docs/platform/nvim/lua#options">Lua</Link>.',
+			"Literal /docs/language/go/overview.mdx should stay untouched.",
 			"",
 			"```js",
-			'const sample = "[Go](/docs/lang/go/go.mdx)";',
-			'<Link to="/docs/lang/etc/vim/lua#options">Lua</Link>;',
+			'const sample = "[Go](/docs/language/go/overview.mdx)";',
+			'<Link to="/docs/platform/nvim/lua#options">Lua</Link>;',
 			"```",
 		].join("\n"),
 		new Map([
-			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
-			["/docs/lang/design/protocol-spec/http/cors", "/docs/specification/protocol/application-protocol/http/cors"],
-			["/docs/lang/etc/vim/lua", "/docs/operation/platform/tool/lua/lua"],
+			["/docs/language/go/overview.mdx", "/docs/language/go/overview.mdx"],
+			["/docs/protocol/http/cors", "/docs/protocol/http/cors"],
+			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
 		]),
 	);
 
 	// Prose links should move.
-	assert.match(output, /\[Go\]\(\/docs\/entity\/language\/programming-language\/go\/go\.mdx\)/);
-	assert.match(output, /href="\/docs\/specification\/protocol\/application-protocol\/http\/cors"/);
-	assert.match(output, /to="\/docs\/operation\/platform\/tool\/lua\/lua#options"/);
+	assert.match(output, /\[Go\]\(\/docs\/language\/go\/overview\.mdx\)/);
+	assert.match(output, /href="\/docs\/protocol\/http\/cors"/);
+	assert.match(output, /to="\/docs\/platform\/nvim\/lua#options"/);
 
 	// Plain text and fenced code should stay literal.
-	assert.match(output, /Literal \/docs\/lang\/go\/go\.mdx should stay untouched\./);
-	assert.match(output, /const sample = "\[Go\]\(\/docs\/lang\/go\/go\.mdx\)";/);
-	assert.match(output, /<Link to="\/docs\/lang\/etc\/vim\/lua#options">Lua<\/Link>;/);
+	assert.match(output, /Literal \/docs\/language\/go\/overview\.mdx should stay untouched\./);
+	assert.match(output, /const sample = "\[Go\]\(\/docs\/language\/go\/overview\.mdx\)";/);
+	assert.match(output, /<Link to="\/docs\/platform\/nvim\/lua#options">Lua<\/Link>;/);
 });
 
 test("rewriteDocLinks preserves inline code spans", () => {
 	const output = rewriteDocLinks(
-		'Use `[Go](/docs/lang/go/go.mdx)` literally, but see [Go](/docs/lang/go/go.mdx) and <Link to="/docs/lang/etc/vim/lua#options">Lua</Link>.',
+		'Use `[Go](/docs/language/go/overview.mdx)` literally, but see [Go](/docs/language/go/overview.mdx) and <Link to="/docs/platform/nvim/lua#options">Lua</Link>.',
 		new Map([
-			["/docs/lang/go/go.mdx", "/docs/entity/language/programming-language/go/go.mdx"],
-			["/docs/lang/etc/vim/lua", "/docs/operation/platform/tool/lua/lua"],
+			["/docs/language/go/overview.mdx", "/docs/language/go/overview.mdx"],
+			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
 		]),
 	);
 
-	assert.match(output, /`\[Go\]\(\/docs\/lang\/go\/go\.mdx\)` literally/);
-	assert.match(output, /\[Go\]\(\/docs\/entity\/language\/programming-language\/go\/go\.mdx\)/);
-	assert.match(output, /to="\/docs\/operation\/platform\/tool\/lua\/lua#options"/);
+	assert.match(output, /`\[Go\]\(\/docs\/language\/go\/overview\.mdx\)` literally/);
+	assert.match(output, /\[Go\]\(\/docs\/language\/go\/overview\.mdx\)/);
+	assert.match(output, /to="\/docs\/platform\/nvim\/lua#options"/);
 });
 
 test("listRewriteTargets includes docs/AGENTS.md", () => {

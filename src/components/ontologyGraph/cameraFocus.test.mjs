@@ -34,7 +34,7 @@ test("getCameraFocusPosition recenters without changing zoom distance", () => {
 test("getCameraFocusPosition falls back to the origin when no target is provided", () => {
 	const position = getCameraFocusPosition({
 		cameraPosition: { x: 0, y: 0, z: 620 },
-		node: { type: "role", x: 80, y: -20, z: 160 },
+		node: { type: "topic", x: 80, y: -20, z: 160 },
 	});
 
 	assert.deepEqual(position, {

@@ -3,50 +3,50 @@ import assert from "node:assert/strict";
 
 import { buildOntologyGraph } from "./buildOntologyGraph.mjs";
 
-const ontologySections = {
-	Entity: "entity",
-	Concept: "concept",
+const topicSections = {
+	Data: "data",
+	Language: "language",
 };
 
 const docs = [
 	{
-		id: "entity/platform/tool/git/git",
-		sidebar: "entity",
-		path: "/docs/entity/platform/tool/git/git",
+		id: "data/ceph/overview",
+		sidebar: "data",
+		path: "/docs/data/ceph/overview",
 	},
 	{
-		id: "concept/language/concept/goroutine/goroutine",
-		sidebar: "concept",
-		path: "/docs/concept/language/concept/goroutine/goroutine",
+		id: "language/concepts/goroutine",
+		sidebar: "language",
+		path: "/docs/language/concepts/goroutine",
 	},
 ];
 
 const docMetadataById = new Map([
 	[
-		"entity/platform/tool/git/git",
+		"data/ceph/overview",
 		{
-			id: "entity/platform/tool/git/git",
-			title: "Git",
-			description: "Distributed version control system.",
+			id: "data/ceph/overview",
+			title: "Ceph Storage Cluster란?",
+			description: "Distributed storage cluster.",
 			frontMatter: {
-				sidebar_label: "Git VCS",
+				sidebar_label: "Ceph Overview",
 			},
 		},
 	],
 	[
-		"concept/language/concept/goroutine/goroutine",
+		"language/concepts/goroutine",
 		{
-			id: "concept/language/concept/goroutine/goroutine",
+			id: "language/concepts/goroutine",
 			title: "Goroutine",
 			description: "Lightweight Go concurrency primitive.",
 		},
 	],
 ]);
 
-test("buildOntologyGraph creates role, group, and doc nodes with stable ids", () => {
+test("buildOntologyGraph creates topic, group, and doc nodes with stable ids", () => {
 	const graph = buildOntologyGraph({
 		docs,
-		ontologySections,
+		topicSections,
 		docMetadataById,
 		rootLabel: "lol-IoT",
 	});
@@ -54,48 +54,46 @@ test("buildOntologyGraph creates role, group, and doc nodes with stable ids", ()
 	const nodeIds = new Set(graph.nodes.map((node) => node.id));
 
 	assert.equal(graph.nodes.find((node) => node.id === "root")?.type, "root");
-	assert.equal(graph.nodes.find((node) => node.id === "role:entity")?.type, "role");
-	assert.equal(graph.nodes.find((node) => node.id === "role:concept")?.type, "role");
-	assert.ok(nodeIds.has("group:entity:platform"));
-	assert.ok(nodeIds.has("group:entity:platform/tool"));
-	assert.ok(nodeIds.has("group:entity:platform/tool/git"));
-	assert.ok(nodeIds.has("doc:entity/platform/tool/git/git"));
+	assert.equal(graph.nodes.find((node) => node.id === "topic:data")?.type, "topic");
+	assert.equal(graph.nodes.find((node) => node.id === "topic:language")?.type, "topic");
+	assert.ok(nodeIds.has("group:data:ceph"));
+	assert.ok(nodeIds.has("group:language:concepts"));
+	assert.ok(nodeIds.has("doc:data/ceph/overview"));
 });
 
 test("buildOntologyGraph prefers sidebar labels and preserves doc metadata", () => {
 	const graph = buildOntologyGraph({
 		docs,
-		ontologySections,
+		topicSections,
 		docMetadataById,
 		rootLabel: "lol-IoT",
 	});
 
-	const gitDoc = graph.nodes.find((node) => node.id === "doc:entity/platform/tool/git/git");
-	const goroutineDoc = graph.nodes.find((node) => node.id === "doc:concept/language/concept/goroutine/goroutine");
+	const cephDoc = graph.nodes.find((node) => node.id === "doc:data/ceph/overview");
+	const goroutineDoc = graph.nodes.find((node) => node.id === "doc:language/concepts/goroutine");
 
-	assert.equal(gitDoc.label, "Git VCS");
-	assert.equal(gitDoc.description, "Distributed version control system.");
-	assert.equal(gitDoc.href, "/docs/entity/platform/tool/git/git");
-	assert.equal(gitDoc.docId, "entity/platform/tool/git/git");
+	assert.equal(cephDoc.label, "Ceph Overview");
+	assert.equal(cephDoc.description, "Distributed storage cluster.");
+	assert.equal(cephDoc.href, "/docs/data/ceph/overview");
+	assert.equal(cephDoc.docId, "data/ceph/overview");
 	assert.equal(goroutineDoc.label, "Goroutine");
 });
 
 test("buildOntologyGraph links parents to children and counts descendants", () => {
 	const graph = buildOntologyGraph({
 		docs,
-		ontologySections,
+		topicSections,
 		docMetadataById,
 		rootLabel: "lol-IoT",
 	});
 
 	const linkPairs = new Set(graph.links.map((link) => `${link.source}->${link.target}`));
-	const entityRole = graph.nodes.find((node) => node.id === "role:entity");
-	const gitGroup = graph.nodes.find((node) => node.id === "group:entity:platform/tool/git");
+	const dataTopic = graph.nodes.find((node) => node.id === "topic:data");
+	const cephGroup = graph.nodes.find((node) => node.id === "group:data:ceph");
 
-	assert.ok(linkPairs.has("root->role:entity"));
-	assert.ok(linkPairs.has("role:entity->group:entity:platform"));
-	assert.ok(linkPairs.has("group:entity:platform/tool->group:entity:platform/tool/git"));
-	assert.ok(linkPairs.has("group:entity:platform/tool/git->doc:entity/platform/tool/git/git"));
-	assert.equal(entityRole.childCount, 1);
-	assert.equal(gitGroup.childCount, 1);
+	assert.ok(linkPairs.has("root->topic:data"));
+	assert.ok(linkPairs.has("topic:data->group:data:ceph"));
+	assert.ok(linkPairs.has("group:data:ceph->doc:data/ceph/overview"));
+	assert.equal(dataTopic.childCount, 1);
+	assert.equal(cephGroup.childCount, 1);
 });

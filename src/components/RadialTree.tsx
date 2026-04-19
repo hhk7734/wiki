@@ -29,12 +29,15 @@ declare const require: {
 	context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => DocsContext;
 };
 
-const ontologySections = {
-	Entity: "entity",
-	Concept: "concept",
-	Operation: "operation",
-	Specification: "specification",
-	Troubleshooting: "troubleshooting",
+const topicSections = {
+	Data: "data",
+	Language: "language",
+	MLOps: "mlops",
+	Platform: "platform",
+	Protocol: "protocol",
+	Hardware: "hardware",
+	Science: "science",
+	Management: "management",
 	Comparison: "comparison",
 } as const;
 
@@ -92,14 +95,14 @@ function buildSectionTree(name: string, docIds: string[]): TreeData {
 	return root;
 }
 
-function getOntologyTreeData(): TreeData[] {
+function getTopicTreeData(): TreeData[] {
 	const docs = (
 		(globalData as Record<string, { default?: { versions?: Array<{ docs?: GlobalDoc[] }> } }>)[
 			"docusaurus-plugin-content-docs"
 		]?.default?.versions?.[0]?.docs ?? []
 	).filter((doc): doc is GlobalDoc => typeof doc?.id === "string");
 
-	return Object.entries(ontologySections)
+	return Object.entries(topicSections)
 		.map(([label, sidebarId]) => {
 			const docIds = docs.filter((doc) => doc.sidebar === sidebarId).map((doc) => doc.id);
 			return buildSectionTree(label, docIds);
@@ -154,7 +157,7 @@ export default function RadialTree() {
 		// 	return { name: key, children: value.map((item) => itemToTreeData(item)) };
 		// });
 
-		const sidebarData = getOntologyTreeData();
+		const sidebarData = getTopicTreeData();
 
 		const root = tree(
 			d3.hierarchy({ name: "lol-IoT", children: sidebarData }).sort((a, b) => d3.ascending(a.data.name, b.data.name)),

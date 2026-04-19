@@ -140,17 +140,17 @@ Prefer this pattern for tool-specific material:
 
 Examples:
 
-- `docs/entity/mlops/iac-tool/pulumi/pulumi.mdx`
-- `docs/concept/mlops/iac-tool/pulumi/config.mdx`
-- `docs/concept/mlops/iac-tool/pulumi/stack-reference.mdx`
-- `docs/operation/mlops/iac-tool/terraform/import.mdx`
-- `docs/operation/mlops/iac-tool/terraform/state.mdx`
-- `docs/concept/mlops/iac-tool/terragrunt/stack.mdx`
+- `docs/mlops/pulumi/overview.mdx`
+- `docs/mlops/pulumi/config.mdx`
+- `docs/mlops/pulumi/stack-reference.mdx`
+- `docs/mlops/terraform/import.mdx`
+- `docs/mlops/terraform/state.mdx`
+- `docs/mlops/terragrunt/stack.mdx`
 
 Avoid synthetic or misleading generic paths such as:
 
-- `docs/entity/mlops/iac-tool/config/config.mdx`
-- `docs/entity/mlops/iac-tool/import/import.mdx`
+- `docs/mlops/config/overview.mdx`
+- `docs/mlops/import/overview.mdx`
 
 unless the page is genuinely tool-agnostic.
 
@@ -172,14 +172,14 @@ Use a generic `instance` like `config`, `state`, `stack`, or `import` only when 
 
 General rules:
 
-- a programming language itself is an `entity/language/programming-language/...`
-- a library or framework is usually an entity page under its ontology domain and class
-- a usage, config, deploy, install, or how-to page is usually an `operation`
-- a rule or standard page is usually a `specification`
-- an architectural or conceptual topic such as `goroutine`, `cqrs`, or `event-storming` is usually a `concept`
-- vendor products and deployable systems such as `kubeflow`, `istio`, `argo-workflows`, and `karpenter` are usually entity pages
-- hardware families and boards are `entity/hardware/...`
-- troubleshooting material should use `role=troubleshooting` rather than being hidden under operations
+- a programming language itself usually lives at `docs/language/<language>/overview.mdx`
+- a library or framework usually lives under `docs/language/<subject>/...` or `docs/language/<language>/<tool>/...`, depending on whether the tool is ecosystem-owned
+- a usage, config, deploy, install, or how-to page is usually an `operation` in metadata, even though its path remains taxonomy-first
+- a rule or standard page is usually a `specification` in metadata
+- an architectural or conceptual topic such as `goroutine`, `cqrs`, or `event-storming` is usually a `concept` in metadata
+- vendor products and deployable systems such as `kubeflow`, `istio`, `argo-workflows`, and `karpenter` usually live at `docs/<topic>/<subject>/...`
+- hardware families and boards usually live at `docs/hardware/<subject>/...`
+- troubleshooting material should use `role=troubleshooting` metadata rather than hiding inside unrelated subject folders
 
 Language-domain rules:
 
@@ -187,8 +187,8 @@ Language-domain rules:
 - `framework` means a subject that imposes application structure, lifecycle, routing, rendering flow, plugin flow, or other major architectural conventions
 - `library` means a reusable package, module, SDK, binding, toolkit, or standard-library component consumed from user code
 - do not promote a library to `framework` just because it is commonly used with a framework
-- if the subject is the framework itself, create or maintain a canonical entity page for that framework
-- if operation or concept pages exist for a language/framework/library subject, anchor them to the same canonical `instance` as the entity page whenever practical
+- if the subject is the framework itself, create or maintain a canonical subject page for that framework
+- if operation or concept pages exist for a language/framework/library subject, anchor them to the same canonical `instance` as the overview page whenever practical
 - if the page title naturally reads as `<product> <facet>`, the `instance` should almost always be `<product>` and the `aspect` should be `<facet>`
 - if the current path encodes a category bucket but the page is actually about a named product, move the page so `instance` names that product
 
@@ -225,17 +225,17 @@ Role guidance for tool-specific pages:
 
 Examples:
 
-- `Pulumi` -> `entity/mlops/iac-tool/pulumi/pulumi.mdx`
-- `Pulumi Config` -> `concept/mlops/iac-tool/pulumi/config.mdx`
-- `Pulumi StackReference` -> `concept/mlops/iac-tool/pulumi/stack-reference.mdx`
-- `Terraform Import` -> `operation/mlops/iac-tool/terraform/import.mdx`
-- `Terragrunt Stack` -> `concept/mlops/iac-tool/terragrunt/stack.mdx`
+- `Pulumi` -> `docs/mlops/pulumi/overview.mdx`
+- `Pulumi Config` -> `docs/mlops/pulumi/config.mdx`
+- `Pulumi StackReference` -> `docs/mlops/pulumi/stack-reference.mdx`
+- `Terraform Import` -> `docs/mlops/terraform/import.mdx`
+- `Terragrunt Stack` -> `docs/mlops/terragrunt/stack.mdx`
 
 Mixed-page rule:
 
 - if a page mixes overview and procedural content, split it when practical
-- keep the subject explanation in `entity` or `concept`
-- move step-by-step setup or usage into `operation`
+- keep the subject explanation in an overview or concept page
+- move step-by-step setup or usage into an operation-oriented page for the same subject
 
 Family-grouping rule:
 
@@ -244,9 +244,9 @@ Family-grouping rule:
 
 Repository-specific corrections:
 
-- `docs/lang/design/...` is not a language subtree and should split into `concept` and `specification`
+- `docs/lang/design/...` is not a language subtree and should split into taxonomy-first `protocol`, `language/concepts`, or other fitting topics
 - `docs/lang/db/...` belongs under `data`
-- `docs/mlops/...` mixes entities, operations, and concepts and should be decomposed
+- `docs/mlops/...` should stay subject-first, with ontology metadata carrying entity/operation/concept distinctions
 - `docs/etc/...` should disappear entirely
 - `docs/linux/kernel/...` and `docs/linux/linux-kernel/...` should collapse into one canonical path model
 
