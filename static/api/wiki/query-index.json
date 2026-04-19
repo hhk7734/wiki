@@ -3166,36 +3166,6 @@
       "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:pipeline.json"
     },
     {
-      "id": "subject:mlops:networking-stack:arp",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium에서 ARP/NDP 사용하기",
-      "snippet": "…pha1\"\nkind: CiliumL2AnnouncementPolicy\nmetadata:\n name:\nspec:\n # externalIPs 또는 loadBalancerIPs 둘 중 하나는 true여야 합니다.\n # externalIPs: true\n loadBalancerIPs: true\n`\n\n- service…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "arp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/arp/overview--mlops-network-cilium-arp",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:arp.json"
-    },
-    {
-      "id": "subject:mlops:networking-stack:aws",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "VPC",
-      "snippet": "``mermaid\nflowchart\n subgraph VPC\n InternetGateway(InternetGateway)\n\n NatGateway-1 --> InternetGateway\n NatGatewa…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "aws"
-      },
-      "url": "/docs/operation/mlops/networking-stack/aws/vpc",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:aws.json"
-    },
-    {
       "id": "subject:mlops:networking-stack:aws-load-balancer-controller",
       "type": "subject",
       "score": 0,
@@ -3207,37 +3177,22 @@
         "class": "networking-stack",
         "instance": "aws-load-balancer-controller"
       },
-      "url": "/docs/operation/mlops/networking-stack/aws-load-balancer-controller/install",
+      "url": "/docs/mlops/aws-load-balancer-controller/install",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:aws-load-balancer-controller.json"
-    },
-    {
-      "id": "subject:mlops:networking-stack:bgp",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium에서 BGP 사용하기",
-      "snippet": "- Cilium / BGP Control Plane\n\n## BGP Control Plane 설정\n\n``yaml title=\"cilium-values.yaml\"…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "bgp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/bgp/overview--mlops-network-cilium-bgp",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:bgp.json"
     },
     {
       "id": "subject:mlops:networking-stack:cilium",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "Cilium",
-      "snippet": "…es 호환성\n\n### cilium-cli\n\n- mise로 런타임 버전 관리하기\n\n### Helm으로 Cilium 설치하기\n\n- Cilium / Installation using Helm\n\n``shell\nhelm repo add cilium https://helm.cilium.io/\n`\n\n`shell…",
+      "title": "Cilium Load Balancer 사용하기",
+      "snippet": "- Cilium / LoadBalancer IP Address Management\n\n## CiliumLoadBalancerIPPool\n\n``yaml\napiVersion: cilium.i…",
       "ontology": {
         "domain": "mlops",
         "class": "networking-stack",
         "instance": "cilium"
       },
-      "url": "/docs/operation/mlops/networking-stack/cilium/install",
+      "url": "/docs/mlops/cilium/load-balancer",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:cilium.json"
     },
     {
@@ -3252,7 +3207,7 @@
         "class": "networking-stack",
         "instance": "cni"
       },
-      "url": "/docs/entity/mlops/networking-stack/cni",
+      "url": "/docs/mlops/cni/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:cni.json"
     },
     {
@@ -3260,14 +3215,14 @@
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "CoreDNS",
-      "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
+      "title": "CoreDNS Plugin",
+      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
       "ontology": {
         "domain": "mlops",
         "class": "networking-stack",
         "instance": "coredns"
       },
-      "url": "/docs/operation/mlops/networking-stack/coredns/install",
+      "url": "/docs/mlops/coredns/plugin",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:coredns.json"
     },
     {
@@ -3282,7 +3237,7 @@
         "class": "networking-stack",
         "instance": "gateway-api"
       },
-      "url": "/docs/entity/mlops/networking-stack/gateway-api",
+      "url": "/docs/mlops/gateway-api/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:gateway-api.json"
     },
     {
@@ -3297,37 +3252,22 @@
         "class": "networking-stack",
         "instance": "ipoib"
       },
-      "url": "/docs/entity/mlops/networking-stack/ipoib",
+      "url": "/docs/mlops/ipoib/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:ipoib.json"
-    },
-    {
-      "id": "subject:mlops:networking-stack:load-balancer",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium Load Balancer 사용하기",
-      "snippet": "- Cilium / LoadBalancer IP Address Management\n\n## CiliumLoadBalancerIPPool\n\n``yaml\napiVersion: cilium.i…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "load-balancer"
-      },
-      "url": "/docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-cilium-load-balancer",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:load-balancer.json"
     },
     {
       "id": "subject:mlops:networking-stack:metallb",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "MetalLB",
-      "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
+      "title": "MetalLB ARP/NDP 사용하기",
+      "snippet": "## L2Advertisement\n\n- MetalLB / Configuration / Advanced L2 configuration\n- MetalLB / API reference # L2Adver…",
       "ontology": {
         "domain": "mlops",
         "class": "networking-stack",
         "instance": "metallb"
       },
-      "url": "/docs/operation/mlops/networking-stack/metallb/install",
+      "url": "/docs/mlops/metallb/arp",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:metallb.json"
     },
     {
@@ -3342,7 +3282,7 @@
         "class": "networking-stack",
         "instance": "multus"
       },
-      "url": "/docs/operation/mlops/networking-stack/multus/install",
+      "url": "/docs/mlops/multus/install",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:multus.json"
     },
     {
@@ -3357,7 +3297,7 @@
         "class": "networking-stack",
         "instance": "netbird"
       },
-      "url": "/docs/operation/mlops/networking-stack/netbird/client",
+      "url": "/docs/mlops/netbird/client",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:netbird.json"
     },
     {
@@ -3372,7 +3312,7 @@
         "class": "networking-stack",
         "instance": "network-attachment-definition"
       },
-      "url": "/docs/entity/mlops/networking-stack/network-attachment-definition",
+      "url": "/docs/mlops/network-attachment-definition/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:network-attachment-definition.json"
     },
     {
@@ -3387,23 +3327,8 @@
         "class": "networking-stack",
         "instance": "ofed"
       },
-      "url": "/docs/entity/mlops/networking-stack/ofed",
+      "url": "/docs/mlops/ofed/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:ofed.json"
-    },
-    {
-      "id": "subject:mlops:networking-stack:plugin",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "CoreDNS Plugin",
-      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "plugin"
-      },
-      "url": "/docs/entity/mlops/networking-stack/plugin",
-      "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:plugin.json"
     },
     {
       "id": "subject:mlops:networking-stack:rdma-shared-device-plugin",
@@ -3417,7 +3342,7 @@
         "class": "networking-stack",
         "instance": "rdma-shared-device-plugin"
       },
-      "url": "/docs/entity/mlops/networking-stack/rdma-shared-device-plugin",
+      "url": "/docs/mlops/rdma-shared-device-plugin/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:rdma-shared-device-plugin.json"
     },
     {
@@ -3432,7 +3357,7 @@
         "class": "networking-stack",
         "instance": "vpc"
       },
-      "url": "/docs/entity/mlops/networking-stack/vpc",
+      "url": "/docs/mlops/vpc/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:vpc.json"
     },
     {
@@ -3447,7 +3372,7 @@
         "class": "networking-stack",
         "instance": "whereabouts"
       },
-      "url": "/docs/entity/mlops/networking-stack/whereabouts",
+      "url": "/docs/mlops/whereabouts/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:whereabouts.json"
     },
     {
@@ -3462,7 +3387,7 @@
         "class": "networking-stack",
         "instance": "wireguard"
       },
-      "url": "/docs/entity/mlops/networking-stack/wireguard",
+      "url": "/docs/mlops/wireguard/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:wireguard.json"
     },
     {
@@ -6084,176 +6009,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx.json"
     },
     {
-      "id": "doc:docs/entity/mlops/networking-stack/cni/cni.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Container Network Interface(CNI)",
-      "snippet": "…네트워크를 설정합니다.\n\n``mermaid\nsequenceDiagram\n participant kubelet\n participant CR as Container Runtime\n participant CNI as CNI Plugin\n\n kubelet ->> CR: RunPodSandbox\n\n create…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "cni",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/cni",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/cni/cni.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/gateway-api/gateway-api.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium에서 Gateway API 사용하기",
-      "snippet": "…Gateway API CRD Helm\n\n## Cilium Gateway API 설정\n\n- Cilium / Gateway API Support\n\nCilium에서 Gateway API를 활성화하기 전에 Gateway API CRD가 먼저 설치되어 있어야합니다.\n\nCilium v1.18.2 기준 Gatew…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "gateway-api",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/gateway-api",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/gateway-api/gateway-api.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/ipoib/ipoib.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "IPoIB",
-      "snippet": "## IPoIB CNI\n\n- ipoib-cni GitHub\n\nIPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.\n\n``yaml\n\nap…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "ipoib",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/ipoib",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/ipoib/ipoib.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/network-attachment-definition/network-attachment-definition.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NetworkAttachmentDefinition",
-      "snippet": "## Network 설정하기\n\n``yaml\napiVersion: k8s.cni.cncf.io/v1\nkind: NetworkAttachmentDefinition\nmetadata:\n name: ipoib\nspec:\n config: |\n {\n \"cniVersion\": \"0.3.1\",\n \"name\": \"ip…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "network-attachment-definition",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/network-attachment-definition",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/network-attachment-definition/network-attachment-definition.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/ofed/ofed.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenFabrics Enterprise Distribution",
-      "snippet": "## OFED Stack\n\n- NVIDIA DOCS HUB / Adapter Software / NLNX_OFED\n\n OFED\n Stack\n\n- HCA(Ho…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "ofed",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/ofed",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/ofed/ofed.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/plugin/plugin.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "CoreDNS Plugin",
-      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "plugin",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/plugin",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/plugin/plugin.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/rdma-shared-device-plugin/rdma-shared-device-plugin.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "RDMA Shared Device Plugin",
-      "snippet": "## RDMA Shared Device Plugin\n\n- k8s-rdma-shared-dev-plugin GitHub\n\nkubelet에 디바이스 리소스의 존재를 알리고, Host의 RDMA 디바…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "rdma-shared-device-plugin",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/rdma-shared-device-plugin",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/rdma-shared-device-plugin/rdma-shared-device-plugin.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "VPC",
-      "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "vpc",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/vpc",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/vpc/vpc.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/whereabouts/whereabouts.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cluster-wide IPAM CNI plugin, whereabouts",
-      "snippet": "- whereabouts GitHub / chart\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\nwhereabouts는 클러스터 전체에서 사용할 수 있는 IPAM…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "whereabouts",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/whereabouts",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/whereabouts/whereabouts.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/wireguard/wireguard.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "WireGuard 기본 안내",
-      "snippet": "## WireGuard\n\n- WireGuard\nWireGuard® is an extremely simple yet fast and modern VPN that uti…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "wireguard",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/networking-stack/wireguard",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/wireguard/wireguard.mdx.json"
-    },
-    {
       "id": "doc:docs/entity/mlops/provisioning-tool/deprovisioning/deprovisioning.mdx",
       "type": "document",
       "score": 0,
@@ -7784,6 +7539,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/authn/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/cni/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Container Network Interface(CNI)",
+      "snippet": "…네트워크를 설정합니다.\n\n``mermaid\nsequenceDiagram\n participant kubelet\n participant CR as Container Runtime\n participant CNI as CNI Plugin\n\n kubelet ->> CR: RunPodSandbox\n\n create…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "cni",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/cni/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cni/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/crd2pulumi/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7833,6 +7605,40 @@
       },
       "url": "/docs/mlops/fluentd/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/fluentd/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/gateway-api/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cilium에서 Gateway API 사용하기",
+      "snippet": "…Gateway API CRD Helm\n\n## Cilium Gateway API 설정\n\n- Cilium / Gateway API Support\n\nCilium에서 Gateway API를 활성화하기 전에 Gateway API CRD가 먼저 설치되어 있어야합니다.\n\nCilium v1.18.2 기준 Gatew…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "gateway-api",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/gateway-api/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ipoib/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "IPoIB",
+      "snippet": "## IPoIB CNI\n\n- ipoib-cni GitHub\n\nIPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.\n\n``yaml\n\nap…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "ipoib",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/ipoib/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ipoib/overview.mdx.json"
     },
     {
       "id": "doc:docs/mlops/k6/overview.mdx",
@@ -7903,6 +7709,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/loki/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/network-attachment-definition/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NetworkAttachmentDefinition",
+      "snippet": "## Network 설정하기\n\n``yaml\napiVersion: k8s.cni.cncf.io/v1\nkind: NetworkAttachmentDefinition\nmetadata:\n name: ipoib\nspec:\n config: |\n {\n \"cniVersion\": \"0.3.1\",\n \"name\": \"ip…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "network-attachment-definition",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/network-attachment-definition/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/network-attachment-definition/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/oauth2-proxy/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7918,6 +7741,23 @@
       },
       "url": "/docs/mlops/oauth2-proxy/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/oauth2-proxy/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ofed/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenFabrics Enterprise Distribution",
+      "snippet": "## OFED Stack\n\n- NVIDIA DOCS HUB / Adapter Software / NLNX_OFED\n\n OFED\n Stack\n\n- HCA(Ho…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "ofed",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/ofed/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ofed/overview.mdx.json"
     },
     {
       "id": "doc:docs/mlops/promql/overview.mdx",
@@ -7971,6 +7811,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/rbac/overview.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/rdma-shared-device-plugin/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "RDMA Shared Device Plugin",
+      "snippet": "## RDMA Shared Device Plugin\n\n- k8s-rdma-shared-dev-plugin GitHub\n\nkubelet에 디바이스 리소스의 존재를 알리고, Host의 RDMA 디바…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "rdma-shared-device-plugin",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/rdma-shared-device-plugin/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/terraform/overview.mdx",
       "type": "document",
       "score": 0,
@@ -8020,6 +7877,57 @@
       },
       "url": "/docs/mlops/tls/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/tls/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/vpc/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "VPC",
+      "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "vpc",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/vpc/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/vpc/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/whereabouts/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cluster-wide IPAM CNI plugin, whereabouts",
+      "snippet": "- whereabouts GitHub / chart\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\nwhereabouts는 클러스터 전체에서 사용할 수 있는 IPAM…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "whereabouts",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/whereabouts/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/whereabouts/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/wireguard/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "WireGuard 기본 안내",
+      "snippet": "## WireGuard\n\n- WireGuard\nWireGuard® is an extremely simple yet fast and modern VPN that uti…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "wireguard",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/wireguard/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/wireguard/overview.mdx.json"
     },
     {
       "id": "doc:docs/platform/alacritty/overview.mdx",
@@ -10198,108 +10106,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/comparison/data/database/type/type.mdx.json"
     },
     {
-      "id": "doc:docs/entity/mlops/networking-stack/arp/overview--mlops-network-cilium-arp.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium에서 ARP/NDP 사용하기",
-      "snippet": "…pha1\"\nkind: CiliumL2AnnouncementPolicy\nmetadata:\n name:\nspec:\n # externalIPs 또는 loadBalancerIPs 둘 중 하나는 true여야 합니다.\n # externalIPs: true\n loadBalancerIPs: true\n`\n\n- service…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "arp",
-        "aspect": "overview--mlops-network-cilium-arp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/arp/overview--mlops-network-cilium-arp",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/arp/overview--mlops-network-cilium-arp.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/arp/overview--mlops-network-metallb-arp.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MetalLB ARP/NDP 사용하기",
-      "snippet": "## L2Advertisement\n\n- MetalLB / Configuration / Advanced L2 configuration\n- MetalLB / API reference # L2Adver…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "arp",
-        "aspect": "overview--mlops-network-metallb-arp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/arp/overview--mlops-network-metallb-arp",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/arp/overview--mlops-network-metallb-arp.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/bgp/overview--mlops-network-cilium-bgp.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium에서 BGP 사용하기",
-      "snippet": "- Cilium / BGP Control Plane\n\n## BGP Control Plane 설정\n\n``yaml title=\"cilium-values.yaml\"…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "bgp",
-        "aspect": "overview--mlops-network-cilium-bgp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/bgp/overview--mlops-network-cilium-bgp",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/bgp/overview--mlops-network-cilium-bgp.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/bgp/overview--mlops-network-metallb-bgp.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MetalLB BGP 사용하기",
-      "snippet": "… 명령어를 실행하여 IP 주소를 확인합니다.\n\n`shell\nDevice# show run interface\n`\n\n## BFDProfile\n\n- MetalLB / API reference # BFDProfileSpec\n\n`yaml\napiVersion: metallb.io/v1beta1\nkind: BF…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "bgp",
-        "aspect": "overview--mlops-network-metallb-bgp"
-      },
-      "url": "/docs/entity/mlops/networking-stack/bgp/overview--mlops-network-metallb-bgp",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/bgp/overview--mlops-network-metallb-bgp.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-cilium-load-balancer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium Load Balancer 사용하기",
-      "snippet": "- Cilium / LoadBalancer IP Address Management\n\n## CiliumLoadBalancerIPPool\n\n``yaml\napiVersion: cilium.i…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "load-balancer",
-        "aspect": "overview--mlops-network-cilium-load-balancer"
-      },
-      "url": "/docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-cilium-load-balancer",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-cilium-load-balancer.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-metallb-load-balancer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MetalLB Load Balancer 사용하기",
-      "snippet": "…- LabelSelector\n\n## Advertisement\n\n- L2Advertisement\n- BGPAdvertisement\n\n## LoadBalancer Service\n\n- MetalLB / Usage\n\n`yaml\napiVersion: v1\nkind: Service\nmetadata:\n annot…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "load-balancer",
-        "aspect": "overview--mlops-network-metallb-load-balancer"
-      },
-      "url": "/docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-metallb-load-balancer",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/networking-stack/load-balancer/overview--mlops-network-metallb-load-balancer.mdx.json"
-    },
-    {
       "id": "doc:docs/entity/mlops/provisioning-tool/crd/overview--mlops-provisioning-karpenter-crd.mdx",
       "type": "document",
       "score": 0,
@@ -10521,6 +10327,74 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/python/poetry/packaging.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/cilium/arp.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cilium에서 ARP/NDP 사용하기",
+      "snippet": "…pha1\"\nkind: CiliumL2AnnouncementPolicy\nmetadata:\n name:\nspec:\n # externalIPs 또는 loadBalancerIPs 둘 중 하나는 true여야 합니다.\n # externalIPs: true\n loadBalancerIPs: true\n`\n\n- service…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "cilium",
+        "aspect": "arp"
+      },
+      "url": "/docs/mlops/cilium/arp",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cilium/arp.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/cilium/bgp.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cilium에서 BGP 사용하기",
+      "snippet": "- Cilium / BGP Control Plane\n\n## BGP Control Plane 설정\n\n``yaml title=\"cilium-values.yaml\"…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "cilium",
+        "aspect": "bgp"
+      },
+      "url": "/docs/mlops/cilium/bgp",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cilium/bgp.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/cilium/load-balancer.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cilium Load Balancer 사용하기",
+      "snippet": "- Cilium / LoadBalancer IP Address Management\n\n## CiliumLoadBalancerIPPool\n\n``yaml\napiVersion: cilium.i…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "cilium",
+        "aspect": "load-balancer"
+      },
+      "url": "/docs/mlops/cilium/load-balancer",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cilium/load-balancer.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/coredns/plugin.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "CoreDNS Plugin",
+      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "coredns",
+        "aspect": "plugin"
+      },
+      "url": "/docs/mlops/coredns/plugin",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/coredns/plugin.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/grafana/alert.mdx",
       "type": "document",
       "score": 0,
@@ -10536,6 +10410,57 @@
       },
       "url": "/docs/mlops/grafana/alert",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/grafana/alert.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/metallb/arp.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MetalLB ARP/NDP 사용하기",
+      "snippet": "## L2Advertisement\n\n- MetalLB / Configuration / Advanced L2 configuration\n- MetalLB / API reference # L2Adver…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "arp"
+      },
+      "url": "/docs/mlops/metallb/arp",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/metallb/arp.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/metallb/bgp.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MetalLB BGP 사용하기",
+      "snippet": "… 명령어를 실행하여 IP 주소를 확인합니다.\n\n`shell\nDevice# show run interface\n`\n\n## BFDProfile\n\n- MetalLB / API reference # BFDProfileSpec\n\n`yaml\napiVersion: metallb.io/v1beta1\nkind: BF…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "bgp"
+      },
+      "url": "/docs/mlops/metallb/bgp",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/metallb/bgp.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/metallb/load-balancer.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MetalLB Load Balancer 사용하기",
+      "snippet": "…- LabelSelector\n\n## Advertisement\n\n- L2Advertisement\n- BGPAdvertisement\n\n## LoadBalancer Service\n\n- MetalLB / Usage\n\n`yaml\napiVersion: v1\nkind: Service\nmetadata:\n annot…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "load-balancer"
+      },
+      "url": "/docs/mlops/metallb/load-balancer",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/metallb/load-balancer.mdx.json"
     },
     {
       "id": "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
@@ -14227,6 +14152,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/authentik/install.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/aws-load-balancer-controller/create.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AWS Load Balancer 생성하기",
+      "snippet": "…-elb: 1\n\n## Application Load Balancer 생성하기\n\n- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/\n- https://kubernetes.io/ko/docs/concepts/servic…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "aws-load-balancer-controller",
+        "aspect": "create"
+      },
+      "url": "/docs/mlops/aws-load-balancer-controller/create",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/aws-load-balancer-controller/create.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/aws-load-balancer-controller/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AWS Load Balancer Controller 설치하기",
+      "snippet": "…ub.io/aws-load-balancer-controller/v2.6/deploy/installation/#configure-iam\n\n### AWS Load Balancer Controller Role\n\n``ts\nconst controllerRoleName = \"aws-load-balancer-controller-role\";\ncons…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "aws-load-balancer-controller",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/aws-load-balancer-controller/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/aws-load-balancer-controller/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/awx-operator/crd.mdx",
       "type": "document",
       "score": 0,
@@ -14310,6 +14269,23 @@
       },
       "url": "/docs/mlops/cert-manager/lets-encrypt",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/cert-manager/lets-encrypt.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/cilium/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Cilium",
+      "snippet": "…es 호환성\n\n### cilium-cli\n\n- mise로 런타임 버전 관리하기\n\n### Helm으로 Cilium 설치하기\n\n- Cilium / Installation using Helm\n\n``shell\nhelm repo add cilium https://helm.cilium.io/\n`\n\n`shell…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "cilium",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/cilium/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cilium/install.mdx.json"
     },
     {
       "id": "doc:docs/mlops/cluster-api/bootstrap-k0smotron.mdx",
@@ -14412,6 +14388,23 @@
       },
       "url": "/docs/mlops/cluster-api/kubevirt",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/cluster-api/kubevirt.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/coredns/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "CoreDNS",
+      "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "coredns",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/coredns/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/coredns/install.mdx.json"
     },
     {
       "id": "doc:docs/mlops/crd2pulumi/convert.mdx",
@@ -15128,6 +15121,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/loki/install.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/metallb/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MetalLB",
+      "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/metallb/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/metallb/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/metrics-server/install.mdx",
       "type": "document",
       "score": 0,
@@ -15162,6 +15172,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/mpi-operator/mpijob.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/multus/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Multi-Homed Pod을 위한 Multus CNI",
+      "snippet": "## 설치\n\n- Multus CNI GitHub\n\n``shell\nkubectl apply -f https://raw.githubusercontent.com/k8snetwo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "multus",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/multus/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/multus/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/netbird/client.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NetBird 클라이언트 사용법 가이드",
+      "snippet": "## Linux\n\n- NetBird Docs / Get Started / Install NetBird / Linux\n\n``shell\ncurl -fsSL https://pkgs.n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "netbird",
+        "aspect": "client"
+      },
+      "url": "/docs/mlops/netbird/client",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/netbird/client.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/node-exporter/install.mdx",
       "type": "document",
       "score": 0,
@@ -15194,6 +15238,23 @@
       },
       "url": "/docs/mlops/oauth2-proxy/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/oauth2-proxy/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ofed/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OFED 설치 가이드",
+      "snippet": "…e의 DOCA-OFED를 사용하시길 권장드립니다.\n\n- NVIDIA DOCS HUB / Adapter Software / NLNX_OFED / Installing the Driver\n\n``shell\nsudo apt-get install -y perl pkg-config\n`\n\nNVIDIA Networ…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "ofed",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/ofed/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ofed/install.mdx.json"
     },
     {
       "id": "doc:docs/mlops/opensearch/install.mdx",
@@ -15364,6 +15425,23 @@
       },
       "url": "/docs/mlops/pulumi/tutorial",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/pulumi/tutorial.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/rdma-shared-device-plugin/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "RDMA Shared Device Plugin 설치 가이드",
+      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/rdma-shared-device-plugin -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/rdma-shared-device-plugin --version…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "rdma-shared-device-plugin",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/rdma-shared-device-plugin/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/install.mdx.json"
     },
     {
       "id": "doc:docs/mlops/tempo/install.mdx",
@@ -15636,6 +15714,40 @@
       },
       "url": "/docs/mlops/vector/transform",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/vector/transform.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/vpc/aws.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "VPC",
+      "snippet": "``mermaid\nflowchart\n subgraph VPC\n InternetGateway(InternetGateway)\n\n NatGateway-1 --> InternetGateway\n NatGatewa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "vpc",
+        "aspect": "aws"
+      },
+      "url": "/docs/mlops/vpc/aws",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/vpc/aws.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/whereabouts/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "whereabouts 설치 가이드",
+      "snippet": "whereabouts 개요 문서에서 IPAM 설정 방식을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- whereabouts GitHub / chart\n\n``shel…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "whereabouts",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/whereabouts/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/whereabouts/install.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/cloud-service/cluster-autoscaler/install.mdx",
@@ -16299,193 +16411,6 @@
       },
       "url": "/docs/operation/mlops/ml-platform/kserve/mlflow",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/aws-load-balancer-controller/create.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AWS Load Balancer 생성하기",
-      "snippet": "…-elb: 1\n\n## Application Load Balancer 생성하기\n\n- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/\n- https://kubernetes.io/ko/docs/concepts/servic…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "aws-load-balancer-controller",
-        "aspect": "create"
-      },
-      "url": "/docs/operation/mlops/networking-stack/aws-load-balancer-controller/create",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/aws-load-balancer-controller/create.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/aws-load-balancer-controller/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AWS Load Balancer Controller 설치하기",
-      "snippet": "…ub.io/aws-load-balancer-controller/v2.6/deploy/installation/#configure-iam\n\n### AWS Load Balancer Controller Role\n\n``ts\nconst controllerRoleName = \"aws-load-balancer-controller-role\";\ncons…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "aws-load-balancer-controller",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/aws-load-balancer-controller/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/aws-load-balancer-controller/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/aws/vpc.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "VPC",
-      "snippet": "``mermaid\nflowchart\n subgraph VPC\n InternetGateway(InternetGateway)\n\n NatGateway-1 --> InternetGateway\n NatGatewa…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "aws",
-        "aspect": "vpc"
-      },
-      "url": "/docs/operation/mlops/networking-stack/aws/vpc",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/aws/vpc.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/cilium/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Cilium",
-      "snippet": "…es 호환성\n\n### cilium-cli\n\n- mise로 런타임 버전 관리하기\n\n### Helm으로 Cilium 설치하기\n\n- Cilium / Installation using Helm\n\n``shell\nhelm repo add cilium https://helm.cilium.io/\n`\n\n`shell…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "cilium",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/cilium/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/cilium/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/coredns/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "CoreDNS",
-      "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "coredns",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/coredns/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/coredns/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/metallb/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MetalLB",
-      "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "metallb",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/metallb/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/metallb/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/multus/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Multi-Homed Pod을 위한 Multus CNI",
-      "snippet": "## 설치\n\n- Multus CNI GitHub\n\n``shell\nkubectl apply -f https://raw.githubusercontent.com/k8snetwo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "multus",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/multus/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/multus/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/netbird/client.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NetBird 클라이언트 사용법 가이드",
-      "snippet": "## Linux\n\n- NetBird Docs / Get Started / Install NetBird / Linux\n\n``shell\ncurl -fsSL https://pkgs.n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "netbird",
-        "aspect": "client"
-      },
-      "url": "/docs/operation/mlops/networking-stack/netbird/client",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/netbird/client.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/ofed/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OFED 설치 가이드",
-      "snippet": "…e의 DOCA-OFED를 사용하시길 권장드립니다.\n\n- NVIDIA DOCS HUB / Adapter Software / NLNX_OFED / Installing the Driver\n\n``shell\nsudo apt-get install -y perl pkg-config\n`\n\nNVIDIA Networ…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "ofed",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/ofed/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/ofed/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/rdma-shared-device-plugin/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "RDMA Shared Device Plugin 설치 가이드",
-      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/rdma-shared-device-plugin -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/rdma-shared-device-plugin --version…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "rdma-shared-device-plugin",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/rdma-shared-device-plugin/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/rdma-shared-device-plugin/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/networking-stack/whereabouts/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "whereabouts 설치 가이드",
-      "snippet": "whereabouts 개요 문서에서 IPAM 설정 방식을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- whereabouts GitHub / chart\n\n``shel…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "networking-stack",
-        "instance": "whereabouts",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/networking-stack/whereabouts/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/networking-stack/whereabouts/install.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/orchestrator/administer-cluster/drain-node.mdx",

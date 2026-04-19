@@ -1,23 +1,37 @@
 {
   "type": "subject",
   "id": "subject:mlops:networking-stack:coredns",
-  "title": "CoreDNS",
-  "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
+  "title": "CoreDNS Plugin",
+  "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
   "ontology": {
     "domain": "mlops",
     "class": "networking-stack",
     "instance": "coredns"
   },
-  "url": "/docs/operation/mlops/networking-stack/coredns/install",
+  "url": "/docs/mlops/coredns/plugin",
   "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:coredns.json",
   "document_refs": [
-    "doc:docs/operation/mlops/networking-stack/coredns/install.mdx"
+    "doc:docs/mlops/coredns/plugin.mdx",
+    "doc:docs/mlops/coredns/install.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/networking-stack/coredns/install.mdx",
+      "id": "doc:docs/mlops/coredns/plugin.mdx",
+      "title": "CoreDNS Plugin",
+      "url": "/docs/mlops/coredns/plugin",
+      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "coredns",
+        "aspect": "plugin"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/coredns/install.mdx",
       "title": "CoreDNS",
-      "url": "/docs/operation/mlops/networking-stack/coredns/install",
+      "url": "/docs/mlops/coredns/install",
       "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
       "ontology": {
         "role": "operation",
@@ -30,9 +44,15 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/networking-stack/coredns/install.mdx:about_subject:subject:mlops:networking-stack:coredns",
+      "id": "relation:doc:docs/mlops/coredns/plugin.mdx:about_subject:subject:mlops:networking-stack:coredns",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/networking-stack/coredns/install.mdx",
+      "other_id": "doc:docs/mlops/coredns/plugin.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/coredns/install.mdx:about_subject:subject:mlops:networking-stack:coredns",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/coredns/install.mdx",
       "direction": "incoming"
     }
   ]

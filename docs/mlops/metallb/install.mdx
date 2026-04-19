@@ -1,0 +1,95 @@
+---
+id: install
+title: MetalLB
+sidebar_label: MetalLB
+description: MetalLB
+keywords:
+  - CNI
+  - MetalLB
+ontology:
+  role: operation
+  domain: mlops
+  class: networking-stack
+  instance: metallb
+  aspect: install
+subject:
+  canonical_name: MetalLB
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+- https://metallb.universe.tf/installation/
+
+:::warning
+kube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 `.ipvs.strictARP`를 `true`로 설정해야 합니다.
+:::
+
+```shell
+helm repo add metallb https://metallb.github.io/metallb
+```
+
+```shell
+helm repo update metallb \
+&& helm search repo metallb/metallb -l | head -n 10
+```
+
+```shell
+helm pull metallb/metallb --version 0.15.2
+```
+
+```shell
+helm show values metallb/metallb --version 0.15.2 > metallb-0.15.2.yaml
+```
+
+```yaml title="metallb-values.yaml"
+loadBalancerClass: metallb
+
+controller:
+  enabled: true
+
+  labels: {}
+
+speaker:
+  enabled: true
+
+  ignoreExcludeLB: true
+
+  labels: {}
+
+  frr:
+    enabled: true
+
+frrk8s:
+  enabled: false
+```
+
+- `loadBalancerClass: <loadBalancerClass>`: 설정한 경우 Service의 `.spec.loadBalancerClass`가 이 값과 일치해야 합니다.
+- `speaker`
+  - `ignoreExcludeLB: false`: `node.kubernetes.io/exclude-from-external-load-balancers` 레이블을 무시할지 여부입니다.
+
+```shell
+helm template metallb metallb/metallb \
+    --version 0.15.2 \
+    -n metallb \
+    -f metallb-values.yaml \
+    > metallb.yaml
+```
+
+```shell
+helm upgrade -i metallb metallb/metallb \
+    --history-max 5 \
+    --version 0.15.2 \
+    -n metallb \
+    -f metallb-values.yaml
+```

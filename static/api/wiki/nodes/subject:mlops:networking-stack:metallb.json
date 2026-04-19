@@ -1,23 +1,65 @@
 {
   "type": "subject",
   "id": "subject:mlops:networking-stack:metallb",
-  "title": "MetalLB",
-  "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
+  "title": "MetalLB ARP/NDP 사용하기",
+  "snippet": "## L2Advertisement\n\n- MetalLB / Configuration / Advanced L2 configuration\n- MetalLB / API reference # L2Adver…",
   "ontology": {
     "domain": "mlops",
     "class": "networking-stack",
     "instance": "metallb"
   },
-  "url": "/docs/operation/mlops/networking-stack/metallb/install",
+  "url": "/docs/mlops/metallb/arp",
   "node_url": "/api/wiki/nodes/subject:mlops:networking-stack:metallb.json",
   "document_refs": [
-    "doc:docs/operation/mlops/networking-stack/metallb/install.mdx"
+    "doc:docs/mlops/metallb/arp.mdx",
+    "doc:docs/mlops/metallb/bgp.mdx",
+    "doc:docs/mlops/metallb/load-balancer.mdx",
+    "doc:docs/mlops/metallb/install.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/networking-stack/metallb/install.mdx",
+      "id": "doc:docs/mlops/metallb/arp.mdx",
+      "title": "MetalLB ARP/NDP 사용하기",
+      "url": "/docs/mlops/metallb/arp",
+      "snippet": "## L2Advertisement\n\n- MetalLB / Configuration / Advanced L2 configuration\n- MetalLB / API reference # L2Adver…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "arp"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/metallb/bgp.mdx",
+      "title": "MetalLB BGP 사용하기",
+      "url": "/docs/mlops/metallb/bgp",
+      "snippet": "… 명령어를 실행하여 IP 주소를 확인합니다.\n\n`shell\nDevice# show run interface\n`\n\n## BFDProfile\n\n- MetalLB / API reference # BFDProfileSpec\n\n`yaml\napiVersion: metallb.io/v1beta1\nkind: BF…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "bgp"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/metallb/load-balancer.mdx",
+      "title": "MetalLB Load Balancer 사용하기",
+      "url": "/docs/mlops/metallb/load-balancer",
+      "snippet": "…- LabelSelector\n\n## Advertisement\n\n- L2Advertisement\n- BGPAdvertisement\n\n## LoadBalancer Service\n\n- MetalLB / Usage\n\n`yaml\napiVersion: v1\nkind: Service\nmetadata:\n annot…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "networking-stack",
+        "instance": "metallb",
+        "aspect": "load-balancer"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/metallb/install.mdx",
       "title": "MetalLB",
-      "url": "/docs/operation/mlops/networking-stack/metallb/install",
+      "url": "/docs/mlops/metallb/install",
       "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
       "ontology": {
         "role": "operation",
@@ -30,9 +72,27 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/networking-stack/metallb/install.mdx:about_subject:subject:mlops:networking-stack:metallb",
+      "id": "relation:doc:docs/mlops/metallb/arp.mdx:about_subject:subject:mlops:networking-stack:metallb",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/networking-stack/metallb/install.mdx",
+      "other_id": "doc:docs/mlops/metallb/arp.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/metallb/bgp.mdx:about_subject:subject:mlops:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/metallb/bgp.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/metallb/load-balancer.mdx:about_subject:subject:mlops:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/metallb/load-balancer.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/metallb/install.mdx:about_subject:subject:mlops:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/metallb/install.mdx",
       "direction": "incoming"
     }
   ]
