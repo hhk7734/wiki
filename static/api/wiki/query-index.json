@@ -5671,7 +5671,7 @@
       "node_url": "/api/wiki/nodes/subject:protocol:application-protocol:protobuf.json"
     },
     {
-      "id": "subject:science:biology:biochemistry-receptor-ligand",
+      "id": "subject:science:concept:receptor-ligand",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -5679,11 +5679,11 @@
       "snippet": "…는 protein으로 구성된 물질\n- ligand: 생물학적 목적을 수행하기 위해 특정 molecule과 complex를 형성하는 물질\n\n## Interactions\n\nligand는 일반적으로 target protein의 특정 site에 결합하며 결합은 ionic bonds, hydrogen bonds 및 …",
       "ontology": {
         "domain": "science",
-        "class": "biology",
-        "instance": "biochemistry-receptor-ligand"
+        "class": "concept",
+        "instance": "receptor-ligand"
       },
-      "url": "/docs/concept/science/biology/biochemistry-receptor-ligand/receptor-ligand",
-      "node_url": "/api/wiki/nodes/subject:science:biology:biochemistry-receptor-ligand.json"
+      "url": "/docs/science/concepts/receptor-ligand",
+      "node_url": "/api/wiki/nodes/subject:science:concept:receptor-ligand.json"
     },
     {
       "id": "subject:science:model-family:batch-normalization",
@@ -5896,7 +5896,7 @@
       "node_url": "/api/wiki/nodes/subject:science:model-family:transformer.json"
     },
     {
-      "id": "subject:science:project:ahrs-euler-angles",
+      "id": "subject:science:project:ahrs",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -5905,55 +5905,10 @@
       "ontology": {
         "domain": "science",
         "class": "project",
-        "instance": "ahrs-euler-angles"
+        "instance": "ahrs"
       },
-      "url": "/docs/concept/science/project/ahrs-euler-angles/euler-angles",
-      "node_url": "/api/wiki/nodes/subject:science:project:ahrs-euler-angles.json"
-    },
-    {
-      "id": "subject:science:project:ahrs-extended-kalman-filter",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Extended Kalman filter",
-      "snippet": "The extended Kalman filter(EKF) is the nonlinear version of the Kalman filter. EKF has 'Pred…",
-      "ontology": {
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-extended-kalman-filter"
-      },
-      "url": "/docs/concept/science/project/ahrs-extended-kalman-filter/extended-kalman-filter",
-      "node_url": "/api/wiki/nodes/subject:science:project:ahrs-extended-kalman-filter.json"
-    },
-    {
-      "id": "subject:science:project:ahrs-quaternions-rotations",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Quaternions and Rotations",
-      "snippet": "## Quaternions\n\nQuaternion은 사원수 또는 쿼터니언이라고 부르며, 복소수를 확장해 만든 수 체계입니다.\n\n$$\n\\mathbf{i}^2 = \\mathb…",
-      "ontology": {
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-quaternions-rotations"
-      },
-      "url": "/docs/concept/science/project/ahrs-quaternions-rotations/quaternions-rotations",
-      "node_url": "/api/wiki/nodes/subject:science:project:ahrs-quaternions-rotations.json"
-    },
-    {
-      "id": "subject:science:project:ahrs-sensor-calibration",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Sensor Calibration",
-      "snippet": "## Accelerometer calibration\n\n감도 오차는 없다고 가정하고 오프셋만 계산합니다.\n\n- 센서의 한 축을 지표에 수직인 방향과 나란하게 맞춥니다.\n- 움직임이나 진동이 측정되…",
-      "ontology": {
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-sensor-calibration"
-      },
-      "url": "/docs/concept/science/project/ahrs-sensor-calibration/sensor-calibration",
-      "node_url": "/api/wiki/nodes/subject:science:project:ahrs-sensor-calibration.json"
+      "url": "/docs/science/ahrs/euler-angles",
+      "node_url": "/api/wiki/nodes/subject:science:project:ahrs.json"
     }
   ],
   "documents": [
@@ -10004,6 +9959,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/platform/concepts/embedded-linux-boot-process.mdx.json"
     },
     {
+      "id": "doc:docs/science/concepts/receptor-ligand.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Receptor-Ligand Interactions",
+      "snippet": "…는 protein으로 구성된 물질\n- ligand: 생물학적 목적을 수행하기 위해 특정 molecule과 complex를 형성하는 물질\n\n## Interactions\n\nligand는 일반적으로 target protein의 특정 site에 결합하며 결합은 ionic bonds, hydrogen bonds 및 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "concept",
+        "instance": "receptor-ligand",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/concepts/receptor-ligand",
+      "node_url": "/api/wiki/nodes/doc:docs/science/concepts/receptor-ligand.mdx.json"
+    },
+    {
       "id": "doc:docs/science/nn/overview.mdx",
       "type": "document",
       "score": 0,
@@ -11211,91 +11183,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/workflow-system/ansible/variables.mdx.json"
     },
     {
-      "id": "doc:docs/concept/science/biology/biochemistry-receptor-ligand/receptor-ligand.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Receptor-Ligand Interactions",
-      "snippet": "…는 protein으로 구성된 물질\n- ligand: 생물학적 목적을 수행하기 위해 특정 molecule과 complex를 형성하는 물질\n\n## Interactions\n\nligand는 일반적으로 target protein의 특정 site에 결합하며 결합은 ionic bonds, hydrogen bonds 및 …",
-      "ontology": {
-        "role": "concept",
-        "domain": "science",
-        "class": "biology",
-        "instance": "biochemistry-receptor-ligand",
-        "aspect": "receptor-ligand"
-      },
-      "url": "/docs/concept/science/biology/biochemistry-receptor-ligand/receptor-ligand",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/science/biology/biochemistry-receptor-ligand/receptor-ligand.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/science/project/ahrs-euler-angles/euler-angles.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Euler angles",
-      "snippet": "…^2) & 0 \\\\\n0 & 0 & 0 & 1\n\\end{bmatrix} {}^{n}\\underline{a}\n\\end{aligned}\n$$\n\n## Euler angles\n\nx축, y축, z축 각 축을 기준으로하는 회전 행렬은 아래와 같습니다.\n\n$$\n\\begin{aligned}\nrot(X,\\phi) & = &\n…",
-      "ontology": {
-        "role": "concept",
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-euler-angles",
-        "aspect": "euler-angles"
-      },
-      "url": "/docs/concept/science/project/ahrs-euler-angles/euler-angles",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/science/project/ahrs-euler-angles/euler-angles.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/science/project/ahrs-extended-kalman-filter/extended-kalman-filter.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Extended Kalman filter",
-      "snippet": "The extended Kalman filter(EKF) is the nonlinear version of the Kalman filter. EKF has 'Pred…",
-      "ontology": {
-        "role": "concept",
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-extended-kalman-filter",
-        "aspect": "extended-kalman-filter"
-      },
-      "url": "/docs/concept/science/project/ahrs-extended-kalman-filter/extended-kalman-filter",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/science/project/ahrs-extended-kalman-filter/extended-kalman-filter.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/science/project/ahrs-quaternions-rotations/quaternions-rotations.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Quaternions and Rotations",
-      "snippet": "## Quaternions\n\nQuaternion은 사원수 또는 쿼터니언이라고 부르며, 복소수를 확장해 만든 수 체계입니다.\n\n$$\n\\mathbf{i}^2 = \\mathb…",
-      "ontology": {
-        "role": "concept",
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-quaternions-rotations",
-        "aspect": "quaternions-rotations"
-      },
-      "url": "/docs/concept/science/project/ahrs-quaternions-rotations/quaternions-rotations",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/science/project/ahrs-quaternions-rotations/quaternions-rotations.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/science/project/ahrs-sensor-calibration/sensor-calibration.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AHRS Sensor Calibration",
-      "snippet": "## Accelerometer calibration\n\n감도 오차는 없다고 가정하고 오프셋만 계산합니다.\n\n- 센서의 한 축을 지표에 수직인 방향과 나란하게 맞춥니다.\n- 움직임이나 진동이 측정되…",
-      "ontology": {
-        "role": "concept",
-        "domain": "science",
-        "class": "project",
-        "instance": "ahrs-sensor-calibration",
-        "aspect": "sensor-calibration"
-      },
-      "url": "/docs/concept/science/project/ahrs-sensor-calibration/sensor-calibration",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/science/project/ahrs-sensor-calibration/sensor-calibration.mdx.json"
-    },
-    {
       "id": "doc:docs/data/postgresql/ha.mdx",
       "type": "document",
       "score": 0,
@@ -11498,6 +11385,74 @@
       },
       "url": "/docs/language/react/lifecycle",
       "node_url": "/api/wiki/nodes/doc:docs/language/react/lifecycle.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/ahrs/euler-angles.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AHRS Euler angles",
+      "snippet": "…^2) & 0 \\\\\n0 & 0 & 0 & 1\n\\end{bmatrix} {}^{n}\\underline{a}\n\\end{aligned}\n$$\n\n## Euler angles\n\nx축, y축, z축 각 축을 기준으로하는 회전 행렬은 아래와 같습니다.\n\n$$\n\\begin{aligned}\nrot(X,\\phi) & = &\n…",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "project",
+        "instance": "ahrs",
+        "aspect": "euler-angles"
+      },
+      "url": "/docs/science/ahrs/euler-angles",
+      "node_url": "/api/wiki/nodes/doc:docs/science/ahrs/euler-angles.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/ahrs/extended-kalman-filter.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AHRS Extended Kalman filter",
+      "snippet": "The extended Kalman filter(EKF) is the nonlinear version of the Kalman filter. EKF has 'Pred…",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "project",
+        "instance": "ahrs",
+        "aspect": "extended-kalman-filter"
+      },
+      "url": "/docs/science/ahrs/extended-kalman-filter",
+      "node_url": "/api/wiki/nodes/doc:docs/science/ahrs/extended-kalman-filter.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/ahrs/quaternions-rotations.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AHRS Quaternions and Rotations",
+      "snippet": "## Quaternions\n\nQuaternion은 사원수 또는 쿼터니언이라고 부르며, 복소수를 확장해 만든 수 체계입니다.\n\n$$\n\\mathbf{i}^2 = \\mathb…",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "project",
+        "instance": "ahrs",
+        "aspect": "quaternions-rotations"
+      },
+      "url": "/docs/science/ahrs/quaternions-rotations",
+      "node_url": "/api/wiki/nodes/doc:docs/science/ahrs/quaternions-rotations.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/ahrs/sensor-calibration.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AHRS Sensor Calibration",
+      "snippet": "## Accelerometer calibration\n\n감도 오차는 없다고 가정하고 오프셋만 계산합니다.\n\n- 센서의 한 축을 지표에 수직인 방향과 나란하게 맞춥니다.\n- 움직임이나 진동이 측정되…",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "project",
+        "instance": "ahrs",
+        "aspect": "sensor-calibration"
+      },
+      "url": "/docs/science/ahrs/sensor-calibration",
+      "node_url": "/api/wiki/nodes/doc:docs/science/ahrs/sensor-calibration.mdx.json"
     },
     {
       "id": "doc:docs/specification/protocol/application-protocol/email/authentication.mdx",
