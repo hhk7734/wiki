@@ -2625,22 +2625,6 @@
       "subject_ref": "subject:mlops:workflow-system:ansible"
     },
     {
-      "id": "doc:docs/entity/platform/bootloader/embedded-linux-boot-process/embedded-linux-boot-process.mdx",
-      "type": "document",
-      "title": "Embedded Linux boot process",
-      "snippet": "… Architectural initialization\n- Platform initialization\n- BL3-0 (System Control Processor Firmware) image load\n - BL2 loads **the optional BL3-0 image** from platform …",
-      "ontology": {
-        "role": "entity",
-        "domain": "platform",
-        "class": "bootloader",
-        "instance": "embedded-linux-boot-process",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/platform/bootloader/embedded-linux-boot-process",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/platform/bootloader/embedded-linux-boot-process/embedded-linux-boot-process.mdx.json",
-      "subject_ref": "subject:platform:bootloader:embedded-linux-boot-process"
-    },
-    {
       "id": "doc:docs/entity/science/model-family/batch-normalization/batch-normalization.mdx",
       "type": "document",
       "title": "Batch Normalization",
@@ -10241,6 +10225,22 @@
       "subject_ref": "subject:platform:kernel:clone-os-image"
     },
     {
+      "id": "doc:docs/platform/concepts/embedded-linux-boot-process.mdx",
+      "type": "document",
+      "title": "Embedded Linux boot process",
+      "snippet": "… Architectural initialization\n- Platform initialization\n- BL3-0 (System Control Processor Firmware) image load\n - BL2 loads **the optional BL3-0 image** from platform …",
+      "ontology": {
+        "role": "concept",
+        "domain": "platform",
+        "class": "concept",
+        "instance": "embedded-linux-boot-process",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/concepts/embedded-linux-boot-process",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/concepts/embedded-linux-boot-process.mdx.json",
+      "subject_ref": "subject:platform:concept:embedded-linux-boot-process"
+    },
+    {
       "id": "doc:docs/platform/debian-package/advanced.mdx",
       "type": "document",
       "title": "Debian Package Advanced",
@@ -16900,22 +16900,6 @@
       ]
     },
     {
-      "id": "subject:platform:bootloader:embedded-linux-boot-process",
-      "type": "subject",
-      "title": "Embedded Linux boot process",
-      "snippet": "… Architectural initialization\n- Platform initialization\n- BL3-0 (System Control Processor Firmware) image load\n - BL2 loads **the optional BL3-0 image** from platform …",
-      "ontology": {
-        "domain": "platform",
-        "class": "bootloader",
-        "instance": "embedded-linux-boot-process"
-      },
-      "url": "/docs/entity/platform/bootloader/embedded-linux-boot-process",
-      "node_url": "/api/wiki/nodes/subject:platform:bootloader:embedded-linux-boot-process.json",
-      "document_refs": [
-        "doc:docs/entity/platform/bootloader/embedded-linux-boot-process/embedded-linux-boot-process.mdx"
-      ]
-    },
-    {
       "id": "subject:platform:bootloader:u-boot",
       "type": "subject",
       "title": "Build u-boot",
@@ -16931,6 +16915,22 @@
         "doc:docs/platform/u-boot/build.mdx",
         "doc:docs/platform/u-boot/configuration.mdx",
         "doc:docs/platform/u-boot/custom-command.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:concept:embedded-linux-boot-process",
+      "type": "subject",
+      "title": "Embedded Linux boot process",
+      "snippet": "… Architectural initialization\n- Platform initialization\n- BL3-0 (System Control Processor Firmware) image load\n - BL2 loads **the optional BL3-0 image** from platform …",
+      "ontology": {
+        "domain": "platform",
+        "class": "concept",
+        "instance": "embedded-linux-boot-process"
+      },
+      "url": "/docs/platform/concepts/embedded-linux-boot-process",
+      "node_url": "/api/wiki/nodes/subject:platform:concept:embedded-linux-boot-process.json",
+      "document_refs": [
+        "doc:docs/platform/concepts/embedded-linux-boot-process.mdx"
       ]
     },
     {
@@ -18764,12 +18764,6 @@
       "id": "relation:doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "from": "doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx",
       "to": "subject:mlops:workflow-system:ansible",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/platform/bootloader/embedded-linux-boot-process/embedded-linux-boot-process.mdx:about_subject:subject:platform:bootloader:embedded-linux-boot-process",
-      "from": "doc:docs/entity/platform/bootloader/embedded-linux-boot-process/embedded-linux-boot-process.mdx",
-      "to": "subject:platform:bootloader:embedded-linux-boot-process",
       "predicate": "about_subject"
     },
     {
@@ -21620,6 +21614,12 @@
       "id": "relation:doc:docs/platform/clone-os-image/overview.mdx:about_subject:subject:platform:kernel:clone-os-image",
       "from": "doc:docs/platform/clone-os-image/overview.mdx",
       "to": "subject:platform:kernel:clone-os-image",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/concepts/embedded-linux-boot-process.mdx:about_subject:subject:platform:concept:embedded-linux-boot-process",
+      "from": "doc:docs/platform/concepts/embedded-linux-boot-process.mdx",
+      "to": "subject:platform:concept:embedded-linux-boot-process",
       "predicate": "about_subject"
     },
     {
