@@ -5,18 +5,18 @@
 - `README.md`: Main README file for the repository. (contains docusaurus MDX features)
 - `src/`: Custom components for Docusaurus.
 - `static/`: Static files such as images, draw.io diagrams, etc.
-- `docs/`: Ontology-first documentation tree.
+- `docs/`: Taxonomy-first documentation tree.
 - `docs/AGENTS.md`: Canonical authoring and classification rules for `docs/`.
 
 ## Documentation guidelines
 
 For files under `docs/`, follow `docs/AGENTS.md` as the canonical source for:
 
-- ontology path model
-- frontmatter alignment
-- role and class classification
+- taxonomy path model
+- semantic frontmatter alignment
+- role, domain, and class classification
 - validation and link rewrite expectations
-- canonical role-tree path expectations
+- canonical topic/subject path expectations
 - `source-path` fallback avoidance
 
 ### Metadata

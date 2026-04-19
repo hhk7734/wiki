@@ -114,32 +114,44 @@ const config: Config = {
 			},
 			items: [
 				{
-					label: "Entrypoints",
+					label: "Topics",
 					position: "left",
 					items: [
 						{
-							label: "Entity",
-							to: "/docs/entity",
+							label: "Data",
+							to: "/docs/data/concepts/ontology",
 						},
 						{
-							label: "Operation",
-							to: "/docs/operation",
+							label: "Language",
+							to: "/docs/language/go/overview",
 						},
 						{
-							label: "Concept",
-							to: "/docs/concept",
+							label: "Platform",
+							to: "/docs/platform/git/overview",
 						},
 						{
 							label: "Comparison",
-							to: "/docs/comparison",
+							to: "/docs/comparison/data/database/type",
 						},
 						{
-							label: "Specification",
-							to: "/docs/specification",
+							label: "Protocol",
+							to: "/docs/protocol/openapi/overview",
 						},
 						{
-							label: "Troubleshooting",
-							to: "/docs/troubleshooting",
+							label: "MLOps",
+							to: "/docs/mlops/kubectl/overview",
+						},
+						{
+							label: "Hardware",
+							to: "/docs/hardware/kicad/overview",
+						},
+						{
+							label: "Science",
+							to: "/docs/science/transformer/overview",
+						},
+						{
+							label: "Management",
+							to: "/docs/management/scrum/overview",
 						},
 					],
 				},
