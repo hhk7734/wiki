@@ -1,0 +1,113 @@
+---
+id: custom-email-handler
+title: "Firebase 이메일 처리 페이지 만들기"
+sidebar_label: "Custom Email Handler"
+description: "Firebase 이메일 처리 페이지 만들기"
+keywords:
+  - firebase
+  - authentication
+  - "custom email"
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: javascript-firebase
+  aspect: custom-email-handler
+subject:
+  canonical_name: "Firebase for JavaScript"
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - javascript
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 작업 링크 URL 변경(Action Link URL)
+
+- Firebase Project -\> Authentication -\> Templates
+  - Email 템플릿 중 아무거나 수정
+    - 작업 URL -\> 작업 URL 직접 입력
+
+:::warning
+이메일 주소 인증, 비밀번호 재설정 등 액션에 상관 없이 작업 URL은 모두 동일하게 설정됩니다.
+:::
+
+## 처리 페이지
+
+- https://firebase.google.com/docs/auth/custom-email-handler
+- https://firebase.google.com/docs/reference/js/auth.autherror
+
+<br />
+
+- parameter
+  - `mode`: `verifyEmail`, `resetPassword`, `recoverEmail`
+  - `oobCode`: `actionCode`
+  - `apiKey`: firebase 앱 초기화 시 사용되는 apiKey와 동일한 값이 전달됩니다
+  - `continueUrl`: 선택 사항
+  - `lang`: 선택 사항
+
+### 이메일 인증 페이지
+
+```ts
+import { applyActionCode, AuthError, AuthErrorCodes } from "firebase/auth";
+
+// ...
+
+applyActionCode(auth, oobCode)
+	.then(() => {
+		// 이메일 인증 성공
+	})
+	.catch((err: AuthError) => {
+		switch (err.code) {
+			case AuthErrorCodes.INVALID_OOB_CODE:
+				// 유효하지 않거나 이미 사용된 oobCode
+				break;
+			default:
+				break;
+		}
+	});
+```
+
+### 비밀번호 재설정 페이지
+
+```ts
+import { confirmPasswordReset, verifyPasswordResetCode, AuthError, AuthErrorCodes } from "firebase/auth";
+
+// ...
+
+verifyPasswordResetCode(auth, oobCode)
+	.then((email) => {
+		// oobCode가 비밀번호 재설정을 위해 전송된 것인지 확인
+	})
+	.catch((err: AuthError) => {
+		switch (err.code) {
+			case AuthErrorCodes.INVALID_OOB_CODE:
+				// 유효하지 않거나 이미 사용된 oobCode
+				break;
+			default:
+				break;
+		}
+	});
+
+// ...
+
+if (isVerified && passwordValidator.status === "valid" && confirmPasswordValidator.status === "valid") {
+	confirmPasswordReset(auth, oobCode, passwordValidator.value)
+		.then(() => {
+			// 비밀번호 재설정 성공
+		})
+		.catch((err: AuthError) => {
+			switch (err.code) {
+				default:
+					break;
+			}
+		});
+}
+```

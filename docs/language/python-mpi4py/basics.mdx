@@ -1,0 +1,55 @@
+---
+id: basics
+title: "MPI Basics"
+sidebar_label: Basics
+description: "MPI Basics"
+keywords:
+  - MPI
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: python-mpi4py
+  aspect: basics
+subject:
+  canonical_name: mpi4py
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - python
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+### OpenMPI
+
+[OpenMPI](/docs/language/cpp-openmpi/openmpi.mdx)
+
+### MPI4PY
+
+```shell
+env SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pip install mpi4py
+```
+
+```shell
+mpiexec -n 5 python -m mpi4py.bench helloworld
+```
+
+:::info
+
+> You have to use methods with all-lowercase names.
+
+`MPI.COMM_WORLD.<method>`를 사용할 때, method는 소문자인 것을 사용하시기 바랍니다.
+:::
+
+## Reference
+
+- [https://github.com/mpi4py/mpi4py](https://github.com/mpi4py/mpi4py)

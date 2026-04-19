@@ -1,0 +1,405 @@
+---
+id: yolov4-dataset
+title: "Dataset for YOLOv4"
+sidebar_label: Dataset
+description: "Dataset for YOLOv4"
+keywords:
+  - "Neural Network"
+  - YOLOv4
+  - dataset
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: python-yolov4
+  aspect: yolov4-dataset
+subject:
+  canonical_name: "YOLOv4 for Python"
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - python
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Dataset files and formats
+
+- `class_id` is an integer greater than or equal to 0.
+- `center_x`, `center_y`, `width`and `height` are between 0.0 and 1.0.
+
+### converted-coco
+
+```text title="image_path_and_bboxes.txt"
+<relative or full path>/image_0.jpg <class_id>,<center_x>,<center_y>,<width>,<height> <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_1.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+<relative or full path>/image_2.jpg <class_id>,<center_x>,<center_y>,<width>,<height> ...
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_1.jpg
+├── image_2.jpg
+└── ...
+```
+
+Ref: [https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset](https://github.com/hhk7734/tensorflow-yolov4/tree/master/test/dataset)
+
+### yolo
+
+```text title="image_path.txt"
+<relative or full path>/image_0.jpg
+<relative or full path>/image_1.jpg
+<relative or full path>/image_2.jpg
+
+...
+```
+
+```text title="<image_name>.txt"
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+<class_id> <center_x> <center_y> <width> <height>
+
+...
+```
+
+```shell
+<full path>
+├── image_0.jpg
+├── image_0.txt
+├── image_1.jpg
+├── image_1.txt
+├── image_2.jpg
+├── image_2.txt
+└── ...
+```
+
+## Convert coco to custom dataset
+
+### COCO 2017 Dataset
+
+```json
+{
+    "info": {
+        "description": "COCO 2017 Dataset",
+        "url": "http://cocodataset.org",
+        "version": "1.0",
+        "year": 2017,
+        "contributor": "COCO Consortium",
+        "date_created": "2017/09/01"
+    },
+    "licenses": [
+        {
+            "url": "http://creativecommons.org/licenses/by-nc-sa/2.0/",
+            "id": 1,
+            "name": "Attribution-NonCommercial-ShareAlike License"
+        },
+        ...
+    ],
+    "images": [
+        {
+            "license": 4,
+            "file_name": "000000397133.jpg",
+            "coco_url": "http://images.cocodataset.org/val2017/000000397133.jpg",
+            "height": 427,
+            "width": 640,
+            "date_captured": "2013-11-14 17:02:52",
+            "flickr_url": "http://farm7.staticflickr.com/6116/6255196340_da26cf2c9e_z.jpg",
+            "id": 397133
+        },
+        ...
+    ],
+    "annotations": [
+        {
+            "segmentation": [[...]],
+            "area": 702.1057499999998,
+            "iscrowd": 0,
+            "image_id": 289343,
+            "bbox": [473.07,395.93,38.65,28.67], // xmin, ymin, width, height
+            "category_id": 18,
+            "id": 1768
+        },
+        ...
+    ],
+    "categories": [
+        {
+            "supercategory": "person",
+            "id": 1,
+            "name": "person"
+        },
+        {
+            "supercategory": "vehicle",
+            "id": 2,
+            "name": "bicycle"
+        },
+        ...
+    ]
+}
+```
+
+### Create names file
+
+Create a file with names you want to predict. The class name should be included in `categories` above.
+
+```text title="custom.names"
+person
+bicycle
+car
+motorbike
+aeroplane
+bus
+```
+
+### Conversion script
+
+- 2020-10-16
+- OS: Ubuntu 20.04
+
+```python
+import json
+from collections import OrderedDict
+from tqdm import tqdm
+
+INSTANCES_PATH = "instances_train2017.json"
+NAMES_PATH = "custom.names"
+OUTPUT_FILE_PATH = "custom_train2017.txt"
+
+coco = json.load(open(INSTANCES_PATH))
+images = coco["images"]
+annotations = coco["annotations"]
+categories = coco["categories"]
+replaced_name = {
+    "couch": "sofa",
+    "airplane": "aeroplane",
+    "tv": "tvmonitor",
+    "motorcycle": "motorbike",
+}
+
+class_to_id = {}
+id_to_class = {}
+with open(NAMES_PATH, "r") as fd:
+    index = 0
+    for class_name in fd:
+        class_name = class_name.strip()
+        if len(class_name) != 0:
+            id_to_class[index] = class_name
+            class_to_id[class_name] = index
+            index += 1
+
+dataset = {}
+
+for annotation in tqdm(annotations, desc="Parsing"):
+    image_id = annotation["image_id"]
+    category_id = annotation["category_id"]
+
+    # Find image
+    file_name = None
+    image_height = 0
+    image_width = 0
+    for image in images:
+        if image["id"] == image_id:
+            file_name = image["file_name"]
+            image_height = image["height"]
+            image_width = image["width"]
+            break
+
+    if file_name is None:
+        continue
+
+    # Find class id
+    class_id = None
+    for category in categories:
+        if category["id"] == category_id:
+            category_name = category["name"]
+            if category_name in replaced_name:
+                category_name = replaced_name[category_name]
+
+            class_id = class_to_id.get(category_name)
+            break
+
+    if class_id is None:
+        continue
+
+    # Calculate x,y,w,h
+    x_center = annotation["bbox"][0] + annotation["bbox"][2] / 2
+    x_center /= image_width
+    y_center = annotation["bbox"][1] + annotation["bbox"][3] / 2
+    y_center /= image_height
+    width = annotation["bbox"][2] / image_width
+    height = annotation["bbox"][3] / image_height
+
+    if dataset.get(image_id):
+        dataset[image_id][1].append(
+            [class_id, x_center, y_center, width, height]
+        )
+    else:
+        dataset[image_id] = [
+            file_name,
+            [[class_id, x_center, y_center, width, height]],
+        ]
+
+dataset = OrderedDict(sorted(dataset.items()))
+
+with open(OUTPUT_FILE_PATH, "w") as fd:
+    for image_id, bboxes in tqdm(dataset.items(), desc="Saving"):
+        data = bboxes[0]
+        for bbox in bboxes[1]:
+            data += " "
+            data += "{:d},".format(bbox[0])
+            data += "{:8.6f},".format(bbox[1])
+            data += "{:8.6f},".format(bbox[2])
+            data += "{:8.6f},".format(bbox[3])
+            data += "{:8.6f}".format(bbox[4])
+
+        data += "\n"
+        fd.write(data)
+```
+
+### Dataset test script
+
+<Tabs
+    groupId="yolov4-version"
+    defaultValue="v3"
+    values={[
+        {label: 'v3', value: 'v3',},
+        {label: 'v2', value: 'v2',},
+    ]}
+>
+
+<TabItem value="v3">
+
+- 2021-02-21
+- OS: Ubuntu 20.04
+- yolov4: v3.1.0
+
+```python
+import cv2
+import numpy as np
+from yolov4.tf import YOLOv4, YOLODataset
+
+yolo = YOLOv4()
+yolo.config.parse_names("test/coco.names")
+yolo.config.parse_cfg("config/yolov4-tiny.cfg")
+
+dataset = YOLODataset(
+    config=yolo.config,
+    dataset_list="/home/hhk7734/NN/val2017.txt",
+    image_path_prefix="/home/hhk7734/NN/val2017",
+)
+
+count = 0
+for i, (images, gt) in enumerate(dataset):
+    cv2.namedWindow("truth", cv2.WINDOW_AUTOSIZE)
+
+    beta_nms = yolo.config.metayolos[0].beta_nms
+    classes = yolo.config.metayolos[0].classes
+    stride = classes + 5
+    num_mask = len(yolo.config.masks[0])
+
+    candidates = []
+    for y, metayolo in enumerate(yolo.config.metayolos):
+        candidates.append(gt[y][..., : -len(yolo.config.yolo_0.mask)])
+
+    for batch in range(len(images)):
+        frame = images[batch, ...] * 255
+        frame = cv2.cvtColor(frame.astype(np.uint8), cv2.COLOR_RGB2BGR)
+        height, width, _ = frame.shape
+
+        yolos = []
+        for c, cand in enumerate(candidates):
+            truth = cand[batch : batch + 1, ...]
+            _, h, w, ch = truth.shape
+            mask = yolo.config.masks[c]
+            for n in range(num_mask):
+                xy_index = n * stride
+                wh_index = xy_index + 2
+                oc_index = xy_index + 4
+
+                xy = truth[..., xy_index:wh_index] * np.array([w, h])
+                truth[..., xy_index:wh_index] = xy - xy.astype(np.int)
+
+                awh = yolo.config.anchors[mask[n]]
+                wh = truth[..., wh_index:oc_index] / awh
+                truth[..., wh_index:oc_index] = np.log(
+                    wh + np.finfo(np.float32).eps
+                )
+
+        treu_bboxes = yolo.get_yolo_detections(
+            [c[batch : batch + 1, ...] for c in candidates]
+        )
+        # yolo.fit_to_original(treu_bboxes, height, width)
+        image2 = yolo.draw_bboxes(frame, treu_bboxes)
+        cv2.imshow("truth", image2)
+        while cv2.waitKey(10) & 0xFF != ord("q"):
+            pass
+        count += 1
+        if count == 30:
+            break
+    if count == 30:
+        break
+```
+
+</TabItem>
+
+<TabItem value="v2">
+
+- 2020-10-27
+- OS: Ubuntu 20.04
+- yolov4: v2.0.0
+
+```python
+import cv2
+import numpy as np
+import tensorflow as tf
+from yolov4.tf import YOLOv4
+
+yolo = YOLOv4()
+yolo.classes = "coco.names"
+yolo.input_size = (640, 480)
+yolo.batch_size = 2
+dataset = yolo.load_dataset("train2017.txt", image_path_prefix="train2017")
+
+for i, (images, gt) in enumerate(dataset):
+    for j in range(len(images)):
+        _candidates = []
+        for candidate in gt:
+            grid_size = candidate.shape[1:3]
+            _candidates.append(
+                tf.reshape(
+                    candidate[j], shape=(1, grid_size[0] * grid_size[1] * 3, -1)
+                )
+            )
+        candidates = np.concatenate(_candidates, axis=1)
+
+        frame = images[j, ...] * 255
+        frame = frame.astype(np.uint8)
+
+        pred_bboxes = yolo.candidates_to_pred_bboxes(candidates[0])
+        pred_bboxes = yolo.fit_pred_bboxes_to_original(pred_bboxes, frame.shape)
+        frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
+        image = yolo.draw_bboxes(frame, pred_bboxes)
+        cv2.namedWindow("result", cv2.WINDOW_AUTOSIZE)
+        cv2.imshow("result", image)
+        while cv2.waitKey(10) & 0xFF != ord("q"):
+            pass
+    if i == 10:
+        break
+
+cv2.destroyWindow("result")
+```
+
+</TabItem>
+
+</Tabs>
