@@ -5056,94 +5056,29 @@
     },
     {
       "type": "subject",
-      "id": "subject:platform:tool:keymap",
-      "title": "Neovim Keymap 가이드",
-      "description": "## Normal mode\n\n- :h key-notation: key notation\n\n- u: undo\n- `: redo\n\n- =: align e.g., gg=G, =3\n- : clang-format (설정한 경우)\n\n- :! : shell에서 를 실행합니다.\n- :r[ead]! :",
-      "snippet": "## Normal mode\n\n- :h key-notation: key notation\n\n- u: undo\n- `: redo\n\n- =: align e.g., gg=G, =3\n- : clang-format (설정한 경우)\n\n- :! : shell에서 를 실행합니다.\n- :r[ead]! :",
-      "url": "/docs/operation/platform/tool/keymap",
-      "document_refs": [
-        "doc:docs/operation/platform/tool/keymap/keymap.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "tool",
-        "instance": "keymap"
-      },
-      "search_text": "neovim keymap 가이드 normal mode - h key-notation key notation - u undo - redo - align e g gg g 3 - clang-format 설정한 경우 - shell에서 를 실행합니다 - r ead neovim keymap 가이드 normal mode visual mode platform tool keymap",
-      "display": {
-        "label": "Neovim Keymap 가이드",
-        "kind": "subject",
-        "subtitle": "Keymap",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:tool:lua",
-      "title": "Neovim Lua 가이드",
-      "description": "…print(vim)\n`\n\nVim API와 Nvim API은 vim.*으로 접근할 수 있습니다.\n\n## lua 실행(runtimepath)\n\n- Neovim / Options # runtimepath\n\n`shell\n:lua vim.print(vim.opt.runtimepath:get())\n`\n\n기본…",
-      "snippet": "…print(vim)\n`\n\nVim API와 Nvim API은 vim.*으로 접근할 수 있습니다.\n\n## lua 실행(runtimepath)\n\n- Neovim / Options # runtimepath\n\n`shell\n:lua vim.print(vim.opt.runtimepath:get())\n`\n\n기본…",
-      "url": "/docs/operation/platform/tool/lua",
-      "document_refs": [
-        "doc:docs/operation/platform/tool/lua/lua.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "tool",
-        "instance": "lua"
-      },
-      "search_text": "neovim lua 가이드 print vim vim api와 nvim api은 vim 으로 접근할 수 있습니다 lua 실행 runtimepath - neovim / options runtimepath shell lua vim print vim opt runtimepath get 기본 neovim lua 가이드 기본 라이브러리 lua 실행 runtimepath options platform tool lua",
-      "display": {
-        "label": "Neovim Lua 가이드",
-        "kind": "subject",
-        "subtitle": "Lua",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:tool:plugin",
-      "title": "Neovim Plugin 가이드",
-      "description": "…folke/tokyonight.nvim\n\n## stevearc/conform.nvim\n\n## nvim-tree/nvim-tree.lua\n\n## neovim/nvim-lspconfig\n\n- Neovim / Lsp # Lua module: vim.lsp\n\n## folke/which-key.nvim\n\n…",
-      "snippet": "…folke/tokyonight.nvim\n\n## stevearc/conform.nvim\n\n## nvim-tree/nvim-tree.lua\n\n## neovim/nvim-lspconfig\n\n- Neovim / Lsp # Lua module: vim.lsp\n\n## folke/which-key.nvim\n\n…",
-      "url": "/docs/operation/platform/tool/plugin",
-      "document_refs": [
-        "doc:docs/operation/platform/tool/plugin/plugin.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "tool",
-        "instance": "plugin"
-      },
-      "search_text": "neovim plugin 가이드 folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig - neovim / lsp lua module vim lsp folke/which-key nvim neovim plugin 가이드 folke/lazy nvim folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig folke/which-key nvim hrsh7th/nvim-cmp nvim-telescope/telescope nvim lewis6991/gitsigns nvim nvzone/menu lukas-reineke/indent-blankline nvim nvim-lualine/lualine nvim platform tool plugin",
-      "display": {
-        "label": "Neovim Plugin 가이드",
-        "kind": "subject",
-        "subtitle": "Plugin",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:platform:tool:nvim",
       "title": "Neovim 설치 가이드",
       "description": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
       "url": "/docs/platform/nvim/overview",
       "document_refs": [
-        "doc:docs/platform/nvim/overview.mdx"
+        "doc:docs/platform/nvim/overview.mdx",
+        "doc:docs/platform/nvim/keymap.mdx",
+        "doc:docs/platform/nvim/lua.mdx",
+        "doc:docs/platform/nvim/plugin.mdx",
+        "doc:docs/platform/nvim/regex.mdx"
       ],
       "ontology": {
         "domain": "platform",
         "class": "tool",
         "instance": "nvim"
       },
-      "search_text": "neovim 설치 가이드 설치 shell sudo pacman -s neovim shell sudo ln -s which nvim /usr/local/bin/vim shell sudo snap install neovim 설치 가이드 설치 설정 neovim startup 순서 init lua 설정 platform tool nvim",
+      "search_text": "neovim 설치 가이드 설치 shell sudo pacman -s neovim shell sudo ln -s which nvim /usr/local/bin/vim shell sudo snap install neovim 설치 가이드 neovim keymap 가이드 neovim lua 가이드 neovim plugin 가이드 regex for vim 설치 설정 neovim startup 순서 init lua 설정 normal mode visual mode 기본 라이브러리 lua 실행 runtimepath options folke/lazy nvim folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig folke/which-key nvim hrsh7th/nvim-cmp nvim-telescope/telescope nvim lewis6991/gitsigns nvim nvzone/menu lukas-reineke/indent-blankline nvim nvim-lualine/lualine nvim find substitute regex examples platform tool nvim",
       "display": {
         "label": "Neovim 설치 가이드",
         "kind": "subject",
         "subtitle": "Nvim",
-        "document_count": 1
+        "document_count": 5
       }
     },
     {
@@ -6584,29 +6519,6 @@
         "kind": "subject",
         "subtitle": "Redux Toolkit",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:platform:tool:regex",
-      "title": "RegEx for Vim",
-      "description": "…- c: 찾은 후 바꿀 것인지 묻습니다.(confirmation)\n - i: 대소문자를 무시하고 찾습니다. (ignoring case)\n\n## RegEx\n\n- . : 임의의 한 글자\n- ^x : 문장이 x로 시작\n- x$ : 문장이 x로 끝\n- x* : x가 0 번 이상 반복\n- x\\+ : x가…",
-      "snippet": "…- c: 찾은 후 바꿀 것인지 묻습니다.(confirmation)\n - i: 대소문자를 무시하고 찾습니다. (ignoring case)\n\n## RegEx\n\n- . : 임의의 한 글자\n- ^x : 문장이 x로 시작\n- x$ : 문장이 x로 끝\n- x* : x가 0 번 이상 반복\n- x\\+ : x가…",
-      "url": "/docs/operation/platform/tool/regex",
-      "document_refs": [
-        "doc:docs/operation/platform/tool/regex/regex.mdx"
-      ],
-      "ontology": {
-        "domain": "platform",
-        "class": "tool",
-        "instance": "regex"
-      },
-      "search_text": "regex for vim - c 찾은 후 바꿀 것인지 묻습니다 confirmation - i 대소문자를 무시하고 찾습니다 ignoring case regex - 임의의 한 글자 - x 문장이 x로 시작 - x 문장이 x로 끝 - x x가 0 번 이상 반복 - x x가 regex for vim find substitute regex examples platform tool regex",
-      "display": {
-        "label": "RegEx for Vim",
-        "kind": "subject",
-        "subtitle": "Regex",
-        "document_count": 1
       }
     },
     {
@@ -9317,9 +9229,9 @@
       "title": "user/group 관리",
       "description": "## Group\n\n``shell\nsudo groupadd\n`\n\n`shell\ncat /etc/group\n`\n\n`shell\nsudo groupdel\n`\n\n## U…",
       "snippet": "## Group\n\n``shell\nsudo groupadd\n`\n\n`shell\ncat /etc/group\n`\n\n`shell\nsudo groupdel\n`\n\n## U…",
-      "url": "/docs/operation/platform/tool/user-management",
+      "url": "/docs/platform/user-management/overview",
       "document_refs": [
-        "doc:docs/operation/platform/tool/user-management/user-management.mdx"
+        "doc:docs/platform/user-management/overview.mdx"
       ],
       "ontology": {
         "domain": "platform",
@@ -22260,7 +22172,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/keymap/keymap.mdx",
+      "id": "doc:docs/platform/nvim/keymap.mdx",
       "title": "Neovim Keymap 가이드",
       "description": "Neovim Keymap 가이드",
       "snippet": "## Normal mode\n\n- :h key-notation: key notation\n\n- u: undo\n- `: redo\n\n- =: align e.g., gg=G, =3\n- : clang-format (설정한 경우)\n\n- :! : shell에서 를 실행합니다.\n- :r[ead]! :",
@@ -22273,26 +22185,26 @@
         "neovim",
         "keymap"
       ],
-      "url": "/docs/operation/platform/tool/keymap",
-      "subject_ref": "subject:platform:tool:keymap",
-      "subject_title": "Keymap",
+      "url": "/docs/platform/nvim/keymap",
+      "subject_ref": "subject:platform:tool:nvim",
+      "subject_title": "Nvim",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "tool",
-        "instance": "keymap",
-        "aspect": "overview"
+        "instance": "nvim",
+        "aspect": "keymap"
       },
-      "search_text": "neovim keymap 가이드 neovim keymap 가이드 normal mode - h key-notation key notation - u undo - redo - align e g gg g 3 - clang-format 설정한 경우 - shell에서 를 실행합니다 - r ead normal mode visual mode nvim neovim keymap operation platform tool keymap overview",
+      "search_text": "neovim keymap 가이드 neovim keymap 가이드 normal mode - h key-notation key notation - u undo - redo - align e g gg g 3 - clang-format 설정한 경우 - shell에서 를 실행합니다 - r ead normal mode visual mode nvim neovim keymap operation platform tool nvim keymap",
       "display": {
         "label": "Neovim Keymap 가이드",
         "kind": "document",
-        "subtitle": "Keymap"
+        "subtitle": "Nvim"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/lua/lua.mdx",
+      "id": "doc:docs/platform/nvim/lua.mdx",
       "title": "Neovim Lua 가이드",
       "description": "Neovim Lua 가이드",
       "snippet": "…print(vim)\n`\n\nVim API와 Nvim API은 vim.*으로 접근할 수 있습니다.\n\n## lua 실행(runtimepath)\n\n- Neovim / Options # runtimepath\n\n`shell\n:lua vim.print(vim.opt.runtimepath:get())\n`\n\n기본…",
@@ -22306,26 +22218,26 @@
         "neovim",
         "lua"
       ],
-      "url": "/docs/operation/platform/tool/lua",
-      "subject_ref": "subject:platform:tool:lua",
-      "subject_title": "Lua",
+      "url": "/docs/platform/nvim/lua",
+      "subject_ref": "subject:platform:tool:nvim",
+      "subject_title": "Nvim",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "tool",
-        "instance": "lua",
-        "aspect": "overview"
+        "instance": "nvim",
+        "aspect": "lua"
       },
-      "search_text": "neovim lua 가이드 neovim lua 가이드 print vim vim api와 nvim api은 vim 으로 접근할 수 있습니다 lua 실행 runtimepath - neovim / options runtimepath shell lua vim print vim opt runtimepath get 기본 기본 라이브러리 lua 실행 runtimepath options nvim neovim lua operation platform tool lua overview",
+      "search_text": "neovim lua 가이드 neovim lua 가이드 print vim vim api와 nvim api은 vim 으로 접근할 수 있습니다 lua 실행 runtimepath - neovim / options runtimepath shell lua vim print vim opt runtimepath get 기본 기본 라이브러리 lua 실행 runtimepath options nvim neovim lua operation platform tool nvim lua",
       "display": {
         "label": "Neovim Lua 가이드",
         "kind": "document",
-        "subtitle": "Lua"
+        "subtitle": "Nvim"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/plugin/plugin.mdx",
+      "id": "doc:docs/platform/nvim/plugin.mdx",
       "title": "Neovim Plugin 가이드",
       "description": "Neovim Plugin 가이드",
       "snippet": "…folke/tokyonight.nvim\n\n## stevearc/conform.nvim\n\n## nvim-tree/nvim-tree.lua\n\n## neovim/nvim-lspconfig\n\n- Neovim / Lsp # Lua module: vim.lsp\n\n## folke/which-key.nvim\n\n…",
@@ -22348,21 +22260,21 @@
         "neovim",
         "plugin"
       ],
-      "url": "/docs/operation/platform/tool/plugin",
-      "subject_ref": "subject:platform:tool:plugin",
-      "subject_title": "Plugin",
+      "url": "/docs/platform/nvim/plugin",
+      "subject_ref": "subject:platform:tool:nvim",
+      "subject_title": "Nvim",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "tool",
-        "instance": "plugin",
-        "aspect": "overview"
+        "instance": "nvim",
+        "aspect": "plugin"
       },
-      "search_text": "neovim plugin 가이드 neovim plugin 가이드 folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig - neovim / lsp lua module vim lsp folke/which-key nvim folke/lazy nvim folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig folke/which-key nvim hrsh7th/nvim-cmp nvim-telescope/telescope nvim lewis6991/gitsigns nvim nvzone/menu lukas-reineke/indent-blankline nvim nvim-lualine/lualine nvim nvim neovim plugin operation platform tool plugin overview",
+      "search_text": "neovim plugin 가이드 neovim plugin 가이드 folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig - neovim / lsp lua module vim lsp folke/which-key nvim folke/lazy nvim folke/tokyonight nvim stevearc/conform nvim nvim-tree/nvim-tree lua neovim/nvim-lspconfig folke/which-key nvim hrsh7th/nvim-cmp nvim-telescope/telescope nvim lewis6991/gitsigns nvim nvzone/menu lukas-reineke/indent-blankline nvim nvim-lualine/lualine nvim nvim neovim plugin operation platform tool nvim plugin",
       "display": {
         "label": "Neovim Plugin 가이드",
         "kind": "document",
-        "subtitle": "Plugin"
+        "subtitle": "Nvim"
       }
     },
     {
@@ -26603,7 +26515,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/regex/regex.mdx",
+      "id": "doc:docs/platform/nvim/regex.mdx",
       "title": "RegEx for Vim",
       "description": "RegEx for Vim",
       "snippet": "…- c: 찾은 후 바꿀 것인지 묻습니다.(confirmation)\n - i: 대소문자를 무시하고 찾습니다. (ignoring case)\n\n## RegEx\n\n- . : 임의의 한 글자\n- ^x : 문장이 x로 시작\n- x$ : 문장이 x로 끝\n- x* : x가 0 번 이상 반복\n- x\\+ : x가…",
@@ -26617,21 +26529,21 @@
         "Vim",
         "RegEx"
       ],
-      "url": "/docs/operation/platform/tool/regex",
-      "subject_ref": "subject:platform:tool:regex",
-      "subject_title": "Regex",
+      "url": "/docs/platform/nvim/regex",
+      "subject_ref": "subject:platform:tool:nvim",
+      "subject_title": "Nvim",
       "ontology": {
         "role": "operation",
         "domain": "platform",
         "class": "tool",
-        "instance": "regex",
-        "aspect": "overview"
+        "instance": "nvim",
+        "aspect": "regex"
       },
-      "search_text": "regex for vim regex for vim - c 찾은 후 바꿀 것인지 묻습니다 confirmation - i 대소문자를 무시하고 찾습니다 ignoring case regex - 임의의 한 글자 - x 문장이 x로 시작 - x 문장이 x로 끝 - x x가 0 번 이상 반복 - x x가 find substitute regex examples vim regex operation platform tool regex overview",
+      "search_text": "regex for vim regex for vim - c 찾은 후 바꿀 것인지 묻습니다 confirmation - i 대소문자를 무시하고 찾습니다 ignoring case regex - 임의의 한 글자 - x 문장이 x로 시작 - x 문장이 x로 끝 - x x가 0 번 이상 반복 - x x가 find substitute regex examples vim regex operation platform tool nvim regex",
       "display": {
         "label": "RegEx for Vim",
         "kind": "document",
-        "subtitle": "Regex"
+        "subtitle": "Nvim"
       }
     },
     {
@@ -32585,7 +32497,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/platform/tool/user-management/user-management.mdx",
+      "id": "doc:docs/platform/user-management/overview.mdx",
       "title": "user/group 관리",
       "description": "user/group 관리",
       "snippet": "## Group\n\n``shell\nsudo groupadd\n`\n\n`shell\ncat /etc/group\n`\n\n`shell\nsudo groupdel\n`\n\n## U…",
@@ -32604,17 +32516,17 @@
         "group",
         "management"
       ],
-      "url": "/docs/operation/platform/tool/user-management",
+      "url": "/docs/platform/user-management/overview",
       "subject_ref": "subject:platform:tool:user-management",
       "subject_title": "User Management",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "platform",
         "class": "tool",
         "instance": "user-management",
         "aspect": "overview"
       },
-      "search_text": "user/group 관리 user/group 관리 group shell sudo groupadd shell cat /etc/group shell sudo groupdel u group user user host target user target group option command group host target user target group option command ex hhk7734는 접속위치에 관계없이 어떤 유저나 그룹의 소유에 관계없이 환경 변수를 유지하고 암호 입력 없이 모든 명령어를 sudo로 실행 가능 hhk7734 all all all nopasswd setenv all user group management operation platform tool user-management overview",
+      "search_text": "user/group 관리 user/group 관리 group shell sudo groupadd shell cat /etc/group shell sudo groupdel u group user user host target user target group option command group host target user target group option command ex hhk7734는 접속위치에 관계없이 어떤 유저나 그룹의 소유에 관계없이 환경 변수를 유지하고 암호 입력 없이 모든 명령어를 sudo로 실행 가능 hhk7734 all all all nopasswd setenv all user group management entity platform tool user-management overview",
       "display": {
         "label": "user/group 관리",
         "kind": "document",
