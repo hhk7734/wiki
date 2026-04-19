@@ -1,0 +1,80 @@
+---
+id: install
+title: "Pulumi 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "Pulumi 설치 가이드"
+keywords:
+  - pulumi
+ontology:
+  role: operation
+  domain: mlops
+  class: iac-tool
+  instance: pulumi
+  aspect: install
+subject:
+  canonical_name: Pulumi
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[Pulumi 개요](/docs/mlops/pulumi/overview.mdx) 문서에서 관련 개념 문서를 함께 확인할 수 있습니다.
+:::
+
+## 설치
+
+### AWS
+
+- https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+```shell
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+```
+
+- `AWS Access Key ID and Access Key`: IAM -> 사용자 -> \<user\> -> 보안 자격 증명 -> 액세스 키 만들기
+
+```shell
+aws configure --profile <profile>
+```
+
+### S3
+
+- ACL 비활성화됨
+- 모든 퍼블릭 액세스 차단
+- 버킷 버전 관리 **비활성화**
+- 기본 암호화 활성화
+
+### Pulumi
+
+- https://www.pulumi.com/docs/get-started/aws/begin/
+
+```shell
+curl -fsSL https://get.pulumi.com | sh
+```
+
+```shell title="pulumi_config_passphrase"
+<암호>
+```
+
+```shell
+# pulumi
+export PULUMI_CONFIG_PASSPHRASE_FILE=<path>/pulumi_config_passphrase
+```
+
+또는
+
+```shell
+# pulumi
+export PULUMI_CONFIG_PASSPHRASE=<암호>
+```

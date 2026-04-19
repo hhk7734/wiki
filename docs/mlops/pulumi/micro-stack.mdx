@@ -1,0 +1,125 @@
+---
+id: micro-stack
+title: Micro-Stacks
+sidebar_label: Micro-Stacks
+description: Micro-Stacks
+keywords:
+  - pulumi
+  - micro-stacks
+ontology:
+  role: concept
+  domain: mlops
+  class: iac-tool
+  instance: pulumi
+  aspect: micro-stack
+subject:
+  canonical_name: Pulumi
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Directory Structure
+
+```shell
+<project>/
+├── package.json
+├── tsconfig.base.json
+├── crds/
+│   └── ...
+├── <stack1>/
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── Pulumi.yaml
+│   ├── Pulumi.<stack1>.yaml
+│   └── src/
+│       ├── index.ts
+│       ├── variable.ts
+│       └── ...
+└── <stack2>/
+    ├── package.json
+    ├── tsconfig.json
+    ├── Pulumi.yaml
+    ├── Pulumi.<stack2>.<stack3>.yaml
+    ├── Pulumi.<stack2>.<stack4>.yaml
+    ├── Pulumi.<stack2>.<stack5>.yaml
+    ├── src/
+    │   ├── index.ts
+    │   ├── variable.ts
+    │   └── ...
+    └── <stack6>/
+        ├── package.json
+        ├── tsconfig.json
+        ├── Pulumi.yaml
+        ├── Pulumi.<stack2>.<stack6>.yaml
+        └── src/
+            ├── index.ts
+            ├── variable.ts
+            └── ...
+```
+
+## package.json
+
+```json title="<project>/package.json"
+{
+	"name": "<project>",
+	"devDependencies": {
+		"@types/js-yaml": "^4.0.5",
+		"@types/node": "^14"
+	},
+	"dependencies": {
+		"@pulumi/aws": "^5.19.0",
+		"@pulumi/kubernetes": "^3.22.1",
+		"@pulumi/pulumi": "^3.45.0",
+		"js-yaml": "^4.1.0",
+		"tsconfig-paths": "^4.1.0"
+	}
+}
+```
+
+```json title="<path>/<stack>/package.json"
+{
+	"main": "src/index.ts"
+}
+```
+
+## tsconfig.json
+
+```json title="<project>/tsconfig.base.json"
+{
+	"compilerOptions": {
+		"strict": true,
+		"outDir": "bin",
+		"target": "es2016",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"sourceMap": true,
+		"experimentalDecorators": true,
+		"pretty": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitReturns": true,
+		"forceConsistentCasingInFileNames": true
+	}
+}
+```
+
+```json title="<path>/<stack>/tsconfig.json"
+{
+	"extends": "../<relativePath>/tsconfig.base.json",
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@src/*": ["./src/*"],
+			"@crds/*": ["../<relativePath>/crds/*"]
+		}
+	}
+}
+```
