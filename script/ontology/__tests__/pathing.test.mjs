@@ -135,7 +135,7 @@ test("inventory excludes docs/AGENTS.md", () => {
 
 test("bootstrap registry preserves source-target identity for the current corpus", () => {
 	const entries = bootstrapRegistry(
-		inventory().filter((source) => !source.includes("/__ontology-")),
+		inventory().filter((source) => !source.includes("/__")),
 	);
 
 	assert.ok(entries.length > 0);

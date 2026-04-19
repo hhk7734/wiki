@@ -7,38 +7,20 @@
 - The filesystem path is the canonical navigation path for humans.
 - Frontmatter provides semantic metadata for ontology, graph extraction, and agent use.
 
-## Ontology System
+## Mental Model
 
-The repository uses an entity-centric ontology model so the wiki can act as a structured knowledge base and integrate cleanly with graph extraction tools such as `graphify`.
+Treat the docs system as two layers:
 
-The ontology applies primarily to `docs/`, not to the rest of the Docusaurus application.
+- `path`: human-facing taxonomy for navigation and stable routes
+- `frontmatter`: semantic metadata for ontology, graph extraction, search, and agents
 
-Core node types:
+The path tells readers where to find a page. The frontmatter tells tooling what the page is about.
 
-- `Entity`
-- `Concept`
-- `Operation`
-- `Specification`
-- `EvidencePage`
-
-`EvidencePage` is the MDX file itself. Each page should have exactly one primary subject and may mention related secondary subjects through metadata.
-
-Core relations:
-
-- `aboutEntity`
-- `aboutConcept`
-- `describesOperation`
-- `describesSpecification`
-- `dependsOn`
-- `implements`
-- `uses`
-- `partOf`
-- `relatedTo`
-- `prerequisiteFor`
+Maintained docs must follow a supported taxonomy path and carry complete semantic frontmatter. Do not rely on fallback classification for current documents.
 
 ## Canonical Path Model
 
-Use the taxonomy path model below as the source of truth:
+Use one of these path patterns:
 
 ```text
 docs/<topic>/<subject>/<page>.mdx
@@ -46,39 +28,104 @@ docs/<topic>/<subject>/<facet>/<page>.mdx
 docs/<topic>/concepts/<concept>.mdx
 docs/<topic>/comparisons/<name>.mdx
 docs/<topic>/reference/<name>.mdx
+docs/comparison/<area>/<subject>/<facet>/<page>.mdx
 ```
 
 Path semantics:
 
 - `topic`: broad navigation bucket
-- `subject`: human-facing subject anchor
-- `facet`: optional subtopic or slice within a subject
-- `page`: the document filename and canonical route leaf
+- `subject`: primary human-facing subject anchor
+- `facet`: optional slice within a subject
+- `page`: filename and canonical route leaf
+- `area`: the comparison topic's broad domain grouping
 
 Examples:
 
 ```text
 docs/data/concepts/ontology.mdx
 docs/data/concepts/taxonomy.mdx
-docs/language/grpc/overview.mdx
-docs/language/grpc/go/client.mdx
-docs/data/comparisons/type.mdx
+docs/language/go/overview.mdx
+docs/language/go/syntax/interface.mdx
+docs/mlops/pulumi/config.mdx
+docs/comparison/data/database/type/type.mdx
 ```
 
-Ontology metadata in frontmatter still carries the semantic contract:
+Path rules:
 
-- `role`
-- `domain`
-- `class`
-- `instance`
-- `aspect`
-
-Operational constraints:
-
-- canonical docs should already live under a taxonomy path, not under ontology-shaped folders
-- avoid hidden intermediate buckets once content is migrated into the canonical tree
+- keep one canonical path per document
+- do not create editorial buckets such as `etc`, `misc`, or `advanced`
 - do not create directories whose names end with `.mdx`
-- do not rely on `source-path` fallback classification for maintained docs
+- do not encode many-to-many semantics in the filesystem
+- if several paths seem possible, choose the one that is easiest for a human to predict
+
+## Topics
+
+Approved top-level topics for maintained docs:
+
+- `comparison`
+- `language`
+- `platform`
+- `hardware`
+- `protocol`
+- `data`
+- `mlops`
+- `science`
+- `management`
+
+## Semantic Frontmatter
+
+Every maintained doc must include:
+
+- Docusaurus metadata such as `id`, `title`, `sidebar_label`, `description`, `keywords`
+- `ontology`
+- `subject`
+- `relations`
+- `source`
+
+Recommended shape:
+
+```mdx
+---
+id: overview
+title: Go
+sidebar_label: Go
+description: Go programming language overview
+
+ontology:
+  role: entity
+  domain: language
+  class: programming-language
+  instance: go
+  aspect: overview
+
+subject:
+  canonical_name: Go
+  aliases:
+    - golang
+
+relations:
+  related_to:
+    - grpc
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+
+source:
+  status: canonical
+  confidence: exact
+---
+```
+
+Rules:
+
+- `id` must match the filename without `.mdx`
+- `ontology.role`, `ontology.domain`, `ontology.class`, `ontology.instance`, and `ontology.aspect` must all be present
+- `subject.canonical_name` must be a meaningful display name
+- `relations` must always be present, even if every list is empty
+- `source.status` and `source.confidence` should reflect how authoritative the page is in this repository
+- if path and frontmatter disagree about the primary subject, fix the document rather than relying on inference
 
 ## Controlled Vocabulary
 
@@ -113,205 +160,84 @@ Representative `class` vocabulary:
 - `science`: `model-family`, `biology`, `project`
 - `management`: `memo`
 
-These lists are representative, not exhaustive. When the repository already uses a stable class in `ontology/classification-registry.json` and `script/ontology/pathing.mjs`, prefer that existing class over inventing a new synonym.
+These lists are representative, not exhaustive. Prefer an existing stable class over inventing a new synonym.
 
 Naming rules:
 
 - use kebab-case everywhere
 - `class` names must be formal, stable, and singular
-- `instance` names should be practical canonical names such as `go`, `postgresql`, `fastapi`, `istio`, `node-feature-discovery`
-- `instance` must name the real primary subject, not a placeholder bucket such as `package`, `engine`, `command`, or another editorial grouping
-- avoid duplicated namespace prefixes in `instance` names such as `python-python-*` or `cpp-cpp-*`
-- encode host-language or ecosystem relationships in metadata and relations unless the qualifier is required to distinguish a genuinely different subject
-- `aspect` should capture one facet only, such as `overview`, `install`, `config`, `authentication`, `middleware`
-- avoid editorial buckets such as `etc`, `misc`, `advanced`, `libraries`, `workflow` unless they are true ontology classes
-- prefer an already-established class name over near-synonyms such as `workflow-engine` vs `workflow-system`
+- `instance` names should identify the real primary subject
+- avoid placeholder instances such as `package`, `engine`, `command`, or other editorial buckets
+- avoid doubled prefixes such as `python-python-*`
+- keep `aspect` to one facet such as `overview`, `install`, `config`, `authentication`, `middleware`
 
-## Subject Anchor Rules
+## Subject Selection Rules
 
 Use `instance` as the stable primary anchor of the page.
 
 In most cases, `instance` should name a concrete product, tool, system, protocol, or other canonical subject. Do not create a new `instance` just because the page is about a subtopic of that subject.
 
-Prefer this pattern for tool-specific material:
+Prefer this pattern for subject-owned material:
 
-- `instance=<tool>`
-- `aspect=<subtopic>`
+- `instance=<subject>`
+- `aspect=<subject-owned-facet>`
 
 Examples:
 
 - `docs/mlops/pulumi/overview.mdx`
 - `docs/mlops/pulumi/config.mdx`
-- `docs/mlops/pulumi/stack-reference.mdx`
 - `docs/mlops/terraform/import.mdx`
-- `docs/mlops/terraform/state.mdx`
 - `docs/mlops/terragrunt/stack.mdx`
 
-Avoid synthetic or misleading generic paths such as:
+Avoid synthetic generic paths such as:
 
 - `docs/mlops/config/overview.mdx`
 - `docs/mlops/import/overview.mdx`
 
-unless the page is genuinely tool-agnostic.
+unless the page is truly cross-tool.
 
-## Generic Vs Owned Topics
-
-Before choosing an `instance`, ask whether the page topic is:
-
-- a generic cross-tool subject
-- or a tool-owned facet
-
-If the title naturally wants a vendor or product prefix such as `Pulumi Config`, `Terraform Import`, or `Terragrunt Stack`, that usually means the page belongs to:
-
-- `instance=<tool>`
-- `aspect=<tool-specific-facet>`
-
-Use a generic `instance` like `config`, `state`, `stack`, or `import` only when the page is truly cross-tool and not owned by a single product.
-
-## Classification Rules
+## Classification Guidance
 
 General rules:
 
-- a programming language itself usually lives at `docs/language/<language>/overview.mdx`
-- a library or framework usually lives under `docs/language/<subject>/...` or `docs/language/<language>/<tool>/...`, depending on whether the tool is ecosystem-owned
-- a usage, config, deploy, install, or how-to page is usually an `operation` in metadata, even though its path remains taxonomy-first
-- a rule or standard page is usually a `specification` in metadata
-- an architectural or conceptual topic such as `goroutine`, `cqrs`, or `event-storming` is usually a `concept` in metadata
-- vendor products and deployable systems such as `kubeflow`, `istio`, `argo-workflows`, and `karpenter` usually live at `docs/<topic>/<subject>/...`
-- hardware families and boards usually live at `docs/hardware/<subject>/...`
-- troubleshooting material should use `role=troubleshooting` metadata rather than hiding inside unrelated subject folders
+- a programming language usually lives at `docs/language/<language>/overview.mdx`
+- a library or framework usually lives under `docs/language/<subject>/...` or `docs/language/<language>/<tool>/...`, depending on whether it is ecosystem-owned
+- a usage, config, deploy, install, or how-to page is usually `role=operation`
+- an architectural or conceptual topic is usually `role=concept`
+- a rule or standard page is usually `role=specification`
+- troubleshooting material should use `role=troubleshooting` metadata rather than a special filesystem tree
 
 Language-domain rules:
 
-- `programming-language` means the language itself, not one of its standard-library modules, language features, or ecosystem bindings
-- `framework` means a subject that imposes application structure, lifecycle, routing, rendering flow, plugin flow, or other major architectural conventions
+- `programming-language` means the language itself
+- `framework` means a subject that imposes application structure or lifecycle
 - `library` means a reusable package, module, SDK, binding, toolkit, or standard-library component consumed from user code
-- do not promote a library to `framework` just because it is commonly used with a framework
-- if the subject is the framework itself, create or maintain a canonical subject page for that framework
-- if operation or concept pages exist for a language/framework/library subject, anchor them to the same canonical `instance` as the overview page whenever practical
-- if the page title naturally reads as `<product> <facet>`, the `instance` should almost always be `<product>` and the `aspect` should be `<facet>`
-- if the current path encodes a category bucket but the page is actually about a named product, move the page so `instance` names that product
+- if the page title naturally reads as `<product> <facet>`, the `instance` should usually be `<product>` and the `aspect` should be `<facet>`
+- keep a language-qualified `instance` only when it distinguishes genuinely different bindings such as `go-grpc` vs `python-grpc`
 
-Language-domain class guidance:
+Relation guidance:
 
-- `JavaScript`, `Go`, `Rust`, `Dart` -> `programming-language`
-- `React`, `Next.js`, `Flutter`, `SvelteKit` -> `framework`
-- `Jotai`, `TanStack Query`, `Redux Toolkit`, `flutter_bloc`, `Prisma`, `FastAPI`, `Three.js` -> usually `library` unless the page is truly about a framework-level subject
-
-Framework-versus-library test:
-
-- if the subject primarily provides APIs you import and call, it is usually a `library`
-- if the subject primarily dictates how the application is structured or executed, it is usually a `framework`
-
-Qualified-instance rules for the language domain:
-
-- keep a language-qualified `instance` only when it distinguishes genuinely different bindings or SDKs such as `go-grpc` vs `python-grpc`
-- prefer a single prefix at most; collapse repeated forms such as `python-python-tkinter` to one canonical subject name
-- if the subject already has a stable public product name such as `jotai`, `nextjs`, or `sveltekit`, prefer the short canonical name over a synthetic language prefix
-
-Relation guidance for the language domain:
-
-- use `depends_on` for primary host-language, host-framework, or required-runtime relationships such as `nextjs -> react`, `react -> javascript`, or `flutter-bloc -> flutter`
+- use `depends_on` for primary host-language, host-framework, or required-runtime relationships
 - use `uses` for meaningful but non-defining runtime or integration dependencies
-- use `part_of` only when the subject is a real subsystem of a larger named subject, not merely in the same ecosystem
+- use `part_of` only for real subsystem relationships
 - use `related_to` only when a strong relationship exists but a directional dependency would be misleading
-- do not rely on `title`, `description`, `keywords`, or code snippets alone to express host-language or framework relationships; add explicit `subject` and `relations` metadata
-
-Role guidance for tool-specific pages:
-
-- use `entity` for the tool or product itself
-- use `concept` for internal abstractions, named features, and mental models within that tool
-- use `operation` for install, config, deploy, import, migration, state editing, and other procedural tasks
-
-Examples:
-
-- `Pulumi` -> `docs/mlops/pulumi/overview.mdx`
-- `Pulumi Config` -> `docs/mlops/pulumi/config.mdx`
-- `Pulumi StackReference` -> `docs/mlops/pulumi/stack-reference.mdx`
-- `Terraform Import` -> `docs/mlops/terraform/import.mdx`
-- `Terragrunt Stack` -> `docs/mlops/terragrunt/stack.mdx`
-
-Mixed-page rule:
-
-- if a page mixes overview and procedural content, split it when practical
-- keep the subject explanation in an overview or concept page
-- move step-by-step setup or usage into an operation-oriented page for the same subject
-
-Family-grouping rule:
-
-- do not use the filesystem to group related subjects under a product family if doing so breaks primary-subject identity
-- represent family relationships with metadata, relations, or curated index pages instead
-
-Repository-specific corrections:
-
-- `docs/lang/design/...` is not a language subtree and should split into taxonomy-first `protocol`, `language/concepts`, or other fitting topics
-- `docs/lang/db/...` belongs under `data`
-- `docs/mlops/...` should stay subject-first, with ontology metadata carrying entity/operation/concept distinctions
-- `docs/etc/...` should disappear entirely
-- `docs/linux/kernel/...` and `docs/linux/linux-kernel/...` should collapse into one canonical path model
-
-## Frontmatter And Validation
 
 ## Authoring Rules
 
 - Use English for prose in `docs/**/*.mdx`.
 - Use English for code blocks, commands, and configuration snippets.
-- Keep `id` equal to the filename without the extension.
-- Keep the `ontology` frontmatter block aligned with the document's intended primary subject, even when the path is taxonomy-first.
 - Prefer `/docs/...` links for cross-doc references.
 - Keep reference blocks, Mermaid diagrams, tabs, and other Docusaurus features consistent with the repository conventions in the root `AGENTS.md`.
 
-Recommended frontmatter shape:
-
-```mdx
----
-id: go
-title: Go
-sidebar_label: Go
-description: Go programming language overview
-
-ontology:
-  role: entity
-  domain: language
-  class: programming-language
-  instance: go
-  aspect: overview
-
-subject:
-  canonical_name: Go
-  aliases:
-    - golang
-
-relations:
-  related_to:
-    - protobuf
-    - grpc
-  depends_on: []
-  prerequisite_for: []
-  part_of: []
-  implements: []
-  uses: []
-
-source:
-  status: canonical
-  confidence: exact
----
-```
-
-Rules:
-
-- the filesystem path is the primary structural signal
-- frontmatter provides explicit semantic metadata not safely encoded by the path alone
-- if path and frontmatter disagree about the intended primary subject, fix the document rather than relying on fallback inference
-
-Validation expectations:
+## Validation Expectations
 
 - every page must resolve to exactly one primary subject
-- no `etc`, `misc`, or editorial buckets
-- no duplicate canonical target paths
-- action pages must not be stored as entity pages
-- rule or standard pages must not be stored as operations unless they are procedural
-- `ontology/classification-registry.json` should contain zero `source-path` fallback entries for maintained docs
+- maintained docs must use an approved taxonomy path
+- maintained docs must have complete semantic frontmatter
+- no editorial buckets such as `etc` or `misc`
+- no duplicate registry `source` paths
+- no duplicate registry `target` paths
+- registry entries for maintained docs should use `target === source`
 
 ## Tooling
 
@@ -323,26 +249,11 @@ Keep file moves, link rewrites, and validation aligned with:
 Operational workflow after doc additions or moves:
 
 1. run `npm run ontology:bootstrap`
-2. confirm there are no unintended `source-path` fallbacks
-3. run `npm run ontology:validate`
-4. run `npm run build`
+2. run `npm run ontology:validate`
+3. run `npm run build`
 
-The ontology system is designed to behave like a deterministic taxonomy-plus-semantics compiler over the docs tree:
-
-1. validate every MDX file against an approved taxonomy path pattern
-2. read `role`, `domain`, `class`, `instance`, and `aspect` from frontmatter
-3. use the path as the primary structural encoding for navigation and routing
-4. use metadata for semantic identity and extra relations
+`script/ontology/migrate.mjs` and the mapping files are for explicit migration work only. They are not part of normal authoring for already-maintained docs.
 
 ## Graph Integration
 
-This ontology design is intentionally compatible with `graphify`.
-
-`graphify` is a good fit as a graph extraction, query, and exploration layer because taxonomy paths and explicit frontmatter provide strong navigation and relationship signals.
-
-Do not treat `graphify` as the ontology engine itself. It is not a formal ontology reasoner or an RDF/OWL/SPARQL system. The canonical source remains taxonomy paths plus semantic frontmatter.
-
-## Agent Notes
-
-- Do not treat this file as ontology content.
-- If you add or move docs, rerun the ontology validation and link-rewrite checks before completion.
+The semantic frontmatter layer is intentionally compatible with `graphify` and the repository's wiki search artifacts.

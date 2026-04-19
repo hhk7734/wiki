@@ -10,14 +10,14 @@ import { bootstrapRegistry } from "../bootstrap-registry.mjs";
 
 test("validateSourcePath rejects editorial etc buckets", () => {
 	assert.throws(
-		() => validateSourcePath("docs/lang/go/etc/notes.mdx"),
+		() => validateSourcePath("docs/language/go/etc/notes.mdx"),
 		/forbidden editorial bucket/,
 	);
 });
 
 test("validateSourcePath normalizes backslashes before checking editorial buckets", () => {
 	assert.throws(
-		() => validateSourcePath("docs\\lang\\go\\etc\\notes.mdx"),
+		() => validateSourcePath("docs\\language\\go\\etc\\notes.mdx"),
 		/forbidden editorial bucket/,
 	);
 });
@@ -41,8 +41,8 @@ test("validateEntries rejects duplicate targets", () => {
 		() =>
 			validateEntries([
 				{
-					source: "docs/lang/go/go.mdx",
-					target: "docs/entity/language/programming-language/go/go.mdx",
+					source: "docs/language/go/overview.mdx",
+					target: "docs/language/go/overview.mdx",
 					ontology: {
 						role: "entity",
 						domain: "language",
@@ -52,18 +52,18 @@ test("validateEntries rejects duplicate targets", () => {
 					},
 				},
 				{
-					source: "docs/lang/go/go-basics.mdx",
-					target: "docs/entity/language/programming-language/go/go.mdx",
+					source: "docs/language/go/install.mdx",
+					target: "docs/language/go/overview.mdx",
 					ontology: {
-						role: "entity",
+						role: "operation",
 						domain: "language",
 						class: "programming-language",
 						instance: "go",
-						aspect: "basics",
+						aspect: "install",
 					},
 				},
 			]),
-		/duplicate target path: docs\/entity\/language\/programming-language\/go\/go.mdx/,
+		/duplicate target path: docs\/language\/go\/overview.mdx/,
 		);
 });
 
@@ -73,7 +73,7 @@ test("validateEntries does not derive target alignment from ontology for taxonom
 			[
 				{
 					source: "docs/data/concepts/ontology.mdx",
-					target: "docs/concept/data/concept/ontology/ontology.mdx",
+					target: "docs/data/concepts/ontology-copy.mdx",
 					ontology: {
 						role: "concept",
 						domain: "data",
@@ -163,7 +163,7 @@ test("validateRegistryDeterminism rejects taxonomy entries that keep legacy targ
 				[
 					{
 						source: "docs/data/concepts/ontology.mdx",
-						target: "docs/concept/data/concept/ontology/ontology.mdx",
+						target: "docs/data/concepts/ontology-copy.mdx",
 						ontology: {
 							role: "concept",
 							domain: "data",
@@ -182,18 +182,18 @@ test("validateFrontmatter rejects ids that do not match the filename", () => {
 	assert.throws(
 		() =>
 			validateFrontmatter({
-				source: "docs/lang/go/go-intro.mdx",
+				source: "docs/language/go/overview.mdx",
 				frontmatter: { id: "go-overview" },
 			}),
-		/id mismatch: go-overview != go-intro/,
+		/id mismatch: go-overview != overview/,
 	);
 });
 
 test("validateFrontmatter accepts matching ids", () => {
 	assert.doesNotThrow(() =>
 		validateFrontmatter({
-			source: "docs/lang/go/go-intro.mdx",
-			frontmatter: { id: "go-intro" },
+			source: "docs/language/go/install.mdx",
+			frontmatter: { id: "install" },
 		}),
 	);
 });
@@ -201,8 +201,8 @@ test("validateFrontmatter accepts matching ids", () => {
 test("validateRegistryDeterminism ignores incidental object key ordering", () => {
 	const actual = [
 		{
-			source: "docs/lang/go/go.mdx",
-			target: "docs/entity/language/programming-language/go/go.mdx",
+			source: "docs/language/go/overview.mdx",
+			target: "docs/language/go/overview.mdx",
 			ontology: {
 				aspect: "overview",
 				instance: "go",
@@ -214,8 +214,8 @@ test("validateRegistryDeterminism ignores incidental object key ordering", () =>
 	];
 	const expected = [
 		{
-			target: "docs/entity/language/programming-language/go/go.mdx",
-			source: "docs/lang/go/go.mdx",
+			target: "docs/language/go/overview.mdx",
+			source: "docs/language/go/overview.mdx",
 			ontology: {
 				role: "entity",
 				domain: "language",
@@ -235,8 +235,8 @@ test("validateRegistryDeterminism rejects semantic differences", () => {
 			validateRegistryDeterminism(
 				[
 					{
-						source: "docs/lang/go/go.mdx",
-						target: "docs/entity/language/programming-language/go/go.mdx",
+						source: "docs/language/go/overview.mdx",
+						target: "docs/language/go/overview.mdx",
 						ontology: {
 							role: "entity",
 							domain: "language",
@@ -248,8 +248,8 @@ test("validateRegistryDeterminism rejects semantic differences", () => {
 				],
 				[
 					{
-						source: "docs/lang/go/go.mdx",
-						target: "docs/entity/language/programming-language/go/go.mdx",
+						source: "docs/language/go/overview.mdx",
+						target: "docs/language/go/overview.mdx",
 						ontology: {
 							role: "entity",
 							domain: "language",
@@ -858,7 +858,7 @@ test("validateCorpus enforces registry source-path invariants in the production 
 				entries: [
 					{
 						source: "docs/AGENTS.md",
-						target: "docs/entity/language/programming-language/go/go.mdx",
+						target: "docs/language/go/overview.mdx",
 						ontology: {
 							role: "entity",
 							domain: "language",
@@ -868,7 +868,7 @@ test("validateCorpus enforces registry source-path invariants in the production 
 						},
 					},
 				],
-				docs: ["docs/entity/language/programming-language/go/go.mdx"],
+				docs: ["docs/language/go/overview.mdx"],
 			}),
 		/source path must point to an \.mdx document/,
 	);
