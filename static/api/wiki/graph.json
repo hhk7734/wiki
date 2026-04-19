@@ -10145,198 +10145,6 @@
       "subject_ref": "subject:mlops:workload:statefulset"
     },
     {
-      "id": "doc:docs/operation/platform/kernel/clone-os-image/clone-os-image.mdx",
-      "type": "document",
-      "title": "Clone OS image",
-      "snippet": "…inux\n`\n\n`shell\nsudo umount /dev/sdb1 /dev/sdb2\n`\n\n`shell\nsudo dd if=/dev/sdb of=clone.img bs=4M count=$((31115263 + 1)) status=progress\n`\n\n`shell {1}\n$ sudo parted -…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "clone-os-image",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/clone-os-image",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/clone-os-image/clone-os-image.mdx.json",
-      "subject_ref": "subject:platform:kernel:clone-os-image"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/device-tree/basics.mdx",
-      "type": "document",
-      "title": "Device tree basics",
-      "snippet": "…-level information.\n\nThe **\\** file contains board-level information.\n\n## Using device tree compiler\n\n``shell\nsudo apt install -y device-tree-compiler\n`\n\n### Check nodes a…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "device-tree",
-        "aspect": "basics"
-      },
-      "url": "/docs/operation/platform/kernel/device-tree/basics",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/device-tree/basics.mdx.json",
-      "subject_ref": "subject:platform:kernel:device-tree"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/device-tree/overlay.mdx",
-      "type": "document",
-      "title": "Device tree overlay",
-      "snippet": "",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "device-tree",
-        "aspect": "overlay"
-      },
-      "url": "/docs/operation/platform/kernel/device-tree/overlay",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/device-tree/overlay.mdx.json",
-      "subject_ref": "subject:platform:kernel:device-tree"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/fstab/fstab.mdx",
-      "type": "document",
-      "title": "fstab(file systems table)",
-      "snippet": "## fstab\n\n- https://man7.org/linux/man-pages/man5/fstab.5.html\n\n/etc/fstab 파일은 아래와 같이 구성되어 있습니다.\n\n``shell\n# /etc/f…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "fstab",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/fstab",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/fstab/fstab.mdx.json",
-      "subject_ref": "subject:platform:kernel:fstab"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/lvm/lvm.mdx",
-      "type": "document",
-      "title": "Logical Volume Manager(LVM)",
-      "snippet": "## Logical Volume Manager(LVM)\n\nLogical Volume Manager(LVM)는 물리적 볼륨들 위에 추상 계층을 생성한 후 그 위에 논리적인 볼륨을 만들어\n관리하는 도구…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "lvm",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/lvm",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/lvm/lvm.mdx.json",
-      "subject_ref": "subject:platform:kernel:lvm"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/module/build-external-module.mdx",
-      "type": "document",
-      "title": "Build external module",
-      "snippet": "…dprobe hello\n`\n\n`shell\nsudo modprobe -r hello\n`\n\n`shell\ndmesg\n`\n\n`text\nBuilding External Modules\n\nThis document describes how to build an out-of-tree kernel module.\n\n==…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "module",
-        "aspect": "build-external-module"
-      },
-      "url": "/docs/operation/platform/kernel/module/build-external-module",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/module/build-external-module.mdx.json",
-      "subject_ref": "subject:platform:kernel:module"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/module/dkms.mdx",
-      "type": "document",
-      "title": "DKMS",
-      "snippet": "…kms.conf\"\nPACKAGE_NAME=\"\"\nPACKAGE_VERSION=\"\"\nMAKE[0]=\"make -j$(nproc) KVERSION=$kernelver\"\nCLEAN=\"make clean\"\nBUILT_MODULE_NAME[0]=\"\"\nDEST_MODULE_LOCATION[0]=\"/update…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "module",
-        "aspect": "dkms"
-      },
-      "url": "/docs/operation/platform/kernel/module/dkms",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/module/dkms.mdx.json",
-      "subject_ref": "subject:platform:kernel:module"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/namespace/namespace.mdx",
-      "type": "document",
-      "title": "Linux Namespace(네임스페이스)",
-      "snippet": "## Linux Namespace\n\n- https://man7.org/linux/man-pages/man7/namespaces.7.html\nA namespace wraps a …",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "namespace",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/namespace",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/namespace/namespace.mdx.json",
-      "subject_ref": "subject:platform:kernel:namespace"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/network/network.mdx",
-      "type": "document",
-      "title": "Linux Network Namespace",
-      "snippet": "",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "network",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/network",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/network/network.mdx.json",
-      "subject_ref": "subject:platform:kernel:network"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/swap/swap.mdx",
-      "type": "document",
-      "title": "Linux Swap Memory 관리하기",
-      "snippet": "…] 0 0\n`\n\n-\n - pri=`: swap 우선순위\n\n## vm.swappiness\n\n- https://github.com/torvalds/linux/blob/v6.2/mm/vmscan.c#L3000-L3014",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "swap",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/swap",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/swap/swap.mdx.json",
-      "subject_ref": "subject:platform:kernel:swap"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/udev/udev.mdx",
-      "type": "document",
-      "title": "Linux udev",
-      "snippet": "## udev\n\n- https://man7.org/linux/man-pages/man7/udev.7.html\n\n- udev(userspace /dev)는 Linux 커널용 장치 관리자입니다.\n- udev…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "udev",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/udev",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/udev/udev.mdx.json",
-      "subject_ref": "subject:platform:kernel:udev"
-    },
-    {
-      "id": "doc:docs/operation/platform/kernel/user/user.mdx",
-      "type": "document",
-      "title": "Linux User Namespace",
-      "snippet": "## User Namespace\n\n- https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html\nUser namesp…",
-      "ontology": {
-        "role": "operation",
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "user",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/platform/kernel/user",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/platform/kernel/user/user.mdx.json",
-      "subject_ref": "subject:platform:kernel:user"
-    },
-    {
       "id": "doc:docs/operation/platform/tool/utility/utility.mdx",
       "type": "document",
       "title": "기타 utility",
@@ -10417,6 +10225,22 @@
       "subject_ref": "subject:platform:tool:asdf"
     },
     {
+      "id": "doc:docs/platform/clone-os-image/overview.mdx",
+      "type": "document",
+      "title": "Clone OS image",
+      "snippet": "…inux\n`\n\n`shell\nsudo umount /dev/sdb1 /dev/sdb2\n`\n\n`shell\nsudo dd if=/dev/sdb of=clone.img bs=4M count=$((31115263 + 1)) status=progress\n`\n\n`shell {1}\n$ sudo parted -…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "clone-os-image",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/clone-os-image/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/clone-os-image/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:clone-os-image"
+    },
+    {
       "id": "doc:docs/platform/debian-package/advanced.mdx",
       "type": "document",
       "title": "Debian Package Advanced",
@@ -10495,6 +10319,54 @@
       "url": "/docs/platform/debian-package/overview",
       "node_url": "/api/wiki/nodes/doc:docs/platform/debian-package/overview.mdx.json",
       "subject_ref": "subject:platform:package-manager:debian-package"
+    },
+    {
+      "id": "doc:docs/platform/device-tree/overlay.mdx",
+      "type": "document",
+      "title": "Device tree overlay",
+      "snippet": "",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "device-tree",
+        "aspect": "overlay"
+      },
+      "url": "/docs/platform/device-tree/overlay",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/device-tree/overlay.mdx.json",
+      "subject_ref": "subject:platform:kernel:device-tree"
+    },
+    {
+      "id": "doc:docs/platform/device-tree/overview.mdx",
+      "type": "document",
+      "title": "Device tree basics",
+      "snippet": "…-level information.\n\nThe **\\** file contains board-level information.\n\n## Using device tree compiler\n\n``shell\nsudo apt install -y device-tree-compiler\n`\n\n### Check nodes a…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "device-tree",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/device-tree/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/device-tree/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:device-tree"
+    },
+    {
+      "id": "doc:docs/platform/fstab/overview.mdx",
+      "type": "document",
+      "title": "fstab(file systems table)",
+      "snippet": "## fstab\n\n- https://man7.org/linux/man-pages/man5/fstab.5.html\n\n/etc/fstab 파일은 아래와 같이 구성되어 있습니다.\n\n``shell\n# /etc/f…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "fstab",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/fstab/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/fstab/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:fstab"
     },
     {
       "id": "doc:docs/platform/git/commit-message.mdx",
@@ -10673,6 +10545,38 @@
       "subject_ref": "subject:platform:tool:iptables"
     },
     {
+      "id": "doc:docs/platform/kernel-module/build-external.mdx",
+      "type": "document",
+      "title": "Build external module",
+      "snippet": "…dprobe hello\n`\n\n`shell\nsudo modprobe -r hello\n`\n\n`shell\ndmesg\n`\n\n`text\nBuilding External Modules\n\nThis document describes how to build an out-of-tree kernel module.\n\n==…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "kernel-module",
+        "aspect": "build-external"
+      },
+      "url": "/docs/platform/kernel-module/build-external",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/kernel-module/build-external.mdx.json",
+      "subject_ref": "subject:platform:kernel:kernel-module"
+    },
+    {
+      "id": "doc:docs/platform/kernel-module/dkms.mdx",
+      "type": "document",
+      "title": "DKMS",
+      "snippet": "…kms.conf\"\nPACKAGE_NAME=\"\"\nPACKAGE_VERSION=\"\"\nMAKE[0]=\"make -j$(nproc) KVERSION=$kernelver\"\nCLEAN=\"make clean\"\nBUILT_MODULE_NAME[0]=\"\"\nDEST_MODULE_LOCATION[0]=\"/update…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "kernel-module",
+        "aspect": "dkms"
+      },
+      "url": "/docs/platform/kernel-module/dkms",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/kernel-module/dkms.mdx.json",
+      "subject_ref": "subject:platform:kernel:kernel-module"
+    },
+    {
       "id": "doc:docs/platform/linux-kernel/build.mdx",
       "type": "document",
       "title": "Build kernel",
@@ -10737,6 +10641,22 @@
       "subject_ref": "subject:platform:kernel:linux-kernel"
     },
     {
+      "id": "doc:docs/platform/lvm/overview.mdx",
+      "type": "document",
+      "title": "Logical Volume Manager(LVM)",
+      "snippet": "## Logical Volume Manager(LVM)\n\nLogical Volume Manager(LVM)는 물리적 볼륨들 위에 추상 계층을 생성한 후 그 위에 논리적인 볼륨을 만들어\n관리하는 도구…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "lvm",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/lvm/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/lvm/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:lvm"
+    },
+    {
       "id": "doc:docs/platform/mise/overview.mdx",
       "type": "document",
       "title": "mise로 런타임 버전 관리하기",
@@ -10751,6 +10671,54 @@
       "url": "/docs/platform/mise/overview",
       "node_url": "/api/wiki/nodes/doc:docs/platform/mise/overview.mdx.json",
       "subject_ref": "subject:platform:tool:mise"
+    },
+    {
+      "id": "doc:docs/platform/namespace/network.mdx",
+      "type": "document",
+      "title": "Linux Network Namespace",
+      "snippet": "",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "namespace",
+        "aspect": "network"
+      },
+      "url": "/docs/platform/namespace/network",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/namespace/network.mdx.json",
+      "subject_ref": "subject:platform:kernel:namespace"
+    },
+    {
+      "id": "doc:docs/platform/namespace/overview.mdx",
+      "type": "document",
+      "title": "Linux Namespace(네임스페이스)",
+      "snippet": "## Linux Namespace\n\n- https://man7.org/linux/man-pages/man7/namespaces.7.html\nA namespace wraps a …",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "namespace",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/namespace/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/namespace/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:namespace"
+    },
+    {
+      "id": "doc:docs/platform/namespace/user.mdx",
+      "type": "document",
+      "title": "Linux User Namespace",
+      "snippet": "## User Namespace\n\n- https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html\nUser namesp…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "namespace",
+        "aspect": "user"
+      },
+      "url": "/docs/platform/namespace/user",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/namespace/user.mdx.json",
+      "subject_ref": "subject:platform:kernel:namespace"
     },
     {
       "id": "doc:docs/platform/nmap/overview.mdx",
@@ -10881,6 +10849,22 @@
       "subject_ref": "subject:platform:tool:ssh"
     },
     {
+      "id": "doc:docs/platform/swap/overview.mdx",
+      "type": "document",
+      "title": "Linux Swap Memory 관리하기",
+      "snippet": "…] 0 0\n`\n\n-\n - pri=`: swap 우선순위\n\n## vm.swappiness\n\n- https://github.com/torvalds/linux/blob/v6.2/mm/vmscan.c#L3000-L3014",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "swap",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/swap/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/swap/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:swap"
+    },
+    {
       "id": "doc:docs/platform/systemd/service.mdx",
       "type": "document",
       "title": "Systemd Service",
@@ -10943,6 +10927,22 @@
       "url": "/docs/platform/u-boot/custom-command",
       "node_url": "/api/wiki/nodes/doc:docs/platform/u-boot/custom-command.mdx.json",
       "subject_ref": "subject:platform:bootloader:u-boot"
+    },
+    {
+      "id": "doc:docs/platform/udev/overview.mdx",
+      "type": "document",
+      "title": "Linux udev",
+      "snippet": "## udev\n\n- https://man7.org/linux/man-pages/man7/udev.7.html\n\n- udev(userspace /dev)는 Linux 커널용 장치 관리자입니다.\n- udev…",
+      "ontology": {
+        "role": "operation",
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "udev",
+        "aspect": "overview"
+      },
+      "url": "/docs/platform/udev/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/platform/udev/overview.mdx.json",
+      "subject_ref": "subject:platform:kernel:udev"
     },
     {
       "id": "doc:docs/platform/user-management/overview.mdx",
@@ -16943,10 +16943,10 @@
         "class": "kernel",
         "instance": "clone-os-image"
       },
-      "url": "/docs/operation/platform/kernel/clone-os-image",
+      "url": "/docs/platform/clone-os-image/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:clone-os-image.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/clone-os-image/clone-os-image.mdx"
+        "doc:docs/platform/clone-os-image/overview.mdx"
       ]
     },
     {
@@ -16959,11 +16959,11 @@
         "class": "kernel",
         "instance": "device-tree"
       },
-      "url": "/docs/operation/platform/kernel/device-tree/basics",
+      "url": "/docs/platform/device-tree/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:device-tree.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/device-tree/basics.mdx",
-        "doc:docs/operation/platform/kernel/device-tree/overlay.mdx"
+        "doc:docs/platform/device-tree/overview.mdx",
+        "doc:docs/platform/device-tree/overlay.mdx"
       ]
     },
     {
@@ -16976,10 +16976,27 @@
         "class": "kernel",
         "instance": "fstab"
       },
-      "url": "/docs/operation/platform/kernel/fstab",
+      "url": "/docs/platform/fstab/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:fstab.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/fstab/fstab.mdx"
+        "doc:docs/platform/fstab/overview.mdx"
+      ]
+    },
+    {
+      "id": "subject:platform:kernel:kernel-module",
+      "type": "subject",
+      "title": "Build external module",
+      "snippet": "…dprobe hello\n`\n\n`shell\nsudo modprobe -r hello\n`\n\n`shell\ndmesg\n`\n\n`text\nBuilding External Modules\n\nThis document describes how to build an out-of-tree kernel module.\n\n==…",
+      "ontology": {
+        "domain": "platform",
+        "class": "kernel",
+        "instance": "kernel-module"
+      },
+      "url": "/docs/platform/kernel-module/build-external",
+      "node_url": "/api/wiki/nodes/subject:platform:kernel:kernel-module.json",
+      "document_refs": [
+        "doc:docs/platform/kernel-module/build-external.mdx",
+        "doc:docs/platform/kernel-module/dkms.mdx"
       ]
     },
     {
@@ -17011,27 +17028,10 @@
         "class": "kernel",
         "instance": "lvm"
       },
-      "url": "/docs/operation/platform/kernel/lvm",
+      "url": "/docs/platform/lvm/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:lvm.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/lvm/lvm.mdx"
-      ]
-    },
-    {
-      "id": "subject:platform:kernel:module",
-      "type": "subject",
-      "title": "Build external module",
-      "snippet": "…dprobe hello\n`\n\n`shell\nsudo modprobe -r hello\n`\n\n`shell\ndmesg\n`\n\n`text\nBuilding External Modules\n\nThis document describes how to build an out-of-tree kernel module.\n\n==…",
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "module"
-      },
-      "url": "/docs/operation/platform/kernel/module/build-external-module",
-      "node_url": "/api/wiki/nodes/subject:platform:kernel:module.json",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/module/build-external-module.mdx",
-        "doc:docs/operation/platform/kernel/module/dkms.mdx"
+        "doc:docs/platform/lvm/overview.mdx"
       ]
     },
     {
@@ -17044,26 +17044,12 @@
         "class": "kernel",
         "instance": "namespace"
       },
-      "url": "/docs/operation/platform/kernel/namespace",
+      "url": "/docs/platform/namespace/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:namespace.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/namespace/namespace.mdx"
-      ]
-    },
-    {
-      "id": "subject:platform:kernel:network",
-      "type": "subject",
-      "title": "Linux Network Namespace",
-      "snippet": "",
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "network"
-      },
-      "url": "/docs/operation/platform/kernel/network",
-      "node_url": "/api/wiki/nodes/subject:platform:kernel:network.json",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/network/network.mdx"
+        "doc:docs/platform/namespace/overview.mdx",
+        "doc:docs/platform/namespace/network.mdx",
+        "doc:docs/platform/namespace/user.mdx"
       ]
     },
     {
@@ -17076,10 +17062,10 @@
         "class": "kernel",
         "instance": "swap"
       },
-      "url": "/docs/operation/platform/kernel/swap",
+      "url": "/docs/platform/swap/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:swap.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/swap/swap.mdx"
+        "doc:docs/platform/swap/overview.mdx"
       ]
     },
     {
@@ -17092,26 +17078,10 @@
         "class": "kernel",
         "instance": "udev"
       },
-      "url": "/docs/operation/platform/kernel/udev",
+      "url": "/docs/platform/udev/overview",
       "node_url": "/api/wiki/nodes/subject:platform:kernel:udev.json",
       "document_refs": [
-        "doc:docs/operation/platform/kernel/udev/udev.mdx"
-      ]
-    },
-    {
-      "id": "subject:platform:kernel:user",
-      "type": "subject",
-      "title": "Linux User Namespace",
-      "snippet": "## User Namespace\n\n- https://www.man7.org/linux/man-pages/man7/user_namespaces.7.html\nUser namesp…",
-      "ontology": {
-        "domain": "platform",
-        "class": "kernel",
-        "instance": "user"
-      },
-      "url": "/docs/operation/platform/kernel/user",
-      "node_url": "/api/wiki/nodes/subject:platform:kernel:user.json",
-      "document_refs": [
-        "doc:docs/operation/platform/kernel/user/user.mdx"
+        "doc:docs/platform/udev/overview.mdx"
       ]
     },
     {
@@ -21617,78 +21587,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/platform/kernel/clone-os-image/clone-os-image.mdx:about_subject:subject:platform:kernel:clone-os-image",
-      "from": "doc:docs/operation/platform/kernel/clone-os-image/clone-os-image.mdx",
-      "to": "subject:platform:kernel:clone-os-image",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/device-tree/basics.mdx:about_subject:subject:platform:kernel:device-tree",
-      "from": "doc:docs/operation/platform/kernel/device-tree/basics.mdx",
-      "to": "subject:platform:kernel:device-tree",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/device-tree/overlay.mdx:about_subject:subject:platform:kernel:device-tree",
-      "from": "doc:docs/operation/platform/kernel/device-tree/overlay.mdx",
-      "to": "subject:platform:kernel:device-tree",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/fstab/fstab.mdx:about_subject:subject:platform:kernel:fstab",
-      "from": "doc:docs/operation/platform/kernel/fstab/fstab.mdx",
-      "to": "subject:platform:kernel:fstab",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/lvm/lvm.mdx:about_subject:subject:platform:kernel:lvm",
-      "from": "doc:docs/operation/platform/kernel/lvm/lvm.mdx",
-      "to": "subject:platform:kernel:lvm",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/module/build-external-module.mdx:about_subject:subject:platform:kernel:module",
-      "from": "doc:docs/operation/platform/kernel/module/build-external-module.mdx",
-      "to": "subject:platform:kernel:module",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/module/dkms.mdx:about_subject:subject:platform:kernel:module",
-      "from": "doc:docs/operation/platform/kernel/module/dkms.mdx",
-      "to": "subject:platform:kernel:module",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/namespace/namespace.mdx:about_subject:subject:platform:kernel:namespace",
-      "from": "doc:docs/operation/platform/kernel/namespace/namespace.mdx",
-      "to": "subject:platform:kernel:namespace",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/network/network.mdx:about_subject:subject:platform:kernel:network",
-      "from": "doc:docs/operation/platform/kernel/network/network.mdx",
-      "to": "subject:platform:kernel:network",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/swap/swap.mdx:about_subject:subject:platform:kernel:swap",
-      "from": "doc:docs/operation/platform/kernel/swap/swap.mdx",
-      "to": "subject:platform:kernel:swap",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/udev/udev.mdx:about_subject:subject:platform:kernel:udev",
-      "from": "doc:docs/operation/platform/kernel/udev/udev.mdx",
-      "to": "subject:platform:kernel:udev",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/platform/kernel/user/user.mdx:about_subject:subject:platform:kernel:user",
-      "from": "doc:docs/operation/platform/kernel/user/user.mdx",
-      "to": "subject:platform:kernel:user",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/platform/tool/utility/utility.mdx:about_subject:subject:platform:tool:utility",
       "from": "doc:docs/operation/platform/tool/utility/utility.mdx",
       "to": "subject:platform:tool:utility",
@@ -21719,6 +21617,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/platform/clone-os-image/overview.mdx:about_subject:subject:platform:kernel:clone-os-image",
+      "from": "doc:docs/platform/clone-os-image/overview.mdx",
+      "to": "subject:platform:kernel:clone-os-image",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/platform/debian-package/advanced.mdx:about_subject:subject:platform:package-manager:debian-package",
       "from": "doc:docs/platform/debian-package/advanced.mdx",
       "to": "subject:platform:package-manager:debian-package",
@@ -21746,6 +21650,24 @@
       "id": "relation:doc:docs/platform/debian-package/overview.mdx:about_subject:subject:platform:package-manager:debian-package",
       "from": "doc:docs/platform/debian-package/overview.mdx",
       "to": "subject:platform:package-manager:debian-package",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/device-tree/overlay.mdx:about_subject:subject:platform:kernel:device-tree",
+      "from": "doc:docs/platform/device-tree/overlay.mdx",
+      "to": "subject:platform:kernel:device-tree",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/device-tree/overview.mdx:about_subject:subject:platform:kernel:device-tree",
+      "from": "doc:docs/platform/device-tree/overview.mdx",
+      "to": "subject:platform:kernel:device-tree",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/fstab/overview.mdx:about_subject:subject:platform:kernel:fstab",
+      "from": "doc:docs/platform/fstab/overview.mdx",
+      "to": "subject:platform:kernel:fstab",
       "predicate": "about_subject"
     },
     {
@@ -21815,6 +21737,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/platform/kernel-module/build-external.mdx:about_subject:subject:platform:kernel:kernel-module",
+      "from": "doc:docs/platform/kernel-module/build-external.mdx",
+      "to": "subject:platform:kernel:kernel-module",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/kernel-module/dkms.mdx:about_subject:subject:platform:kernel:kernel-module",
+      "from": "doc:docs/platform/kernel-module/dkms.mdx",
+      "to": "subject:platform:kernel:kernel-module",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/platform/linux-kernel/build.mdx:about_subject:subject:platform:kernel:linux-kernel",
       "from": "doc:docs/platform/linux-kernel/build.mdx",
       "to": "subject:platform:kernel:linux-kernel",
@@ -21839,9 +21773,33 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/platform/lvm/overview.mdx:about_subject:subject:platform:kernel:lvm",
+      "from": "doc:docs/platform/lvm/overview.mdx",
+      "to": "subject:platform:kernel:lvm",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/platform/mise/overview.mdx:about_subject:subject:platform:tool:mise",
       "from": "doc:docs/platform/mise/overview.mdx",
       "to": "subject:platform:tool:mise",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/namespace/network.mdx:about_subject:subject:platform:kernel:namespace",
+      "from": "doc:docs/platform/namespace/network.mdx",
+      "to": "subject:platform:kernel:namespace",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/namespace/overview.mdx:about_subject:subject:platform:kernel:namespace",
+      "from": "doc:docs/platform/namespace/overview.mdx",
+      "to": "subject:platform:kernel:namespace",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/namespace/user.mdx:about_subject:subject:platform:kernel:namespace",
+      "from": "doc:docs/platform/namespace/user.mdx",
+      "to": "subject:platform:kernel:namespace",
       "predicate": "about_subject"
     },
     {
@@ -21893,6 +21851,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/platform/swap/overview.mdx:about_subject:subject:platform:kernel:swap",
+      "from": "doc:docs/platform/swap/overview.mdx",
+      "to": "subject:platform:kernel:swap",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/platform/systemd/service.mdx:about_subject:subject:platform:tool:systemd",
       "from": "doc:docs/platform/systemd/service.mdx",
       "to": "subject:platform:tool:systemd",
@@ -21914,6 +21878,12 @@
       "id": "relation:doc:docs/platform/u-boot/custom-command.mdx:about_subject:subject:platform:bootloader:u-boot",
       "from": "doc:docs/platform/u-boot/custom-command.mdx",
       "to": "subject:platform:bootloader:u-boot",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/platform/udev/overview.mdx:about_subject:subject:platform:kernel:udev",
+      "from": "doc:docs/platform/udev/overview.mdx",
+      "to": "subject:platform:kernel:udev",
       "predicate": "about_subject"
     },
     {
