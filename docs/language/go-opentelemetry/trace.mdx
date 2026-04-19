@@ -1,0 +1,158 @@
+---
+id: trace
+title: "Go OpenTelemetry Trace 설정 가이드"
+sidebar_label: "Trace 설정 가이드"
+description: "Go OpenTelemetry Trace 설정 가이드"
+keywords:
+  - go
+  - OpenTelemetry
+  - Trace
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: go-opentelemetry
+  aspect: trace
+subject:
+  canonical_name: "OpenTelemetry for Go"
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## TracerProvider
+
+```go
+import (
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/sdk/trace"
+)
+
+shutdowns := []func(context.Context) error{}
+
+tracerProvider := trace.NewTracerProvider(
+	trace.WithBatcher(exporter),
+)
+
+shutdowns = append(shutdowns, tracerProvider.Shutdown)
+
+otel.SetTracerProvider(tracerProvider)
+```
+
+## Exporter
+
+### Console
+
+```go
+import "go.opentelemetry.io/otel/exporters/stdout/stdouttrace"
+
+opts := []stdouttrace.Option{}
+
+exporter, err := stdouttrace.New(opts...)
+```
+
+### HTTP
+
+```go
+import (
+	"context"
+
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp"
+)
+
+opts := []otlptracehttp.Option{}
+
+exporter, err := otlptracehttp.New(context.Background(), opts...)
+```
+
+### gRPC
+
+:::info[References]
+
+- [opentelemetry-go GitHub / exporters/otlp/otlptrace/otlptracegrpc/internal/otlpconfig/envconfig.go](https://github.com/open-telemetry/opentelemetry-go/blob/main/exporters/otlp/otlptrace/otlptracegrpc/internal/otlpconfig/envconfig.go)
+- [opentelemetry-go GitHub / exporters/otlp/otlptrace/otlptracegrpc/options.go](https://github.com/open-telemetry/opentelemetry-go/blob/main/exporters/otlp/otlptrace/otlptracegrpc/options.go)
+
+:::
+
+```go
+import (
+	"context"
+
+	"go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc"
+)
+
+opts := []otlptracegrpc.Option{}
+
+exporter, err := otlptracegrpc.New(context.Background(), opts...)
+```
+
+**옵션을 설정하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다. 환경 변수 우선순위는 `OTEL_EXPORTER_OTLP_*`, `OTEL_EXPORTER_OTLP_TRACES_*` 순으로 높아집니다.**
+
+- endpoint 설정
+  - 기본값은 `secure + localhost:4317` 입니다.
+  - `OTEL_EXPORTER_OTLP_ENDPOINT=<scheme>://<host>:<port>`
+  - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<scheme>://<host>:<port>`
+  - `otlptracegrpc.WithEndpointURL(string)`
+  - `<scheme>`이 `http`또는 `unix`인 경우 insecure로 설정됩니다.
+  - 각각 분리해서 설정할 수도 있습니다.
+    - `OTEL_EXPORTER_OTLP_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_ENDPOINT=<host>:<port>`
+    - `OTEL_EXPORTER_OTLP_TRACES_INSECURE=true|false`
+    - `OTEL_EXPORTER_OTLP_TRACES_ENDPOINT=<host>:<port>`
+    - `otlptracegrpc.WithInsecure()`
+    - `otlptracegrpc.WithEndpoint(string)`
+- headers 설정
+  - `OTEL_EXPORTER_OTLP_HEADERS=<key>=<value>[,<key>=<value>]`
+  - `OTEL_EXPORTER_OTLP_TRACES_HEADERS=<key>=<value>[,<key>=<value>]`
+  - `otlptracegrpc.WithHeaders(map[string]string)`
+- timeout 설정
+  - 기본값은 10초 입니다.
+  - `OTEL_EXPORTER_OTLP_TIMEOUT=<milliseconds>`
+  - `OTEL_EXPORTER_OTLP_TRACES_TIMEOUT=<milliseconds>`
+  - `otlptracegrpc.WithTimeout(time.Duration)`
+- compression 설정
+  - `OTEL_EXPORTER_OTLP_COMPRESSION=gzip|none`
+  - `OTEL_EXPORTER_OTLP_TRACES_COMPRESSION=gzip|none`
+  - `otlptracegrpc.WithCompressor(string)`
+- certificate 설정
+  - `OTEL_EXPORTER_OTLP_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_CLIENT_KEY=<keyFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CERTIFICATE=<certFilePath>`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_CERTIFICATE=<certFilePath>.pem`
+  - `OTEL_EXPORTER_OTLP_TRACES_CLIENT_KEY=<keyFilePath>.pem`
+  - `otlptracegrpc.WithTLSCredentials(credentials.TransportCredentials)`
+
+`otlptracegrpc.WithGRPCConn(*grpc.ClientConn)`으로 gRPC 연결을 직접 설정할 수도 있습니다.
+
+## Sampler
+
+**Sampling** 은 시스템에 의해 생성되는 span의 양을 제한하는 프로세스입니다. 분산 시스템에서 tracing은 매우 실용적이지만, 모든 요청을 100% 추적하는 것은 시스템에 큰 부담이 될 수 있습니다. 이러한 부담을 완화하기 위해 sampling을 사용하여 데이터를 수집해야 합니다.
+
+- **Sampled**: trace 또는 span이 sampler에 의해 선택되고 처리되어 export된 상태입니다.
+- **Not sampled**: trace 또는 span이 sampler에 의해 선택되지 않아 처리되지 않거나 export되지 않은 상태입니다.
+
+```go
+tracerProvider := trace.NewTracerProvider(
+	trace.WithSampler(trace.AlwaysSample()), // 모든 span 샘플링
+)
+```
+
+- **`TracerProvider`에 sampler를 설정하지 않으면 환경 변수로부터 설정을 읽어와서 설정합니다.**
+  - `OTEL_TRACES_SAMPLER=always_on|always_off|traceidratio|parentbased_always_on|parentbased_always_off|parentbased_traceidratio`
+  - `OTEL_TRACES_SAMPLER_ARG=<traceidratio>`
+- `trace.AlwaysSample()`: 모든 trace를 선택합니다.
+- `trace.NeverSample()`: 어떤 trace도 선택하지 않습니다.
+- `trace.TraceIDRatioBased(ratio float64)`
+  - 주어진 비율 (0.0 ~ 1.0) 에 따라 trace를 선택합니다.
+  - parent span이 sampled인 경우 비율을 무시하고 선택되게 하려면 `trace.ParentBased(...)`와 함께 사용합니다.
+- `trace.ParentBased(sampler trace.Sampler, opts ...trace.ParentBasedSamplerOption)`
+  - parent span이 sampled인 경우 선택합니다.
+  - parent span이 not sampled인 경우 `sampler` 설정에 따라 선택합니다.

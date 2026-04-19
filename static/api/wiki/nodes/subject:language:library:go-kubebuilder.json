@@ -8,21 +8,21 @@
     "class": "library",
     "instance": "go-kubebuilder"
   },
-  "url": "/docs/entity/language/library/go-kubebuilder",
+  "url": "/docs/language/go-kubebuilder/overview",
   "node_url": "/api/wiki/nodes/subject:language:library:go-kubebuilder.json",
   "document_refs": [
-    "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
-    "doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx",
-    "doc:docs/operation/language/library/go-kubebuilder/kubebuilder.mdx",
-    "doc:docs/operation/language/library/go-kubebuilder/namespace.mdx",
-    "doc:docs/operation/language/library/go-kubebuilder/status.mdx",
-    "doc:docs/operation/language/library/go-kubebuilder/trigger.mdx"
+    "doc:docs/language/go-kubebuilder/overview.mdx",
+    "doc:docs/language/go-kubebuilder/controller-gen.mdx",
+    "doc:docs/language/go-kubebuilder/kubebuilder.mdx",
+    "doc:docs/language/go-kubebuilder/namespace.mdx",
+    "doc:docs/language/go-kubebuilder/status.mdx",
+    "doc:docs/language/go-kubebuilder/trigger.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
+      "id": "doc:docs/language/go-kubebuilder/overview.mdx",
       "title": "Kubebuilder",
-      "url": "/docs/entity/language/library/go-kubebuilder",
+      "url": "/docs/language/go-kubebuilder/overview",
       "snippet": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
       "ontology": {
         "role": "entity",
@@ -33,9 +33,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx",
+      "id": "doc:docs/language/go-kubebuilder/controller-gen.mdx",
       "title": "Kubebuilder controller-gen CLI",
-      "url": "/docs/operation/language/library/go-kubebuilder/controller-gen",
+      "url": "/docs/language/go-kubebuilder/controller-gen",
       "snippet": "## controller-gen\n\n- controller-gen\n\n``shell\ncontroller-gen []\n`\n\n-\n - [:[,]]\n - webhook\n - schem…",
       "ontology": {
         "role": "operation",
@@ -46,9 +46,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/language/library/go-kubebuilder/kubebuilder.mdx",
+      "id": "doc:docs/language/go-kubebuilder/kubebuilder.mdx",
       "title": "Kubebuilder를 사용한 Kubernetes operator 개발 가이드",
-      "url": "/docs/operation/language/library/go-kubebuilder/kubebuilder",
+      "url": "/docs/language/go-kubebuilder/kubebuilder",
       "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project 생성\n\n- Kubebuilder / Getting Started\n- Kubebuilder / Projects\n\nGo # Setup을 참고하여 Go 모듈을 초기화합니다.\n\n``…",
       "ontology": {
         "role": "operation",
@@ -59,9 +59,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/language/library/go-kubebuilder/namespace.mdx",
+      "id": "doc:docs/language/go-kubebuilder/namespace.mdx",
       "title": "namespaceSelector를 사용한 관리 범위 설정",
-      "url": "/docs/operation/language/library/go-kubebuilder/namespace",
+      "url": "/docs/language/go-kubebuilder/namespace",
       "snippet": "…ok namespaceSelector\n\nWebhook은 cache와 별도로, API server가 요청을 webhook에 전달할지 결정합니다. namespaceSelector를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다.\n\n### matchLabels\n\nnamespace에 설정된 l…",
       "ontology": {
         "role": "operation",
@@ -72,9 +72,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/language/library/go-kubebuilder/status.mdx",
+      "id": "doc:docs/language/go-kubebuilder/status.mdx",
       "title": "Reconciler에서 Custom Resource의 Status 관리하기",
-      "url": "/docs/operation/language/library/go-kubebuilder/status",
+      "url": "/docs/language/go-kubebuilder/status",
       "snippet": "## Status\n\nstatus는 spec에서 정의한 원하는 상태(desired state)에 대한 현재 상태(observed state)를 표현합니다. 이를 …",
       "ontology": {
         "role": "operation",
@@ -85,9 +85,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/language/library/go-kubebuilder/trigger.mdx",
+      "id": "doc:docs/language/go-kubebuilder/trigger.mdx",
       "title": "Reconciler Trigger 설정하기",
-      "url": "/docs/operation/language/library/go-kubebuilder/trigger",
+      "url": "/docs/language/go-kubebuilder/trigger",
       "snippet": "…\n``go\n// SetupWithManager sets up the controller with the Manager.\nfunc (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {\n b := ctrl.NewControllerManagedBy(m…",
       "ontology": {
         "role": "operation",
@@ -100,39 +100,39 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/overview.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/language/library/go-kubebuilder/go-kubebuilder.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/controller-gen.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/language/library/go-kubebuilder/controller-gen.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/controller-gen.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/language/library/go-kubebuilder/kubebuilder.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/kubebuilder.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/language/library/go-kubebuilder/kubebuilder.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/kubebuilder.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/language/library/go-kubebuilder/namespace.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/namespace.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/language/library/go-kubebuilder/namespace.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/namespace.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/language/library/go-kubebuilder/status.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/status.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/language/library/go-kubebuilder/status.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/status.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/language/library/go-kubebuilder/trigger.mdx:about_subject:subject:language:library:go-kubebuilder",
+      "id": "relation:doc:docs/language/go-kubebuilder/trigger.mdx:about_subject:subject:language:library:go-kubebuilder",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/language/library/go-kubebuilder/trigger.mdx",
+      "other_id": "doc:docs/language/go-kubebuilder/trigger.mdx",
       "direction": "incoming"
     }
   ]
