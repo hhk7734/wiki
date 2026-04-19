@@ -241,7 +241,7 @@ Relation guidance:
 
 ## Tooling
 
-Keep file moves, link rewrites, and validation aligned with:
+Keep link rewrites and validation aligned with:
 
 - `ontology/classification-registry.json`
 - `script/ontology/`
@@ -251,8 +251,6 @@ Operational workflow after doc additions or moves:
 1. run `npm run ontology:bootstrap`
 2. run `npm run ontology:validate`
 3. run `npm run build`
-
-`script/ontology/migrate.mjs` and the mapping files are for explicit migration work only. They are not part of normal authoring for already-maintained docs.
 
 ## Graph Integration
 
