@@ -5646,26 +5646,25 @@
     },
     {
       "type": "subject",
-      "id": "subject:data:database:design",
+      "id": "subject:data:concept:pagination",
       "title": "Pagination",
       "description": "## Offset-based Pagination\n\n- OFFSET을 사용하여 페이지를 탐색하는 방법입니다.\n- 구현이 상대적으로 쉽습니다.\n- DB는 OFFSET으로 설정된 수만큼의 레코드를…",
       "snippet": "## Offset-based Pagination\n\n- OFFSET을 사용하여 페이지를 탐색하는 방법입니다.\n- 구현이 상대적으로 쉽습니다.\n- DB는 OFFSET으로 설정된 수만큼의 레코드를…",
-      "url": "/docs/operation/data/database/design/pagenation",
+      "url": "/docs/data/concepts/pagination",
       "document_refs": [
-        "doc:docs/operation/data/database/design/pagenation.mdx",
-        "doc:docs/operation/data/database/design/user-defined-order.mdx"
+        "doc:docs/data/concepts/pagination.mdx"
       ],
       "ontology": {
         "domain": "data",
-        "class": "database",
-        "instance": "design"
+        "class": "concept",
+        "instance": "pagination"
       },
-      "search_text": "pagination offset-based pagination - offset을 사용하여 페이지를 탐색하는 방법입니다 - 구현이 상대적으로 쉽습니다 - db는 offset으로 설정된 수만큼의 레코드를 pagination 사용자 정의 순서 user defined order offset-based pagination cursor-based pagination 중복이 가능한 필드 처리 lexorank linked list data database design",
+      "search_text": "pagination offset-based pagination - offset을 사용하여 페이지를 탐색하는 방법입니다 - 구현이 상대적으로 쉽습니다 - db는 offset으로 설정된 수만큼의 레코드를 pagination offset-based pagination cursor-based pagination 중복이 가능한 필드 처리 data concept pagination",
       "display": {
         "label": "Pagination",
         "kind": "subject",
-        "subtitle": "Design",
-        "document_count": 2
+        "subtitle": "Pagination",
+        "document_count": 1
       }
     },
     {
@@ -8442,26 +8441,25 @@
     },
     {
       "type": "subject",
-      "id": "subject:data:storage-system:etc",
+      "id": "subject:data:tool:fio",
       "title": "fio로 스토리지 I/O 성능 테스트하기",
       "description": "…uid, $jobnum, $filenum 변수를 활용할 수 있습니다.\n- nrfiles=1\n - Job을 위해 사용될 파일 수입니다.\n\n### I/O type\n\n- fio # I/O types\n\n- direct=0\n - 0: buffered I/O\n - 1: direct I/O\n- readw…",
       "snippet": "…uid, $jobnum, $filenum 변수를 활용할 수 있습니다.\n- nrfiles=1\n - Job을 위해 사용될 파일 수입니다.\n\n### I/O type\n\n- fio # I/O types\n\n- direct=0\n - 0: buffered I/O\n - 1: direct I/O\n- readw…",
-      "url": "/docs/operation/data/storage-system/etc/fio",
+      "url": "/docs/data/fio/overview",
       "document_refs": [
-        "doc:docs/operation/data/storage-system/etc/fio.mdx",
-        "doc:docs/operation/data/storage-system/etc/mdtest.mdx"
+        "doc:docs/data/fio/overview.mdx"
       ],
       "ontology": {
         "domain": "data",
-        "class": "storage-system",
-        "instance": "etc"
+        "class": "tool",
+        "instance": "fio"
       },
-      "search_text": "fio로 스토리지 i/o 성능 테스트하기 uid jobnum filenum 변수를 활용할 수 있습니다 - nrfiles 1 - job을 위해 사용될 파일 수입니다 i/o type - fio i/o types - direct 0 - 0 buffered i/o - 1 direct i/o - readw fio로 스토리지 i/o 성능 테스트하기 mdtest로 스토리지 metadata 작업 성능 테스트하기 설치 옵션 job 설정 시간 관련 설정 타겟 설정 i/o type block size i/o size i/o engine i/o depth 설치 옵션 병렬 실행 data storage-system etc",
+      "search_text": "fio로 스토리지 i/o 성능 테스트하기 uid jobnum filenum 변수를 활용할 수 있습니다 - nrfiles 1 - job을 위해 사용될 파일 수입니다 i/o type - fio i/o types - direct 0 - 0 buffered i/o - 1 direct i/o - readw fio로 스토리지 i/o 성능 테스트하기 설치 옵션 job 설정 시간 관련 설정 타겟 설정 i/o type block size i/o size i/o engine i/o depth data tool fio",
       "display": {
         "label": "fio로 스토리지 I/O 성능 테스트하기",
         "kind": "subject",
-        "subtitle": "Etc",
-        "document_count": 2
+        "subtitle": "Fio",
+        "document_count": 1
       }
     },
     {
@@ -8849,6 +8847,29 @@
         "kind": "subject",
         "subtitle": "Local Path Provisioner",
         "document_count": 2
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:data:tool:mdtest",
+      "title": "mdtest로 스토리지 metadata 작업 성능 테스트하기",
+      "description": "…shell\ncd ior \\\n&& ./bootstrap \\\n&& ./configure \\\n&& make\n`\n\n## 옵션\n\n`shell\n./src/mdtest\n`\n\n- -n\n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수\n - -I와 함께 사용할 수 없습니다.\n -…",
+      "snippet": "…shell\ncd ior \\\n&& ./bootstrap \\\n&& ./configure \\\n&& make\n`\n\n## 옵션\n\n`shell\n./src/mdtest\n`\n\n- -n\n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수\n - -I와 함께 사용할 수 없습니다.\n -…",
+      "url": "/docs/data/mdtest/overview",
+      "document_refs": [
+        "doc:docs/data/mdtest/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "data",
+        "class": "tool",
+        "instance": "mdtest"
+      },
+      "search_text": "mdtest로 스토리지 metadata 작업 성능 테스트하기 shell cd ior /bootstrap /configure make 옵션 shell /src/mdtest - -n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수 - -i와 함께 사용할 수 없습니다 - mdtest로 스토리지 metadata 작업 성능 테스트하기 설치 옵션 병렬 실행 data tool mdtest",
+      "display": {
+        "label": "mdtest로 스토리지 metadata 작업 성능 테스트하기",
+        "kind": "subject",
+        "subtitle": "Mdtest",
+        "document_count": 1
       }
     },
     {
@@ -9409,6 +9430,29 @@
         "label": "미세먼지 센서",
         "kind": "subject",
         "subtitle": "Sensor",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:data:concept:user-defined-order",
+      "title": "사용자 정의 순서(User Defined Order)",
+      "description": "## LexoRank\n\n- https://github.com/hhk7734/lexorank.py\n\n- Bucket\n - Rank 값을 저장하는 곳입니다.\n - 0 -> 1 -> 2 -> 0 순으로 순환하는 3 개의 Bucket이 존재합니다.\n - 1 개의 Bucket만 사용되며, Bal",
+      "snippet": "## LexoRank\n\n- https://github.com/hhk7734/lexorank.py\n\n- Bucket\n - Rank 값을 저장하는 곳입니다.\n - 0 -> 1 -> 2 -> 0 순으로 순환하는 3 개의 Bucket이 존재합니다.\n - 1 개의 Bucket만 사용되며, Bal",
+      "url": "/docs/data/concepts/user-defined-order",
+      "document_refs": [
+        "doc:docs/data/concepts/user-defined-order.mdx"
+      ],
+      "ontology": {
+        "domain": "data",
+        "class": "concept",
+        "instance": "user-defined-order"
+      },
+      "search_text": "사용자 정의 순서 user defined order lexorank - https //github com/hhk7734/lexorank py - bucket - rank 값을 저장하는 곳입니다 - 0 - 1 - 2 - 0 순으로 순환하는 3 개의 bucket이 존재합니다 - 1 개의 bucket만 사용되며 bal 사용자 정의 순서 user defined order lexorank linked list data concept user-defined-order",
+      "display": {
+        "label": "사용자 정의 순서(User Defined Order)",
+        "kind": "subject",
+        "subtitle": "User Defined Order",
         "document_count": 1
       }
     }
@@ -23412,7 +23456,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/data/database/design/pagenation.mdx",
+      "id": "doc:docs/data/concepts/pagination.mdx",
       "title": "Pagination",
       "description": "Pagination",
       "snippet": "## Offset-based Pagination\n\n- OFFSET을 사용하여 페이지를 탐색하는 방법입니다.\n- 구현이 상대적으로 쉽습니다.\n- DB는 OFFSET으로 설정된 수만큼의 레코드를…",
@@ -23425,21 +23469,21 @@
         "sql",
         "pagination"
       ],
-      "url": "/docs/operation/data/database/design/pagenation",
-      "subject_ref": "subject:data:database:design",
-      "subject_title": "Design",
+      "url": "/docs/data/concepts/pagination",
+      "subject_ref": "subject:data:concept:pagination",
+      "subject_title": "Pagination",
       "ontology": {
-        "role": "operation",
+        "role": "concept",
         "domain": "data",
-        "class": "database",
-        "instance": "design",
-        "aspect": "pagenation"
+        "class": "concept",
+        "instance": "pagination",
+        "aspect": "overview"
       },
-      "search_text": "pagination pagination offset-based pagination - offset을 사용하여 페이지를 탐색하는 방법입니다 - 구현이 상대적으로 쉽습니다 - db는 offset으로 설정된 수만큼의 레코드를 offset-based pagination cursor-based pagination 중복이 가능한 필드 처리 sql pagination operation data database design pagenation",
+      "search_text": "pagination pagination offset-based pagination - offset을 사용하여 페이지를 탐색하는 방법입니다 - 구현이 상대적으로 쉽습니다 - db는 offset으로 설정된 수만큼의 레코드를 offset-based pagination cursor-based pagination 중복이 가능한 필드 처리 sql pagination concept data concept pagination overview",
       "display": {
         "label": "Pagination",
         "kind": "document",
-        "subtitle": "Design"
+        "subtitle": "Pagination"
       }
     },
     {
@@ -30646,7 +30690,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/data/storage-system/etc/fio.mdx",
+      "id": "doc:docs/data/fio/overview.mdx",
       "title": "fio로 스토리지 I/O 성능 테스트하기",
       "description": "fio로 스토리지 I/O 성능 테스트하기",
       "snippet": "…uid, $jobnum, $filenum 변수를 활용할 수 있습니다.\n- nrfiles=1\n - Job을 위해 사용될 파일 수입니다.\n\n### I/O type\n\n- fio # I/O types\n\n- direct=0\n - 0: buffered I/O\n - 1: direct I/O\n- readw…",
@@ -30666,21 +30710,21 @@
         "storage",
         "fio"
       ],
-      "url": "/docs/operation/data/storage-system/etc/fio",
-      "subject_ref": "subject:data:storage-system:etc",
-      "subject_title": "Etc",
+      "url": "/docs/data/fio/overview",
+      "subject_ref": "subject:data:tool:fio",
+      "subject_title": "Fio",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "data",
-        "class": "storage-system",
-        "instance": "etc",
-        "aspect": "fio"
+        "class": "tool",
+        "instance": "fio",
+        "aspect": "overview"
       },
-      "search_text": "fio로 스토리지 i/o 성능 테스트하기 fio로 스토리지 i/o 성능 테스트하기 uid jobnum filenum 변수를 활용할 수 있습니다 - nrfiles 1 - job을 위해 사용될 파일 수입니다 i/o type - fio i/o types - direct 0 - 0 buffered i/o - 1 direct i/o - readw 설치 옵션 job 설정 시간 관련 설정 타겟 설정 i/o type block size i/o size i/o engine i/o depth storage fio operation data storage-system etc fio",
+      "search_text": "fio로 스토리지 i/o 성능 테스트하기 fio로 스토리지 i/o 성능 테스트하기 uid jobnum filenum 변수를 활용할 수 있습니다 - nrfiles 1 - job을 위해 사용될 파일 수입니다 i/o type - fio i/o types - direct 0 - 0 buffered i/o - 1 direct i/o - readw 설치 옵션 job 설정 시간 관련 설정 타겟 설정 i/o type block size i/o size i/o engine i/o depth storage fio entity data tool fio overview",
       "display": {
         "label": "fio로 스토리지 I/O 성능 테스트하기",
         "kind": "document",
-        "subtitle": "Etc"
+        "subtitle": "Fio"
       }
     },
     {
@@ -31610,7 +31654,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/data/storage-system/etc/mdtest.mdx",
+      "id": "doc:docs/data/mdtest/overview.mdx",
       "title": "mdtest로 스토리지 metadata 작업 성능 테스트하기",
       "description": "mdtest로 스토리지 metadata 작업 성능 테스트하기",
       "snippet": "…shell\ncd ior \\\n&& ./bootstrap \\\n&& ./configure \\\n&& make\n`\n\n## 옵션\n\n`shell\n./src/mdtest\n`\n\n- -n\n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수\n - -I와 함께 사용할 수 없습니다.\n -…",
@@ -31624,21 +31668,21 @@
         "mdtest",
         "metadata"
       ],
-      "url": "/docs/operation/data/storage-system/etc/mdtest",
-      "subject_ref": "subject:data:storage-system:etc",
-      "subject_title": "Etc",
+      "url": "/docs/data/mdtest/overview",
+      "subject_ref": "subject:data:tool:mdtest",
+      "subject_title": "Mdtest",
       "ontology": {
-        "role": "operation",
+        "role": "entity",
         "domain": "data",
-        "class": "storage-system",
-        "instance": "etc",
-        "aspect": "mdtest"
+        "class": "tool",
+        "instance": "mdtest",
+        "aspect": "overview"
       },
-      "search_text": "mdtest로 스토리지 metadata 작업 성능 테스트하기 mdtest로 스토리지 metadata 작업 성능 테스트하기 shell cd ior /bootstrap /configure make 옵션 shell /src/mdtest - -n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수 - -i와 함께 사용할 수 없습니다 - 설치 옵션 병렬 실행 storage mdtest metadata operation data storage-system etc mdtest",
+      "search_text": "mdtest로 스토리지 metadata 작업 성능 테스트하기 mdtest로 스토리지 metadata 작업 성능 테스트하기 shell cd ior /bootstrap /configure make 옵션 shell /src/mdtest - -n - 한 태스크에서 파일/디렉토리를 create/stat/read/remove 횟수 - -i와 함께 사용할 수 없습니다 - 설치 옵션 병렬 실행 storage mdtest metadata entity data tool mdtest overview",
       "display": {
         "label": "mdtest로 스토리지 metadata 작업 성능 테스트하기",
         "kind": "document",
-        "subtitle": "Etc"
+        "subtitle": "Mdtest"
       }
     },
     {
@@ -33020,7 +33064,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/data/database/design/user-defined-order.mdx",
+      "id": "doc:docs/data/concepts/user-defined-order.mdx",
       "title": "사용자 정의 순서(User Defined Order)",
       "description": "사용자 정의 순서(User Defined Order)",
       "snippet": "## LexoRank\n\n- https://github.com/hhk7734/lexorank.py\n\n- Bucket\n - Rank 값을 저장하는 곳입니다.\n - 0 -> 1 -> 2 -> 0 순으로 순환하는 3 개의 Bucket이 존재합니다.\n - 1 개의 Bucket만 사용되며, Bal",
@@ -33033,21 +33077,21 @@
         "user-defined",
         "order"
       ],
-      "url": "/docs/operation/data/database/design/user-defined-order",
-      "subject_ref": "subject:data:database:design",
-      "subject_title": "Design",
+      "url": "/docs/data/concepts/user-defined-order",
+      "subject_ref": "subject:data:concept:user-defined-order",
+      "subject_title": "User Defined Order",
       "ontology": {
-        "role": "operation",
+        "role": "concept",
         "domain": "data",
-        "class": "database",
-        "instance": "design",
-        "aspect": "user-defined-order"
+        "class": "concept",
+        "instance": "user-defined-order",
+        "aspect": "overview"
       },
-      "search_text": "사용자 정의 순서 user defined order 사용자 정의 순서 user defined order lexorank - https //github com/hhk7734/lexorank py - bucket - rank 값을 저장하는 곳입니다 - 0 - 1 - 2 - 0 순으로 순환하는 3 개의 bucket이 존재합니다 - 1 개의 bucket만 사용되며 bal lexorank linked list sql user-defined order operation data database design user-defined-order",
+      "search_text": "사용자 정의 순서 user defined order 사용자 정의 순서 user defined order lexorank - https //github com/hhk7734/lexorank py - bucket - rank 값을 저장하는 곳입니다 - 0 - 1 - 2 - 0 순으로 순환하는 3 개의 bucket이 존재합니다 - 1 개의 bucket만 사용되며 bal lexorank linked list sql user-defined order concept data concept user-defined-order overview",
       "display": {
         "label": "사용자 정의 순서(User Defined Order)",
         "kind": "document",
-        "subtitle": "Design"
+        "subtitle": "User Defined Order"
       }
     },
     {
