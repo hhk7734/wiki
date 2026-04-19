@@ -13,6 +13,7 @@
   "document_refs": [
     "doc:docs/language/go/overview.mdx",
     "doc:docs/language/go/cgo.mdx",
+    "doc:docs/language/go/linting-formatting/overview.mdx",
     "doc:docs/language/go/package.mdx"
   ],
   "documents": [
@@ -43,6 +44,19 @@
       }
     },
     {
+      "id": "doc:docs/language/go/linting-formatting/overview.mdx",
+      "title": "Linting & Formatting",
+      "url": "/docs/language/go/linting-formatting/overview",
+      "snippet": "## 설정 파일\n\n- golangci-lint / Configuration / File # linters\n- golangci-lint / Linters\n\n``yaml title=\".gola…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "linting-formatting"
+      }
+    },
+    {
       "id": "doc:docs/language/go/package.mdx",
       "title": "Package 만들기",
       "url": "/docs/language/go/package",
@@ -67,6 +81,12 @@
       "id": "relation:doc:docs/language/go/cgo.mdx:about_subject:subject:language:programming-language:go",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/go/cgo.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/linting-formatting/overview.mdx:about_subject:subject:language:programming-language:go",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/linting-formatting/overview.mdx",
       "direction": "incoming"
     },
     {

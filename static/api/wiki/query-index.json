@@ -1126,6 +1126,21 @@
       "node_url": "/api/wiki/nodes/subject:language:concept:database.json"
     },
     {
+      "id": "subject:language:concept:ddd-repository",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "DDD Repository",
+      "snippet": "…ttps://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design\n\n- 리포지토리는 데이터베이스를 업데이트하는 …",
+      "ontology": {
+        "domain": "language",
+        "class": "concept",
+        "instance": "ddd-repository"
+      },
+      "url": "/docs/language/concepts/ddd-repository",
+      "node_url": "/api/wiki/nodes/subject:language:concept:ddd-repository.json"
+    },
+    {
       "id": "subject:language:concept:domain",
       "type": "subject",
       "score": 0,
@@ -1276,36 +1291,6 @@
       "node_url": "/api/wiki/nodes/subject:language:concept:labview.json"
     },
     {
-      "id": "subject:language:concept:libraries",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Actix Web",
-      "snippet": "## 설치\n\n- Actix Web GitHub\n\n``shell\ncargo add actix-web\n``",
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "libraries"
-      },
-      "url": "/docs/concept/language/concept/libraries/actix-web",
-      "node_url": "/api/wiki/nodes/subject:language:concept:libraries.json"
-    },
-    {
-      "id": "subject:language:concept:lint-test",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Go Ginkgo로 테스트 작성하기",
-      "snippet": "- Ginkgo\n\n## 설치\n\n``shell\ngo get github.com/onsi/ginkgo/v2\n`\n\n`shell\ngo get github.com/on…",
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "lint-test"
-      },
-      "url": "/docs/concept/language/concept/lint-test/ginkgo",
-      "node_url": "/api/wiki/nodes/subject:language:concept:lint-test.json"
-    },
-    {
       "id": "subject:language:concept:logger",
       "type": "subject",
       "score": 0,
@@ -1381,19 +1366,19 @@
       "node_url": "/api/wiki/nodes/subject:language:concept:redirection-piping.json"
     },
     {
-      "id": "subject:language:concept:repository",
+      "id": "subject:language:concept:repository-pattern",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "Repository",
-      "snippet": "…ttps://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design\n\n- 리포지토리는 데이터베이스를 업데이트하는 …",
+      "title": "Repository pattern",
+      "snippet": "## Repository pattern\n\n도메인 모델 객\n체의 영속성을 위해 해당 모델에 대한 CRUD 기능을 구현해야 할 수 있습니다. 이 때, 도메인 객체 자체에 …",
       "ontology": {
         "domain": "language",
         "class": "concept",
-        "instance": "repository"
+        "instance": "repository-pattern"
       },
-      "url": "/docs/concept/language/concept/repository/overview--lang-design-ddd-repository",
-      "node_url": "/api/wiki/nodes/subject:language:concept:repository.json"
+      "url": "/docs/language/concepts/repository-pattern",
+      "node_url": "/api/wiki/nodes/subject:language:concept:repository-pattern.json"
     },
     {
       "id": "subject:language:concept:request-rate-limit",
@@ -1621,6 +1606,36 @@
       "node_url": "/api/wiki/nodes/subject:language:framework:sveltekit.json"
     },
     {
+      "id": "subject:language:library:actix-web",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Actix Web",
+      "snippet": "## 설치\n\n- Actix Web GitHub\n\n``shell\ncargo add actix-web\n``",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "actix-web"
+      },
+      "url": "/docs/language/rust/actix-web/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:actix-web.json"
+    },
+    {
+      "id": "subject:language:library:clap",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "clap로 설정 관리하기",
+      "snippet": "## 설치\n\n- clap GitHub\n\n``shell\ncargo add clap --features derive\n``",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "clap"
+      },
+      "url": "/docs/language/rust/clap/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:clap.json"
+    },
+    {
       "id": "subject:language:library:cpp-eigen",
       "type": "subject",
       "score": 0,
@@ -1769,6 +1784,21 @@
       },
       "url": "/docs/language/flutter-bloc/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:flutter-bloc.json"
+    },
+    {
+      "id": "subject:language:library:ginkgo",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Go Ginkgo로 테스트 작성하기",
+      "snippet": "- Ginkgo\n\n## 설치\n\n``shell\ngo get github.com/onsi/ginkgo/v2\n`\n\n`shell\ngo get github.com/on…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "ginkgo"
+      },
+      "url": "/docs/language/go/ginkgo/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:ginkgo.json"
     },
     {
       "id": "subject:language:library:go-encoding-json",
@@ -2294,6 +2324,21 @@
       },
       "url": "/docs/language/redux-toolkit/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:redux-toolkit.json"
+    },
+    {
+      "id": "subject:language:library:testify",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Go Testify로 단위 테스트 작성하기",
+      "snippet": "…profile : 커버리지 프로파일을 텍스트 파일로 저장합니다.\n-\n - ./...: 현재 디렉토리의 모든 하위 디렉토리를 포함합니다.\n\n## Testify\n\n- https://github.com/stretchr/testify\n\n`shell\ngo get -u github.com/stretchr/te…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "testify"
+      },
+      "url": "/docs/language/go/testify/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:testify.json"
     },
     {
       "id": "subject:language:library:threejs",
@@ -8225,6 +8270,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/go-websocket/overview.mdx.json"
     },
     {
+      "id": "doc:docs/language/go/ginkgo/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Go Ginkgo로 테스트 작성하기",
+      "snippet": "- Ginkgo\n\n## 설치\n\n``shell\ngo get github.com/onsi/ginkgo/v2\n`\n\n`shell\ngo get github.com/on…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "ginkgo",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/go/ginkgo/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/ginkgo/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/language/go/overview.mdx",
       "type": "document",
       "score": 0,
@@ -8240,6 +8302,23 @@
       },
       "url": "/docs/language/go/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/go/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/go/testify/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Go Testify로 단위 테스트 작성하기",
+      "snippet": "…profile : 커버리지 프로파일을 텍스트 파일로 저장합니다.\n-\n - ./...: 현재 디렉토리의 모든 하위 디렉토리를 포함합니다.\n\n## Testify\n\n- https://github.com/stretchr/testify\n\n`shell\ngo get -u github.com/stretchr/te…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "testify",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/go/testify/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/testify/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/javascript-firebase/overview.mdx",
@@ -8718,6 +8797,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/redux-toolkit/overview.mdx.json"
     },
     {
+      "id": "doc:docs/language/rust/actix-web/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Actix Web",
+      "snippet": "## 설치\n\n- Actix Web GitHub\n\n``shell\ncargo add actix-web\n``",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "actix-web",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/rust/actix-web/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/actix-web/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/rust/clap/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "clap로 설정 관리하기",
+      "snippet": "## 설치\n\n- clap GitHub\n\n``shell\ncargo add clap --features derive\n``",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "clap",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/rust/clap/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/clap/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/language/rust/overview.mdx",
       "type": "document",
       "score": 0,
@@ -9194,6 +9307,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/concepts/database.mdx.json"
     },
     {
+      "id": "doc:docs/language/concepts/ddd-repository.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "DDD Repository",
+      "snippet": "…ttps://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design\n\n- 리포지토리는 데이터베이스를 업데이트하는 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "concept",
+        "instance": "ddd-repository",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/concepts/ddd-repository",
+      "node_url": "/api/wiki/nodes/doc:docs/language/concepts/ddd-repository.mdx.json"
+    },
+    {
       "id": "doc:docs/language/concepts/domain.mdx",
       "type": "document",
       "score": 0,
@@ -9430,6 +9560,23 @@
       },
       "url": "/docs/language/concepts/redirection-piping",
       "node_url": "/api/wiki/nodes/doc:docs/language/concepts/redirection-piping.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/concepts/repository-pattern.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Repository pattern",
+      "snippet": "## Repository pattern\n\n도메인 모델 객\n체의 영속성을 위해 해당 모델에 대한 CRUD 기능을 구현해야 할 수 있습니다. 이 때, 도메인 객체 자체에 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "concept",
+        "instance": "repository-pattern",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/concepts/repository-pattern",
+      "node_url": "/api/wiki/nodes/doc:docs/language/concepts/repository-pattern.mdx.json"
     },
     {
       "id": "doc:docs/language/concepts/request-rate-limit.mdx",
@@ -10620,125 +10767,6 @@
       },
       "url": "/docs/concept/hardware/electronics/sensor/fine-dust",
       "node_url": "/api/wiki/nodes/doc:docs/concept/hardware/electronics/sensor/fine-dust.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/libraries/actix-web.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Actix Web",
-      "snippet": "## 설치\n\n- Actix Web GitHub\n\n``shell\ncargo add actix-web\n``",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "libraries",
-        "aspect": "actix-web"
-      },
-      "url": "/docs/concept/language/concept/libraries/actix-web",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/libraries/actix-web.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/libraries/clap.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "clap로 설정 관리하기",
-      "snippet": "## 설치\n\n- clap GitHub\n\n``shell\ncargo add clap --features derive\n``",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "libraries",
-        "aspect": "clap"
-      },
-      "url": "/docs/concept/language/concept/libraries/clap",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/libraries/clap.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/lint-test/ginkgo.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Go Ginkgo로 테스트 작성하기",
-      "snippet": "- Ginkgo\n\n## 설치\n\n``shell\ngo get github.com/onsi/ginkgo/v2\n`\n\n`shell\ngo get github.com/on…",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "lint-test",
-        "aspect": "ginkgo"
-      },
-      "url": "/docs/concept/language/concept/lint-test/ginkgo",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/lint-test/ginkgo.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/lint-test/lint.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "golangci-lint linter 설정 가이드",
-      "snippet": "## 설정 파일\n\n- golangci-lint / Configuration / File # linters\n- golangci-lint / Linters\n\n``yaml title=\".gola…",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "lint-test",
-        "aspect": "lint"
-      },
-      "url": "/docs/concept/language/concept/lint-test/lint",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/lint-test/lint.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/lint-test/testify.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Go Testify로 단위 테스트 작성하기",
-      "snippet": "…profile : 커버리지 프로파일을 텍스트 파일로 저장합니다.\n-\n - ./...: 현재 디렉토리의 모든 하위 디렉토리를 포함합니다.\n\n## Testify\n\n- https://github.com/stretchr/testify\n\n`shell\ngo get -u github.com/stretchr/te…",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "lint-test",
-        "aspect": "testify"
-      },
-      "url": "/docs/concept/language/concept/lint-test/testify",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/lint-test/testify.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/repository/overview--lang-design-ddd-repository.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Repository",
-      "snippet": "…ttps://learn.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/infrastructure-persistence-layer-design\n\n- 리포지토리는 데이터베이스를 업데이트하는 …",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "repository",
-        "aspect": "overview--lang-design-ddd-repository"
-      },
-      "url": "/docs/concept/language/concept/repository/overview--lang-design-ddd-repository",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/repository/overview--lang-design-ddd-repository.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/language/concept/repository/overview--lang-design-pattern-repository.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Repository pattern",
-      "snippet": "## Repository pattern\n\n도메인 모델 객\n체의 영속성을 위해 해당 모델에 대한 CRUD 기능을 구현해야 할 수 있습니다. 이 때, 도메인 객체 자체에 …",
-      "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
-        "instance": "repository",
-        "aspect": "overview--lang-design-pattern-repository"
-      },
-      "url": "/docs/concept/language/concept/repository/overview--lang-design-pattern-repository",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/language/concept/repository/overview--lang-design-pattern-repository.mdx.json"
     },
     {
       "id": "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
@@ -12337,6 +12365,23 @@
       },
       "url": "/docs/language/go/cgo",
       "node_url": "/api/wiki/nodes/doc:docs/language/go/cgo.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/go/linting-formatting/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Linting & Formatting",
+      "snippet": "## 설정 파일\n\n- golangci-lint / Configuration / File # linters\n- golangci-lint / Linters\n\n``yaml title=\".gola…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "linting-formatting"
+      },
+      "url": "/docs/language/go/linting-formatting/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/linting-formatting/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/go/package.mdx",
