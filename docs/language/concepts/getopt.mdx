@@ -1,0 +1,189 @@
+---
+id: getopt
+title: "ShellScript getopt"
+sidebar_label: getopt
+description: "ShellScript getopt"
+keywords:
+  - ShellScript
+  - getopt
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: getopt
+  aspect: overview
+subject:
+  canonical_name: "ShellScript getopt"
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## getopts
+
+- https://mug896.github.io/bash-shell/getopts.html
+
+```shell
+$ script.sh a  b  c  d
+     $0     $1 $2 $3 $4
+     -------------------
+             $@
+```
+
+`getopts` 명령어는 옵션과 해당 인자를 파싱하는데 사용되는 POSIX 쉘 빌트인 명령어입니다.
+
+```shell
+getopts <optString> option [parameters="$@"]
+```
+
+```shell
+echo $option
+echo $OPTARG
+echo $OPTIND # 다음 인자의 인덱스
+```
+
+## getopt
+
+`getopts`의 단점은
+
+- 짧은 옵션만 파싱 가능합니다
+- 옵션이 아닌 인자 다음에 오는 옵션을 파싱할 수 없습니다
+
+`getopt` 명령어는 옵션과 옵션이 아닌 인자를 재정렬하고, 짧은 옵션과 긴 옵션을 모두 파싱할 수 있습니다.
+
+```shell
+getopt -o <shortOptString> -l <longOptString> -- <parameters>
+```
+
+- `-n | --name <name>`: 프로그램 이름을 설정합니다
+
+:::warning
+macOS에서는 `gnu-getopt`를 설치하거나 GNU getopt가 없는 경우에 대한 처리를 해야합니다.
+
+```shell
+if ! getopt -T >/dev/null; then
+    # GNU getopt가 설치된 경우
+    options=$(getopt ...)
+else
+    # GNU getopt가 설치 안된 경우
+fi
+```
+
+:::
+
+### shortOptString
+
+```shell
+<option1>[:][<option2>[:]...]
+```
+
+`-a`, `-b`를 파싱하고 싶으면, `shortOptString`을 `ab`를 설정하면 됩니다. 만약 `-a` 옵션이 값을 받아야 하면 `:`을 사용하여 `a:b`로 설정하면 됩니다. `getopt`는 `-` 이후에 하나의 문자열만 인식하므로 `-a a_arg`와 `-aa_arg`는 같은 표현으로 간주합니다.
+
+#### Example
+
+```shell
+set -- -aa_arg -b asdf \
+&& getopt -o a:b -- "$@"
+```
+
+```shell
+ -a 'a_arg' -b -- 'asdf'
+```
+
+### longOptString
+
+```shell
+<option1>[:][,<option2>[:],...]
+```
+
+`--foo` `--bar`를 파싱하고 싶으면, `longOptString`에 `foo,bar`를 설정하면 됩니다. 만약 `--foo` 옵션이 값을 받아야 하면, `:`을 사용하여 `foo:,bar`로 설정하면 됩니다. `getopt`는 `--foo=arg`와 `--foo arg`를 같은 표현으로 간주합니다.
+
+#### Example
+
+```shell
+set -- --foo arg --bar \
+&& getopt -o "" -l foo:,bar -- "$@"
+```
+
+## Example script
+
+```shell
+#!/bin/sh
+
+set -e
+
+RED=$(tput setaf 1)
+BOLD=$(tput bold)
+DEFAULT=$(tput sgr0)
+
+COMMAND=$(basename "$0")
+
+help_msg() {
+    cat <<END
+사용법:
+    $COMMAND [옵션] [인자]
+
+옵션:
+    -a, --aaa
+    -b, --bbb <값>
+    -c, --ccc
+
+예시:
+END
+}
+
+if ! getopt -T >/dev/null; then
+    options=$(getopt \
+        -o ab:ch \
+        -l aaa,bbb:,ccc,help \
+        -n "$COMMAND" \
+        -- "$@")
+else
+    eval set -- "$(echo "$@" | sed -E 's/--([a-z])[a-z]*/-\1/g')"
+    options=$(getopt \
+        ab:ch \
+        "$@")
+fi
+
+IS_PARSED=$?
+
+if [ $# -eq 0 ] || [ $IS_PARSED -ne 0 ]; then
+    printf "%s\n" "${RED}${BOLD}$(help_msg)${DEFAULT}" >&2
+    exit 1
+fi
+
+eval set -- "$options"
+
+while true; do
+    case "$1" in
+    -a | --aaa)
+        echo "$1"
+        shift
+        ;;
+    -b | --bbb)
+        echo "$1" "$2"
+        shift 2
+        ;;
+    -c | --ccc)
+        echo "$1"
+        shift
+        ;;
+    -h | --help)
+        help_msg
+        exit 0
+        ;;
+    --)
+        echo "$@"
+        shift $#
+        break
+        ;;
+    esac
+done
+```

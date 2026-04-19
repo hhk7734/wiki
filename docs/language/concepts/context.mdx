@@ -1,0 +1,149 @@
+---
+id: context
+title: context
+sidebar_label: context
+description: context
+keywords:
+  - context
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: context
+  aspect: overview
+subject:
+  canonical_name: context
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## `context.Context`
+
+- struct에 컨텍스트를 저장하지 않습니다
+- 일반적으로 `ctx context.Context`를 첫번째 파라미터로 선언합니다
+- nil 컨텍스트를 전달하지 않습니다
+- 절달해야할 컨텍스트가 없거나 확실치 않다면 `context.TODO()`를 전달합니다
+
+```go
+func DoSomething(ctx context.Context, arg Arg) error {
+	// ctx 사용
+	return nil
+}
+```
+
+## `context.WithValue`
+
+```go
+func WithValue(parent Context, key, val any) Context {
+	if parent == nil {
+		panic("cannot create context from nil parent")
+	}
+	if key == nil {
+		panic("nil key")
+	}
+	if !reflectlite.TypeOf(key).Comparable() {
+		panic("key is not comparable")
+	}
+	return &valueCtx{parent, key, val}
+}
+
+type valueCtx struct {
+	Context
+	key, val any
+}
+```
+
+`context.WithValue`는 부모 컨텍스트를 멤버 변수로 갖는 컨텍스트를 생성합니다.
+
+```go
+func (c *valueCtx) Value(key any) any {
+	// 자신(n 세대)이 key에 맞는 Context인 경우 자신의 값을 반환
+	if c.key == key {
+		return c.val
+	}
+
+	// 아닌 경우 부모(n-1 세대) Context를 확인
+	return value(c.Context, key)
+}
+
+func value(c Context, key any) any {
+	for {
+		switch ctx := c.(type) {
+		case *valueCtx:
+			// 부모(n-1 세대)가 key에 맞는 Context인 경우 부모의 값을 반환
+			if key == ctx.key {
+				return ctx.val
+			}
+
+			// 아닌 경우 부모의 부모(n-2 세대) Context를 탐색하기 위해 준비
+			c = ctx.Context
+		case *cancelCtx:
+			// 내부 코드를 위한 처리
+			if key == &cancelCtxKey {
+				return c
+			}
+			c = ctx.Context
+		case *timerCtx:
+			// 내부 코드를 위한 처리
+			if key == &cancelCtxKey {
+				return ctx.cancelCtx
+			}
+			c = ctx.Context
+		case *emptyCtx:
+			// n-1 세대 == 1 세대 Context인 경우 더 이상 찾을 수 없으므로 nil 반환
+			return nil
+		default:
+			// n-2 세대 Context 확인
+			return c.Value(key)
+		}
+	}
+}
+```
+
+:::warning
+Context를 키-값 저장소로 너무 많이 사용하면 성능에 영향을 줄 수 있습니다
+:::
+
+## `context.WithCancel`
+
+```go
+func WithCancel(parent Context) (ctx Context, cancel CancelFunc) {
+	c := withCancel(parent)
+	return c, func() { c.cancel(true, Canceled, nil) }
+}
+
+func withCancel(parent Context) *cancelCtx {
+	if parent == nil {
+		panic("cannot create context from nil parent")
+	}
+	c := newCancelCtx(parent)
+	propagateCancel(parent, c)
+	return c
+}
+
+type cancelCtx struct {
+	Context
+
+	mu       sync.Mutex            // protects following fields
+	done     atomic.Value          // of chan struct{}, created lazily, closed by first cancel call
+	children map[canceler]struct{} // set to nil by the first cancel call
+	err      error                 // set to non-nil by the first cancel call
+	cause    error                 // set to non-nil by the first cancel call
+}
+```
+
+`context.WithCancel`은 부모 컨텍스트를 멤버 변수로 갖는 컨텍스트를 생성하고, 부모 컨텍스트가 취소되면 자신도 취소되도록 설계되어 있습니다.
+
+```go
+WithCancelCause(parent Context) (ctx Context, cancel CancelCauseFunc)
+WithDeadline(parent Context, d time.Time) (Context, CancelFunc)
+WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+```

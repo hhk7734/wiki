@@ -1,0 +1,230 @@
+---
+id: logger
+title: "Python Logger"
+sidebar_label: Logger
+description: "Python Logger"
+keywords:
+  - Python
+  - Logger
+  - "contextual logging"
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: logger
+  aspect: overview
+subject:
+  canonical_name: "Python Logger"
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+프로그래밍을 하거나 프로그램을 실행했을 때, 원하는 수준으로 진행상황을 텍스트로 출력하여 log파일에 기록하거나 터미널에 출력할 수 있습니다.
+
+쓰레드 안전합니다.
+
+## 로깅 수준
+
+수준 : `NOTSET` -> `DEBUG` -> `INFO` -> `WARNING` -> `ERROR` -> `CRITICAL`
+
+| 수준     | 값  | 사용                                  |
+| -------- | --- | ------------------------------------- |
+| NOTSET   | 0   |                                       |
+| DEBUG    | 10  | 상세한 정보, 문제 진단                |
+| INFO     | 20  | 프로그램 진행 순서                    |
+| WARNING  | 30  | 경고, 프로그램은 실행 됨              |
+| ERROR    | 40  | 에러, 프로그램 기능 중 일부 실행 안됨 |
+| CRITICAL | 50  | 프로그램 오류                         |
+
+## 포맷
+
+```python
+format = '[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s'
+```
+
+| 포맷                | 설명                                                                   |
+| ------------------- | ---------------------------------------------------------------------- |
+| %(created)f         | time.time()                                                            |
+| %(msecs)d           | LogRecord가 생성된 시간의 밀리초                                       |
+| %(relativeCreated)d | logging 모듈이 로드된 시간을 기준으로 LogRecord가 생성된 시간의 밀리초 |
+| %(pathname)s        | 파일 경로                                                              |
+| %(filename)s        | 파일 경로의 파일명 부분                                                |
+| %(module)s          | 파일명의 확장자를 제외한 부분                                          |
+| %(asctime)s         | `yyyy-mm-dd hh:mm:ss,sss`                                              |
+| %(name)s            | 로거 이름                                                              |
+| %(levelname)s       | 로깅 수준                                                              |
+| %(levelno)s         | 로깅 수준 값                                                           |
+| %(lineno)d          | 로깅 호출 행 번호                                                      |
+| %(funcName)s        | 함수 명                                                                |
+| %(message)s         | 메시지                                                                 |
+| %(process)d         | 프로세스 ID                                                            |
+| %(processName)s     | 프로세스 이름                                                          |
+| %(thread)d          | 쓰레드 ID                                                              |
+| %(threadName)s      | 쓰레드 이름                                                            |
+
+## 함수
+
+```python
+logger = logging.getLogger(name=None)
+```
+
+- `name`: 특별한 경우가 아니면 `__name__` 설정
+  - `__name__`은 해당 코드의 import 경로입니다. 예를 들어 `from a.b import c`의 경우 `c.py`의 `__name__`은 `a.b.c`입니다.
+- `logging.Logger`를 반환합니다.
+
+```python
+logging.basicConfig(**kwargs)
+```
+
+- 루트 로거를 설정합니다.
+- `kwargs`
+  - `filename`: 설정하는 경우 FileHandler를 생성, 설정 안하면 StreamHandler 생성
+  - `format`: [포맷](#포맷)
+  - `datefmt`: https://docs.python.org/3/library/time.html#time.strftime
+  - `level`: 수준
+  - `handlers`: 핸들러 설정, `filename`이나 `stream`을 설정하면 안됨, 포매터 설정 안하면 `format`이 설정됨
+
+자식 로거는 자신에게 설정된 수준에 맞춰 부모 로거에게 메시지를 전달합니다.
+
+:::warning
+`logging.basicConfig`는 로깅이 시작되기 전에 호출해야 유효합니다.
+:::
+
+### logging.Logger
+
+```python
+logger.setLevel(level)
+```
+
+```python
+logger.addHandler(handler)
+```
+
+- 메시지를 처리할 핸들러를 등록합니다.
+
+자식 로거에 핸들러를 추가하는 경우 핸들러와 부모 로거 모두에게 메시지를 보냅니다.
+상황에 따라 `logger.propagate`의 값을 설정해야 합니다.
+
+```python
+logger.debug(msg, *args, **kwargs)
+logger.info(msg, *args, **kwargs)
+logger.warning(msg, *args, **kwargs)
+logger.error(msg, *args, **kwargs)
+logger.critical(msg, *args, **kwargs)
+```
+
+### logging.Formatter
+
+```python
+formatter = logging.Formatter(fmt=None, datefmt=None, style='%')
+```
+
+- `fmt`: [포맷](#포맷)
+- `datefmt`: https://docs.python.org/3/library/time.html#time.strftime
+
+### logging.Handler
+
+```python
+stream_handler = logging.StreamHandler()
+file_handler = logging.FileHandler()
+
+import logging.handlers
+http_handler = logging.handlers.HTTPHandler()
+queue_handler = logging.handlers.QueueHandler()
+```
+
+```python
+handler.setLevel(level)
+```
+
+- @brief 핸들러가 처리할 수 있는 메시지 수준 설정
+
+```python
+handler.setFormatter(formatter)
+```
+
+- @brief 출력되는 메시지 포맷 설정
+- @param formatter 포맷터
+
+## Examples
+
+### child.py
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+# logger.setLevel()을 사용하지 않으면 루트 로거의 level을 따름
+
+
+def child_function():
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+    logger.error("error")
+    logger.critical("critical")
+```
+
+### main.py
+
+```python
+import logging
+
+import child
+
+'''
+루트 로거 설정, format만 설정했으므로 StreamHandler 생성
+'''
+logging.basicConfig(
+    format='[%(levelname)-8s] %(filename)-10s %(lineno) 4d 행 : %(message)s',
+    level=logging.ERROR)
+
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+
+def main_function():
+    logger.debug("debug")
+    logger.info("info")
+    logger.warning("warning")
+    logger.error("error")
+    logger.critical("critical")
+
+
+if __name__ == '__main__':
+
+    # __main__ 로거
+    main_function()
+
+    # child 로거
+    child.child_function()
+
+    # 루트 로거
+    logging.debug("debug")
+    logging.info("info")
+    logging.warning("warning")
+    logging.error("error")
+    logging.critical("critical")
+```
+
+### 결과
+
+```shell {1}
+$ python3 main.py
+[INFO    ] main.py      18 행 : info
+[WARNING ] main.py      19 행 : warning
+[ERROR   ] main.py      20 행 : error
+[CRITICAL] main.py      21 행 : critical
+[ERROR   ] child.py     10 행 : error
+[CRITICAL] child.py     11 행 : critical
+[ERROR   ] main.py      36 행 : error
+[CRITICAL] main.py      37 행 : criticall
+```

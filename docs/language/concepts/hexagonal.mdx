@@ -1,0 +1,181 @@
+---
+id: hexagonal
+title: Hexagonal
+sidebar_label: Hexagonal
+description: "Hexagonal Architecture"
+keywords:
+  - ddd
+  - hexagonal
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: hexagonal
+  aspect: overview
+subject:
+  canonical_name: Hexagonal
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Image from "@theme/IdealImage";
+
+<center>
+	<Image img={require("@site/static/img/lang/design/DDD-Architecture.jpg")} width={900} />
+</center>
+
+:::warning
+DDD 적용이 항상 좋은 것은 아닙니다.
+
+CRUD만으로 해결되지 않는 경우, 복잡한 사용자 스토리, 잦은 변경 및 기능 추가, 팀원 모두 생소한 도메인 등 여러 조건에 따라 필요한 곳에 부분적으로 적용할 수 있습니다.
+:::
+
+## 도메인 계층
+
+## 애플리케이션 계층
+
+- 시그니처의 구성은 아래 세 경우로 나뉩니다
+  - 도메인 객체를 포함하는 경우
+  - 원시 타입, String, DTO만 을 사용하는 경우
+  - Command, Query 객체를 사용하는 경우
+- 영속성 트랜잭션 제어를 할 수 있습니다
+- 인증, 인가 제어를 할 수 있습니다
+- Noti, Publish, Email 전송 등을 할 수 있습니다
+- 서비스 자체의 상태는 갖지 않습니다
+
+### 사용자 시나리오(UseCase)
+
+- 도메인 객체를 사용하여 **특정 시나리오**를 수행하는 것을 사용자 시나리오라고 합니다.
+- `Command` 객체를 사용하여 사용자 시나리오를 수행할 수 있습니다.
+- 자주 등장하는 흐름 아래와 같습니다.
+  - 리포지토리에서 엔티티 또는 애그리거트를 얻어옵니다.
+  - 도메인 서비스, 애그리거트, 엔티티 등을 사용하여 일련의 도메인 논리를 수행합니다.
+  - 리포지토리를 사용하여 변경사항을 저장합니다.
+  - 에러가 발생한 경우 User Interface에서 처리할 수 있는 방법을 노출시켜줍니다.
+
+### 애플리케이션 서비스
+
+- 도메인 객체와 상관없이 **애플리케이션의 편의**를 위해 제공되는 기능들을 애플리케이션 서비스라고 합니다.
+- `Query` 객체를 사용한 읽기 전용 기능을 제공할 수 있습니다.
+
+## 유저 인터페이스 계층
+
+- Primary/Driving Adapter
+- 1차 어댑터의 시그니처는 HTTP, gRPC, CLI 등 외부 요청에 맞춰 작성되어야 합니다.
+
+## 인프라스트럭쳐 계층
+
+- Secondary/Driven Adapter
+
+## 디렉토리 구조
+
+참고해볼 만한 구조를 정리해봤습니다. 아래 구조로부터 시작해서 불편한 점을 개선해보거나, 다른 구조에서 시작해서 아래 구조로 변경해보면서 적합한 구조를 찾아보세요.
+
+### 계층을 기준으로 구분
+
+```shell
+project/
+├── domain/
+│   ├── factory/
+│   │   ├── entity_1.go
+│   │   └── ...
+│   ├── repository/ # 인터페이스
+│   │   ├── entity_1.go
+│   │   └── ...
+│   ├── valueobject/
+│   │   ├── valueobject_1.go
+│   │   ├── valueobject_2.go
+│   │   └── ...
+│   ├── entity_1.go # 애그리거트 루트도 여기에 위치
+│   ├── entity_2.go
+│   └── ...
+├── application/
+│   ├── event/
+│   │   ├── event_1.go
+│   │   └── ...
+│   ├── service/ # 외부 서비스에 대한 인터페이스
+│   │   ├── service_1.go
+│   │   └── ...
+│   └── usecase/
+│       ├── usecase_1.go
+│       └── ...
+├── infra/
+│   ├── service/
+│   ├── orm/
+│   │   ├── dao/
+│   │   │   ├── dao_1.go
+│   │   │   └── ...
+│   │   └── client.go
+│   ├── repository/
+│   │   ├── entity_1.go
+│   │   └── ...
+│   └── ...
+└── userinterface/
+    ├── restapi/
+    │   ├── dto/
+    │   │   ├── dto_1.go
+    │   │   └── ...
+    │   ├── controller/
+    │   │   ├── controller_1.go
+    │   │   └── ...
+    │   └── ...
+    ├── cli/
+    └── ...
+```
+
+:::info
+계층 구분만하고 하위 디렉토리를 구분하지 않을 수도 있습니다.
+:::
+
+- `domain` 디렉토리 내의 코드는 `domain` 내에서만 의존성을 가질 수 있습니다
+- `application` 디렉토리 내의 코드는 `domain`, `application` 내에서만 의존성을 가질 수 있습니다
+- `infra` 디렉토리 내의 코드는 인터페이스에 대한 구현이므로 `domain`, `application`에 의존성을 갖습니다
+- `userinterface` 디렉토리 내의 코드는 다양한 의존성을 가질 수 있습니다
+- 결론적으로 순환 종속성과 같은 문제를 피하기 쉽습니다.
+
+### 애플리케이션 서비스 또는 기능 기준으로 구분
+
+계층 기준으로 코드를 작성하다보면 `domain`, `application`, `infra`, `userinterface`에 관련 있는 파일들이 분산되어 존재하게 됩니다. 애플리케이션 서비스나 기능을 기준으로 관련있는 코드를 한 디렉토리로 묶어 관리하면 편해질 수 있습니다.
+
+```shell
+project/
+├── function_1/
+│   └── ...
+├── function_2/
+│   └── ...
+├── service_1/
+│   ├── entity.go
+│   ├── repository.go
+│   ├── usecase.go
+│   └── ...
+├── service_2/
+│   └── ...
+├── service_3/
+│   └── ...
+├── userinterface/
+│   ├── restapi/
+│   │   ├── service_1.go
+│   │   └── ...
+│   ├── cli/
+│   └── ...
+└── ...
+```
+
+:::warning
+순환 종속성 문제가 발생하지 않도록 주의하세요.
+:::
+
+## Reference
+
+- [https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/](https://herbertograca.com/2017/11/16/explicit-architecture-01-ddd-hexagonal-onion-clean-cqrs-how-i-put-it-all-together/)
+- Eric Evans, Domain-Driven Design: Tackling Complexity in the Heart of Software(번역본)
+- Vaughn Vernon, Implementing Domain-Driven Design(번역본)
+- Robert C. Martin, Clean Architecture(번역본)
