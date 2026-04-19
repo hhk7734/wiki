@@ -194,163 +194,31 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-i2c",
+      "id": "subject:hardware:mcu-family:avr",
       "title": "AVR I2C",
       "description": "I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 cl…",
       "snippet": "I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 cl…",
-      "url": "/docs/operation/hardware/mcu-family/avr-i2c/i2c",
+      "url": "/docs/hardware/avr/i2c",
       "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-i2c/i2c.mdx"
+        "doc:docs/hardware/avr/build-project-in-terminal.mdx",
+        "doc:docs/hardware/avr/eeprom.mdx",
+        "doc:docs/hardware/avr/i2c.mdx",
+        "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
+        "doc:docs/hardware/avr/printf.mdx",
+        "doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx",
+        "doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-i2c"
+        "instance": "avr"
       },
-      "search_text": "avr i2c i2c 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다 두 개의 선은 clock을 동기화하기 위한 scl 과 cl avr i2c abbreviation master 모드 master - slave slave - master 통신 오류 hardware mcu-family avr-i2c",
+      "search_text": "avr i2c i2c 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다 두 개의 선은 clock을 동기화하기 위한 scl 과 cl avr build project in terminal avr internal eeprom avr i2c avr lock and fuse bits avr use printf with uart avr upload executable file in atmel studio 7 avr upload executable file in terminal installtion macos linux debian windows compile link avr/eeprom h read/update eemem abbreviation master 모드 master - slave slave - master 통신 오류 lock bits fuse bits extended fuse bits fuse high bits fuse low bits struct file set stdout adding programmer stk500 avrdude 수동 업로드 빌드 자동 업로드 설치 macos linux debian windows programmer usb to uart ch340g 드라이버 macos linux debian windows ftdi 드라이버 설치 linux debian macos windows cp2102 드라이버 설치 linux debian macos windows upload avrdude stk500 avrispmkii arduino atmelice isp usbasp hardware mcu-family avr",
       "display": {
         "label": "AVR I2C",
         "kind": "subject",
-        "subtitle": "Avr I2c",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-eeprom",
-      "title": "AVR Internal EEPROM",
-      "description": "EEPROM은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다. ATmega328p의 경우 1 KB 사이즈의 EEPROM을 내장하고 있습니…",
-      "snippet": "EEPROM은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다. ATmega328p의 경우 1 KB 사이즈의 EEPROM을 내장하고 있습니…",
-      "url": "/docs/operation/hardware/mcu-family/avr-eeprom/eeprom",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-eeprom/eeprom.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-eeprom"
-      },
-      "search_text": "avr internal eeprom eeprom은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다 atmega328p의 경우 1 kb 사이즈의 eeprom을 내장하고 있습니 avr internal eeprom avr/eeprom h read/update eemem hardware mcu-family avr-eeprom",
-      "display": {
-        "label": "AVR Internal EEPROM",
-        "kind": "subject",
-        "subtitle": "Avr Eeprom",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-lock-and-fuse-bits",
-      "title": "AVR Lock and Fuse bits",
-      "description": "…ck bits를 설정하는 것은 무의미 합니다.\n\n`shell\navrdude -p -c -U efuse:w:[0bxxxxxxxx]:m\n`\n\n## Fuse bits\n\nFuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.\n\n기…",
-      "snippet": "…ck bits를 설정하는 것은 무의미 합니다.\n\n`shell\navrdude -p -c -U efuse:w:[0bxxxxxxxx]:m\n`\n\n## Fuse bits\n\nFuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.\n\n기…",
-      "url": "/docs/operation/hardware/mcu-family/avr-lock-and-fuse-bits/lock-and-fuse-bits",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-lock-and-fuse-bits/lock-and-fuse-bits.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-lock-and-fuse-bits"
-      },
-      "search_text": "avr lock and fuse bits ck bits를 설정하는 것은 무의미 합니다 shell avrdude -p -c -u efuse w 0bxxxxxxxx m fuse bits fuse bits는 extended high low 세 종류로 프로그래머 부트 사이즈 클럭 소스 등의 설정에 대한 비트입니다 기 avr lock and fuse bits lock bits fuse bits extended fuse bits fuse high bits fuse low bits hardware mcu-family avr-lock-and-fuse-bits",
-      "display": {
-        "label": "AVR Lock and Fuse bits",
-        "kind": "subject",
-        "subtitle": "Avr Lock And Fuse Bits",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-printf",
-      "title": "AVR Use printf() with UART",
-      "description": "… */\n#define __SWR 0x0002 /* OK to write */\n#define __SSTR 0x0004 /* this is an sprintf/snprintf string */\n#define __SPGM 0x0008 /* fmt string is in progmem */\n#define…",
-      "snippet": "… */\n#define __SWR 0x0002 /* OK to write */\n#define __SSTR 0x0004 /* this is an sprintf/snprintf string */\n#define __SPGM 0x0008 /* fmt string is in progmem */\n#define…",
-      "url": "/docs/operation/hardware/mcu-family/avr-printf/printf",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-printf/printf.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-printf"
-      },
-      "search_text": "avr use printf with uart / define swr 0x0002 / ok to write / define sstr 0x0004 / this is an sprintf/snprintf string / define spgm 0x0008 / fmt string is in progmem / define avr use printf with uart struct file set stdout hardware mcu-family avr-printf",
-      "display": {
-        "label": "AVR Use printf() with UART",
-        "kind": "subject",
-        "subtitle": "Avr Printf",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-build-project-in-terminal",
-      "title": "AVR build project in Terminal",
-      "description": "## Installtion\n\n컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.\n\n- binutils-avr: assembler, li…",
-      "snippet": "## Installtion\n\n컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.\n\n- binutils-avr: assembler, li…",
-      "url": "/docs/operation/hardware/mcu-family/avr-build-project-in-terminal/build-project-in-terminal",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-build-project-in-terminal/build-project-in-terminal.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-build-project-in-terminal"
-      },
-      "search_text": "avr build project in terminal installtion 컴파일과 링크를 진행하기 전에 avr-gcc binutils-avr avr-libc 를 설치해야 합니다 - binutils-avr assembler li avr build project in terminal installtion macos linux debian windows compile link hardware mcu-family avr-build-project-in-terminal",
-      "display": {
-        "label": "AVR build project in Terminal",
-        "kind": "subject",
-        "subtitle": "Avr Build Project In Terminal",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-upload-executable-file-in-atmel-studio-7",
-      "title": "AVR upload executable file in Atmel studio 7",
-      "description": "…다.\n\n제거할 때, Available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다.\n\n### avrdude\n\nAtmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다.\n\n예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 **To…",
-      "snippet": "…다.\n\n제거할 때, Available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다.\n\n### avrdude\n\nAtmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다.\n\n예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 **To…",
-      "url": "/docs/operation/hardware/mcu-family/avr-upload-executable-file-in-atmel-studio-7/upload-executable-file-in-atmel-studio-7",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-upload-executable-file-in-atmel-studio-7/upload-executable-file-in-atmel-studio-7.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-upload-executable-file-in-atmel-studio-7"
-      },
-      "search_text": "avr upload executable file in atmel studio 7 다 제거할 때 available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다 avrdude atmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다 예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 to avr upload executable file in atmel studio 7 adding programmer stk500 avrdude 수동 업로드 빌드 자동 업로드 hardware mcu-family avr-upload-executable-file-in-atmel-studio-7",
-      "display": {
-        "label": "AVR upload executable file in Atmel studio 7",
-        "kind": "subject",
-        "subtitle": "Avr Upload Executable File In Atmel Studio 7",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:avr-upload-executable-file-in-terminal",
-      "title": "AVR upload executable file in Terminal",
-      "description": "…labs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers\n\n## Upload\n\n업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.\n\navr-objcopy는 binutils-avr에 포함…",
-      "snippet": "…labs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers\n\n## Upload\n\n업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.\n\navr-objcopy는 binutils-avr에 포함…",
-      "url": "/docs/operation/hardware/mcu-family/avr-upload-executable-file-in-terminal/upload-executable-file-in-terminal",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/avr-upload-executable-file-in-terminal/upload-executable-file-in-terminal.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "avr-upload-executable-file-in-terminal"
-      },
-      "search_text": "avr upload executable file in terminal labs com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers upload 업로드를 진행하기 전에 실행 파일인 elf 파일이나 hex 파일이 있어야 합니다 avr-objcopy는 binutils-avr에 포함 avr upload executable file in terminal 설치 macos linux debian windows programmer usb to uart ch340g 드라이버 macos linux debian windows ftdi 드라이버 설치 linux debian macos windows cp2102 드라이버 설치 linux debian macos windows upload avrdude stk500 avrispmkii arduino atmelice isp usbasp hardware mcu-family avr-upload-executable-file-in-terminal",
-      "display": {
-        "label": "AVR upload executable file in Terminal",
-        "kind": "subject",
-        "subtitle": "Avr Upload Executable File In Terminal",
-        "document_count": 1
+        "subtitle": "Avr",
+        "document_count": 7
       }
     },
     {
@@ -621,71 +489,27 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:arduino-how-to-use-library",
+      "id": "subject:hardware:mcu-family:arduino",
       "title": "Arduino How to use library",
       "description": "The Arduino ecosystem is so large that there are many libraries for sensors. The Arduino li…",
       "snippet": "The Arduino ecosystem is so large that there are many libraries for sensors. The Arduino li…",
-      "url": "/docs/operation/hardware/mcu-family/arduino-how-to-use-library/how-to-use-library",
+      "url": "/docs/hardware/arduino/how-to-use-library",
       "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/arduino-how-to-use-library/how-to-use-library.mdx"
+        "doc:docs/hardware/arduino/how-to-use-library.mdx",
+        "doc:docs/hardware/arduino/library-specification.mdx",
+        "doc:docs/hardware/arduino/platform-specification.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "arduino-how-to-use-library"
+        "instance": "arduino"
       },
-      "search_text": "arduino how to use library the arduino ecosystem is so large that there are many libraries for sensors the arduino li arduino how to use library download library include library find docs or see example wire sensor and board example hardware mcu-family arduino-how-to-use-library",
+      "search_text": "arduino how to use library the arduino ecosystem is so large that there are many libraries for sensors the arduino li arduino how to use library arduino library specification arduino platform specification download library include library find docs or see example wire sensor and board example layout of folders and files library metadata library properties optional keywords syntax highlight keywords txt syntax coloring map for wire datatypes keyword1 methods and functions keyword2 instances keyword2 constants literal1 hardware directory structure boards txt menu 메뉴 이름 board 1 ide - tools - board 에 표시되는 보드 이름 hardware/vendor/architecture/cores 에서 선택할 core 이름 hardware/vendor/architecture/variants 에서 선택할 variant 이름 컴파일 시 정의될 매크로 -darduino build board platform txt 업로드에 사용할 툴 platform txt platform txt에서 사용할 변수 board 1 xxxx boards txt - xxxx platform txt 메뉴 선택지 메뉴 선택지에 해당하는 설정 board 1 menu menu 1 option 1 variable 1 boards txt - variable 1 platform txt board 2 platform txt ide - tools - board 에 표시되는 카테고리 compile variables override platform local txt boards txt 등에 의해 바뀌는 변수 compile patterns 라이브러리 감지 함수 프로토 타입 생성 number는 1 9 또는 01 99 순서대로 실행 됨 recipe hooks sketch prebuild number pattern recipe hooks sketch postbuild number pattern recipe hooks libraries prebuild number pattern recipe hooks libraries postbuild number pattern recipe hooks core prebuild number pattern recipe hooks core postbuild number pattern recipe hooks linking prelink number pattern recipe hooks linking postlink number pattern recipe hooks objcopy preobjcopy number pattern recipe hooks objcopy postobjcopy number pattern recipe hooks savehex presavehex number pattern recipe hooks savehex postsavehex number pattern compile s files compile c files compile c files archives combine gc-sections archives and objects ide- sketch - export compiled binary tools 툴 pattern에서 변수 사용 시 tools tool 1 params 는 빼고 사용 e g upload verbose programmers txt programmer 1 ide - tools - programmer 에 표시되는 프로그래머 이름 업로드에 사용할 툴 platform txt hardware mcu-family arduino",
       "display": {
         "label": "Arduino How to use library",
         "kind": "subject",
-        "subtitle": "Arduino How To Use Library",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:arduino-library-specification",
-      "title": "Arduino Library specification",
-      "description": "Ref: https://arduino.github.io/arduino-cli/library-specification/\n\n## Layout of folders and files\n\n``shell\nArduino\n└── libraries\n └── my_lib/\n ├…",
-      "snippet": "Ref: https://arduino.github.io/arduino-cli/library-specification/\n\n## Layout of folders and files\n\n``shell\nArduino\n└── libraries\n └── my_lib/\n ├…",
-      "url": "/docs/operation/hardware/mcu-family/arduino-library-specification/library-specification",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/arduino-library-specification/library-specification.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "arduino-library-specification"
-      },
-      "search_text": "arduino library specification ref https //arduino github io/arduino-cli/library-specification/ layout of folders and files shell arduino libraries my lib/ arduino library specification layout of folders and files library metadata library properties optional keywords syntax highlight keywords txt syntax coloring map for wire datatypes keyword1 methods and functions keyword2 instances keyword2 constants literal1 hardware mcu-family arduino-library-specification",
-      "display": {
-        "label": "Arduino Library specification",
-        "kind": "subject",
-        "subtitle": "Arduino Library Specification",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:arduino-platform-specification",
-      "title": "Arduino Platform specification",
-      "description": "Ref: https://arduino.github.io/arduino-cli/platform-specification/\n\n## Hardware directory structure\n\n``shell\nArduino\n└── hardware\n └── vendor/\n └…",
-      "snippet": "Ref: https://arduino.github.io/arduino-cli/platform-specification/\n\n## Hardware directory structure\n\n``shell\nArduino\n└── hardware\n └── vendor/\n └…",
-      "url": "/docs/operation/hardware/mcu-family/arduino-platform-specification/platform-specification",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/arduino-platform-specification/platform-specification.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "arduino-platform-specification"
-      },
-      "search_text": "arduino platform specification ref https //arduino github io/arduino-cli/platform-specification/ hardware directory structure shell arduino hardware vendor/ arduino platform specification hardware directory structure boards txt menu 메뉴 이름 board 1 ide - tools - board 에 표시되는 보드 이름 hardware/vendor/architecture/cores 에서 선택할 core 이름 hardware/vendor/architecture/variants 에서 선택할 variant 이름 컴파일 시 정의될 매크로 -darduino build board platform txt 업로드에 사용할 툴 platform txt platform txt에서 사용할 변수 board 1 xxxx boards txt - xxxx platform txt 메뉴 선택지 메뉴 선택지에 해당하는 설정 board 1 menu menu 1 option 1 variable 1 boards txt - variable 1 platform txt board 2 platform txt ide - tools - board 에 표시되는 카테고리 compile variables override platform local txt boards txt 등에 의해 바뀌는 변수 compile patterns 라이브러리 감지 함수 프로토 타입 생성 number는 1 9 또는 01 99 순서대로 실행 됨 recipe hooks sketch prebuild number pattern recipe hooks sketch postbuild number pattern recipe hooks libraries prebuild number pattern recipe hooks libraries postbuild number pattern recipe hooks core prebuild number pattern recipe hooks core postbuild number pattern recipe hooks linking prelink number pattern recipe hooks linking postlink number pattern recipe hooks objcopy preobjcopy number pattern recipe hooks objcopy postobjcopy number pattern recipe hooks savehex presavehex number pattern recipe hooks savehex postsavehex number pattern compile s files compile c files compile c files archives combine gc-sections archives and objects ide- sketch - export compiled binary tools 툴 pattern에서 변수 사용 시 tools tool 1 params 는 빼고 사용 e g upload verbose programmers txt programmer 1 ide - tools - programmer 에 표시되는 프로그래머 이름 업로드에 사용할 툴 platform txt hardware mcu-family arduino-platform-specification",
-      "display": {
-        "label": "Arduino Platform specification",
-        "kind": "subject",
-        "subtitle": "Arduino Platform Specification",
-        "document_count": 1
+        "subtitle": "Arduino",
+        "document_count": 3
       }
     },
     {
@@ -1121,9 +945,9 @@
       "title": "Capacitor",
       "description": "## 커패시터\n\n커패시터는 전하를 저장할 수 있는 소자입니다.\n\n$$\nX_L = {1 \\over 2 \\pi fC}\n$$\n\n커패시터의 임피던스는 정전 용량과 주파수에 영향을 받습니다. 이상적인 커패시터의 경우 주파수가 같다면 정전 용량이 클 수록 임피던스는 낮아지고, 정전 용량이 같다면",
       "snippet": "## 커패시터\n\n커패시터는 전하를 저장할 수 있는 소자입니다.\n\n$$\nX_L = {1 \\over 2 \\pi fC}\n$$\n\n커패시터의 임피던스는 정전 용량과 주파수에 영향을 받습니다. 이상적인 커패시터의 경우 주파수가 같다면 정전 용량이 클 수록 임피던스는 낮아지고, 정전 용량이 같다면",
-      "url": "/docs/concept/hardware/electronics/capacitor",
+      "url": "/docs/hardware/capacitor/overview",
       "document_refs": [
-        "doc:docs/concept/hardware/electronics/capacitor/capacitor.mdx"
+        "doc:docs/hardware/capacitor/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
@@ -1755,25 +1579,30 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-call-c++-on-c",
+      "id": "subject:hardware:mcu-family:stm32",
       "title": "C에서 C++ 함수 호출하기",
       "description": "## extern \"C\"\n\n- extern \"C\"\n\nC++에서 extern \"C\"를 사용하여 전역 변수나 함수를 **선언**하는 방식은 아래와 같습니다.\n\n``cpp\nextern \"C\" int x;\ne…",
       "snippet": "## extern \"C\"\n\n- extern \"C\"\n\nC++에서 extern \"C\"를 사용하여 전역 변수나 함수를 **선언**하는 방식은 아래와 같습니다.\n\n``cpp\nextern \"C\" int x;\ne…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-call-c++-on-c/call-c++-on-c",
+      "url": "/docs/hardware/stm32/call-cpp-on-c",
       "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-call-c++-on-c/call-c++-on-c.mdx"
+        "doc:docs/hardware/stm32/call-cpp-on-c.mdx",
+        "doc:docs/hardware/stm32/create-project-stm32cubeide.mdx",
+        "doc:docs/hardware/stm32/low-power-modes.mdx",
+        "doc:docs/hardware/stm32/printf-usage-stm32cubeide.mdx",
+        "doc:docs/hardware/stm32/spi.mdx",
+        "doc:docs/hardware/stm32/upload-executable-file-stm32cubeide.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-call-c++-on-c"
+        "instance": "stm32"
       },
-      "search_text": "c에서 c 함수 호출하기 extern c - extern c c 에서 extern c 를 사용하여 전역 변수나 함수를 선언 하는 방식은 아래와 같습니다 cpp extern c int x e c에서 c 함수 호출하기 extern c c에서 c 함수 호출 c 에서 c 함수 호출 hardware mcu-family stm32-call-c -on-c",
+      "search_text": "c에서 c 함수 호출하기 extern c - extern c c 에서 extern c 를 사용하여 전역 변수나 함수를 선언 하는 방식은 아래와 같습니다 cpp extern c int x e c에서 c 함수 호출하기 stm32cubeide에서 프로젝트 생성 stm32 low-power modes stm32cubeide에서 다양한 printf 사용법 stm32 spi stm32cubeide에서 실행 파일 업로드 extern c c에서 c 함수 호출 c 에서 c 함수 호출 stm32cubeide 설치 프로젝트 생성 mcu 설정 code overview power consumption range modes standby with rtc alarm pinout configuration clock configuration example swv printf uart printf dynamic printf pinout configuration function 프로그래머 부트 모드 uart jtag/swd 업로드 stm32cubeide swd or jtag stm32programmer stm32programmercli 장치 확인 업로드 hardware mcu-family stm32",
       "display": {
         "label": "C에서 C++ 함수 호출하기",
         "kind": "subject",
-        "subtitle": "Stm32 Call C++ On C",
-        "document_count": 1
+        "subtitle": "Stm32",
+        "document_count": 6
       }
     },
     {
@@ -2183,16 +2012,16 @@
       "title": "ESP8266 ESP-01",
       "description": "… 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4, 5 를 입력하면 모든 접속 종료\n\n`shell\nAT+CIFSR\n`\n\n- @brief ESP8266의 IP, MAC 주소 확인\n\n`shell\nAT+CIPMUX=\n`\n\n- @brief 다중 접속 설정, 모든 연결이 끊겨있을 때 설정 가능\n- @…",
       "snippet": "… 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4, 5 를 입력하면 모든 접속 종료\n\n`shell\nAT+CIFSR\n`\n\n- @brief ESP8266의 IP, MAC 주소 확인\n\n`shell\nAT+CIPMUX=\n`\n\n- @brief 다중 접속 설정, 모든 연결이 끊겨있을 때 설정 가능\n- @…",
-      "url": "/docs/entity/hardware/mcu-family/esp8266-esp-01-module",
+      "url": "/docs/hardware/esp8266-esp-01-module/overview",
       "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/esp8266-esp-01-module/esp8266-esp-01-module.mdx"
+        "doc:docs/hardware/esp8266-esp-01-module/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
         "instance": "esp8266-esp-01-module"
       },
-      "search_text": "esp8266 esp-01 다중 연결 at cipmux 1 시 사용 0 4 5 를 입력하면 모든 접속 종료 shell at cifsr - brief esp8266의 ip mac 주소 확인 shell at cipmux - brief 다중 접속 설정 모든 연결이 끊겨있을 때 설정 가능 - esp8266 esp-01 pin-out boot options at at format at basic commands wi-fi at 명령어 tcp/ip at 명령어 http get http post hardware mcu-family esp8266-esp-01-module",
+      "search_text": "esp8266 esp-01 다중 연결 at cipmux 1 시 사용 0 4 5 를 입력하면 모든 접속 종료 shell at cifsr - brief esp8266의 ip mac 주소 확인 shell at cipmux - brief 다중 접속 설정 모든 연결이 끊겨있을 때 설정 가능 - esp-01 esp8266 esp-01 pin-out boot options at at format at basic commands wi-fi at 명령어 tcp/ip at 명령어 http get http post hardware mcu-family esp8266-esp-01-module",
       "display": {
         "label": "ESP8266 ESP-01",
         "kind": "subject",
@@ -3740,9 +3569,9 @@
       "title": "KiCad",
       "description": "…g/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow-overview\n\n## Creating project\n\n- KiCad project window -\\> File -\\> New -\\> Project\n- KiC…",
       "snippet": "…g/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow-overview\n\n## Creating project\n\n- KiCad project window -\\> File -\\> New -\\> Project\n- KiC…",
-      "url": "/docs/concept/hardware/electronics/kicad",
+      "url": "/docs/hardware/kicad/overview",
       "document_refs": [
-        "doc:docs/concept/hardware/electronics/kicad/kicad.mdx"
+        "doc:docs/hardware/kicad/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
@@ -6536,163 +6365,53 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-development-environment",
+      "id": "subject:hardware:mcu-family:sam",
       "title": "SAM Development environment",
       "description": "…r-support\n - SMART ARM MCU 선택\n - Visual studio 기반 IDE\n- BOSSA(Basic Open Source SAM-BA Application)\n - https://github.com/shumatech/BOSSA/releases\n - SAM-BA를 지원하는 …",
       "snippet": "…r-support\n - SMART ARM MCU 선택\n - Visual studio 기반 IDE\n- BOSSA(Basic Open Source SAM-BA Application)\n - https://github.com/shumatech/BOSSA/releases\n - SAM-BA를 지원하는 …",
-      "url": "/docs/operation/hardware/mcu-family/sam-development-environment/development-environment",
+      "url": "/docs/hardware/sam/development-environment",
       "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-development-environment/development-environment.mdx"
+        "doc:docs/hardware/sam/development-environment.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-development-environment"
+        "instance": "sam"
       },
-      "search_text": "sam development environment r-support - smart arm mcu 선택 - visual studio 기반 ide - bossa basic open source sam-ba application - https //github com/shumatech/bossa/releases - sam-ba를 지원하는 sam development environment 설치 bossac exe external tools atmel software framework asf project hardware mcu-family sam-development-environment",
+      "search_text": "sam development environment r-support - smart arm mcu 선택 - visual studio 기반 ide - bossa basic open source sam-ba application - https //github com/shumatech/bossa/releases - sam-ba를 지원하는 sam development environment 설치 bossac exe external tools atmel software framework asf project hardware mcu-family sam",
       "display": {
         "label": "SAM Development environment",
         "kind": "subject",
-        "subtitle": "Sam Development Environment",
+        "subtitle": "Sam",
         "document_count": 1
       }
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-adc",
+      "id": "subject:hardware:mcu-family:sam4s2a",
       "title": "SAM4S2A ADC",
       "description": "## ASF Wizard\n\n- ADC - Analog-to-digital Converter (driver): The Analog to Digital Converter is able…",
       "snippet": "## ASF Wizard\n\n- ADC - Analog-to-digital Converter (driver): The Analog to Digital Converter is able…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-adc/sam4s2a-adc",
+      "url": "/docs/hardware/sam4s2a/adc",
       "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-adc/sam4s2a-adc.mdx"
+        "doc:docs/hardware/sam4s2a/adc.mdx",
+        "doc:docs/hardware/sam4s2a/fcpu.mdx",
+        "doc:docs/hardware/sam4s2a/ioport.mdx",
+        "doc:docs/hardware/sam4s2a/stdio.mdx",
+        "doc:docs/hardware/sam4s2a/time.mdx",
+        "doc:docs/hardware/sam4s2a/usart.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-adc"
+        "instance": "sam4s2a"
       },
-      "search_text": "sam4s2a adc asf wizard - adc - analog-to-digital converter driver the analog to digital converter is able sam4s2a adc asf wizard enum examples hardware mcu-family sam-sam4s2a-adc",
+      "search_text": "sam4s2a adc asf wizard - adc - analog-to-digital converter driver the analog to digital converter is able sam4s2a adc sam4s2a set f cpu sam4s2a ioport sam4s2a stdio sam4s2a time sam4s2a usart asf wizard enum examples f cpu examples asf wizard enum examples asf wizard src config conf board h src config conf uart serial h examples asf wizard examples asf wizard src config conf board h src config conf uart serial h examples hardware mcu-family sam4s2a",
       "display": {
         "label": "SAM4S2A ADC",
         "kind": "subject",
-        "subtitle": "Sam Sam4s2a Adc",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-fcpu",
-      "title": "SAM4S2A Set F_CPU",
-      "description": "## F_CPU\n\nSAM 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 **F_CPU**는 클럭 관련 함수 매크로로 정의되어 있습니다.\n\n#…",
-      "snippet": "## F_CPU\n\nSAM 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 **F_CPU**는 클럭 관련 함수 매크로로 정의되어 있습니다.\n\n#…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-fcpu/sam4s2a-fcpu",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-fcpu/sam4s2a-fcpu.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "sam-sam4s2a-fcpu"
-      },
-      "search_text": "sam4s2a set f cpu f cpu sam 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 f cpu 는 클럭 관련 함수 매크로로 정의되어 있습니다 sam4s2a set f cpu f cpu examples hardware mcu-family sam-sam4s2a-fcpu",
-      "display": {
-        "label": "SAM4S2A Set F_CPU",
-        "kind": "subject",
-        "subtitle": "Sam Sam4s2a Fcpu",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-time",
-      "title": "SAM4S2A Time",
-      "description": "…).\n\nSysTick에 의한 인터럽트가 너무 많이 발생하면 Delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다. SAM4S2A 120MHz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1.5 ~ 1.6배 길어집니다.\n\n## Examples\n\n``c\n#i…",
-      "snippet": "…).\n\nSysTick에 의한 인터럽트가 너무 많이 발생하면 Delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다. SAM4S2A 120MHz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1.5 ~ 1.6배 길어집니다.\n\n## Examples\n\n``c\n#i…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-time/sam4s2a-time",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-time/sam4s2a-time.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "sam-sam4s2a-time"
-      },
-      "search_text": "sam4s2a time systick에 의한 인터럽트가 너무 많이 발생하면 delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다 sam4s2a 120mhz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1 5 1 6배 길어집니다 examples c i sam4s2a time asf wizard examples hardware mcu-family sam-sam4s2a-time",
-      "display": {
-        "label": "SAM4S2A Time",
-        "kind": "subject",
-        "subtitle": "Sam Sam4s2a Time",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-usart",
-      "title": "SAM4S2A USART",
-      "description": "## ASF Wizard\n\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
-      "snippet": "## ASF Wizard\n\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-usart/sam4s2a-usart",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-usart/sam4s2a-usart.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "sam-sam4s2a-usart"
-      },
-      "search_text": "sam4s2a usart asf wizard - usart - serial interface service common api which abstracts the user from directly sam4s2a usart asf wizard src config conf board h src config conf uart serial h examples hardware mcu-family sam-sam4s2a-usart",
-      "display": {
-        "label": "SAM4S2A USART",
-        "kind": "subject",
-        "subtitle": "Sam Sam4s2a Usart",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-ioport",
-      "title": "SAM4S2A ioport",
-      "description": "## ASF Wizard\n\n- IOPORT - General purpose I/O service (service): IOPORT - General purpose I/O driver th…",
-      "snippet": "## ASF Wizard\n\n- IOPORT - General purpose I/O service (service): IOPORT - General purpose I/O driver th…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-ioport/sam4s2a-ioport",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-ioport/sam4s2a-ioport.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "sam-sam4s2a-ioport"
-      },
-      "search_text": "sam4s2a ioport asf wizard - ioport - general purpose i/o service service ioport - general purpose i/o driver th sam4s2a ioport asf wizard enum examples hardware mcu-family sam-sam4s2a-ioport",
-      "display": {
-        "label": "SAM4S2A ioport",
-        "kind": "subject",
-        "subtitle": "Sam Sam4s2a Ioport",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:sam-sam4s2a-stdio",
-      "title": "SAM4S2A stdio",
-      "description": "…/O management driver that implements a stdio serial interface on SAM devices.\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
-      "snippet": "…/O management driver that implements a stdio serial interface on SAM devices.\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-stdio/sam4s2a-stdio",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-stdio/sam4s2a-stdio.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "sam-sam4s2a-stdio"
-      },
-      "search_text": "sam4s2a stdio /o management driver that implements a stdio serial interface on sam devices - usart - serial interface service common api which abstracts the user from directly sam4s2a stdio asf wizard src config conf board h src config conf uart serial h examples hardware mcu-family sam-sam4s2a-stdio",
-      "display": {
-        "label": "SAM4S2A stdio",
-        "kind": "subject",
-        "subtitle": "Sam Sam4s2a Stdio",
-        "document_count": 1
+        "subtitle": "Sam4s2a",
+        "document_count": 6
       }
     },
     {
@@ -6764,121 +6483,6 @@
         "kind": "subject",
         "subtitle": "Python Sqlalchemy",
         "document_count": 3
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-low-power-modes",
-      "title": "STM32 Low-power modes",
-      "description": "…ccurs.\n - Power consumption at 16 MHz is about 1 mA with all peripherals off.\n- Low-power run\n - is achieved with\n - MSI RC oscillator set to the lowspeed clock (max 131…",
-      "snippet": "…ccurs.\n - Power consumption at 16 MHz is about 1 mA with all peripherals off.\n- Low-power run\n - is achieved with\n - MSI RC oscillator set to the lowspeed clock (max 131…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-low-power-modes/low-power-modes",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-low-power-modes/low-power-modes.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "stm32-low-power-modes"
-      },
-      "search_text": "stm32 low-power modes ccurs - power consumption at 16 mhz is about 1 ma with all peripherals off - low-power run - is achieved with - msi rc oscillator set to the lowspeed clock max 131 stm32 low-power modes overview power consumption range modes standby with rtc alarm pinout configuration clock configuration example hardware mcu-family stm32-low-power-modes",
-      "display": {
-        "label": "STM32 Low-power modes",
-        "kind": "subject",
-        "subtitle": "Stm32 Low Power Modes",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-spi",
-      "title": "STM32 SPI",
-      "description": "…tion\n\n``c\n/**\n * @brief Transmit an amount of data in blocking mode.\n * @param hspi pointer to a SPI_HandleTypeDef structure that contains\n * the configuration inf…",
-      "snippet": "…tion\n\n``c\n/**\n * @brief Transmit an amount of data in blocking mode.\n * @param hspi pointer to a SPI_HandleTypeDef structure that contains\n * the configuration inf…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-spi/spi",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-spi/spi.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "stm32-spi"
-      },
-      "search_text": "stm32 spi tion c / brief transmit an amount of data in blocking mode param hspi pointer to a spi handletypedef structure that contains the configuration inf stm32 spi pinout configuration function hardware mcu-family stm32-spi",
-      "display": {
-        "label": "STM32 SPI",
-        "kind": "subject",
-        "subtitle": "Stm32 Spi",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-printf-usage-stm32cubeide",
-      "title": "STM32CubeIDE에서 다양한 printf() 사용법",
-      "description": "STM32CubeIDE에서 printf()을 사용하는 방법이 여러가지가 있습니다.\n\n- **SWV**\n- UART\n- Dynamic Printf\n\n기본적으로 tiny_p…",
-      "snippet": "STM32CubeIDE에서 printf()을 사용하는 방법이 여러가지가 있습니다.\n\n- **SWV**\n- UART\n- Dynamic Printf\n\n기본적으로 tiny_p…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-printf-usage-stm32cubeide/printf-usage-stm32cubeide",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-printf-usage-stm32cubeide/printf-usage-stm32cubeide.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "stm32-printf-usage-stm32cubeide"
-      },
-      "search_text": "stm32cubeide에서 다양한 printf 사용법 stm32cubeide에서 printf 을 사용하는 방법이 여러가지가 있습니다 - swv - uart - dynamic printf 기본적으로 tiny p stm32cubeide에서 다양한 printf 사용법 swv printf uart printf dynamic printf hardware mcu-family stm32-printf-usage-stm32cubeide",
-      "display": {
-        "label": "STM32CubeIDE에서 다양한 printf() 사용법",
-        "kind": "subject",
-        "subtitle": "Stm32 Printf Usage Stm32cubeide",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide",
-      "title": "STM32CubeIDE에서 실행 파일 업로드",
-      "description": "… 부트 모드는 **User Flash memory**를 선택하면 됩니다. 따라서 B1, B0 모두 GND에 연결합니다.\n\n## 업로드\n\n### STM32CubeIDE\n\n#### SWD or JTAG\n\n- Run -\\> Debug Configurations\n- STM32 Coretex-M C/C++ Appli…",
-      "snippet": "… 부트 모드는 **User Flash memory**를 선택하면 됩니다. 따라서 B1, B0 모두 GND에 연결합니다.\n\n## 업로드\n\n### STM32CubeIDE\n\n#### SWD or JTAG\n\n- Run -\\> Debug Configurations\n- STM32 Coretex-M C/C++ Appli…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "stm32-upload-executable-file-stm32cubeide"
-      },
-      "search_text": "stm32cubeide에서 실행 파일 업로드 부트 모드는 user flash memory 를 선택하면 됩니다 따라서 b1 b0 모두 gnd에 연결합니다 업로드 stm32cubeide swd or jtag - run - debug configurations - stm32 coretex-m c/c appli stm32cubeide에서 실행 파일 업로드 프로그래머 부트 모드 uart jtag/swd 업로드 stm32cubeide swd or jtag stm32programmer stm32programmercli 장치 확인 업로드 hardware mcu-family stm32-upload-executable-file-stm32cubeide",
-      "display": {
-        "label": "STM32CubeIDE에서 실행 파일 업로드",
-        "kind": "subject",
-        "subtitle": "Stm32 Upload Executable File Stm32cubeide",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:stm32-create-project-stm32cubeide",
-      "title": "STM32CubeIDE에서 프로젝트 생성",
-      "description": "## STM32CubeIDE 설치\n\nDownload: https://www.st.com/en/development-tools/stm32cubeide.html\n\n## 프로젝…",
-      "snippet": "## STM32CubeIDE 설치\n\nDownload: https://www.st.com/en/development-tools/stm32cubeide.html\n\n## 프로젝…",
-      "url": "/docs/operation/hardware/mcu-family/stm32-create-project-stm32cubeide/create-project-stm32cubeide",
-      "document_refs": [
-        "doc:docs/operation/hardware/mcu-family/stm32-create-project-stm32cubeide/create-project-stm32cubeide.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "stm32-create-project-stm32cubeide"
-      },
-      "search_text": "stm32cubeide에서 프로젝트 생성 stm32cubeide 설치 download https //www st com/en/development-tools/stm32cubeide html 프로젝 stm32cubeide에서 프로젝트 생성 stm32cubeide 설치 프로젝트 생성 mcu 설정 code hardware mcu-family stm32-create-project-stm32cubeide",
-      "display": {
-        "label": "STM32CubeIDE에서 프로젝트 생성",
-        "kind": "subject",
-        "subtitle": "Stm32 Create Project Stm32cubeide",
-        "document_count": 1
       }
     },
     {
@@ -7403,209 +7007,77 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-development-environment",
+      "id": "subject:hardware:mcu-family:tricore",
       "title": "TriCore Development environment",
       "description": "…용을 설치하셔야 합니다.\n\n각 프로그램의 설치 경로를 직접 확인하시길 바랍니다. 설치하는 시점에 따라 변경될 수 있습니다.\n\n- Java SE Development Kit (32bit)\n- HighTec Free TriCore Entry Tool Chain\n - https://free-entry-toolc…",
       "snippet": "…용을 설치하셔야 합니다.\n\n각 프로그램의 설치 경로를 직접 확인하시길 바랍니다. 설치하는 시점에 따라 변경될 수 있습니다.\n\n- Java SE Development Kit (32bit)\n- HighTec Free TriCore Entry Tool Chain\n - https://free-entry-toolc…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-development-environment",
+      "url": "/docs/hardware/tricore/development-environment",
       "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-development-environment/tricore-development-environment.mdx"
+        "doc:docs/hardware/tricore/development-environment.mdx",
+        "doc:docs/hardware/tricore/upload-executable-file-in-udevisualplatform.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-development-environment"
+        "instance": "tricore"
       },
-      "search_text": "tricore development environment 용을 설치하셔야 합니다 각 프로그램의 설치 경로를 직접 확인하시길 바랍니다 설치하는 시점에 따라 변경될 수 있습니다 - java se development kit 32bit - hightec free tricore entry tool chain - https //free-entry-toolc tricore development environment 설치 project import config gnuc mk baseframework tc27d hardware mcu-family tricore-development-environment",
+      "search_text": "tricore development environment 용을 설치하셔야 합니다 각 프로그램의 설치 경로를 직접 확인하시길 바랍니다 설치하는 시점에 따라 변경될 수 있습니다 - java se development kit 32bit - hightec free tricore entry tool chain - https //free-entry-toolc tricore development environment tricore upload executable file in udevisualplatform 설치 project import config gnuc mk baseframework tc27d udevisualplatform load upload start hardware mcu-family tricore",
       "display": {
         "label": "TriCore Development environment",
         "kind": "subject",
-        "subtitle": "Tricore Development Environment",
-        "document_count": 1
+        "subtitle": "Tricore",
+        "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-shieldbuddy-tc275",
+      "id": "subject:hardware:mcu-family:shieldbuddy-tc275",
       "title": "TriCore ShieldBuddy TC275",
       "description": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
       "snippet": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-shieldbuddy-tc275",
+      "url": "/docs/hardware/shieldbuddy-tc275/overview",
       "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-shieldbuddy-tc275/tricore-shieldbuddy-tc275.mdx"
+        "doc:docs/hardware/shieldbuddy-tc275/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-shieldbuddy-tc275"
+        "instance": "shieldbuddy-tc275"
       },
-      "search_text": "tricore shieldbuddy tc275 pin-map tc275 board board tc275 ------------------ ----- ----------- ---- tricore shieldbuddy tc275 pin-map board hardware mcu-family tricore-shieldbuddy-tc275",
+      "search_text": "tricore shieldbuddy tc275 pin-map tc275 board board tc275 ------------------ ----- ----------- ---- tricore shieldbuddy tc275 pin-map board hardware mcu-family shieldbuddy-tc275",
       "display": {
         "label": "TriCore ShieldBuddy TC275",
         "kind": "subject",
-        "subtitle": "Tricore Shieldbuddy Tc275",
+        "subtitle": "Shieldbuddy Tc275",
         "document_count": 1
       }
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-asc",
+      "id": "subject:hardware:mcu-family:tc27d",
       "title": "TriCore TC27D ASC(UART)",
       "description": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
       "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-asc",
+      "url": "/docs/hardware/tc27d/asc",
       "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-asc/tricore-tc27d-asc.mdx"
+        "doc:docs/hardware/tc27d/asc.mdx",
+        "doc:docs/hardware/tc27d/bsp.mdx",
+        "doc:docs/hardware/tc27d/ports.mdx",
+        "doc:docs/hardware/tc27d/stm.mdx",
+        "doc:docs/hardware/tc27d/terminal.mdx",
+        "doc:docs/hardware/tc27d/vadc.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-asc"
+        "instance": "tc27d"
       },
-      "search_text": "tricore tc27d asc uart received examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define tricore tc27d asc uart related header ifxasclin asc h examples read/write hardware mcu-family tricore-tc27d-asc",
+      "search_text": "tricore tc27d asc uart received examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define tricore tc27d asc uart tricore tc27d bsp time gpio tricore tc27d ports dio tricore tc27d stm system timer tricore tc27d terminal tricore tc27d vadc versatile adc related header ifxasclin asc h examples read/write related header examples related header ifxport io h examples toggling a pin related header examples 주기적인 함수 호출 related header ifx shell command examples 0 src/appsw/tricore/tc27d lib/shell interface/shell interface h 0 src/appsw/tricore/tc27d lib/shell interface/shell interface c related header ifxvadc adc h examples background hardware mcu-family tc27d",
       "display": {
         "label": "TriCore TC27D ASC(UART)",
         "kind": "subject",
-        "subtitle": "Tricore Tc27d Asc",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-bsp",
-      "title": "TriCore TC27D BSP(Time, GPIO)",
-      "description": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
-      "snippet": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-bsp",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-bsp/tricore-tc27d-bsp.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-tc27d-bsp"
-      },
-      "search_text": "tricore tc27d bsp time gpio hw shieldbuddy tc275 baseframework에는 bsp가 기본 라이브러리로 제공되지 않습니다 baseframework를 프로젝트 시작으로 사용하는 경우 ill tricore tc27d bsp time gpio related header examples hardware mcu-family tricore-tc27d-bsp",
-      "display": {
-        "label": "TriCore TC27D BSP(Time, GPIO)",
-        "kind": "subject",
-        "subtitle": "Tricore Tc27d Bsp",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-ports",
-      "title": "TriCore TC27D Ports(DIO)",
-      "description": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
-      "snippet": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-ports",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-ports/tricore-tc27d-ports.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-tc27d-ports"
-      },
-      "search_text": "tricore tc27d ports dio output mode pad driver strength and state for referencing the pins and their ports a ifxport pinmap is available as well examples toggling a pin tricore tc27d ports dio related header ifxport io h examples toggling a pin hardware mcu-family tricore-tc27d-ports",
-      "display": {
-        "label": "TriCore TC27D Ports(DIO)",
-        "kind": "subject",
-        "subtitle": "Tricore Tc27d Ports",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-stm",
-      "title": "TriCore TC27D STM(System Timer)",
-      "description": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "snippet": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-stm",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-stm/tricore-tc27d-stm.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-tc27d-stm"
-      },
-      "search_text": "tricore tc27d stm system timer details examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define tricore tc27d stm system timer related header examples 주기적인 함수 호출 hardware mcu-family tricore-tc27d-stm",
-      "display": {
-        "label": "TriCore TC27D STM(System Timer)",
-        "kind": "subject",
-        "subtitle": "Tricore Tc27d Stm",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-vadc",
-      "title": "TriCore TC27D VADC(Versatile ADC)",
-      "description": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
-      "snippet": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-vadc",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-vadc/tricore-tc27d-vadc.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-tc27d-vadc"
-      },
-      "search_text": "tricore tc27d vadc versatile adc hw shieldbuddy tc275 - queue highest priority - scan - background lowest priority tricore tc27d vadc versatile adc related header ifxvadc adc h examples background hardware mcu-family tricore-tc27d-vadc",
-      "display": {
-        "label": "TriCore TC27D VADC(Versatile ADC)",
-        "kind": "subject",
-        "subtitle": "Tricore Tc27d Vadc",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-tc27d-terminal",
-      "title": "TriCore TC27D terminal",
-      "description": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
-      "snippet": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-terminal",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-tc27d-terminal/tricore-tc27d-terminal.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-tc27d-terminal"
-      },
-      "search_text": "tricore tc27d terminal ommand examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define tricore tc27d terminal related header ifx shell command examples 0 src/appsw/tricore/tc27d lib/shell interface/shell interface h 0 src/appsw/tricore/tc27d lib/shell interface/shell interface c hardware mcu-family tricore-tc27d-terminal",
-      "display": {
-        "label": "TriCore TC27D terminal",
-        "kind": "subject",
-        "subtitle": "Tricore Tc27d Terminal",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:hardware:mcu-family:tricore-upload-executable-file-in-udevisualplatform",
-      "title": "TriCore Upload executable file in UDEVisualPlatform",
-      "description": "## UDEVisualPlatform\n\n- File -> New Workspace\n\n.wsx 파일을 저장 후, New 버튼을 누르고 사용 중인 보드를 찾아 선택합니다.\n\n- New…",
-      "snippet": "## UDEVisualPlatform\n\n- File -> New Workspace\n\n.wsx 파일을 저장 후, New 버튼을 누르고 사용 중인 보드를 찾아 선택합니다.\n\n- New…",
-      "url": "/docs/entity/hardware/mcu-family/tricore-upload-executable-file-in-udevisualplatform",
-      "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/tricore-upload-executable-file-in-udevisualplatform/tricore-upload-executable-file-in-udevisualplatform.mdx"
-      ],
-      "ontology": {
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tricore-upload-executable-file-in-udevisualplatform"
-      },
-      "search_text": "tricore upload executable file in udevisualplatform udevisualplatform - file - new workspace wsx 파일을 저장 후 new 버튼을 누르고 사용 중인 보드를 찾아 선택합니다 - new tricore upload executable file in udevisualplatform udevisualplatform load upload start hardware mcu-family tricore-upload-executable-file-in-udevisualplatform",
-      "display": {
-        "label": "TriCore Upload executable file in UDEVisualPlatform",
-        "kind": "subject",
-        "subtitle": "Tricore Upload Executable File In Udevisualplatform",
-        "document_count": 1
+        "subtitle": "Tc27d",
+        "document_count": 6
       }
     },
     {
@@ -8818,24 +8290,24 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:mcu-family:nrf-development-environment",
+      "id": "subject:hardware:mcu-family:nrf",
       "title": "nRF Development environment",
       "description": "",
       "snippet": "",
-      "url": "/docs/entity/hardware/mcu-family/nrf-development-environment",
+      "url": "/docs/hardware/nrf/development-environment",
       "document_refs": [
-        "doc:docs/entity/hardware/mcu-family/nrf-development-environment/nrf-development-environment.mdx"
+        "doc:docs/hardware/nrf/development-environment.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "nrf-development-environment"
+        "instance": "nrf"
       },
-      "search_text": "nrf development environment nrf development environment hardware mcu-family nrf-development-environment",
+      "search_text": "nrf development environment nrf development environment hardware mcu-family nrf",
       "display": {
         "label": "nRF Development environment",
         "kind": "subject",
-        "subtitle": "Nrf Development Environment",
+        "subtitle": "Nrf",
         "document_count": 1
       }
     },
@@ -9330,24 +8802,24 @@
     },
     {
       "type": "subject",
-      "id": "subject:hardware:electronics:sensor",
+      "id": "subject:hardware:electronics:fine-dust-sensor",
       "title": "미세먼지 센서",
       "description": "## SPS30\n\n### 센서 명세\n\n| 변수 | 조건 | 값 | 단위 |\n| -------------- | -----------------------------------…",
       "snippet": "## SPS30\n\n### 센서 명세\n\n| 변수 | 조건 | 값 | 단위 |\n| -------------- | -----------------------------------…",
-      "url": "/docs/concept/hardware/electronics/sensor/fine-dust",
+      "url": "/docs/hardware/fine-dust-sensor/overview",
       "document_refs": [
-        "doc:docs/concept/hardware/electronics/sensor/fine-dust.mdx"
+        "doc:docs/hardware/fine-dust-sensor/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
         "class": "electronics",
-        "instance": "sensor"
+        "instance": "fine-dust-sensor"
       },
-      "search_text": "미세먼지 센서 sps30 센서 명세 변수 조건 값 단위 -------------- ----------------------------------- 미세먼지 센서 sps30 센서 명세 전기적 특성 최대 최소 범위 인터페이스 uart i2c hardware electronics sensor",
+      "search_text": "미세먼지 센서 sps30 센서 명세 변수 조건 값 단위 -------------- ----------------------------------- 미세먼지 센서 sps30 센서 명세 전기적 특성 최대 최소 범위 인터페이스 uart i2c hardware electronics fine-dust-sensor",
       "display": {
         "label": "미세먼지 센서",
         "kind": "subject",
-        "subtitle": "Sensor",
+        "subtitle": "Fine Dust Sensor",
         "document_count": 1
       }
     },
@@ -9785,7 +9257,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-i2c/i2c.mdx",
+      "id": "doc:docs/hardware/avr/i2c.mdx",
       "title": "AVR I2C",
       "description": "AVR I2C",
       "snippet": "I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 cl…",
@@ -9800,26 +9272,26 @@
         "AVR",
         "I2C"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-i2c/i2c",
-      "subject_ref": "subject:hardware:mcu-family:avr-i2c",
-      "subject_title": "Avr I2c",
+      "url": "/docs/hardware/avr/i2c",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-i2c",
+        "instance": "avr",
         "aspect": "i2c"
       },
-      "search_text": "avr i2c avr i2c i2c 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다 두 개의 선은 clock을 동기화하기 위한 scl 과 cl abbreviation master 모드 master - slave slave - master 통신 오류 avr i2c operation hardware mcu-family avr-i2c i2c",
+      "search_text": "avr i2c avr i2c i2c 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다 두 개의 선은 clock을 동기화하기 위한 scl 과 cl abbreviation master 모드 master - slave slave - master 통신 오류 avr i2c operation hardware mcu-family avr i2c",
       "display": {
         "label": "AVR I2C",
         "kind": "document",
-        "subtitle": "Avr I2c"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-eeprom/eeprom.mdx",
+      "id": "doc:docs/hardware/avr/eeprom.mdx",
       "title": "AVR Internal EEPROM",
       "description": "AVR Internal EEPROM",
       "snippet": "EEPROM은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다. ATmega328p의 경우 1 KB 사이즈의 EEPROM을 내장하고 있습니…",
@@ -9832,26 +9304,26 @@
         "AVR",
         "EEPROM"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-eeprom/eeprom",
-      "subject_ref": "subject:hardware:mcu-family:avr-eeprom",
-      "subject_title": "Avr Eeprom",
+      "url": "/docs/hardware/avr/eeprom",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-eeprom",
+        "instance": "avr",
         "aspect": "eeprom"
       },
-      "search_text": "avr internal eeprom avr internal eeprom eeprom은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다 atmega328p의 경우 1 kb 사이즈의 eeprom을 내장하고 있습니 avr/eeprom h read/update eemem avr eeprom operation hardware mcu-family avr-eeprom eeprom",
+      "search_text": "avr internal eeprom avr internal eeprom eeprom은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다 atmega328p의 경우 1 kb 사이즈의 eeprom을 내장하고 있습니 avr/eeprom h read/update eemem avr eeprom operation hardware mcu-family avr eeprom",
       "display": {
         "label": "AVR Internal EEPROM",
         "kind": "document",
-        "subtitle": "Avr Eeprom"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-lock-and-fuse-bits/lock-and-fuse-bits.mdx",
+      "id": "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
       "title": "AVR Lock and Fuse bits",
       "description": "AVR Lock and Fuse bits",
       "snippet": "…ck bits를 설정하는 것은 무의미 합니다.\n\n`shell\navrdude -p -c -U efuse:w:[0bxxxxxxxx]:m\n`\n\n## Fuse bits\n\nFuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.\n\n기…",
@@ -9867,26 +9339,26 @@
         "Lock bit",
         "Fuse bit"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-lock-and-fuse-bits/lock-and-fuse-bits",
-      "subject_ref": "subject:hardware:mcu-family:avr-lock-and-fuse-bits",
-      "subject_title": "Avr Lock And Fuse Bits",
+      "url": "/docs/hardware/avr/lock-and-fuse-bits",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-lock-and-fuse-bits",
+        "instance": "avr",
         "aspect": "lock-and-fuse-bits"
       },
-      "search_text": "avr lock and fuse bits avr lock and fuse bits ck bits를 설정하는 것은 무의미 합니다 shell avrdude -p -c -u efuse w 0bxxxxxxxx m fuse bits fuse bits는 extended high low 세 종류로 프로그래머 부트 사이즈 클럭 소스 등의 설정에 대한 비트입니다 기 lock bits fuse bits extended fuse bits fuse high bits fuse low bits avr lock bit fuse bit operation hardware mcu-family avr-lock-and-fuse-bits lock-and-fuse-bits",
+      "search_text": "avr lock and fuse bits avr lock and fuse bits ck bits를 설정하는 것은 무의미 합니다 shell avrdude -p -c -u efuse w 0bxxxxxxxx m fuse bits fuse bits는 extended high low 세 종류로 프로그래머 부트 사이즈 클럭 소스 등의 설정에 대한 비트입니다 기 lock bits fuse bits extended fuse bits fuse high bits fuse low bits avr lock bit fuse bit operation hardware mcu-family avr lock-and-fuse-bits",
       "display": {
         "label": "AVR Lock and Fuse bits",
         "kind": "document",
-        "subtitle": "Avr Lock And Fuse Bits"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-printf/printf.mdx",
+      "id": "doc:docs/hardware/avr/printf.mdx",
       "title": "AVR Use printf() with UART",
       "description": "AVR Use printf() with UART",
       "snippet": "… */\n#define __SWR 0x0002 /* OK to write */\n#define __SSTR 0x0004 /* this is an sprintf/snprintf string */\n#define __SPGM 0x0008 /* fmt string is in progmem */\n#define…",
@@ -9899,26 +9371,26 @@
         "UART",
         "printf"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-printf/printf",
-      "subject_ref": "subject:hardware:mcu-family:avr-printf",
-      "subject_title": "Avr Printf",
+      "url": "/docs/hardware/avr/printf",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-printf",
+        "instance": "avr",
         "aspect": "printf"
       },
-      "search_text": "avr use printf with uart avr use printf with uart / define swr 0x0002 / ok to write / define sstr 0x0004 / this is an sprintf/snprintf string / define spgm 0x0008 / fmt string is in progmem / define struct file set stdout avr uart printf operation hardware mcu-family avr-printf printf",
+      "search_text": "avr use printf with uart avr use printf with uart / define swr 0x0002 / ok to write / define sstr 0x0004 / this is an sprintf/snprintf string / define spgm 0x0008 / fmt string is in progmem / define struct file set stdout avr uart printf operation hardware mcu-family avr printf",
       "display": {
         "label": "AVR Use printf() with UART",
         "kind": "document",
-        "subtitle": "Avr Printf"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-build-project-in-terminal/build-project-in-terminal.mdx",
+      "id": "doc:docs/hardware/avr/build-project-in-terminal.mdx",
       "title": "AVR build project in Terminal",
       "description": "AVR build project in terminal",
       "snippet": "## Installtion\n\n컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.\n\n- binutils-avr: assembler, li…",
@@ -9935,26 +9407,26 @@
         "terminal",
         "build"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-build-project-in-terminal/build-project-in-terminal",
-      "subject_ref": "subject:hardware:mcu-family:avr-build-project-in-terminal",
-      "subject_title": "Avr Build Project In Terminal",
+      "url": "/docs/hardware/avr/build-project-in-terminal",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-build-project-in-terminal",
+        "instance": "avr",
         "aspect": "build-project-in-terminal"
       },
-      "search_text": "avr build project in terminal avr build project in terminal installtion 컴파일과 링크를 진행하기 전에 avr-gcc binutils-avr avr-libc 를 설치해야 합니다 - binutils-avr assembler li installtion macos linux debian windows compile link avr terminal build operation hardware mcu-family avr-build-project-in-terminal build-project-in-terminal",
+      "search_text": "avr build project in terminal avr build project in terminal installtion 컴파일과 링크를 진행하기 전에 avr-gcc binutils-avr avr-libc 를 설치해야 합니다 - binutils-avr assembler li installtion macos linux debian windows compile link avr terminal build operation hardware mcu-family avr build-project-in-terminal",
       "display": {
         "label": "AVR build project in Terminal",
         "kind": "document",
-        "subtitle": "Avr Build Project In Terminal"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-upload-executable-file-in-atmel-studio-7/upload-executable-file-in-atmel-studio-7.mdx",
+      "id": "doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx",
       "title": "AVR upload executable file in Atmel studio 7",
       "description": "AVR upload executable file in Atmel studio 7",
       "snippet": "…다.\n\n제거할 때, Available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다.\n\n### avrdude\n\nAtmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다.\n\n예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 **To…",
@@ -9970,26 +9442,26 @@
         "Atmel Studio 7",
         "upload"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-upload-executable-file-in-atmel-studio-7/upload-executable-file-in-atmel-studio-7",
-      "subject_ref": "subject:hardware:mcu-family:avr-upload-executable-file-in-atmel-studio-7",
-      "subject_title": "Avr Upload Executable File In Atmel Studio 7",
+      "url": "/docs/hardware/avr/upload-executable-file-in-atmel-studio-7",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-upload-executable-file-in-atmel-studio-7",
+        "instance": "avr",
         "aspect": "upload-executable-file-in-atmel-studio-7"
       },
-      "search_text": "avr upload executable file in atmel studio 7 avr upload executable file in atmel studio 7 다 제거할 때 available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다 avrdude atmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다 예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 to adding programmer stk500 avrdude 수동 업로드 빌드 자동 업로드 avr atmel studio 7 upload operation hardware mcu-family avr-upload-executable-file-in-atmel-studio-7 upload-executable-file-in-atmel-studio-7",
+      "search_text": "avr upload executable file in atmel studio 7 avr upload executable file in atmel studio 7 다 제거할 때 available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다 avrdude atmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다 예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 to adding programmer stk500 avrdude 수동 업로드 빌드 자동 업로드 avr atmel studio 7 upload operation hardware mcu-family avr upload-executable-file-in-atmel-studio-7",
       "display": {
         "label": "AVR upload executable file in Atmel studio 7",
         "kind": "document",
-        "subtitle": "Avr Upload Executable File In Atmel Studio 7"
+        "subtitle": "Avr"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/avr-upload-executable-file-in-terminal/upload-executable-file-in-terminal.mdx",
+      "id": "doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx",
       "title": "AVR upload executable file in Terminal",
       "description": "AVR upload executable file in Terminal",
       "snippet": "…labs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers\n\n## Upload\n\n업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.\n\navr-objcopy는 binutils-avr에 포함…",
@@ -10023,21 +9495,21 @@
         "terminal",
         "upload"
       ],
-      "url": "/docs/operation/hardware/mcu-family/avr-upload-executable-file-in-terminal/upload-executable-file-in-terminal",
-      "subject_ref": "subject:hardware:mcu-family:avr-upload-executable-file-in-terminal",
-      "subject_title": "Avr Upload Executable File In Terminal",
+      "url": "/docs/hardware/avr/upload-executable-file-in-terminal",
+      "subject_ref": "subject:hardware:mcu-family:avr",
+      "subject_title": "Avr",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "avr-upload-executable-file-in-terminal",
+        "instance": "avr",
         "aspect": "upload-executable-file-in-terminal"
       },
-      "search_text": "avr upload executable file in terminal avr upload executable file in terminal labs com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers upload 업로드를 진행하기 전에 실행 파일인 elf 파일이나 hex 파일이 있어야 합니다 avr-objcopy는 binutils-avr에 포함 설치 macos linux debian windows programmer usb to uart ch340g 드라이버 macos linux debian windows ftdi 드라이버 설치 linux debian macos windows cp2102 드라이버 설치 linux debian macos windows upload avrdude stk500 avrispmkii arduino atmelice isp usbasp avr terminal upload operation hardware mcu-family avr-upload-executable-file-in-terminal upload-executable-file-in-terminal",
+      "search_text": "avr upload executable file in terminal avr upload executable file in terminal labs com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers upload 업로드를 진행하기 전에 실행 파일인 elf 파일이나 hex 파일이 있어야 합니다 avr-objcopy는 binutils-avr에 포함 설치 macos linux debian windows programmer usb to uart ch340g 드라이버 macos linux debian windows ftdi 드라이버 설치 linux debian macos windows cp2102 드라이버 설치 linux debian macos windows upload avrdude stk500 avrispmkii arduino atmelice isp usbasp avr terminal upload operation hardware mcu-family avr upload-executable-file-in-terminal",
       "display": {
         "label": "AVR upload executable file in Terminal",
         "kind": "document",
-        "subtitle": "Avr Upload Executable File In Terminal"
+        "subtitle": "Avr"
       }
     },
     {
@@ -10786,7 +10258,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/arduino-how-to-use-library/how-to-use-library.mdx",
+      "id": "doc:docs/hardware/arduino/how-to-use-library.mdx",
       "title": "Arduino How to use library",
       "description": "Arduino How to use library",
       "snippet": "The Arduino ecosystem is so large that there are many libraries for sensors. The Arduino li…",
@@ -10801,26 +10273,26 @@
         "Arduino",
         "library"
       ],
-      "url": "/docs/operation/hardware/mcu-family/arduino-how-to-use-library/how-to-use-library",
-      "subject_ref": "subject:hardware:mcu-family:arduino-how-to-use-library",
-      "subject_title": "Arduino How To Use Library",
+      "url": "/docs/hardware/arduino/how-to-use-library",
+      "subject_ref": "subject:hardware:mcu-family:arduino",
+      "subject_title": "Arduino",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "arduino-how-to-use-library",
+        "instance": "arduino",
         "aspect": "how-to-use-library"
       },
-      "search_text": "arduino how to use library arduino how to use library the arduino ecosystem is so large that there are many libraries for sensors the arduino li download library include library find docs or see example wire sensor and board example arduino library operation hardware mcu-family arduino-how-to-use-library how-to-use-library",
+      "search_text": "arduino how to use library arduino how to use library the arduino ecosystem is so large that there are many libraries for sensors the arduino li download library include library find docs or see example wire sensor and board example arduino library operation hardware mcu-family arduino how-to-use-library",
       "display": {
         "label": "Arduino How to use library",
         "kind": "document",
-        "subtitle": "Arduino How To Use Library"
+        "subtitle": "Arduino"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/arduino-library-specification/library-specification.mdx",
+      "id": "doc:docs/hardware/arduino/library-specification.mdx",
       "title": "Arduino Library specification",
       "description": "Arduino Library specification",
       "snippet": "Ref: https://arduino.github.io/arduino-cli/library-specification/\n\n## Layout of folders and files\n\n``shell\nArduino\n└── libraries\n └── my_lib/\n ├…",
@@ -10842,26 +10314,26 @@
         "library",
         "specification"
       ],
-      "url": "/docs/operation/hardware/mcu-family/arduino-library-specification/library-specification",
-      "subject_ref": "subject:hardware:mcu-family:arduino-library-specification",
-      "subject_title": "Arduino Library Specification",
+      "url": "/docs/hardware/arduino/library-specification",
+      "subject_ref": "subject:hardware:mcu-family:arduino",
+      "subject_title": "Arduino",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "arduino-library-specification",
+        "instance": "arduino",
         "aspect": "library-specification"
       },
-      "search_text": "arduino library specification arduino library specification ref https //arduino github io/arduino-cli/library-specification/ layout of folders and files shell arduino libraries my lib/ layout of folders and files library metadata library properties optional keywords syntax highlight keywords txt syntax coloring map for wire datatypes keyword1 methods and functions keyword2 instances keyword2 constants literal1 arduino library specification operation hardware mcu-family arduino-library-specification library-specification",
+      "search_text": "arduino library specification arduino library specification ref https //arduino github io/arduino-cli/library-specification/ layout of folders and files shell arduino libraries my lib/ layout of folders and files library metadata library properties optional keywords syntax highlight keywords txt syntax coloring map for wire datatypes keyword1 methods and functions keyword2 instances keyword2 constants literal1 arduino library specification operation hardware mcu-family arduino library-specification",
       "display": {
         "label": "Arduino Library specification",
         "kind": "document",
-        "subtitle": "Arduino Library Specification"
+        "subtitle": "Arduino"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/arduino-platform-specification/platform-specification.mdx",
+      "id": "doc:docs/hardware/arduino/platform-specification.mdx",
       "title": "Arduino Platform specification",
       "description": "Arduino Platform specification",
       "snippet": "Ref: https://arduino.github.io/arduino-cli/platform-specification/\n\n## Hardware directory structure\n\n``shell\nArduino\n└── hardware\n └── vendor/\n └…",
@@ -10921,21 +10393,21 @@
         "hardware",
         "platform"
       ],
-      "url": "/docs/operation/hardware/mcu-family/arduino-platform-specification/platform-specification",
-      "subject_ref": "subject:hardware:mcu-family:arduino-platform-specification",
-      "subject_title": "Arduino Platform Specification",
+      "url": "/docs/hardware/arduino/platform-specification",
+      "subject_ref": "subject:hardware:mcu-family:arduino",
+      "subject_title": "Arduino",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "arduino-platform-specification",
+        "instance": "arduino",
         "aspect": "platform-specification"
       },
-      "search_text": "arduino platform specification arduino platform specification ref https //arduino github io/arduino-cli/platform-specification/ hardware directory structure shell arduino hardware vendor/ hardware directory structure boards txt menu 메뉴 이름 board 1 ide - tools - board 에 표시되는 보드 이름 hardware/vendor/architecture/cores 에서 선택할 core 이름 hardware/vendor/architecture/variants 에서 선택할 variant 이름 컴파일 시 정의될 매크로 -darduino build board platform txt 업로드에 사용할 툴 platform txt platform txt에서 사용할 변수 board 1 xxxx boards txt - xxxx platform txt 메뉴 선택지 메뉴 선택지에 해당하는 설정 board 1 menu menu 1 option 1 variable 1 boards txt - variable 1 platform txt board 2 platform txt ide - tools - board 에 표시되는 카테고리 compile variables override platform local txt boards txt 등에 의해 바뀌는 변수 compile patterns 라이브러리 감지 함수 프로토 타입 생성 number는 1 9 또는 01 99 순서대로 실행 됨 recipe hooks sketch prebuild number pattern recipe hooks sketch postbuild number pattern recipe hooks libraries prebuild number pattern recipe hooks libraries postbuild number pattern recipe hooks core prebuild number pattern recipe hooks core postbuild number pattern recipe hooks linking prelink number pattern recipe hooks linking postlink number pattern recipe hooks objcopy preobjcopy number pattern recipe hooks objcopy postobjcopy number pattern recipe hooks savehex presavehex number pattern recipe hooks savehex postsavehex number pattern compile s files compile c files compile c files archives combine gc-sections archives and objects ide- sketch - export compiled binary tools 툴 pattern에서 변수 사용 시 tools tool 1 params 는 빼고 사용 e g upload verbose programmers txt programmer 1 ide - tools - programmer 에 표시되는 프로그래머 이름 업로드에 사용할 툴 platform txt arduino hardware platform operation hardware mcu-family arduino-platform-specification platform-specification",
+      "search_text": "arduino platform specification arduino platform specification ref https //arduino github io/arduino-cli/platform-specification/ hardware directory structure shell arduino hardware vendor/ hardware directory structure boards txt menu 메뉴 이름 board 1 ide - tools - board 에 표시되는 보드 이름 hardware/vendor/architecture/cores 에서 선택할 core 이름 hardware/vendor/architecture/variants 에서 선택할 variant 이름 컴파일 시 정의될 매크로 -darduino build board platform txt 업로드에 사용할 툴 platform txt platform txt에서 사용할 변수 board 1 xxxx boards txt - xxxx platform txt 메뉴 선택지 메뉴 선택지에 해당하는 설정 board 1 menu menu 1 option 1 variable 1 boards txt - variable 1 platform txt board 2 platform txt ide - tools - board 에 표시되는 카테고리 compile variables override platform local txt boards txt 등에 의해 바뀌는 변수 compile patterns 라이브러리 감지 함수 프로토 타입 생성 number는 1 9 또는 01 99 순서대로 실행 됨 recipe hooks sketch prebuild number pattern recipe hooks sketch postbuild number pattern recipe hooks libraries prebuild number pattern recipe hooks libraries postbuild number pattern recipe hooks core prebuild number pattern recipe hooks core postbuild number pattern recipe hooks linking prelink number pattern recipe hooks linking postlink number pattern recipe hooks objcopy preobjcopy number pattern recipe hooks objcopy postobjcopy number pattern recipe hooks savehex presavehex number pattern recipe hooks savehex postsavehex number pattern compile s files compile c files compile c files archives combine gc-sections archives and objects ide- sketch - export compiled binary tools 툴 pattern에서 변수 사용 시 tools tool 1 params 는 빼고 사용 e g upload verbose programmers txt programmer 1 ide - tools - programmer 에 표시되는 프로그래머 이름 업로드에 사용할 툴 platform txt arduino hardware platform operation hardware mcu-family arduino platform-specification",
       "display": {
         "label": "Arduino Platform specification",
         "kind": "document",
-        "subtitle": "Arduino Platform Specification"
+        "subtitle": "Arduino"
       }
     },
     {
@@ -12407,7 +11879,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/hardware/electronics/capacitor/capacitor.mdx",
+      "id": "doc:docs/hardware/capacitor/overview.mdx",
       "title": "Capacitor",
       "description": "Capacitor",
       "snippet": "## 커패시터\n\n커패시터는 전하를 저장할 수 있는 소자입니다.\n\n$$\nX_L = {1 \\over 2 \\pi fC}\n$$\n\n커패시터의 임피던스는 정전 용량과 주파수에 영향을 받습니다. 이상적인 커패시터의 경우 주파수가 같다면 정전 용량이 클 수록 임피던스는 낮아지고, 정전 용량이 같다면",
@@ -12423,7 +11895,7 @@
       "keywords": [
         "Capacitor"
       ],
-      "url": "/docs/concept/hardware/electronics/capacitor",
+      "url": "/docs/hardware/capacitor/overview",
       "subject_ref": "subject:hardware:electronics:capacitor",
       "subject_title": "Capacitor",
       "ontology": {
@@ -13833,7 +13305,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-call-c++-on-c/call-c++-on-c.mdx",
+      "id": "doc:docs/hardware/stm32/call-cpp-on-c.mdx",
       "title": "C에서 C++ 함수 호출하기",
       "description": "C에서 C++ 함수 호출하기",
       "snippet": "## extern \"C\"\n\n- extern \"C\"\n\nC++에서 extern \"C\"를 사용하여 전역 변수나 함수를 **선언**하는 방식은 아래와 같습니다.\n\n``cpp\nextern \"C\" int x;\ne…",
@@ -13848,21 +13320,21 @@
         "STM32CubeIDE",
         "C/C++ mix"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-call-c++-on-c/call-c++-on-c",
-      "subject_ref": "subject:hardware:mcu-family:stm32-call-c++-on-c",
-      "subject_title": "Stm32 Call C++ On C",
+      "url": "/docs/hardware/stm32/call-cpp-on-c",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-call-c++-on-c",
-        "aspect": "call-c++-on-c"
+        "instance": "stm32",
+        "aspect": "call-cpp-on-c"
       },
-      "search_text": "c에서 c 함수 호출하기 c에서 c 함수 호출하기 extern c - extern c c 에서 extern c 를 사용하여 전역 변수나 함수를 선언 하는 방식은 아래와 같습니다 cpp extern c int x e extern c c에서 c 함수 호출 c 에서 c 함수 호출 stm32 stm32cubemx stm32cubeide c/c mix operation hardware mcu-family stm32-call-c -on-c call-c -on-c",
+      "search_text": "c에서 c 함수 호출하기 c에서 c 함수 호출하기 extern c - extern c c 에서 extern c 를 사용하여 전역 변수나 함수를 선언 하는 방식은 아래와 같습니다 cpp extern c int x e extern c c에서 c 함수 호출 c 에서 c 함수 호출 stm32 stm32cubemx stm32cubeide c/c mix operation hardware mcu-family stm32 call-cpp-on-c",
       "display": {
         "label": "C에서 C++ 함수 호출하기",
         "kind": "document",
-        "subtitle": "Stm32 Call C++ On C"
+        "subtitle": "Stm32"
       }
     },
     {
@@ -14991,7 +14463,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/esp8266-esp-01-module/esp8266-esp-01-module.mdx",
+      "id": "doc:docs/hardware/esp8266-esp-01-module/overview.mdx",
       "title": "ESP8266 ESP-01",
       "description": "ESP8266 ESP-01",
       "snippet": "… 다중 연결(AT+CIPMUX=1) 시 사용, 0 ~ 4, 5 를 입력하면 모든 접속 종료\n\n`shell\nAT+CIFSR\n`\n\n- @brief ESP8266의 IP, MAC 주소 확인\n\n`shell\nAT+CIPMUX=\n`\n\n- @brief 다중 접속 설정, 모든 연결이 끊겨있을 때 설정 가능\n- @…",
@@ -15010,7 +14482,7 @@
         "Espressif",
         "ESP8266"
       ],
-      "url": "/docs/entity/hardware/mcu-family/esp8266-esp-01-module",
+      "url": "/docs/hardware/esp8266-esp-01-module/overview",
       "subject_ref": "subject:hardware:mcu-family:esp8266-esp-01-module",
       "subject_title": "Esp8266 Esp 01 Module",
       "ontology": {
@@ -18601,7 +18073,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/hardware/electronics/kicad/kicad.mdx",
+      "id": "doc:docs/hardware/kicad/overview.mdx",
       "title": "KiCad",
       "description": "KiCad",
       "snippet": "…g/5.1/en/getting_started_in_kicad/getting_started_in_kicad.html#kicad-work-flow-overview\n\n## Creating project\n\n- KiCad project window -\\> File -\\> New -\\> Project\n- KiC…",
@@ -18615,7 +18087,7 @@
       "keywords": [
         "KiCad"
       ],
-      "url": "/docs/concept/hardware/electronics/kicad",
+      "url": "/docs/hardware/kicad/overview",
       "subject_ref": "subject:hardware:electronics:kicad",
       "subject_title": "Kicad",
       "ontology": {
@@ -26815,7 +26287,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-development-environment/development-environment.mdx",
+      "id": "doc:docs/hardware/sam/development-environment.mdx",
       "title": "SAM Development environment",
       "description": "SAM Development environment",
       "snippet": "…r-support\n - SMART ARM MCU 선택\n - Visual studio 기반 IDE\n- BOSSA(Basic Open Source SAM-BA Application)\n - https://github.com/shumatech/BOSSA/releases\n - SAM-BA를 지원하는 …",
@@ -26827,26 +26299,26 @@
       "keywords": [
         "SAM"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-development-environment/development-environment",
-      "subject_ref": "subject:hardware:mcu-family:sam-development-environment",
-      "subject_title": "Sam Development Environment",
+      "url": "/docs/hardware/sam/development-environment",
+      "subject_ref": "subject:hardware:mcu-family:sam",
+      "subject_title": "Sam",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-development-environment",
+        "instance": "sam",
         "aspect": "development-environment"
       },
-      "search_text": "sam development environment sam development environment r-support - smart arm mcu 선택 - visual studio 기반 ide - bossa basic open source sam-ba application - https //github com/shumatech/bossa/releases - sam-ba를 지원하는 설치 bossac exe external tools atmel software framework asf project sam operation hardware mcu-family sam-development-environment development-environment",
+      "search_text": "sam development environment sam development environment r-support - smart arm mcu 선택 - visual studio 기반 ide - bossa basic open source sam-ba application - https //github com/shumatech/bossa/releases - sam-ba를 지원하는 설치 bossac exe external tools atmel software framework asf project sam operation hardware mcu-family sam development-environment",
       "display": {
         "label": "SAM Development environment",
         "kind": "document",
-        "subtitle": "Sam Development Environment"
+        "subtitle": "Sam"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-adc/sam4s2a-adc.mdx",
+      "id": "doc:docs/hardware/sam4s2a/adc.mdx",
       "title": "SAM4S2A ADC",
       "description": "SAM4S2A ADC",
       "snippet": "## ASF Wizard\n\n- ADC - Analog-to-digital Converter (driver): The Analog to Digital Converter is able…",
@@ -26859,26 +26331,26 @@
         "SAM",
         "ADC"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-adc/sam4s2a-adc",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-adc",
-      "subject_title": "Sam Sam4s2a Adc",
+      "url": "/docs/hardware/sam4s2a/adc",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-adc",
-        "aspect": "sam4s2a-adc"
+        "instance": "sam4s2a",
+        "aspect": "adc"
       },
-      "search_text": "sam4s2a adc sam4s2a adc asf wizard - adc - analog-to-digital converter driver the analog to digital converter is able asf wizard enum examples sam adc operation hardware mcu-family sam-sam4s2a-adc sam4s2a-adc",
+      "search_text": "sam4s2a adc sam4s2a adc asf wizard - adc - analog-to-digital converter driver the analog to digital converter is able asf wizard enum examples sam adc operation hardware mcu-family sam4s2a adc",
       "display": {
         "label": "SAM4S2A ADC",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Adc"
+        "subtitle": "Sam4s2a"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-fcpu/sam4s2a-fcpu.mdx",
+      "id": "doc:docs/hardware/sam4s2a/fcpu.mdx",
       "title": "SAM4S2A Set F_CPU",
       "description": "SAM4S2A Set F_CPU",
       "snippet": "## F_CPU\n\nSAM 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 **F_CPU**는 클럭 관련 함수 매크로로 정의되어 있습니다.\n\n#…",
@@ -26890,26 +26362,26 @@
         "SAM",
         "F_CPU"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-fcpu/sam4s2a-fcpu",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-fcpu",
-      "subject_title": "Sam Sam4s2a Fcpu",
+      "url": "/docs/hardware/sam4s2a/fcpu",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-fcpu",
-        "aspect": "sam4s2a-fcpu"
+        "instance": "sam4s2a",
+        "aspect": "fcpu"
       },
-      "search_text": "sam4s2a set f cpu sam4s2a set f cpu f cpu sam 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 f cpu 는 클럭 관련 함수 매크로로 정의되어 있습니다 f cpu examples sam f cpu operation hardware mcu-family sam-sam4s2a-fcpu sam4s2a-fcpu",
+      "search_text": "sam4s2a set f cpu sam4s2a set f cpu f cpu sam 32bit에서는 몇가지 단계를 거쳐 최종 클럭이 정해지기 때문에 f cpu 는 클럭 관련 함수 매크로로 정의되어 있습니다 f cpu examples sam f cpu operation hardware mcu-family sam4s2a fcpu",
       "display": {
         "label": "SAM4S2A Set F_CPU",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Fcpu"
+        "subtitle": "Sam4s2a"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-time/sam4s2a-time.mdx",
+      "id": "doc:docs/hardware/sam4s2a/time.mdx",
       "title": "SAM4S2A Time",
       "description": "SAM4S2A Time",
       "snippet": "…).\n\nSysTick에 의한 인터럽트가 너무 많이 발생하면 Delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다. SAM4S2A 120MHz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1.5 ~ 1.6배 길어집니다.\n\n## Examples\n\n``c\n#i…",
@@ -26923,26 +26395,26 @@
         "micros",
         "millis"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-time/sam4s2a-time",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-time",
-      "subject_title": "Sam Sam4s2a Time",
+      "url": "/docs/hardware/sam4s2a/time",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-time",
-        "aspect": "sam4s2a-time"
+        "instance": "sam4s2a",
+        "aspect": "time"
       },
-      "search_text": "sam4s2a time sam4s2a time systick에 의한 인터럽트가 너무 많이 발생하면 delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다 sam4s2a 120mhz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1 5 1 6배 길어집니다 examples c i asf wizard examples sam time micros millis operation hardware mcu-family sam-sam4s2a-time sam4s2a-time",
+      "search_text": "sam4s2a time sam4s2a time systick에 의한 인터럽트가 너무 많이 발생하면 delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다 sam4s2a 120mhz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1 5 1 6배 길어집니다 examples c i asf wizard examples sam time micros millis operation hardware mcu-family sam4s2a time",
       "display": {
         "label": "SAM4S2A Time",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Time"
+        "subtitle": "Sam4s2a"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-usart/sam4s2a-usart.mdx",
+      "id": "doc:docs/hardware/sam4s2a/usart.mdx",
       "title": "SAM4S2A USART",
       "description": "SAM4S2A USART",
       "snippet": "## ASF Wizard\n\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
@@ -26956,26 +26428,26 @@
         "SAM",
         "USART"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-usart/sam4s2a-usart",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-usart",
-      "subject_title": "Sam Sam4s2a Usart",
+      "url": "/docs/hardware/sam4s2a/usart",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-usart",
-        "aspect": "sam4s2a-usart"
+        "instance": "sam4s2a",
+        "aspect": "usart"
       },
-      "search_text": "sam4s2a usart sam4s2a usart asf wizard - usart - serial interface service common api which abstracts the user from directly asf wizard src config conf board h src config conf uart serial h examples sam usart operation hardware mcu-family sam-sam4s2a-usart sam4s2a-usart",
+      "search_text": "sam4s2a usart sam4s2a usart asf wizard - usart - serial interface service common api which abstracts the user from directly asf wizard src config conf board h src config conf uart serial h examples sam usart operation hardware mcu-family sam4s2a usart",
       "display": {
         "label": "SAM4S2A USART",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Usart"
+        "subtitle": "Sam4s2a"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-ioport/sam4s2a-ioport.mdx",
+      "id": "doc:docs/hardware/sam4s2a/ioport.mdx",
       "title": "SAM4S2A ioport",
       "description": "SAM4S2A ioport",
       "snippet": "## ASF Wizard\n\n- IOPORT - General purpose I/O service (service): IOPORT - General purpose I/O driver th…",
@@ -26988,26 +26460,26 @@
         "SAM",
         "ioport"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-ioport/sam4s2a-ioport",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-ioport",
-      "subject_title": "Sam Sam4s2a Ioport",
+      "url": "/docs/hardware/sam4s2a/ioport",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-ioport",
-        "aspect": "sam4s2a-ioport"
+        "instance": "sam4s2a",
+        "aspect": "ioport"
       },
-      "search_text": "sam4s2a ioport sam4s2a ioport asf wizard - ioport - general purpose i/o service service ioport - general purpose i/o driver th asf wizard enum examples sam ioport operation hardware mcu-family sam-sam4s2a-ioport sam4s2a-ioport",
+      "search_text": "sam4s2a ioport sam4s2a ioport asf wizard - ioport - general purpose i/o service service ioport - general purpose i/o driver th asf wizard enum examples sam ioport operation hardware mcu-family sam4s2a ioport",
       "display": {
         "label": "SAM4S2A ioport",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Ioport"
+        "subtitle": "Sam4s2a"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/sam-sam4s2a-stdio/sam4s2a-stdio.mdx",
+      "id": "doc:docs/hardware/sam4s2a/stdio.mdx",
       "title": "SAM4S2A stdio",
       "description": "SAM4S2A stdio",
       "snippet": "…/O management driver that implements a stdio serial interface on SAM devices.\n- USART - Serial interface (service): Common API which abstracts the user from directly…",
@@ -27022,21 +26494,21 @@
         "USART",
         "stdio"
       ],
-      "url": "/docs/operation/hardware/mcu-family/sam-sam4s2a-stdio/sam4s2a-stdio",
-      "subject_ref": "subject:hardware:mcu-family:sam-sam4s2a-stdio",
-      "subject_title": "Sam Sam4s2a Stdio",
+      "url": "/docs/hardware/sam4s2a/stdio",
+      "subject_ref": "subject:hardware:mcu-family:sam4s2a",
+      "subject_title": "Sam4s2a",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "sam-sam4s2a-stdio",
-        "aspect": "sam4s2a-stdio"
+        "instance": "sam4s2a",
+        "aspect": "stdio"
       },
-      "search_text": "sam4s2a stdio sam4s2a stdio /o management driver that implements a stdio serial interface on sam devices - usart - serial interface service common api which abstracts the user from directly asf wizard src config conf board h src config conf uart serial h examples sam usart stdio operation hardware mcu-family sam-sam4s2a-stdio sam4s2a-stdio",
+      "search_text": "sam4s2a stdio sam4s2a stdio /o management driver that implements a stdio serial interface on sam devices - usart - serial interface service common api which abstracts the user from directly asf wizard src config conf board h src config conf uart serial h examples sam usart stdio operation hardware mcu-family sam4s2a stdio",
       "display": {
         "label": "SAM4S2A stdio",
         "kind": "document",
-        "subtitle": "Sam Sam4s2a Stdio"
+        "subtitle": "Sam4s2a"
       }
     },
     {
@@ -27200,7 +26672,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-low-power-modes/low-power-modes.mdx",
+      "id": "doc:docs/hardware/stm32/low-power-modes.mdx",
       "title": "STM32 Low-power modes",
       "description": "STM32 Low-power modes",
       "snippet": "…ccurs.\n - Power consumption at 16 MHz is about 1 mA with all peripherals off.\n- Low-power run\n - is achieved with\n - MSI RC oscillator set to the lowspeed clock (max 131…",
@@ -27219,26 +26691,26 @@
         "STM32CubeIDE",
         "Low-power"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-low-power-modes/low-power-modes",
-      "subject_ref": "subject:hardware:mcu-family:stm32-low-power-modes",
-      "subject_title": "Stm32 Low Power Modes",
+      "url": "/docs/hardware/stm32/low-power-modes",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-low-power-modes",
+        "instance": "stm32",
         "aspect": "low-power-modes"
       },
-      "search_text": "stm32 low-power modes stm32 low-power modes ccurs - power consumption at 16 mhz is about 1 ma with all peripherals off - low-power run - is achieved with - msi rc oscillator set to the lowspeed clock max 131 overview power consumption range modes standby with rtc alarm pinout configuration clock configuration example stm32 stm32cubemx stm32cubeide low-power operation hardware mcu-family stm32-low-power-modes low-power-modes",
+      "search_text": "stm32 low-power modes stm32 low-power modes ccurs - power consumption at 16 mhz is about 1 ma with all peripherals off - low-power run - is achieved with - msi rc oscillator set to the lowspeed clock max 131 overview power consumption range modes standby with rtc alarm pinout configuration clock configuration example stm32 stm32cubemx stm32cubeide low-power operation hardware mcu-family stm32 low-power-modes",
       "display": {
         "label": "STM32 Low-power modes",
         "kind": "document",
-        "subtitle": "Stm32 Low Power Modes"
+        "subtitle": "Stm32"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-spi/spi.mdx",
+      "id": "doc:docs/hardware/stm32/spi.mdx",
       "title": "STM32 SPI",
       "description": "STM32 SPI",
       "snippet": "…tion\n\n``c\n/**\n * @brief Transmit an amount of data in blocking mode.\n * @param hspi pointer to a SPI_HandleTypeDef structure that contains\n * the configuration inf…",
@@ -27250,26 +26722,26 @@
         "STM32",
         "SPI"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-spi/spi",
-      "subject_ref": "subject:hardware:mcu-family:stm32-spi",
-      "subject_title": "Stm32 Spi",
+      "url": "/docs/hardware/stm32/spi",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-spi",
+        "instance": "stm32",
         "aspect": "spi"
       },
-      "search_text": "stm32 spi stm32 spi tion c / brief transmit an amount of data in blocking mode param hspi pointer to a spi handletypedef structure that contains the configuration inf pinout configuration function stm32 spi operation hardware mcu-family stm32-spi spi",
+      "search_text": "stm32 spi stm32 spi tion c / brief transmit an amount of data in blocking mode param hspi pointer to a spi handletypedef structure that contains the configuration inf pinout configuration function stm32 spi operation hardware mcu-family stm32 spi",
       "display": {
         "label": "STM32 SPI",
         "kind": "document",
-        "subtitle": "Stm32 Spi"
+        "subtitle": "Stm32"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-printf-usage-stm32cubeide/printf-usage-stm32cubeide.mdx",
+      "id": "doc:docs/hardware/stm32/printf-usage-stm32cubeide.mdx",
       "title": "STM32CubeIDE에서 다양한 printf() 사용법",
       "description": "STM32CubeIDE에서 다양한 printf() 사용법",
       "snippet": "STM32CubeIDE에서 printf()을 사용하는 방법이 여러가지가 있습니다.\n\n- **SWV**\n- UART\n- Dynamic Printf\n\n기본적으로 tiny_p…",
@@ -27284,26 +26756,26 @@
         "STM32CubeIDE",
         "printf"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-printf-usage-stm32cubeide/printf-usage-stm32cubeide",
-      "subject_ref": "subject:hardware:mcu-family:stm32-printf-usage-stm32cubeide",
-      "subject_title": "Stm32 Printf Usage Stm32cubeide",
+      "url": "/docs/hardware/stm32/printf-usage-stm32cubeide",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-printf-usage-stm32cubeide",
+        "instance": "stm32",
         "aspect": "printf-usage-stm32cubeide"
       },
-      "search_text": "stm32cubeide에서 다양한 printf 사용법 stm32cubeide에서 다양한 printf 사용법 stm32cubeide에서 printf 을 사용하는 방법이 여러가지가 있습니다 - swv - uart - dynamic printf 기본적으로 tiny p swv printf uart printf dynamic printf stm32 stm32cubemx stm32cubeide printf operation hardware mcu-family stm32-printf-usage-stm32cubeide printf-usage-stm32cubeide",
+      "search_text": "stm32cubeide에서 다양한 printf 사용법 stm32cubeide에서 다양한 printf 사용법 stm32cubeide에서 printf 을 사용하는 방법이 여러가지가 있습니다 - swv - uart - dynamic printf 기본적으로 tiny p swv printf uart printf dynamic printf stm32 stm32cubemx stm32cubeide printf operation hardware mcu-family stm32 printf-usage-stm32cubeide",
       "display": {
         "label": "STM32CubeIDE에서 다양한 printf() 사용법",
         "kind": "document",
-        "subtitle": "Stm32 Printf Usage Stm32cubeide"
+        "subtitle": "Stm32"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide.mdx",
+      "id": "doc:docs/hardware/stm32/upload-executable-file-stm32cubeide.mdx",
       "title": "STM32CubeIDE에서 실행 파일 업로드",
       "description": "STM32CubeIDE에서 실행 파일 업로드",
       "snippet": "… 부트 모드는 **User Flash memory**를 선택하면 됩니다. 따라서 B1, B0 모두 GND에 연결합니다.\n\n## 업로드\n\n### STM32CubeIDE\n\n#### SWD or JTAG\n\n- Run -\\> Debug Configurations\n- STM32 Coretex-M C/C++ Appli…",
@@ -27326,26 +26798,26 @@
         "STM32CubeIDE",
         "executable"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-upload-executable-file-stm32cubeide/upload-executable-file-stm32cubeide",
-      "subject_ref": "subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide",
-      "subject_title": "Stm32 Upload Executable File Stm32cubeide",
+      "url": "/docs/hardware/stm32/upload-executable-file-stm32cubeide",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-upload-executable-file-stm32cubeide",
+        "instance": "stm32",
         "aspect": "upload-executable-file-stm32cubeide"
       },
-      "search_text": "stm32cubeide에서 실행 파일 업로드 stm32cubeide에서 실행 파일 업로드 부트 모드는 user flash memory 를 선택하면 됩니다 따라서 b1 b0 모두 gnd에 연결합니다 업로드 stm32cubeide swd or jtag - run - debug configurations - stm32 coretex-m c/c appli 프로그래머 부트 모드 uart jtag/swd 업로드 stm32cubeide swd or jtag stm32programmer stm32programmercli 장치 확인 업로드 stm32 stm32cubemx stm32cubeide executable operation hardware mcu-family stm32-upload-executable-file-stm32cubeide upload-executable-file-stm32cubeide",
+      "search_text": "stm32cubeide에서 실행 파일 업로드 stm32cubeide에서 실행 파일 업로드 부트 모드는 user flash memory 를 선택하면 됩니다 따라서 b1 b0 모두 gnd에 연결합니다 업로드 stm32cubeide swd or jtag - run - debug configurations - stm32 coretex-m c/c appli 프로그래머 부트 모드 uart jtag/swd 업로드 stm32cubeide swd or jtag stm32programmer stm32programmercli 장치 확인 업로드 stm32 stm32cubemx stm32cubeide executable operation hardware mcu-family stm32 upload-executable-file-stm32cubeide",
       "display": {
         "label": "STM32CubeIDE에서 실행 파일 업로드",
         "kind": "document",
-        "subtitle": "Stm32 Upload Executable File Stm32cubeide"
+        "subtitle": "Stm32"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/hardware/mcu-family/stm32-create-project-stm32cubeide/create-project-stm32cubeide.mdx",
+      "id": "doc:docs/hardware/stm32/create-project-stm32cubeide.mdx",
       "title": "STM32CubeIDE에서 프로젝트 생성",
       "description": "STM32CubeIDE에서 프로젝트 생성",
       "snippet": "## STM32CubeIDE 설치\n\nDownload: https://www.st.com/en/development-tools/stm32cubeide.html\n\n## 프로젝…",
@@ -27361,21 +26833,21 @@
         "STM32CubeIDE",
         "project"
       ],
-      "url": "/docs/operation/hardware/mcu-family/stm32-create-project-stm32cubeide/create-project-stm32cubeide",
-      "subject_ref": "subject:hardware:mcu-family:stm32-create-project-stm32cubeide",
-      "subject_title": "Stm32 Create Project Stm32cubeide",
+      "url": "/docs/hardware/stm32/create-project-stm32cubeide",
+      "subject_ref": "subject:hardware:mcu-family:stm32",
+      "subject_title": "Stm32",
       "ontology": {
         "role": "operation",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "stm32-create-project-stm32cubeide",
+        "instance": "stm32",
         "aspect": "create-project-stm32cubeide"
       },
-      "search_text": "stm32cubeide에서 프로젝트 생성 stm32cubeide에서 프로젝트 생성 stm32cubeide 설치 download https //www st com/en/development-tools/stm32cubeide html 프로젝 stm32cubeide 설치 프로젝트 생성 mcu 설정 code stm32 stm32cubemx stm32cubeide project operation hardware mcu-family stm32-create-project-stm32cubeide create-project-stm32cubeide",
+      "search_text": "stm32cubeide에서 프로젝트 생성 stm32cubeide에서 프로젝트 생성 stm32cubeide 설치 download https //www st com/en/development-tools/stm32cubeide html 프로젝 stm32cubeide 설치 프로젝트 생성 mcu 설정 code stm32 stm32cubemx stm32cubeide project operation hardware mcu-family stm32 create-project-stm32cubeide",
       "display": {
         "label": "STM32CubeIDE에서 프로젝트 생성",
         "kind": "document",
-        "subtitle": "Stm32 Create Project Stm32cubeide"
+        "subtitle": "Stm32"
       }
     },
     {
@@ -28841,7 +28313,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-development-environment/tricore-development-environment.mdx",
+      "id": "doc:docs/hardware/tricore/development-environment.mdx",
       "title": "TriCore Development environment",
       "description": "TriCore Development environment",
       "snippet": "…용을 설치하셔야 합니다.\n\n각 프로그램의 설치 경로를 직접 확인하시길 바랍니다. 설치하는 시점에 따라 변경될 수 있습니다.\n\n- Java SE Development Kit (32bit)\n- HighTec Free TriCore Entry Tool Chain\n - https://free-entry-toolc…",
@@ -28858,26 +28330,26 @@
         "development",
         "environment"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-development-environment",
-      "subject_ref": "subject:hardware:mcu-family:tricore-development-environment",
-      "subject_title": "Tricore Development Environment",
+      "url": "/docs/hardware/tricore/development-environment",
+      "subject_ref": "subject:hardware:mcu-family:tricore",
+      "subject_title": "Tricore",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-development-environment",
-        "aspect": "overview"
+        "instance": "tricore",
+        "aspect": "development-environment"
       },
-      "search_text": "tricore development environment tricore development environment 용을 설치하셔야 합니다 각 프로그램의 설치 경로를 직접 확인하시길 바랍니다 설치하는 시점에 따라 변경될 수 있습니다 - java se development kit 32bit - hightec free tricore entry tool chain - https //free-entry-toolc 설치 project import config gnuc mk baseframework tc27d infineon tricore development environment entity hardware mcu-family tricore-development-environment overview",
+      "search_text": "tricore development environment tricore development environment 용을 설치하셔야 합니다 각 프로그램의 설치 경로를 직접 확인하시길 바랍니다 설치하는 시점에 따라 변경될 수 있습니다 - java se development kit 32bit - hightec free tricore entry tool chain - https //free-entry-toolc 설치 project import config gnuc mk baseframework tc27d infineon tricore development environment entity hardware mcu-family tricore development-environment",
       "display": {
         "label": "TriCore Development environment",
         "kind": "document",
-        "subtitle": "Tricore Development Environment"
+        "subtitle": "Tricore"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-shieldbuddy-tc275/tricore-shieldbuddy-tc275.mdx",
+      "id": "doc:docs/hardware/shieldbuddy-tc275/overview.mdx",
       "title": "TriCore ShieldBuddy TC275",
       "description": "TriCore ShieldBuddy TC275",
       "snippet": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
@@ -28891,26 +28363,26 @@
         "TC275",
         "shieldbuddy"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-shieldbuddy-tc275",
-      "subject_ref": "subject:hardware:mcu-family:tricore-shieldbuddy-tc275",
-      "subject_title": "Tricore Shieldbuddy Tc275",
+      "url": "/docs/hardware/shieldbuddy-tc275/overview",
+      "subject_ref": "subject:hardware:mcu-family:shieldbuddy-tc275",
+      "subject_title": "Shieldbuddy Tc275",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-shieldbuddy-tc275",
+        "instance": "shieldbuddy-tc275",
         "aspect": "overview"
       },
-      "search_text": "tricore shieldbuddy tc275 tricore shieldbuddy tc275 pin-map tc275 board board tc275 ------------------ ----- ----------- ---- pin-map board infineon tricore tc275 shieldbuddy entity hardware mcu-family tricore-shieldbuddy-tc275 overview",
+      "search_text": "tricore shieldbuddy tc275 tricore shieldbuddy tc275 pin-map tc275 board board tc275 ------------------ ----- ----------- ---- pin-map board infineon tricore tc275 shieldbuddy entity hardware mcu-family shieldbuddy-tc275 overview",
       "display": {
         "label": "TriCore ShieldBuddy TC275",
         "kind": "document",
-        "subtitle": "Tricore Shieldbuddy Tc275"
+        "subtitle": "Shieldbuddy Tc275"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-asc/tricore-tc27d-asc.mdx",
+      "id": "doc:docs/hardware/tc27d/asc.mdx",
       "title": "TriCore TC27D ASC(UART)",
       "description": "TriCore TC27D ASC(UART)",
       "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
@@ -28926,26 +28398,26 @@
         "TC275",
         "ASC"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-asc",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-asc",
-      "subject_title": "Tricore Tc27d Asc",
+      "url": "/docs/hardware/tc27d/asc",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-asc",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "asc"
       },
-      "search_text": "tricore tc27d asc uart tricore tc27d asc uart received examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header ifxasclin asc h examples read/write infineon tricore tc275 asc entity hardware mcu-family tricore-tc27d-asc overview",
+      "search_text": "tricore tc27d asc uart tricore tc27d asc uart received examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header ifxasclin asc h examples read/write infineon tricore tc275 asc entity hardware mcu-family tc27d asc",
       "display": {
         "label": "TriCore TC27D ASC(UART)",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Asc"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-bsp/tricore-tc27d-bsp.mdx",
+      "id": "doc:docs/hardware/tc27d/bsp.mdx",
       "title": "TriCore TC27D BSP(Time, GPIO)",
       "description": "TriCore TC27D BSP(Time, GPIO)",
       "snippet": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
@@ -28959,26 +28431,26 @@
         "TC275",
         "BSP"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-bsp",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-bsp",
-      "subject_title": "Tricore Tc27d Bsp",
+      "url": "/docs/hardware/tc27d/bsp",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-bsp",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "bsp"
       },
-      "search_text": "tricore tc27d bsp time gpio tricore tc27d bsp time gpio hw shieldbuddy tc275 baseframework에는 bsp가 기본 라이브러리로 제공되지 않습니다 baseframework를 프로젝트 시작으로 사용하는 경우 ill related header examples infineon tricore tc275 bsp entity hardware mcu-family tricore-tc27d-bsp overview",
+      "search_text": "tricore tc27d bsp time gpio tricore tc27d bsp time gpio hw shieldbuddy tc275 baseframework에는 bsp가 기본 라이브러리로 제공되지 않습니다 baseframework를 프로젝트 시작으로 사용하는 경우 ill related header examples infineon tricore tc275 bsp entity hardware mcu-family tc27d bsp",
       "display": {
         "label": "TriCore TC27D BSP(Time, GPIO)",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Bsp"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-ports/tricore-tc27d-ports.mdx",
+      "id": "doc:docs/hardware/tc27d/ports.mdx",
       "title": "TriCore TC27D Ports(DIO)",
       "description": "TriCore TC27D Ports(DIO)",
       "snippet": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
@@ -28994,26 +28466,26 @@
         "TC275",
         "Ports"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-ports",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-ports",
-      "subject_title": "Tricore Tc27d Ports",
+      "url": "/docs/hardware/tc27d/ports",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-ports",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "ports"
       },
-      "search_text": "tricore tc27d ports dio tricore tc27d ports dio output mode pad driver strength and state for referencing the pins and their ports a ifxport pinmap is available as well examples toggling a pin related header ifxport io h examples toggling a pin infineon tricore tc275 ports entity hardware mcu-family tricore-tc27d-ports overview",
+      "search_text": "tricore tc27d ports dio tricore tc27d ports dio output mode pad driver strength and state for referencing the pins and their ports a ifxport pinmap is available as well examples toggling a pin related header ifxport io h examples toggling a pin infineon tricore tc275 ports entity hardware mcu-family tc27d ports",
       "display": {
         "label": "TriCore TC27D Ports(DIO)",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Ports"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-stm/tricore-tc27d-stm.mdx",
+      "id": "doc:docs/hardware/tc27d/stm.mdx",
       "title": "TriCore TC27D STM(System Timer)",
       "description": "TriCore TC27D STM(System Timer)",
       "snippet": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
@@ -29028,26 +28500,26 @@
         "TC275",
         "STM"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-stm",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-stm",
-      "subject_title": "Tricore Tc27d Stm",
+      "url": "/docs/hardware/tc27d/stm",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-stm",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "stm"
       },
-      "search_text": "tricore tc27d stm system timer tricore tc27d stm system timer details examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header examples 주기적인 함수 호출 infineon tricore tc275 stm entity hardware mcu-family tricore-tc27d-stm overview",
+      "search_text": "tricore tc27d stm system timer tricore tc27d stm system timer details examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header examples 주기적인 함수 호출 infineon tricore tc275 stm entity hardware mcu-family tc27d stm",
       "display": {
         "label": "TriCore TC27D STM(System Timer)",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Stm"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-vadc/tricore-tc27d-vadc.mdx",
+      "id": "doc:docs/hardware/tc27d/vadc.mdx",
       "title": "TriCore TC27D VADC(Versatile ADC)",
       "description": "TriCore TC27D VADC(Versatile ADC)",
       "snippet": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
@@ -29063,26 +28535,26 @@
         "TC275",
         "ADC"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-vadc",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-vadc",
-      "subject_title": "Tricore Tc27d Vadc",
+      "url": "/docs/hardware/tc27d/vadc",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-vadc",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "vadc"
       },
-      "search_text": "tricore tc27d vadc versatile adc tricore tc27d vadc versatile adc hw shieldbuddy tc275 - queue highest priority - scan - background lowest priority related header ifxvadc adc h examples background infineon tricore tc275 adc entity hardware mcu-family tricore-tc27d-vadc overview",
+      "search_text": "tricore tc27d vadc versatile adc tricore tc27d vadc versatile adc hw shieldbuddy tc275 - queue highest priority - scan - background lowest priority related header ifxvadc adc h examples background infineon tricore tc275 adc entity hardware mcu-family tc27d vadc",
       "display": {
         "label": "TriCore TC27D VADC(Versatile ADC)",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Vadc"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-tc27d-terminal/tricore-tc27d-terminal.mdx",
+      "id": "doc:docs/hardware/tc27d/terminal.mdx",
       "title": "TriCore TC27D terminal",
       "description": "TriCore TC27D terminal",
       "snippet": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
@@ -29099,26 +28571,26 @@
         "TC275",
         "terminal"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-tc27d-terminal",
-      "subject_ref": "subject:hardware:mcu-family:tricore-tc27d-terminal",
-      "subject_title": "Tricore Tc27d Terminal",
+      "url": "/docs/hardware/tc27d/terminal",
+      "subject_ref": "subject:hardware:mcu-family:tc27d",
+      "subject_title": "Tc27d",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-tc27d-terminal",
-        "aspect": "overview"
+        "instance": "tc27d",
+        "aspect": "terminal"
       },
-      "search_text": "tricore tc27d terminal tricore tc27d terminal ommand examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header ifx shell command examples 0 src/appsw/tricore/tc27d lib/shell interface/shell interface h 0 src/appsw/tricore/tc27d lib/shell interface/shell interface c infineon tricore tc275 terminal entity hardware mcu-family tricore-tc27d-terminal overview",
+      "search_text": "tricore tc27d terminal tricore tc27d terminal ommand examples 폴더를 새로 생성한 경우 clean projet 후 다시 빌드해야 합니다 0 src/appsw/tricore/tc27d lib/config/ifx intpriodef h를 만들고 아래와 같이 작성합니다 c pragma once define related header ifx shell command examples 0 src/appsw/tricore/tc27d lib/shell interface/shell interface h 0 src/appsw/tricore/tc27d lib/shell interface/shell interface c infineon tricore tc275 terminal entity hardware mcu-family tc27d terminal",
       "display": {
         "label": "TriCore TC27D terminal",
         "kind": "document",
-        "subtitle": "Tricore Tc27d Terminal"
+        "subtitle": "Tc27d"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/tricore-upload-executable-file-in-udevisualplatform/tricore-upload-executable-file-in-udevisualplatform.mdx",
+      "id": "doc:docs/hardware/tricore/upload-executable-file-in-udevisualplatform.mdx",
       "title": "TriCore Upload executable file in UDEVisualPlatform",
       "description": "TriCore Upload executable file in UDEVisualPlatform",
       "snippet": "## UDEVisualPlatform\n\n- File -> New Workspace\n\n.wsx 파일을 저장 후, New 버튼을 누르고 사용 중인 보드를 찾아 선택합니다.\n\n- New…",
@@ -29134,21 +28606,21 @@
         "upload",
         "UDEVisualPlatform"
       ],
-      "url": "/docs/entity/hardware/mcu-family/tricore-upload-executable-file-in-udevisualplatform",
-      "subject_ref": "subject:hardware:mcu-family:tricore-upload-executable-file-in-udevisualplatform",
-      "subject_title": "Tricore Upload Executable File In Udevisualplatform",
+      "url": "/docs/hardware/tricore/upload-executable-file-in-udevisualplatform",
+      "subject_ref": "subject:hardware:mcu-family:tricore",
+      "subject_title": "Tricore",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "tricore-upload-executable-file-in-udevisualplatform",
-        "aspect": "overview"
+        "instance": "tricore",
+        "aspect": "upload-executable-file-in-udevisualplatform"
       },
-      "search_text": "tricore upload executable file in udevisualplatform tricore upload executable file in udevisualplatform udevisualplatform - file - new workspace wsx 파일을 저장 후 new 버튼을 누르고 사용 중인 보드를 찾아 선택합니다 - new udevisualplatform load upload start infineon tricore upload udevisualplatform entity hardware mcu-family tricore-upload-executable-file-in-udevisualplatform overview",
+      "search_text": "tricore upload executable file in udevisualplatform tricore upload executable file in udevisualplatform udevisualplatform - file - new workspace wsx 파일을 저장 후 new 버튼을 누르고 사용 중인 보드를 찾아 선택합니다 - new udevisualplatform load upload start infineon tricore upload udevisualplatform entity hardware mcu-family tricore upload-executable-file-in-udevisualplatform",
       "display": {
         "label": "TriCore Upload executable file in UDEVisualPlatform",
         "kind": "document",
-        "subtitle": "Tricore Upload Executable File In Udevisualplatform"
+        "subtitle": "Tricore"
       }
     },
     {
@@ -31878,7 +31350,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/hardware/mcu-family/nrf-development-environment/nrf-development-environment.mdx",
+      "id": "doc:docs/hardware/nrf/development-environment.mdx",
       "title": "nRF Development environment",
       "description": "nRF Development environment",
       "snippet": "",
@@ -31886,21 +31358,21 @@
       "keywords": [
         "nRF"
       ],
-      "url": "/docs/entity/hardware/mcu-family/nrf-development-environment",
-      "subject_ref": "subject:hardware:mcu-family:nrf-development-environment",
-      "subject_title": "Nrf Development Environment",
+      "url": "/docs/hardware/nrf/development-environment",
+      "subject_ref": "subject:hardware:mcu-family:nrf",
+      "subject_title": "Nrf",
       "ontology": {
         "role": "entity",
         "domain": "hardware",
         "class": "mcu-family",
-        "instance": "nrf-development-environment",
-        "aspect": "overview"
+        "instance": "nrf",
+        "aspect": "development-environment"
       },
-      "search_text": "nrf development environment nrf development environment nrf entity hardware mcu-family nrf-development-environment overview",
+      "search_text": "nrf development environment nrf development environment nrf entity hardware mcu-family nrf development-environment",
       "display": {
         "label": "nRF Development environment",
         "kind": "document",
-        "subtitle": "Nrf Development Environment"
+        "subtitle": "Nrf"
       }
     },
     {
@@ -33082,7 +32554,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/concept/hardware/electronics/sensor/fine-dust.mdx",
+      "id": "doc:docs/hardware/fine-dust-sensor/overview.mdx",
       "title": "미세먼지 센서",
       "description": "미세먼지 센서",
       "snippet": "## SPS30\n\n### 센서 명세\n\n| 변수 | 조건 | 값 | 단위 |\n| -------------- | -----------------------------------…",
@@ -33099,21 +32571,21 @@
         "fine dust",
         "미세먼지"
       ],
-      "url": "/docs/concept/hardware/electronics/sensor/fine-dust",
-      "subject_ref": "subject:hardware:electronics:sensor",
-      "subject_title": "Sensor",
+      "url": "/docs/hardware/fine-dust-sensor/overview",
+      "subject_ref": "subject:hardware:electronics:fine-dust-sensor",
+      "subject_title": "Fine Dust Sensor",
       "ontology": {
         "role": "concept",
         "domain": "hardware",
         "class": "electronics",
-        "instance": "sensor",
-        "aspect": "fine-dust"
+        "instance": "fine-dust-sensor",
+        "aspect": "overview"
       },
-      "search_text": "미세먼지 센서 미세먼지 센서 sps30 센서 명세 변수 조건 값 단위 -------------- ----------------------------------- sps30 센서 명세 전기적 특성 최대 최소 범위 인터페이스 uart i2c fine dust 미세먼지 concept hardware electronics sensor fine-dust",
+      "search_text": "미세먼지 센서 미세먼지 센서 sps30 센서 명세 변수 조건 값 단위 -------------- ----------------------------------- sps30 센서 명세 전기적 특성 최대 최소 범위 인터페이스 uart i2c fine dust 미세먼지 concept hardware electronics fine-dust-sensor overview",
       "display": {
         "label": "미세먼지 센서",
         "kind": "document",
-        "subtitle": "Sensor"
+        "subtitle": "Fine Dust Sensor"
       }
     },
     {

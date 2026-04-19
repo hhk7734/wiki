@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/hardware/avr/printf.mdx",
+  "title": "AVR Use printf() with UART",
+  "snippet": "… */\n#define __SWR 0x0002 /* OK to write */\n#define __SSTR 0x0004 /* this is an sprintf/snprintf string */\n#define __SPGM 0x0008 /* fmt string is in progmem */\n#define…",
+  "ontology": {
+    "role": "operation",
+    "domain": "hardware",
+    "class": "mcu-family",
+    "instance": "avr",
+    "aspect": "printf"
+  },
+  "url": "/docs/hardware/avr/printf",
+  "node_url": "/api/wiki/nodes/doc:docs/hardware/avr/printf.mdx.json",
+  "subject": {
+    "id": "subject:hardware:mcu-family:avr",
+    "title": "AVR I2C",
+    "ontology": {
+      "domain": "hardware",
+      "class": "mcu-family",
+      "instance": "avr"
+    },
+    "url": "/docs/hardware/avr/i2c"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/hardware/avr/printf.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "subject:hardware:mcu-family:avr",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
+  "title": "AVR Lock and Fuse bits",
+  "snippet": "…ck bits를 설정하는 것은 무의미 합니다.\n\n`shell\navrdude -p -c -U efuse:w:[0bxxxxxxxx]:m\n`\n\n## Fuse bits\n\nFuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.\n\n기…",
+  "ontology": {
+    "role": "operation",
+    "domain": "hardware",
+    "class": "mcu-family",
+    "instance": "avr",
+    "aspect": "lock-and-fuse-bits"
+  },
+  "url": "/docs/hardware/avr/lock-and-fuse-bits",
+  "node_url": "/api/wiki/nodes/doc:docs/hardware/avr/lock-and-fuse-bits.mdx.json",
+  "subject": {
+    "id": "subject:hardware:mcu-family:avr",
+    "title": "AVR I2C",
+    "ontology": {
+      "domain": "hardware",
+      "class": "mcu-family",
+      "instance": "avr"
+    },
+    "url": "/docs/hardware/avr/i2c"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/hardware/avr/lock-and-fuse-bits.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "subject:hardware:mcu-family:avr",
+      "direction": "outgoing"
+    }
+  ]
+}

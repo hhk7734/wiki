@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/hardware/sam4s2a/time.mdx",
+  "title": "SAM4S2A Time",
+  "snippet": "…).\n\nSysTick에 의한 인터럽트가 너무 많이 발생하면 Delay routines의 함수가 영향을 받아 의도한 것보다 길게 딜레이 됩니다. SAM4S2A 120MHz에서 us를 만들기 위한 설정을 하면 딜레이는 설정 값보다 약 1.5 ~ 1.6배 길어집니다.\n\n## Examples\n\n``c\n#i…",
+  "ontology": {
+    "role": "operation",
+    "domain": "hardware",
+    "class": "mcu-family",
+    "instance": "sam4s2a",
+    "aspect": "time"
+  },
+  "url": "/docs/hardware/sam4s2a/time",
+  "node_url": "/api/wiki/nodes/doc:docs/hardware/sam4s2a/time.mdx.json",
+  "subject": {
+    "id": "subject:hardware:mcu-family:sam4s2a",
+    "title": "SAM4S2A ADC",
+    "ontology": {
+      "domain": "hardware",
+      "class": "mcu-family",
+      "instance": "sam4s2a"
+    },
+    "url": "/docs/hardware/sam4s2a/adc"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/hardware/sam4s2a/time.mdx:about_subject:subject:hardware:mcu-family:sam4s2a",
+      "predicate": "about_subject",
+      "other_id": "subject:hardware:mcu-family:sam4s2a",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "type": "subject",
+  "id": "subject:hardware:mcu-family:avr",
+  "title": "AVR I2C",
+  "snippet": "I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 cl…",
+  "ontology": {
+    "domain": "hardware",
+    "class": "mcu-family",
+    "instance": "avr"
+  },
+  "url": "/docs/hardware/avr/i2c",
+  "node_url": "/api/wiki/nodes/subject:hardware:mcu-family:avr.json",
+  "document_refs": [
+    "doc:docs/hardware/avr/build-project-in-terminal.mdx",
+    "doc:docs/hardware/avr/eeprom.mdx",
+    "doc:docs/hardware/avr/i2c.mdx",
+    "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
+    "doc:docs/hardware/avr/printf.mdx",
+    "doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx",
+    "doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/hardware/avr/build-project-in-terminal.mdx",
+      "title": "AVR build project in Terminal",
+      "url": "/docs/hardware/avr/build-project-in-terminal",
+      "snippet": "## Installtion\n\n컴파일과 링크를 진행하기 전에 **avr-gcc**, **binutils-avr**, **avr-libc**를 설치해야 합니다.\n\n- binutils-avr: assembler, li…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "build-project-in-terminal"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/eeprom.mdx",
+      "title": "AVR Internal EEPROM",
+      "url": "/docs/hardware/avr/eeprom",
+      "snippet": "EEPROM은 전기적 신호를 통해 데이터를 지우고 저장할 수 있는 메모리입니다. ATmega328p의 경우 1 KB 사이즈의 EEPROM을 내장하고 있습니…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "eeprom"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/i2c.mdx",
+      "title": "AVR I2C",
+      "url": "/docs/hardware/avr/i2c",
+      "snippet": "I2C 통신은 두 개의 선으로 여러 장치에 접근하여 데이터를 주고 받을 수 있습니다. 두 개의 선은 clock을 동기화하기 위한 **SCL**과 cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "i2c"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
+      "title": "AVR Lock and Fuse bits",
+      "url": "/docs/hardware/avr/lock-and-fuse-bits",
+      "snippet": "…ck bits를 설정하는 것은 무의미 합니다.\n\n`shell\navrdude -p -c -U efuse:w:[0bxxxxxxxx]:m\n`\n\n## Fuse bits\n\nFuse bits는 Extended, High, Low 세 종류로 프로그래머, 부트 사이즈, 클럭 소스 등의 설정에 대한 비트입니다.\n\n기…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "lock-and-fuse-bits"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/printf.mdx",
+      "title": "AVR Use printf() with UART",
+      "url": "/docs/hardware/avr/printf",
+      "snippet": "… */\n#define __SWR 0x0002 /* OK to write */\n#define __SSTR 0x0004 /* this is an sprintf/snprintf string */\n#define __SPGM 0x0008 /* fmt string is in progmem */\n#define…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "printf"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx",
+      "title": "AVR upload executable file in Atmel studio 7",
+      "url": "/docs/hardware/avr/upload-executable-file-in-atmel-studio-7",
+      "snippet": "…다.\n\n제거할 때, Available tools 창에서 해당 프로그래머를 오른쪽 클릭한뒤 remove하면 제거됩니다.\n\n### avrdude\n\nAtmel studio 7에서 지원하지 않는 장치의 경우 avrdude를 사용해야하는 경우가 있습니다.\n\n예를 들어 아두이노 보드에 코드를 업로드해야 하는 경우 **To…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "upload-executable-file-in-atmel-studio-7"
+      }
+    },
+    {
+      "id": "doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx",
+      "title": "AVR upload executable file in Terminal",
+      "url": "/docs/hardware/avr/upload-executable-file-in-terminal",
+      "snippet": "…labs.com/products/development-tools/software/usb-to-uart-bridge-vcp-drivers\n\n## Upload\n\n업로드를 진행하기 전에 실행 파일인 .elf 파일이나 .hex 파일이 있어야 합니다.\n\navr-objcopy는 binutils-avr에 포함…",
+      "ontology": {
+        "role": "operation",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "avr",
+        "aspect": "upload-executable-file-in-terminal"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/hardware/avr/build-project-in-terminal.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/build-project-in-terminal.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/eeprom.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/eeprom.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/i2c.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/i2c.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/lock-and-fuse-bits.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/lock-and-fuse-bits.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/printf.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/printf.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/upload-executable-file-in-atmel-studio-7.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx:about_subject:subject:hardware:mcu-family:avr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/hardware/avr/upload-executable-file-in-terminal.mdx",
+      "direction": "incoming"
+    }
+  ]
+}
