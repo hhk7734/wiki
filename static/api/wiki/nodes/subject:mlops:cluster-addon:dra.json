@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:mlops:cluster-addon:dra",
+  "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+  "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+  "ontology": {
+    "domain": "mlops",
+    "class": "cluster-addon",
+    "instance": "dra"
+  },
+  "url": "/docs/mlops/dra/overview",
+  "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:dra.json",
+  "document_refs": [
+    "doc:docs/mlops/dra/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/mlops/dra/overview.mdx",
+      "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+      "url": "/docs/mlops/dra/overview",
+      "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "dra",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/dra/overview.mdx:about_subject:subject:mlops:cluster-addon:dra",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/dra/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
+  "title": "NVIDIA Kubernetes Device Plugin",
+  "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "cluster-addon",
+    "instance": "k8s-device-plugin",
+    "aspect": "install-nvidia"
+  },
+  "url": "/docs/mlops/k8s-device-plugin/install-nvidia",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-addon:k8s-device-plugin",
+    "title": "AMD Kubernetes Device Plugin",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-addon",
+      "instance": "k8s-device-plugin"
+    },
+    "url": "/docs/mlops/k8s-device-plugin/install-amd"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-addon:k8s-device-plugin",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/mlops/gpu-operator/install-amd.mdx",
+  "title": "AMD GPU Operator 설치 가이드",
+  "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+  "ontology": {
+    "role": "operation",
+    "domain": "mlops",
+    "class": "cluster-addon",
+    "instance": "gpu-operator",
+    "aspect": "install-amd"
+  },
+  "url": "/docs/mlops/gpu-operator/install-amd",
+  "node_url": "/api/wiki/nodes/doc:docs/mlops/gpu-operator/install-amd.mdx.json",
+  "subject": {
+    "id": "subject:mlops:cluster-addon:gpu-operator",
+    "title": "AMD GPU Operator CRD",
+    "ontology": {
+      "domain": "mlops",
+      "class": "cluster-addon",
+      "instance": "gpu-operator"
+    },
+    "url": "/docs/mlops/gpu-operator/crd"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/mlops/gpu-operator/install-amd.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
+      "predicate": "about_subject",
+      "other_id": "subject:mlops:cluster-addon:gpu-operator",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,23 +1,37 @@
 {
   "type": "subject",
   "id": "subject:mlops:cluster-addon:node-feature-discovery",
-  "title": "Node Feature Discovery(NFD) 설치 가이드",
-  "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
+  "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
+  "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
   "ontology": {
     "domain": "mlops",
     "class": "cluster-addon",
     "instance": "node-feature-discovery"
   },
-  "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
+  "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:node-feature-discovery.json",
   "document_refs": [
-    "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx"
+    "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+    "doc:docs/mlops/node-feature-discovery/install.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx",
+      "id": "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+      "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
+      "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
+      "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "node-feature-discovery",
+        "aspect": "node-feature-rule"
+      }
+    },
+    {
+      "id": "doc:docs/mlops/node-feature-discovery/install.mdx",
       "title": "Node Feature Discovery(NFD) 설치 가이드",
-      "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
+      "url": "/docs/mlops/node-feature-discovery/install",
       "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
       "ontology": {
         "role": "operation",
@@ -30,9 +44,15 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
+      "id": "relation:doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx",
+      "other_id": "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/node-feature-discovery/install.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/node-feature-discovery/install.mdx",
       "direction": "incoming"
     }
   ]

@@ -8,16 +8,17 @@
     "class": "cluster-addon",
     "instance": "cdi"
   },
-  "url": "/docs/entity/mlops/cluster-addon/cdi",
+  "url": "/docs/mlops/cdi/overview",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:cdi.json",
   "document_refs": [
-    "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx"
+    "doc:docs/mlops/cdi/overview.mdx",
+    "doc:docs/mlops/cdi/allocation.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx",
+      "id": "doc:docs/mlops/cdi/overview.mdx",
       "title": "Container Device Interface(CDI)",
-      "url": "/docs/entity/mlops/cluster-addon/cdi",
+      "url": "/docs/mlops/cdi/overview",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
       "ontology": {
         "role": "entity",
@@ -26,13 +27,32 @@
         "instance": "cdi",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/mlops/cdi/allocation.mdx",
+      "title": "Container Device Interface (CDI)",
+      "url": "/docs/mlops/cdi/allocation",
+      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "cdi",
+        "aspect": "allocation"
+      }
     }
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx:about_subject:subject:mlops:cluster-addon:cdi",
+      "id": "relation:doc:docs/mlops/cdi/overview.mdx:about_subject:subject:mlops:cluster-addon:cdi",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx",
+      "other_id": "doc:docs/mlops/cdi/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/mlops/cdi/allocation.mdx:about_subject:subject:mlops:cluster-addon:cdi",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/mlops/cdi/allocation.mdx",
       "direction": "incoming"
     }
   ]

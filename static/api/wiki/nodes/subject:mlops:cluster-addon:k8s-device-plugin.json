@@ -8,17 +8,17 @@
     "class": "cluster-addon",
     "instance": "k8s-device-plugin"
   },
-  "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
+  "url": "/docs/mlops/k8s-device-plugin/install-amd",
   "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:k8s-device-plugin.json",
   "document_refs": [
-    "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
-    "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx"
+    "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
+    "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
+      "id": "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
       "title": "AMD Kubernetes Device Plugin",
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
+      "url": "/docs/mlops/k8s-device-plugin/install-amd",
       "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
       "ontology": {
         "role": "operation",
@@ -29,9 +29,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx",
+      "id": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
       "title": "NVIDIA Kubernetes Device Plugin",
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia",
+      "url": "/docs/mlops/k8s-device-plugin/install-nvidia",
       "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
       "ontology": {
         "role": "operation",
@@ -44,15 +44,15 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
+      "id": "relation:doc:docs/mlops/k8s-device-plugin/install-amd.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
+      "other_id": "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
+      "id": "relation:doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx",
+      "other_id": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
       "direction": "incoming"
     }
   ]

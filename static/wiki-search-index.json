@@ -126,11 +126,11 @@
       "title": "AMD GPU Operator CRD",
       "description": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
       "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/crd",
+      "url": "/docs/mlops/gpu-operator/crd",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx"
+        "doc:docs/mlops/gpu-operator/crd.mdx",
+        "doc:docs/mlops/gpu-operator/install-amd.mdx",
+        "doc:docs/mlops/gpu-operator/install-nvidia.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -151,10 +151,10 @@
       "title": "AMD Kubernetes Device Plugin",
       "description": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
       "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
+      "url": "/docs/mlops/k8s-device-plugin/install-amd",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx"
+        "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
+        "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -175,9 +175,9 @@
       "title": "AMD ROCm",
       "description": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
       "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
-      "url": "/docs/entity/mlops/cluster-addon/rocm",
+      "url": "/docs/mlops/rocm/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx"
+        "doc:docs/mlops/rocm/overview.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -1279,49 +1279,26 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:cluster-addon:allocation",
-      "title": "Container Device Interface (CDI)",
-      "description": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "url": "/docs/operation/mlops/cluster-addon/allocation/cdi",
-      "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx",
-        "doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "allocation"
-      },
-      "search_text": "container device interface cdi 로는 /var/lib/kubelet/device-plugins/입니다 cdi - https //github com/cncf-tags/container-device-interface/blob/main/spec md kubernetes 1 28에서 alpha 1 29에서 beta로 추가되는 container device interface cdi kubernetes dynamic resource allocation dra 가이드 device plugin device plugin 등록 cdi cdi 설정 node agent for dra mlops cluster-addon allocation",
-      "display": {
-        "label": "Container Device Interface (CDI)",
-        "kind": "subject",
-        "subtitle": "Allocation",
-        "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:mlops:cluster-addon:cdi",
       "title": "Container Device Interface(CDI)",
       "description": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "url": "/docs/entity/mlops/cluster-addon/cdi",
+      "url": "/docs/mlops/cdi/overview",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx"
+        "doc:docs/mlops/cdi/overview.mdx",
+        "doc:docs/mlops/cdi/allocation.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "cluster-addon",
         "instance": "cdi"
       },
-      "search_text": "container device interface cdi 로는 /var/lib/kubelet/device-plugins/입니다 cdi - https //github com/cncf-tags/container-device-interface/blob/main/spec md kubernetes 1 28에서 alpha 1 29에서 beta로 추가되는 container device interface cdi device plugin device plugin 등록 cdi cdi 설정 mlops cluster-addon cdi",
+      "search_text": "container device interface cdi 로는 /var/lib/kubelet/device-plugins/입니다 cdi - https //github com/cncf-tags/container-device-interface/blob/main/spec md kubernetes 1 28에서 alpha 1 29에서 beta로 추가되는 container device interface cdi container device interface cdi device plugin device plugin 등록 cdi cdi 설정 device plugin device plugin 등록 cdi cdi 설정 mlops cluster-addon cdi",
       "display": {
         "label": "Container Device Interface(CDI)",
         "kind": "subject",
         "subtitle": "Cdi",
-        "document_count": 1
+        "document_count": 2
       }
     },
     {
@@ -3613,6 +3590,29 @@
     },
     {
       "type": "subject",
+      "id": "subject:mlops:cluster-addon:dra",
+      "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+      "description": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+      "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+      "url": "/docs/mlops/dra/overview",
+      "document_refs": [
+        "doc:docs/mlops/dra/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "dra"
+      },
+      "search_text": "kubernetes dynamic resource allocation dra 가이드 node agent for dra node agent가 각 노드에서 실행되면 1 dra가 지원하는 디바이스를 검색해서 resourceslice를 생성합니다 yaml apiversion resource k8s io/v1 kind resourceslice spec kubernetes dynamic resource allocation dra 가이드 node agent for dra mlops cluster-addon dra",
+      "display": {
+        "label": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+        "kind": "subject",
+        "subtitle": "Dra",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:mlops:workload:horizontalpodautoscaler",
       "title": "Kubernetes HorizontalPodAutoscaler 가이드",
       "description": "…ler-downscale-stabilization 5m\n - --horizontal-pod-autoscaler-tolerance 0.1\n\n## HorizontalPodAutoscaler\n\n### Specification\n\n``yaml\napiVersion: autoscaling/v2\nkind: HorizontalPodAutosc…",
@@ -3785,9 +3785,9 @@
       "title": "Kyverno for Kubernetes Policy Management",
       "description": "## 설치\n\n- Kyverno 설치 방법\n\n``shell\nhelm repo add kyverno https://kyverno.github.io/kyverno/\n`\n\n`she…",
       "snippet": "## 설치\n\n- Kyverno 설치 방법\n\n``shell\nhelm repo add kyverno https://kyverno.github.io/kyverno/\n`\n\n`she…",
-      "url": "/docs/operation/mlops/cluster-addon/kyverno/install",
+      "url": "/docs/mlops/kyverno/install",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx"
+        "doc:docs/mlops/kyverno/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
@@ -4338,25 +4338,26 @@
     },
     {
       "type": "subject",
-      "id": "subject:mlops:cluster-addon:node-feautre-rule",
+      "id": "subject:mlops:cluster-addon:node-feature-discovery",
       "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "description": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
       "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
-      "url": "/docs/entity/mlops/cluster-addon/node-feautre-rule",
+      "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx"
+        "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+        "doc:docs/mlops/node-feature-discovery/install.mdx"
       ],
       "ontology": {
         "domain": "mlops",
         "class": "cluster-addon",
-        "instance": "node-feautre-rule"
+        "instance": "node-feature-discovery"
       },
-      "search_text": "nfd nodefeaturerule을 활용한 node 식별 가이드 ker로부터 받은 feature를 feature node kubernetes io/- 형식의 label로 node에 추가합니다 nodefeaturerule - nfd / customization guide nodefeaturerule yaml apiversion nfd k8s-sigs nfd nodefeaturerule을 활용한 node 식별 가이드 feature labels nodefeaturerule mlops cluster-addon node-feautre-rule",
+      "search_text": "nfd nodefeaturerule을 활용한 node 식별 가이드 ker로부터 받은 feature를 feature node kubernetes io/- 형식의 label로 node에 추가합니다 nodefeaturerule - nfd / customization guide nodefeaturerule yaml apiversion nfd k8s-sigs nfd nodefeaturerule을 활용한 node 식별 가이드 node feature discovery nfd 설치 가이드 feature labels nodefeaturerule 설치 mlops cluster-addon node-feature-discovery",
       "display": {
         "label": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
         "kind": "subject",
-        "subtitle": "Node Feautre Rule",
-        "document_count": 1
+        "subtitle": "Node Feature Discovery",
+        "document_count": 2
       }
     },
     {
@@ -4502,29 +4503,6 @@
         "kind": "subject",
         "subtitle": "Nextjs",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:mlops:cluster-addon:node-feature-discovery",
-      "title": "Node Feature Discovery(NFD) 설치 가이드",
-      "description": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
-      "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
-      "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
-      "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx"
-      ],
-      "ontology": {
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "node-feature-discovery"
-      },
-      "search_text": "node feature discovery nfd 설치 가이드 scovery / deployment / helm shell helm pull oci //registry k8s io/nfd/charts/node-feature-discovery --version 0 18 3 shell helm show values oci //registry k8s io/nfd/charts/no node feature discovery nfd 설치 가이드 설치 mlops cluster-addon node-feature-discovery",
-      "display": {
-        "label": "Node Feature Discovery(NFD) 설치 가이드",
-        "kind": "subject",
-        "subtitle": "Node Feature Discovery",
-        "document_count": 1
       }
     },
     {
@@ -8684,7 +8662,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx",
+      "id": "doc:docs/mlops/gpu-operator/crd.mdx",
       "title": "AMD GPU Operator CRD",
       "description": "AMD GPU Operator CRD",
       "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
@@ -8699,7 +8677,7 @@
         "gpu-operator",
         "crd"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/crd",
+      "url": "/docs/mlops/gpu-operator/crd",
       "subject_ref": "subject:mlops:cluster-addon:gpu-operator",
       "subject_title": "Gpu Operator",
       "ontology": {
@@ -8718,7 +8696,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx",
+      "id": "doc:docs/mlops/gpu-operator/install-amd.mdx",
       "title": "AMD GPU Operator 설치 가이드",
       "description": "AMD GPU Operator 설치 가이드",
       "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
@@ -8730,7 +8708,7 @@
         "gpu-operator",
         "helm"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/install-amd",
+      "url": "/docs/mlops/gpu-operator/install-amd",
       "subject_ref": "subject:mlops:cluster-addon:gpu-operator",
       "subject_title": "Gpu Operator",
       "ontology": {
@@ -8749,7 +8727,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
+      "id": "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
       "title": "AMD Kubernetes Device Plugin",
       "description": "AMD Kubernetes Device Plugin",
       "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
@@ -8765,7 +8743,7 @@
         "kubernetes",
         "device plugin"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
+      "url": "/docs/mlops/k8s-device-plugin/install-amd",
       "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin",
       "subject_title": "K8s Device Plugin",
       "ontology": {
@@ -8784,7 +8762,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx",
+      "id": "doc:docs/mlops/rocm/overview.mdx",
       "title": "AMD ROCm",
       "description": "AMD ROCm",
       "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
@@ -8798,7 +8776,7 @@
         "kubernetes",
         "ROCm"
       ],
-      "url": "/docs/entity/mlops/cluster-addon/rocm",
+      "url": "/docs/mlops/rocm/overview",
       "subject_ref": "subject:mlops:cluster-addon:rocm",
       "subject_title": "Rocm",
       "ontology": {
@@ -12387,7 +12365,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx",
+      "id": "doc:docs/mlops/cdi/allocation.mdx",
       "title": "Container Device Interface (CDI)",
       "description": "Container Device Interface (CDI)",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
@@ -12401,26 +12379,26 @@
         "Container Device Interface",
         "cdi"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/allocation/cdi",
-      "subject_ref": "subject:mlops:cluster-addon:allocation",
-      "subject_title": "Allocation",
+      "url": "/docs/mlops/cdi/allocation",
+      "subject_ref": "subject:mlops:cluster-addon:cdi",
+      "subject_title": "Cdi",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "cluster-addon",
-        "instance": "allocation",
-        "aspect": "cdi"
+        "instance": "cdi",
+        "aspect": "allocation"
       },
-      "search_text": "container device interface cdi container device interface cdi 로는 /var/lib/kubelet/device-plugins/입니다 cdi - https //github com/cncf-tags/container-device-interface/blob/main/spec md kubernetes 1 28에서 alpha 1 29에서 beta로 추가되는 device plugin device plugin 등록 cdi cdi 설정 container device interface cdi operation mlops cluster-addon allocation cdi",
+      "search_text": "container device interface cdi container device interface cdi 로는 /var/lib/kubelet/device-plugins/입니다 cdi - https //github com/cncf-tags/container-device-interface/blob/main/spec md kubernetes 1 28에서 alpha 1 29에서 beta로 추가되는 device plugin device plugin 등록 cdi cdi 설정 container device interface cdi operation mlops cluster-addon cdi allocation",
       "display": {
         "label": "Container Device Interface (CDI)",
         "kind": "document",
-        "subtitle": "Allocation"
+        "subtitle": "Cdi"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx",
+      "id": "doc:docs/mlops/cdi/overview.mdx",
       "title": "Container Device Interface(CDI)",
       "description": "Container Device Interface(CDI)",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
@@ -12434,7 +12412,7 @@
         "Container Device Interface",
         "cdi"
       ],
-      "url": "/docs/entity/mlops/cluster-addon/cdi",
+      "url": "/docs/mlops/cdi/overview",
       "subject_ref": "subject:mlops:cluster-addon:cdi",
       "subject_title": "Cdi",
       "ontology": {
@@ -18463,7 +18441,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx",
+      "id": "doc:docs/mlops/dra/overview.mdx",
       "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
       "description": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
       "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
@@ -18475,21 +18453,21 @@
         "dra",
         "kubernetes"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/allocation/dra",
-      "subject_ref": "subject:mlops:cluster-addon:allocation",
-      "subject_title": "Allocation",
+      "url": "/docs/mlops/dra/overview",
+      "subject_ref": "subject:mlops:cluster-addon:dra",
+      "subject_title": "Dra",
       "ontology": {
         "role": "operation",
         "domain": "mlops",
         "class": "cluster-addon",
-        "instance": "allocation",
-        "aspect": "dra"
+        "instance": "dra",
+        "aspect": "overview"
       },
-      "search_text": "kubernetes dynamic resource allocation dra 가이드 kubernetes dynamic resource allocation dra 가이드 node agent for dra node agent가 각 노드에서 실행되면 1 dra가 지원하는 디바이스를 검색해서 resourceslice를 생성합니다 yaml apiversion resource k8s io/v1 kind resourceslice spec node agent for dra dynamic resource allocation dra kubernetes operation mlops cluster-addon allocation dra",
+      "search_text": "kubernetes dynamic resource allocation dra 가이드 kubernetes dynamic resource allocation dra 가이드 node agent for dra node agent가 각 노드에서 실행되면 1 dra가 지원하는 디바이스를 검색해서 resourceslice를 생성합니다 yaml apiversion resource k8s io/v1 kind resourceslice spec node agent for dra dynamic resource allocation dra kubernetes operation mlops cluster-addon dra overview",
       "display": {
         "label": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
         "kind": "document",
-        "subtitle": "Allocation"
+        "subtitle": "Dra"
       }
     },
     {
@@ -18975,7 +18953,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx",
+      "id": "doc:docs/mlops/kyverno/install.mdx",
       "title": "Kyverno for Kubernetes Policy Management",
       "description": "Kyverno for Kubernetes Policy Management",
       "snippet": "## 설치\n\n- Kyverno 설치 방법\n\n``shell\nhelm repo add kyverno https://kyverno.github.io/kyverno/\n`\n\n`she…",
@@ -18986,7 +18964,7 @@
         "kyverno",
         "policy"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/kyverno/install",
+      "url": "/docs/mlops/kyverno/install",
       "subject_ref": "subject:mlops:cluster-addon:kyverno",
       "subject_title": "Kyverno",
       "ontology": {
@@ -20938,7 +20916,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx",
+      "id": "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
       "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "description": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
@@ -20951,21 +20929,21 @@
         "NFD",
         "NodeFeatureRule"
       ],
-      "url": "/docs/entity/mlops/cluster-addon/node-feautre-rule",
-      "subject_ref": "subject:mlops:cluster-addon:node-feautre-rule",
-      "subject_title": "Node Feautre Rule",
+      "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
+      "subject_ref": "subject:mlops:cluster-addon:node-feature-discovery",
+      "subject_title": "Node Feature Discovery",
       "ontology": {
         "role": "entity",
         "domain": "mlops",
         "class": "cluster-addon",
-        "instance": "node-feautre-rule",
-        "aspect": "overview"
+        "instance": "node-feature-discovery",
+        "aspect": "node-feature-rule"
       },
-      "search_text": "nfd nodefeaturerule을 활용한 node 식별 가이드 nfd nodefeaturerule을 활용한 node 식별 가이드 ker로부터 받은 feature를 feature node kubernetes io/- 형식의 label로 node에 추가합니다 nodefeaturerule - nfd / customization guide nodefeaturerule yaml apiversion nfd k8s-sigs feature labels nodefeaturerule node feature discovery nfd nodefeaturerule entity mlops cluster-addon node-feautre-rule overview",
+      "search_text": "nfd nodefeaturerule을 활용한 node 식별 가이드 nfd nodefeaturerule을 활용한 node 식별 가이드 ker로부터 받은 feature를 feature node kubernetes io/- 형식의 label로 node에 추가합니다 nodefeaturerule - nfd / customization guide nodefeaturerule yaml apiversion nfd k8s-sigs feature labels nodefeaturerule node feature discovery nfd nodefeaturerule entity mlops cluster-addon node-feature-discovery node-feature-rule",
       "display": {
         "label": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
         "kind": "document",
-        "subtitle": "Node Feautre Rule"
+        "subtitle": "Node Feature Discovery"
       }
     },
     {
@@ -21001,7 +20979,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx",
+      "id": "doc:docs/mlops/gpu-operator/install-nvidia.mdx",
       "title": "NVIDIA GPU Operator",
       "description": "NVIDIA GPU Operator",
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
@@ -21015,7 +20993,7 @@
         "gpu-operator",
         "nvidia"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia",
+      "url": "/docs/mlops/gpu-operator/install-nvidia",
       "subject_ref": "subject:mlops:cluster-addon:gpu-operator",
       "subject_title": "Gpu Operator",
       "ontology": {
@@ -21034,7 +21012,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx",
+      "id": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
       "title": "NVIDIA Kubernetes Device Plugin",
       "description": "NVIDIA Kubernetes Device Plugin",
       "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
@@ -21047,7 +21025,7 @@
         "kubernetes",
         "device plugin"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia",
+      "url": "/docs/mlops/k8s-device-plugin/install-nvidia",
       "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin",
       "subject_title": "K8s Device Plugin",
       "ontology": {
@@ -21419,7 +21397,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx",
+      "id": "doc:docs/mlops/node-feature-discovery/install.mdx",
       "title": "Node Feature Discovery(NFD) 설치 가이드",
       "description": "Node Feature Discovery(NFD) 설치 가이드",
       "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
@@ -21430,7 +21408,7 @@
         "node feature discovery",
         "nfd"
       ],
-      "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
+      "url": "/docs/mlops/node-feature-discovery/install",
       "subject_ref": "subject:mlops:cluster-addon:node-feature-discovery",
       "subject_title": "Node Feature Discovery",
       "ontology": {

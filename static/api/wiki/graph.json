@@ -1057,54 +1057,6 @@
       "subject_ref": "subject:mlops:cloud-service:iam"
     },
     {
-      "id": "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx",
-      "type": "document",
-      "title": "Container Device Interface(CDI)",
-      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "cdi",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/cluster-addon/cdi",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:cdi"
-    },
-    {
-      "id": "doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx",
-      "type": "document",
-      "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
-      "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "node-feautre-rule",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/cluster-addon/node-feautre-rule",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:node-feautre-rule"
-    },
-    {
-      "id": "doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx",
-      "type": "document",
-      "title": "AMD ROCm",
-      "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "rocm",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/cluster-addon/rocm",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:rocm"
-    },
-    {
       "id": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
       "type": "document",
       "title": "RabbitMQ Flow",
@@ -5905,6 +5857,38 @@
       "subject_ref": "subject:mlops:auth-system:casdoor"
     },
     {
+      "id": "doc:docs/mlops/cdi/allocation.mdx",
+      "type": "document",
+      "title": "Container Device Interface (CDI)",
+      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "cdi",
+        "aspect": "allocation"
+      },
+      "url": "/docs/mlops/cdi/allocation",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cdi/allocation.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:cdi"
+    },
+    {
+      "id": "doc:docs/mlops/cdi/overview.mdx",
+      "type": "document",
+      "title": "Container Device Interface(CDI)",
+      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "cdi",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/cdi/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/cdi/overview.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:cdi"
+    },
+    {
       "id": "doc:docs/mlops/cert-manager/crds.mdx",
       "type": "document",
       "title": "cert-manager CRDs",
@@ -6353,6 +6337,22 @@
       "subject_ref": "subject:mlops:container-platform:docker"
     },
     {
+      "id": "doc:docs/mlops/dra/overview.mdx",
+      "type": "document",
+      "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+      "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "dra",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/dra/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/dra/overview.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:dra"
+    },
+    {
       "id": "doc:docs/mlops/eck/operator.mdx",
       "type": "document",
       "title": "ECK Operator",
@@ -6607,6 +6607,54 @@
       "url": "/docs/mlops/gke/node-pool",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/gke/node-pool.mdx.json",
       "subject_ref": "subject:mlops:cluster-orchestrator:gke"
+    },
+    {
+      "id": "doc:docs/mlops/gpu-operator/crd.mdx",
+      "type": "document",
+      "title": "AMD GPU Operator CRD",
+      "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "gpu-operator",
+        "aspect": "crd"
+      },
+      "url": "/docs/mlops/gpu-operator/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gpu-operator/crd.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
+    },
+    {
+      "id": "doc:docs/mlops/gpu-operator/install-amd.mdx",
+      "type": "document",
+      "title": "AMD GPU Operator 설치 가이드",
+      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "gpu-operator",
+        "aspect": "install-amd"
+      },
+      "url": "/docs/mlops/gpu-operator/install-amd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gpu-operator/install-amd.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
+    },
+    {
+      "id": "doc:docs/mlops/gpu-operator/install-nvidia.mdx",
+      "type": "document",
+      "title": "NVIDIA GPU Operator",
+      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "gpu-operator",
+        "aspect": "install-nvidia"
+      },
+      "url": "/docs/mlops/gpu-operator/install-nvidia",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gpu-operator/install-nvidia.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
     },
     {
       "id": "doc:docs/mlops/grafana/alert.mdx",
@@ -7007,6 +7055,38 @@
       "url": "/docs/mlops/k6/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/k6/overview.mdx.json",
       "subject_ref": "subject:mlops:observability-system:k6"
+    },
+    {
+      "id": "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
+      "type": "document",
+      "title": "AMD Kubernetes Device Plugin",
+      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "k8s-device-plugin",
+        "aspect": "install-amd"
+      },
+      "url": "/docs/mlops/k8s-device-plugin/install-amd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/k8s-device-plugin/install-amd.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin"
+    },
+    {
+      "id": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
+      "type": "document",
+      "title": "NVIDIA Kubernetes Device Plugin",
+      "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "k8s-device-plugin",
+        "aspect": "install-nvidia"
+      },
+      "url": "/docs/mlops/k8s-device-plugin/install-nvidia",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin"
     },
     {
       "id": "doc:docs/mlops/karpenter/crd.mdx",
@@ -7617,6 +7697,22 @@
       "subject_ref": "subject:mlops:provisioning-tool:kubevirt"
     },
     {
+      "id": "doc:docs/mlops/kyverno/install.mdx",
+      "type": "document",
+      "title": "Kyverno for Kubernetes Policy Management",
+      "snippet": "## 설치\n\n- Kyverno 설치 방법\n\n``shell\nhelm repo add kyverno https://kyverno.github.io/kyverno/\n`\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "kyverno",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/kyverno/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kyverno/install.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:kyverno"
+    },
+    {
       "id": "doc:docs/mlops/loki/collector.mdx",
       "type": "document",
       "title": "로그 수집기에서 Loki로 로그 전송하기",
@@ -7855,6 +7951,38 @@
       "url": "/docs/mlops/node-exporter/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/node-exporter/install.mdx.json",
       "subject_ref": "subject:mlops:observability-system:node-exporter"
+    },
+    {
+      "id": "doc:docs/mlops/node-feature-discovery/install.mdx",
+      "type": "document",
+      "title": "Node Feature Discovery(NFD) 설치 가이드",
+      "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "node-feature-discovery",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/node-feature-discovery/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/node-feature-discovery/install.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:node-feature-discovery"
+    },
+    {
+      "id": "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+      "type": "document",
+      "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
+      "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "node-feature-discovery",
+        "aspect": "node-feature-rule"
+      },
+      "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:node-feature-discovery"
     },
     {
       "id": "doc:docs/mlops/nvidia-container-toolkit/install.mdx",
@@ -8303,6 +8431,22 @@
       "url": "/docs/mlops/rdma-shared-device-plugin/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/rdma-shared-device-plugin/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:rdma-shared-device-plugin"
+    },
+    {
+      "id": "doc:docs/mlops/rocm/overview.mdx",
+      "type": "document",
+      "title": "AMD ROCm",
+      "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "rocm",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/rocm/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/rocm/overview.mdx.json",
+      "subject_ref": "subject:mlops:cluster-addon:rocm"
     },
     {
       "id": "doc:docs/mlops/s6-overlay/configure.mdx",
@@ -8895,150 +9039,6 @@
       "url": "/docs/operation/mlops/cloud-service/ses/create",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cloud-service/ses/create.mdx.json",
       "subject_ref": "subject:mlops:cloud-service:ses"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx",
-      "type": "document",
-      "title": "Container Device Interface (CDI)",
-      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "allocation",
-        "aspect": "cdi"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/allocation/cdi",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:allocation"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx",
-      "type": "document",
-      "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
-      "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "allocation",
-        "aspect": "dra"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/allocation/dra",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:allocation"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx",
-      "type": "document",
-      "title": "AMD GPU Operator CRD",
-      "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "crd"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx",
-      "type": "document",
-      "title": "AMD GPU Operator 설치 가이드",
-      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-amd"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/install-amd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx",
-      "type": "document",
-      "title": "NVIDIA GPU Operator",
-      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-nvidia"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:gpu-operator"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
-      "type": "document",
-      "title": "AMD Kubernetes Device Plugin",
-      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-amd"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx",
-      "type": "document",
-      "title": "NVIDIA Kubernetes Device Plugin",
-      "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-nvidia"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:k8s-device-plugin"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx",
-      "type": "document",
-      "title": "Kyverno for Kubernetes Policy Management",
-      "snippet": "## 설치\n\n- Kyverno 설치 방법\n\n``shell\nhelm repo add kyverno https://kyverno.github.io/kyverno/\n`\n\n`she…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "kyverno",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/kyverno/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:kyverno"
-    },
-    {
-      "id": "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx",
-      "type": "document",
-      "title": "Node Feature Discovery(NFD) 설치 가이드",
-      "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "node-feature-discovery",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx.json",
-      "subject_ref": "subject:mlops:cluster-addon:node-feature-discovery"
     },
     {
       "id": "doc:docs/operation/mlops/configuration/configmap/configmap.mdx",
@@ -14150,23 +14150,6 @@
       ]
     },
     {
-      "id": "subject:mlops:cluster-addon:allocation",
-      "type": "subject",
-      "title": "Container Device Interface (CDI)",
-      "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "ontology": {
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "allocation"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/allocation/cdi",
-      "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:allocation.json",
-      "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx",
-        "doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx"
-      ]
-    },
-    {
       "id": "subject:mlops:cluster-addon:cdi",
       "type": "subject",
       "title": "Container Device Interface(CDI)",
@@ -14176,10 +14159,27 @@
         "class": "cluster-addon",
         "instance": "cdi"
       },
-      "url": "/docs/entity/mlops/cluster-addon/cdi",
+      "url": "/docs/mlops/cdi/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:cdi.json",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx"
+        "doc:docs/mlops/cdi/overview.mdx",
+        "doc:docs/mlops/cdi/allocation.mdx"
+      ]
+    },
+    {
+      "id": "subject:mlops:cluster-addon:dra",
+      "type": "subject",
+      "title": "Kubernetes Dynamic Resource Allocation (DRA) 가이드",
+      "snippet": "## Node Agent for DRA\n\nnode agent가 각 노드에서 실행되면\n\n1. DRA가 지원하는 디바이스를 검색해서 ResourceSlice를 생성합니다.\n\n``yaml\napiVersion: resource.k8s.io/v1\nkind: ResourceSlice\nspec:\n …",
+      "ontology": {
+        "domain": "mlops",
+        "class": "cluster-addon",
+        "instance": "dra"
+      },
+      "url": "/docs/mlops/dra/overview",
+      "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:dra.json",
+      "document_refs": [
+        "doc:docs/mlops/dra/overview.mdx"
       ]
     },
     {
@@ -14192,12 +14192,12 @@
         "class": "cluster-addon",
         "instance": "gpu-operator"
       },
-      "url": "/docs/operation/mlops/cluster-addon/gpu-operator/crd",
+      "url": "/docs/mlops/gpu-operator/crd",
       "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:gpu-operator.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx"
+        "doc:docs/mlops/gpu-operator/crd.mdx",
+        "doc:docs/mlops/gpu-operator/install-amd.mdx",
+        "doc:docs/mlops/gpu-operator/install-nvidia.mdx"
       ]
     },
     {
@@ -14210,11 +14210,11 @@
         "class": "cluster-addon",
         "instance": "k8s-device-plugin"
       },
-      "url": "/docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd",
+      "url": "/docs/mlops/k8s-device-plugin/install-amd",
       "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:k8s-device-plugin.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
-        "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx"
+        "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
+        "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx"
       ]
     },
     {
@@ -14227,42 +14227,27 @@
         "class": "cluster-addon",
         "instance": "kyverno"
       },
-      "url": "/docs/operation/mlops/cluster-addon/kyverno/install",
+      "url": "/docs/mlops/kyverno/install",
       "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:kyverno.json",
       "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx"
+        "doc:docs/mlops/kyverno/install.mdx"
       ]
     },
     {
       "id": "subject:mlops:cluster-addon:node-feature-discovery",
-      "type": "subject",
-      "title": "Node Feature Discovery(NFD) 설치 가이드",
-      "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "cluster-addon",
-        "instance": "node-feature-discovery"
-      },
-      "url": "/docs/operation/mlops/cluster-addon/node-feature-discovery/install",
-      "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:node-feature-discovery.json",
-      "document_refs": [
-        "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:cluster-addon:node-feautre-rule",
       "type": "subject",
       "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
       "ontology": {
         "domain": "mlops",
         "class": "cluster-addon",
-        "instance": "node-feautre-rule"
+        "instance": "node-feature-discovery"
       },
-      "url": "/docs/entity/mlops/cluster-addon/node-feautre-rule",
-      "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:node-feautre-rule.json",
+      "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
+      "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:node-feature-discovery.json",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx"
+        "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+        "doc:docs/mlops/node-feature-discovery/install.mdx"
       ]
     },
     {
@@ -14275,10 +14260,10 @@
         "class": "cluster-addon",
         "instance": "rocm"
       },
-      "url": "/docs/entity/mlops/cluster-addon/rocm",
+      "url": "/docs/mlops/rocm/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:cluster-addon:rocm.json",
       "document_refs": [
-        "doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx"
+        "doc:docs/mlops/rocm/overview.mdx"
       ]
     },
     {
@@ -17651,24 +17636,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx:about_subject:subject:mlops:cluster-addon:cdi",
-      "from": "doc:docs/entity/mlops/cluster-addon/cdi/cdi.mdx",
-      "to": "subject:mlops:cluster-addon:cdi",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx:about_subject:subject:mlops:cluster-addon:node-feautre-rule",
-      "from": "doc:docs/entity/mlops/cluster-addon/node-feautre-rule/node-feautre-rule.mdx",
-      "to": "subject:mlops:cluster-addon:node-feautre-rule",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx:about_subject:subject:mlops:cluster-addon:rocm",
-      "from": "doc:docs/entity/mlops/cluster-addon/rocm/rocm.mdx",
-      "to": "subject:mlops:cluster-addon:rocm",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx:about_subject:subject:mlops:eventing-system:rabbitmq-flow",
       "from": "doc:docs/entity/mlops/eventing-system/rabbitmq-flow/rabbitmq-flow.mdx",
       "to": "subject:mlops:eventing-system:rabbitmq-flow",
@@ -19469,6 +19436,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/cdi/allocation.mdx:about_subject:subject:mlops:cluster-addon:cdi",
+      "from": "doc:docs/mlops/cdi/allocation.mdx",
+      "to": "subject:mlops:cluster-addon:cdi",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/cdi/overview.mdx:about_subject:subject:mlops:cluster-addon:cdi",
+      "from": "doc:docs/mlops/cdi/overview.mdx",
+      "to": "subject:mlops:cluster-addon:cdi",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/cert-manager/crds.mdx:about_subject:subject:mlops:auth-system:cert-manager",
       "from": "doc:docs/mlops/cert-manager/crds.mdx",
       "to": "subject:mlops:auth-system:cert-manager",
@@ -19637,6 +19616,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/dra/overview.mdx:about_subject:subject:mlops:cluster-addon:dra",
+      "from": "doc:docs/mlops/dra/overview.mdx",
+      "to": "subject:mlops:cluster-addon:dra",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/eck/operator.mdx:about_subject:subject:mlops:observability-system:eck",
       "from": "doc:docs/mlops/eck/operator.mdx",
       "to": "subject:mlops:observability-system:eck",
@@ -19730,6 +19715,24 @@
       "id": "relation:doc:docs/mlops/gke/node-pool.mdx:about_subject:subject:mlops:cluster-orchestrator:gke",
       "from": "doc:docs/mlops/gke/node-pool.mdx",
       "to": "subject:mlops:cluster-orchestrator:gke",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gpu-operator/crd.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
+      "from": "doc:docs/mlops/gpu-operator/crd.mdx",
+      "to": "subject:mlops:cluster-addon:gpu-operator",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gpu-operator/install-amd.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
+      "from": "doc:docs/mlops/gpu-operator/install-amd.mdx",
+      "to": "subject:mlops:cluster-addon:gpu-operator",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gpu-operator/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
+      "from": "doc:docs/mlops/gpu-operator/install-nvidia.mdx",
+      "to": "subject:mlops:cluster-addon:gpu-operator",
       "predicate": "about_subject"
     },
     {
@@ -19880,6 +19883,18 @@
       "id": "relation:doc:docs/mlops/k6/overview.mdx:about_subject:subject:mlops:observability-system:k6",
       "from": "doc:docs/mlops/k6/overview.mdx",
       "to": "subject:mlops:observability-system:k6",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/k8s-device-plugin/install-amd.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
+      "from": "doc:docs/mlops/k8s-device-plugin/install-amd.mdx",
+      "to": "subject:mlops:cluster-addon:k8s-device-plugin",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
+      "from": "doc:docs/mlops/k8s-device-plugin/install-nvidia.mdx",
+      "to": "subject:mlops:cluster-addon:k8s-device-plugin",
       "predicate": "about_subject"
     },
     {
@@ -20111,6 +20126,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/kyverno/install.mdx:about_subject:subject:mlops:cluster-addon:kyverno",
+      "from": "doc:docs/mlops/kyverno/install.mdx",
+      "to": "subject:mlops:cluster-addon:kyverno",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/loki/collector.mdx:about_subject:subject:mlops:observability-system:loki",
       "from": "doc:docs/mlops/loki/collector.mdx",
       "to": "subject:mlops:observability-system:loki",
@@ -20198,6 +20219,18 @@
       "id": "relation:doc:docs/mlops/node-exporter/install.mdx:about_subject:subject:mlops:observability-system:node-exporter",
       "from": "doc:docs/mlops/node-exporter/install.mdx",
       "to": "subject:mlops:observability-system:node-exporter",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/node-feature-discovery/install.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
+      "from": "doc:docs/mlops/node-feature-discovery/install.mdx",
+      "to": "subject:mlops:cluster-addon:node-feature-discovery",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
+      "from": "doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx",
+      "to": "subject:mlops:cluster-addon:node-feature-discovery",
       "predicate": "about_subject"
     },
     {
@@ -20366,6 +20399,12 @@
       "id": "relation:doc:docs/mlops/rdma-shared-device-plugin/overview.mdx:about_subject:subject:mlops:networking-stack:rdma-shared-device-plugin",
       "from": "doc:docs/mlops/rdma-shared-device-plugin/overview.mdx",
       "to": "subject:mlops:networking-stack:rdma-shared-device-plugin",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/rocm/overview.mdx:about_subject:subject:mlops:cluster-addon:rocm",
+      "from": "doc:docs/mlops/rocm/overview.mdx",
+      "to": "subject:mlops:cluster-addon:rocm",
       "predicate": "about_subject"
     },
     {
@@ -20588,60 +20627,6 @@
       "id": "relation:doc:docs/operation/mlops/cloud-service/ses/create.mdx:about_subject:subject:mlops:cloud-service:ses",
       "from": "doc:docs/operation/mlops/cloud-service/ses/create.mdx",
       "to": "subject:mlops:cloud-service:ses",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx:about_subject:subject:mlops:cluster-addon:allocation",
-      "from": "doc:docs/operation/mlops/cluster-addon/allocation/cdi.mdx",
-      "to": "subject:mlops:cluster-addon:allocation",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx:about_subject:subject:mlops:cluster-addon:allocation",
-      "from": "doc:docs/operation/mlops/cluster-addon/allocation/dra.mdx",
-      "to": "subject:mlops:cluster-addon:allocation",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
-      "from": "doc:docs/operation/mlops/cluster-addon/gpu-operator/crd.mdx",
-      "to": "subject:mlops:cluster-addon:gpu-operator",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
-      "from": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-amd.mdx",
-      "to": "subject:mlops:cluster-addon:gpu-operator",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:gpu-operator",
-      "from": "doc:docs/operation/mlops/cluster-addon/gpu-operator/install-nvidia.mdx",
-      "to": "subject:mlops:cluster-addon:gpu-operator",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
-      "from": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-amd.mdx",
-      "to": "subject:mlops:cluster-addon:k8s-device-plugin",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx:about_subject:subject:mlops:cluster-addon:k8s-device-plugin",
-      "from": "doc:docs/operation/mlops/cluster-addon/k8s-device-plugin/install-nvidia.mdx",
-      "to": "subject:mlops:cluster-addon:k8s-device-plugin",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx:about_subject:subject:mlops:cluster-addon:kyverno",
-      "from": "doc:docs/operation/mlops/cluster-addon/kyverno/install.mdx",
-      "to": "subject:mlops:cluster-addon:kyverno",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx:about_subject:subject:mlops:cluster-addon:node-feature-discovery",
-      "from": "doc:docs/operation/mlops/cluster-addon/node-feature-discovery/install.mdx",
-      "to": "subject:mlops:cluster-addon:node-feature-discovery",
       "predicate": "about_subject"
     },
     {
