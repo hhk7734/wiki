@@ -1169,10 +1169,10 @@
       "title": "CMake",
       "description": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
       "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
-      "url": "/docs/operation/language/build-tooling/cmake",
+      "url": "/docs/language/cmake/overview",
       "document_refs": [
-        "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
-        "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx"
+        "doc:docs/language/cmake/overview.mdx",
+        "doc:docs/language/cmake/one-static-lib.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -4965,11 +4965,11 @@
       "title": "Makefile AVR example",
       "description": "명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.\n\n``makefile\n# C/C++ AVR Makefile\n# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin\nPREF…",
       "snippet": "명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.\n\n``makefile\n# C/C++ AVR Makefile\n# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin\nPREF…",
-      "url": "/docs/operation/language/build-tooling/makefile/avr-example",
+      "url": "/docs/language/makefile/avr-example",
       "document_refs": [
-        "doc:docs/operation/language/build-tooling/makefile/avr-example.mdx",
-        "doc:docs/operation/language/build-tooling/makefile/basics.mdx",
-        "doc:docs/operation/language/build-tooling/makefile/help.mdx"
+        "doc:docs/language/makefile/avr-example.mdx",
+        "doc:docs/language/makefile/basics.mdx",
+        "doc:docs/language/makefile/help.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -5871,9 +5871,9 @@
       "title": "Package with Poetry",
       "description": "…all , 와 다를 수 있습니다.\nversion = \"\"\ndescription = \"\"\nauthors = [\n \"Hyeonki Hong \"\n]\npackages = [\n { include = \"\"} # import\n]\n\n# Optional\nlicencse = \"\"\nmaintainers = []\nrea…",
       "snippet": "…all , 와 다를 수 있습니다.\nversion = \"\"\ndescription = \"\"\nauthors = [\n \"Hyeonki Hong \"\n]\npackages = [\n { include = \"\"} # import\n]\n\n# Optional\nlicencse = \"\"\nmaintainers = []\nrea…",
-      "url": "/docs/entity/language/package/poetry",
+      "url": "/docs/language/python/poetry/packaging",
       "document_refs": [
-        "doc:docs/entity/language/package/poetry/poetry.mdx"
+        "doc:docs/language/python/poetry/packaging.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -5885,29 +5885,6 @@
         "label": "Package with Poetry",
         "kind": "subject",
         "subtitle": "Poetry",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:package:setuptools",
-      "title": "Package with setuptools",
-      "description": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
-      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
-      "url": "/docs/entity/language/package/setuptools",
-      "document_refs": [
-        "doc:docs/entity/language/package/setuptools/setuptools.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "setuptools"
-      },
-      "search_text": "package with setuptools //github com/hhk7734/example documentation https //wiki loliot net tool setuptools zip-safe false tool setuptools package-data py typed pyi package with setuptools directory structure pyproject toml where src version dynamic version with setuptools scm version version version을 git tag로부터 가져옵니다 git 이 있는 경로 root 버전을 찾는 정규식 tag regex w- - p version vv d d 0 2 tag를 찾는 명령어 git describe command git describe --dirty --tags --long --match 0-9 version dependencies scripts build publish test pypi pypi language package setuptools",
-      "display": {
-        "label": "Package with setuptools",
-        "kind": "subject",
-        "subtitle": "Setuptools",
         "document_count": 1
       }
     },
@@ -5931,6 +5908,29 @@
         "label": "Package 만들기",
         "kind": "subject",
         "subtitle": "Package",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:language:package:conda",
+      "title": "Packaging with conda",
+      "description": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
+      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
+      "url": "/docs/language/python/conda/packaging",
+      "document_refs": [
+        "doc:docs/language/python/conda/packaging.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "package",
+        "instance": "conda"
+      },
+      "search_text": "packaging with conda 설치 shell conda activate root shell conda upgrade conda shell conda config --add channe packaging with conda 설치 package directory structure meta yaml build sh build upload reference language package conda",
+      "display": {
+        "label": "Packaging with conda",
+        "kind": "subject",
+        "subtitle": "Conda",
         "document_count": 1
       }
     },
@@ -6001,6 +6001,29 @@
         "label": "PersistentVolume",
         "kind": "subject",
         "subtitle": "Persistent Volume",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:language:environment:pipenv",
+      "title": "Pipenv",
+      "description": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
+      "url": "/docs/language/python/pipenv/overview",
+      "document_refs": [
+        "doc:docs/language/python/pipenv/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "environment",
+        "instance": "pipenv"
+      },
+      "search_text": "pipenv 설치 shell python3 -m pip install -u pip python3 -m pip install pipenv shell title zshrc eval pipenv complete zsh source pipenv vir pipenv 설치 virtualenv package sync reference language environment pipenv",
+      "display": {
+        "label": "Pipenv",
+        "kind": "subject",
+        "subtitle": "Pipenv",
         "document_count": 1
       }
     },
@@ -6096,6 +6119,29 @@
         "kind": "subject",
         "subtitle": "Podman",
         "document_count": 3
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:language:environment:poetry",
+      "title": "Poetry",
+      "description": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
+      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
+      "url": "/docs/language/python/poetry/overview",
+      "document_refs": [
+        "doc:docs/language/python/poetry/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "environment",
+        "instance": "poetry"
+      },
+      "search_text": "poetry 설치 - https //python-poetry org/docs/ installing-with-the-official-installer shell curl -ssl https //ins poetry 설치 virtualenv 생성 삭제 dependency source repository group url sync poetry lock requirements txt reference language environment poetry",
+      "display": {
+        "label": "Poetry",
+        "kind": "subject",
+        "subtitle": "Poetry",
+        "document_count": 1
       }
     },
     {
@@ -6382,6 +6428,30 @@
     },
     {
       "type": "subject",
+      "id": "subject:language:package:pybind11",
+      "title": "Pybind11",
+      "description": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
+      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
+      "url": "/docs/language/python/pybind11/overview",
+      "document_refs": [
+        "doc:docs/language/python/pybind11/overview.mdx",
+        "doc:docs/language/python/pybind11/type.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "package",
+        "instance": "pybind11"
+      },
+      "search_text": "pybind11 hon3-dev python3 -m pip install -u pip setuptools wheel twine keyrings alt pybind11 build package directory structure shell workspace license manif pybind11 python pybind11 type 설치 package directory structure c/c function variable class python init py build pyproject toml setup cfg setup py manifest in test install/uninstall with pip pip 등록 dist test 등록/설치 정식 등록/설치 reference custom type caster class member function type casting example class member lambda arguments example language package pybind11",
+      "display": {
+        "label": "Pybind11",
+        "kind": "subject",
+        "subtitle": "Pybind11",
+        "document_count": 2
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:language:programming-language:python",
       "title": "Python",
       "description": "Python is a programming language used by multiple library subjects in this wiki.",
@@ -6518,30 +6588,6 @@
         "label": "Python gpiod",
         "kind": "subject",
         "subtitle": "Python Gpiod",
-        "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:package:pybind11",
-      "title": "Python package using Pybind11",
-      "description": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
-      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
-      "url": "/docs/entity/language/package/pybind11",
-      "document_refs": [
-        "doc:docs/entity/language/package/pybind11/pybind11.mdx",
-        "doc:docs/operation/language/package/pybind11/type.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "pybind11"
-      },
-      "search_text": "python package using pybind11 hon3-dev python3 -m pip install -u pip setuptools wheel twine keyrings alt pybind11 build package directory structure shell workspace license manif python package using pybind11 python pybind11 type 설치 package directory structure c/c function variable class python init py build pyproject toml setup cfg setup py manifest in test install/uninstall with pip pip 등록 dist test 등록/설치 정식 등록/설치 reference custom type caster class member function type casting example class member lambda arguments example language package pybind11",
-      "display": {
-        "label": "Python package using Pybind11",
-        "kind": "subject",
-        "subtitle": "Pybind11",
         "document_count": 2
       }
     },
@@ -8526,9 +8572,9 @@
       "title": "conda",
       "description": "## 설치\n\n``shell\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \\\n&& sh Miniconda3-latest-Linux…",
       "snippet": "## 설치\n\n``shell\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \\\n&& sh Miniconda3-latest-Linux…",
-      "url": "/docs/operation/language/environment/conda",
+      "url": "/docs/language/python/conda/overview",
       "document_refs": [
-        "doc:docs/operation/language/environment/conda/conda.mdx"
+        "doc:docs/language/python/conda/overview.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -8536,29 +8582,6 @@
         "instance": "conda"
       },
       "search_text": "conda 설치 shell wget https //repo anaconda com/miniconda/miniconda3-latest-linux-x86 64 sh sh miniconda3-latest-linux conda 설치 virtualenv package develop mode sync remove language environment conda",
-      "display": {
-        "label": "conda",
-        "kind": "subject",
-        "subtitle": "Conda",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:package:conda",
-      "title": "conda",
-      "description": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
-      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
-      "url": "/docs/entity/language/package/conda",
-      "document_refs": [
-        "doc:docs/entity/language/package/conda/conda.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "package",
-        "instance": "conda"
-      },
-      "search_text": "conda 설치 shell conda activate root shell conda upgrade conda shell conda config --add channe conda 설치 package directory structure meta yaml build sh build upload reference language package conda",
       "display": {
         "label": "conda",
         "kind": "subject",
@@ -9259,52 +9282,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:environment:pipenv",
-      "title": "pipenv",
-      "description": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
-      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
-      "url": "/docs/operation/language/environment/pipenv",
-      "document_refs": [
-        "doc:docs/operation/language/environment/pipenv/pipenv.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "environment",
-        "instance": "pipenv"
-      },
-      "search_text": "pipenv 설치 shell python3 -m pip install -u pip python3 -m pip install pipenv shell title zshrc eval pipenv complete zsh source pipenv vir pipenv 설치 virtualenv package sync reference language environment pipenv",
-      "display": {
-        "label": "pipenv",
-        "kind": "subject",
-        "subtitle": "Pipenv",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:environment:poetry",
-      "title": "poetry",
-      "description": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
-      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
-      "url": "/docs/operation/language/environment/poetry",
-      "document_refs": [
-        "doc:docs/operation/language/environment/poetry/poetry.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "environment",
-        "instance": "poetry"
-      },
-      "search_text": "poetry 설치 - https //python-poetry org/docs/ installing-with-the-official-installer shell curl -ssl https //ins poetry 설치 virtualenv 생성 삭제 dependency source repository group url sync poetry lock requirements txt reference language environment poetry",
-      "display": {
-        "label": "poetry",
-        "kind": "subject",
-        "subtitle": "Poetry",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:mlops:observability-system:prometheus-operator",
       "title": "prometheus-operator",
       "description": "## Kubernetes 호환성\n\n- https://github.com/prometheus-operator/kube-prometheus#kubernetes-compatibility-matrix\n\n## 설치\n\n- kube-prometheus-stack…",
@@ -9396,6 +9373,29 @@
         "kind": "subject",
         "subtitle": "S6 Overlay",
         "document_count": 2
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:language:package:setuptools",
+      "title": "setuptools",
+      "description": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
+      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
+      "url": "/docs/language/python/setuptools/overview",
+      "document_refs": [
+        "doc:docs/language/python/setuptools/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "package",
+        "instance": "setuptools"
+      },
+      "search_text": "setuptools //github com/hhk7734/example documentation https //wiki loliot net tool setuptools zip-safe false tool setuptools package-data py typed pyi setuptools directory structure pyproject toml where src version dynamic version with setuptools scm version version version을 git tag로부터 가져옵니다 git 이 있는 경로 root 버전을 찾는 정규식 tag regex w- - p version vv d d 0 2 tag를 찾는 명령어 git describe command git describe --dirty --tags --long --match 0-9 version dependencies scripts build publish test pypi pypi language package setuptools",
+      "display": {
+        "label": "setuptools",
+        "kind": "subject",
+        "subtitle": "Setuptools",
+        "document_count": 1
       }
     },
     {
@@ -9521,9 +9521,9 @@
       "title": "vcpkg",
       "description": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
       "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
-      "url": "/docs/operation/language/environment/vcpkg",
+      "url": "/docs/language/vcpkg/overview",
       "document_refs": [
-        "doc:docs/operation/language/environment/vcpkg/vcpkg.mdx"
+        "doc:docs/language/vcpkg/overview.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -9544,10 +9544,10 @@
       "title": "vcpkg Library 만들기",
       "description": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
       "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
-      "url": "/docs/operation/language/package/vcpkg/library",
+      "url": "/docs/language/vcpkg/library",
       "document_refs": [
-        "doc:docs/operation/language/package/vcpkg/library.mdx",
-        "doc:docs/operation/language/package/vcpkg/registry.mdx"
+        "doc:docs/language/vcpkg/library.mdx",
+        "doc:docs/language/vcpkg/registry.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -12521,7 +12521,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
+      "id": "doc:docs/language/cmake/overview.mdx",
       "title": "CMake",
       "description": "Build c++ using CMake",
       "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
@@ -12538,7 +12538,7 @@
         "build",
         "CMake"
       ],
-      "url": "/docs/operation/language/build-tooling/cmake",
+      "url": "/docs/language/cmake/overview",
       "subject_ref": "subject:language:build-tooling:cmake",
       "subject_title": "Cmake",
       "ontology": {
@@ -21242,7 +21242,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/build-tooling/makefile/avr-example.mdx",
+      "id": "doc:docs/language/makefile/avr-example.mdx",
       "title": "Makefile AVR example",
       "description": "Makefile AVR example",
       "snippet": "명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.\n\n``makefile\n# C/C++ AVR Makefile\n# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin\nPREF…",
@@ -21258,7 +21258,7 @@
         "Makefile",
         "AVR"
       ],
-      "url": "/docs/operation/language/build-tooling/makefile/avr-example",
+      "url": "/docs/language/makefile/avr-example",
       "subject_ref": "subject:language:build-tooling:makefile",
       "subject_title": "Makefile",
       "ontology": {
@@ -21277,7 +21277,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/build-tooling/makefile/basics.mdx",
+      "id": "doc:docs/language/makefile/basics.mdx",
       "title": "Makefile Basics",
       "description": "Makefile Basics",
       "snippet": "…질 수록 의존성을 고려해서 컴파일 순서를 정하는 것에는 한계를 느끼게 됩니다.\n\n매번하는 작업을 최대한 효율적으로 관리하고 실행하기 위해서 **Makefile**이라는 형식을 사용하고 **make**라는 명령을 사용합니다.\n\n## 설치\n\n### macOS\n\nxcode command line tools…",
@@ -21306,7 +21306,7 @@
       "keywords": [
         "Makefile"
       ],
-      "url": "/docs/operation/language/build-tooling/makefile/basics",
+      "url": "/docs/language/makefile/basics",
       "subject_ref": "subject:language:build-tooling:makefile",
       "subject_title": "Makefile",
       "ontology": {
@@ -21325,7 +21325,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/build-tooling/makefile/help.mdx",
+      "id": "doc:docs/language/makefile/help.mdx",
       "title": "Makefile help target",
       "description": "Makefile help target",
       "snippet": "## make help\n\noperator-sdk로 생성된 프로젝트를 보다가 Makefile에 help target이 있었는데, 간편하게 도움말을 작성할 수 있어서 복사해왔습니다.\n\n사용법은 ##@ 아래에 해당 카테고리에 맞는 타겟을 …",
@@ -21347,7 +21347,7 @@
         "Makefile",
         "help"
       ],
-      "url": "/docs/operation/language/build-tooling/makefile/help",
+      "url": "/docs/language/makefile/help",
       "subject_ref": "subject:language:build-tooling:makefile",
       "subject_title": "Makefile",
       "ontology": {
@@ -23488,7 +23488,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/language/package/poetry/poetry.mdx",
+      "id": "doc:docs/language/python/poetry/packaging.mdx",
       "title": "Package with Poetry",
       "description": "Package with Poetry",
       "snippet": "…all , 와 다를 수 있습니다.\nversion = \"\"\ndescription = \"\"\nauthors = [\n \"Hyeonki Hong \"\n]\npackages = [\n { include = \"\"} # import\n]\n\n# Optional\nlicencse = \"\"\nmaintainers = []\nrea…",
@@ -23508,7 +23508,7 @@
         "Python",
         "Poetry"
       ],
-      "url": "/docs/entity/language/package/poetry",
+      "url": "/docs/language/python/poetry/packaging",
       "subject_ref": "subject:language:package:poetry",
       "subject_title": "Poetry",
       "ontology": {
@@ -23516,62 +23516,13 @@
         "domain": "language",
         "class": "package",
         "instance": "poetry",
-        "aspect": "overview"
+        "aspect": "packaging"
       },
-      "search_text": "package with poetry package with poetry all 와 다를 수 있습니다 version description authors hyeonki hong packages include import optional licencse maintainers rea directory structure pyproject toml required optional extras scripts build publish test pypi pypi python poetry entity language package poetry overview",
+      "search_text": "package with poetry package with poetry all 와 다를 수 있습니다 version description authors hyeonki hong packages include import optional licencse maintainers rea directory structure pyproject toml required optional extras scripts build publish test pypi pypi python poetry entity language package poetry packaging",
       "display": {
         "label": "Package with Poetry",
         "kind": "document",
         "subtitle": "Poetry"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/entity/language/package/setuptools/setuptools.mdx",
-      "title": "Package with setuptools",
-      "description": "Package with setuptools",
-      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
-      "headings": [
-        "Directory Structure",
-        "pyproject.toml",
-        "where = [\"src\"]",
-        "version",
-        "Dynamic version with setuptools_scm",
-        "version = \"<version>\"",
-        "version을 git tag로부터 가져옵니다.",
-        ".git 이 있는 경로",
-        "root = \".\"",
-        "버전을 찾는 정규식",
-        "tag_regex = '^(?:[\\w-]+-)?(?P<version>[vV]?\\d+(?:\\.\\d+){0,2}[^\\+]*)(?:\\+.*)?$'",
-        "tag를 찾는 명령어",
-        "git_describe_command = 'git describe --dirty --tags --long --match \"*[0-9]*\"'",
-        "`__version__`",
-        "Dependencies",
-        "Scripts",
-        "Build",
-        "Publish",
-        "Test PyPI",
-        "PyPI"
-      ],
-      "keywords": [
-        "Python",
-        "setuptools"
-      ],
-      "url": "/docs/entity/language/package/setuptools",
-      "subject_ref": "subject:language:package:setuptools",
-      "subject_title": "Setuptools",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "setuptools",
-        "aspect": "overview"
-      },
-      "search_text": "package with setuptools package with setuptools //github com/hhk7734/example documentation https //wiki loliot net tool setuptools zip-safe false tool setuptools package-data py typed pyi directory structure pyproject toml where src version dynamic version with setuptools scm version version version을 git tag로부터 가져옵니다 git 이 있는 경로 root 버전을 찾는 정규식 tag regex w- - p version vv d d 0 2 tag를 찾는 명령어 git describe command git describe --dirty --tags --long --match 0-9 version dependencies scripts build publish test pypi pypi python setuptools entity language package setuptools overview",
-      "display": {
-        "label": "Package with setuptools",
-        "kind": "document",
-        "subtitle": "Setuptools"
       }
     },
     {
@@ -23603,6 +23554,41 @@
         "label": "Package 만들기",
         "kind": "document",
         "subtitle": "Package"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/python/conda/packaging.mdx",
+      "title": "Packaging with conda",
+      "description": "Packaging with conda",
+      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
+      "headings": [
+        "설치",
+        "Package directory structure",
+        "meta.yaml",
+        "build.sh",
+        "Build",
+        "Upload",
+        "Reference"
+      ],
+      "keywords": [
+        "conda"
+      ],
+      "url": "/docs/language/python/conda/packaging",
+      "subject_ref": "subject:language:package:conda",
+      "subject_title": "Conda",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "conda",
+        "aspect": "packaging"
+      },
+      "search_text": "packaging with conda packaging with conda 설치 shell conda activate root shell conda upgrade conda shell conda config --add channe 설치 package directory structure meta yaml build sh build upload reference conda entity language package conda packaging",
+      "display": {
+        "label": "Packaging with conda",
+        "kind": "document",
+        "subtitle": "Conda"
       }
     },
     {
@@ -23705,6 +23691,39 @@
         "label": "PersistentVolume",
         "kind": "document",
         "subtitle": "Persistent Volume"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/python/pipenv/overview.mdx",
+      "title": "Pipenv",
+      "description": "Pipenv overview",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
+      "headings": [
+        "설치",
+        "Virtualenv",
+        "Package",
+        "Sync",
+        "Reference"
+      ],
+      "keywords": [
+        "pipenv"
+      ],
+      "url": "/docs/language/python/pipenv/overview",
+      "subject_ref": "subject:language:environment:pipenv",
+      "subject_title": "Pipenv",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "pipenv",
+        "aspect": "overview"
+      },
+      "search_text": "pipenv pipenv overview 설치 shell python3 -m pip install -u pip python3 -m pip install pipenv shell title zshrc eval pipenv complete zsh source pipenv vir 설치 virtualenv package sync reference pipenv operation language environment pipenv overview",
+      "display": {
+        "label": "Pipenv",
+        "kind": "document",
+        "subtitle": "Pipenv"
       }
     },
     {
@@ -23919,6 +23938,46 @@
         "label": "Podman, Buildah, Skopeo",
         "kind": "document",
         "subtitle": "Podman"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/python/poetry/overview.mdx",
+      "title": "Poetry",
+      "description": "Poetry overview",
+      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
+      "headings": [
+        "설치",
+        "Virtualenv",
+        "생성",
+        "삭제",
+        "Dependency",
+        "Source(Repository)",
+        "Group",
+        "URL",
+        "Sync",
+        "poetry.lock",
+        "requirements.txt",
+        "Reference"
+      ],
+      "keywords": [
+        "poetry"
+      ],
+      "url": "/docs/language/python/poetry/overview",
+      "subject_ref": "subject:language:environment:poetry",
+      "subject_title": "Poetry",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "poetry",
+        "aspect": "overview"
+      },
+      "search_text": "poetry poetry overview 설치 - https //python-poetry org/docs/ installing-with-the-official-installer shell curl -ssl https //ins 설치 virtualenv 생성 삭제 dependency source repository group url sync poetry lock requirements txt reference poetry operation language environment poetry overview",
+      "display": {
+        "label": "Poetry",
+        "kind": "document",
+        "subtitle": "Poetry"
       }
     },
     {
@@ -25291,6 +25350,55 @@
     },
     {
       "type": "document",
+      "id": "doc:docs/language/python/pybind11/overview.mdx",
+      "title": "Pybind11",
+      "description": "Pybind11 overview",
+      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
+      "headings": [
+        "설치",
+        "Package directory structure",
+        "C/C++",
+        "function",
+        "variable",
+        "class",
+        "Python",
+        "\\_\\_init\\_\\_.py",
+        "Build",
+        "pyproject.toml",
+        "setup.cfg",
+        "setup.py",
+        "MANIFEST.in",
+        "Test install/uninstall with pip",
+        "pip 등록",
+        "dist",
+        "Test 등록/설치",
+        "정식 등록/설치",
+        "Reference"
+      ],
+      "keywords": [
+        "Python",
+        "package",
+        "Pybind11"
+      ],
+      "url": "/docs/language/python/pybind11/overview",
+      "subject_ref": "subject:language:package:pybind11",
+      "subject_title": "Pybind11",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "pybind11",
+        "aspect": "overview"
+      },
+      "search_text": "pybind11 pybind11 overview hon3-dev python3 -m pip install -u pip setuptools wheel twine keyrings alt pybind11 build package directory structure shell workspace license manif 설치 package directory structure c/c function variable class python init py build pyproject toml setup cfg setup py manifest in test install/uninstall with pip pip 등록 dist test 등록/설치 정식 등록/설치 reference python package pybind11 entity language package pybind11 overview",
+      "display": {
+        "label": "Pybind11",
+        "kind": "document",
+        "subtitle": "Pybind11"
+      }
+    },
+    {
+      "type": "document",
       "id": "doc:docs/language/python/overview.mdx",
       "title": "Python",
       "description": "Python programming language overview",
@@ -25470,7 +25578,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/package/pybind11/type.mdx",
+      "id": "doc:docs/language/python/pybind11/type.mdx",
       "title": "Python Pybind11 Type",
       "description": "Python Pybind11 Type",
       "snippet": "## Custom type caster\n\nRef: https://pybind11.readthedocs.io/en/stable/advanced/cast/custom.html\n\n``cpp\nnamespace pybind11 {\n…",
@@ -25487,7 +25595,7 @@
         "Pybind11",
         "Type"
       ],
-      "url": "/docs/operation/language/package/pybind11/type",
+      "url": "/docs/language/python/pybind11/type",
       "subject_ref": "subject:language:package:pybind11",
       "subject_title": "Pybind11",
       "ontology": {
@@ -25656,55 +25764,6 @@
         "label": "Python gpiod",
         "kind": "document",
         "subtitle": "Python Gpiod"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/entity/language/package/pybind11/pybind11.mdx",
-      "title": "Python package using Pybind11",
-      "description": "Python package using Pybind11",
-      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
-      "headings": [
-        "설치",
-        "Package directory structure",
-        "C/C++",
-        "function",
-        "variable",
-        "class",
-        "Python",
-        "\\_\\_init\\_\\_.py",
-        "Build",
-        "pyproject.toml",
-        "setup.cfg",
-        "setup.py",
-        "MANIFEST.in",
-        "Test install/uninstall with pip",
-        "pip 등록",
-        "dist",
-        "Test 등록/설치",
-        "정식 등록/설치",
-        "Reference"
-      ],
-      "keywords": [
-        "Python",
-        "package",
-        "Pybind11"
-      ],
-      "url": "/docs/entity/language/package/pybind11",
-      "subject_ref": "subject:language:package:pybind11",
-      "subject_title": "Pybind11",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "pybind11",
-        "aspect": "overview"
-      },
-      "search_text": "python package using pybind11 python package using pybind11 hon3-dev python3 -m pip install -u pip setuptools wheel twine keyrings alt pybind11 build package directory structure shell workspace license manif 설치 package directory structure c/c function variable class python init py build pyproject toml setup cfg setup py manifest in test install/uninstall with pip pip 등록 dist test 등록/설치 정식 등록/설치 reference python package pybind11 entity language package pybind11 overview",
-      "display": {
-        "label": "Python package using Pybind11",
-        "kind": "document",
-        "subtitle": "Pybind11"
       }
     },
     {
@@ -30450,42 +30509,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/entity/language/package/conda/conda.mdx",
-      "title": "conda",
-      "description": "conda",
-      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
-      "headings": [
-        "설치",
-        "Package directory structure",
-        "meta.yaml",
-        "build.sh",
-        "Build",
-        "Upload",
-        "Reference"
-      ],
-      "keywords": [
-        "conda"
-      ],
-      "url": "/docs/entity/language/package/conda",
-      "subject_ref": "subject:language:package:conda",
-      "subject_title": "Conda",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "conda",
-        "aspect": "overview"
-      },
-      "search_text": "conda conda 설치 shell conda activate root shell conda upgrade conda shell conda config --add channe 설치 package directory structure meta yaml build sh build upload reference conda entity language package conda overview",
-      "display": {
-        "label": "conda",
-        "kind": "document",
-        "subtitle": "Conda"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/operation/language/environment/conda/conda.mdx",
+      "id": "doc:docs/language/python/conda/overview.mdx",
       "title": "conda",
       "description": "conda",
       "snippet": "## 설치\n\n``shell\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \\\n&& sh Miniconda3-latest-Linux…",
@@ -30500,7 +30524,7 @@
       "keywords": [
         "conda"
       ],
-      "url": "/docs/operation/language/environment/conda",
+      "url": "/docs/language/python/conda/overview",
       "subject_ref": "subject:language:environment:conda",
       "subject_title": "Conda",
       "ontology": {
@@ -32221,79 +32245,6 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/environment/pipenv/pipenv.mdx",
-      "title": "pipenv",
-      "description": "pipenv",
-      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
-      "headings": [
-        "설치",
-        "Virtualenv",
-        "Package",
-        "Sync",
-        "Reference"
-      ],
-      "keywords": [
-        "pipenv"
-      ],
-      "url": "/docs/operation/language/environment/pipenv",
-      "subject_ref": "subject:language:environment:pipenv",
-      "subject_title": "Pipenv",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "pipenv",
-        "aspect": "overview"
-      },
-      "search_text": "pipenv pipenv 설치 shell python3 -m pip install -u pip python3 -m pip install pipenv shell title zshrc eval pipenv complete zsh source pipenv vir 설치 virtualenv package sync reference pipenv operation language environment pipenv overview",
-      "display": {
-        "label": "pipenv",
-        "kind": "document",
-        "subtitle": "Pipenv"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/operation/language/environment/poetry/poetry.mdx",
-      "title": "poetry",
-      "description": "poetry",
-      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
-      "headings": [
-        "설치",
-        "Virtualenv",
-        "생성",
-        "삭제",
-        "Dependency",
-        "Source(Repository)",
-        "Group",
-        "URL",
-        "Sync",
-        "poetry.lock",
-        "requirements.txt",
-        "Reference"
-      ],
-      "keywords": [
-        "poetry"
-      ],
-      "url": "/docs/operation/language/environment/poetry",
-      "subject_ref": "subject:language:environment:poetry",
-      "subject_title": "Poetry",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "poetry",
-        "aspect": "overview"
-      },
-      "search_text": "poetry poetry 설치 - https //python-poetry org/docs/ installing-with-the-official-installer shell curl -ssl https //ins 설치 virtualenv 생성 삭제 dependency source repository group url sync poetry lock requirements txt reference poetry operation language environment poetry overview",
-      "display": {
-        "label": "poetry",
-        "kind": "document",
-        "subtitle": "Poetry"
-      }
-    },
-    {
-      "type": "document",
       "id": "doc:docs/operation/platform/tool/git/pre-commit.mdx",
       "title": "pre-commit으로 git hook 관리하기",
       "description": "pre-commit으로 git hook 관리하기",
@@ -32492,6 +32443,55 @@
         "label": "s6-overlay 설치와 서비스 설정",
         "kind": "document",
         "subtitle": "S6 Overlay"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/python/setuptools/overview.mdx",
+      "title": "setuptools",
+      "description": "setuptools overview",
+      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
+      "headings": [
+        "Directory Structure",
+        "pyproject.toml",
+        "where = [\"src\"]",
+        "version",
+        "Dynamic version with setuptools_scm",
+        "version = \"<version>\"",
+        "version을 git tag로부터 가져옵니다.",
+        ".git 이 있는 경로",
+        "root = \".\"",
+        "버전을 찾는 정규식",
+        "tag_regex = '^(?:[\\w-]+-)?(?P<version>[vV]?\\d+(?:\\.\\d+){0,2}[^\\+]*)(?:\\+.*)?$'",
+        "tag를 찾는 명령어",
+        "git_describe_command = 'git describe --dirty --tags --long --match \"*[0-9]*\"'",
+        "`__version__`",
+        "Dependencies",
+        "Scripts",
+        "Build",
+        "Publish",
+        "Test PyPI",
+        "PyPI"
+      ],
+      "keywords": [
+        "Python",
+        "setuptools"
+      ],
+      "url": "/docs/language/python/setuptools/overview",
+      "subject_ref": "subject:language:package:setuptools",
+      "subject_title": "Setuptools",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "setuptools",
+        "aspect": "overview"
+      },
+      "search_text": "setuptools setuptools overview //github com/hhk7734/example documentation https //wiki loliot net tool setuptools zip-safe false tool setuptools package-data py typed pyi directory structure pyproject toml where src version dynamic version with setuptools scm version version version을 git tag로부터 가져옵니다 git 이 있는 경로 root 버전을 찾는 정규식 tag regex w- - p version vv d d 0 2 tag를 찾는 명령어 git describe command git describe --dirty --tags --long --match 0-9 version dependencies scripts build publish test pypi pypi python setuptools entity language package setuptools overview",
+      "display": {
+        "label": "setuptools",
+        "kind": "document",
+        "subtitle": "Setuptools"
       }
     },
     {
@@ -32808,7 +32808,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/environment/vcpkg/vcpkg.mdx",
+      "id": "doc:docs/language/vcpkg/overview.mdx",
       "title": "vcpkg",
       "description": "vcpkg",
       "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
@@ -32823,7 +32823,7 @@
       "keywords": [
         "vcpkg"
       ],
-      "url": "/docs/operation/language/environment/vcpkg",
+      "url": "/docs/language/vcpkg/overview",
       "subject_ref": "subject:language:environment:vcpkg",
       "subject_title": "Vcpkg",
       "ontology": {
@@ -32842,7 +32842,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/package/vcpkg/library.mdx",
+      "id": "doc:docs/language/vcpkg/library.mdx",
       "title": "vcpkg Library 만들기",
       "description": "vcpkg Library 만들기",
       "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
@@ -32861,7 +32861,7 @@
         "vcpkg",
         "library"
       ],
-      "url": "/docs/operation/language/package/vcpkg/library",
+      "url": "/docs/language/vcpkg/library",
       "subject_ref": "subject:language:package:vcpkg",
       "subject_title": "Vcpkg",
       "ontology": {
@@ -32880,7 +32880,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/package/vcpkg/registry.mdx",
+      "id": "doc:docs/language/vcpkg/registry.mdx",
       "title": "vcpkg Registry 만들기",
       "description": "vcpkg Registry 만들기",
       "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
@@ -32907,7 +32907,7 @@
         "vcpkg",
         "Registry"
       ],
-      "url": "/docs/operation/language/package/vcpkg/registry",
+      "url": "/docs/language/vcpkg/registry",
       "subject_ref": "subject:language:package:vcpkg",
       "subject_title": "Vcpkg",
       "ontology": {
@@ -33294,7 +33294,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx",
+      "id": "doc:docs/language/cmake/one-static-lib.mdx",
       "title": "여러 Static 라이브러리를 하나로 묶기",
       "description": "여러 Static 라이브러리를 하나의 Static 라이브러리로 묶기",
       "snippet": "``cmake\nset(STATIC_LIBS lib1 lib2 lib3)\n\nadd_custom_target(merged_static_lib ALL DEPENDS ${STATIC_…",
@@ -33305,7 +33305,7 @@
         "CMake",
         "static"
       ],
-      "url": "/docs/operation/language/build-tooling/cmake/one-static-lib",
+      "url": "/docs/language/cmake/one-static-lib",
       "subject_ref": "subject:language:build-tooling:cmake",
       "subject_title": "Cmake",
       "ontology": {

@@ -1,0 +1,180 @@
+---
+id: overview
+title: Poetry
+sidebar_label: Poetry
+description: "Poetry overview"
+keywords:
+  - poetry
+ontology:
+  role: operation
+  domain: language
+  class: environment
+  instance: poetry
+  aspect: overview
+subject:
+  canonical_name: Poetry
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+- https://python-poetry.org/docs/#installing-with-the-official-installer
+
+```shell
+curl -sSL https://install.python-poetry.org | python3 -
+```
+
+```shell title=".zshrc"
+export PATH=$HOME/.local/bin:$PATH
+```
+
+```shell
+poetry self update
+```
+
+```shell
+curl -sSL https://install.python-poetry.org | python3 - --uninstall
+```
+
+## Virtualenv
+
+```shell
+poetry config virtualenvs.in-project true
+```
+
+위 설정을 사용하면 프로젝트 안에 `.venv` 디렉토리에 가상환경이 생성됩니다.
+
+### 생성
+
+```shell
+poetry init
+```
+
+```shell
+poetry env use <pythonPath>
+```
+
+:::warning
+`asdf`, `pyenv` 등을 사용할 때, `python env use <pythonPath>`를 사용하지 않으면 python 버전 설정이 정상적으로 되지 않는 경우가 있습니다.
+:::
+
+```shell
+poetry env info
+```
+
+```shell
+poetry shell
+```
+
+### 삭제
+
+```shell
+poetry env list
+```
+
+```shell
+poetry env remove <env>
+```
+
+## Dependency
+
+```shell
+poetry add [<flags>] <package|git|path>
+```
+
+- `<git>`: `<vcs_type>+<scheme>://<location>/<user_or_organization>/<repository>[<options>]`
+  - `<vcs_type>`: `git`
+  - `<scheme>`: `http`, `https`, `ssh`
+  - `<options>`
+    - `@<tag|rev|branch>`
+    - `#subdirectory=<path>`
+- `<flags>`
+  - `--group=<group>`: `<group>` 의존성에 추가합니다.
+  - `--source=<source>`: `<source>`에 있는 패키지를 설치합니다.
+
+```shell
+poetry update <package>
+```
+
+```shell
+poetry remove <package>
+```
+
+### Source(Repository)
+
+- https://python-poetry.org/docs/repositories/
+
+```shell
+poetry source add [<flags>] <source> <url>
+```
+
+- `<flags>`
+  - `--priority <default|primary|supplemental|explicit>`
+    - 우선순위는 default, primary, (pypi), supplemental 순입니다.
+    - explicit은 직접 source를 지정한 경우에만 사용됩니다.
+  - `--default`: 추가될 소스를 기본 소스로 설정하고 PyPI를 비활성화 합니다
+
+### Group
+
+```toml title="pyproject.toml"
+[tool.poetry.group.<group>]
+optional = <boolean>
+
+[tool.poetry.group.<group>.dependencies]
+<package> = <version>
+```
+
+- `tool.poetry.group.<group>.optional`: true로 설정하면 설치할 때 `--with <group>`옵션을 사용해야 설치됩니다.
+
+:::info
+`project.dependencies`에 있는 패키지는 `main` 그룹에 속합니다.
+:::
+
+### URL
+
+```toml title="pyproject.toml"
+torch = [
+  {url = "https://download.pytorch.org/whl/cpu/torch-1.13.1%2Bcpu-cp310-cp310-linux_x86_64.whl", markers = "sys_platform == 'linux'"},
+]
+```
+
+- [markers](https://peps.python.org/pep-0508/#environment-markers)
+
+## Sync
+
+### poetry.lock
+
+```shell
+poetry install [<flags>]
+```
+
+- `<flags>`
+  - `--no-root`: 개발 중인 패키지를 editable 상태로 설치하는 것을 제외하고 설치합니다.
+  - `--remove-untracked`: lock 파일에 더 이상 존재 하지 않는 것은 삭제합니다.
+  - `--with=<group>[,<group>]`: `<group>`에 있는 의존성을 설치합니다.
+  - `--without=<group>[,<group>]`: `<group>`에 있는 의존성을 설치하지 않습니다.
+  - `--only=<group>[,<group>]`: `<group>`에 있는 의존성만 설치합니다.
+  - `--sync`: 현재 환경을 lock 파일과 동기화합니다.
+
+### requirements.txt
+
+```shell
+poetry export -f requirements.txt --output requirements.txt --without-hashes
+```
+
+```shell
+python3 -m pip install -r requirements.txt
+```
+
+## Reference
+
+- https://python-poetry.org/docs/cli/

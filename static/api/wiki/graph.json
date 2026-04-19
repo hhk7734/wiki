@@ -2145,22 +2145,6 @@
       "subject_ref": "subject:language:library:viper"
     },
     {
-      "id": "doc:docs/entity/language/package/conda/conda.mdx",
-      "type": "document",
-      "title": "conda",
-      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "conda",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/conda",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/conda/conda.mdx.json",
-      "subject_ref": "subject:language:package:conda"
-    },
-    {
       "id": "doc:docs/entity/language/package/package/package.mdx",
       "type": "document",
       "title": "Package 만들기",
@@ -2177,38 +2161,6 @@
       "subject_ref": "subject:language:package:package"
     },
     {
-      "id": "doc:docs/entity/language/package/poetry/poetry.mdx",
-      "type": "document",
-      "title": "Package with Poetry",
-      "snippet": "…all , 와 다를 수 있습니다.\nversion = \"\"\ndescription = \"\"\nauthors = [\n \"Hyeonki Hong \"\n]\npackages = [\n { include = \"\"} # import\n]\n\n# Optional\nlicencse = \"\"\nmaintainers = []\nrea…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "poetry",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/poetry",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/poetry/poetry.mdx.json",
-      "subject_ref": "subject:language:package:poetry"
-    },
-    {
-      "id": "doc:docs/entity/language/package/pybind11/pybind11.mdx",
-      "type": "document",
-      "title": "Python package using Pybind11",
-      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "pybind11",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/pybind11",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/pybind11/pybind11.mdx.json",
-      "subject_ref": "subject:language:package:pybind11"
-    },
-    {
       "id": "doc:docs/entity/language/package/repository/repository.mdx",
       "type": "document",
       "title": "Python Package Repository",
@@ -2223,22 +2175,6 @@
       "url": "/docs/entity/language/package/repository",
       "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/repository/repository.mdx.json",
       "subject_ref": "subject:language:package:repository"
-    },
-    {
-      "id": "doc:docs/entity/language/package/setuptools/setuptools.mdx",
-      "type": "document",
-      "title": "Package with setuptools",
-      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "package",
-        "instance": "setuptools",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/language/package/setuptools",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/language/package/setuptools/setuptools.mdx.json",
-      "subject_ref": "subject:language:package:setuptools"
     },
     {
       "id": "doc:docs/entity/mlops/auth-system/authn/authn.mdx",
@@ -3633,6 +3569,38 @@
       "subject_ref": "subject:science:model-family:transformer"
     },
     {
+      "id": "doc:docs/language/cmake/one-static-lib.mdx",
+      "type": "document",
+      "title": "여러 Static 라이브러리를 하나로 묶기",
+      "snippet": "``cmake\nset(STATIC_LIBS lib1 lib2 lib3)\n\nadd_custom_target(merged_static_lib ALL DEPENDS ${STATIC_…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "cmake",
+        "aspect": "one-static-lib"
+      },
+      "url": "/docs/language/cmake/one-static-lib",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cmake/one-static-lib.mdx.json",
+      "subject_ref": "subject:language:build-tooling:cmake"
+    },
+    {
+      "id": "doc:docs/language/cmake/overview.mdx",
+      "type": "document",
+      "title": "CMake",
+      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "cmake",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/cmake/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cmake/overview.mdx.json",
+      "subject_ref": "subject:language:build-tooling:cmake"
+    },
+    {
       "id": "doc:docs/language/concepts/asynchronous-request-response.mdx",
       "type": "document",
       "title": "Asynchronous Request-Response",
@@ -4657,6 +4625,54 @@
       "subject_ref": "subject:language:programming-language:javascript"
     },
     {
+      "id": "doc:docs/language/makefile/avr-example.mdx",
+      "type": "document",
+      "title": "Makefile AVR example",
+      "snippet": "명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.\n\n``makefile\n# C/C++ AVR Makefile\n# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin\nPREF…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "makefile",
+        "aspect": "avr-example"
+      },
+      "url": "/docs/language/makefile/avr-example",
+      "node_url": "/api/wiki/nodes/doc:docs/language/makefile/avr-example.mdx.json",
+      "subject_ref": "subject:language:build-tooling:makefile"
+    },
+    {
+      "id": "doc:docs/language/makefile/basics.mdx",
+      "type": "document",
+      "title": "Makefile Basics",
+      "snippet": "…질 수록 의존성을 고려해서 컴파일 순서를 정하는 것에는 한계를 느끼게 됩니다.\n\n매번하는 작업을 최대한 효율적으로 관리하고 실행하기 위해서 **Makefile**이라는 형식을 사용하고 **make**라는 명령을 사용합니다.\n\n## 설치\n\n### macOS\n\nxcode command line tools…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "makefile",
+        "aspect": "basics"
+      },
+      "url": "/docs/language/makefile/basics",
+      "node_url": "/api/wiki/nodes/doc:docs/language/makefile/basics.mdx.json",
+      "subject_ref": "subject:language:build-tooling:makefile"
+    },
+    {
+      "id": "doc:docs/language/makefile/help.mdx",
+      "type": "document",
+      "title": "Makefile help target",
+      "snippet": "## make help\n\noperator-sdk로 생성된 프로젝트를 보다가 Makefile에 help target이 있었는데, 간편하게 도움말을 작성할 수 있어서 복사해왔습니다.\n\n사용법은 ##@ 아래에 해당 카테고리에 맞는 타겟을 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "build-tooling",
+        "instance": "makefile",
+        "aspect": "help"
+      },
+      "url": "/docs/language/makefile/help",
+      "node_url": "/api/wiki/nodes/doc:docs/language/makefile/help.mdx.json",
+      "subject_ref": "subject:language:build-tooling:makefile"
+    },
+    {
       "id": "doc:docs/language/nextjs/env.mdx",
       "type": "document",
       "title": "Environment Variables",
@@ -4865,6 +4881,38 @@
       "subject_ref": "subject:language:library:python-sqlalchemy"
     },
     {
+      "id": "doc:docs/language/python/conda/overview.mdx",
+      "type": "document",
+      "title": "conda",
+      "snippet": "## 설치\n\n``shell\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \\\n&& sh Miniconda3-latest-Linux…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "conda",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/conda/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/conda/overview.mdx.json",
+      "subject_ref": "subject:language:environment:conda"
+    },
+    {
+      "id": "doc:docs/language/python/conda/packaging.mdx",
+      "type": "document",
+      "title": "Packaging with conda",
+      "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "conda",
+        "aspect": "packaging"
+      },
+      "url": "/docs/language/python/conda/packaging",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/conda/packaging.mdx.json",
+      "subject_ref": "subject:language:package:conda"
+    },
+    {
       "id": "doc:docs/language/python/overview.mdx",
       "type": "document",
       "title": "Python",
@@ -4879,6 +4927,102 @@
       "url": "/docs/language/python/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/overview.mdx.json",
       "subject_ref": "subject:language:programming-language:python"
+    },
+    {
+      "id": "doc:docs/language/python/pipenv/overview.mdx",
+      "type": "document",
+      "title": "Pipenv",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "pipenv",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/pipenv/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pipenv/overview.mdx.json",
+      "subject_ref": "subject:language:environment:pipenv"
+    },
+    {
+      "id": "doc:docs/language/python/poetry/overview.mdx",
+      "type": "document",
+      "title": "Poetry",
+      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "poetry",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/poetry/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/poetry/overview.mdx.json",
+      "subject_ref": "subject:language:environment:poetry"
+    },
+    {
+      "id": "doc:docs/language/python/poetry/packaging.mdx",
+      "type": "document",
+      "title": "Package with Poetry",
+      "snippet": "…all , 와 다를 수 있습니다.\nversion = \"\"\ndescription = \"\"\nauthors = [\n \"Hyeonki Hong \"\n]\npackages = [\n { include = \"\"} # import\n]\n\n# Optional\nlicencse = \"\"\nmaintainers = []\nrea…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "poetry",
+        "aspect": "packaging"
+      },
+      "url": "/docs/language/python/poetry/packaging",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/poetry/packaging.mdx.json",
+      "subject_ref": "subject:language:package:poetry"
+    },
+    {
+      "id": "doc:docs/language/python/pybind11/overview.mdx",
+      "type": "document",
+      "title": "Pybind11",
+      "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "pybind11",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/pybind11/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pybind11/overview.mdx.json",
+      "subject_ref": "subject:language:package:pybind11"
+    },
+    {
+      "id": "doc:docs/language/python/pybind11/type.mdx",
+      "type": "document",
+      "title": "Python Pybind11 Type",
+      "snippet": "## Custom type caster\n\nRef: https://pybind11.readthedocs.io/en/stable/advanced/cast/custom.html\n\n``cpp\nnamespace pybind11 {\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "pybind11",
+        "aspect": "type"
+      },
+      "url": "/docs/language/python/pybind11/type",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pybind11/type.mdx.json",
+      "subject_ref": "subject:language:package:pybind11"
+    },
+    {
+      "id": "doc:docs/language/python/setuptools/overview.mdx",
+      "type": "document",
+      "title": "setuptools",
+      "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "package",
+        "instance": "setuptools",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/setuptools/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/setuptools/overview.mdx.json",
+      "subject_ref": "subject:language:package:setuptools"
     },
     {
       "id": "doc:docs/language/react/lifecycle.mdx",
@@ -4975,6 +5119,54 @@
       "url": "/docs/language/sveltekit/routing",
       "node_url": "/api/wiki/nodes/doc:docs/language/sveltekit/routing.mdx.json",
       "subject_ref": "subject:language:framework:sveltekit"
+    },
+    {
+      "id": "doc:docs/language/vcpkg/library.mdx",
+      "type": "document",
+      "title": "vcpkg Library 만들기",
+      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "library"
+      },
+      "url": "/docs/language/vcpkg/library",
+      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/library.mdx.json",
+      "subject_ref": "subject:language:package:vcpkg"
+    },
+    {
+      "id": "doc:docs/language/vcpkg/overview.mdx",
+      "type": "document",
+      "title": "vcpkg",
+      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "vcpkg",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/vcpkg/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/overview.mdx.json",
+      "subject_ref": "subject:language:environment:vcpkg"
+    },
+    {
+      "id": "doc:docs/language/vcpkg/registry.mdx",
+      "type": "document",
+      "title": "vcpkg Registry 만들기",
+      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "registry"
+      },
+      "url": "/docs/language/vcpkg/registry",
+      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/registry.mdx.json",
+      "subject_ref": "subject:language:package:vcpkg"
     },
     {
       "id": "doc:docs/operation/data/database/design/pagenation.mdx",
@@ -5729,102 +5921,6 @@
       "subject_ref": "subject:hardware:mcu-family:stm32-upload-executable-file-stm32cubeide"
     },
     {
-      "id": "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
-      "type": "document",
-      "title": "CMake",
-      "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project tree\n\n``shell\nproject\n├── CMakeLists.txt\n└── main.cpp\n`\n\n## CMakeLists.txt\n\n`cmake title=\"CMakeLists.txt\"\ncmake…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "build-tooling",
-        "instance": "cmake",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/build-tooling/cmake",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/build-tooling/cmake/cmake.mdx.json",
-      "subject_ref": "subject:language:build-tooling:cmake"
-    },
-    {
-      "id": "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx",
-      "type": "document",
-      "title": "여러 Static 라이브러리를 하나로 묶기",
-      "snippet": "``cmake\nset(STATIC_LIBS lib1 lib2 lib3)\n\nadd_custom_target(merged_static_lib ALL DEPENDS ${STATIC_…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "build-tooling",
-        "instance": "cmake",
-        "aspect": "one-static-lib"
-      },
-      "url": "/docs/operation/language/build-tooling/cmake/one-static-lib",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx.json",
-      "subject_ref": "subject:language:build-tooling:cmake"
-    },
-    {
-      "id": "doc:docs/operation/language/build-tooling/makefile/avr-example.mdx",
-      "type": "document",
-      "title": "Makefile AVR example",
-      "snippet": "명령어는 **Tab으로 시작**되어야 합니다. 복사해서 사용하시는 경우 인덴트를 탭으로 변경해주세요.\n\n``makefile\n# C/C++ AVR Makefile\n# GCC_PATH = /usr/avr8-gnu-toolchain-linux_x86_64/bin\nPREF…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "build-tooling",
-        "instance": "makefile",
-        "aspect": "avr-example"
-      },
-      "url": "/docs/operation/language/build-tooling/makefile/avr-example",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/build-tooling/makefile/avr-example.mdx.json",
-      "subject_ref": "subject:language:build-tooling:makefile"
-    },
-    {
-      "id": "doc:docs/operation/language/build-tooling/makefile/basics.mdx",
-      "type": "document",
-      "title": "Makefile Basics",
-      "snippet": "…질 수록 의존성을 고려해서 컴파일 순서를 정하는 것에는 한계를 느끼게 됩니다.\n\n매번하는 작업을 최대한 효율적으로 관리하고 실행하기 위해서 **Makefile**이라는 형식을 사용하고 **make**라는 명령을 사용합니다.\n\n## 설치\n\n### macOS\n\nxcode command line tools…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "build-tooling",
-        "instance": "makefile",
-        "aspect": "basics"
-      },
-      "url": "/docs/operation/language/build-tooling/makefile/basics",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/build-tooling/makefile/basics.mdx.json",
-      "subject_ref": "subject:language:build-tooling:makefile"
-    },
-    {
-      "id": "doc:docs/operation/language/build-tooling/makefile/help.mdx",
-      "type": "document",
-      "title": "Makefile help target",
-      "snippet": "## make help\n\noperator-sdk로 생성된 프로젝트를 보다가 Makefile에 help target이 있었는데, 간편하게 도움말을 작성할 수 있어서 복사해왔습니다.\n\n사용법은 ##@ 아래에 해당 카테고리에 맞는 타겟을 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "build-tooling",
-        "instance": "makefile",
-        "aspect": "help"
-      },
-      "url": "/docs/operation/language/build-tooling/makefile/help",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/build-tooling/makefile/help.mdx.json",
-      "subject_ref": "subject:language:build-tooling:makefile"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/conda/conda.mdx",
-      "type": "document",
-      "title": "conda",
-      "snippet": "## 설치\n\n``shell\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \\\n&& sh Miniconda3-latest-Linux…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "conda",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/environment/conda",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/conda/conda.mdx.json",
-      "subject_ref": "subject:language:environment:conda"
-    },
-    {
       "id": "doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx",
       "type": "document",
       "title": "Linting & Formatting",
@@ -5871,54 +5967,6 @@
       "url": "/docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting",
       "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx.json",
       "subject_ref": "subject:language:environment:linting-formatting"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/pipenv/pipenv.mdx",
-      "type": "document",
-      "title": "pipenv",
-      "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "pipenv",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/environment/pipenv",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/pipenv/pipenv.mdx.json",
-      "subject_ref": "subject:language:environment:pipenv"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/poetry/poetry.mdx",
-      "type": "document",
-      "title": "poetry",
-      "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "poetry",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/environment/poetry",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/poetry/poetry.mdx.json",
-      "subject_ref": "subject:language:environment:poetry"
-    },
-    {
-      "id": "doc:docs/operation/language/environment/vcpkg/vcpkg.mdx",
-      "type": "document",
-      "title": "vcpkg",
-      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "vcpkg",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/language/environment/vcpkg",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/environment/vcpkg/vcpkg.mdx.json",
-      "subject_ref": "subject:language:environment:vcpkg"
     },
     {
       "id": "doc:docs/operation/language/environment/version/overview--lang-javascript-env-version.mdx",
@@ -6817,22 +6865,6 @@
       "subject_ref": "subject:language:library:viper"
     },
     {
-      "id": "doc:docs/operation/language/package/pybind11/type.mdx",
-      "type": "document",
-      "title": "Python Pybind11 Type",
-      "snippet": "## Custom type caster\n\nRef: https://pybind11.readthedocs.io/en/stable/advanced/cast/custom.html\n\n``cpp\nnamespace pybind11 {\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "package",
-        "instance": "pybind11",
-        "aspect": "type"
-      },
-      "url": "/docs/operation/language/package/pybind11/type",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/package/pybind11/type.mdx.json",
-      "subject_ref": "subject:language:package:pybind11"
-    },
-    {
       "id": "doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx",
       "type": "document",
       "title": "Documentation using Sphinx",
@@ -6847,38 +6879,6 @@
       "url": "/docs/operation/language/package/python-package-sphinx/package-sphinx",
       "node_url": "/api/wiki/nodes/doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx.json",
       "subject_ref": "subject:language:package:python-package-sphinx"
-    },
-    {
-      "id": "doc:docs/operation/language/package/vcpkg/library.mdx",
-      "type": "document",
-      "title": "vcpkg Library 만들기",
-      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "package",
-        "instance": "vcpkg",
-        "aspect": "library"
-      },
-      "url": "/docs/operation/language/package/vcpkg/library",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/package/vcpkg/library.mdx.json",
-      "subject_ref": "subject:language:package:vcpkg"
-    },
-    {
-      "id": "doc:docs/operation/language/package/vcpkg/registry.mdx",
-      "type": "document",
-      "title": "vcpkg Registry 만들기",
-      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "package",
-        "instance": "vcpkg",
-        "aspect": "registry"
-      },
-      "url": "/docs/operation/language/package/vcpkg/registry",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/language/package/vcpkg/registry.mdx.json",
-      "subject_ref": "subject:language:package:vcpkg"
     },
     {
       "id": "doc:docs/operation/language/toolchain/cgo/cgo.mdx",
@@ -12294,11 +12294,11 @@
         "class": "build-tooling",
         "instance": "cmake"
       },
-      "url": "/docs/operation/language/build-tooling/cmake",
+      "url": "/docs/language/cmake/overview",
       "node_url": "/api/wiki/nodes/subject:language:build-tooling:cmake.json",
       "document_refs": [
-        "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
-        "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx"
+        "doc:docs/language/cmake/overview.mdx",
+        "doc:docs/language/cmake/one-static-lib.mdx"
       ]
     },
     {
@@ -12311,12 +12311,12 @@
         "class": "build-tooling",
         "instance": "makefile"
       },
-      "url": "/docs/operation/language/build-tooling/makefile/avr-example",
+      "url": "/docs/language/makefile/avr-example",
       "node_url": "/api/wiki/nodes/subject:language:build-tooling:makefile.json",
       "document_refs": [
-        "doc:docs/operation/language/build-tooling/makefile/avr-example.mdx",
-        "doc:docs/operation/language/build-tooling/makefile/basics.mdx",
-        "doc:docs/operation/language/build-tooling/makefile/help.mdx"
+        "doc:docs/language/makefile/avr-example.mdx",
+        "doc:docs/language/makefile/basics.mdx",
+        "doc:docs/language/makefile/help.mdx"
       ]
     },
     {
@@ -12993,10 +12993,10 @@
         "class": "environment",
         "instance": "conda"
       },
-      "url": "/docs/operation/language/environment/conda",
+      "url": "/docs/language/python/conda/overview",
       "node_url": "/api/wiki/nodes/subject:language:environment:conda.json",
       "document_refs": [
-        "doc:docs/operation/language/environment/conda/conda.mdx"
+        "doc:docs/language/python/conda/overview.mdx"
       ]
     },
     {
@@ -13020,33 +13020,33 @@
     {
       "id": "subject:language:environment:pipenv",
       "type": "subject",
-      "title": "pipenv",
+      "title": "Pipenv",
       "snippet": "## 설치\n\n``shell\npython3 -m pip install -U pip \\\n&& python3 -m pip install pipenv\n`\n\n`shell title=\".zshrc\"\neval \"$(_PIPENV_COMPLETE=zsh_source pipenv)\"\n`\n\n## Vir…",
       "ontology": {
         "domain": "language",
         "class": "environment",
         "instance": "pipenv"
       },
-      "url": "/docs/operation/language/environment/pipenv",
+      "url": "/docs/language/python/pipenv/overview",
       "node_url": "/api/wiki/nodes/subject:language:environment:pipenv.json",
       "document_refs": [
-        "doc:docs/operation/language/environment/pipenv/pipenv.mdx"
+        "doc:docs/language/python/pipenv/overview.mdx"
       ]
     },
     {
       "id": "subject:language:environment:poetry",
       "type": "subject",
-      "title": "poetry",
+      "title": "Poetry",
       "snippet": "## 설치\n\n- https://python-poetry.org/docs/#installing-with-the-official-installer\n\n``shell\ncurl -sSL https://ins…",
       "ontology": {
         "domain": "language",
         "class": "environment",
         "instance": "poetry"
       },
-      "url": "/docs/operation/language/environment/poetry",
+      "url": "/docs/language/python/poetry/overview",
       "node_url": "/api/wiki/nodes/subject:language:environment:poetry.json",
       "document_refs": [
-        "doc:docs/operation/language/environment/poetry/poetry.mdx"
+        "doc:docs/language/python/poetry/overview.mdx"
       ]
     },
     {
@@ -13059,10 +13059,10 @@
         "class": "environment",
         "instance": "vcpkg"
       },
-      "url": "/docs/operation/language/environment/vcpkg",
+      "url": "/docs/language/vcpkg/overview",
       "node_url": "/api/wiki/nodes/subject:language:environment:vcpkg.json",
       "document_refs": [
-        "doc:docs/operation/language/environment/vcpkg/vcpkg.mdx"
+        "doc:docs/language/vcpkg/overview.mdx"
       ]
     },
     {
@@ -13992,17 +13992,17 @@
     {
       "id": "subject:language:package:conda",
       "type": "subject",
-      "title": "conda",
+      "title": "Packaging with conda",
       "snippet": "## 설치\n\n``shell\nconda activate root\n`\n\n`shell\nconda upgrade conda\n`\n\n`shell\nconda config --add channe…",
       "ontology": {
         "domain": "language",
         "class": "package",
         "instance": "conda"
       },
-      "url": "/docs/entity/language/package/conda",
+      "url": "/docs/language/python/conda/packaging",
       "node_url": "/api/wiki/nodes/subject:language:package:conda.json",
       "document_refs": [
-        "doc:docs/entity/language/package/conda/conda.mdx"
+        "doc:docs/language/python/conda/packaging.mdx"
       ]
     },
     {
@@ -14031,27 +14031,27 @@
         "class": "package",
         "instance": "poetry"
       },
-      "url": "/docs/entity/language/package/poetry",
+      "url": "/docs/language/python/poetry/packaging",
       "node_url": "/api/wiki/nodes/subject:language:package:poetry.json",
       "document_refs": [
-        "doc:docs/entity/language/package/poetry/poetry.mdx"
+        "doc:docs/language/python/poetry/packaging.mdx"
       ]
     },
     {
       "id": "subject:language:package:pybind11",
       "type": "subject",
-      "title": "Python package using Pybind11",
+      "title": "Pybind11",
       "snippet": "…hon3-dev \\\n&& python3 -m pip install -U pip setuptools wheel twine keyrings.alt pybind11 build\n`\n\n## Package directory structure\n\n`shell\nworkspace\n├── LICENSE\n├── MANIF…",
       "ontology": {
         "domain": "language",
         "class": "package",
         "instance": "pybind11"
       },
-      "url": "/docs/entity/language/package/pybind11",
+      "url": "/docs/language/python/pybind11/overview",
       "node_url": "/api/wiki/nodes/subject:language:package:pybind11.json",
       "document_refs": [
-        "doc:docs/entity/language/package/pybind11/pybind11.mdx",
-        "doc:docs/operation/language/package/pybind11/type.mdx"
+        "doc:docs/language/python/pybind11/overview.mdx",
+        "doc:docs/language/python/pybind11/type.mdx"
       ]
     },
     {
@@ -14089,17 +14089,17 @@
     {
       "id": "subject:language:package:setuptools",
       "type": "subject",
-      "title": "Package with setuptools",
+      "title": "setuptools",
       "snippet": "…://github.com/hhk7734/example\"\ndocumentation = \"https://wiki.loliot.net\"\n\n[tool.setuptools]\nzip-safe = false\n\n[tool.setuptools.package-data]\n\"*\" = [\"py.typed\", \"*.pyi\"]\n\n…",
       "ontology": {
         "domain": "language",
         "class": "package",
         "instance": "setuptools"
       },
-      "url": "/docs/entity/language/package/setuptools",
+      "url": "/docs/language/python/setuptools/overview",
       "node_url": "/api/wiki/nodes/subject:language:package:setuptools.json",
       "document_refs": [
-        "doc:docs/entity/language/package/setuptools/setuptools.mdx"
+        "doc:docs/language/python/setuptools/overview.mdx"
       ]
     },
     {
@@ -14112,11 +14112,11 @@
         "class": "package",
         "instance": "vcpkg"
       },
-      "url": "/docs/operation/language/package/vcpkg/library",
+      "url": "/docs/language/vcpkg/library",
       "node_url": "/api/wiki/nodes/subject:language:package:vcpkg.json",
       "document_refs": [
-        "doc:docs/operation/language/package/vcpkg/library.mdx",
-        "doc:docs/operation/language/package/vcpkg/registry.mdx"
+        "doc:docs/language/vcpkg/library.mdx",
+        "doc:docs/language/vcpkg/registry.mdx"
       ]
     },
     {
@@ -18812,39 +18812,15 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/language/package/conda/conda.mdx:about_subject:subject:language:package:conda",
-      "from": "doc:docs/entity/language/package/conda/conda.mdx",
-      "to": "subject:language:package:conda",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/language/package/package/package.mdx:about_subject:subject:language:package:package",
       "from": "doc:docs/entity/language/package/package/package.mdx",
       "to": "subject:language:package:package",
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/entity/language/package/poetry/poetry.mdx:about_subject:subject:language:package:poetry",
-      "from": "doc:docs/entity/language/package/poetry/poetry.mdx",
-      "to": "subject:language:package:poetry",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/package/pybind11/pybind11.mdx:about_subject:subject:language:package:pybind11",
-      "from": "doc:docs/entity/language/package/pybind11/pybind11.mdx",
-      "to": "subject:language:package:pybind11",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/entity/language/package/repository/repository.mdx:about_subject:subject:language:package:repository",
       "from": "doc:docs/entity/language/package/repository/repository.mdx",
       "to": "subject:language:package:repository",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/language/package/setuptools/setuptools.mdx:about_subject:subject:language:package:setuptools",
-      "from": "doc:docs/entity/language/package/setuptools/setuptools.mdx",
-      "to": "subject:language:package:setuptools",
       "predicate": "about_subject"
     },
     {
@@ -19370,6 +19346,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/cmake/one-static-lib.mdx:about_subject:subject:language:build-tooling:cmake",
+      "from": "doc:docs/language/cmake/one-static-lib.mdx",
+      "to": "subject:language:build-tooling:cmake",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/cmake/overview.mdx:about_subject:subject:language:build-tooling:cmake",
+      "from": "doc:docs/language/cmake/overview.mdx",
+      "to": "subject:language:build-tooling:cmake",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/concepts/asynchronous-request-response.mdx:about_subject:subject:language:concept:asynchronous-request-response",
       "from": "doc:docs/language/concepts/asynchronous-request-response.mdx",
       "to": "subject:language:concept:asynchronous-request-response",
@@ -19754,6 +19742,24 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/makefile/avr-example.mdx:about_subject:subject:language:build-tooling:makefile",
+      "from": "doc:docs/language/makefile/avr-example.mdx",
+      "to": "subject:language:build-tooling:makefile",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/makefile/basics.mdx:about_subject:subject:language:build-tooling:makefile",
+      "from": "doc:docs/language/makefile/basics.mdx",
+      "to": "subject:language:build-tooling:makefile",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/makefile/help.mdx:about_subject:subject:language:build-tooling:makefile",
+      "from": "doc:docs/language/makefile/help.mdx",
+      "to": "subject:language:build-tooling:makefile",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/nextjs/env.mdx:about_subject:subject:language:framework:nextjs",
       "from": "doc:docs/language/nextjs/env.mdx",
       "to": "subject:language:framework:nextjs",
@@ -19832,9 +19838,57 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/python/conda/overview.mdx:about_subject:subject:language:environment:conda",
+      "from": "doc:docs/language/python/conda/overview.mdx",
+      "to": "subject:language:environment:conda",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/conda/packaging.mdx:about_subject:subject:language:package:conda",
+      "from": "doc:docs/language/python/conda/packaging.mdx",
+      "to": "subject:language:package:conda",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/python/overview.mdx:about_subject:subject:language:programming-language:python",
       "from": "doc:docs/language/python/overview.mdx",
       "to": "subject:language:programming-language:python",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/pipenv/overview.mdx:about_subject:subject:language:environment:pipenv",
+      "from": "doc:docs/language/python/pipenv/overview.mdx",
+      "to": "subject:language:environment:pipenv",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/poetry/overview.mdx:about_subject:subject:language:environment:poetry",
+      "from": "doc:docs/language/python/poetry/overview.mdx",
+      "to": "subject:language:environment:poetry",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/poetry/packaging.mdx:about_subject:subject:language:package:poetry",
+      "from": "doc:docs/language/python/poetry/packaging.mdx",
+      "to": "subject:language:package:poetry",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/pybind11/overview.mdx:about_subject:subject:language:package:pybind11",
+      "from": "doc:docs/language/python/pybind11/overview.mdx",
+      "to": "subject:language:package:pybind11",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/pybind11/type.mdx:about_subject:subject:language:package:pybind11",
+      "from": "doc:docs/language/python/pybind11/type.mdx",
+      "to": "subject:language:package:pybind11",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/python/setuptools/overview.mdx:about_subject:subject:language:package:setuptools",
+      "from": "doc:docs/language/python/setuptools/overview.mdx",
+      "to": "subject:language:package:setuptools",
       "predicate": "about_subject"
     },
     {
@@ -19871,6 +19925,24 @@
       "id": "relation:doc:docs/language/sveltekit/routing.mdx:about_subject:subject:language:framework:sveltekit",
       "from": "doc:docs/language/sveltekit/routing.mdx",
       "to": "subject:language:framework:sveltekit",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/vcpkg/library.mdx:about_subject:subject:language:package:vcpkg",
+      "from": "doc:docs/language/vcpkg/library.mdx",
+      "to": "subject:language:package:vcpkg",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/vcpkg/overview.mdx:about_subject:subject:language:environment:vcpkg",
+      "from": "doc:docs/language/vcpkg/overview.mdx",
+      "to": "subject:language:environment:vcpkg",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/vcpkg/registry.mdx:about_subject:subject:language:package:vcpkg",
+      "from": "doc:docs/language/vcpkg/registry.mdx",
+      "to": "subject:language:package:vcpkg",
       "predicate": "about_subject"
     },
     {
@@ -20156,42 +20228,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/language/build-tooling/cmake/cmake.mdx:about_subject:subject:language:build-tooling:cmake",
-      "from": "doc:docs/operation/language/build-tooling/cmake/cmake.mdx",
-      "to": "subject:language:build-tooling:cmake",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx:about_subject:subject:language:build-tooling:cmake",
-      "from": "doc:docs/operation/language/build-tooling/cmake/one-static-lib.mdx",
-      "to": "subject:language:build-tooling:cmake",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/build-tooling/makefile/avr-example.mdx:about_subject:subject:language:build-tooling:makefile",
-      "from": "doc:docs/operation/language/build-tooling/makefile/avr-example.mdx",
-      "to": "subject:language:build-tooling:makefile",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/build-tooling/makefile/basics.mdx:about_subject:subject:language:build-tooling:makefile",
-      "from": "doc:docs/operation/language/build-tooling/makefile/basics.mdx",
-      "to": "subject:language:build-tooling:makefile",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/build-tooling/makefile/help.mdx:about_subject:subject:language:build-tooling:makefile",
-      "from": "doc:docs/operation/language/build-tooling/makefile/help.mdx",
-      "to": "subject:language:build-tooling:makefile",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/conda/conda.mdx:about_subject:subject:language:environment:conda",
-      "from": "doc:docs/operation/language/environment/conda/conda.mdx",
-      "to": "subject:language:environment:conda",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx:about_subject:subject:language:environment:linting-formatting",
       "from": "doc:docs/operation/language/environment/linting-formatting/overview--lang-cpp-env-linting-formatting.mdx",
       "to": "subject:language:environment:linting-formatting",
@@ -20207,24 +20243,6 @@
       "id": "relation:doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx:about_subject:subject:language:environment:linting-formatting",
       "from": "doc:docs/operation/language/environment/linting-formatting/overview--lang-python-env-linting-formatting.mdx",
       "to": "subject:language:environment:linting-formatting",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/pipenv/pipenv.mdx:about_subject:subject:language:environment:pipenv",
-      "from": "doc:docs/operation/language/environment/pipenv/pipenv.mdx",
-      "to": "subject:language:environment:pipenv",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/poetry/poetry.mdx:about_subject:subject:language:environment:poetry",
-      "from": "doc:docs/operation/language/environment/poetry/poetry.mdx",
-      "to": "subject:language:environment:poetry",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/environment/vcpkg/vcpkg.mdx:about_subject:subject:language:environment:vcpkg",
-      "from": "doc:docs/operation/language/environment/vcpkg/vcpkg.mdx",
-      "to": "subject:language:environment:vcpkg",
       "predicate": "about_subject"
     },
     {
@@ -20564,27 +20582,9 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/operation/language/package/pybind11/type.mdx:about_subject:subject:language:package:pybind11",
-      "from": "doc:docs/operation/language/package/pybind11/type.mdx",
-      "to": "subject:language:package:pybind11",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx:about_subject:subject:language:package:python-package-sphinx",
       "from": "doc:docs/operation/language/package/python-package-sphinx/package-sphinx.mdx",
       "to": "subject:language:package:python-package-sphinx",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/package/vcpkg/library.mdx:about_subject:subject:language:package:vcpkg",
-      "from": "doc:docs/operation/language/package/vcpkg/library.mdx",
-      "to": "subject:language:package:vcpkg",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/language/package/vcpkg/registry.mdx:about_subject:subject:language:package:vcpkg",
-      "from": "doc:docs/operation/language/package/vcpkg/registry.mdx",
-      "to": "subject:language:package:vcpkg",
       "predicate": "about_subject"
     },
     {
