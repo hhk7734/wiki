@@ -8,20 +8,20 @@
     "class": "package-manager",
     "instance": "debian-package"
   },
-  "url": "/docs/entity/platform/package-manager/debian-package",
+  "url": "/docs/platform/debian-package/overview",
   "node_url": "/api/wiki/nodes/subject:platform:package-manager:debian-package.json",
   "document_refs": [
-    "doc:docs/entity/platform/package-manager/debian-package/debian-package.mdx",
-    "doc:docs/operation/platform/package-manager/debian-package/advanced.mdx",
-    "doc:docs/operation/platform/package-manager/debian-package/basics.mdx",
-    "doc:docs/operation/platform/package-manager/debian-package/launchpad-ppa.mdx",
-    "doc:docs/operation/platform/package-manager/debian-package/makefile.mdx"
+    "doc:docs/platform/debian-package/overview.mdx",
+    "doc:docs/platform/debian-package/advanced.mdx",
+    "doc:docs/platform/debian-package/basics.mdx",
+    "doc:docs/platform/debian-package/launchpad-ppa.mdx",
+    "doc:docs/platform/debian-package/makefile.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/platform/package-manager/debian-package/debian-package.mdx",
+      "id": "doc:docs/platform/debian-package/overview.mdx",
       "title": "Debian Package",
-      "url": "/docs/entity/platform/package-manager/debian-package",
+      "url": "/docs/platform/debian-package/overview",
       "snippet": "Debian package 문서는 Debian 패키지 작성, debmake 템플릿 생성, dh 기반 빌드 흐름, Launchpad PPA 배포처럼 패키징 절차를 다룹니다…",
       "ontology": {
         "role": "entity",
@@ -32,9 +32,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/platform/package-manager/debian-package/advanced.mdx",
+      "id": "doc:docs/platform/debian-package/advanced.mdx",
       "title": "Debian Package Advanced",
-      "url": "/docs/operation/platform/package-manager/debian-package/advanced",
+      "url": "/docs/platform/debian-package/advanced",
       "snippet": "패키지의 목적, 구성 언어 등이 다양하기 때문에 패키지를 만드는 방식도 다양합니다. 모든 방법을 알 수는 없지만 debhelper(dh)와 debian/rules의 역할을 통해 흐름을 알 수 있습니다.\n\n## debhelper\n\ndebhelper는 dh, dh_ 명령어로 데비안 패키지를 만들어…",
       "ontology": {
         "role": "operation",
@@ -45,9 +45,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/platform/package-manager/debian-package/basics.mdx",
+      "id": "doc:docs/platform/debian-package/basics.mdx",
       "title": "Debian Package Basics",
-      "url": "/docs/operation/platform/package-manager/debian-package/basics",
+      "url": "/docs/platform/debian-package/basics",
       "snippet": "…s: debhelper (>= 9)\nStandards-Version: 3.9.8\nHomepage: https://docs.loliot.net\n\nPackage: pack\nArchitecture: arm64 armhf\nSection: libs\nDepends: ${misc:Depends}, ${shlib…",
       "ontology": {
         "role": "operation",
@@ -58,9 +58,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/platform/package-manager/debian-package/launchpad-ppa.mdx",
+      "id": "doc:docs/platform/debian-package/launchpad-ppa.mdx",
       "title": "Debian Launchpad PPA",
-      "url": "/docs/operation/platform/package-manager/debian-package/launchpad-ppa",
+      "url": "/docs/platform/debian-package/launchpad-ppa",
       "snippet": "…YY\nuid Hyeonki Hong\nsub rsa3072 2019-09-08 [E] [expires: 2021-09-07]\n`\n\nhttps://launchpad.net/ -> your page -> OpenPGP keys\n\n위의 public key를 복사한 후, OpenPGP keys 페이지의 **Fi…",
       "ontology": {
         "role": "operation",
@@ -71,9 +71,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/platform/package-manager/debian-package/makefile.mdx",
+      "id": "doc:docs/platform/debian-package/makefile.mdx",
       "title": "Debian Package Makefile",
-      "url": "/docs/operation/platform/package-manager/debian-package/makefile",
+      "url": "/docs/platform/debian-package/makefile",
       "snippet": "## Basic\n\n``makefile\n.PHONY: all\nall:\n\n.PHONY: install\ninstall:\n\n.PHONY: clean\nclean:\n\n.PHONY: distc…",
       "ontology": {
         "role": "operation",
@@ -86,33 +86,33 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/platform/package-manager/debian-package/debian-package.mdx:about_subject:subject:platform:package-manager:debian-package",
+      "id": "relation:doc:docs/platform/debian-package/overview.mdx:about_subject:subject:platform:package-manager:debian-package",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/platform/package-manager/debian-package/debian-package.mdx",
+      "other_id": "doc:docs/platform/debian-package/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/platform/package-manager/debian-package/advanced.mdx:about_subject:subject:platform:package-manager:debian-package",
+      "id": "relation:doc:docs/platform/debian-package/advanced.mdx:about_subject:subject:platform:package-manager:debian-package",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/platform/package-manager/debian-package/advanced.mdx",
+      "other_id": "doc:docs/platform/debian-package/advanced.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/platform/package-manager/debian-package/basics.mdx:about_subject:subject:platform:package-manager:debian-package",
+      "id": "relation:doc:docs/platform/debian-package/basics.mdx:about_subject:subject:platform:package-manager:debian-package",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/platform/package-manager/debian-package/basics.mdx",
+      "other_id": "doc:docs/platform/debian-package/basics.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/platform/package-manager/debian-package/launchpad-ppa.mdx:about_subject:subject:platform:package-manager:debian-package",
+      "id": "relation:doc:docs/platform/debian-package/launchpad-ppa.mdx:about_subject:subject:platform:package-manager:debian-package",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/platform/package-manager/debian-package/launchpad-ppa.mdx",
+      "other_id": "doc:docs/platform/debian-package/launchpad-ppa.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/platform/package-manager/debian-package/makefile.mdx:about_subject:subject:platform:package-manager:debian-package",
+      "id": "relation:doc:docs/platform/debian-package/makefile.mdx:about_subject:subject:platform:package-manager:debian-package",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/platform/package-manager/debian-package/makefile.mdx",
+      "other_id": "doc:docs/platform/debian-package/makefile.mdx",
       "direction": "incoming"
     }
   ]
