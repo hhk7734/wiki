@@ -113,22 +113,6 @@
       "subject_ref": "subject:management:memo:team-management"
     },
     {
-      "id": "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx",
-      "type": "document",
-      "title": "Kubeflow 인증/인가(authn/authz)",
-      "snippet": "",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kubeflow",
-        "aspect": "auth"
-      },
-      "url": "/docs/concept/mlops/ml-platform/kubeflow/auth",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kubeflow"
-    },
-    {
       "id": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
       "type": "document",
       "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
@@ -1023,70 +1007,6 @@
       "url": "/docs/data/s3/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/s3/overview.mdx.json",
       "subject_ref": "subject:data:object-storage:s3"
-    },
-    {
-      "id": "doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx",
-      "type": "document",
-      "title": "Kubeflow Access Management",
-      "snippet": "## Profile\n\n``yaml\napiVersion: kubeflow.org/v1beta1\nkind: Profile\nmetadata:\n name:\nspec:\n # namespace admin\n owner:\n ki…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "access-management",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/ml-platform/access-management",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:access-management"
-    },
-    {
-      "id": "doc:docs/entity/mlops/ml-platform/architecture/architecture.mdx",
-      "type": "document",
-      "title": "Architecture",
-      "snippet": "## Architecture\n\noauth2-proxy를 envoy filter로 사용했을 때, 주피터 노트 등에 접속하는 웹소켓 작동에 문제가 있어 Gateway 앞단의 …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "architecture",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/ml-platform/architecture",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/architecture/architecture.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:architecture"
-    },
-    {
-      "id": "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
-      "type": "document",
-      "title": "KServe",
-      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kserve",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/ml-platform/kserve",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kserve"
-    },
-    {
-      "id": "doc:docs/entity/mlops/ml-platform/notebook/notebook.mdx",
-      "type": "document",
-      "title": "Kubeflow Notebook",
-      "snippet": "## 커스텀 이미지\n\n- https://github.com/kubeflow/kubeflow/tree/master/components/example-notebook-servers#custom-images\n\n### 요구 …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "notebook",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/ml-platform/notebook",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/ml-platform/notebook/notebook.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:notebook"
     },
     {
       "id": "doc:docs/entity/mlops/ml-platform/pipeline/pipeline.mdx",
@@ -7633,6 +7553,86 @@
       "subject_ref": "subject:mlops:provisioning-tool:knative"
     },
     {
+      "id": "doc:docs/mlops/kserve/crds.mdx",
+      "type": "document",
+      "title": "Kserve CRDs",
+      "snippet": "## ServingRuntimes/ClusterServingRuntimes\n\n- https://kserve.github.io/website/0.11/modelserving/servingruntimes/\n- https://github.com/kserv…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "crds"
+      },
+      "url": "/docs/mlops/kserve/crds",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kserve/crds.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kserve"
+    },
+    {
+      "id": "doc:docs/mlops/kserve/custom.mdx",
+      "type": "document",
+      "title": "Kserve Custom Runtime",
+      "snippet": "## ServingRuntimes\n\n``shell\npython3 -m pip install kserve\n`\n\nStorage를 사용해야하는 경우 kserve[storage]를 설…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "custom"
+      },
+      "url": "/docs/mlops/kserve/custom",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kserve/custom.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kserve"
+    },
+    {
+      "id": "doc:docs/mlops/kserve/install.mdx",
+      "type": "document",
+      "title": "KServe 설치 가이드",
+      "snippet": "KServe 개요 문서에서 control plane과 data plane 구성을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- https://github.c…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/kserve/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kserve/install.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kserve"
+    },
+    {
+      "id": "doc:docs/mlops/kserve/mlflow.mdx",
+      "type": "document",
+      "title": "KServe with MLFlow",
+      "snippet": "## 모델 준비\n\n## MLServer Local Test\n\n``shell\npython3 -m pip install mlserver mlserver-mlflow\n`\n\n`shell\n.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "mlflow"
+      },
+      "url": "/docs/mlops/kserve/mlflow",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kserve/mlflow.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kserve"
+    },
+    {
+      "id": "doc:docs/mlops/kserve/overview.mdx",
+      "type": "document",
+      "title": "KServe",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/kserve/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kserve/overview.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kserve"
+    },
+    {
       "id": "doc:docs/mlops/kube-state-metrics/install.mdx",
       "type": "document",
       "title": "kube-state-metrics",
@@ -7727,6 +7727,70 @@
       "url": "/docs/mlops/kubeflow-trainer/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow-trainer/overview.mdx.json",
       "subject_ref": "subject:mlops:workflow-system:kubeflow-trainer"
+    },
+    {
+      "id": "doc:docs/mlops/kubeflow/access-management.mdx",
+      "type": "document",
+      "title": "Kubeflow Access Management",
+      "snippet": "## Profile\n\n``yaml\napiVersion: kubeflow.org/v1beta1\nkind: Profile\nmetadata:\n name:\nspec:\n # namespace admin\n owner:\n ki…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kubeflow",
+        "aspect": "access-management"
+      },
+      "url": "/docs/mlops/kubeflow/access-management",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow/access-management.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kubeflow"
+    },
+    {
+      "id": "doc:docs/mlops/kubeflow/architecture.mdx",
+      "type": "document",
+      "title": "Architecture",
+      "snippet": "## Architecture\n\noauth2-proxy를 envoy filter로 사용했을 때, 주피터 노트 등에 접속하는 웹소켓 작동에 문제가 있어 Gateway 앞단의 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kubeflow",
+        "aspect": "architecture"
+      },
+      "url": "/docs/mlops/kubeflow/architecture",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow/architecture.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kubeflow"
+    },
+    {
+      "id": "doc:docs/mlops/kubeflow/auth.mdx",
+      "type": "document",
+      "title": "Kubeflow 인증/인가(authn/authz)",
+      "snippet": "",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kubeflow",
+        "aspect": "auth"
+      },
+      "url": "/docs/mlops/kubeflow/auth",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow/auth.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kubeflow"
+    },
+    {
+      "id": "doc:docs/mlops/kubeflow/notebook.mdx",
+      "type": "document",
+      "title": "Kubeflow Notebook",
+      "snippet": "## 커스텀 이미지\n\n- https://github.com/kubeflow/kubeflow/tree/master/components/example-notebook-servers#custom-images\n\n### 요구 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "ml-platform",
+        "instance": "kubeflow",
+        "aspect": "notebook"
+      },
+      "url": "/docs/mlops/kubeflow/notebook",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow/notebook.mdx.json",
+      "subject_ref": "subject:mlops:ml-platform:kubeflow"
     },
     {
       "id": "doc:docs/mlops/kubelet/configure.mdx",
@@ -9567,70 +9631,6 @@
       "url": "/docs/mlops/wireguard/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/wireguard/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:wireguard"
-    },
-    {
-      "id": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
-      "type": "document",
-      "title": "Kserve CRDs",
-      "snippet": "## ServingRuntimes/ClusterServingRuntimes\n\n- https://kserve.github.io/website/0.11/modelserving/servingruntimes/\n- https://github.com/kserv…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kserve",
-        "aspect": "crds"
-      },
-      "url": "/docs/operation/mlops/ml-platform/kserve/crds",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/ml-platform/kserve/crds.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kserve"
-    },
-    {
-      "id": "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
-      "type": "document",
-      "title": "Kserve Custom Runtime",
-      "snippet": "## ServingRuntimes\n\n``shell\npython3 -m pip install kserve\n`\n\nStorage를 사용해야하는 경우 kserve[storage]를 설…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kserve",
-        "aspect": "custom"
-      },
-      "url": "/docs/operation/mlops/ml-platform/kserve/custom",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/ml-platform/kserve/custom.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kserve"
-    },
-    {
-      "id": "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
-      "type": "document",
-      "title": "KServe 설치 가이드",
-      "snippet": "KServe 개요 문서에서 control plane과 data plane 구성을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- https://github.c…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kserve",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/ml-platform/kserve/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/ml-platform/kserve/install.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kserve"
-    },
-    {
-      "id": "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx",
-      "type": "document",
-      "title": "KServe with MLFlow",
-      "snippet": "## 모델 준비\n\n## MLServer Local Test\n\n``shell\npython3 -m pip install mlserver mlserver-mlflow\n`\n\n`shell\n.…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "kserve",
-        "aspect": "mlflow"
-      },
-      "url": "/docs/operation/mlops/ml-platform/kserve/mlflow",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx.json",
-      "subject_ref": "subject:mlops:ml-platform:kserve"
     },
     {
       "id": "doc:docs/operation/mlops/networking/konnectivity/konnectivity.mdx",
@@ -14781,38 +14781,6 @@
       ]
     },
     {
-      "id": "subject:mlops:ml-platform:access-management",
-      "type": "subject",
-      "title": "Kubeflow Access Management",
-      "snippet": "## Profile\n\n``yaml\napiVersion: kubeflow.org/v1beta1\nkind: Profile\nmetadata:\n name:\nspec:\n # namespace admin\n owner:\n ki…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "access-management"
-      },
-      "url": "/docs/entity/mlops/ml-platform/access-management",
-      "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:access-management.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:ml-platform:architecture",
-      "type": "subject",
-      "title": "Architecture",
-      "snippet": "## Architecture\n\noauth2-proxy를 envoy filter로 사용했을 때, 주피터 노트 등에 접속하는 웹소켓 작동에 문제가 있어 Gateway 앞단의 …",
-      "ontology": {
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "architecture"
-      },
-      "url": "/docs/entity/mlops/ml-platform/architecture",
-      "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:architecture.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/ml-platform/architecture/architecture.mdx"
-      ]
-    },
-    {
       "id": "subject:mlops:ml-platform:kserve",
       "type": "subject",
       "title": "KServe",
@@ -14822,46 +14790,33 @@
         "class": "ml-platform",
         "instance": "kserve"
       },
-      "url": "/docs/entity/mlops/ml-platform/kserve",
+      "url": "/docs/mlops/kserve/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:kserve.json",
       "document_refs": [
-        "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
-        "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
-        "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
-        "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
-        "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx"
+        "doc:docs/mlops/kserve/overview.mdx",
+        "doc:docs/mlops/kserve/crds.mdx",
+        "doc:docs/mlops/kserve/custom.mdx",
+        "doc:docs/mlops/kserve/install.mdx",
+        "doc:docs/mlops/kserve/mlflow.mdx"
       ]
     },
     {
       "id": "subject:mlops:ml-platform:kubeflow",
       "type": "subject",
-      "title": "Kubeflow 인증/인가(authn/authz)",
-      "snippet": "",
+      "title": "Architecture",
+      "snippet": "## Architecture\n\noauth2-proxy를 envoy filter로 사용했을 때, 주피터 노트 등에 접속하는 웹소켓 작동에 문제가 있어 Gateway 앞단의 …",
       "ontology": {
         "domain": "mlops",
         "class": "ml-platform",
         "instance": "kubeflow"
       },
-      "url": "/docs/concept/mlops/ml-platform/kubeflow/auth",
+      "url": "/docs/mlops/kubeflow/architecture",
       "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:kubeflow.json",
       "document_refs": [
-        "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:ml-platform:notebook",
-      "type": "subject",
-      "title": "Kubeflow Notebook",
-      "snippet": "## 커스텀 이미지\n\n- https://github.com/kubeflow/kubeflow/tree/master/components/example-notebook-servers#custom-images\n\n### 요구 …",
-      "ontology": {
-        "domain": "mlops",
-        "class": "ml-platform",
-        "instance": "notebook"
-      },
-      "url": "/docs/entity/mlops/ml-platform/notebook",
-      "node_url": "/api/wiki/nodes/subject:mlops:ml-platform:notebook.json",
-      "document_refs": [
-        "doc:docs/entity/mlops/ml-platform/notebook/notebook.mdx"
+        "doc:docs/mlops/kubeflow/access-management.mdx",
+        "doc:docs/mlops/kubeflow/architecture.mdx",
+        "doc:docs/mlops/kubeflow/notebook.mdx",
+        "doc:docs/mlops/kubeflow/auth.mdx"
       ]
     },
     {
@@ -17237,12 +17192,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
-      "from": "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx",
-      "to": "subject:mlops:ml-platform:kubeflow",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx:about_subject:subject:mlops:serving-system:gateway-api-inference-extension",
       "from": "doc:docs/concept/mlops/serving-system/gateway-api-inference-extension/endpoint-picker.mdx",
       "to": "subject:mlops:serving-system:gateway-api-inference-extension",
@@ -17576,30 +17525,6 @@
       "id": "relation:doc:docs/data/s3/overview.mdx:about_subject:subject:data:object-storage:s3",
       "from": "doc:docs/data/s3/overview.mdx",
       "to": "subject:data:object-storage:s3",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx:about_subject:subject:mlops:ml-platform:access-management",
-      "from": "doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx",
-      "to": "subject:mlops:ml-platform:access-management",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/ml-platform/architecture/architecture.mdx:about_subject:subject:mlops:ml-platform:architecture",
-      "from": "doc:docs/entity/mlops/ml-platform/architecture/architecture.mdx",
-      "to": "subject:mlops:ml-platform:architecture",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx:about_subject:subject:mlops:ml-platform:kserve",
-      "from": "doc:docs/entity/mlops/ml-platform/kserve/kserve.mdx",
-      "to": "subject:mlops:ml-platform:kserve",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/ml-platform/notebook/notebook.mdx:about_subject:subject:mlops:ml-platform:notebook",
-      "from": "doc:docs/entity/mlops/ml-platform/notebook/notebook.mdx",
-      "to": "subject:mlops:ml-platform:notebook",
       "predicate": "about_subject"
     },
     {
@@ -20057,6 +19982,36 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/kserve/crds.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/mlops/kserve/crds.mdx",
+      "to": "subject:mlops:ml-platform:kserve",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kserve/custom.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/mlops/kserve/custom.mdx",
+      "to": "subject:mlops:ml-platform:kserve",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kserve/install.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/mlops/kserve/install.mdx",
+      "to": "subject:mlops:ml-platform:kserve",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kserve/mlflow.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/mlops/kserve/mlflow.mdx",
+      "to": "subject:mlops:ml-platform:kserve",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kserve/overview.mdx:about_subject:subject:mlops:ml-platform:kserve",
+      "from": "doc:docs/mlops/kserve/overview.mdx",
+      "to": "subject:mlops:ml-platform:kserve",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/kube-state-metrics/install.mdx:about_subject:subject:mlops:observability-system:kube-state-metrics",
       "from": "doc:docs/mlops/kube-state-metrics/install.mdx",
       "to": "subject:mlops:observability-system:kube-state-metrics",
@@ -20090,6 +20045,30 @@
       "id": "relation:doc:docs/mlops/kubeflow-trainer/overview.mdx:about_subject:subject:mlops:workflow-system:kubeflow-trainer",
       "from": "doc:docs/mlops/kubeflow-trainer/overview.mdx",
       "to": "subject:mlops:workflow-system:kubeflow-trainer",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kubeflow/access-management.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
+      "from": "doc:docs/mlops/kubeflow/access-management.mdx",
+      "to": "subject:mlops:ml-platform:kubeflow",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kubeflow/architecture.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
+      "from": "doc:docs/mlops/kubeflow/architecture.mdx",
+      "to": "subject:mlops:ml-platform:kubeflow",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kubeflow/auth.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
+      "from": "doc:docs/mlops/kubeflow/auth.mdx",
+      "to": "subject:mlops:ml-platform:kubeflow",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/kubeflow/notebook.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
+      "from": "doc:docs/mlops/kubeflow/notebook.mdx",
+      "to": "subject:mlops:ml-platform:kubeflow",
       "predicate": "about_subject"
     },
     {
@@ -20780,30 +20759,6 @@
       "id": "relation:doc:docs/mlops/wireguard/overview.mdx:about_subject:subject:mlops:networking-stack:wireguard",
       "from": "doc:docs/mlops/wireguard/overview.mdx",
       "to": "subject:mlops:networking-stack:wireguard",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/crds.mdx:about_subject:subject:mlops:ml-platform:kserve",
-      "from": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
-      "to": "subject:mlops:ml-platform:kserve",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/custom.mdx:about_subject:subject:mlops:ml-platform:kserve",
-      "from": "doc:docs/operation/mlops/ml-platform/kserve/custom.mdx",
-      "to": "subject:mlops:ml-platform:kserve",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/install.mdx:about_subject:subject:mlops:ml-platform:kserve",
-      "from": "doc:docs/operation/mlops/ml-platform/kserve/install.mdx",
-      "to": "subject:mlops:ml-platform:kserve",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx:about_subject:subject:mlops:ml-platform:kserve",
-      "from": "doc:docs/operation/mlops/ml-platform/kserve/mlflow.mdx",
-      "to": "subject:mlops:ml-platform:kserve",
       "predicate": "about_subject"
     },
     {
