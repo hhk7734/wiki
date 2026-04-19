@@ -1,0 +1,69 @@
+---
+id: overview
+title: "AWX operator"
+sidebar_label: "AWX operator"
+description: "AWX operator"
+keywords:
+  - awx
+  - operator
+  - workflows
+ontology:
+  role: operation
+  domain: mlops
+  class: workflow-system
+  instance: awx-operator
+  aspect: overview
+subject:
+  canonical_name: "AWX Operator"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+- https://ansible.readthedocs.io/projects/awx-operator/en/latest/installation/helm-install-on-existing-cluster.html
+
+```shell
+helm repo add awx-operator https://ansible.github.io/awx-operator/
+```
+
+```shell
+helm repo update awx-operator \
+&& helm search repo awx-operator -l | head -n 10
+```
+
+```shell
+helm pull awx-operator/awx-operator --version 2.15.0
+```
+
+```shell
+helm show values awx-operator/awx-operator --version 2.15.0 > awx-operator-2.15.0.yaml
+```
+
+```yaml title="awx-operator-values.yaml"
+AWX:
+  enabled: false
+```
+
+```shell
+helm template awx-operator awx-operator-2.15.0.tgz \
+    -n workflow \
+    -f awx-operator-values.yaml \
+    > awx-operator.yaml
+```
+
+```shell
+helm upgrade -i awx-operator awx-operator-2.15.0.tgz \
+    --history-max 5 \
+    -n workflow \
+    -f awx-operator-values.yaml
+```

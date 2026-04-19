@@ -8,23 +8,23 @@
     "class": "workflow-system",
     "instance": "ansible"
   },
-  "url": "/docs/entity/mlops/workflow-system/ansible",
+  "url": "/docs/mlops/ansible/overview",
   "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:ansible.json",
   "document_refs": [
-    "doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx",
-    "doc:docs/concept/mlops/workflow-system/ansible/roles.mdx",
-    "doc:docs/concept/mlops/workflow-system/ansible/variables.mdx",
-    "doc:docs/operation/mlops/workflow-system/ansible/callback.mdx",
-    "doc:docs/operation/mlops/workflow-system/ansible/config.mdx",
-    "doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx",
-    "doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx",
-    "doc:docs/operation/mlops/workflow-system/ansible/vault.mdx"
+    "doc:docs/mlops/ansible/overview.mdx",
+    "doc:docs/mlops/ansible/roles.mdx",
+    "doc:docs/mlops/ansible/variables.mdx",
+    "doc:docs/mlops/ansible/callback.mdx",
+    "doc:docs/mlops/ansible/config.mdx",
+    "doc:docs/mlops/ansible/delegation.mdx",
+    "doc:docs/mlops/ansible/inventory.mdx",
+    "doc:docs/mlops/ansible/vault.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx",
+      "id": "doc:docs/mlops/ansible/overview.mdx",
       "title": "Ansible 기본 안내",
-      "url": "/docs/entity/mlops/workflow-system/ansible",
+      "url": "/docs/mlops/ansible/overview",
       "snippet": "## 설치\n\n``shell\npython3 -m pip install ansible\n`\n\n## Control node\n\n- SSH 키 생성 후 Managed node에 키 추가\n\n## Directory structure\n\n- …",
       "ontology": {
         "role": "entity",
@@ -35,9 +35,9 @@
       }
     },
     {
-      "id": "doc:docs/concept/mlops/workflow-system/ansible/roles.mdx",
+      "id": "doc:docs/mlops/ansible/roles.mdx",
       "title": "Ansible Role을 사용해서 task 모듈화하기",
-      "url": "/docs/concept/mlops/workflow-system/ansible/roles",
+      "url": "/docs/mlops/ansible/roles",
       "snippet": "- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html\n\n## Role\n\n### Dire…",
       "ontology": {
         "role": "concept",
@@ -48,9 +48,9 @@
       }
     },
     {
-      "id": "doc:docs/concept/mlops/workflow-system/ansible/variables.mdx",
+      "id": "doc:docs/mlops/ansible/variables.mdx",
       "title": "Ansible 변수(variables) 관리",
-      "url": "/docs/concept/mlops/workflow-system/ansible/variables",
+      "url": "/docs/mlops/ansible/variables",
       "snippet": "…의 종류 및 우선순위\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable\n\n변수의 종류를 우선순위가 낮은 것 부터 높…",
       "ontology": {
         "role": "concept",
@@ -61,9 +61,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/callback.mdx",
+      "id": "doc:docs/mlops/ansible/callback.mdx",
       "title": "Ansible Callback 플러그인",
-      "url": "/docs/operation/mlops/workflow-system/ansible/callback",
+      "url": "/docs/mlops/ansible/callback",
       "snippet": "## 설정\n\n``shell\n\n`\n\n## 출력 예시\n\n### ansible.builtin.default\n\nANSIBLE_CALLBACK_RESULT_FORMAT=json\n\n`shell\nTASK [ping] ****************************************…",
       "ontology": {
         "role": "operation",
@@ -74,9 +74,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/config.mdx",
+      "id": "doc:docs/mlops/ansible/config.mdx",
       "title": "Ansible 설정",
-      "url": "/docs/operation/mlops/workflow-system/ansible/config",
+      "url": "/docs/mlops/ansible/config",
       "snippet": "## 설정 파일\n\nansible은 아래 순서로 설정 파일을 찾습니다.\n\n- ANSIBLE_CONFIG=\n- $PWD/ansible.cfg\n- $HOME/.ansible.cfg…",
       "ontology": {
         "role": "operation",
@@ -87,9 +87,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx",
+      "id": "doc:docs/mlops/ansible/delegation.mdx",
       "title": "Ansible 실행 위치 제어하기",
-      "url": "/docs/operation/mlops/workflow-system/ansible/delegation",
+      "url": "/docs/mlops/ansible/delegation",
       "snippet": "…delegate_to\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html\n\n``yaml\n- name:\n :\n :\n delegate_to:\n`\n\n- delegate_to:\n - 작업을 수행할 호스트를 지정합니…",
       "ontology": {
         "role": "operation",
@@ -100,9 +100,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx",
+      "id": "doc:docs/mlops/ansible/inventory.mdx",
       "title": "Ansible inventory 설정하기",
-      "url": "/docs/operation/mlops/workflow-system/ansible/inventory",
+      "url": "/docs/mlops/ansible/inventory",
       "snippet": "## Inventory\n\n- https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.h…",
       "ontology": {
         "role": "operation",
@@ -113,9 +113,9 @@
       }
     },
     {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/vault.mdx",
+      "id": "doc:docs/mlops/ansible/vault.mdx",
       "title": "Ansible Vault를 사용하여 Secret 관리하기",
-      "url": "/docs/operation/mlops/workflow-system/ansible/vault",
+      "url": "/docs/mlops/ansible/vault",
       "snippet": "## Variable\n\n``shell\nansible-vault encrypt_string --vault-id [] [value]\n`\n\n- --vault-id []\n - @prompt, @prom…",
       "ontology": {
         "role": "operation",
@@ -128,51 +128,51 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/overview.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx",
+      "other_id": "doc:docs/mlops/ansible/overview.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/concept/mlops/workflow-system/ansible/roles.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/roles.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/concept/mlops/workflow-system/ansible/roles.mdx",
+      "other_id": "doc:docs/mlops/ansible/roles.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/concept/mlops/workflow-system/ansible/variables.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/variables.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/concept/mlops/workflow-system/ansible/variables.mdx",
+      "other_id": "doc:docs/mlops/ansible/variables.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/workflow-system/ansible/callback.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/callback.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/workflow-system/ansible/callback.mdx",
+      "other_id": "doc:docs/mlops/ansible/callback.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/workflow-system/ansible/config.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/config.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/workflow-system/ansible/config.mdx",
+      "other_id": "doc:docs/mlops/ansible/config.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/delegation.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx",
+      "other_id": "doc:docs/mlops/ansible/delegation.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/inventory.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx",
+      "other_id": "doc:docs/mlops/ansible/inventory.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/operation/mlops/workflow-system/ansible/vault.mdx:about_subject:subject:mlops:workflow-system:ansible",
+      "id": "relation:doc:docs/mlops/ansible/vault.mdx:about_subject:subject:mlops:workflow-system:ansible",
       "predicate": "about_subject",
-      "other_id": "doc:docs/operation/mlops/workflow-system/ansible/vault.mdx",
+      "other_id": "doc:docs/mlops/ansible/vault.mdx",
       "direction": "incoming"
     }
   ]

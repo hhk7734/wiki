@@ -4527,7 +4527,7 @@
         "class": "workflow-system",
         "instance": "ansible"
       },
-      "url": "/docs/entity/mlops/workflow-system/ansible",
+      "url": "/docs/mlops/ansible/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:ansible.json"
     },
     {
@@ -4542,7 +4542,7 @@
         "class": "workflow-system",
         "instance": "argo-cd"
       },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd",
+      "url": "/docs/mlops/argo-cd/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:argo-cd.json"
     },
     {
@@ -4557,11 +4557,11 @@
         "class": "workflow-system",
         "instance": "argo-workflows"
       },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows",
+      "url": "/docs/mlops/argo-workflows/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:argo-workflows.json"
     },
     {
-      "id": "subject:mlops:workflow-system:awx",
+      "id": "subject:mlops:workflow-system:awx-operator",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -4570,10 +4570,10 @@
       "ontology": {
         "domain": "mlops",
         "class": "workflow-system",
-        "instance": "awx"
+        "instance": "awx-operator"
       },
-      "url": "/docs/operation/mlops/workflow-system/awx/awx-operator",
-      "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:awx.json"
+      "url": "/docs/mlops/awx-operator/overview",
+      "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:awx-operator.json"
     },
     {
       "id": "subject:mlops:workflow-system:kubeflow-trainer",
@@ -4587,7 +4587,7 @@
         "class": "workflow-system",
         "instance": "kubeflow-trainer"
       },
-      "url": "/docs/operation/mlops/workflow-system/kubeflow-trainer",
+      "url": "/docs/mlops/kubeflow-trainer/overview",
       "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:kubeflow-trainer.json"
     },
     {
@@ -4602,7 +4602,7 @@
         "class": "workflow-system",
         "instance": "mpi-operator"
       },
-      "url": "/docs/operation/mlops/workflow-system/mpi-operator/mpijob",
+      "url": "/docs/mlops/mpi-operator/mpijob",
       "node_url": "/api/wiki/nodes/subject:mlops:workflow-system:mpi-operator.json"
     },
     {
@@ -6662,23 +6662,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/service-mesh/virtual-service/virtual-service.mdx.json"
     },
     {
-      "id": "doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible 기본 안내",
-      "snippet": "## 설치\n\n``shell\npython3 -m pip install ansible\n`\n\n## Control node\n\n- SSH 키 생성 후 Managed node에 키 추가\n\n## Directory structure\n\n- …",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/workflow-system/ansible",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/workflow-system/ansible/ansible.mdx.json"
-    },
-    {
       "id": "doc:docs/hardware/esp8266-esp-01-module/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7850,6 +7833,23 @@
       },
       "url": "/docs/language/viper/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/viper/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible 기본 안내",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install ansible\n`\n\n## Control node\n\n- SSH 키 생성 후 Managed node에 키 추가\n\n## Directory structure\n\n- …",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/ansible/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/overview.mdx.json"
     },
     {
       "id": "doc:docs/mlops/crd2pulumi/overview.mdx",
@@ -9603,6 +9603,74 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/viper/viper.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/argo-cd/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo CD",
+      "snippet": "…\n## 업그레이드\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/overview/",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/argo-cd/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows",
+      "snippet": "## 설치\n\n``shell\nwget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \\\n&& gzip -d argo-linux-amd64.gz \\…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/argo-workflows/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/awx-operator/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AWX operator",
+      "snippet": "## 설치\n\n- https://ansible.readthedocs.io/projects/awx-operator/en/latest/installation/helm-install-on-existing-cluster.html\n\n``shell\nhelm repo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "awx-operator",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/awx-operator/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/awx-operator/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/kubeflow-trainer/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Kubeflow Trainer",
+      "snippet": "## 설치\n\n- Trainer GitHub / charts / README.md",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "kubeflow-trainer",
+        "aspect": "overview"
+      },
+      "url": "/docs/mlops/kubeflow-trainer/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/kubeflow-trainer/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/operation/mlops/configuration/configmap/configmap.mdx",
       "type": "document",
       "score": 0,
@@ -9890,57 +9958,6 @@
       },
       "url": "/docs/operation/mlops/upgrade-plan/1-24-1-25",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/upgrade-plan/1-24-1-25/1-24-1-25.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/argo-cd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo CD",
-      "snippet": "…\n## 업그레이드\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/upgrading/overview/",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/argo-cd.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows",
-      "snippet": "## 설치\n\n``shell\nwget https://github.com/argoproj/argo-workflows/releases/latest/download/argo-linux-amd64.gz \\\n&& gzip -d argo-linux-amd64.gz \\…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/argo-workflows.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/kubeflow-trainer/kubeflow-trainer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Kubeflow Trainer",
-      "snippet": "## 설치\n\n- Trainer GitHub / charts / README.md",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "kubeflow-trainer",
-        "aspect": "overview"
-      },
-      "url": "/docs/operation/mlops/workflow-system/kubeflow-trainer",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/kubeflow-trainer/kubeflow-trainer.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/workload/deployment/deployment.mdx",
@@ -10623,40 +10640,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/serving-system/vllm/kvcache.mdx.json"
     },
     {
-      "id": "doc:docs/concept/mlops/workflow-system/ansible/roles.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible Role을 사용해서 task 모듈화하기",
-      "snippet": "- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html\n\n## Role\n\n### Dire…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "roles"
-      },
-      "url": "/docs/concept/mlops/workflow-system/ansible/roles",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/workflow-system/ansible/roles.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/mlops/workflow-system/ansible/variables.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible 변수(variables) 관리",
-      "snippet": "…의 종류 및 우선순위\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable\n\n변수의 종류를 우선순위가 낮은 것 부터 높…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "variables"
-      },
-      "url": "/docs/concept/mlops/workflow-system/ansible/variables",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/workflow-system/ansible/variables.mdx.json"
-    },
-    {
       "id": "doc:docs/data/postgresql/ha.mdx",
       "type": "document",
       "score": 0,
@@ -10859,6 +10842,40 @@
       },
       "url": "/docs/language/react/lifecycle",
       "node_url": "/api/wiki/nodes/doc:docs/language/react/lifecycle.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/roles.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible Role을 사용해서 task 모듈화하기",
+      "snippet": "- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html\n\n## Role\n\n### Dire…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "roles"
+      },
+      "url": "/docs/mlops/ansible/roles",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/roles.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/variables.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible 변수(variables) 관리",
+      "snippet": "…의 종류 및 우선순위\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable\n\n변수의 종류를 우선순위가 낮은 것 부터 높…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "variables"
+      },
+      "url": "/docs/mlops/ansible/variables",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/variables.mdx.json"
     },
     {
       "id": "doc:docs/mlops/k6/extensions.mdx",
@@ -13887,6 +13904,329 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/registry.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/ansible/callback.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible Callback 플러그인",
+      "snippet": "## 설정\n\n``shell\n\n`\n\n## 출력 예시\n\n### ansible.builtin.default\n\nANSIBLE_CALLBACK_RESULT_FORMAT=json\n\n`shell\nTASK [ping] ****************************************…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "callback"
+      },
+      "url": "/docs/mlops/ansible/callback",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/callback.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/config.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible 설정",
+      "snippet": "## 설정 파일\n\nansible은 아래 순서로 설정 파일을 찾습니다.\n\n- ANSIBLE_CONFIG=\n- $PWD/ansible.cfg\n- $HOME/.ansible.cfg…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "config"
+      },
+      "url": "/docs/mlops/ansible/config",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/config.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/delegation.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible 실행 위치 제어하기",
+      "snippet": "…delegate_to\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html\n\n``yaml\n- name:\n :\n :\n delegate_to:\n`\n\n- delegate_to:\n - 작업을 수행할 호스트를 지정합니…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "delegation"
+      },
+      "url": "/docs/mlops/ansible/delegation",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/delegation.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/inventory.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible inventory 설정하기",
+      "snippet": "## Inventory\n\n- https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.h…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "inventory"
+      },
+      "url": "/docs/mlops/ansible/inventory",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/inventory.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/ansible/vault.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Ansible Vault를 사용하여 Secret 관리하기",
+      "snippet": "## Variable\n\n``shell\nansible-vault encrypt_string --vault-id [] [value]\n`\n\n- --vault-id []\n - @prompt, @prom…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "vault"
+      },
+      "url": "/docs/mlops/ansible/vault",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/vault.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/act.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Local에서 GitHub Action 실행하기",
+      "snippet": "## act\n\n- act GitHub\n\nact는 Docker를 활용하여 GitHub Action을 Local에서 실행할 수 있게 해주는 도구입니다.\n\n## 설치\n\n``shell\nyay -S act\n`\n\n`shell\ncurl --proto '=https' …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "act"
+      },
+      "url": "/docs/mlops/argo-cd/act",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/act.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/annotations.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo CD 개별 리소스에 적용되는 옵션",
+      "snippet": "## 개별 리소스에 적용\n\n개별 리소스에 대한 동기화 옵션은 annotations를 통해 지정할 수 있습니다.\n\n``yaml\nmetadata:\n annotations:\n argocd.argoproj.io/sync-option…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "annotations"
+      },
+      "url": "/docs/mlops/argo-cd/annotations",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/annotations.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/auth.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo CD 인증/인가",
+      "snippet": "## 인증(Authn)\n\n### ConfigMap, Secret으로 계정 관리\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#local-usersaccounts\n\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "auth"
+      },
+      "url": "/docs/mlops/argo-cd/auth",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/auth.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/crd.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo CD CRD",
+      "snippet": "## Repository\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories\n\nrepos…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "crd"
+      },
+      "url": "/docs/mlops/argo-cd/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/crd.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/github-action-runner.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "GitHub Action Runner",
+      "snippet": "## Action Runner Controller\n\n### 설치\n\n- https://docs.github.com/en/actions/hosting-your-ow…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "github-action-runner"
+      },
+      "url": "/docs/mlops/argo-cd/github-action-runner",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/github-action-runner.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/github-action.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "GitHub Action",
+      "snippet": "## Workflow 파일\n\nGitHub Action을 위한 Workflow yaml파일을 리포지토리의 .github/workflows 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "github-action"
+      },
+      "url": "/docs/mlops/argo-cd/github-action",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/github-action.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-cd/gitops.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo CD GitOps",
+      "snippet": "## GitOps\n\nhttps://nortal.com/blog/gitops-argocd/\n\nGitHub, GitHub Action, ECR, Argo-CD, Helm Chart를 이용한 GitOps 설정에 대한 예시입니다.\n\n## GitOps Repository\n\nhttps://github.com…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-cd",
+        "aspect": "gitops"
+      },
+      "url": "/docs/mlops/argo-cd/gitops",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-cd/gitops.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/client.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows Client",
+      "snippet": "## Go Client\n\nKubernetes 토큰을 사용하는 경우 아래 설정이 필요합니다.\n\n``yaml title=\"argo-workflows-values.yaml\"\nserver:\n authModes:\n - client\n`\n\n### gRPC\n\n### HTTP\n\n`go\n ctx, cli…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "client"
+      },
+      "url": "/docs/mlops/argo-workflows/client",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/client.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/crd.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows CRD",
+      "snippet": "## Workflow and WorkflowTemplate\n\n- https://argoproj.github.io/argo-workflows/fields/#workflowspec\n\n``yaml\napiVersion: argoproj.io/v1alpha1\nkind: Workflow # …",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "crd"
+      },
+      "url": "/docs/mlops/argo-workflows/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/crd.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/dag.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows DAG template",
+      "snippet": "…실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.\n\n- https://argoproj.github.io/argo-workflows/fields/#dagtemplate\n\n``yaml\nspec:\n entrypoint: dag-test\n templates:\n - name: da…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "dag"
+      },
+      "url": "/docs/mlops/argo-workflows/dag",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/dag.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/entrypoint-templates.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows entrypoint and templates",
+      "snippet": "…점이 됩니다.\n\n``yaml\nspec:\n entrypoint:\n`\n\n## template\n\n- https://argoproj.github.io/argo-workflows/fields/#template\n\ntemplate은 workflow에서 작업을 정의할 때 사용하는 실행 단위입니다. container, scri…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "entrypoint-templates"
+      },
+      "url": "/docs/mlops/argo-workflows/entrypoint-templates",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/entrypoint-templates.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/garbage-collection.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows Garbage Collection",
+      "snippet": "- https://argoproj.github.io/argo-workflows/cost-optimisation/\n\n## podGC\n\n- https://argoproj.github.io/argo-workflows/field…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "garbage-collection"
+      },
+      "url": "/docs/mlops/argo-workflows/garbage-collection",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/garbage-collection.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/argo-workflows/variables.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Argo Workflows Variables",
+      "snippet": "## 변수 사용 방법\n\n- https://argoproj.github.io/argo-workflows/variables/\n\nCR 정의에 따라 자동으로 정의 및 할당되는 변수와 사용자 정의(inputs.parameters) 및 할당(argumen…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "argo-workflows",
+        "aspect": "variables"
+      },
+      "url": "/docs/mlops/argo-workflows/variables",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/argo-workflows/variables.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/awx-operator/crd.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AWX operator CRD",
+      "snippet": "…inity: {}\n - tolerations: \"\"\n- Admin\n - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/admin-user-account-configuration.html\n - admin_user: admin…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "awx-operator",
+        "aspect": "crd"
+      },
+      "url": "/docs/mlops/awx-operator/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/awx-operator/crd.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/crd2pulumi/convert.mdx",
       "type": "document",
       "score": 0,
@@ -14174,6 +14514,23 @@
       },
       "url": "/docs/mlops/metrics-server/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/metrics-server/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/mpi-operator/mpijob.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MPIJob",
+      "snippet": "…r.template 설정을 변경하면 생성된 launcher Job을 삭제해야 변경된 설정이 적용됩니다.\n\n## Container Base\n\n- mpi-operator GitHub / build / base\n\n`dockerfile title=\"build/base/Dockerfile\"\nFROM ubuntu:22…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "workflow-system",
+        "instance": "mpi-operator",
+        "aspect": "mpijob"
+      },
+      "url": "/docs/mlops/mpi-operator/mpijob",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/mpi-operator/mpijob.mdx.json"
     },
     {
       "id": "doc:docs/mlops/node-exporter/install.mdx",
@@ -16622,363 +16979,6 @@
       },
       "url": "/docs/operation/mlops/tool/helm/custom-chart",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/tool/helm/custom-chart.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/callback.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible Callback 플러그인",
-      "snippet": "## 설정\n\n``shell\n\n`\n\n## 출력 예시\n\n### ansible.builtin.default\n\nANSIBLE_CALLBACK_RESULT_FORMAT=json\n\n`shell\nTASK [ping] ****************************************…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "callback"
-      },
-      "url": "/docs/operation/mlops/workflow-system/ansible/callback",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/ansible/callback.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/config.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible 설정",
-      "snippet": "## 설정 파일\n\nansible은 아래 순서로 설정 파일을 찾습니다.\n\n- ANSIBLE_CONFIG=\n- $PWD/ansible.cfg\n- $HOME/.ansible.cfg…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "config"
-      },
-      "url": "/docs/operation/mlops/workflow-system/ansible/config",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/ansible/config.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible 실행 위치 제어하기",
-      "snippet": "…delegate_to\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html\n\n``yaml\n- name:\n :\n :\n delegate_to:\n`\n\n- delegate_to:\n - 작업을 수행할 호스트를 지정합니…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "delegation"
-      },
-      "url": "/docs/operation/mlops/workflow-system/ansible/delegation",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/ansible/delegation.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible inventory 설정하기",
-      "snippet": "## Inventory\n\n- https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.h…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "inventory"
-      },
-      "url": "/docs/operation/mlops/workflow-system/ansible/inventory",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/ansible/inventory.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/ansible/vault.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Ansible Vault를 사용하여 Secret 관리하기",
-      "snippet": "## Variable\n\n``shell\nansible-vault encrypt_string --vault-id [] [value]\n`\n\n- --vault-id []\n - @prompt, @prom…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "ansible",
-        "aspect": "vault"
-      },
-      "url": "/docs/operation/mlops/workflow-system/ansible/vault",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/ansible/vault.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/act.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Local에서 GitHub Action 실행하기",
-      "snippet": "## act\n\n- act GitHub\n\nact는 Docker를 활용하여 GitHub Action을 Local에서 실행할 수 있게 해주는 도구입니다.\n\n## 설치\n\n``shell\nyay -S act\n`\n\n`shell\ncurl --proto '=https' …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "act"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/act",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/act.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/annotations.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo CD 개별 리소스에 적용되는 옵션",
-      "snippet": "## 개별 리소스에 적용\n\n개별 리소스에 대한 동기화 옵션은 annotations를 통해 지정할 수 있습니다.\n\n``yaml\nmetadata:\n annotations:\n argocd.argoproj.io/sync-option…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "annotations"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/annotations",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/annotations.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/auth.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo CD 인증/인가",
-      "snippet": "## 인증(Authn)\n\n### ConfigMap, Secret으로 계정 관리\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/user-management/#local-usersaccounts\n\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "auth"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/auth",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/auth.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/crd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo CD CRD",
-      "snippet": "## Repository\n\n- https://argo-cd.readthedocs.io/en/stable/operator-manual/declarative-setup/#repositories\n\nrepos…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "crd"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/crd.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/github-action-runner.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "GitHub Action Runner",
-      "snippet": "## Action Runner Controller\n\n### 설치\n\n- https://docs.github.com/en/actions/hosting-your-ow…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "github-action-runner"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/github-action-runner",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/github-action-runner.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/github-action.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "GitHub Action",
-      "snippet": "## Workflow 파일\n\nGitHub Action을 위한 Workflow yaml파일을 리포지토리의 .github/workflows 디렉토리에 저장하고 GitHub에 반영하면 자동으로 반영되어…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "github-action"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/github-action",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/github-action.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-cd/gitops.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo CD GitOps",
-      "snippet": "## GitOps\n\nhttps://nortal.com/blog/gitops-argocd/\n\nGitHub, GitHub Action, ECR, Argo-CD, Helm Chart를 이용한 GitOps 설정에 대한 예시입니다.\n\n## GitOps Repository\n\nhttps://github.com…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-cd",
-        "aspect": "gitops"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-cd/gitops",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-cd/gitops.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows Client",
-      "snippet": "## Go Client\n\nKubernetes 토큰을 사용하는 경우 아래 설정이 필요합니다.\n\n``yaml title=\"argo-workflows-values.yaml\"\nserver:\n authModes:\n - client\n`\n\n### gRPC\n\n### HTTP\n\n`go\n ctx, cli…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "client"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/client",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/client.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows CRD",
-      "snippet": "## Workflow and WorkflowTemplate\n\n- https://argoproj.github.io/argo-workflows/fields/#workflowspec\n\n``yaml\napiVersion: argoproj.io/v1alpha1\nkind: Workflow # …",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "crd"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/crd.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows DAG template",
-      "snippet": "…실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.\n\n- https://argoproj.github.io/argo-workflows/fields/#dagtemplate\n\n``yaml\nspec:\n entrypoint: dag-test\n templates:\n - name: da…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "dag"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/dag",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/dag.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows entrypoint and templates",
-      "snippet": "…점이 됩니다.\n\n``yaml\nspec:\n entrypoint:\n`\n\n## template\n\n- https://argoproj.github.io/argo-workflows/fields/#template\n\ntemplate은 workflow에서 작업을 정의할 때 사용하는 실행 단위입니다. container, scri…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "entrypoint-templates"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/entrypoint-templates.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows Garbage Collection",
-      "snippet": "- https://argoproj.github.io/argo-workflows/cost-optimisation/\n\n## podGC\n\n- https://argoproj.github.io/argo-workflows/field…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "garbage-collection"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/garbage-collection",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/garbage-collection.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Argo Workflows Variables",
-      "snippet": "## 변수 사용 방법\n\n- https://argoproj.github.io/argo-workflows/variables/\n\nCR 정의에 따라 자동으로 정의 및 할당되는 변수와 사용자 정의(inputs.parameters) 및 할당(argumen…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "argo-workflows",
-        "aspect": "variables"
-      },
-      "url": "/docs/operation/mlops/workflow-system/argo-workflows/variables",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/argo-workflows/variables.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/awx/awx-operator.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AWX operator",
-      "snippet": "## 설치\n\n- https://ansible.readthedocs.io/projects/awx-operator/en/latest/installation/helm-install-on-existing-cluster.html\n\n``shell\nhelm repo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "awx",
-        "aspect": "awx-operator"
-      },
-      "url": "/docs/operation/mlops/workflow-system/awx/awx-operator",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/awx/awx-operator.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/awx/crd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AWX operator CRD",
-      "snippet": "…y: {}\n - tolerations: \"\"\n- Admin\n - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/admin-user-account-configuration.html\n - admin_user: admin…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "awx",
-        "aspect": "crd"
-      },
-      "url": "/docs/operation/mlops/workflow-system/awx/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/awx/crd.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/workflow-system/mpi-operator/mpijob.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MPIJob",
-      "snippet": "…r.template 설정을 변경하면 생성된 launcher Job을 삭제해야 변경된 설정이 적용됩니다.\n\n## Container Base\n\n- mpi-operator GitHub / build / base\n\n`dockerfile title=\"build/base/Dockerfile\"\nFROM ubuntu:22…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "workflow-system",
-        "instance": "mpi-operator",
-        "aspect": "mpijob"
-      },
-      "url": "/docs/operation/mlops/workflow-system/mpi-operator/mpijob",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/workflow-system/mpi-operator/mpijob.mdx.json"
     },
     {
       "id": "doc:docs/platform/debian-package/advanced.mdx",
