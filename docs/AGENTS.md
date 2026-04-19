@@ -248,9 +248,9 @@ Keep link rewrites and validation aligned with:
 
 Operational workflow after doc additions or moves:
 
-1. run `npm run ontology:bootstrap`
-2. run `npm run ontology:validate`
-3. run `npm run build`
+1. run `npm run build` for the full automated path
+2. run `npm run start` when you want the dev server with the same automated ontology preparation
+3. use `npm run ontology:bootstrap` or `npm run ontology:validate` directly only when you want to inspect those steps in isolation
 
 ## Graph Integration
 

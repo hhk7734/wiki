@@ -17,9 +17,10 @@ npm run start
 ## ontology
 
 ```shell
-npm run ontology:bootstrap
-npm run ontology:validate
+npm run build
 ```
+
+`npm run start` and `npm run build` automatically run ontology bootstrap, validation, and wiki/search artifact generation before Docusaurus starts or builds.
 
 ## swizzle
 
