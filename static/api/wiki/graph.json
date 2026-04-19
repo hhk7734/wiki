@@ -113,22 +113,6 @@
       "subject_ref": "subject:management:memo:team-management"
     },
     {
-      "id": "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
-      "type": "document",
-      "title": "Gateway API로 라우팅 관리하기",
-      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api",
-        "aspect": "route"
-      },
-      "url": "/docs/concept/mlops/gateway-api/gateway-api/route",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx.json",
-      "subject_ref": "subject:mlops:gateway-api:gateway-api"
-    },
-    {
       "id": "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx",
       "type": "document",
       "title": "Kubeflow 인증/인가(authn/authz)",
@@ -1039,22 +1023,6 @@
       "url": "/docs/data/s3/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/s3/overview.mdx.json",
       "subject_ref": "subject:data:object-storage:s3"
-    },
-    {
-      "id": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
-      "type": "document",
-      "title": "Gateway API 사용시 조직에 따른 역할",
-      "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "role",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/gateway-api/role",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/gateway-api/role/role.mdx.json",
-      "subject_ref": "subject:mlops:gateway-api:role"
     },
     {
       "id": "doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx",
@@ -6561,6 +6529,22 @@
       "subject_ref": "subject:mlops:observability-system:fluentd"
     },
     {
+      "id": "doc:docs/mlops/gateway-api/install.mdx",
+      "type": "document",
+      "title": "Gateway API CRD 설치 가이드",
+      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api --version 1.3.0\n`\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/gateway-api/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/install.mdx.json",
+      "subject_ref": "subject:mlops:gateway-api:gateway-api"
+    },
+    {
       "id": "doc:docs/mlops/gateway-api/overview.mdx",
       "type": "document",
       "title": "Cilium에서 Gateway API 사용하기",
@@ -6575,6 +6559,38 @@
       "url": "/docs/mlops/gateway-api/overview",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/overview.mdx.json",
       "subject_ref": "subject:mlops:networking-stack:gateway-api"
+    },
+    {
+      "id": "doc:docs/mlops/gateway-api/role.mdx",
+      "type": "document",
+      "title": "Gateway API 사용시 조직에 따른 역할",
+      "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "role"
+      },
+      "url": "/docs/mlops/gateway-api/role",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/role.mdx.json",
+      "subject_ref": "subject:mlops:gateway-api:gateway-api"
+    },
+    {
+      "id": "doc:docs/mlops/gateway-api/route.mdx",
+      "type": "document",
+      "title": "Gateway API로 라우팅 관리하기",
+      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "route"
+      },
+      "url": "/docs/mlops/gateway-api/route",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/route.mdx.json",
+      "subject_ref": "subject:mlops:gateway-api:gateway-api"
     },
     {
       "id": "doc:docs/mlops/gateway/overview.mdx",
@@ -9247,22 +9263,6 @@
       "url": "/docs/operation/mlops/configuration/secret",
       "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/configuration/secret/secret.mdx.json",
       "subject_ref": "subject:mlops:configuration:secret"
-    },
-    {
-      "id": "doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx",
-      "type": "document",
-      "title": "Gateway API CRD 설치 가이드",
-      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api --version 1.3.0\n`\n\n`she…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/gateway-api/gateway-api/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx.json",
-      "subject_ref": "subject:mlops:gateway-api:gateway-api"
     },
     {
       "id": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
@@ -14682,34 +14682,19 @@
     {
       "id": "subject:mlops:gateway-api:gateway-api",
       "type": "subject",
-      "title": "Gateway API로 라우팅 관리하기",
-      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api"
-      },
-      "url": "/docs/concept/mlops/gateway-api/gateway-api/route",
-      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:gateway-api.json",
-      "document_refs": [
-        "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
-        "doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx"
-      ]
-    },
-    {
-      "id": "subject:mlops:gateway-api:role",
-      "type": "subject",
       "title": "Gateway API 사용시 조직에 따른 역할",
       "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
       "ontology": {
         "domain": "mlops",
         "class": "gateway-api",
-        "instance": "role"
+        "instance": "gateway-api"
       },
-      "url": "/docs/entity/mlops/gateway-api/role",
-      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:role.json",
+      "url": "/docs/mlops/gateway-api/role",
+      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:gateway-api.json",
       "document_refs": [
-        "doc:docs/entity/mlops/gateway-api/role/role.mdx"
+        "doc:docs/mlops/gateway-api/role.mdx",
+        "doc:docs/mlops/gateway-api/route.mdx",
+        "doc:docs/mlops/gateway-api/install.mdx"
       ]
     },
     {
@@ -17282,12 +17267,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx:about_subject:subject:mlops:gateway-api:gateway-api",
-      "from": "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
-      "to": "subject:mlops:gateway-api:gateway-api",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx:about_subject:subject:mlops:ml-platform:kubeflow",
       "from": "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx",
       "to": "subject:mlops:ml-platform:kubeflow",
@@ -17627,12 +17606,6 @@
       "id": "relation:doc:docs/data/s3/overview.mdx:about_subject:subject:data:object-storage:s3",
       "from": "doc:docs/data/s3/overview.mdx",
       "to": "subject:data:object-storage:s3",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/entity/mlops/gateway-api/role/role.mdx:about_subject:subject:mlops:gateway-api:role",
-      "from": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
-      "to": "subject:mlops:gateway-api:role",
       "predicate": "about_subject"
     },
     {
@@ -19700,9 +19673,27 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/mlops/gateway-api/install.mdx:about_subject:subject:mlops:gateway-api:gateway-api",
+      "from": "doc:docs/mlops/gateway-api/install.mdx",
+      "to": "subject:mlops:gateway-api:gateway-api",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/mlops/gateway-api/overview.mdx:about_subject:subject:mlops:networking-stack:gateway-api",
       "from": "doc:docs/mlops/gateway-api/overview.mdx",
       "to": "subject:mlops:networking-stack:gateway-api",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gateway-api/role.mdx:about_subject:subject:mlops:gateway-api:gateway-api",
+      "from": "doc:docs/mlops/gateway-api/role.mdx",
+      "to": "subject:mlops:gateway-api:gateway-api",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/mlops/gateway-api/route.mdx:about_subject:subject:mlops:gateway-api:gateway-api",
+      "from": "doc:docs/mlops/gateway-api/route.mdx",
+      "to": "subject:mlops:gateway-api:gateway-api",
       "predicate": "about_subject"
     },
     {
@@ -20705,12 +20696,6 @@
       "id": "relation:doc:docs/operation/mlops/configuration/secret/secret.mdx:about_subject:subject:mlops:configuration:secret",
       "from": "doc:docs/operation/mlops/configuration/secret/secret.mdx",
       "to": "subject:mlops:configuration:secret",
-      "predicate": "about_subject"
-    },
-    {
-      "id": "relation:doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx:about_subject:subject:mlops:gateway-api:gateway-api",
-      "from": "doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx",
-      "to": "subject:mlops:gateway-api:gateway-api",
       "predicate": "about_subject"
     },
     {

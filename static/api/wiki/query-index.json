@@ -2975,30 +2975,15 @@
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "Gateway API로 라우팅 관리하기",
-      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
-      "ontology": {
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api"
-      },
-      "url": "/docs/concept/mlops/gateway-api/gateway-api/route",
-      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:gateway-api.json"
-    },
-    {
-      "id": "subject:mlops:gateway-api:role",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
       "title": "Gateway API 사용시 조직에 따른 역할",
       "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
       "ontology": {
         "domain": "mlops",
         "class": "gateway-api",
-        "instance": "role"
+        "instance": "gateway-api"
       },
-      "url": "/docs/entity/mlops/gateway-api/role",
-      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:role.json"
+      "url": "/docs/mlops/gateway-api/role",
+      "node_url": "/api/wiki/nodes/subject:mlops:gateway-api:gateway-api.json"
     },
     {
       "id": "subject:mlops:iac-tool:crd2pulumi",
@@ -5559,23 +5544,6 @@
       },
       "url": "/docs/data/s3/overview",
       "node_url": "/api/wiki/nodes/doc:docs/data/s3/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/entity/mlops/gateway-api/role/role.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Gateway API 사용시 조직에 따른 역할",
-      "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
-      "ontology": {
-        "role": "entity",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "role",
-        "aspect": "overview"
-      },
-      "url": "/docs/entity/mlops/gateway-api/role",
-      "node_url": "/api/wiki/nodes/doc:docs/entity/mlops/gateway-api/role/role.mdx.json"
     },
     {
       "id": "doc:docs/entity/mlops/ml-platform/access-management/access-management.mdx",
@@ -10015,6 +9983,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/envoy-filter/ext-proc.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/gateway-api/role.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Gateway API 사용시 조직에 따른 역할",
+      "snippet": "## RBAC\n\n- Gateway API / Concepts / Roles and Personas\n- Gateway API / Concepts / Security Model\n\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "role"
+      },
+      "url": "/docs/mlops/gateway-api/role",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/role.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/grafana/alert.mdx",
       "type": "document",
       "score": 0,
@@ -10268,23 +10253,6 @@
       },
       "url": "/docs/mlops/node-feature-discovery/node-feature-rule",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/node-feature-discovery/node-feature-rule.mdx.json"
-    },
-    {
-      "id": "doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Gateway API로 라우팅 관리하기",
-      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
-      "ontology": {
-        "role": "concept",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api",
-        "aspect": "route"
-      },
-      "url": "/docs/concept/mlops/gateway-api/gateway-api/route",
-      "node_url": "/api/wiki/nodes/doc:docs/concept/mlops/gateway-api/gateway-api/route.mdx.json"
     },
     {
       "id": "doc:docs/concept/mlops/ml-platform/kubeflow/auth.mdx",
@@ -10591,6 +10559,23 @@
       },
       "url": "/docs/mlops/ansible/variables",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/ansible/variables.mdx.json"
+    },
+    {
+      "id": "doc:docs/mlops/gateway-api/route.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Gateway API로 라우팅 관리하기",
+      "snippet": "## Gateway\n\n- Gateway API / API specification / Standard # Gateway\n\n``yaml\napiVersion: gat…",
+      "ontology": {
+        "role": "concept",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "route"
+      },
+      "url": "/docs/mlops/gateway-api/route",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/route.mdx.json"
     },
     {
       "id": "doc:docs/mlops/harbor/auth.mdx",
@@ -14554,6 +14539,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/mlops/fluentd/install.mdx.json"
     },
     {
+      "id": "doc:docs/mlops/gateway-api/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Gateway API CRD 설치 가이드",
+      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api --version 1.3.0\n`\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "mlops",
+        "class": "gateway-api",
+        "instance": "gateway-api",
+        "aspect": "install"
+      },
+      "url": "/docs/mlops/gateway-api/install",
+      "node_url": "/api/wiki/nodes/doc:docs/mlops/gateway-api/install.mdx.json"
+    },
+    {
       "id": "doc:docs/mlops/gke/node-pool.mdx",
       "type": "document",
       "score": 0,
@@ -16388,23 +16390,6 @@
       },
       "url": "/docs/mlops/whereabouts/install",
       "node_url": "/api/wiki/nodes/doc:docs/mlops/whereabouts/install.mdx.json"
-    },
-    {
-      "id": "doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Gateway API CRD 설치 가이드",
-      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api --version 1.3.0\n`\n\n`she…",
-      "ontology": {
-        "role": "operation",
-        "domain": "mlops",
-        "class": "gateway-api",
-        "instance": "gateway-api",
-        "aspect": "install"
-      },
-      "url": "/docs/operation/mlops/gateway-api/gateway-api/install",
-      "node_url": "/api/wiki/nodes/doc:docs/operation/mlops/gateway-api/gateway-api/install.mdx.json"
     },
     {
       "id": "doc:docs/operation/mlops/ml-platform/kserve/crds.mdx",
