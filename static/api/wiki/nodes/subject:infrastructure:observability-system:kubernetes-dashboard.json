@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:observability-system:kubernetes-dashboard",
+  "title": "Kubernetes Dashboard",
+  "snippet": "## 설치\n\n``shell\nhelm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \\\n&& helm repo update kubernetes-dashbo…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "kubernetes-dashboard"
+  },
+  "url": "/docs/infrastructure/observability/kubernetes-dashboard/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:observability-system:kubernetes-dashboard.json",
+  "document_refs": [
+    "doc:docs/infrastructure/observability/kubernetes-dashboard/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/observability/kubernetes-dashboard/install.mdx",
+      "title": "Kubernetes Dashboard",
+      "url": "/docs/infrastructure/observability/kubernetes-dashboard/install",
+      "snippet": "## 설치\n\n``shell\nhelm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/ \\\n&& helm repo update kubernetes-dashbo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "kubernetes-dashboard",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/kubernetes-dashboard/install.mdx:about_subject:subject:infrastructure:observability-system:kubernetes-dashboard",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/kubernetes-dashboard/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-system:object-gateway",
+  "title": "Ceph Object Gateway, S3 호환 Object Storage",
+  "snippet": "…alues.yaml\"\nrbacAggregate:\n enableOBCs: true\n`\n\n## CephObjectStore 생성\n\n- Rook / Object Storage Overview\n\n### Local Object Store\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephO…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-system",
+    "instance": "object-gateway"
+  },
+  "url": "/docs/infrastructure/storage/object-gateway/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-system:object-gateway.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/object-gateway/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/object-gateway/overview.mdx",
+      "title": "Ceph Object Gateway, S3 호환 Object Storage",
+      "url": "/docs/infrastructure/storage/object-gateway/overview",
+      "snippet": "…alues.yaml\"\nrbacAggregate:\n enableOBCs: true\n`\n\n## CephObjectStore 생성\n\n- Rook / Object Storage Overview\n\n### Local Object Store\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephO…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "object-gateway",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/object-gateway/overview.mdx:about_subject:subject:infrastructure:storage-system:object-gateway",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/object-gateway/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-system:object-gateway:depends_on:subject:infrastructure:storage-system:ceph",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,115 @@
+---
+id: overview
+title: IPoIB
+sidebar_label: IPoIB
+description: IPoIB
+keywords:
+  - IPoIB
+  - cni
+ontology:
+  role: entity
+  domain: infrastructure
+  class: networking-stack
+  instance: ipoib
+  aspect: overview
+subject:
+  canonical_name: IPoIB
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## IPoIB CNI
+
+:::info[References]
+
+- [ipoib-cni GitHub](https://github.com/Mellanox/ipoib-cni)
+
+:::
+
+IPoIB의 child link를 생성해서 Pod에 연결하는 CNI 입니다.
+
+```yaml
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ipoib-cni
+  namespace: kube-system
+  labels:
+    app.kubernetes.io/name: ipoib-cni
+    app: ipoib-cni
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: ipoib-cni
+      app: ipoib-cni
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: ipoib-cni
+        app: ipoib-cni
+    spec:
+      hostNetwork: true
+      tolerations:
+        - operator: Exists
+      containers:
+        - name: main
+          image: ghcr.io/mellanox/ipoib-cni:v1.2.2
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "50Mi"
+            limits:
+              cpu: "100m"
+              memory: "50Mi"
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: cnibin
+              mountPath: /host/opt/cni/bin
+      volumes:
+        - name: cnibin
+          hostPath:
+            path: /opt/cni/bin
+```
+
+## CNI 설정
+
+```yaml
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: ipoib
+  namespace: kube-system
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "name": "ipoib",
+      "type": "ipoib",
+      "master": "ib0",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "172.16.0.0/16"
+      }
+    }
+```
+
+- `name: <name>`: NetworkAttachmentDefinition의 name과 일치해야 합니다.
+- `type: ipoib`
+- `master: <interface>`
+- `ipam`
+  - `type: <type>`: IP 관리에 사용할 바이너리입니다.
+    - https://www.cni.dev/plugins/current/ipam/
+    - `dhcp`는 지원되지 않습니다.
+    - [whereabouts](/docs/infrastructure/networking/whereabouts/overview.mdx)

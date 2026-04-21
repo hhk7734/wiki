@@ -1,0 +1,48 @@
+---
+id: stack-reference
+title: StackReference
+sidebar_label: StackReference
+description: StackReference
+keywords:
+  - StackReference
+ontology:
+  role: concept
+  domain: infrastructure
+  class: iac-tool
+  instance: pulumi
+  aspect: stack-reference
+subject:
+  canonical_name: Pulumi
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Output
+
+- https://www.pulumi.com/docs/intro/concepts/stack/#outputs
+
+## StackReference
+
+- https://www.pulumi.com/docs/intro/concepts/stack/#stackreferences
+
+:::info
+Self-Managed Backend(S3, local filesystem, ...)를 사용할 때, 조직은 `organization`으로 고정됩니다.
+
+backend.url을 공유하는 여러 프로젝트는, `pulumi.StackReference`로 다른 스택에 접근이 가능합니다.
+
+```python
+import pulumi
+
+other = pulumi.StackReference("organization/<project>/<stack>")
+```
+
+:::

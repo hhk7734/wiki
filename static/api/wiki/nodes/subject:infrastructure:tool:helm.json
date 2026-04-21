@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:tool:helm",
+  "title": "Helm 명령어로 애플리케이션 배포하기",
+  "snippet": "…# 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\"$HOME/.zshrc\"\nsource [flags]\n`\n\ne.g., helm repo add stable https://charts.helm.sh/stable\n\n`shell\nhelm repo list [flags]\n`\n…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "tool",
+    "instance": "helm"
+  },
+  "url": "/docs/infrastructure/kubernetes/helm/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:tool:helm.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/helm/overview.mdx",
+    "doc:docs/infrastructure/kubernetes/helm/custom-chart.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/helm/overview.mdx",
+      "title": "Helm 명령어로 애플리케이션 배포하기",
+      "url": "/docs/infrastructure/kubernetes/helm/overview",
+      "snippet": "…# 설치\n\n- mise로 런타임 버전 관리하기\n\n``shell title=\"$HOME/.zshrc\"\nsource [flags]\n`\n\ne.g., helm repo add stable https://charts.helm.sh/stable\n\n`shell\nhelm repo list [flags]\n`\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "tool",
+        "instance": "helm",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/helm/custom-chart.mdx",
+      "title": "Custom Chart 만들기",
+      "url": "/docs/infrastructure/kubernetes/helm/custom-chart",
+      "snippet": "## Chart 생성하기\n\n``shell\nhelm create [flags]\n`\n\n- Chart.yaml: https://helm.sh/docs/topics/…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "tool",
+        "instance": "helm",
+        "aspect": "custom-chart"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/helm/overview.mdx:about_subject:subject:infrastructure:tool:helm",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/helm/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/helm/custom-chart.mdx:about_subject:subject:infrastructure:tool:helm",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/helm/custom-chart.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

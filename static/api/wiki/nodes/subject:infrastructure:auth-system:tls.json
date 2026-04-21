@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:auth-system:tls",
+  "title": "Transport Layer Security(전송 계층 보안)",
+  "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "tls"
+  },
+  "url": "/docs/infrastructure/security/tls/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:auth-system:tls.json",
+  "document_refs": [
+    "doc:docs/infrastructure/security/tls/overview.mdx",
+    "doc:docs/infrastructure/security/tls/x509.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/security/tls/overview.mdx",
+      "title": "Transport Layer Security(전송 계층 보안)",
+      "url": "/docs/infrastructure/security/tls/overview",
+      "snippet": "… Key와 인증 정보를 Data의 값으로 넣고, 이 정보를 해시한 후 인증 기관(Certificate Authority, CA)이 가지고 있는 Private Key로 암호화하여 Signature Value의 값으로 넣은 파일을 말합니다. 이 때, 인증서에 포함된 Public Key와 페어가 되는 Priva…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "tls",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/security/tls/x509.mdx",
+      "title": "X.509",
+      "url": "/docs/infrastructure/security/tls/x509",
+      "snippet": "…t_bits = 3072\nencrypt_key = no\nprompt = no\nutf8 = yes\n\nreq_extensions = req_ext\nx509_extensions = req_ext\n\ndistinguished_name = req_distinguished_name\n\n[ req_ext ]\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "tls",
+        "aspect": "x509"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/tls/overview.mdx:about_subject:subject:infrastructure:auth-system:tls",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/security/tls/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/security/tls/x509.mdx:about_subject:subject:infrastructure:auth-system:tls",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/security/tls/x509.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

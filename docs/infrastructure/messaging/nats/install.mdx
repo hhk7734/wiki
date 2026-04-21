@@ -1,0 +1,214 @@
+---
+id: install
+title: NATS
+sidebar_label: NATS
+description: NATS
+keywords:
+  - nats
+ontology:
+  role: operation
+  domain: infrastructure
+  class: eventing-system
+  instance: nats
+  aspect: install
+subject:
+  canonical_name: NATS
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+```shell
+helm repo add nats https://nats-io.github.io/k8s/helm/charts
+```
+
+### NATS
+
+- [PersistentVolume](/docs/infrastructure/storage/persistent-volume/overview.mdx)
+
+```shell
+helm repo update nats \
+&& helm search repo nats/nats -l | head -n 10
+```
+
+```shell
+helm show values nats/nats \
+    --version 1.1.2 \
+    > nats-values.yaml
+```
+
+- https://github.com/nats-io/k8s/tree/main/helm/charts/nats#merge
+
+```yaml title="nats-values.yaml"
+fullnameOverride: ""
+
+config:
+  cluster:
+    enabled: true
+    replicas: 3
+
+  jetstream:
+    enabled: true
+
+    fileStore:
+      enabled: true
+      dir: /data
+
+      pvc:
+        size: 10Gi
+
+        merge:
+          spec:
+            accessModes:
+              - "ReadWriteOnce"
+
+    memoryStore:
+      enabled: false
+
+  merge:
+    # <<>> 로 감싸면 "" 없이 입력 그대로 설정됩니다.
+    max_payload: << 1MB >> # 최댓값: 64MB, 권장 최댓값: 8MB
+
+    # authorization:
+    #   users:
+    #     - user: << $NATS_USER >>
+    #       password: << $NATS_PASSWORD >>
+    #     - nkey: <nkey-user>
+    accounts:
+      dev:
+        users: []
+      prod:
+        users: []
+      SYS:
+        users:
+          - user: << $NATS_ADMIN_USER >>
+            password: << $NATS_ADMIN_PASSWORD >>
+
+    system_account: SYS
+
+container:
+  env:
+    NATS_ADMIN_USER:
+      valueFrom:
+        secretKeyRef:
+          name: <secretName>
+          key: user
+    NATS_ADMIN_PASSWORD:
+      valueFrom:
+        secretKeyRef:
+          name: <secretName>
+          key: password
+  merge:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1Gi
+      limits:
+        memory: 1Gi
+
+service:
+  ports:
+    monitor:
+      enabled: true
+
+statefulSet:
+  merge:
+    metadata:
+      labels: {}
+
+podTemplate:
+  merge:
+    metadata:
+      labels:
+        app.kubernetes.io/name: nats
+        app.kubernetes.io/instance: <fullname>
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - podAffinityTerm:
+                labelSelector:
+                  matchLabels:
+                    app.kubernetes.io/name: nats
+                    app.kubernetes.io/instance: <fullname>
+                topologyKey: kubernetes.io/hostname
+              weight: 100
+      tolerations: []
+
+natsBox:
+  enabled: false
+```
+
+```shell
+helm template nats nats/nats \
+    --version 1.1.2 \
+    -n event \
+    -f nats-values.yaml \
+    > nats.yaml
+```
+
+```shell
+helm upgrade -i nats nats/ntas \
+    --version 1.1.2 \
+    -n event \
+    --history-max 5 \
+    -f nats-values.yaml
+```
+
+### NACK
+
+```shell
+kubectl apply -f https://github.com/nats-io/nack/releases/download/v0.12.0/crds.yml
+```
+
+```shell
+helm repo update nats \
+&& helm search repo nats/nack -l | head -n 10
+```
+
+```shell
+helm show values nats/nack \
+    --version 0.23.0 \
+    > nack-values.yaml
+```
+
+```yaml title="nack-values.yaml"
+resources:
+  requests:
+    cpu: 10m
+    memory: 64Mi
+  limits:
+    memory: 64Mi
+```
+
+```shell
+helm template nack nats/nack \
+    --version 0.23.0 \
+    -n event \
+    -f nack-values.yaml \
+    > nack.yaml
+```
+
+```shell
+helm upgrade -i nack nats/nack \
+    --history-max 5 \
+    --version 0.23.0 \
+    -n event \
+    -f nack-values.yaml
+```
+
+## Test
+
+```shell
+kubectl run -i --rm --tty nats-box --image=natsio/nats-box --restart=Never
+```

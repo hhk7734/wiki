@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:auth-system:dex",
+  "title": "Dex",
+  "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "dex"
+  },
+  "url": "/docs/infrastructure/security/dex/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:auth-system:dex.json",
+  "document_refs": [
+    "doc:docs/infrastructure/security/dex/google.mdx",
+    "doc:docs/infrastructure/security/dex/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/security/dex/google.mdx",
+      "title": "Dex에 Google 연결하기",
+      "url": "/docs/infrastructure/security/dex/google",
+      "snippet": "- Dex Docs / Connectors / Authentication Through Google\n\n## OAuth client 생성\n\n1. https://console.cloud.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "google"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/security/dex/install.mdx",
+      "title": "Dex",
+      "url": "/docs/infrastructure/security/dex/install",
+      "snippet": "…x 5 \\\n --version 0.23.0 \\\n -n dex \\\n -f dex-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall dex -n dex\n`\n\n`shell\nkubectl delete namespace dex\n`\n\n`shell\nkubectl get crd -on…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "dex",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/dex/google.mdx:about_subject:subject:infrastructure:auth-system:dex",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/security/dex/google.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/security/dex/install.mdx:about_subject:subject:infrastructure:auth-system:dex",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/security/dex/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

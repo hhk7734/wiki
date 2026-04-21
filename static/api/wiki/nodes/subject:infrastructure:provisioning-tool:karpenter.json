@@ -1,0 +1,139 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:provisioning-tool:karpenter",
+  "title": "Karpenter",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\nKarpenter는 Kubernetes에서 pending pod를 보고 필요한 노드를 직접 생성하는 오토스케일러입니다. EKS 환경에서는 IAM, EC2Node…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "karpenter"
+  },
+  "url": "/docs/infrastructure/kubernetes/karpenter/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:provisioning-tool:karpenter.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/karpenter/overview.mdx",
+    "doc:docs/infrastructure/kubernetes/karpenter/crd.mdx",
+    "doc:docs/infrastructure/kubernetes/karpenter/deprovisioning.mdx",
+    "doc:docs/infrastructure/kubernetes/karpenter/scheduling.mdx",
+    "doc:docs/infrastructure/kubernetes/karpenter/spot-event.mdx",
+    "doc:docs/infrastructure/kubernetes/karpenter/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/overview.mdx",
+      "title": "Karpenter",
+      "url": "/docs/infrastructure/kubernetes/karpenter/overview",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\nKarpenter는 Kubernetes에서 pending pod를 보고 필요한 노드를 직접 생성하는 오토스케일러입니다. EKS 환경에서는 IAM, EC2Node…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/crd.mdx",
+      "title": "Karpenter CRD",
+      "url": "/docs/infrastructure/kubernetes/karpenter/crd",
+      "snippet": "## NodePool\n\n- https://karpenter.sh/docs/concepts/nodepools/\n\nNodePool는 **NodePool에 명시된 제약사항**과 **Workload에 명시된 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "crd"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/deprovisioning.mdx",
+      "title": "Karpenter Deprovisioning",
+      "url": "/docs/infrastructure/kubernetes/karpenter/deprovisioning",
+      "snippet": "## Interruption\n\n- https://karpenter.sh/docs/concepts/deprovisioning/#interruption\n\n- Spot 중단 경고(종료 2분 전)\n- Instance 종료 이벤트\n- Instance 중지 이벤트\n- 예약된 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "deprovisioning"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/scheduling.mdx",
+      "title": "Karpenter Scheduling",
+      "url": "/docs/infrastructure/kubernetes/karpenter/scheduling",
+      "snippet": "## Well-Knwon Labels\n\n- https://karpenter.sh/docs/concepts/scheduling/#well-known-labels\n\n- topology.kubernetes.io/zone\n - AWS: =\n- node.kubernetes.i…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "scheduling"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/spot-event.mdx",
+      "title": "Karpenter Spot Event",
+      "url": "/docs/infrastructure/kubernetes/karpenter/spot-event",
+      "snippet": "- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpe…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "spot-event"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/karpenter/install.mdx",
+      "title": "Karpenter 설치 가이드",
+      "url": "/docs/infrastructure/kubernetes/karpenter/install",
+      "snippet": "## 사전 요구 사항\n\n- https://github.com/aws/karpenter/blob/main/website/content/en/preview/getting-started/getting-started-with-karpe…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "karpenter",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/overview.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/crd.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/crd.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/deprovisioning.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/deprovisioning.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/scheduling.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/scheduling.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/spot-event.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/spot-event.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/karpenter/install.mdx:about_subject:subject:infrastructure:provisioning-tool:karpenter",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/karpenter/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

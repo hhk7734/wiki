@@ -1,0 +1,135 @@
+---
+id: overview
+title: "Device tree basics"
+sidebar_label: Basics
+description: "Device tree basics"
+keywords:
+  - kernel
+  - "device tree"
+ontology:
+  role: operation
+  domain: system
+  class: kernel
+  instance: device-tree
+  aspect: overview
+subject:
+  canonical_name: "Device tree"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Typically, **\<.dtsi\>** file contain definitions of SoC-level information.
+
+The **\<.dts\>** file contains board-level information.
+
+<center>
+	<img src={useBaseUrl("img/linux/linux-kernel/device-tree/device-tree-inclusion-example.jpg")} />
+</center>
+
+<center>
+	<img src={useBaseUrl("img/linux/linux-kernel/device-tree/device-tree-terms.jpg")} />
+</center>
+
+## Using device tree compiler
+
+```shell
+sudo apt install -y device-tree-compiler
+```
+
+### Check nodes and properties
+
+`/proc/device-tree/` and `/` node of a device tree source(DTS) are the same.
+
+If a DTS is
+
+```clike
+/ {
+    model = "A";
+}
+```
+
+The structure of `/proc/device-tree/` is as follows.
+
+```shell
+/proc/device-tree
+└── model
+```
+
+```shell {1}
+$ cat /proc/device-tree
+A
+```
+
+So, you can check DTS with one of the following commands.
+
+```shell
+tree /proc/device-tree
+```
+
+```shell
+fdtdump <.dtb file name> | vim -
+```
+
+### DTS modification
+
+#### fdtget/fdtput
+
+```shell
+fdtget <.dtb> <node> <property>
+```
+
+```shell
+fdtput -t <type> <.dtb> <node> <property> <value>
+```
+
+- type
+  - s=string, i=int, u=unsigned, x=hex
+  - Optional modifier prefix: hh or b=byte, h=2 byte, l=4 byte (default)
+
+#### Decompiled file modification
+
+```shell
+dtc -I dtb -O dts <.dtb> -o <.dts>
+```
+
+After decompiling with the above command, edit `<.dts>`. Then, compile the edited file with the below command.
+
+```shell
+dtc -I dts -O dtb <.dts> -o <.dtb>
+```
+
+## Using Linux kernel source
+
+```shell
+git clone --depth=1 --branch=<branch> <repository>
+```
+
+After editing DTS, check Makefile.
+
+```makefile title="linux/arch/<arch>/boot/dts/<vendor>/Makefile"
+dtb-$(CONFIG_ARCH_<BOARD>) += <board>.dtb
+```
+
+Then, execute the below commands.
+
+```shell
+make xxx_defconfig \
+&& make dtbs
+```
+
+Then, DTB will be created in `linux/arch/<arch>/boot/`.
+
+:::tip
+If the above command fails, check **arch/\<arch\>/configs**. If not in arch/\<arch\>/configs, get a config file using `zcat /proc/config.gz > <board>_defconfig` from the kernel installed on the desired board.
+:::

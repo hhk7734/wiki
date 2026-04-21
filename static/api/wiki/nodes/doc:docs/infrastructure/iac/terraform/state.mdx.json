@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/iac/terraform/state.mdx",
+  "title": "Terraform State 수정하기",
+  "snippet": "## tfstate 파일 직접 수정\n\n``shell\nterraform state pull > terraform.tfstate\n`\n\nterraform.tfstate 파일은 JSON 형식으로 되어 있습니다. 수정이 …",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "iac-tool",
+    "instance": "terraform",
+    "aspect": "state"
+  },
+  "url": "/docs/infrastructure/iac/terraform/state",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/terraform/state.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:iac-tool:terraform",
+    "title": "Terraform",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "iac-tool",
+      "instance": "terraform"
+    },
+    "url": "/docs/infrastructure/iac/terraform/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/state.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:iac-tool:terraform",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/workflow/argo-workflows/dag.mdx",
+  "title": "Argo Workflows DAG template",
+  "snippet": "…실행 순서를 정의할 수 있는 방법 중 하나입니다. 의존성이 없는 작업은 바로 실행됩니다.\n\n- https://argoproj.github.io/argo-workflows/fields/#dagtemplate\n\n``yaml\nspec:\n entrypoint: dag-test\n templates:\n - name: da…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "workflow-system",
+    "instance": "argo-workflows",
+    "aspect": "dag"
+  },
+  "url": "/docs/infrastructure/workflow/argo-workflows/dag",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/workflow/argo-workflows/dag.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:workflow-system:argo-workflows",
+    "title": "Argo Workflows",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "workflow-system",
+      "instance": "argo-workflows"
+    },
+    "url": "/docs/infrastructure/workflow/argo-workflows/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/workflow/argo-workflows/dag.mdx:about_subject:subject:infrastructure:workflow-system:argo-workflows",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:workflow-system:argo-workflows",
+      "direction": "outgoing"
+    }
+  ]
+}

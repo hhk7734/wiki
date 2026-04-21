@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:eventing-system:rabbitmq",
+  "title": "RabbitMQ",
+  "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "eventing-system",
+    "instance": "rabbitmq"
+  },
+  "url": "/docs/infrastructure/messaging/rabbitmq/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:eventing-system:rabbitmq.json",
+  "document_refs": [
+    "doc:docs/infrastructure/messaging/rabbitmq/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/messaging/rabbitmq/install.mdx",
+      "title": "RabbitMQ",
+      "url": "/docs/infrastructure/messaging/rabbitmq/install",
+      "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "rabbitmq",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/rabbitmq/install.mdx:about_subject:subject:infrastructure:eventing-system:rabbitmq",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/rabbitmq/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

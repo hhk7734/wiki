@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:container-platform:docker",
+  "title": "Docker",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "container-platform",
+    "instance": "docker"
+  },
+  "url": "/docs/infrastructure/container/docker/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:container-platform:docker.json",
+  "document_refs": [
+    "doc:docs/infrastructure/container/docker/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/container/docker/install.mdx",
+      "title": "Docker",
+      "url": "/docs/infrastructure/container/docker/install",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S docker\n`\n\n`shell\nsudo systemctl enable --now docker.service\n`\n\n`shell\nsudo usermod -aG…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "container-platform",
+        "instance": "docker",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/docker/install.mdx:about_subject:subject:infrastructure:container-platform:docker",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/docker/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

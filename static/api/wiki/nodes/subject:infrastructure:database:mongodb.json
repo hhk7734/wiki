@@ -1,0 +1,79 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:database:mongodb",
+  "title": "MongoDB",
+  "snippet": "## MongoDB Shell(mongosh)\n\n- MongoDB Shell\n- MongoDB Standard Connection String Format\n\n``…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "database",
+    "instance": "mongodb"
+  },
+  "url": "/docs/infrastructure/database/mongodb/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:database:mongodb.json",
+  "document_refs": [
+    "doc:docs/infrastructure/database/mongodb/overview.mdx",
+    "doc:docs/infrastructure/database/mongodb/install.mdx",
+    "doc:docs/infrastructure/database/mongodb/user.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/database/mongodb/overview.mdx",
+      "title": "MongoDB",
+      "url": "/docs/infrastructure/database/mongodb/overview",
+      "snippet": "## MongoDB Shell(mongosh)\n\n- MongoDB Shell\n- MongoDB Standard Connection String Format\n\n``…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mongodb",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mongodb/install.mdx",
+      "title": "MongoDB 설치",
+      "url": "/docs/infrastructure/database/mongodb/install",
+      "snippet": "## 설치\n\n- https://github.com/mongodb/helm-charts\n\n``shell\nhelm repo add bitnami https://charts.bitnami.com/bitnami\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mongodb",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mongodb/user.mdx",
+      "title": "MongoDB User(Role)",
+      "url": "/docs/infrastructure/database/mongodb/user",
+      "snippet": "…User\n\n``js\n// use\n\ndb.createUser({\n user: \"\",\n pwd: \"\", // or passwordPrompt()\n roles: [\n // \"\",\n { role: \"\", db: \"\" },\n ],\n});\n``\n\n### User에 Role 부여하기\n\n- grantRole…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mongodb",
+        "aspect": "user"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/database/mongodb/overview.mdx:about_subject:subject:infrastructure:database:mongodb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mongodb/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mongodb/install.mdx:about_subject:subject:infrastructure:database:mongodb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mongodb/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mongodb/user.mdx:about_subject:subject:infrastructure:database:mongodb",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mongodb/user.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

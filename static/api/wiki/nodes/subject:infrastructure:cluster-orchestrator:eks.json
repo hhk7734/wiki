@@ -1,0 +1,99 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:cluster-orchestrator:eks",
+  "title": "EKS",
+  "snippet": "## Create\n\n- https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html\n\n### VP…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "eks"
+  },
+  "url": "/docs/infrastructure/kubernetes/eks/create",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-orchestrator:eks.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/eks/create.mdx",
+    "doc:docs/infrastructure/kubernetes/eks/keycloak.mdx",
+    "doc:docs/infrastructure/kubernetes/eks/node-group.mdx",
+    "doc:docs/infrastructure/kubernetes/eks/rbac.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/eks/create.mdx",
+      "title": "EKS",
+      "url": "/docs/infrastructure/kubernetes/eks/create",
+      "snippet": "## Create\n\n- https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html\n\n### VP…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-orchestrator",
+        "instance": "eks",
+        "aspect": "create"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/eks/keycloak.mdx",
+      "title": "keycloak",
+      "url": "/docs/infrastructure/kubernetes/eks/keycloak",
+      "snippet": "## Keycloak\n\n- Keycloak OIDC\n\n## EKS\n\n### Associate Identity Provider\n\nEKS -> Cluster -> ->…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-orchestrator",
+        "instance": "eks",
+        "aspect": "keycloak"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/eks/node-group.mdx",
+      "title": "EKS NodeGroup",
+      "url": "/docs/infrastructure/kubernetes/eks/node-group",
+      "snippet": "…Size: 1,\n desiredSize: 1,\n },\n subnetIds: [vpc.privateSubnet1.id],\n labels: {\n \"node-group\": \"eks-ng\",\n },\n taints: [\n {\n key: \"node-group\",\n value: \"eks-ng\",\n effect: \"N…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-orchestrator",
+        "instance": "eks",
+        "aspect": "node-group"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/eks/rbac.mdx",
+      "title": "EKS RBAC",
+      "url": "/docs/infrastructure/kubernetes/eks/rbac",
+      "snippet": "## Kubernetes Group\n\n``yaml\napiVersion: rbac.authorization.k8s.io/v1\nkind: ClusterRole\nmetadata:\n name: guest\nrules:\n - apiG…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-orchestrator",
+        "instance": "eks",
+        "aspect": "rbac"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/create.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/eks/create.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/keycloak.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/eks/keycloak.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/node-group.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/eks/node-group.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/rbac.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/eks/rbac.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/eks/node-group.mdx",
+  "title": "EKS NodeGroup",
+  "snippet": "…Size: 1,\n desiredSize: 1,\n },\n subnetIds: [vpc.privateSubnet1.id],\n labels: {\n \"node-group\": \"eks-ng\",\n },\n taints: [\n {\n key: \"node-group\",\n value: \"eks-ng\",\n effect: \"N…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "eks",
+    "aspect": "node-group"
+  },
+  "url": "/docs/infrastructure/kubernetes/eks/node-group",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/eks/node-group.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-orchestrator:eks",
+    "title": "EKS",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-orchestrator",
+      "instance": "eks"
+    },
+    "url": "/docs/infrastructure/kubernetes/eks/create"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/node-group.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-orchestrator:eks",
+      "direction": "outgoing"
+    }
+  ]
+}

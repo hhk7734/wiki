@@ -23,8 +23,8 @@ test("parseTaxonomyPath parses the facet-page shape", () => {
 });
 
 test("parseTaxonomyPath parses the topic concept shape", () => {
-	assert.deepEqual(parseTaxonomyPath("docs/data/concepts/ontology.mdx"), {
-		topic: "data",
+	assert.deepEqual(parseTaxonomyPath("docs/knowledge/concepts/ontology.mdx"), {
+		topic: "knowledge",
 		subject: "ontology",
 		facet: null,
 		page: "ontology",
@@ -33,16 +33,16 @@ test("parseTaxonomyPath parses the topic concept shape", () => {
 });
 
 test("parseTaxonomyPath parses the topic comparison and reference shapes", () => {
-	assert.deepEqual(parseTaxonomyPath("docs/data/comparisons/type.mdx"), {
-		topic: "data",
+	assert.deepEqual(parseTaxonomyPath("docs/knowledge/comparisons/type.mdx"), {
+		topic: "knowledge",
 		subject: "type",
 		facet: null,
 		page: "type",
 		kind: "topic-comparison",
 	});
 
-	assert.deepEqual(parseTaxonomyPath("docs/data/reference/schema.mdx"), {
-		topic: "data",
+	assert.deepEqual(parseTaxonomyPath("docs/knowledge/reference/schema.mdx"), {
+		topic: "knowledge",
 		subject: "schema",
 		facet: null,
 		page: "schema",
@@ -50,15 +50,32 @@ test("parseTaxonomyPath parses the topic comparison and reference shapes", () =>
 	});
 });
 
-test("parseTaxonomyPath parses the dedicated comparison topic shape", () => {
-	assert.deepEqual(parseTaxonomyPath("docs/comparison/data/database/type/type.mdx"), {
-		topic: "comparison",
-		subject: "data/database",
-		facet: "type",
+test("parseTaxonomyPath parses infrastructure area shapes", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/infrastructure/database/type.mdx"), {
+		topic: "infrastructure",
+		subject: "database",
+		facet: null,
 		page: "type",
-		kind: "comparison-facet-page",
-		area: "data",
-		subject_group: "database",
+		kind: "area-page",
+		area: "database",
+	});
+
+	assert.deepEqual(parseTaxonomyPath("docs/infrastructure/iac/pulumi/config.mdx"), {
+		topic: "infrastructure",
+		subject: "pulumi",
+		facet: null,
+		page: "config",
+		kind: "area-subject-page",
+		area: "iac",
+	});
+
+	assert.deepEqual(parseTaxonomyPath("docs/infrastructure/kubernetes/kubernetes/scheduling/affinity.mdx"), {
+		topic: "infrastructure",
+		subject: "kubernetes",
+		facet: "scheduling",
+		page: "affinity",
+		kind: "area-facet-page",
+		area: "kubernetes",
 	});
 });
 
@@ -83,14 +100,14 @@ test("validateTaxonomyPath rejects unsupported shapes", () => {
 });
 
 test("validateTaxonomyPath rejects reserved bucket names in deeper subject paths", () => {
-	assert.throws(() => validateTaxonomyPath("docs/data/reference/schema/details.mdx"), /unsupported taxonomy shape/);
+	assert.throws(() => validateTaxonomyPath("docs/knowledge/reference/schema/details.mdx"), /unsupported taxonomy shape/);
 	assert.throws(() => validateTaxonomyPath("docs/language/concepts/go/client.mdx"), /unsupported taxonomy shape/);
 });
 
 test("validateTaxonomyPath rejects malformed empty path segments and basenames", () => {
 	assert.throws(() => validateTaxonomyPath("docs/language/grpc//overview.mdx"), /unsupported taxonomy path/);
-	assert.throws(() => validateTaxonomyPath("docs/data/concepts//ontology.mdx"), /unsupported taxonomy path/);
-	assert.throws(() => validateTaxonomyPath("docs/data/concepts/.mdx"), /unsupported taxonomy path/);
+	assert.throws(() => validateTaxonomyPath("docs/knowledge/concepts//ontology.mdx"), /unsupported taxonomy path/);
+	assert.throws(() => validateTaxonomyPath("docs/knowledge/concepts/.mdx"), /unsupported taxonomy path/);
 });
 
 test("validateTaxonomyPath rejects traversal-like path segments", () => {

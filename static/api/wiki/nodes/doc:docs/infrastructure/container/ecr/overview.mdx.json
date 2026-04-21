@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/container/ecr/overview.mdx",
+  "title": "ECR",
+  "snippet": "## Registry\n\n``python\nname = \"test\"\ntest_registry = aws.ecr.Repository(\n f\"{name}-ecr\",\n name=name,\n encryption_configurations=[aws.ecr.Rep…",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "ecr",
+    "aspect": "overview"
+  },
+  "url": "/docs/infrastructure/container/ecr/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/container/ecr/overview.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:provisioning-tool:ecr",
+    "title": "ECR",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "provisioning-tool",
+      "instance": "ecr"
+    },
+    "url": "/docs/infrastructure/container/ecr/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/ecr/overview.mdx:about_subject:subject:infrastructure:provisioning-tool:ecr",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:provisioning-tool:ecr",
+      "direction": "outgoing"
+    }
+  ]
+}

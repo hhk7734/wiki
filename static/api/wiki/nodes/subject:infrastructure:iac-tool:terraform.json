@@ -1,0 +1,179 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:iac-tool:terraform",
+  "title": "Terraform",
+  "snippet": "설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다.\n\nTerraform은 선언형 .tf 파일과 provider 생태계를 중심으로 인프라를 관리하는 대표적인 IaC 도구입니다. backend, state, modul…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "iac-tool",
+    "instance": "terraform"
+  },
+  "url": "/docs/infrastructure/iac/terraform/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:iac-tool:terraform.json",
+  "document_refs": [
+    "doc:docs/infrastructure/iac/terraform/overview.mdx",
+    "doc:docs/infrastructure/iac/terraform/import.mdx",
+    "doc:docs/infrastructure/iac/terraform/install.mdx",
+    "doc:docs/infrastructure/iac/terraform/loop.mdx",
+    "doc:docs/infrastructure/iac/terraform/remove.mdx",
+    "doc:docs/infrastructure/iac/terraform/secret.mdx",
+    "doc:docs/infrastructure/iac/terraform/state.mdx",
+    "doc:docs/infrastructure/iac/terraform/tutorial.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/overview.mdx",
+      "title": "Terraform",
+      "url": "/docs/infrastructure/iac/terraform/overview",
+      "snippet": "설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다.\n\nTerraform은 선언형 .tf 파일과 provider 생태계를 중심으로 인프라를 관리하는 대표적인 IaC 도구입니다. backend, state, modul…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/import.mdx",
+      "title": "존재하는 리소스를 Terraform으로 가져오기",
+      "url": "/docs/infrastructure/iac/terraform/import",
+      "snippet": "## 리소스 주소(Resource Address)\n\n- https://developer.hashicorp.com/terraform/cli/state/resource-addressing\n\n리소스 주소()는 모듈 이름, 리소스 타입, 리소스 이름 으로 구성됩니다. count나…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "import"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/install.mdx",
+      "title": "Terraform 설치 가이드",
+      "url": "/docs/infrastructure/iac/terraform/install",
+      "snippet": "Terraform 개요 문서에서 관련 workflow 문서를 함께 확인할 수 있습니다.\n\n## 설치\n\n### AWS\n\n``shell\ncurl \"https://a…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/loop.mdx",
+      "title": "반복되는 패턴의 리소스를 count나 for_each로 생성하기",
+      "url": "/docs/infrastructure/iac/terraform/loop",
+      "snippet": "## count\n\n- Terraform / Meta-Arguments / count\n\n``hcl\nresource \"\" \"\" {\n count =\n\n # ...\n}\n`\n\ncount.in…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "loop"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/remove.mdx",
+      "title": "Terraform에서 리소스 삭제하기",
+      "url": "/docs/infrastructure/iac/terraform/remove",
+      "snippet": "## 실제 리소스와 상태 모두 삭제하기\n\n실제 리소스와 상태 모두 삭제하려면 코드에서 리소스를 삭제하고 terraform apply를 실행하면 됩니다.\n\n## 상태만 삭제하기\n\n다른 툴로 리소스 관리를 이전하거나, 다른 프로젝트로 리소스를 이전하는 등의 이유로 실…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "remove"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/secret.mdx",
+      "title": "Terraform Secret 관리하기",
+      "url": "/docs/infrastructure/iac/terraform/secret",
+      "snippet": "… \\\n | openssl pkeyutl -decrypt -inkey private.pem \\\n | xargs -0 echo\n`\n\n암호화된 값은 Terraform에서 아래와 같은 방식으로 사용할 수 있습니다.\n\n`hcl\nvariable \"private_pem_path\" {\n type = string\n}\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "secret"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/state.mdx",
+      "title": "Terraform State 수정하기",
+      "url": "/docs/infrastructure/iac/terraform/state",
+      "snippet": "## tfstate 파일 직접 수정\n\n``shell\nterraform state pull > terraform.tfstate\n`\n\nterraform.tfstate 파일은 JSON 형식으로 되어 있습니다. 수정이 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "state"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/terraform/tutorial.mdx",
+      "title": "Terraform 튜토리얼",
+      "url": "/docs/infrastructure/iac/terraform/tutorial",
+      "snippet": "Terraform 개요 문서와 설치 가이드 문서를 먼저 확인할 수 있습니다.\n\n## Tutorial\n\n- https://developer.hashicorp.co…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "terraform",
+        "aspect": "tutorial"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/overview.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/import.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/import.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/install.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/loop.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/loop.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/remove.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/remove.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/secret.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/secret.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/state.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/state.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/terraform/tutorial.mdx:about_subject:subject:infrastructure:iac-tool:terraform",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/terraform/tutorial.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

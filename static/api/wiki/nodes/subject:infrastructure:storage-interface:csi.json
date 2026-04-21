@@ -1,0 +1,51 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-interface:csi",
+  "title": "Container Storage Interface(CSI)",
+  "snippet": "## Node Plugin\n\n## Controller Plugin",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-interface",
+    "instance": "csi"
+  },
+  "url": "/docs/infrastructure/storage/csi/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-interface:csi.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/csi/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/csi/overview.mdx",
+      "title": "Container Storage Interface(CSI)",
+      "url": "/docs/infrastructure/storage/csi/overview",
+      "snippet": "## Node Plugin\n\n## Controller Plugin",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-interface",
+        "instance": "csi",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/csi/overview.mdx:about_subject:subject:infrastructure:storage-interface:csi",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/csi/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-interface:aws-ebs-csi-driver:depends_on:subject:infrastructure:storage-interface:csi",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-interface:aws-ebs-csi-driver",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-interface:aws-efs-csi-driver:depends_on:subject:infrastructure:storage-interface:csi",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-interface:aws-efs-csi-driver",
+      "direction": "incoming"
+    }
+  ]
+}

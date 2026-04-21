@@ -12,15 +12,14 @@ import styles from "./ontologyGraph/ontologyGraph.module.css";
 import type { OntologyGraphData, OntologyGraphLink, OntologyGraphNode, SelectedOntologyNode } from "./ontologyGraph/ontologyGraph.types";
 
 const topicColors: Record<string, string> = {
-	data: "#3b82f6",
+	knowledge: "#3b82f6",
 	language: "#ef4444",
-	mlops: "#10b981",
-	platform: "#f59e0b",
+	infrastructure: "#10b981",
+	system: "#f59e0b",
 	protocol: "#8b5cf6",
 	hardware: "#f97316",
 	science: "#06b6d4",
 	management: "#ec4899",
-	comparison: "#facc15",
 };
 
 function hashString(value: string): number {
@@ -63,12 +62,12 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 	return {
 		nodes: graph.nodes.map((node) => {
 			if (node.type === "root") {
-				return { ...node, fx: 0, fy: 0, fz: 0 };
+				return { ...node, fx: 0, fy: 0, fz: 0, layoutTarget: { x: 0, y: 0, z: 0 } };
 			}
 
 			if (node.type === "topic") {
 				const center = topicCenters.get(node.topic ?? node.id) ?? { x: 0, y: 0, z: 0 };
-				return { ...node, ...center, fx: center.x, fy: center.y, fz: center.z };
+				return { ...node, ...center, fx: center.x, fy: center.y, fz: center.z, layoutTarget: center };
 			}
 
 			const center = topicCenters.get(node.topic ?? "") ?? { x: 0, y: 0, z: 0 };
@@ -79,6 +78,7 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 				x: center.x + offset.x,
 				y: center.y + offset.y,
 				z: center.z + offset.z,
+				layoutTarget: center,
 			};
 		}),
 		links: graph.links,
@@ -222,27 +222,45 @@ export default function OntologyGraph3D() {
 
 		const linkForce = graphRef.current.d3Force("link");
 		const chargeForce = graphRef.current.d3Force("charge");
-		const centerForce = graphRef.current.d3Force("center");
+		const { forceX, forceY, forceZ } = require("d3-force-3d");
 
 		linkForce?.distance?.((link: { source?: { type?: string }; target?: { type?: string }; kind?: string }) => {
 			if (link.kind === "relation") {
-				return 115;
+				return 135;
 			}
 
-			return link.source?.type === "root" ? 140 : 75;
+			return link.source?.type === "root" ? 180 : 82;
 		});
-		linkForce?.strength?.((link: { kind?: string }) => (link.kind === "relation" ? 0.18 : 0.82));
+		linkForce?.strength?.((link: { kind?: string }) => (link.kind === "relation" ? 0.08 : 0.66));
 		chargeForce?.strength?.((node: OntologyGraphNode) => {
 			if (node.type === "root" || node.type === "topic") {
-				return -220;
+				return -260;
 			}
 
-			return node.type === "subject" ? -110 : -80;
+			return node.type === "subject" ? -145 : -90;
 		});
-		centerForce?.strength?.(0.08);
+		graphRef.current.d3Force("center", null);
+		graphRef.current.d3Force(
+			"topicX",
+			forceX((node: OntologyGraphNode) => node.layoutTarget?.x ?? 0).strength((node: OntologyGraphNode) =>
+				node.type === "subject" ? 0.045 : 0,
+			),
+		);
+		graphRef.current.d3Force(
+			"topicY",
+			forceY((node: OntologyGraphNode) => node.layoutTarget?.y ?? 0).strength((node: OntologyGraphNode) =>
+				node.type === "subject" ? 0.032 : 0,
+			),
+		);
+		graphRef.current.d3Force(
+			"topicZ",
+			forceZ((node: OntologyGraphNode) => node.layoutTarget?.z ?? 0).strength((node: OntologyGraphNode) =>
+				node.type === "subject" ? 0.045 : 0,
+			),
+		);
 		graphRef.current.d3ReheatSimulation();
 		graphRef.current.cameraPosition({ z: 620 }, { x: 0, y: 0, z: 0 }, 0);
-	}, []);
+	}, [graphData.nodes.length]);
 
 	useEffect(() => {
 		if (!selectedNode || !graphRef.current) {

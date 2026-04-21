@@ -1,16 +1,16 @@
 const APPROVED_TOPICS = new Set([
-	"comparison",
 	"language",
-	"platform",
+	"system",
+	"infrastructure",
 	"hardware",
 	"protocol",
-	"data",
-	"mlops",
+	"knowledge",
 	"science",
 	"management",
 ]);
 
 const RESERVED_TOPIC_BUCKETS = new Set(["concepts", "comparisons", "reference"]);
+const AREA_TOPICS = new Set(["infrastructure"]);
 
 function normalizeTaxonomyPath(sourcePath) {
 	return sourcePath.replaceAll("\\", "/").replace(/^\.?\//, "");
@@ -72,26 +72,6 @@ export function parseTaxonomyPath(sourcePath) {
 	const topic = parts[1];
 	assertApprovedTopic(topic, sourcePath);
 
-	if (topic === "comparison") {
-		if (parts.length === 6) {
-			assertNotReservedPathSegment(parts[2], sourcePath);
-			assertNotReservedPathSegment(parts[3], sourcePath);
-			assertNotReservedPathSegment(parts[4], sourcePath);
-
-			return {
-				topic,
-				subject: `${parts[2]}/${parts[3]}`,
-				facet: parts[4],
-				page: pageName(parts),
-				kind: "comparison-facet-page",
-				area: parts[2],
-				subject_group: parts[3],
-			};
-		}
-
-		throw new Error(`unsupported taxonomy shape: ${sourcePath}`);
-	}
-
 	if (parts.length === 4 && parts[2] === "concepts") {
 		return {
 			topic,
@@ -120,6 +100,50 @@ export function parseTaxonomyPath(sourcePath) {
 			page: pageName(parts),
 			kind: "topic-reference",
 		};
+	}
+
+	if (AREA_TOPICS.has(topic)) {
+		if (parts.length === 4) {
+			assertNotReservedPathSegment(parts[2], sourcePath);
+
+			return {
+				topic,
+				subject: parts[2],
+				facet: null,
+				page: pageName(parts),
+				kind: "area-page",
+				area: parts[2],
+			};
+		}
+
+		if (parts.length === 5) {
+			assertNotReservedPathSegment(parts[2], sourcePath);
+			assertNotReservedPathSegment(parts[3], sourcePath);
+
+			return {
+				topic,
+				subject: parts[3],
+				facet: null,
+				page: pageName(parts),
+				kind: "area-subject-page",
+				area: parts[2],
+			};
+		}
+
+		if (parts.length === 6) {
+			assertNotReservedPathSegment(parts[2], sourcePath);
+			assertNotReservedPathSegment(parts[3], sourcePath);
+			assertNotReservedPathSegment(parts[4], sourcePath);
+
+			return {
+				topic,
+				subject: parts[3],
+				facet: parts[4],
+				page: pageName(parts),
+				kind: "area-facet-page",
+				area: parts[2],
+			};
+		}
 	}
 
 	if (parts.length === 4) {

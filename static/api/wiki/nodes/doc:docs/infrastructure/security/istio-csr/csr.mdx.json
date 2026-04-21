@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/security/istio-csr/csr.mdx",
+  "title": "Istio CSR",
+  "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "service-mesh",
+    "instance": "istio-csr",
+    "aspect": "csr"
+  },
+  "url": "/docs/infrastructure/security/istio-csr/csr",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/istio-csr/csr.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:service-mesh:istio-csr",
+    "title": "Istio CSR",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "service-mesh",
+      "instance": "istio-csr"
+    },
+    "url": "/docs/infrastructure/security/istio-csr/csr"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/istio-csr/csr.mdx:about_subject:subject:infrastructure:service-mesh:istio-csr",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:service-mesh:istio-csr",
+      "direction": "outgoing"
+    }
+  ]
+}

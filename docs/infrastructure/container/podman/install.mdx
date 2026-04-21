@@ -1,0 +1,196 @@
+---
+id: install
+title: "Podman 설치 및 환경 설정"
+sidebar_label: "설치 및 환경 설정"
+description: "Podman 설치 및 환경 설정"
+keywords:
+  - podman
+  - buildah
+  - skopeo
+  - container
+ontology:
+  role: operation
+  domain: infrastructure
+  class: container-platform
+  instance: podman
+  aspect: install
+subject:
+  canonical_name: Podman
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+:::info
+[Podman 개요](/docs/infrastructure/container/podman/overview.mdx) 문서에서 각 도구의 역할을 먼저 확인할 수 있습니다.
+:::
+
+:::info[References]
+
+- [Podman Installation Instructions](https://podman.io/docs/installation)
+- [buildah Installation Instructions](https://github.com/containers/buildah/blob/main/install.md)
+
+:::
+
+## 설치
+
+<Tabs
+	groupId="os"
+	defaultValue="arch"
+	values={[
+		{label: 'Arch Linux', value: 'arch',},
+		{label: 'Debian', value: 'debian',}
+	]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S podman buildah skopeo
+```
+
+```shell
+yay -S podman-desktop
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install podman buildah skopeo
+```
+
+```shell
+flatpak install flathub io.podman_desktop.PodmanDesktop
+```
+
+</TabItem>
+
+</Tabs>
+
+## 설정
+
+### registries.conf
+
+- `/etc/containers/registries.conf`
+- `/etc/containers/registries.conf.d/*.conf`
+- `$HOME/.config/containers/registries.conf`
+
+```toml
+unqualified-search-registries = ['docker.io', 'quay.io', 'registry.fedoraproject.org']
+```
+
+```toml
+[[registry]]
+location = "<registry>"
+insecure = true
+```
+
+```toml
+[[registry]]
+prefix = "<registry>"
+location = "<registry>"
+```
+
+`prefix`에 대한 요청을 `location`으로 바꿔서 처리합니다.
+
+```toml
+[[registry]]
+location = "<registry>"
+
+[[registry.mirror]]
+location = "<registry>"
+
+[[registry.mirror]]
+location = "<registry>"
+insecure = true
+```
+
+선언된 순서로 mirror를 확인하고 마지막에 자기 자신을 확인합니다.
+
+```shell
+podman info --format json | jq '.registries'
+```
+
+```shell
+podman pull --log-level debug <image>
+```
+
+`debug` 로그를 사용하면 실제로 어떤 registry와 mirror를 조회하는지 확인할 수 있습니다.
+
+## 유저 네임스페이스 매핑
+
+- [User Namespace](/docs/system/namespace/user.mdx)
+
+`/etc/subuid`와 `/etc/subgid` 파일을 사용하여 사용자 네임스페이스에서 사용자가 사용할 수 있는 uid와 gid를 결정하는 기능을 포함한 Linux 배포판에서는 `useradd` 명령어를 통해 사용자를 추가했을 때 자동으로 65536개의 uid와 gid를 할당합니다.
+
+```shell title="/etc/subuid, /etc/subgid"
+hhk7734:100000:65536
+```
+
+```shell
+sudo useradd test
+```
+
+```shell title="/etc/subuid, /etc/subgid"
+hhk7734:100000:65536
+test:165536:65536
+```
+
+LDAP 등의 사용으로 이러한 매핑이 없다면, 직접 추가해야합니다.
+
+```shell
+sudo usermod \
+  --add-subuids 100000-165535 \
+  --add-subgids 100000-165535 \
+  test
+```
+
+podman으로 컨테이너를 실행했을 때, 컨테이너 내부에서 외부 사용자와 내부 사용자가 어떻게 매핑되어 있는지 확인할 수 있습니다.
+
+```shell
+podman run alpine cat /proc/self/uid_map
+         0       1000          1
+         1     100000      65536
+```
+
+| 네임스페이스 안 uid | 네임스페이스 밖 uid | 길이  |
+| ------------------- | ------------------- | ----- |
+| 0                   | 1000                | 1     |
+| 1                   | 100000              | 65536 |
+
+이를 해석하면 내부 uid 0은 외부 uid 1000에 매핑되고, 내부 uid 1 ~ 65536은 외부 uid 100000 ~ 165535에 각각 매핑된다는 것을 알 수 있습니다.
+
+podman 사용 중에 매핑을 추가한다면 아래 명령어를 실행해야 합니다. 실행 중인 컨테이너는 중단됩니다.
+
+```shell
+podman system migrate
+```
+
+:::warning
+
+- https://www.redhat.com/sysadmin/rootless-podman-nfs
+
+NFS 프로토콜에는 사용자 네임스페이스 개념이 없습니다. rootless podman을 사용할 때 기본 `graphroot`는 `$HOME/.local/share/containers/storage`인데, NFS로 홈 디렉토리를 공유하고 있다면 문제가 발생할 수 있습니다.
+
+```ini title="~/.config/containers/storage.conf"
+[storage]
+driver = "overlay"
+runroot = "/run/user/2081"
+graphroot = "/var/tmp/hyeonki/containers/storage"
+```
+
+위와 같은 설정을 추가해서 NFS가 아닌 로컬 디스크에 저장하도록 설정할 수 있습니다.
+:::

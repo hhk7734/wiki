@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:workflow-system:awx-operator",
+  "title": "AWX operator",
+  "snippet": "## 설치\n\n- https://ansible.readthedocs.io/projects/awx-operator/en/latest/installation/helm-install-on-existing-cluster.html\n\n``shell\nhelm repo…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "workflow-system",
+    "instance": "awx-operator"
+  },
+  "url": "/docs/infrastructure/workflow/awx-operator/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:workflow-system:awx-operator.json",
+  "document_refs": [
+    "doc:docs/infrastructure/workflow/awx-operator/overview.mdx",
+    "doc:docs/infrastructure/workflow/awx-operator/crd.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/workflow/awx-operator/overview.mdx",
+      "title": "AWX operator",
+      "url": "/docs/infrastructure/workflow/awx-operator/overview",
+      "snippet": "## 설치\n\n- https://ansible.readthedocs.io/projects/awx-operator/en/latest/installation/helm-install-on-existing-cluster.html\n\n``shell\nhelm repo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "awx-operator",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/workflow/awx-operator/crd.mdx",
+      "title": "AWX operator CRD",
+      "url": "/docs/infrastructure/workflow/awx-operator/crd",
+      "snippet": "…inity: {}\n - tolerations: \"\"\n- Admin\n - https://ansible.readthedocs.io/projects/awx-operator/en/latest/user-guide/admin-user-account-configuration.html\n - admin_user: admin…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "awx-operator",
+        "aspect": "crd"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/workflow/awx-operator/overview.mdx:about_subject:subject:infrastructure:workflow-system:awx-operator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/workflow/awx-operator/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/workflow/awx-operator/crd.mdx:about_subject:subject:infrastructure:workflow-system:awx-operator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/workflow/awx-operator/crd.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

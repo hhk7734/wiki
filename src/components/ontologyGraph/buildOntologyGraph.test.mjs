@@ -6,14 +6,14 @@ import { buildOntologyGraph } from "./buildOntologyGraph.mjs";
 const wikiGraph = {
 	nodes: [
 		{
-			id: "subject:data:storage-system:ceph",
+			id: "subject:infrastructure:storage-system:ceph",
 			type: "subject",
 			title: "Ceph",
 			snippet: "Distributed storage cluster.",
-			ontology: { domain: "data", class: "storage-system", instance: "ceph" },
-			url: "/docs/data/ceph/overview",
-			node_url: "/api/wiki/nodes/subject:data:storage-system:ceph.json",
-			document_refs: ["doc:docs/data/ceph/overview.mdx"],
+			ontology: { domain: "infrastructure", class: "storage-system", instance: "ceph" },
+			url: "/docs/infrastructure/storage/ceph/overview",
+			node_url: "/api/wiki/nodes/subject:infrastructure:storage-system:ceph.json",
+			document_refs: ["doc:docs/infrastructure/storage/ceph/overview.mdx"],
 		},
 		{
 			id: "subject:language:framework:nextjs",
@@ -69,9 +69,9 @@ test("buildOntologyGraph creates topic anchors and subject nodes from wiki graph
 	const nodeIds = new Set(graph.nodes.map((node) => node.id));
 
 	assert.equal(graph.nodes.find((node) => node.id === "root")?.type, "root");
-	assert.equal(graph.nodes.find((node) => node.id === "topic:data")?.type, "topic");
+	assert.equal(graph.nodes.find((node) => node.id === "topic:infrastructure")?.type, "topic");
 	assert.equal(graph.nodes.find((node) => node.id === "topic:language")?.type, "topic");
-	assert.ok(nodeIds.has("subject:data:storage-system:ceph"));
+	assert.ok(nodeIds.has("subject:infrastructure:storage-system:ceph"));
 	assert.ok(nodeIds.has("subject:language:framework:nextjs"));
 	assert.ok(nodeIds.has("subject:language:framework:react"));
 	assert.equal(graph.nodes.some((node) => node.id === "doc:docs/language/react/overview.mdx"), false);

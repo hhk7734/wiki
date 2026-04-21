@@ -1,0 +1,48 @@
+---
+id: overview
+title: "Kubernetes Dynamic Resource Allocation (DRA) 가이드"
+sidebar_label: DRA
+description: "Kubernetes Dynamic Resource Allocation (DRA) 가이드"
+keywords:
+  - "Dynamic Resource Allocation"
+  - dra
+  - kubernetes
+ontology:
+  role: operation
+  domain: infrastructure
+  class: cluster-addon
+  instance: dra
+  aspect: overview
+subject:
+  canonical_name: DRA
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Node Agent for DRA
+
+node agent가 각 노드에서 실행되면
+
+1. DRA가 지원하는 디바이스를 검색해서 `ResourceSlice`를 생성합니다.
+
+```yaml
+apiVersion: resource.k8s.io/v1
+kind: ResourceSlice
+spec:
+  driver: <driverName>
+  nodeName: <nodeName>
+  devices:
+    - name: <deviceName>
+      driver: <driverName>
+      attributes:
+        attribute1: { intValue: 1 }
+```

@@ -1,0 +1,79 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:container-platform:podman",
+  "title": "Podman, Buildah, Skopeo",
+  "snippet": "…ah, Skopeo\n\n- Podman\n - Docker daemon 없이 컨테이너를 실행하고 관리하는 도구입니다.\n - rootless 실행과 containers/* 설정 파일을 적극적으로 사용합니다.\n- Buildah\n - 컨테이너 이미지를 빌드하는 데 초점을 둔 도구입니다.\n - Dockerfile…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "container-platform",
+    "instance": "podman"
+  },
+  "url": "/docs/infrastructure/container/podman/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:container-platform:podman.json",
+  "document_refs": [
+    "doc:docs/infrastructure/container/podman/overview.mdx",
+    "doc:docs/infrastructure/container/podman/install.mdx",
+    "doc:docs/infrastructure/container/podman/usage.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/container/podman/overview.mdx",
+      "title": "Podman, Buildah, Skopeo",
+      "url": "/docs/infrastructure/container/podman/overview",
+      "snippet": "…ah, Skopeo\n\n- Podman\n - Docker daemon 없이 컨테이너를 실행하고 관리하는 도구입니다.\n - rootless 실행과 containers/* 설정 파일을 적극적으로 사용합니다.\n- Buildah\n - 컨테이너 이미지를 빌드하는 데 초점을 둔 도구입니다.\n - Dockerfile…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/container/podman/install.mdx",
+      "title": "Podman 설치 및 환경 설정",
+      "url": "/docs/infrastructure/container/podman/install",
+      "snippet": "…l flathub io.podman_desktop.PodmanDesktop\n`\n\n## 설정\n\n### registries.conf\n\n- /etc/containers/registries.conf\n- /etc/containers/registries.conf.d/*.conf\n- $HOME/.config/con…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/container/podman/usage.mdx",
+      "title": "Podman 사용 가이드",
+      "url": "/docs/infrastructure/container/podman/usage",
+      "snippet": "… flags\n - -f|--file : Dockerfile 경로\n - -t|--tag\n\n### ShellScript\n\n`shell title=\"containerize.sh\"\n#!/usr/bin/env bash\n\nset -x\n\nbuild=$(buildah from golang:1.17)\nbuild_roo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "container-platform",
+        "instance": "podman",
+        "aspect": "usage"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/podman/overview.mdx:about_subject:subject:infrastructure:container-platform:podman",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/podman/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/container/podman/install.mdx:about_subject:subject:infrastructure:container-platform:podman",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/podman/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/container/podman/usage.mdx:about_subject:subject:infrastructure:container-platform:podman",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/podman/usage.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

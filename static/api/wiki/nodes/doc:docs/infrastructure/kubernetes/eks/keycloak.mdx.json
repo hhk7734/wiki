@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/eks/keycloak.mdx",
+  "title": "keycloak",
+  "snippet": "## Keycloak\n\n- Keycloak OIDC\n\n## EKS\n\n### Associate Identity Provider\n\nEKS -> Cluster -> ->…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "eks",
+    "aspect": "keycloak"
+  },
+  "url": "/docs/infrastructure/kubernetes/eks/keycloak",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/eks/keycloak.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-orchestrator:eks",
+    "title": "EKS",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-orchestrator",
+      "instance": "eks"
+    },
+    "url": "/docs/infrastructure/kubernetes/eks/create"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/eks/keycloak.mdx:about_subject:subject:infrastructure:cluster-orchestrator:eks",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-orchestrator:eks",
+      "direction": "outgoing"
+    }
+  ]
+}

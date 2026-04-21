@@ -1,0 +1,85 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-system:rook-ceph",
+  "title": "Rook Ceph",
+  "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-system",
+    "instance": "rook-ceph"
+  },
+  "url": "/docs/infrastructure/storage/rook-ceph/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-system:rook-ceph.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/rook-ceph/overview.mdx",
+    "doc:docs/infrastructure/storage/rook-ceph/central-storage-cluster.mdx",
+    "doc:docs/infrastructure/storage/rook-ceph/cluster.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/rook-ceph/overview.mdx",
+      "title": "Rook Ceph",
+      "url": "/docs/infrastructure/storage/rook-ceph/overview",
+      "snippet": "…ease\n`\n\n`shell\nhelm repo update rook-release \\\n&& helm search repo rook-release/rook-ceph -l | head -n 10\n`\n\n`shell\nhelm pull rook-release/rook-ceph --version v1.18.2\n`\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/storage/rook-ceph/central-storage-cluster.mdx",
+      "title": "Rook Ceph Central Storage Cluster 구축하기",
+      "url": "/docs/infrastructure/storage/rook-ceph/central-storage-cluster",
+      "snippet": "## Provider Storage Cluster\n\n- Rook / External Cluster / Export config from the Ceph provider cluster\n- Roo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "central-storage-cluster"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/storage/rook-ceph/cluster.mdx",
+      "title": "Rook Ceph Cluster 생성하기",
+      "url": "/docs/infrastructure/storage/rook-ceph/cluster",
+      "snippet": "… Disk 준비\n\n``yaml\napiVersion: ceph.rook.io/v1\nkind: CephCluster\nmetadata:\n name: rook-ceph\n namespace: rook-ceph\nspec:\n cephVersion:\n image: quay.io/ceph/ceph:v19.2.3\n cl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "rook-ceph",
+        "aspect": "cluster"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/rook-ceph/overview.mdx:about_subject:subject:infrastructure:storage-system:rook-ceph",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/rook-ceph/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/storage/rook-ceph/central-storage-cluster.mdx:about_subject:subject:infrastructure:storage-system:rook-ceph",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/rook-ceph/central-storage-cluster.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/storage/rook-ceph/cluster.mdx:about_subject:subject:infrastructure:storage-system:rook-ceph",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/rook-ceph/cluster.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-system:rook-ceph:depends_on:subject:infrastructure:storage-system:ceph",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

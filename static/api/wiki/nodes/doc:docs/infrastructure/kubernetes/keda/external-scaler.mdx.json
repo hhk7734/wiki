@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/keda/external-scaler.mdx",
+  "title": "KEDA External Scaler",
+  "snippet": "…entMetricValue} = \\text{metricValue}\n $$\n\n## Scaler 서비스 구현\n\n- KEDA / Concepts / External Scalers\n- gRPC\n\n아래와 같은 구조의 프로젝트를 생성합니다.\n\n``shell\n\n├── cmd/\n│ └── scaler/\n│ └── …",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "keda",
+    "aspect": "external-scaler"
+  },
+  "url": "/docs/infrastructure/kubernetes/keda/external-scaler",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/keda/external-scaler.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:provisioning-tool:keda",
+    "title": "KEDA CRD 가이드",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "provisioning-tool",
+      "instance": "keda"
+    },
+    "url": "/docs/infrastructure/kubernetes/keda/crd"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/keda/external-scaler.mdx:about_subject:subject:infrastructure:provisioning-tool:keda",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:provisioning-tool:keda",
+      "direction": "outgoing"
+    }
+  ]
+}

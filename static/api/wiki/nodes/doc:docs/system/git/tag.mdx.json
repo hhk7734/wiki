@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/system/git/tag.mdx",
+  "title": "Git tag",
+  "snippet": "## tag 추가\n\n``shell\ngit tag -a -m \"\" [commit hash]\n`\n\n이전 커밋에 tag를 달아야하는 경우 commit hash를 지정해주면 됩니다.\n\ntag…",
+  "ontology": {
+    "role": "operation",
+    "domain": "system",
+    "class": "tool",
+    "instance": "git",
+    "aspect": "tag"
+  },
+  "url": "/docs/system/git/tag",
+  "node_url": "/api/wiki/nodes/doc:docs/system/git/tag.mdx.json",
+  "subject": {
+    "id": "subject:system:tool:git",
+    "title": "Git 기본 안내",
+    "ontology": {
+      "domain": "system",
+      "class": "tool",
+      "instance": "git"
+    },
+    "url": "/docs/system/git/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/git/tag.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "subject:system:tool:git",
+      "direction": "outgoing"
+    }
+  ]
+}

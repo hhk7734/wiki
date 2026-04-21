@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/metallb/install.mdx",
+  "title": "MetalLB",
+  "snippet": "## 설치\n\n- https://metallb.universe.tf/installation/\n\nkube-proxy를 IPVS 모드로 사용하는 경우 kube-proxy ConfigMap의 .…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "metallb",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/networking/metallb/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/metallb/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:metallb",
+    "title": "MetalLB ARP/NDP 사용하기",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "metallb"
+    },
+    "url": "/docs/infrastructure/networking/metallb/arp"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/metallb/install.mdx:about_subject:subject:infrastructure:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:metallb",
+      "direction": "outgoing"
+    }
+  ]
+}

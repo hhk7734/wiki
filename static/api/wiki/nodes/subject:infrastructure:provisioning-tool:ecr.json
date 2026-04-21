@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:provisioning-tool:ecr",
+  "title": "ECR",
+  "snippet": "## Registry\n\n``python\nname = \"test\"\ntest_registry = aws.ecr.Repository(\n f\"{name}-ecr\",\n name=name,\n encryption_configurations=[aws.ecr.Rep…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "ecr"
+  },
+  "url": "/docs/infrastructure/container/ecr/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:provisioning-tool:ecr.json",
+  "document_refs": [
+    "doc:docs/infrastructure/container/ecr/overview.mdx",
+    "doc:docs/infrastructure/container/ecr/push-pull.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/container/ecr/overview.mdx",
+      "title": "ECR",
+      "url": "/docs/infrastructure/container/ecr/overview",
+      "snippet": "## Registry\n\n``python\nname = \"test\"\ntest_registry = aws.ecr.Repository(\n f\"{name}-ecr\",\n name=name,\n encryption_configurations=[aws.ecr.Rep…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "ecr",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/container/ecr/push-pull.mdx",
+      "title": "ECR에 이미지 push/pull 하기",
+      "url": "/docs/infrastructure/container/ecr/push-pull",
+      "snippet": "## dockerconfigjson 생성\n\nECR Login Password는 12시간 동안 유효합니다.\n\n``shell\nAWS_ACCOUNT_ID=\nAWS_REGION=\nECR_REGISTR…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "ecr",
+        "aspect": "push-pull"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/ecr/overview.mdx:about_subject:subject:infrastructure:provisioning-tool:ecr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/ecr/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/container/ecr/push-pull.mdx:about_subject:subject:infrastructure:provisioning-tool:ecr",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/ecr/push-pull.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/knative/install.mdx",
+  "title": "Knative",
+  "snippet": "## 설치\n\n``shell\nhelm show values knative-operator-0.1.0.tgz \\\nknative-operator-values.yaml\n`\n\n`shell\nhelm template knati…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "knative",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/kubernetes/knative/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/knative/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:provisioning-tool:knative",
+    "title": "Knative Serving CRDs",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "provisioning-tool",
+      "instance": "knative"
+    },
+    "url": "/docs/infrastructure/kubernetes/knative/serving-crds"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/knative/install.mdx:about_subject:subject:infrastructure:provisioning-tool:knative",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:provisioning-tool:knative",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,58 @@
+---
+id: install
+title: Docker
+sidebar_label: Docker
+description: Docker
+keywords:
+  - docker
+ontology:
+  role: operation
+  domain: infrastructure
+  class: container-platform
+  instance: docker
+  aspect: install
+subject:
+  canonical_name: Docker
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S docker
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+sudo systemctl enable --now docker.service
+```
+
+```shell
+sudo usermod -aG docker $USER
+```

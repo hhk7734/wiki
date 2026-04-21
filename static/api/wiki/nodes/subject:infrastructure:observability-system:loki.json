@@ -1,0 +1,119 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:observability-system:loki",
+  "title": "Loki",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## 배포 Mode\n\n- Loki Docs / Deployment Modes\n\n- Monolithic\n - 모든 컴포넌트를 하나의 인스턴스에 배포\n - 하루에 20GB 정도의 …",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "loki"
+  },
+  "url": "/docs/infrastructure/observability/loki/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:observability-system:loki.json",
+  "document_refs": [
+    "doc:docs/infrastructure/observability/loki/overview.mdx",
+    "doc:docs/infrastructure/observability/loki/label.mdx",
+    "doc:docs/infrastructure/observability/loki/collector.mdx",
+    "doc:docs/infrastructure/observability/loki/compactor.mdx",
+    "doc:docs/infrastructure/observability/loki/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/observability/loki/overview.mdx",
+      "title": "Loki",
+      "url": "/docs/infrastructure/observability/loki/overview",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## 배포 Mode\n\n- Loki Docs / Deployment Modes\n\n- Monolithic\n - 모든 컴포넌트를 하나의 인스턴스에 배포\n - 하루에 20GB 정도의 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "loki",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/loki/label.mdx",
+      "title": "Label",
+      "url": "/docs/infrastructure/observability/loki/label",
+      "snippet": "## Label\n\n- Label best practices\n- https://grafana.com/blog/2020/04/21/how-labels-in-lok…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "loki",
+        "aspect": "label"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/loki/collector.mdx",
+      "title": "로그 수집기에서 Loki로 로그 전송하기",
+      "url": "/docs/infrastructure/observability/loki/collector",
+      "snippet": "## vector\n\n- Vector Loki Sink\n\n## Fluent Bit\n\n- https://docs.fluentbit.io/manual/pipeline/outputs/loki\n\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "loki",
+        "aspect": "collector"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/loki/compactor.mdx",
+      "title": "Loki Compactor로 로그 저장량 조절하기",
+      "url": "/docs/infrastructure/observability/loki/compactor",
+      "snippet": "## Log Retention\n\n- Loki Docs / Configuration parameters # compactor\n\n``yaml title=\"loki-distributed-values.yaml\"\nloki:\n compactor:\n retention_enabl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "loki",
+        "aspect": "compactor"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/loki/install.mdx",
+      "title": "Loki 설치 가이드",
+      "url": "/docs/infrastructure/observability/loki/install",
+      "snippet": "Loki 개요 문서에서 배포 모드와 컴포넌트를 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Loki Docs / Install the simple scalable Helm chart\n\n``shell\nhelm repo add grafana https://grafana.g…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "loki",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/loki/overview.mdx:about_subject:subject:infrastructure:observability-system:loki",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/loki/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/loki/label.mdx:about_subject:subject:infrastructure:observability-system:loki",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/loki/label.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/loki/collector.mdx:about_subject:subject:infrastructure:observability-system:loki",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/loki/collector.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/loki/compactor.mdx:about_subject:subject:infrastructure:observability-system:loki",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/loki/compactor.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/loki/install.mdx:about_subject:subject:infrastructure:observability-system:loki",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/loki/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

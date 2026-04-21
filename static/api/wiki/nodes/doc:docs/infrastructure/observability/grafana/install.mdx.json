@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/observability/grafana/install.mdx",
+  "title": "Grafana",
+  "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "grafana",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/observability/grafana/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/observability/grafana/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:observability-system:grafana",
+    "title": "Grafana Alert",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "observability-system",
+      "instance": "grafana"
+    },
+    "url": "/docs/infrastructure/observability/grafana/alert"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/grafana/install.mdx:about_subject:subject:infrastructure:observability-system:grafana",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:observability-system:grafana",
+      "direction": "outgoing"
+    }
+  ]
+}

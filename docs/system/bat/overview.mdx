@@ -1,0 +1,69 @@
+---
+id: overview
+title: bat
+sidebar_label: bat
+description: bat
+keywords:
+  - "bat"
+ontology:
+  role: entity
+  domain: system
+  class: tool
+  instance: bat
+  aspect: overview
+subject:
+  canonical_name: "bat"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## bat
+
+- https://github.com/sharkdp/bat
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S bat
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install -y bat
+```
+
+```shell
+sudo update-alternatives --install /usr/local/bin/bat bat $(which batcat) 1
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell title=".zshrc"
+# bat
+alias cat="bat -pp"
+```

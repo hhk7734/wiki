@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:system:tool:ssh",
+  "title": "ssh 사용법",
+  "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
+  "ontology": {
+    "domain": "system",
+    "class": "tool",
+    "instance": "ssh"
+  },
+  "url": "/docs/system/ssh/overview",
+  "node_url": "/api/wiki/nodes/subject:system:tool:ssh.json",
+  "document_refs": [
+    "doc:docs/system/ssh/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/system/ssh/overview.mdx",
+      "title": "ssh 사용법",
+      "url": "/docs/system/ssh/overview",
+      "snippet": "## SSH agent 실행\n\n``shell\neval \"$(ssh-agent -s)\"\n`\n\n`shell title=\".zshrc\"\nplugins=(\n ss…",
+      "ontology": {
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
+        "instance": "ssh",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/ssh/overview.mdx:about_subject:subject:system:tool:ssh",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/ssh/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

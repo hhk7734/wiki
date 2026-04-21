@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/security/tls/x509.mdx",
+  "title": "X.509",
+  "snippet": "…t_bits = 3072\nencrypt_key = no\nprompt = no\nutf8 = yes\n\nreq_extensions = req_ext\nx509_extensions = req_ext\n\ndistinguished_name = req_distinguished_name\n\n[ req_ext ]\n…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "tls",
+    "aspect": "x509"
+  },
+  "url": "/docs/infrastructure/security/tls/x509",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/tls/x509.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:auth-system:tls",
+    "title": "Transport Layer Security(전송 계층 보안)",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "auth-system",
+      "instance": "tls"
+    },
+    "url": "/docs/infrastructure/security/tls/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/tls/x509.mdx:about_subject:subject:infrastructure:auth-system:tls",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:auth-system:tls",
+      "direction": "outgoing"
+    }
+  ]
+}

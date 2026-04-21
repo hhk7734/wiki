@@ -16,6 +16,11 @@ export type OntologyGraphNode = {
 		aspect?: string;
 		role?: string;
 	};
+	layoutTarget?: {
+		x: number;
+		y: number;
+		z: number;
+	};
 	childCount: number;
 };
 

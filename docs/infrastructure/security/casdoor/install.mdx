@@ -1,0 +1,103 @@
+---
+id: install
+title: casdoor
+sidebar_label: casdoor
+description: casdoor
+keywords:
+  - casdoor
+ontology:
+  role: operation
+  domain: infrastructure
+  class: auth-system
+  instance: casdoor
+  aspect: install
+subject:
+  canonical_name: Casdoor
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Casdoor
+
+Casdoor는 `Application`에 대한 인증/인가를 관리하는 서비스입니다.
+
+- `User`는 하나의 `Organization`에만 속할 수 있습니다.
+- `User`는 자신이 속한 `Organization`의 `Application`에 로그인할 수 있습니다.
+  - 인증을 위해 `Provider`를 사용할 수 있습니다.
+- Casdoor API에서 `User`는 일반적으로 `<organizationName>/<userName>`으로 식별됩니다.
+- `build-in`이라는 `Organization`에는 `admin`이라는 `User`와 `app-build-in`이라는 `Application`이 있습니다.
+  - `app-built-in`이 Casdoor 자체를 위한 `Application`입니다.
+
+## 설치
+
+:::info[References]
+
+- [Casdoor / Try with K8s Helm](https://casdoor.org/docs/basic/try-with-helm/)
+- [Casdoor Helm GitHub](https://github.com/casdoor/casdoor-helm)
+
+:::
+
+```shell
+helm pull oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v2.70.0
+```
+
+```shell
+helm show values oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v2.70.0 \
+    > casdoor-helm-charts-v2.70.0.yaml
+```
+
+```sql
+CREATE USER casdoor WITH PASSWORD 'casdoor';
+CREATE DATABASE casdoor with OWNER casdoor;
+```
+
+```yaml title="casdoor-values.yaml"
+tolerations: []
+
+database:
+  driver: postgres
+  host: ""
+  port: 5432
+  user: casdoor
+  password: casdoor
+  databaseName: casdoor
+```
+
+```shell
+helm template casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --version v2.70.0 \
+    -n auth \
+    -f casdoor-values.yaml \
+    > casdoor.yaml
+```
+
+```shell
+helm upgrade -i casdoor oci://registry-1.docker.io/casbin/casdoor-helm-charts \
+    --history-max 5 \
+    --version v2.70.0 \
+    -n auth \
+    -f casdoor-values.yaml
+```
+
+:::warning
+
+설치 후 보안을 위한 조치가 필요합니다.
+
+- 초기 관리자 계정은 `admin` / `123` 입니다.
+- `built-in` `Organization`의 비밀번호 타입을 `plain`에서 다른 옵션으로 변경합니다.
+- `admin`의 비밀번호를 변경합니다.
+- Admin 사용자 계정을 생성합니다.
+- `app-built-in`의 가입을 비활성화 합니다.
+
+:::

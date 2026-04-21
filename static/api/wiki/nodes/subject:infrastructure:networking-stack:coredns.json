@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:networking-stack:coredns",
+  "title": "CoreDNS Plugin",
+  "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "coredns"
+  },
+  "url": "/docs/infrastructure/networking/coredns/plugin",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:networking-stack:coredns.json",
+  "document_refs": [
+    "doc:docs/infrastructure/networking/coredns/plugin.mdx",
+    "doc:docs/infrastructure/networking/coredns/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/networking/coredns/plugin.mdx",
+      "title": "CoreDNS Plugin",
+      "url": "/docs/infrastructure/networking/coredns/plugin",
+      "snippet": "## 플러그인\n\n- https://coredns.io/plugins/\n\n플러그인의 실행 순서는 plugin.cfg 파일에 정의된 순서대로입니다.\n\n## hosts\n\n- https://gith…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "coredns",
+        "aspect": "plugin"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/coredns/install.mdx",
+      "title": "CoreDNS",
+      "url": "/docs/infrastructure/networking/coredns/install",
+      "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "coredns",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/coredns/plugin.mdx:about_subject:subject:infrastructure:networking-stack:coredns",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/coredns/plugin.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/coredns/install.mdx:about_subject:subject:infrastructure:networking-stack:coredns",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/coredns/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

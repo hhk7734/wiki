@@ -1,0 +1,199 @@
+---
+id: install
+title: node-exporter
+sidebar_label: node-exporter
+description: node-exporter
+keywords:
+  - prometheus
+  - node-exporter
+  - fluent-bit
+ontology:
+  role: operation
+  domain: infrastructure
+  class: observability-system
+  instance: node-exporter
+  aspect: install
+subject:
+  canonical_name: node_exporter
+  aliases:
+    - node-exporter
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+### Helm
+
+:::info[References]
+
+- [Node exporter GitHub](https://github.com/prometheus/node_exporter)
+- [prometheus-node-exporter Chart](https://github.com/prometheus-community/helm-charts/tree/main/charts/prometheus-node-exporter)
+
+:::
+
+```shell
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+```shell
+helm repo update prometheus-community \
+&& helm search repo prometheus-community/prometheus-node-exporter -l | head -n 10
+```
+
+```shell
+helm pull prometheus-community/prometheus-node-exporter --version 4.42.0
+```
+
+```shell
+helm show values prometheus-community/prometheus-node-exporter \
+    --version 4.42.0 \
+    > prometheus-node-exporter-4.42.0.yaml
+```
+
+```yaml title="prometheus-node-exporter-values.yaml"
+fullnameOverride: node-exporter
+
+prometheus:
+  monitor:
+    enabled: true
+    additionalLabels: {}
+    jobLabel: jobLabel
+
+podLabels:
+  jobLable: node-exporter
+```
+
+```shell
+helm template node-exporter prometheus-node-exporter-4.42.0.tgz \
+    -n monitoring \
+    -f prometheus-node-exporter-values.yaml \
+    > prometheus-node-exporter.yaml
+```
+
+```shell
+helm upgrade -i node-exporter prometheus-node-exporter-4.42.0.tgz \
+    --history-max 5 \
+    -n monitoring \
+    -f prometheus-node-exporter-values.yaml
+```
+
+### kube-prometheus-stack
+
+```yaml
+nodeExporter:
+  enabled: true
+
+# Helm prometheus-node-exporter-values.yaml을 참고하여 작성하면 됩니다.
+prometheus-node-exporter: {}
+```
+
+### Fluent Bit
+
+- https://docs.fluentbit.io/manual/pipeline/inputs/node-exporter-metrics
+- https://docs.fluentbit.io/manual/pipeline/outputs/prometheus-exporter
+
+```yaml title="fluent-bit-values.yaml"
+# host 네트워크를 사용하면 container의 IP가 host의 IP로 설정됩니다.
+hostNetwork: true
+dnsPolicy: ClusterFirstWithHostNet
+
+extraPorts:
+  - name: http-metrics
+    containerPort: 9100
+    protocol: TCP
+    port: 9100 # Service port
+
+extraVolumes:
+  - name: proc
+    hostPath:
+      path: /proc
+  - name: sys
+    hostPath:
+      path: /sys
+
+extraVolumeMounts:
+  - name: proc
+    mountPath: /host/proc
+    readOnly: true
+  - name: sys
+    mountPath: /host/sys
+    readOnly: true
+```
+
+```ini
+[INPUT]
+    name            node_exporter_metrics
+    tag             node_metrics
+    scrape_interval 5
+    path.procfs     /host/proc
+    path.sysfs      /host/sys
+
+[OUTPUT]
+    name      prometheus_exporter
+    match     node_metrics
+    host      0.0.0.0
+    port      9100
+    add_label app fluent-bit
+```
+
+```yaml
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: fluent-bit-node-exporter
+  namespace: monitoring
+spec:
+  # jobLable을 선언하지 않았기 때문에 매칭되는 Service의 이름인 fluent-bit이 사용됩니다.
+  endpoints:
+    - port: http-metrics
+      path: /metrics
+      scheme: http
+      interval: 15s
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: fluent-bit
+      app.kubernetes.io/name: fluent-bit
+```
+
+## Metrics
+
+### CPU
+
+- `node` `_cpu` `_seconds_total`
+  - 각 mode별 CPU 사용 누적 시간입니다.
+  - 1 초가 지났을 때 각 mode별 CPU 사용 시간의 총 합은 1 이 증가합니다.
+    - `sum by (cpu) (rate(node_cpu_seconds_total[1m]))` == 1
+  - labels
+    - cpu
+    - mode
+      - idle, iowait, irq, nice, sftirq, steal, system, user
+      - idle은 CPU를 사용하지 않는 상태를 의미합니다.
+  - CPU 사용률: `1 - avg(rate(node_cpu_seconds_total{mode="idle"}[1m]))`
+
+### Memory
+
+- `node` `_memory` `_MemTotal_bytes`
+- `node` `_memory` `_MemFree_bytes`
+  - 메모리 사용률: `1 - (node_memory_MemFree_bytes / node_memory_MemTotal_bytes)`
+- `node` `_memory` `_MemAvailable_bytes`
+- `node` `_memory` `_Cached_bytes`
+- `node` `_memory` `_Buffers_bytes`
+- `node` `_memory` `_SReclaimable_bytes`
+- 사용중 메모리
+  - `(MemTotal - MemFree - (Buffers + Cached + SReclaimable))`
+
+### FileSystem
+
+- `node` `_filesystem` `_size_bytes`
+- `node` `_filesystem` `_free_bytes`
+- `node` `_filesystem` `_avail_bytes`
+  - non-root 유저가 사용 가능한 공간입니다.

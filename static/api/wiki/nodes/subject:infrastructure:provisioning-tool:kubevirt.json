@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:provisioning-tool:kubevirt",
+  "title": "KubeVirt 설치 가이드",
+  "snippet": "## 설치\n\n### KubeVirt Operator\n\n- KubeVirt Docs / Cluster Administration / Installation\n- KubeVirt Gi…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "kubevirt"
+  },
+  "url": "/docs/infrastructure/kubernetes/kubevirt/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:provisioning-tool:kubevirt.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/kubevirt/install.mdx",
+    "doc:docs/infrastructure/kubernetes/kubevirt/virtualmachine.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/kubevirt/install.mdx",
+      "title": "KubeVirt 설치 가이드",
+      "url": "/docs/infrastructure/kubernetes/kubevirt/install",
+      "snippet": "## 설치\n\n### KubeVirt Operator\n\n- KubeVirt Docs / Cluster Administration / Installation\n- KubeVirt Gi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "kubevirt",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/kubevirt/virtualmachine.mdx",
+      "title": "KubeVirt로 VirtualMachine 생성하기",
+      "url": "/docs/infrastructure/kubernetes/kubevirt/virtualmachine",
+      "snippet": "## VirtualMachine\n\n``yaml\napiVersion: kubevirt.io/v1\nkind: VirtualMachine\nspec:\n runStrategy: Alw…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "kubevirt",
+        "aspect": "virtualmachine"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/kubevirt/install.mdx:about_subject:subject:infrastructure:provisioning-tool:kubevirt",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/kubevirt/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/kubevirt/virtualmachine.mdx:about_subject:subject:infrastructure:provisioning-tool:kubevirt",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/kubevirt/virtualmachine.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

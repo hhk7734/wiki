@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:system:tool:zsh",
+  "title": "zsh",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+  "ontology": {
+    "domain": "system",
+    "class": "tool",
+    "instance": "zsh"
+  },
+  "url": "/docs/system/zsh/overview",
+  "node_url": "/api/wiki/nodes/subject:system:tool:zsh.json",
+  "document_refs": [
+    "doc:docs/system/zsh/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/system/zsh/overview.mdx",
+      "title": "zsh",
+      "url": "/docs/system/zsh/overview",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S zsh\n`\n\n`shell\nsudo apt install -y zsh\n`\n\n`shell\nchsh -s $(which zsh)\n`\n\n## starship…",
+      "ontology": {
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
+        "instance": "zsh",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/zsh/overview.mdx:about_subject:subject:system:tool:zsh",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/zsh/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

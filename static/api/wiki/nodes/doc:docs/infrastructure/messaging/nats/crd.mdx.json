@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/messaging/nats/crd.mdx",
+  "title": "NATS CRD",
+  "snippet": "…## Account\n\n``shell\nkubectl explain account.spec\n`\n\n`yaml\napiVersion: jetstream.nats.io/v1beta2\nkind: Account\nmetadata:\n name:\n namespace: event\nspec:\n name:\n serve…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "eventing-system",
+    "instance": "nats",
+    "aspect": "crd"
+  },
+  "url": "/docs/infrastructure/messaging/nats/crd",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/messaging/nats/crd.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:eventing-system:nats",
+    "title": "NATS",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "eventing-system",
+      "instance": "nats"
+    },
+    "url": "/docs/infrastructure/messaging/nats/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/crd.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:eventing-system:nats",
+      "direction": "outgoing"
+    }
+  ]
+}

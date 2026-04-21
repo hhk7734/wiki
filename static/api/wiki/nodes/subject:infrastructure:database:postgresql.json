@@ -1,0 +1,159 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:database:postgresql",
+  "title": "PostgreSQL",
+  "snippet": "PostgreSQL은 범용 관계형 데이터베이스입니다. 로컬 개발 환경, 컨테이너 기반 배포, 운영 설정 변경, 사용자와 테이블 관리처럼 서로 다른 운영 맥락이 자…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "database",
+    "instance": "postgresql"
+  },
+  "url": "/docs/infrastructure/database/postgresql/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:database:postgresql.json",
+  "document_refs": [
+    "doc:docs/infrastructure/database/postgresql/overview.mdx",
+    "doc:docs/infrastructure/database/postgresql/ha.mdx",
+    "doc:docs/infrastructure/database/postgresql/basics.mdx",
+    "doc:docs/infrastructure/database/postgresql/config.mdx",
+    "doc:docs/infrastructure/database/postgresql/install.mdx",
+    "doc:docs/infrastructure/database/postgresql/table.mdx",
+    "doc:docs/infrastructure/database/postgresql/user.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/overview.mdx",
+      "title": "PostgreSQL",
+      "url": "/docs/infrastructure/database/postgresql/overview",
+      "snippet": "PostgreSQL은 범용 관계형 데이터베이스입니다. 로컬 개발 환경, 컨테이너 기반 배포, 운영 설정 변경, 사용자와 테이블 관리처럼 서로 다른 운영 맥락이 자…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/ha.mdx",
+      "title": "PostgreSQL HA(고가용성)",
+      "url": "/docs/infrastructure/database/postgresql/ha",
+      "snippet": "- postgres\n- repmgr\n- pgpool\n- patroni + etcd or consul",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "ha"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/basics.mdx",
+      "title": "PostgreSQL 기초 사용",
+      "url": "/docs/infrastructure/database/postgresql/basics",
+      "snippet": "…l\n`\n\n### Remote\n\n`shell\npsql -h -U -d\n`\n\n## Help\n\n`sql\n\\h [command]\n`\n\n\\h만 입력하면 사용가능한 SQL 명령어 목록이 출력됩니다. command를 입력하면 해당 명령어의 설명이 출력됩니다.\n\n`sql\n\\?\n`\n\n\\`로 시작하는 명령어…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "basics"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/config.mdx",
+      "title": "PostgreSQL 설정 변경",
+      "url": "/docs/infrastructure/database/postgresql/config",
+      "snippet": "## $PGDATA/postgresql.conf\n\n- https://www.postgresql.org/docs/16/runtime-config.html\n\n``shell\n# -----…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "config"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/install.mdx",
+      "title": "PostgreSQL 설치 가이드",
+      "url": "/docs/infrastructure/database/postgresql/install",
+      "snippet": "## 설치\n\n- postgres DockerHub\n- PostgreSQL / Feature Matrix\n- PostgreSQL 설정 변경\n- PersistentVolume\n\n``yaml\n\napiVersion: v1\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/table.mdx",
+      "title": "PostgreSQL Table",
+      "url": "/docs/infrastructure/database/postgresql/table",
+      "snippet": "…ROP DATABASE\n`\n\n## Schema\n\n- 논리적인 분리\n\n## Table\n\n### CREATE TABLE\n\n- https://www.postgresql.org/docs/current/sql-createtable.html\n\n`sql\nCREATE TABLE\n\n (\n\n [, ...]\n [, ...]…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "table"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/postgresql/user.mdx",
+      "title": "PostgreSQL User(Role)",
+      "url": "/docs/infrastructure/database/postgresql/user",
+      "snippet": "## User\n\n### User 생성\n\n- https://www.postgresql.org/docs/current/sql-createuser.html\n\n``sql\nCREATE USER WITH PASSWORD ''\n`\n\nCRE…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "postgresql",
+        "aspect": "user"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/overview.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/ha.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/ha.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/basics.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/basics.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/config.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/config.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/install.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/table.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/table.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/user.mdx:about_subject:subject:infrastructure:database:postgresql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/postgresql/user.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

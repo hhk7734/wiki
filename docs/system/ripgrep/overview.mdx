@@ -1,0 +1,62 @@
+---
+id: overview
+title: ripgrep
+sidebar_label: ripgrep
+description: ripgrep
+keywords:
+  - "ripgrep"
+  - "rg"
+ontology:
+  role: entity
+  domain: system
+  class: tool
+  instance: ripgrep
+  aspect: overview
+subject:
+  canonical_name: "ripgrep"
+  aliases:
+    - rg
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## ripgrep(rg)
+
+- https://github.com/BurntSushi/ripgrep
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S ripgrep
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install -y ripgrep
+```
+
+</TabItem>
+
+</Tabs>

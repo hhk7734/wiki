@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/system/git/patch.mdx",
+  "title": "Git patch 파일 만들기",
+  "snippet": "## patch files 생성\n\n``shell\ngit format-patch [-] [commit]\n`\n\n## patch file 적용\n\n`shell\ngit am\n`\n\n### patch 중 에러 수정\n\n`shell\ngi…",
+  "ontology": {
+    "role": "operation",
+    "domain": "system",
+    "class": "tool",
+    "instance": "git",
+    "aspect": "patch"
+  },
+  "url": "/docs/system/git/patch",
+  "node_url": "/api/wiki/nodes/doc:docs/system/git/patch.mdx.json",
+  "subject": {
+    "id": "subject:system:tool:git",
+    "title": "Git 기본 안내",
+    "ontology": {
+      "domain": "system",
+      "class": "tool",
+      "instance": "git"
+    },
+    "url": "/docs/system/git/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/git/patch.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "subject:system:tool:git",
+      "direction": "outgoing"
+    }
+  ]
+}

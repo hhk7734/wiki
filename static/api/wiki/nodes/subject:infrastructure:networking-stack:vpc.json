@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:networking-stack:vpc",
+  "title": "VPC",
+  "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "vpc"
+  },
+  "url": "/docs/infrastructure/networking/vpc/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:networking-stack:vpc.json",
+  "document_refs": [
+    "doc:docs/infrastructure/networking/vpc/overview.mdx",
+    "doc:docs/infrastructure/networking/vpc/aws.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/networking/vpc/overview.mdx",
+      "title": "VPC",
+      "url": "/docs/infrastructure/networking/vpc/overview",
+      "snippet": "## VPC\n\n``hcl\nresource \"google_compute_network\" \"\" {\n auto_create_subnetworks = false\n…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "vpc",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/vpc/aws.mdx",
+      "title": "VPC",
+      "url": "/docs/infrastructure/networking/vpc/aws",
+      "snippet": "``mermaid\nflowchart\n subgraph VPC\n InternetGateway(InternetGateway)\n\n NatGateway-1 --> InternetGateway\n NatGatewa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "vpc",
+        "aspect": "aws"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/vpc/overview.mdx:about_subject:subject:infrastructure:networking-stack:vpc",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/vpc/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/vpc/aws.mdx:about_subject:subject:infrastructure:networking-stack:vpc",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/vpc/aws.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

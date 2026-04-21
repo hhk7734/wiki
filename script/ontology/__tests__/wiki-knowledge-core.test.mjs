@@ -8,39 +8,39 @@ import { buildCanonicalSubjectSnapshot, selectCanonicalSubjectDocument } from ".
 
 test("wiki knowledge core emits stable document ids, urls, and normalized snippets", () => {
 	const records = buildWikiKnowledgeCore([
-		"docs/data/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/osd.mdx",
 	]);
 
 	const document = records.documents[0];
 	const relation = records.relations[0];
 
 	assert.equal(document.type, "document");
-	assert.equal(document.id, "doc:docs/data/ceph/osd.mdx");
-	assert.equal(document.url, "/docs/data/ceph/osd");
-	assert.equal(document.subject_ref, "subject:data:storage-system:ceph");
+	assert.equal(document.id, "doc:docs/infrastructure/storage/ceph/osd.mdx");
+	assert.equal(document.url, "/docs/infrastructure/storage/ceph/osd");
+	assert.equal(document.subject_ref, "subject:infrastructure:storage-system:ceph");
 	assert.ok(document.snippet.length > 0);
 	assert.ok(document.snippet.length < document.text.length);
 	assert.doesNotMatch(document.snippet, /import useBaseUrl|:::|`/i);
-	assert.equal(relation.id, "relation:doc:docs/data/ceph/osd.mdx:about_subject:subject:data:storage-system:ceph");
+	assert.equal(relation.id, "relation:doc:docs/infrastructure/storage/ceph/osd.mdx:about_subject:subject:infrastructure:storage-system:ceph");
 	assert.equal(relation.predicate, "about_subject");
 });
 
 test("wiki knowledge core keeps multi-document subject records deterministic", () => {
 	const forward = buildWikiKnowledgeCore([
-		"docs/data/ceph/overview.mdx",
-		"docs/data/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/overview.mdx",
+		"docs/infrastructure/storage/ceph/osd.mdx",
 	]);
 	const reverse = buildWikiKnowledgeCore([
-		"docs/data/ceph/osd.mdx",
-		"docs/data/ceph/overview.mdx",
+		"docs/infrastructure/storage/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/overview.mdx",
 	]);
 
 	assert.deepEqual(forward.documents.map((document) => document.id), reverse.documents.map((document) => document.id));
 	assert.deepEqual(forward.relations.map((relation) => relation.id), reverse.relations.map((relation) => relation.id));
 	assert.deepEqual(forward.subjects.map((subject) => subject.id), reverse.subjects.map((subject) => subject.id));
 	assert.deepEqual(forward.subjects[0].document_refs, [
-		"doc:docs/data/ceph/overview.mdx",
-		"doc:docs/data/ceph/osd.mdx",
+		"doc:docs/infrastructure/storage/ceph/overview.mdx",
+		"doc:docs/infrastructure/storage/ceph/osd.mdx",
 	]);
 	assert.equal(forward.subjects[0].canonical_name, "Ceph Storage Cluster란?");
 	assert.equal(forward.subjects[0].snippet, forward.documents[0].snippet);
@@ -50,28 +50,28 @@ test("wiki knowledge core keeps multi-document subject records deterministic", (
 
 test("wiki knowledge core selects the canonical subject representative explicitly", () => {
 	const overviewDocument = {
-		id: "doc:docs/data/ceph/overview.mdx",
-		source_path: "docs/data/ceph/overview.mdx",
+		id: "doc:docs/infrastructure/storage/ceph/overview.mdx",
+		source_path: "docs/infrastructure/storage/ceph/overview.mdx",
 		title: "Ceph Storage Cluster란?",
 		snippet: "overview snippet",
 		aliases: ["z", "ä"],
 		ontology: {
 			role: "entity",
-			domain: "data",
+			domain: "infrastructure",
 			class: "storage-system",
 			instance: "ceph",
 			aspect: "overview",
 		},
 	};
 	const detailDocument = {
-		id: "doc:docs/data/ceph/osd.mdx",
-		source_path: "docs/data/ceph/osd.mdx",
+		id: "doc:docs/infrastructure/storage/ceph/osd.mdx",
+		source_path: "docs/infrastructure/storage/ceph/osd.mdx",
 		title: "Ceph OSD 관리",
 		snippet: "detail snippet",
 		aliases: ["a", "z"],
 		ontology: {
 			role: "operation",
-			domain: "data",
+			domain: "infrastructure",
 			class: "storage-system",
 			instance: "ceph",
 			aspect: "osd",
@@ -80,7 +80,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 
 	assert.equal(selectCanonicalSubjectDocument([detailDocument, overviewDocument]).id, overviewDocument.id);
 
-	const subject = buildCanonicalSubjectSnapshot("subject:data:storage-system:ceph", [detailDocument, overviewDocument], overviewDocument);
+	const subject = buildCanonicalSubjectSnapshot("subject:infrastructure:storage-system:ceph", [detailDocument, overviewDocument], overviewDocument);
 
 	assert.equal(subject.canonical_name, overviewDocument.title);
 	assert.equal(subject.snippet, overviewDocument.snippet);

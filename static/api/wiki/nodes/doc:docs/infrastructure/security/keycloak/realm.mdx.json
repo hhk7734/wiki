@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/security/keycloak/realm.mdx",
+  "title": "Realm",
+  "snippet": "… Authentication: Enabled\n - Username:\n - Password:\n\n### Sessions\n\n- https://www.keycloak.org/docs/latest/server_admin/#_timeouts\n\n- SSO Session Idle: 활동이 없으면 세션이 만료되는 시…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "keycloak",
+    "aspect": "realm"
+  },
+  "url": "/docs/infrastructure/security/keycloak/realm",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/keycloak/realm.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:auth-system:keycloak",
+    "title": "Keycloak",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "auth-system",
+      "instance": "keycloak"
+    },
+    "url": "/docs/infrastructure/security/keycloak/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/keycloak/realm.mdx:about_subject:subject:infrastructure:auth-system:keycloak",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:auth-system:keycloak",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:observability-system:fluentd",
+  "title": "Fluentd",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- Fluentd Docs / Configuration\n\n## Fluentd\n\nhttps://kubesphere.io/blogs/deep-dive-into-ku…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "fluentd"
+  },
+  "url": "/docs/infrastructure/observability/fluentd/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:observability-system:fluentd.json",
+  "document_refs": [
+    "doc:docs/infrastructure/observability/fluentd/overview.mdx",
+    "doc:docs/infrastructure/observability/fluentd/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/observability/fluentd/overview.mdx",
+      "title": "Fluentd",
+      "url": "/docs/infrastructure/observability/fluentd/overview",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- Fluentd Docs / Configuration\n\n## Fluentd\n\nhttps://kubesphere.io/blogs/deep-dive-into-ku…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "fluentd",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/fluentd/install.mdx",
+      "title": "Fluentd 설치 가이드",
+      "url": "/docs/infrastructure/observability/fluentd/install",
+      "snippet": "Fluentd 개요 문서에서 기본 파이프라인과 설정 모델을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Fluent Helm Charts\n\n``shell\nh…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "fluentd",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/fluentd/overview.mdx:about_subject:subject:infrastructure:observability-system:fluentd",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/fluentd/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/fluentd/install.mdx:about_subject:subject:infrastructure:observability-system:fluentd",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/fluentd/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

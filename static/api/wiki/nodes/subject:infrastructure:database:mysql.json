@@ -1,0 +1,179 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:database:mysql",
+  "title": "MySQL",
+  "snippet": "## CMD\n\n### Execute .sql\n\n- https://dev.mysql.com/doc/refman/8.0/en/mysql-batch-commands.html\n\n``shell\nmysql\n`\n\nor\n\n`sql\nSOUR…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "database",
+    "instance": "mysql"
+  },
+  "url": "/docs/infrastructure/database/mysql/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:database:mysql.json",
+  "document_refs": [
+    "doc:docs/infrastructure/database/mysql/overview.mdx",
+    "doc:docs/infrastructure/database/mysql/aggregate.mdx",
+    "doc:docs/infrastructure/database/mysql/explain.mdx",
+    "doc:docs/infrastructure/database/mysql/join.mdx",
+    "doc:docs/infrastructure/database/mysql/lock.mdx",
+    "doc:docs/infrastructure/database/mysql/stored-program.mdx",
+    "doc:docs/infrastructure/database/mysql/user.mdx",
+    "doc:docs/infrastructure/database/mysql/window.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/database/mysql/overview.mdx",
+      "title": "MySQL",
+      "url": "/docs/infrastructure/database/mysql/overview",
+      "snippet": "## CMD\n\n### Execute .sql\n\n- https://dev.mysql.com/doc/refman/8.0/en/mysql-batch-commands.html\n\n``shell\nmysql\n`\n\nor\n\n`sql\nSOUR…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/aggregate.mdx",
+      "title": "Aggregate",
+      "url": "/docs/infrastructure/database/mysql/aggregate",
+      "snippet": "## GROUP BY\n\n## COUNT\n\n- https://dev.mysql.com/doc/refman/8.0/en/aggregate-functions.html#function_count",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "aggregate"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/explain.mdx",
+      "title": "EXPLAIN",
+      "url": "/docs/infrastructure/database/mysql/explain",
+      "snippet": "## EXPLAIN(DESCRIBE)\n\n- https://dev.mysql.com/doc/refman/8.0/en/explain.html\n\nEXPLAIN과 DES…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "explain"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/join.mdx",
+      "title": "JOIN",
+      "url": "/docs/infrastructure/database/mysql/join",
+      "snippet": "- https://dev.mysql.com/doc/refman/8.0/en/join.html\n\n## [INNER] JOIN\n\n``sql\nSELECT\n\nFROM\n AS\n [INNE…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "join"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/lock.mdx",
+      "title": "Lock",
+      "url": "/docs/infrastructure/database/mysql/lock",
+      "snippet": "## Row-Level Lock\n\n- https://dev.mysql.com/doc/refman/8.0/en/innodb-locking-reads.html\n\n### FOR SHARE\n\n``sql\nSELECT ..…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "lock"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/stored-program.mdx",
+      "title": "Stored Program",
+      "url": "/docs/infrastructure/database/mysql/stored-program",
+      "snippet": "… 끝난 후엔 다시 ;로 변경해야 합니다.\n\n## PROCEDURE\n\n- https://dev.mysql.com/doc/refman/8.0/en/stored-programs-defining.html\n\n### CREATE PROCEDURE\n\n``sql\nDELIMITER $$\nCREATE PROCEDURE (\n [ …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "stored-program"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/user.mdx",
+      "title": "MySQL User(Role)",
+      "url": "/docs/infrastructure/database/mysql/user",
+      "snippet": "## CREATE USER\n\n- https://dev.mysql.com/doc/refman/8.0/en/create-user.html\n- https://dev.mysql.com/doc/refman/8.0/e…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "user"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/database/mysql/window.mdx",
+      "title": "WINDOW",
+      "url": "/docs/infrastructure/database/mysql/window",
+      "snippet": "## OVER\n\n- https://dev.mysql.com/doc/refman/8.0/en/window-functions-usage.html\n\nwindow를 사용하는 또는 할 수 있는 함수에 OVER를 사용하여 window를 넘겨줄 수 있습니다.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "mysql",
+        "aspect": "window"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/overview.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/aggregate.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/aggregate.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/explain.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/explain.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/join.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/join.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/lock.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/lock.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/stored-program.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/stored-program.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/user.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/user.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/database/mysql/window.mdx:about_subject:subject:infrastructure:database:mysql",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/database/mysql/window.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

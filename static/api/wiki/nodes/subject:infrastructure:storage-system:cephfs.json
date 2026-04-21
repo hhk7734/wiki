@@ -1,0 +1,45 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-system:cephfs",
+  "title": "Ceph Shared File System(CephFS)",
+  "snippet": "…DirPath: /var/lib/kubelet\n`\n\n### CephFilesystem 생성\n\n- Rook / Filesystem Storage Overview\n- Rook / CephFilesystem CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephFilesy…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-system",
+    "instance": "cephfs"
+  },
+  "url": "/docs/infrastructure/storage/cephfs/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-system:cephfs.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/cephfs/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/cephfs/overview.mdx",
+      "title": "Ceph Shared File System(CephFS)",
+      "url": "/docs/infrastructure/storage/cephfs/overview",
+      "snippet": "…DirPath: /var/lib/kubelet\n`\n\n### CephFilesystem 생성\n\n- Rook / Filesystem Storage Overview\n- Rook / CephFilesystem CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephFilesy…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "cephfs",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/cephfs/overview.mdx:about_subject:subject:infrastructure:storage-system:cephfs",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/cephfs/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-system:cephfs:depends_on:subject:infrastructure:storage-system:ceph",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

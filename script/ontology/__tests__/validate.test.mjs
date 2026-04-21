@@ -71,11 +71,11 @@ test("validateEntries does not derive target alignment from ontology for taxonom
 		validateEntries(
 			[
 				{
-					source: "docs/data/concepts/ontology.mdx",
-					target: "docs/data/concepts/ontology-copy.mdx",
+					source: "docs/knowledge/concepts/ontology.mdx",
+					target: "docs/knowledge/concepts/ontology-copy.mdx",
 					ontology: {
 						role: "concept",
-						domain: "data",
+						domain: "knowledge",
 						class: "concept",
 						instance: "ontology",
 						aspect: "overview",
@@ -92,11 +92,11 @@ test("validateRegistryDeterminism requires exact targets for taxonomy-path regis
 		validateRegistryDeterminism(
 			[
 				{
-					source: "docs/data/concepts/ontology.mdx",
-					target: "docs/data/concepts/ontology.mdx",
+					source: "docs/knowledge/concepts/ontology.mdx",
+					target: "docs/knowledge/concepts/ontology.mdx",
 					ontology: {
 						role: "concept",
-						domain: "data",
+						domain: "knowledge",
 						class: "concept",
 						instance: "ontology",
 						aspect: "overview",
@@ -116,11 +116,11 @@ test("validateRegistryDeterminism requires exact targets for taxonomy-path regis
 			],
 				[
 					{
-						source: "docs/data/concepts/ontology.mdx",
-						target: "docs/data/concepts/ontology.mdx",
+						source: "docs/knowledge/concepts/ontology.mdx",
+						target: "docs/knowledge/concepts/ontology.mdx",
 						ontology: {
 							role: "concept",
-							domain: "data",
+							domain: "knowledge",
 						class: "concept",
 						instance: "ontology",
 						aspect: "overview",
@@ -148,11 +148,11 @@ test("validateRegistryDeterminism rejects taxonomy entries that keep legacy targ
 			validateRegistryDeterminism(
 				[
 					{
-						source: "docs/data/concepts/ontology.mdx",
-						target: "docs/data/concepts/ontology.mdx",
+						source: "docs/knowledge/concepts/ontology.mdx",
+						target: "docs/knowledge/concepts/ontology.mdx",
 						ontology: {
 							role: "concept",
-							domain: "data",
+							domain: "knowledge",
 							class: "concept",
 							instance: "ontology",
 							aspect: "overview",
@@ -161,11 +161,11 @@ test("validateRegistryDeterminism rejects taxonomy entries that keep legacy targ
 				],
 				[
 					{
-						source: "docs/data/concepts/ontology.mdx",
-						target: "docs/data/concepts/ontology-copy.mdx",
+						source: "docs/knowledge/concepts/ontology.mdx",
+						target: "docs/knowledge/concepts/ontology-copy.mdx",
 						ontology: {
 							role: "concept",
-							domain: "data",
+							domain: "knowledge",
 							class: "concept",
 							instance: "ontology",
 							aspect: "overview",
@@ -486,58 +486,58 @@ test("rewriteDocLinks updates absolute doc links using the registry map", () => 
 
 test("rewriteDocLinks updates absolute doc links without extensions", () => {
 	const output = rewriteDocLinks(
-		"See [Lua](/docs/platform/nvim/lua#options) and [k0s](/docs/mlops/k0s/install#worker).",
+		"See [Lua](/docs/system/nvim/lua#options) and [k0s](/docs/infrastructure/kubernetes/k0s/install#worker).",
 		new Map([
-			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
-			["/docs/mlops/k0s/install", "/docs/mlops/k0s/install"],
+			["/docs/system/nvim/lua", "/docs/system/nvim/lua"],
+			["/docs/infrastructure/kubernetes/k0s/install", "/docs/infrastructure/kubernetes/k0s/install"],
 		]),
 	);
 
-	assert.match(output, /\/docs\/platform\/nvim\/lua#options/);
-	assert.match(output, /\/docs\/mlops\/k0s\/install#worker/);
+	assert.match(output, /\/docs\/system\/nvim\/lua#options/);
+	assert.match(output, /\/docs\/infrastructure\/kubernetes\/k0s\/install#worker/);
 });
 
 test("rewriteDocLinks rewrites real links but skips fenced code blocks and plain literals", () => {
 	const output = rewriteDocLinks(
 		[
-			'See [Go](/docs/language/go/overview.mdx), <a href="/docs/protocol/http/cors">CORS</a>, and <Link to="/docs/platform/nvim/lua#options">Lua</Link>.',
+			'See [Go](/docs/language/go/overview.mdx), <a href="/docs/protocol/http/cors">CORS</a>, and <Link to="/docs/system/nvim/lua#options">Lua</Link>.',
 			"Literal /docs/language/go/overview.mdx should stay untouched.",
 			"",
 			"```js",
 			'const sample = "[Go](/docs/language/go/overview.mdx)";',
-			'<Link to="/docs/platform/nvim/lua#options">Lua</Link>;',
+			'<Link to="/docs/system/nvim/lua#options">Lua</Link>;',
 			"```",
 		].join("\n"),
 		new Map([
 			["/docs/language/go/overview.mdx", "/docs/language/go/overview.mdx"],
 			["/docs/protocol/http/cors", "/docs/protocol/http/cors"],
-			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
+			["/docs/system/nvim/lua", "/docs/system/nvim/lua"],
 		]),
 	);
 
-	// Prose links should move.
+	// Prose links should be rewritten or preserved according to the registry map.
 	assert.match(output, /\[Go\]\(\/docs\/language\/go\/overview\.mdx\)/);
 	assert.match(output, /href="\/docs\/protocol\/http\/cors"/);
-	assert.match(output, /to="\/docs\/platform\/nvim\/lua#options"/);
+	assert.match(output, /to="\/docs\/system\/nvim\/lua#options"/);
 
 	// Plain text and fenced code should stay literal.
 	assert.match(output, /Literal \/docs\/language\/go\/overview\.mdx should stay untouched\./);
 	assert.match(output, /const sample = "\[Go\]\(\/docs\/language\/go\/overview\.mdx\)";/);
-	assert.match(output, /<Link to="\/docs\/platform\/nvim\/lua#options">Lua<\/Link>;/);
+	assert.match(output, /<Link to="\/docs\/system\/nvim\/lua#options">Lua<\/Link>;/);
 });
 
 test("rewriteDocLinks preserves inline code spans", () => {
 	const output = rewriteDocLinks(
-		'Use `[Go](/docs/language/go/overview.mdx)` literally, but see [Go](/docs/language/go/overview.mdx) and <Link to="/docs/platform/nvim/lua#options">Lua</Link>.',
+		'Use `[Go](/docs/language/go/overview.mdx)` literally, but see [Go](/docs/language/go/overview.mdx) and <Link to="/docs/system/nvim/lua#options">Lua</Link>.',
 		new Map([
 			["/docs/language/go/overview.mdx", "/docs/language/go/overview.mdx"],
-			["/docs/platform/nvim/lua", "/docs/platform/nvim/lua"],
+			["/docs/system/nvim/lua", "/docs/system/nvim/lua"],
 		]),
 	);
 
 	assert.match(output, /`\[Go\]\(\/docs\/language\/go\/overview\.mdx\)` literally/);
 	assert.match(output, /\[Go\]\(\/docs\/language\/go\/overview\.mdx\)/);
-	assert.match(output, /to="\/docs\/platform\/nvim\/lua#options"/);
+	assert.match(output, /to="\/docs\/system\/nvim\/lua#options"/);
 });
 
 test("listRewriteTargets includes docs/AGENTS.md", () => {

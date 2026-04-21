@@ -1,0 +1,129 @@
+---
+id: overview
+title: "Rook Ceph"
+sidebar_label: "Rook Ceph"
+description: "Rook Ceph"
+keywords:
+  - Rook
+  - Ceph
+ontology:
+  role: entity
+  domain: infrastructure
+  class: storage-system
+  instance: rook-ceph
+  aspect: overview
+subject:
+  canonical_name: "Rook Ceph"
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - ceph
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+## Rook
+
+<center>
+	<img src={useBaseUrl("img/mlops/storage/ceph/rook-ceph.png")} />
+	<strong>https://rook.io/docs/rook/latest-release/Getting-Started/storage-architecture/#architecture</strong>
+</center>
+
+## Rook Operator 설치
+
+:::info[References]
+
+- [Rook / Ceph Operator Helm Chart](https://rook.io/docs/rook/latest-release/Helm-Charts/operator-chart/)
+
+:::
+
+```shell
+helm repo add rook-release https://charts.rook.io/release
+```
+
+```shell
+helm repo update rook-release \
+&& helm search repo rook-release/rook-ceph -l | head -n 10
+```
+
+```shell
+helm pull rook-release/rook-ceph --version v1.18.2
+```
+
+```shell
+helm show values rook-release/rook-ceph --version v1.18.2 > rook-ceph-v1.18.2.yaml
+```
+
+```yaml title="rook-ceph-values.yaml"
+crds:
+  enabled: true
+
+resources:
+  requests:
+    cpu: 200m
+    memory: 128Mi
+  limits:
+    cpu: "1"
+    memory: 512Mi
+
+tolerations: []
+
+csi:
+  enableRbdDriver: false
+  enableRBDSnapshotter: false
+
+  enableCephfsDriver: false
+  enableCephfsSnapshotter: false
+
+  nfs:
+    enabled: false
+  enableNFSSnapshotter: false
+
+  enableVolumeGroupSnapshot: false
+```
+
+```shell
+helm template rook-ceph rook-release/rook-ceph \
+    --version v1.18.2 \
+    -n rook-ceph \
+    -f rook-ceph-values.yaml \
+    > rook-ceph.yaml
+```
+
+```shell
+helm upgrade -i rook-ceph rook-release/rook-ceph \
+    --history-max 5 \
+    --version v1.18.2 \
+    -n rook-ceph \
+    -f rook-ceph-values.yaml
+```
+
+## 업그레이드
+
+:::info[References]
+
+- [Rook / Rook Upgrades](https://rook.io/docs/rook/latest-release/Upgrade/rook-upgrade)
+
+:::
+
+- rook-ceph\(Operator\)을 업그레이드 합니다.
+- CR을 업그레이드 합니다.
+  - CephCluster의 cephVersion.image를 업그레이드 합니다.
+
+## 삭제
+
+```shell
+helm uninstall rook-ceph -n rook-ceph
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'ceph.rook.io\|objectbucket.io\|csi.ceph.io' | xargs kubectl delete
+```

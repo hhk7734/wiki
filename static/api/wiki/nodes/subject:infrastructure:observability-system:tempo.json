@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:observability-system:tempo",
+  "title": "Grafana Tempo(Tracing)",
+  "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "tempo"
+  },
+  "url": "/docs/infrastructure/observability/tempo/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:observability-system:tempo.json",
+  "document_refs": [
+    "doc:docs/infrastructure/observability/tempo/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/observability/tempo/install.mdx",
+      "title": "Grafana Tempo(Tracing)",
+      "url": "/docs/infrastructure/observability/tempo/install",
+      "snippet": "## 설치\n\n``shell\nhelm repo add grafana https://grafana.github.io/helm-charts\n`\n\n`shell\nhelm repo update grafana \\\n&& h…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "tempo",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/tempo/install.mdx:about_subject:subject:infrastructure:observability-system:tempo",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/tempo/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

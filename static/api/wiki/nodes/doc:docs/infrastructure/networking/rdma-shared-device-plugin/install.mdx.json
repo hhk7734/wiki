@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/rdma-shared-device-plugin/install.mdx",
+  "title": "RDMA Shared Device Plugin 설치 가이드",
+  "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/rdma-shared-device-plugin -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/rdma-shared-device-plugin --version…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "rdma-shared-device-plugin",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/networking/rdma-shared-device-plugin/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/rdma-shared-device-plugin/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:rdma-shared-device-plugin",
+    "title": "RDMA Shared Device Plugin",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "rdma-shared-device-plugin"
+    },
+    "url": "/docs/infrastructure/networking/rdma-shared-device-plugin/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/rdma-shared-device-plugin/install.mdx:about_subject:subject:infrastructure:networking-stack:rdma-shared-device-plugin",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:rdma-shared-device-plugin",
+      "direction": "outgoing"
+    }
+  ]
+}

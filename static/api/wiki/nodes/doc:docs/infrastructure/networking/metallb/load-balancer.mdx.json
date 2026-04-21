@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/metallb/load-balancer.mdx",
+  "title": "MetalLB Load Balancer 사용하기",
+  "snippet": "…- LabelSelector\n\n## Advertisement\n\n- L2Advertisement\n- BGPAdvertisement\n\n## LoadBalancer Service\n\n- MetalLB / Usage\n\n`yaml\napiVersion: v1\nkind: Service\nmetadata:\n annot…",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "metallb",
+    "aspect": "load-balancer"
+  },
+  "url": "/docs/infrastructure/networking/metallb/load-balancer",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/metallb/load-balancer.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:metallb",
+    "title": "MetalLB ARP/NDP 사용하기",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "metallb"
+    },
+    "url": "/docs/infrastructure/networking/metallb/arp"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/metallb/load-balancer.mdx:about_subject:subject:infrastructure:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:metallb",
+      "direction": "outgoing"
+    }
+  ]
+}

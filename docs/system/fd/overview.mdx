@@ -1,0 +1,64 @@
+---
+id: overview
+title: fd
+sidebar_label: fd
+description: fd
+keywords:
+  - "fd"
+ontology:
+  role: entity
+  domain: system
+  class: tool
+  instance: fd
+  aspect: overview
+subject:
+  canonical_name: "fd"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## fd
+
+- https://github.com/sharkdp/fd
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Debian', value: 'debian',}
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+sudo pacman -S fd
+```
+
+</TabItem>
+
+<TabItem value="debian">
+
+```shell
+sudo apt install -y fd-find
+```
+
+```shell
+sudo update-alternatives --install /usr/local/bin/fd fd $(which fdfind) 1
+```
+
+</TabItem>
+
+</Tabs>

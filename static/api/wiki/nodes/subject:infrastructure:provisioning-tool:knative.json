@@ -1,0 +1,79 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:provisioning-tool:knative",
+  "title": "Knative Serving CRDs",
+  "snippet": "…n]\n Route --routes traffic to --> Revision1\n`\n\n## Service\n\n- https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-2\n\n`yaml…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "knative"
+  },
+  "url": "/docs/infrastructure/kubernetes/knative/serving-crds",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:provisioning-tool:knative.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/knative/serving-crds.mdx",
+    "doc:docs/infrastructure/kubernetes/knative/autoscaling.mdx",
+    "doc:docs/infrastructure/kubernetes/knative/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/knative/serving-crds.mdx",
+      "title": "Knative Serving CRDs",
+      "url": "/docs/infrastructure/kubernetes/knative/serving-crds",
+      "snippet": "…n]\n Route --routes traffic to --> Revision1\n`\n\n## Service\n\n- https://github.com/knative/specs/blob/main/specs/serving/knative-api-specification-1.0.md#service-2\n\n`yaml…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "knative",
+        "aspect": "serving-crds"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/knative/autoscaling.mdx",
+      "title": "Knative Auto Scaling 설정하기",
+      "url": "/docs/infrastructure/kubernetes/knative/autoscaling",
+      "snippet": "## KPA/HPA\n\n- https://knative.dev/docs/serving/autoscaling/autoscaler-types/\n\n- KPA(Knative Pod Autoscaler)\n - Knative에서 제공하는 기본적인 Pod Aut…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "knative",
+        "aspect": "autoscaling"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/kubernetes/knative/install.mdx",
+      "title": "Knative",
+      "url": "/docs/infrastructure/kubernetes/knative/install",
+      "snippet": "## 설치\n\n``shell\nhelm show values knative-operator-0.1.0.tgz \\\nknative-operator-values.yaml\n`\n\n`shell\nhelm template knati…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "knative",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/knative/serving-crds.mdx:about_subject:subject:infrastructure:provisioning-tool:knative",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/knative/serving-crds.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/knative/autoscaling.mdx:about_subject:subject:infrastructure:provisioning-tool:knative",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/knative/autoscaling.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/knative/install.mdx:about_subject:subject:infrastructure:provisioning-tool:knative",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/knative/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

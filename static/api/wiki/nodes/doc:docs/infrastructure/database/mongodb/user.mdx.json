@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/database/mongodb/user.mdx",
+  "title": "MongoDB User(Role)",
+  "snippet": "…User\n\n``js\n// use\n\ndb.createUser({\n user: \"\",\n pwd: \"\", // or passwordPrompt()\n roles: [\n // \"\",\n { role: \"\", db: \"\" },\n ],\n});\n``\n\n### User에 Role 부여하기\n\n- grantRole…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "database",
+    "instance": "mongodb",
+    "aspect": "user"
+  },
+  "url": "/docs/infrastructure/database/mongodb/user",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/database/mongodb/user.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:database:mongodb",
+    "title": "MongoDB",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "database",
+      "instance": "mongodb"
+    },
+    "url": "/docs/infrastructure/database/mongodb/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/database/mongodb/user.mdx:about_subject:subject:infrastructure:database:mongodb",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:database:mongodb",
+      "direction": "outgoing"
+    }
+  ]
+}

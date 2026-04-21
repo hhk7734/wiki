@@ -1,0 +1,51 @@
+---
+id: deprovisioning
+title: "Karpenter Deprovisioning"
+sidebar_label: Deprovisioning
+description: "Karpenter Deprovisioning"
+keywords:
+  - karpenter
+  - deprovisioning
+ontology:
+  role: entity
+  domain: infrastructure
+  class: provisioning-tool
+  instance: karpenter
+  aspect: deprovisioning
+subject:
+  canonical_name: Karpenter
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Interruption
+
+- https://karpenter.sh/docs/concepts/deprovisioning/#interruption
+
+<br />
+
+- Spot 중단 경고(종료 2분 전)
+- Instance 종료 이벤트
+- Instance 중지 이벤트
+- 예약된 Change Health 이벤트(Maintenance 이벤트)
+
+## do-not-evict 설정된 Pod
+
+```yaml
+metadata:
+  annotations:
+    karpenter.sh/do-not-evict: "true"
+```
+
+노드에 `karpenter.sh/do-not-evict: "true"` annotation이 설정된 실행 중인 Pod이 있는 경우 해당 노드는 제거 대상에서 제외됩니다.
+
+처음부터 끝까지 종료 없이 실행되어야하는 Workload를 karpenter가 강제로 종료하지 않도록 하기 위해 사용하면 유용합니다.

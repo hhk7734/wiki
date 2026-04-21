@@ -1,0 +1,65 @@
+---
+id: scheduling
+title: "Karpenter Scheduling"
+sidebar_label: Scheduling
+description: "Karpenter Scheduling"
+keywords:
+  - karpenter
+  - scheduling
+ontology:
+  role: entity
+  domain: infrastructure
+  class: provisioning-tool
+  instance: karpenter
+  aspect: scheduling
+subject:
+  canonical_name: Karpenter
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Well-Knwon Labels
+
+- https://karpenter.sh/docs/concepts/scheduling/#well-known-labels
+
+<br />
+
+- `topology.kubernetes.io/zone`
+  - AWS: `<zone>` = `<awsAvailabilityZone>`
+- `node.kubernetes.io/instance-type`
+  - AWS: `<instanceType>`=`<instanceCategory><instanceGeneration>[<attribute>].<instanceSize>`
+    - `c5n.xlarge` = `c` + `5` + `n` + `xlarge`
+- `karpenter.sh/capacity-type`: `on-demand`|`spot`, 둘 다 선언하면 우선순위는 1.`spot` 2.`on-demand` 입니다.
+- `karpenter.k8s.aws/instance-category`
+- `karpenter.k8s.aws/instance-generation`
+- `karpenter.k8s.aws/instance-family`
+  - AWS: `<instanceFamily>` = `<instanceCategory><instanceGeneration>[<attribute>]`
+- `karpenter.k8s.aws/instance-size`
+- `karpenter.k8s.aws/instance-cpu`
+- `karpenter.k8s.aws/instance-memory`
+
+## Affinity
+
+- [Affinity](/docs/infrastructure/kubernetes/kubernetes/scheduling/affinity.mdx)
+
+## Topology Spread
+
+- [Topology Spread Constraints](/docs/infrastructure/kubernetes/kubernetes/scheduling/topology-spread-constraints.mdx)
+
+<br />
+
+- `topologyKey`
+  - `topology.kubernetes.io/zone`
+  - `kubernetes.io/hostname`
+  - `karpenter.sh/capacity-type`
+    - 안정성과 비용을 고려하여 `on-demand`와 `spot`을 모두 사용하면서 그 수를 조절하고 싶을 때 사용할 수 있습니다.
+    - https://karpenter.sh/docs/concepts/scheduling/#on-demandspot-ratio-split

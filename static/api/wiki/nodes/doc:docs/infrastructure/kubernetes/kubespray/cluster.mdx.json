@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/kubespray/cluster.mdx",
+  "title": "Kubespray로 Kubernetes 클러스터 생성하기",
+  "snippet": "…control_plane'].index(inventory_hostname) }}0:00\"\n - systemd.time\n- Audit 로그\n - Kubernetes Audit 정책 설정하기\n - kubernetes_audit: false\n - audit_log_maxage: 30\n - audit_log_m…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "kubespray",
+    "aspect": "cluster"
+  },
+  "url": "/docs/infrastructure/kubernetes/kubespray/cluster",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/kubespray/cluster.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-orchestrator:kubespray",
+    "title": "Kubespray Control Plane HA endpoint 구성",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-orchestrator",
+      "instance": "kubespray"
+    },
+    "url": "/docs/infrastructure/kubernetes/kubespray/ha"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/kubespray/cluster.mdx:about_subject:subject:infrastructure:cluster-orchestrator:kubespray",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-orchestrator:kubespray",
+      "direction": "outgoing"
+    }
+  ]
+}

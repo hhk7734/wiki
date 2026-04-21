@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/vpc/aws.mdx",
+  "title": "VPC",
+  "snippet": "``mermaid\nflowchart\n subgraph VPC\n InternetGateway(InternetGateway)\n\n NatGateway-1 --> InternetGateway\n NatGatewa…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "vpc",
+    "aspect": "aws"
+  },
+  "url": "/docs/infrastructure/networking/vpc/aws",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/vpc/aws.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:vpc",
+    "title": "VPC",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "vpc"
+    },
+    "url": "/docs/infrastructure/networking/vpc/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/vpc/aws.mdx:about_subject:subject:infrastructure:networking-stack:vpc",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:vpc",
+      "direction": "outgoing"
+    }
+  ]
+}

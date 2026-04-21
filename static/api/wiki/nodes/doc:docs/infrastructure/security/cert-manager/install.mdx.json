@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/security/cert-manager/install.mdx",
+  "title": "cert-manager",
+  "snippet": "## 설치\n\n- cert-manager / Helm\n\n``shell\nhelm pull oci://quay.io/jetstack/charts/cert-manager --version …",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "cert-manager",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/security/cert-manager/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/cert-manager/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:auth-system:cert-manager",
+    "title": "Let's Encrypt with cert-manager",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "auth-system",
+      "instance": "cert-manager"
+    },
+    "url": "/docs/infrastructure/security/cert-manager/lets-encrypt"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/cert-manager/install.mdx:about_subject:subject:infrastructure:auth-system:cert-manager",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:auth-system:cert-manager",
+      "direction": "outgoing"
+    }
+  ]
+}

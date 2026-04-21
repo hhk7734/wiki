@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/coredns/install.mdx",
+  "title": "CoreDNS",
+  "snippet": "## 설치\n\n- https://github.com/coredns/helm\n\n``shell\nhelm repo add coredns https://coredns.github.io/helm\n`\n\n`shell\nhe…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "coredns",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/networking/coredns/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/coredns/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:coredns",
+    "title": "CoreDNS Plugin",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "coredns"
+    },
+    "url": "/docs/infrastructure/networking/coredns/plugin"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/coredns/install.mdx:about_subject:subject:infrastructure:networking-stack:coredns",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:coredns",
+      "direction": "outgoing"
+    }
+  ]
+}

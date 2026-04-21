@@ -1,0 +1,163 @@
+---
+id: basics
+title: "Debian Package Basics"
+sidebar_label: Basics
+description: "Debian Package Basics"
+keywords:
+  - Debian
+  - package
+ontology:
+  role: operation
+  domain: system
+  class: package-manager
+  instance: debian-package
+  aspect: basics
+subject:
+  canonical_name: "Debian Package"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+Ref: [https://www.debian.org/doc/manuals/debmake-doc/](https://www.debian.org/doc/manuals/debmake-doc/)
+
+## Pre-installation
+
+```shell
+sudo apt-get install -y debmake
+```
+
+터미널에서 bash를 사용하면 `~/.bashrc`, zsh을 사용하면 `~/.zshrc`의 마지막 줄에 아래와 같은 코드를 삽입합니다.
+
+```shell
+export DEBEMAIL="hhk7734@gmail.com"
+export DEBFULLNAME="Hyeonki Hong"
+```
+
+## Creating template files
+
+아래 명령어를 통해 `<package>`와 동일한 디렉터리에 `<package>-<version>`, `<package>-<version>.tar.gz`, `<package>_<version>.orig.tar.gz`이 생성됩니다.
+
+생성된 template files은 `<package>-<version>` 디렉터리에서 확인 가능합니다.
+
+`<package>`디렉터리로 이동 후 아래 명령어를 실행합니다.
+
+```shell
+debmake -t -p <package> -u <version> [-r <revision>] -x[0-4]
+```
+
+### Examples
+
+```shell {1}
+$ debmake -t -p <package> -u <version> [-r <revision>] -x0
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── control
+│   ├── copyright
+│   └── rules
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+```shell {1}
+$ debmake -t -p <package> -u <version> [-r <revision>] [-x1]
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── compat
+│   ├── control
+│   ├── copyright
+│   ├── patches
+│   │   └── series
+│   ├── README.Debian
+│   ├── rules
+│   ├── source
+│   │   ├── format
+│   │   └── local-options
+│   └── watch
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+```shell {1}
+$ debmake -t -p <package> -u <version> [-r <revision>] -x2
+<package>-<version>
+├── debian
+│   ├── changelog
+│   ├── clean
+│   ├── compat
+│   ├── control
+│   ├── copyright
+│   ├── install
+│   ├── links
+│   ├── menu
+│   ├── patches
+│   │   └── series
+│   ├── postinst
+│   ├── postrm
+│   ├── preinst
+│   ├── prerm
+│   ├── README.Debian
+│   ├── rules
+│   ├── source
+│   │   ├── format
+│   │   └── local-options
+│   └── watch
+├── LICENSE
+├── Makefile
+└── ...
+```
+
+## Required files
+
+Ref: [https://www.debian.org/doc/manuals/maint-guide/dreq.en.html](https://www.debian.org/doc/manuals/maint-guide/dreq.en.html)
+
+### control
+
+Ref: [https://www.debian.org/doc/debian-policy/ch-controlfields.html](https://www.debian.org/doc/debian-policy/ch-controlfields.html)
+
+```ini
+Source: pack
+Section: libs
+Priority: optional
+Maintainer: Hyeonki Hong <hhk7734@gmail.com>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: https://docs.loliot.net
+
+Package: pack
+Architecture: arm64 armhf
+Section: libs
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description:
+
+Package: pack-config
+Architecture: arm64 armhf
+Section: utils
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description:
+
+Package: pack-dev
+Architecture: arm64 armhf
+Section: devel
+Depends: ${misc:Depends}, ${shlibs:Depends}, pack (= ${binary:Version})
+Suggests: pack-config
+Description:
+```
+
+위와 같이 control을 작성하면 아래와 같은 명령어로 설치가 가능합니다.
+
+```shell
+sudo apt-get install pack pack-config pack-dev
+```

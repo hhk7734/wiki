@@ -1,0 +1,70 @@
+---
+id: create
+title: SES
+sidebar_label: SES
+description: SES
+keywords:
+  - SES
+ontology:
+  role: operation
+  domain: infrastructure
+  class: cloud-service
+  instance: ses
+  aspect: create
+subject:
+  canonical_name: SES
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Create
+
+```python
+import pulumi
+import pulumi_aws as aws
+import pulumi_cloudflare as cloudflare
+
+name = "ses"
+ses = aws.ses.DomainIdentity(
+    name,
+    domain="<domain>",
+    opts=pulumi.ResourceOptions(protect=True),
+)
+
+name = "ses-dkim"
+ses_dkim = aws.ses.DomainDkim(
+    name,
+    domain="<domain>",
+    opts=pulumi.ResourceOptions(parent=ses, protect=True),
+)
+
+
+for i in range(3):
+    name = f"ses-dkim-record-{i}"
+    cloudflare.Record(
+        name,
+        zone_id="<id>",
+        type="CNAME",
+        name=ses_dkim.dkim_tokens[i].apply(
+            lambda x: f"{x}._domainkey" # subdomain이 있다면 subdomain까지 입력
+        ),
+        value=ses_dkim.dkim_tokens[i].apply(
+            lambda x: f"{x}.dkim.amazonses.com"
+        ),
+        ttl=1,  # auto
+        opts=pulumi.ResourceOptions(parent=ses_dkim, protect=True),
+    )
+```
+
+## Production access request
+
+SES 생성 후 Production access request를 해야 메일 전송에 대한 제약조건이 사라집니다.

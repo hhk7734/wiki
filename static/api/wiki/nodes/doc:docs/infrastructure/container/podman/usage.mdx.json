@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/container/podman/usage.mdx",
+  "title": "Podman 사용 가이드",
+  "snippet": "… flags\n - -f|--file : Dockerfile 경로\n - -t|--tag\n\n### ShellScript\n\n`shell title=\"containerize.sh\"\n#!/usr/bin/env bash\n\nset -x\n\nbuild=$(buildah from golang:1.17)\nbuild_roo…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "container-platform",
+    "instance": "podman",
+    "aspect": "usage"
+  },
+  "url": "/docs/infrastructure/container/podman/usage",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/container/podman/usage.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:container-platform:podman",
+    "title": "Podman, Buildah, Skopeo",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "container-platform",
+      "instance": "podman"
+    },
+    "url": "/docs/infrastructure/container/podman/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/podman/usage.mdx:about_subject:subject:infrastructure:container-platform:podman",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:container-platform:podman",
+      "direction": "outgoing"
+    }
+  ]
+}

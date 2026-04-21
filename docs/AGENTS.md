@@ -25,29 +25,33 @@ Use one of these path patterns:
 ```text
 docs/<topic>/<subject>/<page>.mdx
 docs/<topic>/<subject>/<facet>/<page>.mdx
+docs/<topic>/<area>/<page>.mdx
+docs/<topic>/<area>/<subject>/<page>.mdx
+docs/<topic>/<area>/<subject>/<facet>/<page>.mdx
 docs/<topic>/concepts/<concept>.mdx
 docs/<topic>/comparisons/<name>.mdx
 docs/<topic>/reference/<name>.mdx
-docs/comparison/<area>/<subject>/<facet>/<page>.mdx
 ```
 
 Path semantics:
 
 - `topic`: broad navigation bucket
+- `area`: operational grouping used by area-based topics such as `infrastructure`
 - `subject`: primary human-facing subject anchor
 - `facet`: optional slice within a subject
 - `page`: filename and canonical route leaf
-- `area`: the comparison topic's broad domain grouping
 
 Examples:
 
 ```text
-docs/data/concepts/ontology.mdx
-docs/data/concepts/taxonomy.mdx
+docs/knowledge/concepts/ontology.mdx
+docs/knowledge/concepts/taxonomy.mdx
 docs/language/go/overview.mdx
 docs/language/go/syntax/interface.mdx
-docs/mlops/pulumi/config.mdx
-docs/comparison/data/database/type/type.mdx
+docs/infrastructure/iac/pulumi/config.mdx
+docs/infrastructure/networking/cilium/install.mdx
+docs/infrastructure/database/type.mdx
+docs/system/git/config.mdx
 ```
 
 Path rules:
@@ -62,13 +66,12 @@ Path rules:
 
 Approved top-level topics for maintained docs:
 
-- `comparison`
 - `language`
-- `platform`
+- `system`
+- `infrastructure`
 - `hardware`
 - `protocol`
-- `data`
-- `mlops`
+- `knowledge`
 - `science`
 - `management`
 
@@ -141,22 +144,22 @@ Fixed `role` vocabulary:
 Preferred `domain` vocabulary for this corpus:
 
 - `language`
-- `platform`
+- `system`
+- `infrastructure`
 - `hardware`
 - `protocol`
-- `data`
-- `mlops`
+- `knowledge`
 - `science`
 - `management`
 
 Representative `class` vocabulary:
 
 - `language`: `programming-language`, `library`, `framework`, `toolchain`, `build-tooling`, `environment`, `package`, `api`, `concept`
-- `platform`: `tool`, `kernel`, `bootloader`, `package-manager`
+- `system`: `tool`, `kernel`, `bootloader`, `package-manager`
+- `infrastructure`: `auth-system`, `cloud-service`, `cluster-addon`, `cluster-orchestrator`, `configuration`, `container-platform`, `database`, `eventing-system`, `gateway-api`, `iac-tool`, `ml-platform`, `networking`, `networking-stack`, `object-storage`, `observability-system`, `orchestrator`, `provisioning-tool`, `scheduler`, `security`, `service-mesh`, `serving-system`, `storage`, `storage-interface`, `storage-system`, `tool`, `upgrade-plan`, `workflow-system`, `workload`
 - `hardware`: `mcu-family`, `electronics`
 - `protocol`: `application-protocol`, `api-spec`
-- `data`: `database`, `storage-system`, `storage-interface`, `object-storage`
-- `mlops`: `auth-system`, `cloud-service`, `cluster-addon`, `cluster-orchestrator`, `configuration`, `container-platform`, `eventing-system`, `gateway-api`, `iac-tool`, `ml-platform`, `networking`, `networking-stack`, `observability-system`, `orchestrator`, `provisioning-tool`, `scheduler`, `security`, `service-mesh`, `serving-system`, `storage`, `tool`, `upgrade-plan`, `workflow-system`, `workload`
+- `knowledge`: `concept`
 - `science`: `model-family`, `biology`, `project`
 - `management`: `memo`
 
@@ -184,15 +187,15 @@ Prefer this pattern for subject-owned material:
 
 Examples:
 
-- `docs/mlops/pulumi/overview.mdx`
-- `docs/mlops/pulumi/config.mdx`
-- `docs/mlops/terraform/import.mdx`
-- `docs/mlops/terragrunt/stack.mdx`
+- `docs/infrastructure/iac/pulumi/overview.mdx`
+- `docs/infrastructure/iac/pulumi/config.mdx`
+- `docs/infrastructure/iac/terraform/import.mdx`
+- `docs/infrastructure/iac/terragrunt/stack.mdx`
 
 Avoid synthetic generic paths such as:
 
-- `docs/mlops/config/overview.mdx`
-- `docs/mlops/import/overview.mdx`
+- `docs/infrastructure/iac/config/overview.mdx`
+- `docs/infrastructure/iac/import/overview.mdx`
 
 unless the page is truly cross-tool.
 

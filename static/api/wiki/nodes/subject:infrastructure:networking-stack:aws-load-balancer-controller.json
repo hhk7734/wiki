@@ -1,0 +1,59 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:networking-stack:aws-load-balancer-controller",
+  "title": "AWS Load Balancer Controller 설치하기",
+  "snippet": "…ub.io/aws-load-balancer-controller/v2.6/deploy/installation/#configure-iam\n\n### AWS Load Balancer Controller Role\n\n``ts\nconst controllerRoleName = \"aws-load-balancer-controller-role\";\ncons…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "aws-load-balancer-controller"
+  },
+  "url": "/docs/infrastructure/networking/aws-load-balancer-controller/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:networking-stack:aws-load-balancer-controller.json",
+  "document_refs": [
+    "doc:docs/infrastructure/networking/aws-load-balancer-controller/create.mdx",
+    "doc:docs/infrastructure/networking/aws-load-balancer-controller/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/networking/aws-load-balancer-controller/create.mdx",
+      "title": "AWS Load Balancer 생성하기",
+      "url": "/docs/infrastructure/networking/aws-load-balancer-controller/create",
+      "snippet": "…-elb: 1\n\n## Application Load Balancer 생성하기\n\n- https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.6/guide/ingress/annotations/\n- https://kubernetes.io/ko/docs/concepts/servic…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "aws-load-balancer-controller",
+        "aspect": "create"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/aws-load-balancer-controller/install.mdx",
+      "title": "AWS Load Balancer Controller 설치하기",
+      "url": "/docs/infrastructure/networking/aws-load-balancer-controller/install",
+      "snippet": "…ub.io/aws-load-balancer-controller/v2.6/deploy/installation/#configure-iam\n\n### AWS Load Balancer Controller Role\n\n``ts\nconst controllerRoleName = \"aws-load-balancer-controller-role\";\ncons…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "networking-stack",
+        "instance": "aws-load-balancer-controller",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/aws-load-balancer-controller/create.mdx:about_subject:subject:infrastructure:networking-stack:aws-load-balancer-controller",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/aws-load-balancer-controller/create.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/aws-load-balancer-controller/install.mdx:about_subject:subject:infrastructure:networking-stack:aws-load-balancer-controller",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/aws-load-balancer-controller/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

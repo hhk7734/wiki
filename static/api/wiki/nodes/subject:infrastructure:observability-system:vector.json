@@ -1,0 +1,99 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:observability-system:vector",
+  "title": "Vector",
+  "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "observability-system",
+    "instance": "vector"
+  },
+  "url": "/docs/infrastructure/observability/vector/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:observability-system:vector.json",
+  "document_refs": [
+    "doc:docs/infrastructure/observability/vector/install.mdx",
+    "doc:docs/infrastructure/observability/vector/sink.mdx",
+    "doc:docs/infrastructure/observability/vector/source.mdx",
+    "doc:docs/infrastructure/observability/vector/transform.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/observability/vector/install.mdx",
+      "title": "Vector",
+      "url": "/docs/infrastructure/observability/vector/install",
+      "snippet": "## 설치\n\n- Vector / Install Vector using Helm\n\n``shell\nhelm repo add vector https://helm.vector.dev\n`\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/vector/sink.mdx",
+      "title": "Vector Sink(내보내기)",
+      "url": "/docs/infrastructure/observability/vector/sink",
+      "snippet": "## Sink 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sinks:\n :\n type:\n inputs:\n -\n :\n`\n\n## Console\\(for …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "sink"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/vector/source.mdx",
+      "title": "Vector Source(수집하기)",
+      "url": "/docs/infrastructure/observability/vector/source",
+      "snippet": "## Source 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n sources:\n :\n type:\n :\n`\n\n## Kubernetes Log\n\n- Vecto…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "source"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/observability/vector/transform.mdx",
+      "title": "Vector Transform(변환하기)",
+      "url": "/docs/infrastructure/observability/vector/transform",
+      "snippet": "## Transform 설정 방법\n\n``yaml title=\"vector-values.yaml\"\ncustomConfig:\n transforms:\n :\n type:\n …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "observability-system",
+        "instance": "vector",
+        "aspect": "transform"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/observability/vector/install.mdx:about_subject:subject:infrastructure:observability-system:vector",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/vector/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/vector/sink.mdx:about_subject:subject:infrastructure:observability-system:vector",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/vector/sink.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/vector/source.mdx:about_subject:subject:infrastructure:observability-system:vector",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/vector/source.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/observability/vector/transform.mdx:about_subject:subject:infrastructure:observability-system:vector",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/observability/vector/transform.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

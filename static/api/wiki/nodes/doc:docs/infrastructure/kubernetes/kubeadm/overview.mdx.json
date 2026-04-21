@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/kubeadm/overview.mdx",
+  "title": "Kubeadm",
+  "snippet": "…odcut_uuid\n - ip link\n - sudo cat /sys/class/dmi/id/product_uuid\n\n``yaml title=\"kubeadm-installation.yaml\" {5}\n\n- hosts: all\n become: yes\n vars:\n version: 1.19.15-00\n …",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "kubeadm",
+    "aspect": "overview"
+  },
+  "url": "/docs/infrastructure/kubernetes/kubeadm/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/kubeadm/overview.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-orchestrator:kubeadm",
+    "title": "Kubeadm",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-orchestrator",
+      "instance": "kubeadm"
+    },
+    "url": "/docs/infrastructure/kubernetes/kubeadm/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/kubeadm/overview.mdx:about_subject:subject:infrastructure:cluster-orchestrator:kubeadm",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-orchestrator:kubeadm",
+      "direction": "outgoing"
+    }
+  ]
+}

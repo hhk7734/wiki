@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx",
+  "title": "AMD Kubernetes Device Plugin",
+  "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "k8s-device-plugin",
+    "aspect": "install-amd"
+  },
+  "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-addon:k8s-device-plugin",
+    "title": "AMD Kubernetes Device Plugin",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-addon",
+      "instance": "k8s-device-plugin"
+    },
+    "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx:about_subject:subject:infrastructure:cluster-addon:k8s-device-plugin",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-addon:k8s-device-plugin",
+      "direction": "outgoing"
+    }
+  ]
+}

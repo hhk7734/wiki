@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-interface:aws-efs-csi-driver",
+  "title": "aws-efs-csi-driver",
+  "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-efs-csi-driver\n\naws-efs-csi-driver는 Amazon EFS 파일 시스템을 Kubernetes CSI 인터페이스로 연결해 주는 드라이버입니다. 여…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-interface",
+    "instance": "aws-efs-csi-driver"
+  },
+  "url": "/docs/infrastructure/storage/aws-efs-csi-driver/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-interface:aws-efs-csi-driver.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/aws-efs-csi-driver/overview.mdx",
+    "doc:docs/infrastructure/storage/aws-efs-csi-driver/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/aws-efs-csi-driver/overview.mdx",
+      "title": "aws-efs-csi-driver",
+      "url": "/docs/infrastructure/storage/aws-efs-csi-driver/overview",
+      "snippet": "…terface Driver\n\n설치 가이드 문서는 별도로 분리되어 있습니다.\n\n- https://github.com/kubernetes-sigs/aws-efs-csi-driver\n\naws-efs-csi-driver는 Amazon EFS 파일 시스템을 Kubernetes CSI 인터페이스로 연결해 주는 드라이버입니다. 여…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-interface",
+        "instance": "aws-efs-csi-driver",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/storage/aws-efs-csi-driver/install.mdx",
+      "title": "aws-efs-csi-driver 설치 가이드",
+      "url": "/docs/infrastructure/storage/aws-efs-csi-driver/install",
+      "snippet": "aws-efs-csi-driver 개요 문서에서 드라이버 역할을 먼저 확인할 수 있습니다.\n\n## 사전 요구 사항\n\n``ts\n\nconst awsEFSCSIDriverRoleNa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "storage-interface",
+        "instance": "aws-efs-csi-driver",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/aws-efs-csi-driver/overview.mdx:about_subject:subject:infrastructure:storage-interface:aws-efs-csi-driver",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/aws-efs-csi-driver/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/storage/aws-efs-csi-driver/install.mdx:about_subject:subject:infrastructure:storage-interface:aws-efs-csi-driver",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/aws-efs-csi-driver/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-interface:aws-efs-csi-driver:depends_on:subject:infrastructure:storage-interface:csi",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-interface:csi",
+      "direction": "outgoing"
+    }
+  ]
+}

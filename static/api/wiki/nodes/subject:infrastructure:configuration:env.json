@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:configuration:env",
+  "title": "Pod Environment Variables",
+  "snippet": "… https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/\n\n``yaml\nspec:\n containers:\n - env:\n - name: SERVICE_PORT\n value: \"80…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "configuration",
+    "instance": "env"
+  },
+  "url": "/docs/infrastructure/kubernetes/env/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:configuration:env.json",
+  "document_refs": [
+    "doc:docs/infrastructure/kubernetes/env/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/kubernetes/env/overview.mdx",
+      "title": "Pod Environment Variables",
+      "url": "/docs/infrastructure/kubernetes/env/overview",
+      "snippet": "… https://kubernetes.io/docs/tasks/inject-data-application/define-interdependent-environment-variables/\n\n``yaml\nspec:\n containers:\n - env:\n - name: SERVICE_PORT\n value: \"80…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "configuration",
+        "instance": "env",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/env/overview.mdx:about_subject:subject:infrastructure:configuration:env",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/kubernetes/env/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

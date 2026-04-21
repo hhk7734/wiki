@@ -1,0 +1,82 @@
+---
+id: install
+title: "whereabouts 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "whereabouts 설치 가이드"
+keywords:
+  - cni
+  - whereabouts
+  - IPAM
+ontology:
+  role: operation
+  domain: infrastructure
+  class: networking-stack
+  instance: whereabouts
+  aspect: install
+subject:
+  canonical_name: whereabouts
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info
+[whereabouts 개요](/docs/infrastructure/networking/whereabouts/overview.mdx) 문서에서 IPAM 설정 방식을 먼저 확인할 수 있습니다.
+:::
+
+## 설치
+
+:::info[References]
+
+- [whereabouts GitHub / chart](https://github.com/k8snetworkplumbingwg/whereabouts/tree/master/deployment/whereabouts-chart)
+
+:::
+
+```shell
+helm pull oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2
+```
+
+```shell
+helm show values oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart --version 0.9.2 \
+  > whereabouts-0.9.2.yaml
+```
+
+```yaml title="whereabouts-values.yaml"
+fullnameOverride: "whereabouts"
+
+resources:
+  requests:
+    cpu: "100m"
+    memory: "50Mi"
+  limits:
+    cpu: "100m"
+    memory: "200Mi"
+
+nodeSliceController:
+  # Experimental
+  enabled: false
+```
+
+```shell
+helm template whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
+  --version 0.9.2 \
+  -n kube-system \
+  -f whereabouts-values.yaml \
+  > whereabouts.yaml
+```
+
+```shell
+helm upgrade -i whereabouts oci://ghcr.io/k8snetworkplumbingwg/whereabouts-chart \
+  --history-max 5 \
+  --version 0.9.2 \
+  -n kube-system \
+  -f whereabouts-values.yaml
+```

@@ -1,0 +1,313 @@
+---
+id: multi-cluster
+title: Multi-cluster
+sidebar_label: Multi-cluster
+description: Multi-cluster
+keywords:
+  - multi-cluster
+ontology:
+  role: entity
+  domain: infrastructure
+  class: service-mesh
+  instance: istio
+  aspect: multi-cluster
+subject:
+  canonical_name: Istio
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## Configure Trust
+
+<Tabs
+    defaultValue="istio-csr"
+    values={[
+        {label: 'Istio-CSR', value: 'istio-csr',},
+        {label: '직접 생성', value: 'manual',},
+    ]}
+>
+
+<TabItem value="manual">
+
+- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/
+- [x509](/docs/infrastructure/security/tls/x509.mdx)
+
+### Root CA
+
+```ini title="root-ca.conf"
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+
+[ req_dn ]
+commonName = Root CA
+organizationName = lol-iot
+```
+
+### Intermediate CA
+
+```ini title="ca-cert.conf"
+[ req ]
+default_md = sha256
+default_bits = 3072
+encrypt_key = no
+prompt = no
+utf8 = yes
+
+req_extensions = req_ext
+x509_extensions = req_ext
+
+distinguished_name = req_dn
+
+[ req_ext ]
+basicConstraints = critical, CA:true, pathlen:0
+keyUsage = critical, digitalSignature, nonRepudiation, keyEncipherment, keyCertSign
+
+subjectKeyIdentifier = hash
+subjectAltName=@san
+
+[ san ]
+DNS.1 = <istiodService>.istio-system.svc
+
+[ req_dn ]
+commonName = Intermediate CA
+organizationName = lol-iot
+localityName = <clusterName>
+```
+
+:::warning
+`<clusterName>`은 `^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{1,63}(?<!-)$` 형식을 따라야 합니다.
+:::
+
+클러스터 수 만큼 인증서를 생성해주세요.
+
+```shell
+kubectl create secret generic cacerts -n istio-system \
+    --from-file=ca-cert.pem \
+    --from-file=ca-key.pem \
+    --from-file=cert-chain.pem \
+    --from-file=../root-cert.pem
+```
+
+</TabItem>
+
+<TabItem value="istio-csr">
+
+- [Istio CSR](/docs/infrastructure/security/istio-csr/csr.mdx)
+
+</TabItem>
+
+</Tabs>
+
+## Multi-Primary on different networks
+
+- https://istio.io/latest/docs/setup/install/multicluster/multi-primary_multi-network/
+
+<center>
+	<img src={useBaseUrl("img/mlops/network/istio/multi-primary-diff.svg")} />
+</center>
+
+<center>
+	<strong>Multiple primary clusters on separate networks</strong>
+</center>
+<br />
+
+### Istiod
+
+각 클러스터 별로 아래 과정을 동일하게 수행해주세요.
+
+```shell
+kubectl config use-context <context>
+```
+
+```shell
+kubectl label namespace istio-system topology.istio.io/network=<network>
+```
+
+:::warning
+`meshID`를 제외한 다른 값들은 클러스터별로 다른 값을 설정해주세요.
+:::
+
+```yaml title="istiod-values.yaml"
+meshConfig:
+  enablePrometheusMerge: true
+
+global:
+  meshID: <meshID> # 이 값은 공통으로 사용됩니다.
+
+  # 직접 각 클러스터의 cross gateway 엔드포인트를 지정해야할 때, 아래와 같이 설정해주세요.
+  # meshNetworks:
+  #   <network>:
+  #     endpoints:
+  #       - fromRegistry: <clusterName>
+  #     gateways:
+  #       - address: <ip|host>
+  #         port: 15443
+  #   <otherNetwork>:
+  #     endpoints:
+  #       - fromRegistry: <clusterName>
+  #     gateways:
+  #       - address: <ip|host>
+  #         port: 15443
+
+  multiCluster:
+    enabled: true
+    clusterName: <clusterName> # clusterID
+  network: <network>
+```
+
+```shell
+helm upgrade -i istiod istio/istiod \
+    --version 1.20.2 \
+    -n istio-system \
+    --history-max 5 \
+    -f istiod-values.yaml
+```
+
+### Cross gateway
+
+```shell
+helm show values istio/gateway \
+    --version 1.20.2 \
+    > ingress-cross-values.yaml
+```
+
+```yaml title="ingress-cross-values.yaml"
+revision: <revision>
+
+service:
+  ports:
+    - name: status-port
+      port: 15021
+      targetPort: 15021
+      protocol: TCP
+      nodePort: <node-port-1>
+    - name: tls
+      port: 15443
+      targetPort: 15443
+      protocol: TCP
+      nodePort: <node-port-2>
+    - name: tls-istiod
+      port: 15012
+      targetPort: 15012
+      protocol: TCP
+      nodePort: <node-port-3>
+    - name: tls-webhook
+      port: 15017
+      targetPort: 15017
+      protocol: TCP
+      nodePort: <node-port-4>
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+
+labels:
+  topology.istio.io/network: <network>
+
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - podAffinityTerm:
+          labelSelector:
+            matchExpressions:
+              - key: app
+                operator: In
+                values:
+                  - ingress-cross
+          topologyKey: "kubernetes.io/hostname"
+        weight: 50
+
+networkGateway: <network>
+```
+
+```shell
+helm upgrade -i ingress-cross istio/gateway \
+    --version 1.20.2 \
+    -n istio-system \
+    --history-max 5 \
+    -f ingress-cross-values.yaml
+```
+
+```yaml title="ingress-cross-gateway.yaml"
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: cross-gateway
+  namespace: istio-system
+spec:
+  selector:
+    istio: ingress-cross
+  servers:
+    - port:
+        number: 15443
+        name: tls
+        protocol: TLS
+      tls:
+        mode: AUTO_PASSTHROUGH
+      hosts:
+        - "*.local"
+```
+
+```shell
+kubectl apply -f ingress-cross-gateway.yaml
+```
+
+### Endpoint Discovery
+
+각 클러스터가 api-server에 접근할 수 있도록 설정해주세요.
+
+```shell
+istioctl x create-remote-secret \
+  --context=<A-clusterContext> \
+  --name=<A-clusterName> | \
+  kubectl apply -f - --context=<B-clusterContext>
+```
+
+## Test
+
+```shell
+kubectl run tmp-shell --rm -it --image nicolaka/netshoot \
+  --labels istio.io/rev="1-20-2" \
+  -- \
+  /bin/bash
+```
+
+- https://istio.io/latest/docs/setup/install/multicluster/verify/
+
+## 운영 시 주의사항
+
+- labels에 가능한 아래 값들을 추가해서 Service가 어느 네트워크에 속하는지 명시해주세요
+  - `topology.istio.io/network=<network>`
+  - `topology.istio.io/cluster=<cluster>`

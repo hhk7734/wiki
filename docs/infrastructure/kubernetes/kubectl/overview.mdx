@@ -1,0 +1,214 @@
+---
+id: overview
+ontology:
+  role: operation
+  domain: infrastructure
+  class: tool
+  instance: kubectl
+  aspect: overview
+subject:
+  canonical_name: kubectl
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+title: kubectl Tooling
+sidebar_label: kubectl Tooling
+description: kubectl and krew tooling
+keywords:
+  - kubectl
+  - krew
+  - tooling
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## kubectl
+
+- [mise로 런타임 버전 관리하기](/docs/system/mise/overview.mdx#버전-관리)
+
+<Tabs
+    groupId="shell"
+    defaultValue="zsh"
+    values={[
+        {label: 'zsh', value: 'zsh',},
+        {label: 'bash', value: 'bash',}
+    ]}
+>
+
+<TabItem value="zsh">
+
+```shell title=".zshrc"
+# kubectl
+source <(kubectl completion zsh)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+```
+
+</TabItem>
+
+<TabItem value="bash">
+
+```shell title=".bashrc"
+# kubectl
+source <(kubectl completion bash)
+alias k=kubectl
+complete -o default -F __start_kubectl k
+```
+
+</TabItem>
+
+</Tabs>
+
+## krew
+
+- https://krew.sigs.k8s.io/docs/user-guide/quickstart/
+
+```shell
+(
+  set -x; cd "$(mktemp -d)" &&
+  OS="$(uname | tr '[:upper:]' '[:lower:]')" &&
+  ARCH="$(uname -m | sed -e 's/x86_64/amd64/' -e 's/\(arm\)\(64\)\?.*/\1\2/' -e 's/aarch64$/arm64/')" &&
+  KREW="krew-${OS}_${ARCH}" &&
+  curl -fsSLO "https://github.com/kubernetes-sigs/krew/releases/latest/download/${KREW}.tar.gz" &&
+  tar zxvf "${KREW}.tar.gz" &&
+  ./"${KREW}" install krew
+)
+```
+
+```shell title=".zshrc"
+# krew
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+```
+
+### ctx
+
+- https://github.com/ahmetb/kubectx#installation
+
+```shell
+kubectl krew install ctx
+```
+
+```shell
+kubectl ctx
+```
+
+### ns
+
+- https://github.com/ahmetb/kubectx#installation
+
+```shell
+kubectl krew install ns
+```
+
+```shell
+kubectl ns
+```
+
+### ksniff
+
+- https://github.com/eldadru/ksniff
+
+ksniff는 static-tcpdump 바이너리를 Pod에 주입하여 실행한 후 출력되는 로그를 wireshark에서 읽을 수 있도록 변환해주는 툴입니다. 권한 문제로 캡쳐가 안되는 경우에는 `-p` 옵션을 사용하여 같은 Node에 새로운 Pod을 추가하여 캡쳐를 수행할 수 있습니다.
+
+```shell
+kubectl krew install sniff
+```
+
+```shell
+kubectl sniff <pod> [-n <namespace>] [-p]
+```
+
+## node-shell
+
+- https://github.com/kvaps/kubectl-node-shell
+
+```shell
+kubectl krew install node-shell
+```
+
+```shell
+kubectl node-shell <node>
+```
+
+## k9s
+
+- https://k9scli.io/topics/install/
+- https://k9scli.io/topics/commands/
+- https://k9scli.io/topics/rbac/
+
+<br />
+
+- [mise로 런타임 버전 관리하기](/docs/system/mise/overview.mdx#버전-관리)
+
+```shell
+mise use k9s
+```
+
+```shell
+k9s info
+```
+
+### plugin
+
+- https://k9scli.io/topics/plugins/
+
+```yaml title="~/.config/k9s/plugins.yaml"
+plugins:
+  log2jq:
+    shortCut: Shift-L
+    confirm: false
+    background: false
+    description: "Log to jq"
+    scopes:
+      - pods
+    command: sh
+    args:
+      - -c
+      - |
+        echo 'kubectl logs -f --context $CONTEXT -n $NAMESPACE $NAME \\
+          | jq -rRC --unbuffered '"'"'. as $line | try fromjson catch $line'"'"' \\
+          | sed '"'"'s/\\\\n/\\n/g; s/\\\\t/\\t/g'"'\n\n"
+
+        kubectl logs -f --context $CONTEXT -n $NAMESPACE $NAME \
+          | jq -rRC --unbuffered '. as $line | try fromjson catch $line' \
+          | sed 's/\\n/\n/g; s/\\t/\t/g'
+
+  node-shell:
+    shortCut: s
+    confirm: false
+    background: false
+    description: Shell
+    scopes:
+      - nodes
+    command: sh
+    args:
+      - -c
+      - |
+        export KUBECONFIG=$KUBECONFIG
+        echo "kubectl node-shell --context $CONTEXT $NAME"
+        kubectl node-shell --context $CONTEXT $NAME
+```
+
+## Popeye
+
+- https://github.com/derailed/popeye
+
+```shell
+sudo mkdir -p /opt/popeye/0.10.1 \
+&& cd /opt/popeye/0.10.1 \
+&& sudo wget https://github.com/derailed/popeye/releases/download/v0.10.1/popeye_Linux_x86_64.tar.gz \
+&& sudo tar xzf popeye_Linux_x86_64.tar.gz
+```
+
+```shell title=".zshrc"
+export PATH=/opt/popeye/0.10.1:$PATH
+```

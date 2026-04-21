@@ -12,13 +12,13 @@ function getTopic(link) {
 
 function getBaselineColor(topic, topicColors) {
 	switch (topic) {
-		case "data":
+		case "knowledge":
 			return "#93c5fd";
 		case "language":
 			return "#fca5a5";
-		case "mlops":
+		case "infrastructure":
 			return "#6ee7b7";
-		case "platform":
+		case "system":
 			return "#fcd34d";
 		case "protocol":
 			return "#c4b5fd";
@@ -28,8 +28,6 @@ function getBaselineColor(topic, topicColors) {
 			return "#67e8f9";
 		case "management":
 			return "#f9a8d4";
-		case "comparison":
-			return "#fde68a";
 		default:
 			return topicColors?.[topic] ?? "#64748b";
 	}

@@ -1,0 +1,45 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:storage-system:rbd",
+  "title": "Ceph Rados Block Device(RBD)",
+  "snippet": "…kubeletDirPath: /var/lib/kubelet\n`\n\n## CephBlockPool 생성\n\n- Rook / Block Storage Overview\n- Rook / CephBlockPool CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephBlockPo…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "storage-system",
+    "instance": "rbd"
+  },
+  "url": "/docs/infrastructure/storage/rbd/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:storage-system:rbd.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/rbd/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/rbd/overview.mdx",
+      "title": "Ceph Rados Block Device(RBD)",
+      "url": "/docs/infrastructure/storage/rbd/overview",
+      "snippet": "…kubeletDirPath: /var/lib/kubelet\n`\n\n## CephBlockPool 생성\n\n- Rook / Block Storage Overview\n- Rook / CephBlockPool CRD\n\n`yaml\napiVersion: ceph.rook.io/v1\nkind: CephBlockPo…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "storage-system",
+        "instance": "rbd",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/rbd/overview.mdx:about_subject:subject:infrastructure:storage-system:rbd",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/rbd/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:storage-system:rbd:depends_on:subject:infrastructure:storage-system:ceph",
+      "predicate": "depends_on",
+      "other_id": "subject:infrastructure:storage-system:ceph",
+      "direction": "outgoing"
+    }
+  ]
+}

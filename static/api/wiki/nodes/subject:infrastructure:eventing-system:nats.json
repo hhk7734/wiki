@@ -1,0 +1,119 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:eventing-system:nats",
+  "title": "NATS",
+  "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "eventing-system",
+    "instance": "nats"
+  },
+  "url": "/docs/infrastructure/messaging/nats/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:eventing-system:nats.json",
+  "document_refs": [
+    "doc:docs/infrastructure/messaging/nats/auth.mdx",
+    "doc:docs/infrastructure/messaging/nats/cli.mdx",
+    "doc:docs/infrastructure/messaging/nats/crd.mdx",
+    "doc:docs/infrastructure/messaging/nats/dlq.mdx",
+    "doc:docs/infrastructure/messaging/nats/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/messaging/nats/auth.mdx",
+      "title": "NATS Auth",
+      "url": "/docs/infrastructure/messaging/nats/auth",
+      "snippet": "## Authorization(User)\n\n- https://docs.nats.io/running-a-nats-service/configuration/sec…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "auth"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/messaging/nats/cli.mdx",
+      "title": "NATS CLI",
+      "url": "/docs/infrastructure/messaging/nats/cli",
+      "snippet": "## 설치\n\n``shell\nyay -S nats-cli\n`\n\n## Context\n\n`shell\nnats context add []\n`\n\n-\n - --server :\n - --descripti…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "cli"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/messaging/nats/crd.mdx",
+      "title": "NATS CRD",
+      "url": "/docs/infrastructure/messaging/nats/crd",
+      "snippet": "…## Account\n\n``shell\nkubectl explain account.spec\n`\n\n`yaml\napiVersion: jetstream.nats.io/v1beta2\nkind: Account\nmetadata:\n name:\n namespace: event\nspec:\n name:\n serve…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "crd"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/messaging/nats/dlq.mdx",
+      "title": "NATS Dead Letter Queue",
+      "url": "/docs/infrastructure/messaging/nats/dlq",
+      "snippet": "…s\":\n}\n`\n\n아래 명령어를 통해 여러번 전달된 메시지가 무엇인지 확인할 수 있습니다.\n\n`shell\nnats stream get\n`\n\n## Dead Letter Queue Stream\n\n이벤트 메시지를 받았을 때 에러처리가 가능한 경우 Max Deleveries 조건에 걸리기 전에 에러 이벤트로 변경하여 처리한 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "dlq"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/messaging/nats/install.mdx",
+      "title": "NATS",
+      "url": "/docs/infrastructure/messaging/nats/install",
+      "snippet": "## 설치\n\n``shell\nhelm repo add nats https://nats-io.github.io/k8s/helm/charts\n`\n\n### NATS\n\n- PersistentVolume\n\n`she…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "eventing-system",
+        "instance": "nats",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/auth.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/nats/auth.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/cli.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/nats/cli.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/crd.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/nats/crd.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/dlq.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/nats/dlq.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/nats/install.mdx:about_subject:subject:infrastructure:eventing-system:nats",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/messaging/nats/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

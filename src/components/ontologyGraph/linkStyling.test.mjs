@@ -4,30 +4,30 @@ import test from "node:test";
 import { getLinkVisuals, isLinkConnectedToNode } from "./linkStyling.mjs";
 
 const topicColors = {
-	data: "#3b82f6",
+	infrastructure: "#3b82f6",
 	language: "#ef4444",
 };
 
 test("isLinkConnectedToNode matches string and object endpoints", () => {
-	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:data" }, "root"), true);
+	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:infrastructure" }, "root"), true);
 	assert.equal(
-		isLinkConnectedToNode({ source: { id: "topic:data" }, target: { id: "group:data:ceph" } }, "group:data:ceph"),
+		isLinkConnectedToNode({ source: { id: "topic:infrastructure" }, target: { id: "group:infrastructure:ceph" } }, "group:infrastructure:ceph"),
 		true,
 	);
-	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:data" }, "topic:language"), false);
+	assert.equal(isLinkConnectedToNode({ source: "root", target: "topic:infrastructure" }, "topic:language"), false);
 });
 
 test("getLinkVisuals keeps baseline links readable with no active node", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "topic:data", type: "topic", topic: "data" },
-			target: { id: "subject:data:storage-system:ceph", type: "subject", topic: "data" },
+			source: { id: "topic:infrastructure", type: "topic", topic: "infrastructure" },
+			target: { id: "subject:infrastructure:storage-system:ceph", type: "subject", topic: "infrastructure" },
 		},
 		activeNodeId: null,
 		topicColors,
 	});
 
-	assert.equal(visuals.color, "#93c5fd");
+	assert.equal(visuals.color, "#6ee7b7");
 	assert.equal(visuals.opacity, 0.44);
 	assert.equal(visuals.width, 1.35);
 	assert.equal(visuals.particles, 1);
@@ -54,8 +54,8 @@ test("getLinkVisuals strongly emphasizes links connected to the active node", ()
 test("getLinkVisuals fades unrelated links when a node is active", () => {
 	const visuals = getLinkVisuals({
 		link: {
-			source: { id: "topic:data", type: "topic", topic: "data" },
-			target: { id: "subject:data:storage-system:ceph", type: "subject", topic: "data" },
+			source: { id: "topic:infrastructure", type: "topic", topic: "infrastructure" },
+			target: { id: "subject:infrastructure:storage-system:ceph", type: "subject", topic: "infrastructure" },
 		},
 		activeNodeId: "subject:language:concept:goroutine",
 		topicColors,

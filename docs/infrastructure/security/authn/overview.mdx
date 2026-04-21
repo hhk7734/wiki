@@ -1,0 +1,329 @@
+---
+id: overview
+title: "Kubernetes 인증(Authn)"
+sidebar_label: "k8s 인증(Authn)"
+description: "Kubernetes 인증(Authn)"
+keywords:
+  - kubernetes
+  - authn
+  - kubeconfig
+ontology:
+  role: entity
+  domain: infrastructure
+  class: auth-system
+  instance: authn
+  aspect: overview
+subject:
+  canonical_name: Authn
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## User
+
+- 추상적인 개념으로 User를 명시하는 리소스는 없습니다.
+- ServiceAccount는 `system:serviceaccount:<namespace>:<serviceAccountName>` User로 인식됩니다.
+
+## Group
+
+- 추상적인 개념으로 Group을 명시하는 리소스는 없습니다.
+- 인증된 User는 `system:authenticated` Group으로 인식됩니다.
+- 인증되지 않은 User는 `system:unauthenticated` Group으로 인식됩니다.
+- ServiceAccount는 `system:serviceaccounts`와 `system:serviceaccounts:<namespace>` Group으로 인식됩니다.
+
+## Authn
+
+### X.509 인증서로 인증하기
+
+:::info
+Root CA 파일은 Control plane Node의 `/etc/kubernetes/pki/` 또는 `/etc/kubernetes/ssl/` 디렉토리에 위치합니다.
+:::
+
+- [X.509 인증서](/docs/infrastructure/security/tls/x509.mdx)
+
+```shell
+openssl genrsa -out <clientKeyPath> 2048
+```
+
+```shell
+openssl req -new -key <clientKeyPath> \
+  -subj "/CN=<user>/O=<group>" \
+  -out <clientCSRPAth>
+```
+
+<Tabs
+  defaultValue="csr"
+  values={[
+    { label: "CertificateSigningRequest", value: "csr" },
+    { label: "openssl", value: "openssl" },
+  ]}
+>
+
+<TabItem value="csr">
+
+```yaml title="<user>-csr.yaml"
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: <user>
+spec:
+  request: <clientCSR | base64 | tr -d '\n'>
+  signerName: kubernetes.io/kube-apiserver-client
+  # expirationSeconds: 31536000 # 1 년
+  usages:
+    - client auth
+```
+
+```shell
+kubectl apply -f <user>-csr.yaml
+```
+
+```shell
+kubectl certificate approve <user>
+```
+
+:::warning
+
+`approve`하면 `deny`할 수 없습니다.
+
+:::
+
+```shell
+kubectl get csr <user> -o jsonpath='{.status.certificate}' \
+  | base64 -d > <clientCertPath>
+```
+
+:::warning
+`kube-controller-manager` 의 옵션에 영향을 받습니다.
+
+- `--cluster-signing-key-file=/etc/kubernetes/pki/ca.key`
+- `--cluster-signing-cert-file=/etc/kubernetes/pki/ca.crt`
+- `--cluster-signing-duration=8760h`
+
+:::
+
+</TabItem>
+
+<TabItem value="openssl">
+
+```shell
+openssl x509 -req -days 1825 -CA <caCertPath> -CAkey <caKey> \
+  -CAcreateserial -in <clientCSRPath> -out <clientCertPath>
+```
+
+</TabItem>
+
+</Tabs>
+
+```shell
+curl --cacert <caCertPath> \
+    --cert <clientCertPath> \
+    --key <clientKeyPath> \
+    <apiServerURL>
+```
+
+### JWT 토큰으로 인증하기
+
+- 토큰의 `sub`가 User로 인식됩니다.
+
+```shell
+curl --cacert <caCertPath> \
+    -H "Authorization: Bearer <jwt>" \
+    <apiServerURL>
+```
+
+#### ServiceAccount JWT 토큰
+
+#### OIDC JWT 토큰
+
+- https://kubernetes.io/docs/reference/access-authn-authz/authentication/#openid-connect-tokens
+
+#### OIDC Login
+
+:::info[References]
+
+- [kubelogin GitHub](https://github.com/int128/kubelogin)
+
+:::
+
+```shell
+kubectl krew install oidc-login
+```
+
+`oidc-login` 플러그인을 사용하면 OIDC 인증을 사용하여 kubectl 같은 툴로 Kubernetes api-server에 접근할 수 있습니다.
+
+:::tip
+
+```shell
+kubectl oidc-login setup \
+  --oidc-issuer-url=<issuerURL> \
+  --oidc-client-id=<clientID> \
+  --oidc-client-secret=<clientSecret>
+```
+
+위 명령어를 실행하면 설정에 맞춰 토큰을 발급받고 토큰 내용을 표시합니다.
+
+:::
+
+```yaml
+users:
+  - name: <name>
+    user:
+      exec:
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=https://<keycloakHost>/realms/<realm>
+          - --oidc-client-id=<clientID>
+          - --oidc-client-secret=<clientSecret>
+```
+
+- `--grant-type=<grantType>`
+  - 기본값은 `auto`입니다.
+  - `authcode`
+    - 브라우저를 통해 인증하는 방식입니다.
+    - `--listen-address=<host>:<port>`
+      - 기본값은 `localhost:8000` 또는 `localhost:18000`입니다.
+    - `--skip-open-browser`
+      - 자동으로 브라우저를 열지 않습니다.
+      - 브라우저에서 `--listen-address`에 설정한 주소로 접속하면 됩니다.
+  - `password`
+    - 아이디, 암호로 인증하는 방식입니다.
+    - `--username=<username>`
+      - 설정하지 않으면 사용자에게 입력을 받습니다.
+    - `--password=<password>`
+      - 설정하지 않으면 사용자에게 입력을 받습니다.
+- `--oidc-extra-scope='openid profile email groups'`
+- `--oidc-auth-request-extra-params=<key>=<value>[,<key>=<value>]`
+
+:::warning
+
+기존 로그인 정보를 없애고 다시 시도해야하는 경우 `kubectl oidc-login clean` 명령어를 사용하면 됩니다.
+
+:::
+
+## kubeconfig
+
+```shell
+kubectl config view
+```
+
+```yaml
+apiVersion: v1
+kind: Config
+preferences: {}
+clusters:
+  - name: cluster-1
+    cluster:
+      server: <apiServerURL>
+      certificate-authority-data: <caCert | base64 | tr -d '\n'> # root ca 인증서
+      # certificate-authority: <caCertPath>
+users:
+  - name: user-1
+    user:
+      client-certificate-data: <clientCert | base64 | tr -d '\n'> # client 인증서
+      # client-certificate: <clientCertPath>
+      client-key-data: <clientKey | base64 | tr -d '\n'> # client 개인키
+      # client-key: <clientKeyPath>
+  - name: user-2
+    user:
+      token: <jwt> # ServiceAccount의 토큰
+  - name: user-3
+    user:
+      auth-provider:
+        name: oidc
+        config:
+          client-id: <clientID>
+          client-secret: <clientSecret>
+          idp-issuer-url: <idpIssuerURL>
+  - name: user-4
+    user:
+      exec: # credential plugin
+        apiVersion: client.authentication.k8s.io/v1beta1
+        command: kubectl
+        args:
+          - oidc-login
+          - get-token
+          - --oidc-issuer-url=<oidcIssuerURL>
+          - --oidc-client-id=<clientID>
+          - --oidc-client-secret=<clientSecret>
+contexts: # cluster
+  - name: context-1
+    context:
+      cluster: cluster-1
+      user: user-1
+      namespace: default # 설정 안하면 default가 기본입니다.
+current-context: context-1 # 현재 설정된 접속 정보입니다.
+```
+
+### Cluster 추가
+
+```shell
+kubectl config set-cluster \
+    <cluster> \
+    --server=<apiServerURL> \
+    --certificate-authority=<caCertPath> \
+    --embed-certs=true
+```
+
+### User 추가
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --client-certificate=<clientCertPath> \
+    --client-key=<clientKeyPath> \
+    --embed-certs=true
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --token=<jwt>
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --auth-provider=<name> \
+    --auth-provider-arg=<key>=<value>
+```
+
+```shell
+kubectl config set-credentials \
+    <user> \
+    --exec-api-version=<apiVersion> \
+    --exec-command=<command> \
+    --exec-env=<key>=<value> \
+    --exec-arg=<arg>
+```
+
+`--auth-provider-arg`, `--exec-env`, `--exec-arg`는 여러 번 선언할 수 있습니다.
+
+### Context 추가
+
+```shell
+kubectl config set-context \
+    <context> \
+    --cluster=<cluster> \
+    --user=<user>
+```
+
+## Reference
+
+- https://coffeewhale.com/apiserver
+- https://kubernetes.io/docs/reference/access-authn-authz/authentication/

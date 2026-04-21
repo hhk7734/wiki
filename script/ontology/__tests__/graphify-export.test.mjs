@@ -7,7 +7,7 @@ import { buildGraphifyExport, serializeGraphifyJsonl } from "../export-graphify.
 
 test("graphify export emits a document, a subject, and an about_subject relation", () => {
 	const records = buildGraphifyExport([
-		"docs/mlops/pulumi/overview.mdx",
+		"docs/infrastructure/iac/pulumi/overview.mdx",
 	]);
 
 	const document = records.find((record) => record.type === "document");
@@ -18,17 +18,17 @@ test("graphify export emits a document, a subject, and an about_subject relation
 	assert.ok(subject);
 	assert.ok(relation);
 
-	assert.equal(document.source_path, "docs/mlops/pulumi/overview.mdx");
-	assert.equal(document.url, "/docs/mlops/pulumi/overview");
-	assert.equal(document.subject_ref, "subject:mlops:iac-tool:pulumi");
-	assert.equal(subject.id, "subject:mlops:iac-tool:pulumi");
+	assert.equal(document.source_path, "docs/infrastructure/iac/pulumi/overview.mdx");
+	assert.equal(document.url, "/docs/infrastructure/iac/pulumi/overview");
+	assert.equal(document.subject_ref, "subject:infrastructure:iac-tool:pulumi");
+	assert.equal(subject.id, "subject:infrastructure:iac-tool:pulumi");
 	assert.equal(relation.predicate, "about_subject");
-	assert.equal(relation.to, "subject:mlops:iac-tool:pulumi");
+	assert.equal(relation.to, "subject:infrastructure:iac-tool:pulumi");
 });
 
 test("graphify export keeps searchable text and headings", () => {
 	const records = buildGraphifyExport([
-		"docs/mlops/pulumi/overview.mdx",
+		"docs/infrastructure/iac/pulumi/overview.mdx",
 	]);
 
 	const document = records.find((record) => record.type === "document");
@@ -39,12 +39,12 @@ test("graphify export keeps searchable text and headings", () => {
 
 test("graphify export keeps multi-document subject ordering deterministic", () => {
 	const forward = buildGraphifyExport([
-		"docs/data/ceph/overview.mdx",
-		"docs/data/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/overview.mdx",
+		"docs/infrastructure/storage/ceph/osd.mdx",
 	]);
 	const reverse = buildGraphifyExport([
-		"docs/data/ceph/osd.mdx",
-		"docs/data/ceph/overview.mdx",
+		"docs/infrastructure/storage/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/overview.mdx",
 	]);
 
 	assert.deepEqual(
@@ -55,11 +55,11 @@ test("graphify export keeps multi-document subject ordering deterministic", () =
 	const subject = forward.find((record) => record.type === "subject");
 
 	assert.deepEqual(subject.document_refs, [
-		"doc:docs/data/ceph/overview.mdx",
-		"doc:docs/data/ceph/osd.mdx",
+		"doc:docs/infrastructure/storage/ceph/overview.mdx",
+		"doc:docs/infrastructure/storage/ceph/osd.mdx",
 	]);
 	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
-	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/data/ceph/overview.mdx").snippet);
+	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/overview.mdx").snippet);
 });
 
 test("graphify export keeps source paths and subject identity separate for maintained taxonomy docs", () => {

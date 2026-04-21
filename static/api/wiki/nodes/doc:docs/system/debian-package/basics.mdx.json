@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/system/debian-package/basics.mdx",
+  "title": "Debian Package Basics",
+  "snippet": "…s: debhelper (>= 9)\nStandards-Version: 3.9.8\nHomepage: https://docs.loliot.net\n\nPackage: pack\nArchitecture: arm64 armhf\nSection: libs\nDepends: ${misc:Depends}, ${shlib…",
+  "ontology": {
+    "role": "operation",
+    "domain": "system",
+    "class": "package-manager",
+    "instance": "debian-package",
+    "aspect": "basics"
+  },
+  "url": "/docs/system/debian-package/basics",
+  "node_url": "/api/wiki/nodes/doc:docs/system/debian-package/basics.mdx.json",
+  "subject": {
+    "id": "subject:system:package-manager:debian-package",
+    "title": "Debian Package",
+    "ontology": {
+      "domain": "system",
+      "class": "package-manager",
+      "instance": "debian-package"
+    },
+    "url": "/docs/system/debian-package/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/debian-package/basics.mdx:about_subject:subject:system:package-manager:debian-package",
+      "predicate": "about_subject",
+      "other_id": "subject:system:package-manager:debian-package",
+      "direction": "outgoing"
+    }
+  ]
+}

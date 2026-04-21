@@ -1,0 +1,179 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:workflow-system:ansible",
+  "title": "Ansible 기본 안내",
+  "snippet": "## 설치\n\n``shell\npython3 -m pip install ansible\n`\n\n## Control node\n\n- SSH 키 생성 후 Managed node에 키 추가\n\n## Directory structure\n\n- …",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "workflow-system",
+    "instance": "ansible"
+  },
+  "url": "/docs/infrastructure/iac/ansible/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:workflow-system:ansible.json",
+  "document_refs": [
+    "doc:docs/infrastructure/iac/ansible/overview.mdx",
+    "doc:docs/infrastructure/iac/ansible/roles.mdx",
+    "doc:docs/infrastructure/iac/ansible/variables.mdx",
+    "doc:docs/infrastructure/iac/ansible/callback.mdx",
+    "doc:docs/infrastructure/iac/ansible/config.mdx",
+    "doc:docs/infrastructure/iac/ansible/delegation.mdx",
+    "doc:docs/infrastructure/iac/ansible/inventory.mdx",
+    "doc:docs/infrastructure/iac/ansible/vault.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/overview.mdx",
+      "title": "Ansible 기본 안내",
+      "url": "/docs/infrastructure/iac/ansible/overview",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install ansible\n`\n\n## Control node\n\n- SSH 키 생성 후 Managed node에 키 추가\n\n## Directory structure\n\n- …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/roles.mdx",
+      "title": "Ansible Role을 사용해서 task 모듈화하기",
+      "url": "/docs/infrastructure/iac/ansible/roles",
+      "snippet": "- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html\n\n## Role\n\n### Dire…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "roles"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/variables.mdx",
+      "title": "Ansible 변수(variables) 관리",
+      "url": "/docs/infrastructure/iac/ansible/variables",
+      "snippet": "…의 종류 및 우선순위\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable\n\n변수의 종류를 우선순위가 낮은 것 부터 높…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "variables"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/callback.mdx",
+      "title": "Ansible Callback 플러그인",
+      "url": "/docs/infrastructure/iac/ansible/callback",
+      "snippet": "## 설정\n\n``shell\n\n`\n\n## 출력 예시\n\n### ansible.builtin.default\n\nANSIBLE_CALLBACK_RESULT_FORMAT=json\n\n`shell\nTASK [ping] ****************************************…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "callback"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/config.mdx",
+      "title": "Ansible 설정",
+      "url": "/docs/infrastructure/iac/ansible/config",
+      "snippet": "## 설정 파일\n\nansible은 아래 순서로 설정 파일을 찾습니다.\n\n- ANSIBLE_CONFIG=\n- $PWD/ansible.cfg\n- $HOME/.ansible.cfg…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "config"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/delegation.mdx",
+      "title": "Ansible 실행 위치 제어하기",
+      "url": "/docs/infrastructure/iac/ansible/delegation",
+      "snippet": "…delegate_to\n\n- https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_delegation.html\n\n``yaml\n- name:\n :\n :\n delegate_to:\n`\n\n- delegate_to:\n - 작업을 수행할 호스트를 지정합니…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "delegation"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/inventory.mdx",
+      "title": "Ansible inventory 설정하기",
+      "url": "/docs/infrastructure/iac/ansible/inventory",
+      "snippet": "## Inventory\n\n- https://docs.ansible.com/ansible-core/2.16/inventory_guide/intro_inventory.h…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "inventory"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/ansible/vault.mdx",
+      "title": "Ansible Vault를 사용하여 Secret 관리하기",
+      "url": "/docs/infrastructure/iac/ansible/vault",
+      "snippet": "## Variable\n\n``shell\nansible-vault encrypt_string --vault-id [] [value]\n`\n\n- --vault-id []\n - @prompt, @prom…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "workflow-system",
+        "instance": "ansible",
+        "aspect": "vault"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/overview.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/roles.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/roles.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/variables.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/variables.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/callback.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/callback.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/config.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/config.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/delegation.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/delegation.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/inventory.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/inventory.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/iac/ansible/vault.mdx:about_subject:subject:infrastructure:workflow-system:ansible",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/iac/ansible/vault.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:object-storage:minio",
+  "title": "MinIO, S3 호환 Object Storage",
+  "snippet": "…ne\n\nauth:\n rootUser: admin\n rootPassword: \"\"\n existingSecret: \"\"\n\npersistence:\n storageClass: \"\"\n`\n\n`shell\nhelm template minio minio-14.9.0.tgz \\\n -n minio \\\n -f minio…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "object-storage",
+    "instance": "minio"
+  },
+  "url": "/docs/infrastructure/storage/minio/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:object-storage:minio.json",
+  "document_refs": [
+    "doc:docs/infrastructure/storage/minio/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/storage/minio/overview.mdx",
+      "title": "MinIO, S3 호환 Object Storage",
+      "url": "/docs/infrastructure/storage/minio/overview",
+      "snippet": "…ne\n\nauth:\n rootUser: admin\n rootPassword: \"\"\n existingSecret: \"\"\n\npersistence:\n storageClass: \"\"\n`\n\n`shell\nhelm template minio minio-14.9.0.tgz \\\n -n minio \\\n -f minio…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "object-storage",
+        "instance": "minio",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/storage/minio/overview.mdx:about_subject:subject:infrastructure:object-storage:minio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/storage/minio/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

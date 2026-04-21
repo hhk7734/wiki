@@ -1,0 +1,119 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:ml-platform:kserve",
+  "title": "KServe",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "ml-platform",
+    "instance": "kserve"
+  },
+  "url": "/docs/infrastructure/ai-platform/kserve/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:ml-platform:kserve.json",
+  "document_refs": [
+    "doc:docs/infrastructure/ai-platform/kserve/overview.mdx",
+    "doc:docs/infrastructure/ai-platform/kserve/crds.mdx",
+    "doc:docs/infrastructure/ai-platform/kserve/custom.mdx",
+    "doc:docs/infrastructure/ai-platform/kserve/install.mdx",
+    "doc:docs/infrastructure/ai-platform/kserve/mlflow.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/ai-platform/kserve/overview.mdx",
+      "title": "KServe",
+      "url": "/docs/infrastructure/ai-platform/kserve/overview",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n https://kserve.github.io/website/0.10/modelserving/control_plane/\n\n https://kserve.github.io/w…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/kserve/crds.mdx",
+      "title": "Kserve CRDs",
+      "url": "/docs/infrastructure/ai-platform/kserve/crds",
+      "snippet": "## ServingRuntimes/ClusterServingRuntimes\n\n- https://kserve.github.io/website/0.11/modelserving/servingruntimes/\n- https://github.com/kserv…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "crds"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/kserve/custom.mdx",
+      "title": "Kserve Custom Runtime",
+      "url": "/docs/infrastructure/ai-platform/kserve/custom",
+      "snippet": "## ServingRuntimes\n\n``shell\npython3 -m pip install kserve\n`\n\nStorage를 사용해야하는 경우 kserve[storage]를 설…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "custom"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/kserve/install.mdx",
+      "title": "KServe 설치 가이드",
+      "url": "/docs/infrastructure/ai-platform/kserve/install",
+      "snippet": "KServe 개요 문서에서 control plane과 data plane 구성을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- https://github.c…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/kserve/mlflow.mdx",
+      "title": "KServe with MLFlow",
+      "url": "/docs/infrastructure/ai-platform/kserve/mlflow",
+      "snippet": "## 모델 준비\n\n## MLServer Local Test\n\n``shell\npython3 -m pip install mlserver mlserver-mlflow\n`\n\n`shell\n.…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "ml-platform",
+        "instance": "kserve",
+        "aspect": "mlflow"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/kserve/overview.mdx:about_subject:subject:infrastructure:ml-platform:kserve",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/kserve/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/kserve/crds.mdx:about_subject:subject:infrastructure:ml-platform:kserve",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/kserve/crds.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/kserve/custom.mdx:about_subject:subject:infrastructure:ml-platform:kserve",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/kserve/custom.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/kserve/install.mdx:about_subject:subject:infrastructure:ml-platform:kserve",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/kserve/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/kserve/mlflow.mdx:about_subject:subject:infrastructure:ml-platform:kserve",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/kserve/mlflow.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

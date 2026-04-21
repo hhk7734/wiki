@@ -1,0 +1,39 @@
+---
+id: overview
+title: local-path-provisioner
+sidebar_label: local-path-provisioner
+description: local-path-provisioner
+keywords:
+  - local-path-provisioner
+ontology:
+  role: entity
+  domain: infrastructure
+  class: storage-system
+  instance: local-path-provisioner
+  aspect: overview
+subject:
+  canonical_name: local-path-provisioner
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [local-path-provisioner GitHub](https://github.com/rancher/local-path-provisioner)
+
+:::
+
+:::info
+[설치 가이드](/docs/infrastructure/storage/local-path-provisioner/install.mdx) 문서는 별도로 분리되어 있습니다.
+:::
+
+`local-path-provisioner`는 노드의 로컬 디렉터리를 기준으로 PersistentVolume을 동적으로 생성하는 가벼운 스토리지 프로비저너입니다. 테스트 환경이나 단일 노드, 또는 공유 스토리지 없이 빠르게 PVC를 써야 하는 환경에서 주로 사용합니다.

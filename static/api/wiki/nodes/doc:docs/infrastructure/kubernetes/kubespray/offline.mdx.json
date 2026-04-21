@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/kubespray/offline.mdx",
+  "title": "Kubespray로 폐쇄망에서 Kubernetes 클러스터 생성하기",
+  "snippet": "## 다운로드 리스트 생성\n\n- Kubespray / Offline environment\n\ncontrib/offline/generate_list.sh 스크립트를 실행하면 아래 두 파일이 생성됩…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-orchestrator",
+    "instance": "kubespray",
+    "aspect": "offline"
+  },
+  "url": "/docs/infrastructure/kubernetes/kubespray/offline",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/kubespray/offline.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-orchestrator:kubespray",
+    "title": "Kubespray Control Plane HA endpoint 구성",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-orchestrator",
+      "instance": "kubespray"
+    },
+    "url": "/docs/infrastructure/kubernetes/kubespray/ha"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/kubespray/offline.mdx:about_subject:subject:infrastructure:cluster-orchestrator:kubespray",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-orchestrator:kubespray",
+      "direction": "outgoing"
+    }
+  ]
+}

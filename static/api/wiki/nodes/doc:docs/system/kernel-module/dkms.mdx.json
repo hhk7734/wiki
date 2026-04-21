@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/system/kernel-module/dkms.mdx",
+  "title": "DKMS",
+  "snippet": "…kms.conf\"\nPACKAGE_NAME=\"\"\nPACKAGE_VERSION=\"\"\nMAKE[0]=\"make -j$(nproc) KVERSION=$kernelver\"\nCLEAN=\"make clean\"\nBUILT_MODULE_NAME[0]=\"\"\nDEST_MODULE_LOCATION[0]=\"/update…",
+  "ontology": {
+    "role": "operation",
+    "domain": "system",
+    "class": "kernel",
+    "instance": "kernel-module",
+    "aspect": "dkms"
+  },
+  "url": "/docs/system/kernel-module/dkms",
+  "node_url": "/api/wiki/nodes/doc:docs/system/kernel-module/dkms.mdx.json",
+  "subject": {
+    "id": "subject:system:kernel:kernel-module",
+    "title": "Build external module",
+    "ontology": {
+      "domain": "system",
+      "class": "kernel",
+      "instance": "kernel-module"
+    },
+    "url": "/docs/system/kernel-module/build-external"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/kernel-module/dkms.mdx:about_subject:subject:system:kernel:kernel-module",
+      "predicate": "about_subject",
+      "other_id": "subject:system:kernel:kernel-module",
+      "direction": "outgoing"
+    }
+  ]
+}

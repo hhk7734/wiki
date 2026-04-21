@@ -86,7 +86,7 @@ test("classifySeedFromFrontmatter matches classifySeed for maintained taxonomy d
 
 test("classifySeed requires frontmatter for maintained taxonomy paths", () => {
 	assert.throws(
-		() => classifySeed("docs/data/concepts/__missing__.mdx"),
+		() => classifySeed("docs/knowledge/concepts/__missing__.mdx"),
 		/no such file or directory|ENOENT/i,
 	);
 });
@@ -125,7 +125,7 @@ test("classifySeed rejects taxonomy docs whose id does not match the filename", 
 
 test("isMaintainedTaxonomyPath recognizes approved topic-first paths", () => {
 	assert.equal(isMaintainedTaxonomyPath("docs/language/go/overview.mdx"), true);
-	assert.equal(isMaintainedTaxonomyPath("docs/data/concepts/ontology.mdx"), true);
+	assert.equal(isMaintainedTaxonomyPath("docs/knowledge/concepts/ontology.mdx"), true);
 	assert.equal(isMaintainedTaxonomyPath("docs/lang/go/go.mdx"), false);
 });
 

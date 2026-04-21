@@ -1,0 +1,99 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:serving-system:gateway-api-inference-extension",
+  "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
+  "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "serving-system",
+    "instance": "gateway-api-inference-extension"
+  },
+  "url": "/docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:serving-system:gateway-api-inference-extension.json",
+  "document_refs": [
+    "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker.mdx",
+    "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/plugins.mdx",
+    "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/install.mdx",
+    "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/route.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker.mdx",
+      "title": "Gateway API Inference Extension (GIE) EndPoint Picker (EPP)",
+      "url": "/docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker",
+      "snippet": "…d\nflowchart TD\n C[Client] -- 1️⃣ request --> E[Envoy]\n E -- 2️⃣ request --> EPP[Endpoint Picker]\n EPP -- 3️⃣ request + routingHint --> E\n E -- 4️⃣ request --> DW1[Decode Worke…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "endpoint-picker"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/plugins.mdx",
+      "title": "Gateway API Inference Extension Plugin 설정 가이드",
+      "url": "/docs/infrastructure/ai-platform/gateway-api-inference-extension/plugins",
+      "snippet": "- gateway-api-inference-extension GitHub / pkg / epp / scheduling /framework / plugins\n- EndPoint Picker (EPP)\n\n#…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "plugins"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/install.mdx",
+      "title": "Gateway API Inference Extension (GIE) CRD 설치 가이드",
+      "url": "/docs/infrastructure/ai-platform/gateway-api-inference-extension/install",
+      "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api-inference-extension -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api-inference-extension --v…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/route.mdx",
+      "title": "Gateway API Inference Extension (GIE)로 모델 라우팅 관리하기",
+      "url": "/docs/infrastructure/ai-platform/gateway-api-inference-extension/route",
+      "snippet": "## InferencePool\n\n- Gateway API로 라우팅 관리하기 # HTTPRoute\n- GIE / Reference / InferencePool\n\n``yaml\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "gateway-api-inference-extension",
+        "aspect": "route"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker.mdx:about_subject:subject:infrastructure:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/endpoint-picker.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/plugins.mdx:about_subject:subject:infrastructure:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/plugins.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/install.mdx:about_subject:subject:infrastructure:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/route.mdx:about_subject:subject:infrastructure:serving-system:gateway-api-inference-extension",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/route.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -30,15 +30,14 @@ declare const require: {
 };
 
 const topicSections = {
-	Data: "data",
+	Knowledge: "knowledge",
 	Language: "language",
-	MLOps: "mlops",
-	Platform: "platform",
+	Infrastructure: "infrastructure",
+	System: "system",
 	Protocol: "protocol",
 	Hardware: "hardware",
 	Science: "science",
 	Management: "management",
-	Comparison: "comparison",
 } as const;
 
 const docMetadataById = (() => {

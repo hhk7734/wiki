@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/gateway-api/install.mdx",
+  "title": "Gateway API CRD 설치 가이드",
+  "snippet": "…io/helm-charts\n`\n\n`shell\nhelm repo update lol-iot \\\n&& helm search repo lol-iot/gateway-api -l | head -n 10\n`\n\n`shell\nhelm pull lol-iot/gateway-api --version 1.3.0\n`\n\n`she…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "gateway-api",
+    "instance": "gateway-api",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/networking/gateway-api/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/gateway-api/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:gateway-api:gateway-api",
+    "title": "Gateway API 사용시 조직에 따른 역할",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "gateway-api",
+      "instance": "gateway-api"
+    },
+    "url": "/docs/infrastructure/networking/gateway-api/role"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/gateway-api/install.mdx:about_subject:subject:infrastructure:gateway-api:gateway-api",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:gateway-api:gateway-api",
+      "direction": "outgoing"
+    }
+  ]
+}

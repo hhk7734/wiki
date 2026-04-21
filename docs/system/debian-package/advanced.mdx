@@ -1,0 +1,134 @@
+---
+id: advanced
+title: "Debian Package Advanced"
+sidebar_label: Advanced
+description: "Debian Package Advanced"
+keywords:
+  - Debian
+  - package
+ontology:
+  role: operation
+  domain: system
+  class: package-manager
+  instance: debian-package
+  aspect: advanced
+subject:
+  canonical_name: "Debian Package"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+패키지의 목적, 구성 언어 등이 다양하기 때문에 패키지를 만드는 방식도 다양합니다. 모든 방법을 알 수는 없지만 `debhelper(dh)`와 `debian/rules`의 역할을 통해 흐름을 알 수 있습니다.
+
+## debhelper
+
+`debhelper`는 `dh`, `dh_<command>` 명령어로 데비안 패키지를 만들어주는 툴입니다.
+
+`dh` 명령어에 의해 `dh_<command>` 명령어가 정해진 순서로 실행됩니다.
+
+```shell
+dh <sequence> [options]
+```
+
+- `<sequence>`
+  - clean
+  - build, build-arch, build-indep
+  - binary, binary-arch, binary-indep
+  - patch(optional)
+
+패키지를 만들 때 일반적으로 아래와 같은 순으로 진행됩니다.
+
+```shell
+cd <package>
+```
+
+```shell
+sudo dh clean
+```
+
+```shell
+sudo dh build
+```
+
+```shell
+sudo dh binary
+```
+
+### dh\_\<command\>
+
+`dh_<command>`는 `dh`명령에 의해 호출됩니다. `dh`명령어에 의해 호출되는 명령어의 순서를 확인하기 위해 아래 명령어를 사용하면 됩니다.
+
+```shell
+dh <command> --no-act
+```
+
+```shell {1}
+$ dh clean
+   dh_testdir
+   dh_auto_clean
+      make distclean
+   dh_clean
+```
+
+```shell {1}
+$ dh build
+   dh_testdir
+   dh_update_autotools_config
+   dh_auto_configure
+   dh_auto_build
+      make
+   dh_auto_test
+```
+
+```shell {1}
+$ dh binary
+   dh_testroot
+   dh_prep
+   dh_installdirs
+   dh_auto_install
+      make install DESTDIR=/<path>/debian/<package>
+   dh_install
+   dh_installdocs
+   dh_installchangelogs
+   dh_installexamples
+   dh_installman
+   dh_installcatalogs
+   dh_installcron
+   dh_installdebconf
+   dh_installemacsen
+   dh_installifupdown
+   dh_installinfo
+   dh_installinit
+   dh_installmenu
+   dh_installmime
+   dh_installmodules
+   dh_installlogcheck
+   dh_installlogrotate
+   dh_installpam
+   dh_installppp
+   dh_installudev
+   dh_installgsettings
+   dh_bugfiles
+   dh_ucf
+   dh_lintian
+   dh_gconf
+   dh_icons
+   dh_perl
+   dh_usrlocal
+   dh_link
+   dh_installwm
+   dh_installxfonts
+   dh_strip_nondeterminism
+   dh_compress
+   dh_fixperms
+   dh_missing
+```

@@ -1,0 +1,259 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:service-mesh:istio",
+  "title": "Istio",
+  "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## Proxy & Service mesh\n\n Before utilizing Istio\n\n After utilizing Istio\n\n``txt\nClient ─── Service A ┬── Service B\n └── Service …",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "service-mesh",
+    "instance": "istio"
+  },
+  "url": "/docs/infrastructure/networking/istio/overview",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:service-mesh:istio.json",
+  "document_refs": [
+    "doc:docs/infrastructure/networking/istio/overview.mdx",
+    "doc:docs/infrastructure/networking/istio/envoy-filter/compressor.mdx",
+    "doc:docs/infrastructure/networking/istio/envoy-filter/ext-proc.mdx",
+    "doc:docs/infrastructure/networking/istio/envoy-filter/overview.mdx",
+    "doc:docs/infrastructure/networking/istio/multi-cluster.mdx",
+    "doc:docs/infrastructure/networking/istio/upgrade.mdx",
+    "doc:docs/infrastructure/networking/istio/virtual-service.mdx",
+    "doc:docs/infrastructure/networking/istio/accesslog.mdx",
+    "doc:docs/infrastructure/networking/istio/authorization.mdx",
+    "doc:docs/infrastructure/networking/istio/ext-authz.mdx",
+    "doc:docs/infrastructure/networking/istio/install.mdx",
+    "doc:docs/infrastructure/networking/istio/opentelemetry.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/networking/istio/overview.mdx",
+      "title": "Istio",
+      "url": "/docs/infrastructure/networking/istio/overview",
+      "snippet": "설치 가이드 문서는 별도로 분리되어 있습니다.\n\n## Proxy & Service mesh\n\n Before utilizing Istio\n\n After utilizing Istio\n\n``txt\nClient ─── Service A ┬── Service B\n └── Service …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/envoy-filter/compressor.mdx",
+      "title": "EnvoyFilter로 HTTP 압축 관리하기",
+      "url": "/docs/infrastructure/networking/istio/envoy-filter/compressor",
+      "snippet": "## Compressor\n\n- Envoy / Configuration / HTTP / Filter / Compressor\n- Envoy / API / V3 / Exte…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "envoy-filter-compressor"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/envoy-filter/ext-proc.mdx",
+      "title": "EnvoyFilter로 외부 프로세서와 통신하기",
+      "url": "/docs/infrastructure/networking/istio/envoy-filter/ext-proc",
+      "snippet": "## ExternalProcessor\n\n- Envoy / Configuration / HTTP / Filter / External Processor\n- Envoy / API / V3 / Extensions / Filters / HTTP / External Processor\n\n``yaml",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "envoy-filter-ext-proc"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/envoy-filter/overview.mdx",
+      "title": "EnvoyFilter",
+      "url": "/docs/infrastructure/networking/istio/envoy-filter/overview",
+      "snippet": "…oy 문서에서는 Envoy proxy 그룹입니다.\n- **Runtime configuration**: 실시간으로 변경가능한 설정입니다.\n\n## EnvoyFilter\n\n- Istio / Traffic management / Envoy Filter\n\n``yaml\napiVersion: networking.ist…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "envoy-filter"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/multi-cluster.mdx",
+      "title": "Multi-cluster",
+      "url": "/docs/infrastructure/networking/istio/multi-cluster",
+      "snippet": "## Configure Trust\n\n- https://istio.io/latest/docs/tasks/security/cert-management/plugin-ca-cert/\n- x509\n\n### Root …",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "multi-cluster"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/upgrade.mdx",
+      "title": "Upgrade",
+      "url": "/docs/infrastructure/networking/istio/upgrade",
+      "snippet": "## Canary 업그레이드\n\n- https://istio.io/latest/docs/setup/upgrade/helm/#canary-upgrade-recommended\n\n### 사전 체크\n\n``shell\nistioctl x precheck\n`\n\n###…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "upgrade"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/virtual-service.mdx",
+      "title": "VirtualService",
+      "url": "/docs/infrastructure/networking/istio/virtual-service",
+      "snippet": "## HTTP redirect\n\n- https://istio.io/latest/docs/reference/config/networking/virtual-service/#HTTPRedirect\n\n``yaml\napiVersion: networking.istio.io/v1beta1\nkind: VirtualServ…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "virtual-service"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/accesslog.mdx",
+      "title": "Istio Access Log 설정 가이드",
+      "url": "/docs/infrastructure/networking/istio/accesslog",
+      "snippet": "## Access Log Provider 설정\n\n- Istio / Configuration / Global Mesh Options\n- Envoy / Configurat…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "accesslog"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/authorization.mdx",
+      "title": "Istio Authorization",
+      "url": "/docs/infrastructure/networking/istio/authorization",
+      "snippet": "## Istio Authorization\n\n- https://istio.io/latest/docs/concepts/security/#authorization\n\n- 인가 정책(Autho…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "authorization"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/ext-authz.mdx",
+      "title": "EnvoyFilter로 외부 인증서버와 통신하기",
+      "url": "/docs/infrastructure/networking/istio/ext-authz",
+      "snippet": "## ExtAuthz\n\n- Envoy / Configuration / HTTP / Filters / ExtAuthz\n- Envoy / API / V3 / Extensions / Filters / HTTP / ExtAuthz\n\n``yaml\nspec:\n configPatches:\n - ap",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "ext-authz"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/install.mdx",
+      "title": "Istio 설치 가이드",
+      "url": "/docs/infrastructure/networking/istio/install",
+      "snippet": "Istio 개요 문서에서 서비스 메쉬와 Envoy 개념을 먼저 확인할 수 있습니다.\n\n## 설치\n\n- Istio / Sidecar Mode / Install with Helm\n\n``shell\nhelm repo add istio https://istio-release.storage.googleapis…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "install"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/networking/istio/opentelemetry.mdx",
+      "title": "Istio OpenTelemetry 설정 가이드",
+      "url": "/docs/infrastructure/networking/istio/opentelemetry",
+      "snippet": "## OpenTelemetry TracingProvider 설정\n\n- Istio / Configuration / Global Mesh Options\n\n``yaml title…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "opentelemetry"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/overview.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/envoy-filter/compressor.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/envoy-filter/compressor.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/envoy-filter/ext-proc.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/envoy-filter/ext-proc.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/envoy-filter/overview.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/envoy-filter/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/multi-cluster.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/multi-cluster.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/upgrade.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/upgrade.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/virtual-service.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/virtual-service.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/accesslog.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/accesslog.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/authorization.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/authorization.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/ext-authz.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/ext-authz.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/install.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/opentelemetry.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/opentelemetry.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

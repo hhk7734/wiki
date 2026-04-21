@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:system:kernel:clone-os-image",
+  "title": "Clone OS image",
+  "snippet": "…inux\n`\n\n`shell\nsudo umount /dev/sdb1 /dev/sdb2\n`\n\n`shell\nsudo dd if=/dev/sdb of=clone.img bs=4M count=$((31115263 + 1)) status=progress\n`\n\n`shell {1}\n$ sudo parted -…",
+  "ontology": {
+    "domain": "system",
+    "class": "kernel",
+    "instance": "clone-os-image"
+  },
+  "url": "/docs/system/clone-os-image/overview",
+  "node_url": "/api/wiki/nodes/subject:system:kernel:clone-os-image.json",
+  "document_refs": [
+    "doc:docs/system/clone-os-image/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/system/clone-os-image/overview.mdx",
+      "title": "Clone OS image",
+      "url": "/docs/system/clone-os-image/overview",
+      "snippet": "…inux\n`\n\n`shell\nsudo umount /dev/sdb1 /dev/sdb2\n`\n\n`shell\nsudo dd if=/dev/sdb of=clone.img bs=4M count=$((31115263 + 1)) status=progress\n`\n\n`shell {1}\n$ sudo parted -…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "kernel",
+        "instance": "clone-os-image",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/clone-os-image/overview.mdx:about_subject:subject:system:kernel:clone-os-image",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/clone-os-image/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

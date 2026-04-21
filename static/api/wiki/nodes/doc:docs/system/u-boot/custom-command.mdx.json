@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/system/u-boot/custom-command.mdx",
+  "title": "u-boot custom command",
+  "snippet": "… set ts=8 sw=8 tw=80: */\n`\n\n`Kconfig title=\"u-boot/cmd/Kconfig\"\n...\n\nmenu \"Misc commands\"\n\nconfig CMD_HELLO\n bool \"Enable 'hello' command for test\"\n depends on CMDLINE…",
+  "ontology": {
+    "role": "operation",
+    "domain": "system",
+    "class": "bootloader",
+    "instance": "u-boot",
+    "aspect": "custom-command"
+  },
+  "url": "/docs/system/u-boot/custom-command",
+  "node_url": "/api/wiki/nodes/doc:docs/system/u-boot/custom-command.mdx.json",
+  "subject": {
+    "id": "subject:system:bootloader:u-boot",
+    "title": "Build u-boot",
+    "ontology": {
+      "domain": "system",
+      "class": "bootloader",
+      "instance": "u-boot"
+    },
+    "url": "/docs/system/u-boot/build"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/u-boot/custom-command.mdx:about_subject:subject:system:bootloader:u-boot",
+      "predicate": "about_subject",
+      "other_id": "subject:system:bootloader:u-boot",
+      "direction": "outgoing"
+    }
+  ]
+}

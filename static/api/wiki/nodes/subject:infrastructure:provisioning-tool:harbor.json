@@ -1,0 +1,79 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:provisioning-tool:harbor",
+  "title": "Harbor Proxy Cache",
+  "snippet": "## Proxy Cache\n\n### ECR Proxy Cache\n\n``yaml\nname:\ntype: aws-ecr\nurl: https://\ncredential:\n acc…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "harbor"
+  },
+  "url": "/docs/infrastructure/container/harbor/proxy-cache",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:provisioning-tool:harbor.json",
+  "document_refs": [
+    "doc:docs/infrastructure/container/harbor/proxy-cache.mdx",
+    "doc:docs/infrastructure/container/harbor/auth.mdx",
+    "doc:docs/infrastructure/container/harbor/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/container/harbor/proxy-cache.mdx",
+      "title": "Harbor Proxy Cache",
+      "url": "/docs/infrastructure/container/harbor/proxy-cache",
+      "snippet": "## Proxy Cache\n\n### ECR Proxy Cache\n\n``yaml\nname:\ntype: aws-ecr\nurl: https://\ncredential:\n acc…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "harbor",
+        "aspect": "proxy-cache"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/container/harbor/auth.mdx",
+      "title": "Harbor 인증/인가(authn/authz)",
+      "url": "/docs/infrastructure/container/harbor/auth",
+      "snippet": "## Robot 계정\n\n- https://goharbor.io/docs/latest/administration/robot-accounts/",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "harbor",
+        "aspect": "auth"
+      }
+    },
+    {
+      "id": "doc:docs/infrastructure/container/harbor/install.mdx",
+      "title": "Harbor",
+      "url": "/docs/infrastructure/container/harbor/install",
+      "snippet": "… 도움말에 사용됩니다.\nexternalURL:\n\npersistence:\n enabled: true\n persistentVolumeClaim:\n registry:\n accessMode: ReadWriteMany\n jobservice:\n jobLog:\n accessMode: ReadWriteMany\n d…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "provisioning-tool",
+        "instance": "harbor",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/container/harbor/proxy-cache.mdx:about_subject:subject:infrastructure:provisioning-tool:harbor",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/harbor/proxy-cache.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/container/harbor/auth.mdx:about_subject:subject:infrastructure:provisioning-tool:harbor",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/harbor/auth.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/container/harbor/install.mdx:about_subject:subject:infrastructure:provisioning-tool:harbor",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/container/harbor/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

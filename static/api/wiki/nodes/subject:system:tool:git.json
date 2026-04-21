@@ -1,0 +1,199 @@
+{
+  "type": "subject",
+  "id": "subject:system:tool:git",
+  "title": "Git 기본 안내",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S git\n`\n\n`shell\nsudo apt install git\n`\n\n`shell\ngit config --global user.name \"Hyeonki…",
+  "ontology": {
+    "domain": "system",
+    "class": "tool",
+    "instance": "git"
+  },
+  "url": "/docs/system/git/overview",
+  "node_url": "/api/wiki/nodes/subject:system:tool:git.json",
+  "document_refs": [
+    "doc:docs/system/git/overview.mdx",
+    "doc:docs/system/git/commit-message.mdx",
+    "doc:docs/system/git/config.mdx",
+    "doc:docs/system/git/fork-pull-request.mdx",
+    "doc:docs/system/git/lfs.mdx",
+    "doc:docs/system/git/patch.mdx",
+    "doc:docs/system/git/pre-commit.mdx",
+    "doc:docs/system/git/submodule.mdx",
+    "doc:docs/system/git/tag.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/system/git/overview.mdx",
+      "title": "Git 기본 안내",
+      "url": "/docs/system/git/overview",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S git\n`\n\n`shell\nsudo apt install git\n`\n\n`shell\ngit config --global user.name \"Hyeonki…",
+      "ontology": {
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/commit-message.mdx",
+      "title": "Git commit message",
+      "url": "/docs/system/git/commit-message",
+      "snippet": "## Message\n\n- https://www.conventionalcommits.org/ko/v1.0.0/#%EA%B0%9C%EC%9A%94\n\n``xml\n[()…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "commit-message"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/config.mdx",
+      "title": "Git config",
+      "url": "/docs/system/git/config",
+      "snippet": "## git config\n\n``shell\ngit config\n`\n\n-\n - --system: 시스템 설정(/etc/gitconfig)\n - --global: 유저 설정…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "config"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/fork-pull-request.mdx",
+      "title": "Git Fork 하고 Pull Request 만들기",
+      "url": "/docs/system/git/fork-pull-request",
+      "snippet": "…경우\n\n`shell\nvim\n`\n\n`shell\ngit add\n`\n\n`shell\ngit commit\n`\n\n`shell\ngit push\n``\n\n## Pull Request",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "fork-pull-request"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/lfs.mdx",
+      "title": "Git LFS",
+      "url": "/docs/system/git/lfs",
+      "snippet": "## 설치\n\n- https://github.com/git-lfs/git-lfs#getting-started\n\n``shell\nsudo pacman -S git-lfs\n`\n\n`shel…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "lfs"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/patch.mdx",
+      "title": "Git patch 파일 만들기",
+      "url": "/docs/system/git/patch",
+      "snippet": "## patch files 생성\n\n``shell\ngit format-patch [-] [commit]\n`\n\n## patch file 적용\n\n`shell\ngit am\n`\n\n### patch 중 에러 수정\n\n`shell\ngi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "patch"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/pre-commit.mdx",
+      "title": "pre-commit으로 git hook 관리하기",
+      "url": "/docs/system/git/pre-commit",
+      "snippet": "## 설치\n\n``shell\npython3 -m pip install pre-commit\n`\n\n## commands\n\n### pre-commit install\n\n`shell\npre-commit install\n`\n\n위 명령어를 실행하…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "pre-commit"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/submodule.mdx",
+      "title": "Git submodule 사용하기",
+      "url": "/docs/system/git/submodule",
+      "snippet": "- Git Submodules\n\n## submodule 추가하기\n\n``shell\ngit submodule add []\n`\n\n`shell\ngit commit -m \"Add …",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "submodule"
+      }
+    },
+    {
+      "id": "doc:docs/system/git/tag.mdx",
+      "title": "Git tag",
+      "url": "/docs/system/git/tag",
+      "snippet": "## tag 추가\n\n``shell\ngit tag -a -m \"\" [commit hash]\n`\n\n이전 커밋에 tag를 달아야하는 경우 commit hash를 지정해주면 됩니다.\n\ntag…",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "tag"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/git/overview.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/commit-message.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/commit-message.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/config.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/config.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/fork-pull-request.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/fork-pull-request.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/lfs.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/lfs.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/patch.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/patch.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/pre-commit.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/pre-commit.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/submodule.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/submodule.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/system/git/tag.mdx:about_subject:subject:system:tool:git",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/git/tag.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

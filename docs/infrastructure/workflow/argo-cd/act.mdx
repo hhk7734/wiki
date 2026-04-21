@@ -1,0 +1,107 @@
+---
+id: act
+title: "Local에서 GitHub Action 실행하기"
+sidebar_label: "Local GitHub Action"
+description: "Local에서 GitHub Action 실행하기"
+keywords:
+  - github
+  - action
+  - local
+  - act
+ontology:
+  role: operation
+  domain: infrastructure
+  class: workflow-system
+  instance: argo-cd
+  aspect: act
+subject:
+  canonical_name: "Argo CD"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+## act
+
+- [act GitHub](https://github.com/nektos/act)
+
+`act`는 Docker를 활용하여 GitHub Action을 Local에서 실행할 수 있게 해주는 도구입니다.
+
+## 설치
+
+<Tabs
+    groupId="os"
+    defaultValue="arch"
+    values={[
+        {label: 'Arch Linux', value: 'arch',},
+        {label: 'Pre-built Artifacts', value: 'prebuilt',},
+    ]}
+>
+
+<TabItem value="arch">
+
+```shell
+yay -S act
+```
+
+</TabItem>
+
+<TabItem value="prebuilt">
+
+```shell
+curl --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/nektos/act/master/install.sh | sudo bash
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info
+
+- [Podman](/docs/infrastructure/container/podman/overview.mdx)
+
+`podman`을 사용하는 경우 아래와 같이 시도해볼 수 있습니다.(실행이 안될 수 있으므로 주의해주세요.)
+
+```shell
+sudo pacman -S podman-docker
+```
+
+```shell
+systemctl enable --now --user podman.socket \
+&& systemctl start --user podman.socket
+```
+
+```shell
+systemctl status --user podman.socket
+```
+
+```shell
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+```
+
+:::
+
+## 실행
+
+```shell
+act [<flags>]
+```
+
+- `<flags>`
+  - `-s | --secret <key>=<value>`
+  - `--secret-file <file>`: .env 형식의 파일을 읽어서 secret으로 사용할 수 있습니다.
+  - `--env <key>=<value>`
+  - `--env-file <file>`: .env 형식의 파일을 읽어서 env로 사용할 수 있습니다.
+  - `--bind`: 로컬 파일을 복사대신 바인딩합니다.
+  - `-W, --workflows <workflows>`: 기본 값으로 `./.github/workflows`를 사용합니다. workflow파일 하나만 지정해서 실행할 수도 있습니다.

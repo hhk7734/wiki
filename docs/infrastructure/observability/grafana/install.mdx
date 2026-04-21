@@ -1,0 +1,75 @@
+---
+id: install
+title: Grafana
+sidebar_label: Grafana
+description: Grafana
+keywords:
+  - Grafana
+ontology:
+  role: operation
+  domain: infrastructure
+  class: observability-system
+  instance: grafana
+  aspect: install
+subject:
+  canonical_name: Grafana
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+```shell
+helm repo add grafana https://grafana.github.io/helm-charts
+```
+
+```shell
+helm repo update grafana \
+&& helm search repo grafana/grafana -l | head -n 10
+```
+
+```shell
+helm pull grafana/grafana --version 10.1.4
+```
+
+```shell
+helm show values grafana/grafana --version 10.1.4 > grafana-10.1.4.yaml
+```
+
+```yaml title="grafana-values.yaml"
+extraLabels: {}
+
+podLabels: {}
+
+resources: {}
+
+tolerations: []
+
+persistence:
+  enabled: false
+```
+
+```shell
+helm template grafana grafana/grafana \
+    --version 10.1.4 \
+    -n grafana \
+    -f grafana-values.yaml \
+    > grafana.yaml
+```
+
+```shell
+helm upgrade -i grafana grafana/grafana \
+    --history-max 5 \
+    --version 10.1.4 \
+    -n grafana \
+    -f grafana-values.yaml
+```

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/cni/overview.mdx",
+  "title": "Container Network Interface(CNI)",
+  "snippet": "…네트워크를 설정합니다.\n\n``mermaid\nsequenceDiagram\n participant kubelet\n participant CR as Container Runtime\n participant CNI as CNI Plugin\n\n kubelet ->> CR: RunPodSandbox\n\n create…",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "cni",
+    "aspect": "overview"
+  },
+  "url": "/docs/infrastructure/networking/cni/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/cni/overview.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:cni",
+    "title": "Container Network Interface(CNI)",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "cni"
+    },
+    "url": "/docs/infrastructure/networking/cni/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/cni/overview.mdx:about_subject:subject:infrastructure:networking-stack:cni",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:cni",
+      "direction": "outgoing"
+    }
+  ]
+}

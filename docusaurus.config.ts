@@ -118,28 +118,24 @@ const config: Config = {
 					position: "left",
 					items: [
 						{
-							label: "Data",
-							to: "/docs/data/concepts/ontology",
+							label: "Knowledge",
+							to: "/docs/knowledge/concepts/ontology",
 						},
 						{
 							label: "Language",
 							to: "/docs/language/go/overview",
 						},
 						{
-							label: "Platform",
-							to: "/docs/platform/git/overview",
-						},
-						{
-							label: "Comparison",
-							to: "/docs/comparison/data/database/type",
+							label: "System",
+							to: "/docs/system/git/overview",
 						},
 						{
 							label: "Protocol",
 							to: "/docs/protocol/openapi/overview",
 						},
 						{
-							label: "MLOps",
-							to: "/docs/mlops/kubectl/overview",
+							label: "Infrastructure",
+							to: "/docs/infrastructure/kubernetes/kubectl/overview",
 						},
 						{
 							label: "Hardware",

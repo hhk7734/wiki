@@ -12,14 +12,14 @@ test("graphify search ranks ceph osd operation docs highly for natural-language 
 			keywords: ["ceph", "osd"],
 			ontology: {
 				role: "operation",
-				domain: "data",
+				domain: "infrastructure",
 				class: "storage-system",
 				instance: "ceph",
 				aspect: "osd",
 			},
 			search_text: "ceph osd 관리 방법과 교체 절차",
 			terms: ["ceph", "osd", "관리", "방법", "교체", "절차"],
-			url: "/docs/data/ceph/osd",
+			url: "/docs/infrastructure/storage/ceph/osd",
 		},
 		{
 			id: "doc:ceph-overview",
@@ -29,14 +29,14 @@ test("graphify search ranks ceph osd operation docs highly for natural-language 
 			keywords: ["ceph"],
 			ontology: {
 				role: "entity",
-				domain: "data",
+				domain: "infrastructure",
 				class: "storage-system",
 				instance: "ceph",
 				aspect: "overview",
 			},
 			search_text: "ceph overview and architecture",
 			terms: ["ceph", "overview", "architecture"],
-			url: "/docs/data/ceph/overview",
+			url: "/docs/infrastructure/storage/ceph/overview",
 		},
 	]);
 
