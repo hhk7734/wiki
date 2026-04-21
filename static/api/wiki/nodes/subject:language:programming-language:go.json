@@ -12,6 +12,7 @@
   "node_url": "/api/wiki/nodes/subject:language:programming-language:go.json",
   "document_refs": [
     "doc:docs/language/go/overview.mdx",
+    "doc:docs/language/go/context.mdx",
     "doc:docs/language/go/error.mdx",
     "doc:docs/language/go/goroutine.mdx",
     "doc:docs/language/go/cgo.mdx",
@@ -30,6 +31,19 @@
         "class": "programming-language",
         "instance": "go",
         "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/context.mdx",
+      "title": "context",
+      "url": "/docs/language/go/context",
+      "snippet": "## context.Context\n\n- struct에 컨텍스트를 저장하지 않습니다\n- 일반적으로 ctx context.Context를 첫번째 파라미터로 선언합니다…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "context"
       }
     },
     {
@@ -103,6 +117,12 @@
       "id": "relation:doc:docs/language/go/overview.mdx:about_subject:subject:language:programming-language:go",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/go/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/context.mdx:about_subject:subject:language:programming-language:go",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/context.mdx",
       "direction": "incoming"
     },
     {

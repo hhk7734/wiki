@@ -11,7 +11,10 @@
   "url": "/docs/language/shellscript/overview",
   "node_url": "/api/wiki/nodes/subject:language:programming-language:shellscript.json",
   "document_refs": [
-    "doc:docs/language/shellscript/overview.mdx"
+    "doc:docs/language/shellscript/overview.mdx",
+    "doc:docs/language/shellscript/getopt.mdx",
+    "doc:docs/language/shellscript/redirection-piping.mdx",
+    "doc:docs/language/shellscript/text-color.mdx"
   ],
   "documents": [
     {
@@ -26,6 +29,45 @@
         "instance": "shellscript",
         "aspect": "overview"
       }
+    },
+    {
+      "id": "doc:docs/language/shellscript/getopt.mdx",
+      "title": "ShellScript getopt",
+      "url": "/docs/language/shellscript/getopt",
+      "snippet": "## getopts\n\n- https://mug896.github.io/bash-shell/getopts.html\n\n``shell\n$ script.sh a b c…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "getopt"
+      }
+    },
+    {
+      "id": "doc:docs/language/shellscript/redirection-piping.mdx",
+      "title": "Redirection과 Piping",
+      "url": "/docs/language/shellscript/redirection-piping",
+      "snippet": "## Redirection\n\n## Piping\n\n``shell\nprogram1 | program2\n`\n\n- |는 program1의 stdout을 program2의 std…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "redirection-piping"
+      }
+    },
+    {
+      "id": "doc:docs/language/shellscript/text-color.mdx",
+      "title": "ShellScript Text color",
+      "url": "/docs/language/shellscript/text-color",
+      "snippet": "## ANSI escape code\n\n- ANSI escape code Colors\n\n- \\033: Escape(ESC)\n- \\033[: Control Sequence Introducer(CSI)\n - \\033[[;]m: S…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "text-color"
+      }
     }
   ],
   "relations": [
@@ -33,6 +75,24 @@
       "id": "relation:doc:docs/language/shellscript/overview.mdx:about_subject:subject:language:programming-language:shellscript",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/shellscript/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/shellscript/getopt.mdx:about_subject:subject:language:programming-language:shellscript",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/shellscript/getopt.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/shellscript/redirection-piping.mdx:about_subject:subject:language:programming-language:shellscript",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/shellscript/redirection-piping.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/shellscript/text-color.mdx:about_subject:subject:language:programming-language:shellscript",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/shellscript/text-color.mdx",
       "direction": "incoming"
     }
   ]

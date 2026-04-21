@@ -2282,6 +2282,7 @@
       "url": "/docs/language/go/overview",
       "document_refs": [
         "doc:docs/language/go/overview.mdx",
+        "doc:docs/language/go/context.mdx",
         "doc:docs/language/go/error.mdx",
         "doc:docs/language/go/goroutine.mdx",
         "doc:docs/language/go/cgo.mdx",
@@ -2293,12 +2294,12 @@
         "class": "programming-language",
         "instance": "go"
       },
-      "search_text": "go o install 빌드된 바이너리가 gobin경로에 설치됩니다 project layout - https //github com/golang-standards/project-layout - https //github com/golang-standards/project-layout/b go error goroutine go에서 c 코드 사용하기 linting formatting package 만들기 설치 setup build project layout naming conventions reference error sentinel error error type error 합치기 join panic and recover goroutine channel for-range select import c cgo 지시자 코드 분리 설정 파일 go mod version language programming-language go",
+      "search_text": "go o install 빌드된 바이너리가 gobin경로에 설치됩니다 project layout - https //github com/golang-standards/project-layout - https //github com/golang-standards/project-layout/b go context error goroutine go에서 c 코드 사용하기 linting formatting package 만들기 설치 setup build project layout naming conventions reference context context context withvalue context withcancel error sentinel error error type error 합치기 join panic and recover goroutine channel for-range select import c cgo 지시자 코드 분리 설정 파일 go mod version language programming-language go",
       "display": {
         "label": "Go",
         "kind": "subject",
         "subtitle": "Go",
-        "document_count": 6
+        "document_count": 7
       }
     },
     {
@@ -3664,29 +3665,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:database",
-      "title": "Long-running Tasks Database Schema",
-      "description": "장기 실행 작업을 비동기로 관리할 때, 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다.\n\n하지만, 미처 처리하지 못한 에러에 대한 디버깅, 방어적인 시스템 관리, 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하",
-      "snippet": "장기 실행 작업을 비동기로 관리할 때, 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다.\n\n하지만, 미처 처리하지 못한 에러에 대한 디버깅, 방어적인 시스템 관리, 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하",
-      "url": "/docs/language/concepts/database",
-      "document_refs": [
-        "doc:docs/language/concepts/database.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "database"
-      },
-      "search_text": "long-running tasks database schema 장기 실행 작업을 비동기로 관리할 때 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다 하지만 미처 처리하지 못한 에러에 대한 디버깅 방어적인 시스템 관리 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하 long-running tasks database schema language concept database",
-      "display": {
-        "label": "Long-running Tasks Database Schema",
-        "kind": "subject",
-        "subtitle": "Database",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:infrastructure:workflow-system:mpi-operator",
       "title": "MPIJob",
       "description": "…r.template 설정을 변경하면 생성된 launcher Job을 삭제해야 변경된 설정이 적용됩니다.\n\n## Container Base\n\n- mpi-operator GitHub / build / base\n\n`dockerfile title=\"build/base/Dockerfile\"\nFROM ubuntu:22…",
@@ -4948,6 +4926,7 @@
         "doc:docs/language/python/overview.mdx",
         "doc:docs/language/python/asyncio.mdx",
         "doc:docs/language/python/contextvar.mdx",
+        "doc:docs/language/python/database.mdx",
         "doc:docs/language/python/exception.mdx",
         "doc:docs/language/python/logger.mdx",
         "doc:docs/language/python/package-repository.mdx",
@@ -4961,12 +4940,12 @@
         "class": "programming-language",
         "instance": "python"
       },
-      "search_text": "python python is a programming language used by multiple library subjects in this wiki python asyncio contextvar exception python logger python package repository pytest linting formatting documentation using sphinx python 런타임 버전 관리 eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop contextvars contextvar contextlib contextmanager 와 함께 사용하기 try-except exception hierarchy 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 repository wheel binary package 파일 이름 규칙 pytest 설정 pytest 검색 규칙 fixture ruff inline 오류 무시 mypy module pattern e g module 옵션 inline 오류 무시 pylint black isort pylint inline 오류 무시 black isort 설치 설정 conf py configuration file for the sphinx documentation builder this file only contains a selection of the most common options for a full list see the documentation https //www sphinx-doc org/en/master/usage/configuration html -- path setup -------------------------------------------------------------- if extensions or modules to document with autodoc are in another directory add these directories to sys path here if the directory is relative to the documentation root use os path abspath to make it absolute like shown here -- project information ----------------------------------------------------- the full version including alpha/beta/rc tags -- general configuration --------------------------------------------------- add any sphinx extension module names here as strings they can be extensions coming with sphinx named sphinx ext or your custom ones https //myst-parser readthedocs io/ https //www sphinx-doc org/en/master/usage/extensions/autodoc html https //www sphinx-doc org/en/master/usage/extensions/napoleon html http //www mos6581 org/rinohtype/master/index html https //mermaid-js github io/mermaid/ https //github com/mgaitan/sphinxcontrib-mermaid add any paths that contain templates here relative to this directory list of patterns relative to source directory that match files and directories to ignore when looking for source files this pattern also affects html static path and html extra path -- options for html output ------------------------------------------------- the theme to use for html and html help pages see the documentation for a list of builtin themes add any paths that contain custom static files such as style sheets here relative to this directory they are copied after the builtin static files so a file named default css will overwrite the builtin default css index md package module etc build reference 빌드 의존성 mise pyenv 설치 버전 관리 업그레이드 language programming-language python",
+      "search_text": "python python is a programming language used by multiple library subjects in this wiki python asyncio contextvar long-running tasks database schema exception python logger python package repository pytest linting formatting documentation using sphinx python 런타임 버전 관리 eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop contextvars contextvar contextlib contextmanager 와 함께 사용하기 try-except exception hierarchy 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 repository wheel binary package 파일 이름 규칙 pytest 설정 pytest 검색 규칙 fixture ruff inline 오류 무시 mypy module pattern e g module 옵션 inline 오류 무시 pylint black isort pylint inline 오류 무시 black isort 설치 설정 conf py configuration file for the sphinx documentation builder this file only contains a selection of the most common options for a full list see the documentation https //www sphinx-doc org/en/master/usage/configuration html -- path setup -------------------------------------------------------------- if extensions or modules to document with autodoc are in another directory add these directories to sys path here if the directory is relative to the documentation root use os path abspath to make it absolute like shown here -- project information ----------------------------------------------------- the full version including alpha/beta/rc tags -- general configuration --------------------------------------------------- add any sphinx extension module names here as strings they can be extensions coming with sphinx named sphinx ext or your custom ones https //myst-parser readthedocs io/ https //www sphinx-doc org/en/master/usage/extensions/autodoc html https //www sphinx-doc org/en/master/usage/extensions/napoleon html http //www mos6581 org/rinohtype/master/index html https //mermaid-js github io/mermaid/ https //github com/mgaitan/sphinxcontrib-mermaid add any paths that contain templates here relative to this directory list of patterns relative to source directory that match files and directories to ignore when looking for source files this pattern also affects html static path and html extra path -- options for html output ------------------------------------------------- the theme to use for html and html help pages see the documentation for a list of builtin themes add any paths that contain custom static files such as style sheets here relative to this directory they are copied after the builtin static files so a file named default css will overwrite the builtin default css index md package module etc build reference 빌드 의존성 mise pyenv 설치 버전 관리 업그레이드 language programming-language python",
       "display": {
         "label": "Python",
         "kind": "subject",
         "subtitle": "Python",
-        "document_count": 10
+        "document_count": 11
       }
     },
     {
@@ -5251,29 +5230,6 @@
         "label": "Recurrent Neural Network",
         "kind": "subject",
         "subtitle": "Rnn",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:redirection-piping",
-      "title": "Redirection과 Piping",
-      "description": "## Redirection\n\n## Piping\n\n``shell\nprogram1 | program2\n`\n\n- |는 program1의 stdout을 program2의 std…",
-      "snippet": "## Redirection\n\n## Piping\n\n``shell\nprogram1 | program2\n`\n\n- |는 program1의 stdout을 program2의 std…",
-      "url": "/docs/language/concepts/redirection-piping",
-      "document_refs": [
-        "doc:docs/language/concepts/redirection-piping.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "redirection-piping"
-      },
-      "search_text": "redirection과 piping redirection piping shell program1 program2 - 는 program1의 stdout을 program2의 std redirection과 piping redirection piping language concept redirection-piping",
-      "display": {
-        "label": "Redirection과 Piping",
-        "kind": "subject",
-        "subtitle": "Redirection Piping",
         "document_count": 1
       }
     },
@@ -5733,65 +5689,22 @@
       "snippet": "## Basic script\n\n``shell\n#!/bin/sh\n\n# comment\n\n# command\necho \"ShellScript\"\n`\n\n## Exit\n\n`shell\n# 스크립트 종료\nexit\n`\n\n`shell\n# 스크립트 종료, 종료 상태 반환\n# exit state\ne…",
       "url": "/docs/language/shellscript/overview",
       "document_refs": [
-        "doc:docs/language/shellscript/overview.mdx"
+        "doc:docs/language/shellscript/overview.mdx",
+        "doc:docs/language/shellscript/getopt.mdx",
+        "doc:docs/language/shellscript/redirection-piping.mdx",
+        "doc:docs/language/shellscript/text-color.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "programming-language",
         "instance": "shellscript"
       },
-      "search_text": "shellscript basic script shell /bin/sh comment command echo shellscript exit shell 스크립트 종료 exit shell 스크립트 종료 종료 상태 반환 exit state e shellscript basic script comment command exit 스크립트 종료 스크립트 종료 종료 상태 반환 exit state shellcheck variables str1 hello 안됨 str2 hello world 안됨 숫자도 문자열로 저장됨 상수 환경 변수 echo str2 안됨 reserved variable commands commands functions return - special parameters if 문 expression1 -a expression2 expression1 -o expression2 conditional expressions relation string file test boolean return 0 while 문 for 문 seq first last seq 1 last - seq last seq first increment last case 문 importing other scripts /abs path/sub sh arithmetic operations language programming-language shellscript",
+      "search_text": "shellscript basic script shell /bin/sh comment command echo shellscript exit shell 스크립트 종료 exit shell 스크립트 종료 종료 상태 반환 exit state e shellscript shellscript getopt redirection과 piping shellscript text color basic script comment command exit 스크립트 종료 스크립트 종료 종료 상태 반환 exit state shellcheck variables str1 hello 안됨 str2 hello world 안됨 숫자도 문자열로 저장됨 상수 환경 변수 echo str2 안됨 reserved variable commands commands functions return - special parameters if 문 expression1 -a expression2 expression1 -o expression2 conditional expressions relation string file test boolean return 0 while 문 for 문 seq first last seq 1 last - seq last seq first increment last case 문 importing other scripts /abs path/sub sh arithmetic operations getopts getopt shortoptstring example longoptstring example example script redirection piping ansi escape code tput language programming-language shellscript",
       "display": {
         "label": "ShellScript",
         "kind": "subject",
         "subtitle": "Shellscript",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:text-color",
-      "title": "ShellScript Text color",
-      "description": "## ANSI escape code\n\n- ANSI escape code Colors\n\n- \\033: Escape(ESC)\n- \\033[: Control Sequence Introducer(CSI)\n - \\033[[;]m: S…",
-      "snippet": "## ANSI escape code\n\n- ANSI escape code Colors\n\n- \\033: Escape(ESC)\n- \\033[: Control Sequence Introducer(CSI)\n - \\033[[;]m: S…",
-      "url": "/docs/language/concepts/text-color",
-      "document_refs": [
-        "doc:docs/language/concepts/text-color.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "text-color"
-      },
-      "search_text": "shellscript text color ansi escape code - ansi escape code colors - 033 escape esc - 033 control sequence introducer csi - 033 m s shellscript text color ansi escape code tput language concept text-color",
-      "display": {
-        "label": "ShellScript Text color",
-        "kind": "subject",
-        "subtitle": "Text Color",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:getopt",
-      "title": "ShellScript getopt",
-      "description": "## getopts\n\n- https://mug896.github.io/bash-shell/getopts.html\n\n``shell\n$ script.sh a b c…",
-      "snippet": "## getopts\n\n- https://mug896.github.io/bash-shell/getopts.html\n\n``shell\n$ script.sh a b c…",
-      "url": "/docs/language/concepts/getopt",
-      "document_refs": [
-        "doc:docs/language/concepts/getopt.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "getopt"
-      },
-      "search_text": "shellscript getopt getopts - https //mug896 github io/bash-shell/getopts html shell script sh a b c shellscript getopt getopts getopt shortoptstring example longoptstring example example script language concept getopt",
-      "display": {
-        "label": "ShellScript getopt",
-        "kind": "subject",
-        "subtitle": "Getopt",
-        "document_count": 1
+        "document_count": 4
       }
     },
     {
@@ -6634,29 +6547,6 @@
         "kind": "subject",
         "subtitle": "Containerd",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:context",
-      "title": "context",
-      "description": "## context.Context\n\n- struct에 컨텍스트를 저장하지 않습니다\n- 일반적으로 ctx context.Context를 첫번째 파라미터로 선언합니다…",
-      "snippet": "## context.Context\n\n- struct에 컨텍스트를 저장하지 않습니다\n- 일반적으로 ctx context.Context를 첫번째 파라미터로 선언합니다…",
-      "url": "/docs/language/concepts/context",
-      "document_refs": [
-        "doc:docs/language/concepts/context.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "context"
-      },
-      "search_text": "context context context - struct에 컨텍스트를 저장하지 않습니다 - 일반적으로 ctx context context를 첫번째 파라미터로 선언합니다 context context context context withvalue context withcancel language concept context",
-      "display": {
-        "label": "context",
-        "kind": "subject",
-        "subtitle": "Context",
-        "document_count": 1
       }
     },
     {
@@ -19165,7 +19055,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/database.mdx",
+      "id": "doc:docs/language/python/database.mdx",
       "title": "Long-running Tasks Database Schema",
       "description": "Long-running Tasks 관리를 위한 Database Schema",
       "snippet": "장기 실행 작업을 비동기로 관리할 때, 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다.\n\n하지만, 미처 처리하지 못한 에러에 대한 디버깅, 방어적인 시스템 관리, 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하",
@@ -19175,21 +19065,21 @@
         "long-running",
         "database"
       ],
-      "url": "/docs/language/concepts/database",
-      "subject_ref": "subject:language:concept:database",
-      "subject_title": "Database",
+      "url": "/docs/language/python/database",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "database",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "database"
       },
-      "search_text": "long-running tasks database schema long-running tasks 관리를 위한 database schema 장기 실행 작업을 비동기로 관리할 때 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다 하지만 미처 처리하지 못한 에러에 대한 디버깅 방어적인 시스템 관리 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하 async long-running database concept language concept database overview",
+      "search_text": "long-running tasks database schema long-running tasks 관리를 위한 database schema 장기 실행 작업을 비동기로 관리할 때 단순히 비즈니스 로직만 고려한다면 태스크의 성공/실패 여부와 결과만 기록하면 될 수 있습니다 하지만 미처 처리하지 못한 에러에 대한 디버깅 방어적인 시스템 관리 사용자 분석 등 이유로 비즈니스 로직에서 사용하지 않더라도 나중을 위해 저장하 async long-running database concept language programming-language python database",
       "display": {
         "label": "Long-running Tasks Database Schema",
         "kind": "document",
-        "subtitle": "Database"
+        "subtitle": "Python"
       }
     },
     {
@@ -24559,7 +24449,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/redirection-piping.mdx",
+      "id": "doc:docs/language/shellscript/redirection-piping.mdx",
       "title": "Redirection과 Piping",
       "description": "Redirection과 Piping",
       "snippet": "## Redirection\n\n## Piping\n\n``shell\nprogram1 | program2\n`\n\n- |는 program1의 stdout을 program2의 std…",
@@ -24574,21 +24464,21 @@
         "ipc",
         "Interprocess Communication"
       ],
-      "url": "/docs/language/concepts/redirection-piping",
-      "subject_ref": "subject:language:concept:redirection-piping",
-      "subject_title": "Redirection Piping",
+      "url": "/docs/language/shellscript/redirection-piping",
+      "subject_ref": "subject:language:programming-language:shellscript",
+      "subject_title": "Shellscript",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "redirection-piping",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "redirection-piping"
       },
-      "search_text": "redirection과 piping redirection과 piping redirection piping shell program1 program2 - 는 program1의 stdout을 program2의 std redirection piping shell script piping redirection ipc interprocess communication concept language concept redirection-piping overview",
+      "search_text": "redirection과 piping redirection과 piping redirection piping shell program1 program2 - 는 program1의 stdout을 program2의 std redirection piping shell script piping redirection ipc interprocess communication concept language programming-language shellscript redirection-piping",
       "display": {
         "label": "Redirection과 Piping",
         "kind": "document",
-        "subtitle": "Redirection Piping"
+        "subtitle": "Shellscript"
       }
     },
     {
@@ -26024,7 +25914,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/text-color.mdx",
+      "id": "doc:docs/language/shellscript/text-color.mdx",
       "title": "ShellScript Text color",
       "description": "ShellScript Text color",
       "snippet": "## ANSI escape code\n\n- ANSI escape code Colors\n\n- \\033: Escape(ESC)\n- \\033[: Control Sequence Introducer(CSI)\n - \\033[[;]m: S…",
@@ -26036,26 +25926,26 @@
         "ShellScript",
         "Text color"
       ],
-      "url": "/docs/language/concepts/text-color",
-      "subject_ref": "subject:language:concept:text-color",
-      "subject_title": "Text Color",
+      "url": "/docs/language/shellscript/text-color",
+      "subject_ref": "subject:language:programming-language:shellscript",
+      "subject_title": "Shellscript",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "text-color",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "text-color"
       },
-      "search_text": "shellscript text color shellscript text color ansi escape code - ansi escape code colors - 033 escape esc - 033 control sequence introducer csi - 033 m s ansi escape code tput shellscript text color concept language concept text-color overview",
+      "search_text": "shellscript text color shellscript text color ansi escape code - ansi escape code colors - 033 escape esc - 033 control sequence introducer csi - 033 m s ansi escape code tput shellscript text color concept language programming-language shellscript text-color",
       "display": {
         "label": "ShellScript Text color",
         "kind": "document",
-        "subtitle": "Text Color"
+        "subtitle": "Shellscript"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/getopt.mdx",
+      "id": "doc:docs/language/shellscript/getopt.mdx",
       "title": "ShellScript getopt",
       "description": "ShellScript getopt",
       "snippet": "## getopts\n\n- https://mug896.github.io/bash-shell/getopts.html\n\n``shell\n$ script.sh a b c…",
@@ -26072,21 +25962,21 @@
         "ShellScript",
         "getopt"
       ],
-      "url": "/docs/language/concepts/getopt",
-      "subject_ref": "subject:language:concept:getopt",
-      "subject_title": "Getopt",
+      "url": "/docs/language/shellscript/getopt",
+      "subject_ref": "subject:language:programming-language:shellscript",
+      "subject_title": "Shellscript",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "getopt",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "shellscript",
+        "aspect": "getopt"
       },
-      "search_text": "shellscript getopt shellscript getopt getopts - https //mug896 github io/bash-shell/getopts html shell script sh a b c getopts getopt shortoptstring example longoptstring example example script shellscript getopt concept language concept getopt overview",
+      "search_text": "shellscript getopt shellscript getopt getopts - https //mug896 github io/bash-shell/getopts html shell script sh a b c getopts getopt shortoptstring example longoptstring example example script shellscript getopt concept language programming-language shellscript getopt",
       "display": {
         "label": "ShellScript getopt",
         "kind": "document",
-        "subtitle": "Getopt"
+        "subtitle": "Shellscript"
       }
     },
     {
@@ -28695,7 +28585,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/context.mdx",
+      "id": "doc:docs/language/go/context.mdx",
       "title": "context",
       "description": "context",
       "snippet": "## context.Context\n\n- struct에 컨텍스트를 저장하지 않습니다\n- 일반적으로 ctx context.Context를 첫번째 파라미터로 선언합니다…",
@@ -28707,21 +28597,21 @@
       "keywords": [
         "context"
       ],
-      "url": "/docs/language/concepts/context",
-      "subject_ref": "subject:language:concept:context",
-      "subject_title": "Context",
+      "url": "/docs/language/go/context",
+      "subject_ref": "subject:language:programming-language:go",
+      "subject_title": "Go",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "context",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "context"
       },
-      "search_text": "context context context context - struct에 컨텍스트를 저장하지 않습니다 - 일반적으로 ctx context context를 첫번째 파라미터로 선언합니다 context context context withvalue context withcancel context concept language concept context overview",
+      "search_text": "context context context context - struct에 컨텍스트를 저장하지 않습니다 - 일반적으로 ctx context context를 첫번째 파라미터로 선언합니다 context context context withvalue context withcancel context concept language programming-language go context",
       "display": {
         "label": "context",
         "kind": "document",
-        "subtitle": "Context"
+        "subtitle": "Go"
       }
     },
     {
