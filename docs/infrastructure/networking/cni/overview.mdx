@@ -27,14 +27,13 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## CNI
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/network/calico/cni-with-calico-ipam.drawio")} />
+		<DrwaIOViewer src={require("./cni-with-calico-ipam.drawio").default} />
 		<figcaption>Calico CNI and Calico IPAM(pod-network-cidr=10.130.0.0/16)</figcaption>
 		<figcaption>https://www.youtube.com/watch?v=JyLtg_SJ1lo</figcaption>
 	</figure>

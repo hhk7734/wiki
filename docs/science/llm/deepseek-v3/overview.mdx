@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 :::info[References]
@@ -41,7 +40,7 @@ import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/llm/deepseek-v3.drawio")} />
+		<DrwaIOViewer src={require("./deepseek-v3.drawio").default} />
 		<figcaption>DeepSeek-V3 Transformer Block</figcaption>
 	</figure>
 </center>
@@ -54,7 +53,7 @@ DeepSeek-V3는 Masked Self Attention으로 Multi-Head Latent Attention을 사용
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/multi-head-latent-attention.png")} />
+		<img src={require("./multi-head-latent-attention.png").default} />
 		<br />
 		<figcaption>[Figure 2. Multi-Head Latent Attention(MLA)](https://arxiv.org/html/2412.19437v1)</figcaption>
 	</center>
@@ -80,7 +79,7 @@ Latent를 도입하여 MHA를 사용할 때 보다 연산 효율, 메모리 사�
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/mixture-of-experts.png")} />
+		<img src={require("./mixture-of-experts.png").default} />
 		<br />
 		<figcaption>[Figure 2. DeepSeekMoE](https://arxiv.org/html/2412.19437v1)</figcaption>
 	</center>
@@ -95,7 +94,7 @@ Latent를 도입하여 MHA를 사용할 때 보다 연산 효율, 메모리 사�
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/gshard-moe-model-parallel.png")} />
+		<img src={require("./gshard-moe-model-parallel.png").default} />
 		<br />
 		<figcaption>
 			[Figure 3. Illustration of scaling of Transformer Encoder with MoE Layers

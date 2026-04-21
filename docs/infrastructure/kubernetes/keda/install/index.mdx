@@ -1,0 +1,92 @@
+---
+id: index
+title: "KEDA 설치 가이드"
+sidebar_label: "설치 가이드"
+description: "KEDA 설치 가이드"
+keywords:
+  - keda
+  - provisioning
+ontology:
+  role: operation
+  domain: infrastructure
+  class: provisioning-tool
+  instance: keda
+  aspect: install
+subject:
+  canonical_name: KEDA
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+
+<center>
+	<figure>
+		<img src={require("./architecture.png").default} />
+		<figcaption>[KEDA Architecture](https://keda.sh/docs/concepts/#architecture)</figcaption>
+	</figure>
+</center>
+
+## 설치
+
+| KEDA  | Kubernetes     |
+| ----- | -------------- |
+| v2.18 | v1.31 - v 1.33 |
+| v2.17 | v1.30 - v 1.32 |
+| v2.16 | v1.29 - v 1.31 |
+
+```shell
+helm repo add kedacore https://kedacore.github.io/charts
+```
+
+```shell
+helm repo update kedacore \
+&& helm search repo kedacore/keda -l | head -n 10
+```
+
+```shell
+helm pull kedacore/keda --version 2.18.0
+```
+
+```shell
+helm show values kedacore/keda --version 2.18.0 > keda-2.18.0.yaml
+```
+
+```yaml title="keda-values.yaml"
+additionalLabels: {}
+```
+
+```shell
+helm template keda kedacore/keda \
+    --version 2.18.0 \
+    -n keda \
+    -f keda-values.yaml \
+    > keda.yaml
+```
+
+```shell
+helm upgrade -i keda kedacore/keda \
+    --history-max 5 \
+    --create-namespace \
+    --version 2.18.0 \
+    -n keda \
+    -f keda-values.yaml
+```
+
+## 삭제
+
+```shell
+helm uninstall -n keda keda
+```
+
+```shell
+kubectl get crd -oname | grep --color=never 'keda.sh' | xargs kubectl delete
+```

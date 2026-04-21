@@ -32,6 +32,24 @@ test("parseTaxonomyPath parses the topic concept shape", () => {
 	});
 });
 
+test("parseTaxonomyPath parses colocated index pages as their parent page", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/knowledge/concepts/ontology/index.mdx"), {
+		topic: "knowledge",
+		subject: "ontology",
+		facet: null,
+		page: "ontology",
+		kind: "topic-concept",
+	});
+
+	assert.deepEqual(parseTaxonomyPath("docs/language/grpc/go/client/index.mdx"), {
+		topic: "language",
+		subject: "grpc",
+		facet: "go",
+		page: "client",
+		kind: "facet-page",
+	});
+});
+
 test("parseTaxonomyPath parses the topic comparison and reference shapes", () => {
 	assert.deepEqual(parseTaxonomyPath("docs/knowledge/comparisons/type.mdx"), {
 		topic: "knowledge",

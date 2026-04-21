@@ -26,7 +26,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
@@ -120,7 +119,7 @@ git clone <repository> -b <tag or branch> --depth <# of commit>
 ## add, rm, mv, commit
 
 <center>
-	<img src={useBaseUrl("img/lang/etc/command-line-tools/git/git-basics-diagram.png")} />
+	<img src={require("./git-basics-diagram.png").default} />
 </center>
 
 ### add
@@ -216,7 +215,7 @@ git reflog
 `HEAD`라는 키워드 조합으로 현재 커밋 기준으로 상대적 위치의 커밋을 가리킬 수도 있는데 규칙은 아래와 같습니다.
 
 <center>
-	<img src={useBaseUrl("img/lang/etc/command-line-tools/git/git-basics-head.png")} />
+	<img src={require("./git-basics-head.png").default} />
 </center>
 
 reflog에 따른 상대적인 커밋 위치는 `HEAD@{#}`으로 가리킬 수 있습니다. # 대신 숫자를 적으시면 됩니다.

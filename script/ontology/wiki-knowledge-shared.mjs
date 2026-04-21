@@ -12,6 +12,10 @@ export function toDocRoute(pathname) {
 	const stem = basename(withoutExtension);
 	const parent = basename(dirname(withoutExtension));
 
+	if (stem === "index") {
+		return dirname(withoutExtension);
+	}
+
 	if (stem === parent) {
 		return dirname(withoutExtension);
 	}

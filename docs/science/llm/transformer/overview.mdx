@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::info[References]
 
@@ -40,7 +39,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/transformer.png")} />
+		<img src={require("./transformer.png").default} />
 		<br />
 		<figcaption>[Figure 1. The Transformer](https://arxiv.org/html/1706.03762)</figcaption>
 	</center>
@@ -89,7 +88,7 @@ $p_i = \left\{ sin\left(\frac{i}{10000^{2*1/d}}\right), cos\left(\frac{i}{10000^
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/scaled-dot-product-attention.png")} />
+		<img src={require("./scaled-dot-product-attention.png").default} />
 		<br />
 		<figcaption>[Figure 2. Scaled Dot-Product Attention](https://arxiv.org/html/1706.03762)</figcaption>
 	</center>
@@ -117,7 +116,7 @@ $p_i = \left\{ sin\left(\frac{i}{10000^{2*1/d}}\right), cos\left(\frac{i}{10000^
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/multi-head-attention.png")} />
+		<img src={require("./multi-head-attention.png").default} />
 		<br />
 		<figcaption>[Figure 2. Multi-Head Attention](https://arxiv.org/html/1706.03762)</figcaption>
 	</center>

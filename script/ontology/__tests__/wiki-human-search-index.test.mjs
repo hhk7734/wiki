@@ -25,7 +25,7 @@ test("wiki human search index groups multi-document subjects with stable labels"
 				},
 			},
 			{
-				id: "doc:docs/infrastructure/storage/ceph/osd.mdx",
+				id: "doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 				type: "document",
 				title: "Ceph OSD",
 				description: "OSD management guide",
@@ -50,7 +50,7 @@ test("wiki human search index groups multi-document subjects with stable labels"
 				canonical_name: "Ceph Storage Cluster란?",
 				document_refs: [
 					"doc:docs/infrastructure/storage/ceph/overview.mdx",
-					"doc:docs/infrastructure/storage/ceph/osd.mdx",
+					"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 				],
 				snippet: "Ceph overview",
 				ontology: { domain: "infrastructure", class: "storage-system", instance: "ceph" },
@@ -61,7 +61,7 @@ test("wiki human search index groups multi-document subjects with stable labels"
 
 	const subject = index.subjects.find((record) => record.id === "subject:infrastructure:storage-system:ceph");
 	const overviewDocument = index.documents.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/overview.mdx");
-	const operationalDocument = index.documents.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/osd.mdx");
+	const operationalDocument = index.documents.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/osd/index.mdx");
 
 	assert.ok(subject);
 	assert.ok(overviewDocument);

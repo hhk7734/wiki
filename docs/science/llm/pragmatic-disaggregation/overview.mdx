@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::info[References]
 
@@ -44,7 +43,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/co-located-vs-dissaggregation.png")} />
+		<img src={require("./co-located-vs-dissaggregation.png").default} />
 		<br />
 		<figcaption>
 			[Figure 2: Visualization of (left) co-located and (right) disaggregated inference
@@ -80,7 +79,7 @@ ISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Dec
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/scaling-and-rate-matching.png")} />
+		<img src={require("./scaling-and-rate-matching.png").default} />
 		<br />
 		<figcaption>
 			[Figure 3: High-level overview of rate matching for disaggregated serving](https://www.arxiv.org/html/2506.05508)
@@ -119,7 +118,7 @@ $$
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/pp-ftl-diagram.png")} />
+		<img src={require("./pp-ftl-diagram.png").default} />
 		<br />
 		<figcaption>
 			[Figure 5: Chunked pipeline parallelism during Prefill is an optimal strategy to maximize throughput while
@@ -151,7 +150,7 @@ $$
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/traffic-sensitivity.png")} />
+		<img src={require("./traffic-sensitivity.png").default} />
 		<br />
 		<figcaption>
 			[Figure 8: Disaggregation helps most under prefill-heavy traffic](https://www.arxiv.org/html/2506.05508)
@@ -168,7 +167,7 @@ $$
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/pragmatic-disaggregation/optimal-ratio-of-prefill-to-decode.png")} />
+		<img src={require("./optimal-ratio-of-prefill-to-decode.png").default} />
 		<br />
 		<figcaption>
 			[Figure 9: The optimal ratio of ctx-to-gen GPUs varies across models and target

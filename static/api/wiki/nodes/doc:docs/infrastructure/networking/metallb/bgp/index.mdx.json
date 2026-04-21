@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/networking/metallb/bgp/index.mdx",
+  "title": "MetalLB BGP 사용하기",
+  "snippet": "… 명령어를 실행하여 IP 주소를 확인합니다.\n\n`shell\nDevice# show run interface\n`\n\n## BFDProfile\n\n- MetalLB / API reference # BFDProfileSpec\n\n`yaml\napiVersion: metallb.io/v1beta1\nkind: BF…",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "networking-stack",
+    "instance": "metallb",
+    "aspect": "bgp"
+  },
+  "url": "/docs/infrastructure/networking/metallb/bgp",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/networking/metallb/bgp/index.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking-stack:metallb",
+    "title": "MetalLB ARP/NDP 사용하기",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking-stack",
+      "instance": "metallb"
+    },
+    "url": "/docs/infrastructure/networking/metallb/arp"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/networking/metallb/bgp/index.mdx:about_subject:subject:infrastructure:networking-stack:metallb",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking-stack:metallb",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/keda/install/index.mdx",
+  "title": "KEDA 설치 가이드",
+  "snippet": "…e \\\n --version 2.18.0 \\\n -n keda \\\n -f keda-values.yaml\n`\n\n## 삭제\n\n`shell\nhelm uninstall -n keda keda\n`\n\n`shell\nkubectl get crd -oname | grep --color=never 'keda.sh' | …",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "provisioning-tool",
+    "instance": "keda",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/kubernetes/keda/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/keda/install/index.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:provisioning-tool:keda",
+    "title": "KEDA CRD 가이드",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "provisioning-tool",
+      "instance": "keda"
+    },
+    "url": "/docs/infrastructure/kubernetes/keda/crd"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/keda/install/index.mdx:about_subject:subject:infrastructure:provisioning-tool:keda",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:provisioning-tool:keda",
+      "direction": "outgoing"
+    }
+  ]
+}

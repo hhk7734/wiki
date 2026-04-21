@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::info[References]
 
@@ -91,7 +90,7 @@ sequenceDiagram
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/deepserve/co-located-vs-dissaggregation.png")} />
+		<img src={require("./co-located-vs-dissaggregation.png").default} />
 		<br />
 		<figcaption>
 			[Figure 6: Comparing the Performance of PD-disaggregated and PD-colocated (with chunked prefill) using

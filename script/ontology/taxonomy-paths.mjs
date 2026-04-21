@@ -21,6 +21,23 @@ function splitTaxonomyPath(sourcePath) {
 	return normalizeTaxonomyPath(sourcePath).split("/");
 }
 
+function parseParts(sourcePath) {
+	const parts = splitTaxonomyPath(sourcePath);
+
+	assertDocsSource(parts, sourcePath);
+
+	if (parts.at(-1) === "index.mdx") {
+		const parent = parts.at(-2);
+		if (!parent) {
+			throw new Error(`unsupported taxonomy path: ${sourcePath}`);
+		}
+
+		return [...parts.slice(0, -2), `${parent}.mdx`];
+	}
+
+	return parts;
+}
+
 export function hasApprovedTaxonomyTopicPrefix(sourcePath) {
 	const parts = splitTaxonomyPath(sourcePath);
 	return parts[0] === "docs" && APPROVED_TOPICS.has(parts[1] ?? "");
@@ -66,9 +83,7 @@ function pageName(parts) {
 }
 
 export function parseTaxonomyPath(sourcePath) {
-	const parts = splitTaxonomyPath(sourcePath);
-
-	assertDocsSource(parts, sourcePath);
+	const parts = parseParts(sourcePath);
 
 	const topic = parts[1];
 	assertApprovedTopic(topic, sourcePath);

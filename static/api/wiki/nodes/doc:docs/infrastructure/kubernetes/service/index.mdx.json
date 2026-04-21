@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/service/index.mdx",
+  "title": "Service",
+  "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "networking",
+    "instance": "kubernetes",
+    "aspect": "service"
+  },
+  "url": "/docs/infrastructure/kubernetes/service",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/service/index.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:networking:kubernetes",
+    "title": "Konnectivity를 통해 Node에 접근하기",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "networking",
+      "instance": "kubernetes"
+    },
+    "url": "/docs/infrastructure/kubernetes/konnectivity"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/service/index.mdx:about_subject:subject:infrastructure:networking:kubernetes",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:networking:kubernetes",
+      "direction": "outgoing"
+    }
+  ]
+}

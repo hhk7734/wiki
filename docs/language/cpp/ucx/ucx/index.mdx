@@ -1,0 +1,111 @@
+---
+id: index
+title: UCX
+sidebar_label: UCX
+description: UCX
+keywords:
+  - ucx
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: ucx
+  aspect: ucx
+subject:
+  canonical_name: UCX
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - cpp
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+
+## Architecture
+
+<center>
+	<figure>
+		<img src={require("./ucx-architecture.jpg").default} />
+		<figcaption>UCX Architecture</figcaption>
+	</figure>
+</center>
+
+## 설치
+
+:::info[References]
+
+- [OpenUCX / Running](https://openucx.readthedocs.io/en/master/running.html#)
+- [UCX GitHub / Releases](https://github.com/openucx/ucx/releases)
+
+:::
+
+```shell
+wget https://github.com/openucx/ucx/releases/download/v1.18.0/ucx-1.18.0.tar.gz
+```
+
+```shell
+tar -xzf ucx-1.18.0.tar.gz
+```
+
+```shell
+cd ucx-1.18.0
+```
+
+```shell
+mkdir build && cd build \
+&& ../contrib/configure-release --prefix=/usr \
+    <flags>
+```
+
+- `--with-knem=<knemInstallPrefix>`
+- `--enable-optimizations`: 비이식성 머신별 CPU 최적화를 활성화합니다.
+- `--enable-mt`: multithreading를 활성화합니다.
+- `--enable-cma`: Cross Memory Attach를 활성화합니다.
+- `--with-dm`: Device Memory를 지원합니다.
+- `--with-mlx5`: mlx5 Direct Verbs를 지원합니다.
+- `--with-rocm=/opt/rocm`
+
+```shell
+make -j $(nproc)
+```
+
+```shell
+make install
+```
+
+```shell
+ldconfig
+```
+
+## 설정
+
+:::info[References]
+
+- [OpenUCX / Frequently Asked Questions](https://openucx.readthedocs.io/en/master/faq.html)
+
+:::
+
+- `UCX_TLS=<tl>[,<tl>...]`
+  - `ucx_info -d`: 사용 가능한 목록을 출력합니다.
+  - `^`로 시작하면 제외 리스트 설정이 됩니다.
+  - `all`
+  - `tcp`
+  - `self`: 같은 프로세스 내에서 loopback을 사용하여 통신합니다.
+- `UCX_NET_DEVICES=<dev>[,<dev>...]`
+  - `ucx_info -d`: 사용 가능한 목록을 출력합니다.
+  - `^`로 시작하면 제외 리스트 설정이 됩니다.
+  - `all`
+  - `mlx5_0:1`, `eth0`, `lo`, ... 등을 설정할 수 있습니다.
+- `UCX_MAX_RNDV_RAILS=<num>`
+  - 기본적으로 2 개의 가장 좋은 네트워크 장치를 선택합니다.
+  - 1 로 설정하면 NUMA locality를 고려하여 1 개의 장치만 사용합니다.
+  - `UCX_NET_DEVICES=<dev>`하나만 설정하면 1 개의 장치만 사용합니다.
+- `UCX_LOG_LEVEL=info`, `UCX_PROTO_ENABLE=y`, `UCX_PROTO_INFO=y`
+  - UCX 관련 로그가 출력됩니다.

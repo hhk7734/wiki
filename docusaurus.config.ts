@@ -8,6 +8,24 @@ import { themes } from "prism-react-renderer";
 import tailwindPlugin from "./plugins/tailwind-config";
 import guardedGoogleGtagPlugin from "./plugins/guarded-google-gtag.mjs";
 
+function drawioAssetPlugin() {
+	return {
+		name: "drawio-asset-plugin",
+		configureWebpack() {
+			return {
+				module: {
+					rules: [
+						{
+							test: /\.drawio$/,
+							type: "asset/resource",
+						},
+					],
+				},
+			};
+		},
+	};
+}
+
 const config: Config = {
 	title: "lol-IoT by HHK",
 	tagline: "lol-IoT",
@@ -60,6 +78,7 @@ const config: Config = {
 	],
 
 	plugins: [
+		drawioAssetPlugin,
 		"docusaurus-plugin-google-adsense",
 		[
 			// https://docusaurus.io/ko/docs/next/api/plugins/@docusaurus/plugin-ideal-image

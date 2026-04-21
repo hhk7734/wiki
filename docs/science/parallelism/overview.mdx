@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## Data Parallelism(DP)
@@ -124,7 +123,7 @@ Multi GPU 환경에서 모델을 레이어 단위로 분할하여 병렬화하�
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/llm/parallelism/micro-batch-pipeline-parallelism.drawio")} />
+		<DrwaIOViewer src={require("./micro-batch-pipeline-parallelism.drawio").default} />
 		<figcaption>
 			[Figure 2 - GPipe: Easy Scaling with Micro-Batch Pipeline Parallelism](https://arxiv.org/pdf/1811.06965)
 		</figcaption>
@@ -140,12 +139,12 @@ Multi GPU 환경에서 레이어 자체를 분할하여 병렬화하는 방법�
 ## 3D Parallelism
 
 <center>
-	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/parallelism/3d-parallelism-1.png")} />
+	<img className="bg-white" src={require("./3d-parallelism-1.png").default} />
 	<figcaption>
 		[Figure 1 - DeepSpeed: Extreme-scale model training for
 		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)
 	</figcaption>
-	<img className="bg-white" src={useBaseUrl("img/mlops/nn/llm/parallelism/3d-parallelism-2.png")} />
+	<img className="bg-white" src={require("./3d-parallelism-2.png").default} />
 	<figcaption>
 		[Figure 2 - DeepSpeed: Extreme-scale model training for
 		everyone](https://www.microsoft.com/en-us/research/blog/deepspeed-extreme-scale-model-training-for-everyone/)

@@ -28,7 +28,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 
 :::info[References]
 
@@ -40,7 +39,7 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/mooncake.png")} />
+		<img src={require("./mooncake.png").default} />
 		<br />
 		<figcaption>[Figure 1: Mooncake Architecture.](https://arxiv.org/html/2407.00079v3)</figcaption>
 	</center>
@@ -66,7 +65,7 @@ Mooncake는 다음 Service Level Objectives (SLOs)를 고려하여 디자인되�
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/mooncake-kv-cache-pool.png")} />
+		<img src={require("./mooncake-kv-cache-pool.png").default} />
 		<br />
 		<figcaption>[Figure 3: The KVCache pool in CPU memory.](https://arxiv.org/html/2407.00079v3)</figcaption>
 	</center>
@@ -74,7 +73,7 @@ Mooncake는 다음 Service Level Objectives (SLOs)를 고려하여 디자인되�
 
 <figure>
 	<center>
-		<img src={useBaseUrl("img/mlops/nn/llm/mooncake-kv-cache-transfer.png")} />
+		<img src={require("./mooncake-kv-cache-transfer.png").default} />
 		<br />
 		<figcaption>[Figure 4: Workflow of inference instances.](https://arxiv.org/html/2407.00079v3)</figcaption>
 	</center>

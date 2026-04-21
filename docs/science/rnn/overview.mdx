@@ -27,7 +27,6 @@ source:
   confidence: exact
 ---
 
-import useBaseUrl from "@docusaurus/useBaseUrl";
 import DrwaIOViewer from "@site/src/components/DrawIOViewer";
 
 ## RNN(Recurrent Neural Network)
@@ -39,7 +38,7 @@ $$
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-simple.drawio")} />
+		<DrwaIOViewer src={require("./nn-rnn-simple.drawio").default} />
 		<figcaption>RNN</figcaption>
 	</figure>
 </center>
@@ -63,7 +62,7 @@ $$
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-lstm.drawio")} />
+		<DrwaIOViewer src={require("./nn-rnn-lstm.drawio").default} />
 		<figcaption>LSTM</figcaption>
 	</figure>
 </center>
@@ -93,7 +92,7 @@ LSTM variants 중 하나입니다.
 
 <center>
 	<figure>
-		<DrwaIOViewer src={useBaseUrl("img/mlops/nn/rnn/nn-rnn-gru.drawio")} />
+		<DrwaIOViewer src={require("./nn-rnn-gru.drawio").default} />
 		<figcaption>GRU</figcaption>
 	</figure>
 </center>

@@ -40,10 +40,10 @@ test("graphify export keeps searchable text and headings", () => {
 test("graphify export keeps multi-document subject ordering deterministic", () => {
 	const forward = buildGraphifyExport([
 		"docs/infrastructure/storage/ceph/overview.mdx",
-		"docs/infrastructure/storage/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/osd/index.mdx",
 	]);
 	const reverse = buildGraphifyExport([
-		"docs/infrastructure/storage/ceph/osd.mdx",
+		"docs/infrastructure/storage/ceph/osd/index.mdx",
 		"docs/infrastructure/storage/ceph/overview.mdx",
 	]);
 
@@ -56,7 +56,7 @@ test("graphify export keeps multi-document subject ordering deterministic", () =
 
 	assert.deepEqual(subject.document_refs, [
 		"doc:docs/infrastructure/storage/ceph/overview.mdx",
-		"doc:docs/infrastructure/storage/ceph/osd.mdx",
+		"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 	]);
 	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
 	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/overview.mdx").snippet);
