@@ -147,7 +147,7 @@
         "class": "mcu-family",
         "instance": "shieldbuddy-tc275"
       },
-      "url": "/docs/hardware/shieldbuddy-tc275/overview",
+      "url": "/docs/hardware/tricore/shieldbuddy-tc275/overview",
       "node_url": "/api/wiki/nodes/subject:hardware:mcu-family:shieldbuddy-tc275.json"
     },
     {
@@ -177,7 +177,7 @@
         "class": "mcu-family",
         "instance": "tc27d"
       },
-      "url": "/docs/hardware/tc27d/asc",
+      "url": "/docs/hardware/tricore/tc27d/asc",
       "node_url": "/api/wiki/nodes/subject:hardware:mcu-family:tc27d.json"
     },
     {
@@ -391,6 +391,36 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:cloud-service:ses.json"
     },
     {
+      "id": "subject:infrastructure:cluster-addon:amd-device-plugin",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AMD Kubernetes Device Plugin",
+      "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "amd-device-plugin"
+      },
+      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:amd-device-plugin.json"
+    },
+    {
+      "id": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AMD GPU Operator",
+      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "amd-gpu-operator"
+      },
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:amd-gpu-operator.json"
+    },
+    {
       "id": "subject:infrastructure:cluster-addon:cdi",
       "type": "subject",
       "score": 0,
@@ -421,36 +451,6 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:dra.json"
     },
     {
-      "id": "subject:infrastructure:cluster-addon:gpu-operator",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AMD GPU Operator CRD",
-      "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "gpu-operator"
-      },
-      "url": "/docs/infrastructure/accelerator/gpu-operator/crd",
-      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:gpu-operator.json"
-    },
-    {
-      "id": "subject:infrastructure:cluster-addon:k8s-device-plugin",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AMD Kubernetes Device Plugin",
-      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "k8s-device-plugin"
-      },
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd",
-      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:k8s-device-plugin.json"
-    },
-    {
       "id": "subject:infrastructure:cluster-addon:kyverno",
       "type": "subject",
       "score": 0,
@@ -479,6 +479,36 @@
       },
       "url": "/docs/infrastructure/accelerator/node-feature-discovery/node-feature-rule",
       "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:node-feature-discovery.json"
+    },
+    {
+      "id": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NVIDIA Kubernetes Device Plugin",
+      "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-device-plugin"
+      },
+      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:nvidia-device-plugin.json"
+    },
+    {
+      "id": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NVIDIA GPU Operator",
+      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator"
+      },
+      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:nvidia-gpu-operator.json"
     },
     {
       "id": "subject:infrastructure:cluster-addon:rocm",
@@ -856,21 +886,6 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:database:mysql.json"
     },
     {
-      "id": "subject:infrastructure:database:pgbouncer",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PostgreSQL PgBouncer",
-      "snippet": "",
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "database",
-        "instance": "pgbouncer"
-      },
-      "url": "/docs/infrastructure/database/pgbouncer/overview",
-      "node_url": "/api/wiki/nodes/subject:infrastructure:database:pgbouncer.json"
-    },
-    {
       "id": "subject:infrastructure:database:postgresql",
       "type": "subject",
       "score": 0,
@@ -976,21 +991,6 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:gateway-api:gateway-api.json"
     },
     {
-      "id": "subject:infrastructure:iac-tool:crd2pulumi",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "crd2pulumi",
-      "snippet": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "iac-tool",
-        "instance": "crd2pulumi"
-      },
-      "url": "/docs/infrastructure/iac/crd2pulumi/overview",
-      "node_url": "/api/wiki/nodes/subject:infrastructure:iac-tool:crd2pulumi.json"
-    },
-    {
       "id": "subject:infrastructure:iac-tool:pulumi",
       "type": "subject",
       "score": 0,
@@ -1064,21 +1064,6 @@
       },
       "url": "/docs/infrastructure/ai-platform/kubeflow/architecture",
       "node_url": "/api/wiki/nodes/subject:infrastructure:ml-platform:kubeflow.json"
-    },
-    {
-      "id": "subject:infrastructure:ml-platform:pipeline",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "pipeline",
-      "snippet": "- https://github.com/metacontroller/metacontroller",
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "ml-platform",
-        "instance": "pipeline"
-      },
-      "url": "/docs/infrastructure/ai-platform/pipeline/overview",
-      "node_url": "/api/wiki/nodes/subject:infrastructure:ml-platform:pipeline.json"
     },
     {
       "id": "subject:infrastructure:networking-stack:aws-load-balancer-controller",
@@ -5060,7 +5045,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/hardware/esp8266-esp-01-module/overview.mdx.json"
     },
     {
-      "id": "doc:docs/hardware/shieldbuddy-tc275/overview.mdx",
+      "id": "doc:docs/hardware/tricore/shieldbuddy-tc275/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5073,8 +5058,8 @@
         "instance": "shieldbuddy-tc275",
         "aspect": "overview"
       },
-      "url": "/docs/hardware/shieldbuddy-tc275/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/shieldbuddy-tc275/overview.mdx.json"
+      "url": "/docs/hardware/tricore/shieldbuddy-tc275/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/shieldbuddy-tc275/overview.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/accelerator/rocm/overview.mdx",
@@ -5109,23 +5094,6 @@
       },
       "url": "/docs/infrastructure/ai-platform/kserve/overview",
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/ai-platform/kserve/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/infrastructure/ai-platform/pipeline/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "pipeline",
-      "snippet": "- https://github.com/metacontroller/metacontroller",
-      "ontology": {
-        "role": "entity",
-        "domain": "infrastructure",
-        "class": "ml-platform",
-        "instance": "pipeline",
-        "aspect": "overview"
-      },
-      "url": "/docs/infrastructure/ai-platform/pipeline/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/ai-platform/pipeline/overview.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/container/containerd/overview.mdx",
@@ -5281,23 +5249,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/database/mysql/overview.mdx.json"
     },
     {
-      "id": "doc:docs/infrastructure/database/pgbouncer/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PostgreSQL PgBouncer",
-      "snippet": "",
-      "ontology": {
-        "role": "entity",
-        "domain": "infrastructure",
-        "class": "database",
-        "instance": "pgbouncer",
-        "aspect": "overview"
-      },
-      "url": "/docs/infrastructure/database/pgbouncer/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/database/pgbouncer/overview.mdx.json"
-    },
-    {
       "id": "doc:docs/infrastructure/database/postgresql/overview.mdx",
       "type": "document",
       "score": 0,
@@ -5330,23 +5281,6 @@
       },
       "url": "/docs/infrastructure/iac/ansible/overview",
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/ansible/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/infrastructure/iac/crd2pulumi/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "crd2pulumi",
-      "snippet": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
-      "ontology": {
-        "role": "entity",
-        "domain": "infrastructure",
-        "class": "iac-tool",
-        "instance": "crd2pulumi",
-        "aspect": "overview"
-      },
-      "url": "/docs/infrastructure/iac/crd2pulumi/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/crd2pulumi/overview.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/iac/pulumi/overview.mdx",
@@ -9378,108 +9312,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/hardware/nrf/development-environment.mdx.json"
     },
     {
-      "id": "doc:docs/hardware/tc27d/asc.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D ASC(UART)",
-      "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "asc"
-      },
-      "url": "/docs/hardware/tc27d/asc",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/asc.mdx.json"
-    },
-    {
-      "id": "doc:docs/hardware/tc27d/bsp.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D BSP(Time, GPIO)",
-      "snippet": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "bsp"
-      },
-      "url": "/docs/hardware/tc27d/bsp",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/bsp.mdx.json"
-    },
-    {
-      "id": "doc:docs/hardware/tc27d/ports.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D Ports(DIO)",
-      "snippet": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "ports"
-      },
-      "url": "/docs/hardware/tc27d/ports",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/ports.mdx.json"
-    },
-    {
-      "id": "doc:docs/hardware/tc27d/stm.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D STM(System Timer)",
-      "snippet": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "stm"
-      },
-      "url": "/docs/hardware/tc27d/stm",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/stm.mdx.json"
-    },
-    {
-      "id": "doc:docs/hardware/tc27d/terminal.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D terminal",
-      "snippet": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "terminal"
-      },
-      "url": "/docs/hardware/tc27d/terminal",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/terminal.mdx.json"
-    },
-    {
-      "id": "doc:docs/hardware/tc27d/vadc.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TriCore TC27D VADC(Versatile ADC)",
-      "snippet": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
-      "ontology": {
-        "role": "entity",
-        "domain": "hardware",
-        "class": "mcu-family",
-        "instance": "tc27d",
-        "aspect": "vadc"
-      },
-      "url": "/docs/hardware/tc27d/vadc",
-      "node_url": "/api/wiki/nodes/doc:docs/hardware/tc27d/vadc.mdx.json"
-    },
-    {
       "id": "doc:docs/hardware/tricore/development-environment.mdx",
       "type": "document",
       "score": 0,
@@ -9495,6 +9327,108 @@
       },
       "url": "/docs/hardware/tricore/development-environment",
       "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/development-environment.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/asc.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D ASC(UART)",
+      "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "asc"
+      },
+      "url": "/docs/hardware/tricore/tc27d/asc",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/asc.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/bsp.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D BSP(Time, GPIO)",
+      "snippet": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "bsp"
+      },
+      "url": "/docs/hardware/tricore/tc27d/bsp",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/bsp.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/ports.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D Ports(DIO)",
+      "snippet": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "ports"
+      },
+      "url": "/docs/hardware/tricore/tc27d/ports",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/ports.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/stm.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D STM(System Timer)",
+      "snippet": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "stm"
+      },
+      "url": "/docs/hardware/tricore/tc27d/stm",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/stm.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/terminal.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D terminal",
+      "snippet": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "terminal"
+      },
+      "url": "/docs/hardware/tricore/tc27d/terminal",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/terminal.mdx.json"
+    },
+    {
+      "id": "doc:docs/hardware/tricore/tc27d/vadc.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "TriCore TC27D VADC(Versatile ADC)",
+      "snippet": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
+      "ontology": {
+        "role": "entity",
+        "domain": "hardware",
+        "class": "mcu-family",
+        "instance": "tc27d",
+        "aspect": "vadc"
+      },
+      "url": "/docs/hardware/tricore/tc27d/vadc",
+      "node_url": "/api/wiki/nodes/doc:docs/hardware/tricore/tc27d/vadc.mdx.json"
     },
     {
       "id": "doc:docs/hardware/tricore/upload-executable-file-in-udevisualplatform.mdx",
@@ -9614,6 +9548,23 @@
       },
       "url": "/docs/infrastructure/container/harbor/proxy-cache",
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/container/harbor/proxy-cache.mdx.json"
+    },
+    {
+      "id": "doc:docs/infrastructure/iac/pulumi/crd2pulumi/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "crd2pulumi",
+      "snippet": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
+      "ontology": {
+        "role": "entity",
+        "domain": "infrastructure",
+        "class": "iac-tool",
+        "instance": "pulumi",
+        "aspect": "crd2pulumi-overview"
+      },
+      "url": "/docs/infrastructure/iac/pulumi/crd2pulumi/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/pulumi/crd2pulumi/overview.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/kubernetes/karpenter/crd.mdx",
@@ -11112,7 +11063,24 @@
       "node_url": "/api/wiki/nodes/doc:docs/hardware/stm32/upload-executable-file-stm32cubeide.mdx.json"
     },
     {
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/crd.mdx",
+      "id": "doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "AMD Kubernetes Device Plugin",
+      "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "amd-device-plugin",
+        "aspect": "install"
+      },
+      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -11122,79 +11090,28 @@
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "gpu-operator",
+        "instance": "amd-gpu-operator",
         "aspect": "crd"
       },
-      "url": "/docs/infrastructure/accelerator/gpu-operator/crd",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/gpu-operator/crd.mdx.json"
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/crd",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx.json"
     },
     {
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/install-amd.mdx",
+      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
-      "title": "AMD GPU Operator 설치 가이드",
+      "title": "AMD GPU Operator",
       "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-amd"
+        "instance": "amd-gpu-operator",
+        "aspect": "install"
       },
-      "url": "/docs/infrastructure/accelerator/gpu-operator/install-amd",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/gpu-operator/install-amd.mdx.json"
-    },
-    {
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/install-nvidia.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NVIDIA GPU Operator",
-      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
-      "ontology": {
-        "role": "operation",
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-nvidia"
-      },
-      "url": "/docs/infrastructure/accelerator/gpu-operator/install-nvidia",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/gpu-operator/install-nvidia.mdx.json"
-    },
-    {
-      "id": "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "AMD Kubernetes Device Plugin",
-      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "ontology": {
-        "role": "operation",
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-amd"
-      },
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx.json"
-    },
-    {
-      "id": "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NVIDIA Kubernetes Device Plugin",
-      "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
-      "ontology": {
-        "role": "operation",
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-nvidia"
-      },
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia.mdx.json"
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/accelerator/node-feature-discovery/install.mdx",
@@ -11229,6 +11146,40 @@
       },
       "url": "/docs/infrastructure/accelerator/nvidia-container-toolkit/install",
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/nvidia-container-toolkit/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NVIDIA Kubernetes Device Plugin",
+      "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-device-plugin",
+        "aspect": "install"
+      },
+      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx.json"
+    },
+    {
+      "id": "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NVIDIA GPU Operator",
+      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator",
+        "aspect": "install"
+      },
+      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/ai-platform/gateway-api-inference-extension/install.mdx",
@@ -11894,7 +11845,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/ansible/vault.mdx.json"
     },
     {
-      "id": "doc:docs/infrastructure/iac/crd2pulumi/convert.mdx",
+      "id": "doc:docs/infrastructure/iac/pulumi/crd2pulumi/convert.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -11904,11 +11855,11 @@
         "role": "operation",
         "domain": "infrastructure",
         "class": "iac-tool",
-        "instance": "crd2pulumi",
-        "aspect": "convert"
+        "instance": "pulumi",
+        "aspect": "crd2pulumi-convert"
       },
-      "url": "/docs/infrastructure/iac/crd2pulumi/convert",
-      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/crd2pulumi/convert.mdx.json"
+      "url": "/docs/infrastructure/iac/pulumi/crd2pulumi/convert",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/iac/pulumi/crd2pulumi/convert.mdx.json"
     },
     {
       "id": "doc:docs/infrastructure/iac/pulumi/import-export.mdx",

@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+  "title": "NVIDIA GPU Operator",
+  "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+  "ontology": {
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "nvidia-gpu-operator"
+  },
+  "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+  "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:nvidia-gpu-operator.json",
+  "document_refs": [
+    "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx",
+      "title": "NVIDIA GPU Operator",
+      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator",
+        "aspect": "install"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -79,6 +79,17 @@ test("parseTaxonomyPath parses infrastructure area shapes", () => {
 	});
 });
 
+test("parseTaxonomyPath parses hardware product paths under a family area", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/hardware/tricore/tc27d/asc.mdx"), {
+		topic: "hardware",
+		subject: "tc27d",
+		facet: null,
+		page: "asc",
+		kind: "area-subject-page",
+		area: "tricore",
+	});
+});
+
 test("parseTaxonomyPath keeps distinct page basenames distinct", () => {
 	assert.notDeepEqual(
 		parseTaxonomyPath("docs/language/grpc/overview.mdx"),

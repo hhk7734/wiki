@@ -78,51 +78,49 @@
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:cluster-addon:gpu-operator",
-      "title": "AMD GPU Operator CRD",
-      "description": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
-      "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
-      "url": "/docs/infrastructure/accelerator/gpu-operator/crd",
+      "id": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "title": "AMD GPU Operator",
+      "description": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/gpu-operator/crd.mdx",
-        "doc:docs/infrastructure/accelerator/gpu-operator/install-amd.mdx",
-        "doc:docs/infrastructure/accelerator/gpu-operator/install-nvidia.mdx"
+        "doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx",
+        "doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "gpu-operator"
+        "instance": "amd-gpu-operator"
       },
-      "search_text": "amd gpu operator crd erator가 가지고 있는 dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다 이미지를 만들어두기 위해 rocm / gpu-operator github / driver / precompiled-driver 문서를 참고하세요 deviceplugin yaml spec amd gpu operator crd amd gpu operator 설치 가이드 nvidia gpu operator deviceconfig driver deviceplugin metricsexporter 설치 설치 node feature discovery gpu feature discovery 삭제 infrastructure cluster-addon gpu-operator",
+      "search_text": "amd gpu operator cert-manager가 설치되어있어야 합니다 shell helm repo add rocm https //rocm github io/gpu-operator shell helm repo update rocm helm search repo rocm/gpu-operator-charts amd gpu operator crd amd gpu operator deviceconfig driver deviceplugin metricsexporter 설치 infrastructure cluster-addon amd-gpu-operator",
       "display": {
-        "label": "AMD GPU Operator CRD",
+        "label": "AMD GPU Operator",
         "kind": "subject",
-        "subtitle": "Gpu Operator",
-        "document_count": 3
+        "subtitle": "Amd Gpu Operator",
+        "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:cluster-addon:k8s-device-plugin",
+      "id": "subject:infrastructure:cluster-addon:amd-device-plugin",
       "title": "AMD Kubernetes Device Plugin",
-      "description": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd",
+      "description": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
+      "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
+      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx",
-        "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia.mdx"
+        "doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "k8s-device-plugin"
+        "instance": "amd-device-plugin"
       },
-      "search_text": "amd kubernetes device plugin ory management unit 설치 shell helm repo add amd-gpu https //rocm github io/k8s-device-plugin/ shell helm repo update amd-gpu helm search repo amd-gpu/amd-gpu -l amd kubernetes device plugin nvidia kubernetes device plugin amd com/gpu 자원 host 준비 gpu 드라이버 설치 iommu 설치 nvidia com/gpu 자원 설치 infrastructure cluster-addon k8s-device-plugin",
+      "search_text": "amd kubernetes device plugin - node에 amd gpu 드라이버가 설치되어 있어야 합니다 - node의 capacity에 amd com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다 - pod에 amd com/gpu 자원을 설정하면 gpu 지원 컨테이너로 스케줄링됩니다 - amd-smi 명령어를 통해 amd kubernetes device plugin amd com/gpu 자원 host 준비 gpu 드라이버 설치 iommu 설치 infrastructure cluster-addon amd-device-plugin",
       "display": {
         "label": "AMD Kubernetes Device Plugin",
         "kind": "subject",
-        "subtitle": "K8s Device Plugin",
-        "document_count": 2
+        "subtitle": "Amd Device Plugin",
+        "document_count": 1
       }
     },
     {
@@ -4074,6 +4072,52 @@
     },
     {
       "type": "subject",
+      "id": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "title": "NVIDIA GPU Operator",
+      "description": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
+      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "document_refs": [
+        "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx"
+      ],
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator"
+      },
+      "search_text": "nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 nvidia gpu operator 설치 node feature discovery gpu feature discovery 삭제 infrastructure cluster-addon nvidia-gpu-operator",
+      "display": {
+        "label": "NVIDIA GPU Operator",
+        "kind": "subject",
+        "subtitle": "Nvidia Gpu Operator",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
+      "title": "NVIDIA Kubernetes Device Plugin",
+      "description": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
+      "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
+      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "document_refs": [
+        "doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx"
+      ],
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-device-plugin"
+      },
+      "search_text": "nvidia kubernetes device plugin nvidia com/gpu 자원 - node의 capacity에 nvidia com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다 - pod에 nvidia com/gpu 자원을 설정하면 gpu 지원 컨테이너로 스케줄링됩니다 - nvidia-smi 명령 nvidia kubernetes device plugin nvidia com/gpu 자원 설치 infrastructure cluster-addon nvidia-device-plugin",
+      "display": {
+        "label": "NVIDIA Kubernetes Device Plugin",
+        "kind": "subject",
+        "subtitle": "Nvidia Device Plugin",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:system:tool:nvim",
       "title": "Neovim 설치 가이드",
       "description": "## 설치\n\n``shell\nsudo pacman -S neovim\n`\n\n`shell\nsudo ln -s which nvim /usr/local/bin/vim\n`\n\n`shell\nsudo snap install …",
@@ -4770,29 +4814,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:database:pgbouncer",
-      "title": "PostgreSQL PgBouncer",
-      "description": "",
-      "snippet": "",
-      "url": "/docs/infrastructure/database/pgbouncer/overview",
-      "document_refs": [
-        "doc:docs/infrastructure/database/pgbouncer/overview.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "database",
-        "instance": "pgbouncer"
-      },
-      "search_text": "postgresql pgbouncer postgresql pgbouncer infrastructure database pgbouncer",
-      "display": {
-        "label": "PostgreSQL PgBouncer",
-        "kind": "subject",
-        "subtitle": "Pgbouncer",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:library:javascript-prisma",
       "title": "Prisma for JavaScript",
       "description": "Prisma for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
@@ -4946,11 +4967,13 @@
       "url": "/docs/infrastructure/iac/pulumi/overview",
       "document_refs": [
         "doc:docs/infrastructure/iac/pulumi/overview.mdx",
+        "doc:docs/infrastructure/iac/pulumi/crd2pulumi/overview.mdx",
         "doc:docs/infrastructure/iac/pulumi/config.mdx",
         "doc:docs/infrastructure/iac/pulumi/dynamic.mdx",
         "doc:docs/infrastructure/iac/pulumi/micro-stack.mdx",
         "doc:docs/infrastructure/iac/pulumi/resource-options.mdx",
         "doc:docs/infrastructure/iac/pulumi/stack-reference.mdx",
+        "doc:docs/infrastructure/iac/pulumi/crd2pulumi/convert.mdx",
         "doc:docs/infrastructure/iac/pulumi/import-export.mdx",
         "doc:docs/infrastructure/iac/pulumi/install.mdx",
         "doc:docs/infrastructure/iac/pulumi/tutorial.mdx"
@@ -4960,12 +4983,12 @@
         "class": "iac-tool",
         "instance": "pulumi"
       },
-      "search_text": "pulumi 설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다 pulumi는 typescript python 같은 일반 프로그래밍 언어로 인프라를 선언하고 배포하는 iac 도구입니다 스택 설정 provider pulumi pulumi config pulumi dynamic micro-stacks pulumi resourceoptions stackreference pulumi import/export pulumi 설치 가이드 pulumi 튜토리얼 관련 문서 stack level config project level config code에서 config 사용 resource reference directory structure package json tsconfig json additionalsecretoutputs aliases customtimeouts deletebeforereplace dependson ignorechanges 이 scurity group은 cluster load balancer를 위한 것이기 때문에 ingress가 자동으로 수정될 수 있습니다 import parent protect provider replaceonchanges transformations version reference output stackreference pulumi refresh pulumi import pulumi stack export pulumi stack import 설치 aws s3 pulumi pulumi pulumi tutorial directory structure project file pulumi yaml package file stack configuration file iac code execution infrastructure iac-tool pulumi",
+      "search_text": "pulumi 설치 가이드와 튜토리얼 문서는 별도로 분리되어 있습니다 pulumi는 typescript python 같은 일반 프로그래밍 언어로 인프라를 선언하고 배포하는 iac 도구입니다 스택 설정 provider pulumi crd2pulumi pulumi config pulumi dynamic micro-stacks pulumi resourceoptions stackreference crd2pulumi 변환 가이드 pulumi import/export pulumi 설치 가이드 pulumi 튜토리얼 관련 문서 관련 문서 stack level config project level config code에서 config 사용 resource reference directory structure package json tsconfig json additionalsecretoutputs aliases customtimeouts deletebeforereplace dependson ignorechanges 이 scurity group은 cluster load balancer를 위한 것이기 때문에 ingress가 자동으로 수정될 수 있습니다 import parent protect provider replaceonchanges transformations version reference output stackreference 설치 crds to yaml yaml to pulumi pulumi refresh pulumi import pulumi stack export pulumi stack import 설치 aws s3 pulumi pulumi pulumi tutorial directory structure project file pulumi yaml package file stack configuration file iac code execution infrastructure iac-tool pulumi",
       "display": {
         "label": "Pulumi",
         "kind": "subject",
         "subtitle": "Pulumi",
-        "document_count": 9
+        "document_count": 11
       }
     },
     {
@@ -6308,9 +6331,9 @@
       "title": "TriCore ShieldBuddy TC275",
       "description": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
       "snippet": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
-      "url": "/docs/hardware/shieldbuddy-tc275/overview",
+      "url": "/docs/hardware/tricore/shieldbuddy-tc275/overview",
       "document_refs": [
-        "doc:docs/hardware/shieldbuddy-tc275/overview.mdx"
+        "doc:docs/hardware/tricore/shieldbuddy-tc275/overview.mdx"
       ],
       "ontology": {
         "domain": "hardware",
@@ -6331,14 +6354,14 @@
       "title": "TriCore TC27D ASC(UART)",
       "description": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
       "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
-      "url": "/docs/hardware/tc27d/asc",
+      "url": "/docs/hardware/tricore/tc27d/asc",
       "document_refs": [
-        "doc:docs/hardware/tc27d/asc.mdx",
-        "doc:docs/hardware/tc27d/bsp.mdx",
-        "doc:docs/hardware/tc27d/ports.mdx",
-        "doc:docs/hardware/tc27d/stm.mdx",
-        "doc:docs/hardware/tc27d/terminal.mdx",
-        "doc:docs/hardware/tc27d/vadc.mdx"
+        "doc:docs/hardware/tricore/tc27d/asc.mdx",
+        "doc:docs/hardware/tricore/tc27d/bsp.mdx",
+        "doc:docs/hardware/tricore/tc27d/ports.mdx",
+        "doc:docs/hardware/tricore/tc27d/stm.mdx",
+        "doc:docs/hardware/tricore/tc27d/terminal.mdx",
+        "doc:docs/hardware/tricore/tc27d/vadc.mdx"
       ],
       "ontology": {
         "domain": "hardware",
@@ -6874,30 +6897,6 @@
         "kind": "subject",
         "subtitle": "Contextvar",
         "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:infrastructure:iac-tool:crd2pulumi",
-      "title": "crd2pulumi",
-      "description": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
-      "snippet": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
-      "url": "/docs/infrastructure/iac/crd2pulumi/overview",
-      "document_refs": [
-        "doc:docs/infrastructure/iac/crd2pulumi/overview.mdx",
-        "doc:docs/infrastructure/iac/crd2pulumi/convert.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "iac-tool",
-        "instance": "crd2pulumi"
-      },
-      "search_text": "crd2pulumi 변환 가이드 문서는 별도로 분리되어 있습니다 crd2pulumi는 kubernetes crd 정의를 pulumi provider 코드로 변환할 때 사용하는 도구입니다 특정 crd 집합을 pulumi 타입으 crd2pulumi crd2pulumi 변환 가이드 관련 문서 설치 crds to yaml yaml to pulumi infrastructure iac-tool crd2pulumi",
-      "display": {
-        "label": "crd2pulumi",
-        "kind": "subject",
-        "subtitle": "Crd2pulumi",
-        "document_count": 2
       }
     },
     {
@@ -7681,29 +7680,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:ml-platform:pipeline",
-      "title": "pipeline",
-      "description": "- https://github.com/metacontroller/metacontroller",
-      "snippet": "- https://github.com/metacontroller/metacontroller",
-      "url": "/docs/infrastructure/ai-platform/pipeline/overview",
-      "document_refs": [
-        "doc:docs/infrastructure/ai-platform/pipeline/overview.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "ml-platform",
-        "instance": "pipeline"
-      },
-      "search_text": "pipeline - https //github com/metacontroller/metacontroller pipeline infrastructure ml-platform pipeline",
-      "display": {
-        "label": "pipeline",
-        "kind": "subject",
-        "subtitle": "Pipeline",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:concept:pytest",
       "title": "pytest",
       "description": "## pytest\n\n``shell\npytest [options] [file_or_dir ...]\n`\n\n## 설정\n\n- pytest: Configuration\n\n…",
@@ -8375,7 +8351,39 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/crd.mdx",
+      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx",
+      "title": "AMD GPU Operator",
+      "description": "AMD GPU Operator install guide",
+      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
+      "headings": [
+        "설치"
+      ],
+      "keywords": [
+        "amd",
+        "gpu-operator",
+        "amd-gpu-operator",
+        "helm"
+      ],
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
+      "subject_ref": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "subject_title": "Amd Gpu Operator",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "amd-gpu-operator",
+        "aspect": "install"
+      },
+      "search_text": "amd gpu operator amd gpu operator install guide cert-manager가 설치되어있어야 합니다 shell helm repo add rocm https //rocm github io/gpu-operator shell helm repo update rocm helm search repo rocm/gpu-operator-charts 설치 amd gpu-operator amd-gpu-operator helm operation infrastructure cluster-addon amd-gpu-operator install",
+      "display": {
+        "label": "AMD GPU Operator",
+        "kind": "document",
+        "subtitle": "Amd Gpu Operator"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx",
       "title": "AMD GPU Operator CRD",
       "description": "AMD GPU Operator CRD",
       "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
@@ -8388,62 +8396,32 @@
       "keywords": [
         "amd",
         "gpu-operator",
+        "amd-gpu-operator",
         "crd"
       ],
-      "url": "/docs/infrastructure/accelerator/gpu-operator/crd",
-      "subject_ref": "subject:infrastructure:cluster-addon:gpu-operator",
-      "subject_title": "Gpu Operator",
+      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/crd",
+      "subject_ref": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "subject_title": "Amd Gpu Operator",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "gpu-operator",
+        "instance": "amd-gpu-operator",
         "aspect": "crd"
       },
-      "search_text": "amd gpu operator crd amd gpu operator crd erator가 가지고 있는 dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다 이미지를 만들어두기 위해 rocm / gpu-operator github / driver / precompiled-driver 문서를 참고하세요 deviceplugin yaml spec deviceconfig driver deviceplugin metricsexporter amd gpu-operator crd operation infrastructure cluster-addon gpu-operator crd",
+      "search_text": "amd gpu operator crd amd gpu operator crd erator가 가지고 있는 dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다 이미지를 만들어두기 위해 rocm / gpu-operator github / driver / precompiled-driver 문서를 참고하세요 deviceplugin yaml spec deviceconfig driver deviceplugin metricsexporter amd gpu-operator amd-gpu-operator crd operation infrastructure cluster-addon amd-gpu-operator crd",
       "display": {
         "label": "AMD GPU Operator CRD",
         "kind": "document",
-        "subtitle": "Gpu Operator"
+        "subtitle": "Amd Gpu Operator"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/install-amd.mdx",
-      "title": "AMD GPU Operator 설치 가이드",
-      "description": "AMD GPU Operator 설치 가이드",
-      "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
-      "headings": [
-        "설치"
-      ],
-      "keywords": [
-        "amd",
-        "gpu-operator",
-        "helm"
-      ],
-      "url": "/docs/infrastructure/accelerator/gpu-operator/install-amd",
-      "subject_ref": "subject:infrastructure:cluster-addon:gpu-operator",
-      "subject_title": "Gpu Operator",
-      "ontology": {
-        "role": "operation",
-        "domain": "infrastructure",
-        "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-amd"
-      },
-      "search_text": "amd gpu operator 설치 가이드 amd gpu operator 설치 가이드 cert-manager가 설치되어있어야 합니다 shell helm repo add rocm https //rocm github io/gpu-operator shell helm repo update rocm helm search repo rocm/gpu-operator-charts 설치 amd gpu-operator helm operation infrastructure cluster-addon gpu-operator install-amd",
-      "display": {
-        "label": "AMD GPU Operator 설치 가이드",
-        "kind": "document",
-        "subtitle": "Gpu Operator"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-amd.mdx",
+      "id": "doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx",
       "title": "AMD Kubernetes Device Plugin",
-      "description": "AMD Kubernetes Device Plugin",
-      "snippet": "…ory Management Unit\n\n## 설치\n\n`shell\nhelm repo add amd-gpu https://rocm.github.io/k8s-device-plugin/\n`\n\n`shell\nhelm repo update amd-gpu \\\n&& helm search repo amd-gpu/amd-gpu -l | …",
+      "description": "AMD Device Plugin install guide",
+      "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
       "headings": [
         "amd.com/gpu 자원",
         "Host 준비",
@@ -8454,23 +8432,24 @@
       "keywords": [
         "amd",
         "kubernetes",
-        "device plugin"
+        "device plugin",
+        "amd-device-plugin"
       ],
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-amd",
-      "subject_ref": "subject:infrastructure:cluster-addon:k8s-device-plugin",
-      "subject_title": "K8s Device Plugin",
+      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
+      "subject_ref": "subject:infrastructure:cluster-addon:amd-device-plugin",
+      "subject_title": "Amd Device Plugin",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-amd"
+        "instance": "amd-device-plugin",
+        "aspect": "install"
       },
-      "search_text": "amd kubernetes device plugin amd kubernetes device plugin ory management unit 설치 shell helm repo add amd-gpu https //rocm github io/k8s-device-plugin/ shell helm repo update amd-gpu helm search repo amd-gpu/amd-gpu -l amd com/gpu 자원 host 준비 gpu 드라이버 설치 iommu 설치 amd kubernetes device plugin operation infrastructure cluster-addon k8s-device-plugin install-amd",
+      "search_text": "amd kubernetes device plugin amd device plugin install guide - node에 amd gpu 드라이버가 설치되어 있어야 합니다 - node의 capacity에 amd com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다 - pod에 amd com/gpu 자원을 설정하면 gpu 지원 컨테이너로 스케줄링됩니다 - amd-smi 명령어를 통해 amd com/gpu 자원 host 준비 gpu 드라이버 설치 iommu 설치 amd kubernetes device plugin amd-device-plugin operation infrastructure cluster-addon amd-device-plugin install",
       "display": {
         "label": "AMD Kubernetes Device Plugin",
         "kind": "document",
-        "subtitle": "K8s Device Plugin"
+        "subtitle": "Amd Device Plugin"
       }
     },
     {
@@ -9483,8 +9462,8 @@
       "headings": [
         "Download library",
         "Include library",
-        "Find docs or See example",
-        "Wire sensor and board",
+        "Find docs or See example",
+        "Wire sensor and board",
         "Example"
       ],
       "keywords": [
@@ -20619,7 +20598,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/gpu-operator/install-nvidia.mdx",
+      "id": "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx",
       "title": "NVIDIA GPU Operator",
       "description": "NVIDIA GPU Operator",
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
@@ -20631,31 +20610,32 @@
       ],
       "keywords": [
         "gpu-operator",
-        "nvidia"
+        "nvidia",
+        "nvidia-gpu-operator"
       ],
-      "url": "/docs/infrastructure/accelerator/gpu-operator/install-nvidia",
-      "subject_ref": "subject:infrastructure:cluster-addon:gpu-operator",
-      "subject_title": "Gpu Operator",
+      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "subject_ref": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "subject_title": "Nvidia Gpu Operator",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "gpu-operator",
-        "aspect": "install-nvidia"
+        "instance": "nvidia-gpu-operator",
+        "aspect": "install"
       },
-      "search_text": "nvidia gpu operator nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 설치 node feature discovery gpu feature discovery 삭제 gpu-operator nvidia operation infrastructure cluster-addon gpu-operator install-nvidia",
+      "search_text": "nvidia gpu operator nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 설치 node feature discovery gpu feature discovery 삭제 gpu-operator nvidia nvidia-gpu-operator operation infrastructure cluster-addon nvidia-gpu-operator install",
       "display": {
         "label": "NVIDIA GPU Operator",
         "kind": "document",
-        "subtitle": "Gpu Operator"
+        "subtitle": "Nvidia Gpu Operator"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia.mdx",
+      "id": "doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx",
       "title": "NVIDIA Kubernetes Device Plugin",
-      "description": "NVIDIA Kubernetes Device Plugin",
-      "snippet": "… 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령어를 통해 GPU 정보를 확인할 수 있습니다.\n\n## 설치\n\n- k8s-device-plugin GitHub\n\n``shell\nhelm repo add nvdp https://nvidia.github.io/k8s-device-plugin\n`…",
+      "description": "NVIDIA Device Plugin install guide",
+      "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
       "headings": [
         "nvidia.com/gpu 자원",
         "설치"
@@ -20663,23 +20643,24 @@
       "keywords": [
         "nvidia",
         "kubernetes",
-        "device plugin"
+        "device plugin",
+        "nvidia-device-plugin"
       ],
-      "url": "/docs/infrastructure/accelerator/k8s-device-plugin/install-nvidia",
-      "subject_ref": "subject:infrastructure:cluster-addon:k8s-device-plugin",
-      "subject_title": "K8s Device Plugin",
+      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "subject_ref": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
+      "subject_title": "Nvidia Device Plugin",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "cluster-addon",
-        "instance": "k8s-device-plugin",
-        "aspect": "install-nvidia"
+        "instance": "nvidia-device-plugin",
+        "aspect": "install"
       },
-      "search_text": "nvidia kubernetes device plugin nvidia kubernetes device plugin 설정하면 gpu 지원 컨테이너로 스케줄링됩니다 - nvidia-smi 명령어를 통해 gpu 정보를 확인할 수 있습니다 설치 - k8s-device-plugin github shell helm repo add nvdp https //nvidia github io/k8s-device-plugin nvidia com/gpu 자원 설치 nvidia kubernetes device plugin operation infrastructure cluster-addon k8s-device-plugin install-nvidia",
+      "search_text": "nvidia kubernetes device plugin nvidia device plugin install guide nvidia com/gpu 자원 - node의 capacity에 nvidia com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다 - pod에 nvidia com/gpu 자원을 설정하면 gpu 지원 컨테이너로 스케줄링됩니다 - nvidia-smi 명령 nvidia com/gpu 자원 설치 nvidia kubernetes device plugin nvidia-device-plugin operation infrastructure cluster-addon nvidia-device-plugin install",
       "display": {
         "label": "NVIDIA Kubernetes Device Plugin",
         "kind": "document",
-        "subtitle": "K8s Device Plugin"
+        "subtitle": "Nvidia Device Plugin"
       }
     },
     {
@@ -22466,34 +22447,6 @@
         "label": "PostgreSQL HA(고가용성)",
         "kind": "document",
         "subtitle": "Postgresql"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/infrastructure/database/pgbouncer/overview.mdx",
-      "title": "PostgreSQL PgBouncer",
-      "description": "PostgreSQL PgBouncer",
-      "snippet": "",
-      "headings": [],
-      "keywords": [
-        "postgresql",
-        "pgbouncer"
-      ],
-      "url": "/docs/infrastructure/database/pgbouncer/overview",
-      "subject_ref": "subject:infrastructure:database:pgbouncer",
-      "subject_title": "Pgbouncer",
-      "ontology": {
-        "role": "entity",
-        "domain": "infrastructure",
-        "class": "database",
-        "instance": "pgbouncer",
-        "aspect": "overview"
-      },
-      "search_text": "postgresql pgbouncer postgresql pgbouncer postgresql pgbouncer entity infrastructure database pgbouncer overview",
-      "display": {
-        "label": "PostgreSQL PgBouncer",
-        "kind": "document",
-        "subtitle": "Pgbouncer"
       }
     },
     {
@@ -27527,7 +27480,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/shieldbuddy-tc275/overview.mdx",
+      "id": "doc:docs/hardware/tricore/shieldbuddy-tc275/overview.mdx",
       "title": "TriCore ShieldBuddy TC275",
       "description": "TriCore ShieldBuddy TC275",
       "snippet": "## Pin-map\n\n| TC275 | board | board | TC275 |\n| ------------------: | -----: | :----------- | :----…",
@@ -27541,7 +27494,7 @@
         "TC275",
         "shieldbuddy"
       ],
-      "url": "/docs/hardware/shieldbuddy-tc275/overview",
+      "url": "/docs/hardware/tricore/shieldbuddy-tc275/overview",
       "subject_ref": "subject:hardware:mcu-family:shieldbuddy-tc275",
       "subject_title": "Shieldbuddy Tc275",
       "ontology": {
@@ -27560,7 +27513,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/asc.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/asc.mdx",
       "title": "TriCore TC27D ASC(UART)",
       "description": "TriCore TC27D ASC(UART)",
       "snippet": "…received.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
@@ -27576,7 +27529,7 @@
         "TC275",
         "ASC"
       ],
-      "url": "/docs/hardware/tc27d/asc",
+      "url": "/docs/hardware/tricore/tc27d/asc",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -27595,7 +27548,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/bsp.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/bsp.mdx",
       "title": "TriCore TC27D BSP(Time, GPIO)",
       "description": "TriCore TC27D BSP(Time, GPIO)",
       "snippet": "HW: ShieldBuddy TC275\n\nBaseFramework에는 Bsp가 기본 라이브러리로 제공되지 않습니다. BaseFramework를 프로젝트 시작으로 사용하는 경우 iLL…",
@@ -27609,7 +27562,7 @@
         "TC275",
         "BSP"
       ],
-      "url": "/docs/hardware/tc27d/bsp",
+      "url": "/docs/hardware/tricore/tc27d/bsp",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -27628,7 +27581,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/ports.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/ports.mdx",
       "title": "TriCore TC27D Ports(DIO)",
       "description": "TriCore TC27D Ports(DIO)",
       "snippet": "…output, mode, pad driver strength and state. For referencing the pins and their ports a **IfxPort_PinMap** is available as well.\n\n## Examples\n\n### Toggling a pin\n\n``…",
@@ -27644,7 +27597,7 @@
         "TC275",
         "Ports"
       ],
-      "url": "/docs/hardware/tc27d/ports",
+      "url": "/docs/hardware/tricore/tc27d/ports",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -27663,7 +27616,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/stm.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/stm.mdx",
       "title": "TriCore TC27D STM(System Timer)",
       "description": "TriCore TC27D STM(System Timer)",
       "snippet": "… details.\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n``c\n#pragma once\n\n#define…",
@@ -27678,7 +27631,7 @@
         "TC275",
         "STM"
       ],
-      "url": "/docs/hardware/tc27d/stm",
+      "url": "/docs/hardware/tricore/tc27d/stm",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -27697,7 +27650,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/vadc.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/vadc.mdx",
       "title": "TriCore TC27D VADC(Versatile ADC)",
       "description": "TriCore TC27D VADC(Versatile ADC)",
       "snippet": "HW: ShieldBuddy TC275\n\n- **Queue**: Highest priority\n- **Scan**:\n- **Background**: Lowest priority\n\n#…",
@@ -27713,7 +27666,7 @@
         "TC275",
         "ADC"
       ],
-      "url": "/docs/hardware/tc27d/vadc",
+      "url": "/docs/hardware/tricore/tc27d/vadc",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -27732,7 +27685,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/hardware/tc27d/terminal.mdx",
+      "id": "doc:docs/hardware/tricore/tc27d/terminal.mdx",
       "title": "TriCore TC27D terminal",
       "description": "TriCore TC27D terminal",
       "snippet": "…ommand;\n`\n\n## Examples\n\n폴더를 새로 생성한 경우 clean projet 후, 다시 빌드해야 합니다.\n\n0_Src/AppSw/Tricore/TC27D_lib/Config/Ifx_IntPrioDef.h를 만들고 아래와 같이 작성합니다.\n\n`c\n#pragma once\n\n#define …",
@@ -27749,7 +27702,7 @@
         "TC275",
         "terminal"
       ],
-      "url": "/docs/hardware/tc27d/terminal",
+      "url": "/docs/hardware/tricore/tc27d/terminal",
       "subject_ref": "subject:hardware:mcu-family:tc27d",
       "subject_title": "Tc27d",
       "ontology": {
@@ -29129,7 +29082,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/iac/crd2pulumi/overview.mdx",
+      "id": "doc:docs/infrastructure/iac/pulumi/crd2pulumi/overview.mdx",
       "title": "crd2pulumi",
       "description": "crd2pulumi",
       "snippet": "변환 가이드 문서는 별도로 분리되어 있습니다.\n\ncrd2pulumi는 Kubernetes CRD 정의를 Pulumi provider 코드로 변환할 때 사용하는 도구입니다. 특정 CRD 집합을 Pulumi 타입으…",
@@ -29137,28 +29090,29 @@
         "관련 문서"
       ],
       "keywords": [
+        "pulumi",
         "crd2pulumi"
       ],
-      "url": "/docs/infrastructure/iac/crd2pulumi/overview",
-      "subject_ref": "subject:infrastructure:iac-tool:crd2pulumi",
-      "subject_title": "Crd2pulumi",
+      "url": "/docs/infrastructure/iac/pulumi/crd2pulumi/overview",
+      "subject_ref": "subject:infrastructure:iac-tool:pulumi",
+      "subject_title": "Pulumi",
       "ontology": {
         "role": "entity",
         "domain": "infrastructure",
         "class": "iac-tool",
-        "instance": "crd2pulumi",
-        "aspect": "overview"
+        "instance": "pulumi",
+        "aspect": "crd2pulumi-overview"
       },
-      "search_text": "crd2pulumi crd2pulumi 변환 가이드 문서는 별도로 분리되어 있습니다 crd2pulumi는 kubernetes crd 정의를 pulumi provider 코드로 변환할 때 사용하는 도구입니다 특정 crd 집합을 pulumi 타입으 관련 문서 crd2pulumi entity infrastructure iac-tool crd2pulumi overview",
+      "search_text": "crd2pulumi crd2pulumi 변환 가이드 문서는 별도로 분리되어 있습니다 crd2pulumi는 kubernetes crd 정의를 pulumi provider 코드로 변환할 때 사용하는 도구입니다 특정 crd 집합을 pulumi 타입으 관련 문서 pulumi crd2pulumi entity infrastructure iac-tool pulumi crd2pulumi-overview",
       "display": {
         "label": "crd2pulumi",
         "kind": "document",
-        "subtitle": "Crd2pulumi"
+        "subtitle": "Pulumi"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/iac/crd2pulumi/convert.mdx",
+      "id": "doc:docs/infrastructure/iac/pulumi/crd2pulumi/convert.mdx",
       "title": "crd2pulumi 변환 가이드",
       "description": "crd2pulumi 변환 가이드",
       "snippet": "crd2pulumi 개요 문서에서 도구 역할을 먼저 확인할 수 있습니다.\n\n## 설치\n\n``shell\ngo install github.com/pulumi/crd2…",
@@ -29168,23 +29122,24 @@
         "yaml to pulumi"
       ],
       "keywords": [
+        "pulumi",
         "crd2pulumi"
       ],
-      "url": "/docs/infrastructure/iac/crd2pulumi/convert",
-      "subject_ref": "subject:infrastructure:iac-tool:crd2pulumi",
-      "subject_title": "Crd2pulumi",
+      "url": "/docs/infrastructure/iac/pulumi/crd2pulumi/convert",
+      "subject_ref": "subject:infrastructure:iac-tool:pulumi",
+      "subject_title": "Pulumi",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "iac-tool",
-        "instance": "crd2pulumi",
-        "aspect": "convert"
+        "instance": "pulumi",
+        "aspect": "crd2pulumi-convert"
       },
-      "search_text": "crd2pulumi 변환 가이드 crd2pulumi 변환 가이드 crd2pulumi 개요 문서에서 도구 역할을 먼저 확인할 수 있습니다 설치 shell go install github com/pulumi/crd2 설치 crds to yaml yaml to pulumi crd2pulumi operation infrastructure iac-tool crd2pulumi convert",
+      "search_text": "crd2pulumi 변환 가이드 crd2pulumi 변환 가이드 crd2pulumi 개요 문서에서 도구 역할을 먼저 확인할 수 있습니다 설치 shell go install github com/pulumi/crd2 설치 crds to yaml yaml to pulumi pulumi crd2pulumi operation infrastructure iac-tool pulumi crd2pulumi-convert",
       "display": {
         "label": "crd2pulumi 변환 가이드",
         "kind": "document",
-        "subtitle": "Crd2pulumi"
+        "subtitle": "Pulumi"
       }
     },
     {
@@ -30804,33 +30759,6 @@
         "label": "oauth2-proxy로 간단한 인증 절차 추가하기",
         "kind": "document",
         "subtitle": "Oauth2 Proxy"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/infrastructure/ai-platform/pipeline/overview.mdx",
-      "title": "pipeline",
-      "description": "pipeline",
-      "snippet": "- https://github.com/metacontroller/metacontroller",
-      "headings": [],
-      "keywords": [
-        "pipeline"
-      ],
-      "url": "/docs/infrastructure/ai-platform/pipeline/overview",
-      "subject_ref": "subject:infrastructure:ml-platform:pipeline",
-      "subject_title": "Pipeline",
-      "ontology": {
-        "role": "entity",
-        "domain": "infrastructure",
-        "class": "ml-platform",
-        "instance": "pipeline",
-        "aspect": "overview"
-      },
-      "search_text": "pipeline pipeline - https //github com/metacontroller/metacontroller pipeline entity infrastructure ml-platform pipeline overview",
-      "display": {
-        "label": "pipeline",
-        "kind": "document",
-        "subtitle": "Pipeline"
       }
     },
     {
