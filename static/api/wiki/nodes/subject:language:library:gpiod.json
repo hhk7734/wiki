@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:gpiod",
+  "title": "Python gpiod",
+  "snippet": "Python gpiod is a library subject in the PYTHON language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "gpiod"
+  },
+  "url": "/docs/language/python/gpiod/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:gpiod.json",
+  "document_refs": [
+    "doc:docs/language/python/gpiod/overview.mdx",
+    "doc:docs/language/python/gpiod/gpiod-about.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/python/gpiod/overview.mdx",
+      "title": "Python gpiod",
+      "url": "/docs/language/python/gpiod/overview",
+      "snippet": "Python gpiod is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "gpiod",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/gpiod/gpiod-about.mdx",
+      "title": "Python gpiod",
+      "url": "/docs/language/python/gpiod/gpiod-about",
+      "snippet": "…PyPI.\nhttps://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git\n\n## 설치\n\n``shell\npython3 -m pip install -U --user pip gpiod\n`\n\n## Help command\n\n`python\n>> import gpiod…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gpiod",
+        "aspect": "gpiod-about"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/python/gpiod/overview.mdx:about_subject:subject:language:library:gpiod",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/gpiod/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/gpiod/gpiod-about.mdx:about_subject:subject:language:library:gpiod",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/gpiod/gpiod-about.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:gpiod:depends_on:subject:language:programming-language:python",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:python",
+      "direction": "outgoing"
+    }
+  ]
+}

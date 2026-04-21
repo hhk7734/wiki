@@ -12,8 +12,10 @@
   "node_url": "/api/wiki/nodes/subject:language:library:opentelemetry.json",
   "document_refs": [
     "doc:docs/language/go/opentelemetry/overview.mdx",
+    "doc:docs/language/python/opentelemetry/overview.mdx",
     "doc:docs/language/go/opentelemetry/propagation.mdx",
-    "doc:docs/language/go/opentelemetry/trace.mdx"
+    "doc:docs/language/go/opentelemetry/trace.mdx",
+    "doc:docs/language/python/opentelemetry/trace.mdx"
   ],
   "documents": [
     {
@@ -21,6 +23,19 @@
       "title": "OpenTelemetry for Go",
       "url": "/docs/language/go/opentelemetry/overview",
       "snippet": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "opentelemetry",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/opentelemetry/overview.mdx",
+      "title": "OpenTelemetry for Python",
+      "url": "/docs/language/python/opentelemetry/overview",
+      "snippet": "OpenTelemetry for Python is a library subject in the PYTHON language ecosystem covered by thi…",
       "ontology": {
         "role": "entity",
         "domain": "language",
@@ -54,6 +69,19 @@
         "instance": "opentelemetry",
         "aspect": "trace"
       }
+    },
+    {
+      "id": "doc:docs/language/python/opentelemetry/trace.mdx",
+      "title": "Python OpenTelemetry Trace 설정 가이드",
+      "url": "/docs/language/python/opentelemetry/trace",
+      "snippet": "## TracerProvider\n\n``shell\npip install opentelemetry-sdk\n`\n\n`python\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace imp…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opentelemetry",
+        "aspect": "trace"
+      }
     }
   ],
   "relations": [
@@ -61,6 +89,12 @@
       "id": "relation:doc:docs/language/go/opentelemetry/overview.mdx:about_subject:subject:language:library:opentelemetry",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/go/opentelemetry/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/opentelemetry/overview.mdx:about_subject:subject:language:library:opentelemetry",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/opentelemetry/overview.mdx",
       "direction": "incoming"
     },
     {
@@ -76,9 +110,21 @@
       "direction": "incoming"
     },
     {
+      "id": "relation:doc:docs/language/python/opentelemetry/trace.mdx:about_subject:subject:language:library:opentelemetry",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/opentelemetry/trace.mdx",
+      "direction": "incoming"
+    },
+    {
       "id": "relation:subject:language:library:opentelemetry:depends_on:subject:language:programming-language:go",
       "predicate": "depends_on",
       "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:library:opentelemetry:depends_on:subject:language:programming-language:python",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:python",
       "direction": "outgoing"
     }
   ]

@@ -1,0 +1,85 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:sqlalchemy",
+  "title": "SQLAlchemy for Python",
+  "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "sqlalchemy"
+  },
+  "url": "/docs/language/python/sqlalchemy/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:sqlalchemy.json",
+  "document_refs": [
+    "doc:docs/language/python/sqlalchemy/overview.mdx",
+    "doc:docs/language/python/sqlalchemy/atlas.mdx",
+    "doc:docs/language/python/sqlalchemy/sqlalchemy.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/python/sqlalchemy/overview.mdx",
+      "title": "SQLAlchemy for Python",
+      "url": "/docs/language/python/sqlalchemy/overview",
+      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/sqlalchemy/atlas.mdx",
+      "title": "Atlas와 SQLAlchemy 연동하기",
+      "url": "/docs/language/python/sqlalchemy/atlas",
+      "snippet": "## 스키마 마이그레이션 파일 생성\n\n- Automatic migration planning for SQLAlchemy\n\n``shell\npython3 -m pip install atlas-provider-sqlalchemy\n`\n\n`hcl\ndata \"externa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "atlas"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/sqlalchemy/sqlalchemy.mdx",
+      "title": "SQLAlchemy",
+      "url": "/docs/language/python/sqlalchemy",
+      "snippet": "- SQLAlchemy 2.0 Docs\n\n## 설치\n\n``shell\npython3 -m pip install sqlalchemy\n`\n\n`shell\npython3 -m…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "sqlalchemy"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/python/sqlalchemy/overview.mdx:about_subject:subject:language:library:sqlalchemy",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/sqlalchemy/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/sqlalchemy/atlas.mdx:about_subject:subject:language:library:sqlalchemy",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/sqlalchemy/atlas.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/sqlalchemy/sqlalchemy.mdx:about_subject:subject:language:library:sqlalchemy",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/sqlalchemy/sqlalchemy.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:sqlalchemy:depends_on:subject:language:programming-language:python",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:python",
+      "direction": "outgoing"
+    }
+  ]
+}

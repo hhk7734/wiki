@@ -143,7 +143,7 @@ const config: Config = {
 						},
 						{
 							label: "Science",
-							to: "/docs/science/transformer/overview",
+							to: "/docs/science/llm/transformer/overview",
 						},
 						{
 							label: "Management",

@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:ucx",
+  "title": "UCX",
+  "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "ucx"
+  },
+  "url": "/docs/language/cpp/ucx/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:ucx.json",
+  "document_refs": [
+    "doc:docs/language/cpp/ucx/overview.mdx",
+    "doc:docs/language/cpp/ucx/ucx.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/cpp/ucx/overview.mdx",
+      "title": "UCX",
+      "url": "/docs/language/cpp/ucx/overview",
+      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "ucx",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/ucx/ucx.mdx",
+      "title": "UCX",
+      "url": "/docs/language/cpp/ucx",
+      "snippet": "## Architecture\n\n UCX Architecture\n\n## 설치\n\n- OpenUCX / Running\n- UCX GitHub / Releases\n\n``shell\nwget …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "ucx",
+        "aspect": "ucx"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/cpp/ucx/overview.mdx:about_subject:subject:language:library:ucx",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/ucx/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/ucx/ucx.mdx:about_subject:subject:language:library:ucx",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/ucx/ucx.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:ucx:depends_on:subject:language:programming-language:cpp",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:cpp",
+      "direction": "outgoing"
+    }
+  ]
+}

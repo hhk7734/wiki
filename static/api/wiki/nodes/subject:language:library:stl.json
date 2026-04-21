@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:stl",
+  "title": "C++ STL",
+  "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "stl"
+  },
+  "url": "/docs/language/cpp/stl/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:stl.json",
+  "document_refs": [
+    "doc:docs/language/cpp/stl/overview.mdx",
+    "doc:docs/language/cpp/stl/stl.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/cpp/stl/overview.mdx",
+      "title": "C++ STL",
+      "url": "/docs/language/cpp/stl/overview",
+      "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "stl",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/stl/stl.mdx",
+      "title": "C++ STL",
+      "url": "/docs/language/cpp/stl",
+      "snippet": "## Container\n\nRef: https://docs.microsoft.com/cpp/standard-library/stl-containers\n\n### Seque…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "stl",
+        "aspect": "stl"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/cpp/stl/overview.mdx:about_subject:subject:language:library:stl",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/stl/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/stl/stl.mdx:about_subject:subject:language:library:stl",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/stl/stl.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:stl:depends_on:subject:language:programming-language:cpp",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:cpp",
+      "direction": "outgoing"
+    }
+  ]
+}

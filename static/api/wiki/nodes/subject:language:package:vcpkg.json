@@ -8,17 +8,17 @@
     "class": "package",
     "instance": "vcpkg"
   },
-  "url": "/docs/language/vcpkg/library",
+  "url": "/docs/language/cpp/vcpkg/library",
   "node_url": "/api/wiki/nodes/subject:language:package:vcpkg.json",
   "document_refs": [
-    "doc:docs/language/vcpkg/library.mdx",
-    "doc:docs/language/vcpkg/registry.mdx"
+    "doc:docs/language/cpp/vcpkg/library.mdx",
+    "doc:docs/language/cpp/vcpkg/registry.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/language/vcpkg/library.mdx",
+      "id": "doc:docs/language/cpp/vcpkg/library.mdx",
       "title": "vcpkg Library 만들기",
-      "url": "/docs/language/vcpkg/library",
+      "url": "/docs/language/cpp/vcpkg/library",
       "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
       "ontology": {
         "role": "operation",
@@ -29,9 +29,9 @@
       }
     },
     {
-      "id": "doc:docs/language/vcpkg/registry.mdx",
+      "id": "doc:docs/language/cpp/vcpkg/registry.mdx",
       "title": "vcpkg Registry 만들기",
-      "url": "/docs/language/vcpkg/registry",
+      "url": "/docs/language/cpp/vcpkg/registry",
       "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
       "ontology": {
         "role": "operation",
@@ -44,15 +44,15 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/language/vcpkg/library.mdx:about_subject:subject:language:package:vcpkg",
+      "id": "relation:doc:docs/language/cpp/vcpkg/library.mdx:about_subject:subject:language:package:vcpkg",
       "predicate": "about_subject",
-      "other_id": "doc:docs/language/vcpkg/library.mdx",
+      "other_id": "doc:docs/language/cpp/vcpkg/library.mdx",
       "direction": "incoming"
     },
     {
-      "id": "relation:doc:docs/language/vcpkg/registry.mdx:about_subject:subject:language:package:vcpkg",
+      "id": "relation:doc:docs/language/cpp/vcpkg/registry.mdx:about_subject:subject:language:package:vcpkg",
       "predicate": "about_subject",
-      "other_id": "doc:docs/language/vcpkg/registry.mdx",
+      "other_id": "doc:docs/language/cpp/vcpkg/registry.mdx",
       "direction": "incoming"
     }
   ]

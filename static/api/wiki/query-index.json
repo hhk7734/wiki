@@ -316,6 +316,21 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:auth-system:rbac.json"
     },
     {
+      "id": "subject:infrastructure:auth-system:ssl-lets-encrypt",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Let's Encrypt",
+      "snippet": "…ll\nsudo certbot --nginx \\\n -d wiki.loliot.net \\\n -d loliot.net\n`\n\n자동으로 /etc/letsencrypt에 인증관련 파일을 생성하고, /etc/nginx/conf.d/default.conf 내용도 수정을 해줍니다.\n\n## Renew\n\n`shell\n…",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "ssl-lets-encrypt"
+      },
+      "url": "/docs/infrastructure/security/ssl-lets-encrypt/overview",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:auth-system:ssl-lets-encrypt.json"
+    },
+    {
       "id": "subject:infrastructure:auth-system:tls",
       "type": "subject",
       "score": 0,
@@ -2412,7 +2427,7 @@
         "class": "build-tooling",
         "instance": "cmake"
       },
-      "url": "/docs/language/cmake/overview",
+      "url": "/docs/language/cpp/cmake/overview",
       "node_url": "/api/wiki/nodes/subject:language:build-tooling:cmake.json"
     },
     {
@@ -2851,6 +2866,21 @@
       "node_url": "/api/wiki/nodes/subject:language:concept:semantic-elements.json"
     },
     {
+      "id": "subject:language:concept:semantic-versioning-2-0-0",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Semantic versioning 2.0.0",
+      "snippet": "유의적 버전 2.0.0-ko2\n\nRef: https://semver.org\n\n## 요약\n\n버전을 주.부.수 숫자로 하고:\n\n1. 기존 버전과 호환되지 않게 API가 바뀌면 \"주(主) 버전\"을 올리고,\n1. 기존…",
+      "ontology": {
+        "domain": "language",
+        "class": "concept",
+        "instance": "semantic-versioning-2-0-0"
+      },
+      "url": "/docs/language/concepts/semantic-versioning-2-0-0",
+      "node_url": "/api/wiki/nodes/subject:language:concept:semantic-versioning-2-0-0.json"
+    },
+    {
       "id": "subject:language:concept:solid",
       "type": "subject",
       "score": 0,
@@ -2967,7 +2997,7 @@
         "class": "environment",
         "instance": "vcpkg"
       },
-      "url": "/docs/language/vcpkg/overview",
+      "url": "/docs/language/cpp/vcpkg/overview",
       "node_url": "/api/wiki/nodes/subject:language:environment:vcpkg.json"
     },
     {
@@ -2997,7 +3027,7 @@
         "class": "framework",
         "instance": "flutter-engine"
       },
-      "url": "/docs/language/flutter-engine/overview",
+      "url": "/docs/language/flutter/engine/overview",
       "node_url": "/api/wiki/nodes/subject:language:framework:flutter-engine.json"
     },
     {
@@ -3042,7 +3072,7 @@
         "class": "framework",
         "instance": "sveltekit"
       },
-      "url": "/docs/language/sveltekit/overview",
+      "url": "/docs/language/javascript/sveltekit/overview",
       "node_url": "/api/wiki/nodes/subject:language:framework:sveltekit.json"
     },
     {
@@ -3076,7 +3106,37 @@
       "node_url": "/api/wiki/nodes/subject:language:library:clap.json"
     },
     {
-      "id": "subject:language:library:cpp-eigen",
+      "id": "subject:language:library:concurrent-futures",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python concurrent.futures",
+      "snippet": "Python concurrent.futures is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "concurrent-futures"
+      },
+      "url": "/docs/language/python/concurrent-futures/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:concurrent-futures.json"
+    },
+    {
+      "id": "subject:language:library:ctypes",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python ctypes",
+      "snippet": "Python ctypes is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "ctypes"
+      },
+      "url": "/docs/language/python/ctypes/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:ctypes.json"
+    },
+    {
+      "id": "subject:language:library:eigen",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -3085,115 +3145,10 @@
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "cpp-eigen"
+        "instance": "eigen"
       },
-      "url": "/docs/language/cpp-eigen/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-eigen.json"
-    },
-    {
-      "id": "subject:language:library:cpp-exception-handling",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "C++ Exception Handling",
-      "snippet": "C++ Exception Handling is a library subject in the CPP language ecosystem covered by this wik…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-exception-handling"
-      },
-      "url": "/docs/language/cpp-exception-handling/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-exception-handling.json"
-    },
-    {
-      "id": "subject:language:library:cpp-nccl",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "NCCL",
-      "snippet": "NCCL is a library subject in the CPP language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-nccl"
-      },
-      "url": "/docs/language/cpp-nccl/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-nccl.json"
-    },
-    {
-      "id": "subject:language:library:cpp-opencl",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCL for C++",
-      "snippet": "OpenCL for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencl"
-      },
-      "url": "/docs/language/cpp-opencl/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-opencl.json"
-    },
-    {
-      "id": "subject:language:library:cpp-opencv",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV for C++",
-      "snippet": "OpenCV for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencv"
-      },
-      "url": "/docs/language/cpp-opencv/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-opencv.json"
-    },
-    {
-      "id": "subject:language:library:cpp-openmpi",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenMPI for C++",
-      "snippet": "OpenMPI for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-openmpi"
-      },
-      "url": "/docs/language/cpp-openmpi/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-openmpi.json"
-    },
-    {
-      "id": "subject:language:library:cpp-stl",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "C++ STL",
-      "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-stl"
-      },
-      "url": "/docs/language/cpp-stl/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-stl.json"
-    },
-    {
-      "id": "subject:language:library:cpp-ucx",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "UCX",
-      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-ucx"
-      },
-      "url": "/docs/language/cpp-ucx/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:cpp-ucx.json"
+      "url": "/docs/language/cpp/eigen/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:eigen.json"
     },
     {
       "id": "subject:language:library:encoding-json",
@@ -3209,6 +3164,36 @@
       },
       "url": "/docs/language/go/encoding-json/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:encoding-json.json"
+    },
+    {
+      "id": "subject:language:library:exception-handling",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "C++ Exception Handling",
+      "snippet": "C++ Exception Handling is a library subject in the CPP language ecosystem covered by this wik…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "exception-handling"
+      },
+      "url": "/docs/language/cpp/exception-handling/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:exception-handling.json"
+    },
+    {
+      "id": "subject:language:library:fastapi",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "FastAPI for Python",
+      "snippet": "FastAPI for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "fastapi"
+      },
+      "url": "/docs/language/python/fastapi/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:fastapi.json"
     },
     {
       "id": "subject:language:library:firebase",
@@ -3237,7 +3222,7 @@
         "class": "library",
         "instance": "flutter-bloc"
       },
-      "url": "/docs/language/flutter-bloc/overview",
+      "url": "/docs/language/flutter/bloc/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:flutter-bloc.json"
     },
     {
@@ -3286,6 +3271,21 @@
       "node_url": "/api/wiki/nodes/subject:language:library:gorm.json"
     },
     {
+      "id": "subject:language:library:gpiod",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python gpiod",
+      "snippet": "Python gpiod is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "gpiod"
+      },
+      "url": "/docs/language/python/gpiod/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:gpiod.json"
+    },
+    {
       "id": "subject:language:library:grpc",
       "type": "subject",
       "score": 0,
@@ -3312,7 +3312,7 @@
         "class": "library",
         "instance": "javascript-firebase"
       },
-      "url": "/docs/language/javascript-firebase/overview",
+      "url": "/docs/language/javascript/firebase/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:javascript-firebase.json"
     },
     {
@@ -3346,6 +3346,36 @@
       "node_url": "/api/wiki/nodes/subject:language:library:kubebuilder.json"
     },
     {
+      "id": "subject:language:library:mpi4py",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "mpi4py",
+      "snippet": "mpi4py is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "mpi4py"
+      },
+      "url": "/docs/language/python/mpi4py/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:mpi4py.json"
+    },
+    {
+      "id": "subject:language:library:nccl",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "NCCL",
+      "snippet": "NCCL is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "nccl"
+      },
+      "url": "/docs/language/cpp/nccl/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:nccl.json"
+    },
+    {
       "id": "subject:language:library:node-addon-api",
       "type": "subject",
       "score": 0,
@@ -3357,8 +3387,53 @@
         "class": "library",
         "instance": "node-addon-api"
       },
-      "url": "/docs/language/node-addon-api/overview",
+      "url": "/docs/language/javascript/node-addon-api/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:node-addon-api.json"
+    },
+    {
+      "id": "subject:language:library:opencl",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCL for C++",
+      "snippet": "OpenCL for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "opencl"
+      },
+      "url": "/docs/language/cpp/opencl/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:opencl.json"
+    },
+    {
+      "id": "subject:language:library:opencv",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV for C++",
+      "snippet": "OpenCV for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv"
+      },
+      "url": "/docs/language/cpp/opencv/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:opencv.json"
+    },
+    {
+      "id": "subject:language:library:openmpi",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenMPI for C++",
+      "snippet": "OpenMPI for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "openmpi"
+      },
+      "url": "/docs/language/cpp/openmpi/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:openmpi.json"
     },
     {
       "id": "subject:language:library:opentelemetry",
@@ -3406,112 +3481,22 @@
       "node_url": "/api/wiki/nodes/subject:language:library:probot.json"
     },
     {
-      "id": "subject:language:library:python-concurrent-futures",
+      "id": "subject:language:library:protobuf",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
-      "title": "Python concurrent.futures",
-      "snippet": "Python concurrent.futures is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "title": "Protobuf",
+      "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "python-concurrent-futures"
+        "instance": "protobuf"
       },
-      "url": "/docs/language/python-concurrent-futures/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-concurrent-futures.json"
+      "url": "/docs/language/grpc/protobuf/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:protobuf.json"
     },
     {
-      "id": "subject:language:library:python-ctypes",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python ctypes",
-      "snippet": "Python ctypes is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-ctypes"
-      },
-      "url": "/docs/language/python-ctypes/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-ctypes.json"
-    },
-    {
-      "id": "subject:language:library:python-fastapi",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "FastAPI for Python",
-      "snippet": "FastAPI for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-fastapi"
-      },
-      "url": "/docs/language/python-fastapi/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-fastapi.json"
-    },
-    {
-      "id": "subject:language:library:python-gpiod",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python gpiod",
-      "snippet": "Python gpiod is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-gpiod"
-      },
-      "url": "/docs/language/python-gpiod/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-gpiod.json"
-    },
-    {
-      "id": "subject:language:library:python-mpi4py",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "mpi4py",
-      "snippet": "mpi4py is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-mpi4py"
-      },
-      "url": "/docs/language/python-mpi4py/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-mpi4py.json"
-    },
-    {
-      "id": "subject:language:library:python-opencv",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV for Python",
-      "snippet": "OpenCV for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opencv"
-      },
-      "url": "/docs/language/python-opencv/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-opencv.json"
-    },
-    {
-      "id": "subject:language:library:python-opentelemetry",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenTelemetry for Python",
-      "snippet": "OpenTelemetry for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opentelemetry"
-      },
-      "url": "/docs/language/python-opentelemetry/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-opentelemetry.json"
-    },
-    {
-      "id": "subject:language:library:python-pybluez",
+      "id": "subject:language:library:pybluez",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -3520,13 +3505,13 @@
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "python-pybluez"
+        "instance": "pybluez"
       },
-      "url": "/docs/language/python-pybluez/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-pybluez.json"
+      "url": "/docs/language/python/pybluez/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:pybluez.json"
     },
     {
-      "id": "subject:language:library:python-pyside2",
+      "id": "subject:language:library:pyside2",
       "type": "subject",
       "score": 0,
       "score_kind": "neutral",
@@ -3535,70 +3520,10 @@
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "python-pyside2"
+        "instance": "pyside2"
       },
-      "url": "/docs/language/python-pyside2/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-pyside2.json"
-    },
-    {
-      "id": "subject:language:library:python-socket",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python socket",
-      "snippet": "Python socket is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-socket"
-      },
-      "url": "/docs/language/python-socket/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-socket.json"
-    },
-    {
-      "id": "subject:language:library:python-sqlalchemy",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "SQLAlchemy for Python",
-      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-sqlalchemy"
-      },
-      "url": "/docs/language/python-sqlalchemy/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-sqlalchemy.json"
-    },
-    {
-      "id": "subject:language:library:python-tkinter",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "tkinter",
-      "snippet": "tkinter is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-tkinter"
-      },
-      "url": "/docs/language/python-tkinter/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-tkinter.json"
-    },
-    {
-      "id": "subject:language:library:python-yolov4",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "YOLOv4 for Python",
-      "snippet": "YOLOv4 for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4"
-      },
-      "url": "/docs/language/python-yolov4/overview",
-      "node_url": "/api/wiki/nodes/subject:language:library:python-yolov4.json"
+      "url": "/docs/language/python/pyside2/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:pyside2.json"
     },
     {
       "id": "subject:language:library:react-query",
@@ -3676,6 +3601,51 @@
       "node_url": "/api/wiki/nodes/subject:language:library:smtp.json"
     },
     {
+      "id": "subject:language:library:socket",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python socket",
+      "snippet": "Python socket is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "socket"
+      },
+      "url": "/docs/language/python/socket/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:socket.json"
+    },
+    {
+      "id": "subject:language:library:sqlalchemy",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "SQLAlchemy for Python",
+      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy"
+      },
+      "url": "/docs/language/python/sqlalchemy/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:sqlalchemy.json"
+    },
+    {
+      "id": "subject:language:library:stl",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "C++ STL",
+      "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "stl"
+      },
+      "url": "/docs/language/cpp/stl/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:stl.json"
+    },
+    {
       "id": "subject:language:library:swagger",
       "type": "subject",
       "score": 0,
@@ -3736,6 +3706,36 @@
       "node_url": "/api/wiki/nodes/subject:language:library:time.json"
     },
     {
+      "id": "subject:language:library:tkinter",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "tkinter",
+      "snippet": "tkinter is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "tkinter"
+      },
+      "url": "/docs/language/python/tkinter/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:tkinter.json"
+    },
+    {
+      "id": "subject:language:library:ucx",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "UCX",
+      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "ucx"
+      },
+      "url": "/docs/language/cpp/ucx/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:ucx.json"
+    },
+    {
       "id": "subject:language:library:validator",
       "type": "subject",
       "score": 0,
@@ -3762,7 +3762,7 @@
         "class": "library",
         "instance": "viper"
       },
-      "url": "/docs/language/viper/overview",
+      "url": "/docs/language/go/viper/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:viper.json"
     },
     {
@@ -3779,6 +3779,21 @@
       },
       "url": "/docs/language/go/websocket/overview",
       "node_url": "/api/wiki/nodes/subject:language:library:websocket.json"
+    },
+    {
+      "id": "subject:language:library:yolov4",
+      "type": "subject",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "YOLOv4 for Python",
+      "snippet": "YOLOv4 for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4"
+      },
+      "url": "/docs/language/python/yolov4/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:yolov4.json"
     },
     {
       "id": "subject:language:package:conda",
@@ -3852,7 +3867,7 @@
         "class": "package",
         "instance": "vcpkg"
       },
-      "url": "/docs/language/vcpkg/library",
+      "url": "/docs/language/cpp/vcpkg/library",
       "node_url": "/api/wiki/nodes/subject:language:package:vcpkg.json"
     },
     {
@@ -3987,7 +4002,7 @@
         "class": "toolchain",
         "instance": "llvm"
       },
-      "url": "/docs/language/llvm/overview",
+      "url": "/docs/language/cpp/llvm/overview",
       "node_url": "/api/wiki/nodes/subject:language:toolchain:llvm.json"
     },
     {
@@ -4019,36 +4034,6 @@
       },
       "url": "/docs/management/scrum/overview",
       "node_url": "/api/wiki/nodes/subject:management:memo:scrum.json"
-    },
-    {
-      "id": "subject:management:memo:semantic-versioning-2-0-0",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Semantic versioning 2.0.0",
-      "snippet": "유의적 버전 2.0.0-ko2\n\nRef: https://semver.org\n\n## 요약\n\n버전을 주.부.수 숫자로 하고:\n\n1. 기존 버전과 호환되지 않게 API가 …",
-      "ontology": {
-        "domain": "management",
-        "class": "memo",
-        "instance": "semantic-versioning-2-0-0"
-      },
-      "url": "/docs/management/semantic-versioning-2-0-0/overview",
-      "node_url": "/api/wiki/nodes/subject:management:memo:semantic-versioning-2-0-0.json"
-    },
-    {
-      "id": "subject:management:memo:ssl-lets-encrypt",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Let's encrypt",
-      "snippet": "…ll\nsudo certbot --nginx \\\n -d wiki.loliot.net \\\n -d loliot.net\n`\n\n자동으로 /etc/letsencrypt에 인증관련 파일을 생성하고, /etc/nginx/conf.d/default.conf 내용도 수정을 해줍니다.\n\n## Renew\n\n`shell\n…",
-      "ontology": {
-        "domain": "management",
-        "class": "memo",
-        "instance": "ssl-lets-encrypt"
-      },
-      "url": "/docs/management/ssl-lets-encrypt/overview",
-      "node_url": "/api/wiki/nodes/subject:management:memo:ssl-lets-encrypt.json"
     },
     {
       "id": "subject:management:memo:team-management",
@@ -4171,21 +4156,6 @@
       "node_url": "/api/wiki/nodes/subject:protocol:application-protocol:oidc.json"
     },
     {
-      "id": "subject:protocol:application-protocol:protobuf",
-      "type": "subject",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Protobuf",
-      "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
-      "ontology": {
-        "domain": "protocol",
-        "class": "application-protocol",
-        "instance": "protobuf"
-      },
-      "url": "/docs/protocol/protobuf/overview",
-      "node_url": "/api/wiki/nodes/subject:protocol:application-protocol:protobuf.json"
-    },
-    {
       "id": "subject:protocol:application-protocol:webrtc",
       "type": "subject",
       "score": 0,
@@ -4257,7 +4227,7 @@
         "class": "model-family",
         "instance": "chat-template"
       },
-      "url": "/docs/science/chat-template/overview",
+      "url": "/docs/science/llm/chat-template/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:chat-template.json"
     },
     {
@@ -4287,7 +4257,7 @@
         "class": "model-family",
         "instance": "deepseek-v3"
       },
-      "url": "/docs/science/deepseek-v3/overview",
+      "url": "/docs/science/llm/deepseek-v3/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:deepseek-v3.json"
     },
     {
@@ -4302,7 +4272,7 @@
         "class": "model-family",
         "instance": "deepserve"
       },
-      "url": "/docs/science/deepserve/overview",
+      "url": "/docs/science/llm/deepserve/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:deepserve.json"
     },
     {
@@ -4332,7 +4302,7 @@
         "class": "model-family",
         "instance": "kvcache"
       },
-      "url": "/docs/science/kvcache/overview",
+      "url": "/docs/science/llm/kvcache/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:kvcache.json"
     },
     {
@@ -4347,7 +4317,7 @@
         "class": "model-family",
         "instance": "metrics"
       },
-      "url": "/docs/science/metrics/overview",
+      "url": "/docs/science/llm/metrics/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:metrics.json"
     },
     {
@@ -4362,7 +4332,7 @@
         "class": "model-family",
         "instance": "mooncake"
       },
-      "url": "/docs/science/mooncake/overview",
+      "url": "/docs/science/llm/mooncake/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:mooncake.json"
     },
     {
@@ -4407,7 +4377,7 @@
         "class": "model-family",
         "instance": "pragmatic-disaggregation"
       },
-      "url": "/docs/science/pragmatic-disaggregation/overview",
+      "url": "/docs/science/llm/pragmatic-disaggregation/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:pragmatic-disaggregation.json"
     },
     {
@@ -4437,7 +4407,7 @@
         "class": "model-family",
         "instance": "transformer"
       },
-      "url": "/docs/science/transformer/overview",
+      "url": "/docs/science/llm/transformer/overview",
       "node_url": "/api/wiki/nodes/subject:science:model-family:transformer.json"
     },
     {
@@ -5854,7 +5824,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/storage/s3/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-eigen/overview.mdx",
+      "id": "doc:docs/language/cpp/eigen/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5864,14 +5834,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-eigen",
+        "instance": "eigen",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-eigen/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-eigen/overview.mdx.json"
+      "url": "/docs/language/cpp/eigen/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/eigen/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-exception-handling/overview.mdx",
+      "id": "doc:docs/language/cpp/exception-handling/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5881,14 +5851,31 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-exception-handling",
+        "instance": "exception-handling",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-exception-handling/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-exception-handling/overview.mdx.json"
+      "url": "/docs/language/cpp/exception-handling/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/exception-handling/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-nccl/overview.mdx",
+      "id": "doc:docs/language/cpp/llvm/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "LLVM",
+      "snippet": "https://llvm.org/\n\n## Terms\n\n### LLVM Core\nThe LLVM Core libraries provide a modern source- …",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "toolchain",
+        "instance": "llvm",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/cpp/llvm/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/llvm/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/nccl/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5898,14 +5885,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-nccl",
+        "instance": "nccl",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-nccl/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-nccl/overview.mdx.json"
+      "url": "/docs/language/cpp/nccl/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/nccl/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-opencl/overview.mdx",
+      "id": "doc:docs/language/cpp/opencl/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5915,14 +5902,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-opencl",
+        "instance": "opencl",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-opencl/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencl/overview.mdx.json"
+      "url": "/docs/language/cpp/opencl/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencl/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-opencv/overview.mdx",
+      "id": "doc:docs/language/cpp/opencv/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5932,14 +5919,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-opencv",
+        "instance": "opencv",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-opencv/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencv/overview.mdx.json"
+      "url": "/docs/language/cpp/opencv/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencv/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-openmpi/overview.mdx",
+      "id": "doc:docs/language/cpp/openmpi/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -5949,45 +5936,11 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-openmpi",
+        "instance": "openmpi",
         "aspect": "overview"
       },
-      "url": "/docs/language/cpp-openmpi/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-openmpi/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-stl/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "C++ STL",
-      "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-stl",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/cpp-stl/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-stl/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-ucx/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "UCX",
-      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-ucx",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/cpp-ucx/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-ucx/overview.mdx.json"
+      "url": "/docs/language/cpp/openmpi/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/openmpi/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/cpp/overview.mdx",
@@ -6005,6 +5958,40 @@
       },
       "url": "/docs/language/cpp/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/cpp/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/stl/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "C++ STL",
+      "snippet": "C++ STL is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "stl",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/cpp/stl/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/stl/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/ucx/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "UCX",
+      "snippet": "UCX is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "ucx",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/cpp/ucx/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/ucx/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/dart/overview.mdx",
@@ -6041,7 +6028,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/emscripten/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/flutter-bloc/overview.mdx",
+      "id": "doc:docs/language/flutter/bloc/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6054,11 +6041,11 @@
         "instance": "flutter-bloc",
         "aspect": "overview"
       },
-      "url": "/docs/language/flutter-bloc/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-bloc/overview.mdx.json"
+      "url": "/docs/language/flutter/bloc/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/bloc/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/flutter-engine/overview.mdx",
+      "id": "doc:docs/language/flutter/engine/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6071,8 +6058,8 @@
         "instance": "flutter-engine",
         "aspect": "overview"
       },
-      "url": "/docs/language/flutter-engine/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-engine/overview.mdx.json"
+      "url": "/docs/language/flutter/engine/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/engine/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/flutter/overview.mdx",
@@ -6347,6 +6334,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/go/validator/overview.mdx.json"
     },
     {
+      "id": "doc:docs/language/go/viper/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Viper",
+      "snippet": "Viper is a Go configuration library for files, environment variables, flags, and remote key/value stores.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "viper",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/go/viper/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/viper/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/language/go/websocket/overview.mdx",
       "type": "document",
       "score": 0,
@@ -6381,7 +6385,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/grpc/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/javascript-firebase/overview.mdx",
+      "id": "doc:docs/language/javascript/firebase/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6394,8 +6398,8 @@
         "instance": "javascript-firebase",
         "aspect": "overview"
       },
-      "url": "/docs/language/javascript-firebase/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/javascript-firebase/overview.mdx.json"
+      "url": "/docs/language/javascript/firebase/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/firebase/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/javascript/jotai/overview.mdx",
@@ -6430,6 +6434,23 @@
       },
       "url": "/docs/language/javascript/nextjs/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/nextjs/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/javascript/node-addon-api/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "node-addon-api",
+      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "node-addon-api",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/javascript/node-addon-api/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/node-addon-api/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/javascript/overview.mdx",
@@ -6517,6 +6538,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/redux-toolkit/overview.mdx.json"
     },
     {
+      "id": "doc:docs/language/javascript/sveltekit/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "SvelteKit",
+      "snippet": "SvelteKit is a full-stack application framework in the Svelte ecosystem.\n\nIt provides rou…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "sveltekit",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/javascript/sveltekit/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/sveltekit/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/language/javascript/threejs/overview.mdx",
       "type": "document",
       "score": 0,
@@ -6532,40 +6570,6 @@
       },
       "url": "/docs/language/javascript/threejs/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/threejs/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/llvm/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "LLVM",
-      "snippet": "https://llvm.org/\n\n## Terms\n\n### LLVM Core\nThe LLVM Core libraries provide a modern source- …",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "toolchain",
-        "instance": "llvm",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/llvm/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/llvm/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/node-addon-api/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "node-addon-api",
-      "snippet": "…test \\\n&& npm init\n`\n\n`shell\nsudo npm install -g node-gyp\n`\n\n`shell\nnpm install node-addon-api\n`\n\n## Setup\n\n`shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-a…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "node-addon-api",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/node-addon-api/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/node-addon-api/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/probot/overview.mdx",
@@ -6585,7 +6589,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/probot/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-concurrent-futures/overview.mdx",
+      "id": "doc:docs/language/python/concurrent-futures/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6595,14 +6599,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-concurrent-futures",
+        "instance": "concurrent-futures",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-concurrent-futures/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-concurrent-futures/overview.mdx.json"
+      "url": "/docs/language/python/concurrent-futures/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/concurrent-futures/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-ctypes/overview.mdx",
+      "id": "doc:docs/language/python/ctypes/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6612,14 +6616,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-ctypes",
+        "instance": "ctypes",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-ctypes/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-ctypes/overview.mdx.json"
+      "url": "/docs/language/python/ctypes/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/ctypes/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-fastapi/overview.mdx",
+      "id": "doc:docs/language/python/fastapi/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6629,14 +6633,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-fastapi",
+        "instance": "fastapi",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-fastapi/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-fastapi/overview.mdx.json"
+      "url": "/docs/language/python/fastapi/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/fastapi/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-gpiod/overview.mdx",
+      "id": "doc:docs/language/python/gpiod/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6646,14 +6650,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-gpiod",
+        "instance": "gpiod",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-gpiod/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-gpiod/overview.mdx.json"
+      "url": "/docs/language/python/gpiod/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/gpiod/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-mpi4py/overview.mdx",
+      "id": "doc:docs/language/python/mpi4py/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6663,14 +6667,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-mpi4py",
+        "instance": "mpi4py",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-mpi4py/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-mpi4py/overview.mdx.json"
+      "url": "/docs/language/python/mpi4py/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/mpi4py/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-opencv/overview.mdx",
+      "id": "doc:docs/language/python/opencv/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6680,14 +6684,14 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-opencv",
+        "instance": "opencv",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-opencv/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opencv/overview.mdx.json"
+      "url": "/docs/language/python/opencv/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opencv/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-opentelemetry/overview.mdx",
+      "id": "doc:docs/language/python/opentelemetry/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -6697,113 +6701,11 @@
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-opentelemetry",
+        "instance": "opentelemetry",
         "aspect": "overview"
       },
-      "url": "/docs/language/python-opentelemetry/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opentelemetry/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pybluez/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PyBluez for Python",
-      "snippet": "PyBluez for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pybluez",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-pybluez/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pybluez/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 for Python",
-      "snippet": "PySide2 for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-pyside2/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-socket/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python socket",
-      "snippet": "Python socket is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-socket",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-socket/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-socket/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-sqlalchemy/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "SQLAlchemy for Python",
-      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-sqlalchemy",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-sqlalchemy/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-sqlalchemy/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-tkinter/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "tkinter",
-      "snippet": "tkinter is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-tkinter",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-tkinter/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-tkinter/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "YOLOv4 for Python",
-      "snippet": "YOLOv4 for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/python-yolov4/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/overview.mdx.json"
+      "url": "/docs/language/python/opentelemetry/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opentelemetry/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/python/overview.mdx",
@@ -6840,6 +6742,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/python/pybind11/overview.mdx.json"
     },
     {
+      "id": "doc:docs/language/python/pybluez/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PyBluez for Python",
+      "snippet": "PyBluez for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "pybluez",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/pybluez/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pybluez/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 for Python",
+      "snippet": "PySide2 for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/pyside2/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/language/python/setuptools/overview.mdx",
       "type": "document",
       "score": 0,
@@ -6855,6 +6791,74 @@
       },
       "url": "/docs/language/python/setuptools/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/setuptools/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/socket/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python socket",
+      "snippet": "Python socket is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "socket",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/socket/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/socket/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/sqlalchemy/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "SQLAlchemy for Python",
+      "snippet": "SQLAlchemy for Python is a library subject in the PYTHON language ecosystem covered by thi…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/sqlalchemy/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/sqlalchemy/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/tkinter/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "tkinter",
+      "snippet": "tkinter is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "tkinter",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/tkinter/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/tkinter/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "YOLOv4 for Python",
+      "snippet": "YOLOv4 for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/python/yolov4/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/overview.mdx.json"
     },
     {
       "id": "doc:docs/language/rust/actix-web/overview.mdx",
@@ -6925,40 +6929,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/shellscript/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/sveltekit/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "SvelteKit",
-      "snippet": "SvelteKit is a full-stack application framework in the Svelte ecosystem.\n\nIt provides rou…",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "framework",
-        "instance": "sveltekit",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/sveltekit/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/sveltekit/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/viper/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Viper",
-      "snippet": "Viper is a Go configuration library for files, environment variables, flags, and remote key/value stores.",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "library",
-        "instance": "viper",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/viper/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/viper/overview.mdx.json"
-    },
-    {
       "id": "doc:docs/protocol/jwt/overview.mdx",
       "type": "document",
       "score": 0,
@@ -6993,23 +6963,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/science/batch-normalization/overview.mdx.json"
     },
     {
-      "id": "doc:docs/science/chat-template/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Chat Template",
-      "snippet": "## Chat Template\n\n- Hugging Face / Inference / Chat with Models / Chat templates\n\n모든 causal LM (…",
-      "ontology": {
-        "role": "entity",
-        "domain": "science",
-        "class": "model-family",
-        "instance": "chat-template",
-        "aspect": "overview"
-      },
-      "url": "/docs/science/chat-template/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/chat-template/overview.mdx.json"
-    },
-    {
       "id": "doc:docs/science/conv2d/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7025,40 +6978,6 @@
       },
       "url": "/docs/science/conv2d/overview",
       "node_url": "/api/wiki/nodes/doc:docs/science/conv2d/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/science/deepseek-v3/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "DeepSeek-V3 (2412)",
-      "snippet": "- DeepSeek-V3 Technical Report\n\n## DeepSeek-V3\n\n DeepSeek-V3 Transformer Block\n\nDeepSeek-V3는 …",
-      "ontology": {
-        "role": "entity",
-        "domain": "science",
-        "class": "model-family",
-        "instance": "deepseek-v3",
-        "aspect": "overview"
-      },
-      "url": "/docs/science/deepseek-v3/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/deepseek-v3/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/science/deepserve/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "DeepServe (2501) - Serverless Large Language Model Serving at Scale",
-      "snippet": "- DeepServe: Serverless Large Language Model Serving at Scale\n\n## FlowServe Engine\n\n``mermaid\nsequenceDiagram\n participant T…",
-      "ontology": {
-        "role": "entity",
-        "domain": "science",
-        "class": "model-family",
-        "instance": "deepserve",
-        "aspect": "overview"
-      },
-      "url": "/docs/science/deepserve/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/deepserve/overview.mdx.json"
     },
     {
       "id": "doc:docs/science/gnn/overview.mdx",
@@ -7078,7 +6997,58 @@
       "node_url": "/api/wiki/nodes/doc:docs/science/gnn/overview.mdx.json"
     },
     {
-      "id": "doc:docs/science/kvcache/overview.mdx",
+      "id": "doc:docs/science/llm/chat-template/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Chat Template",
+      "snippet": "## Chat Template\n\n- Hugging Face / Inference / Chat with Models / Chat templates\n\n모든 causal LM (…",
+      "ontology": {
+        "role": "entity",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "chat-template",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/chat-template/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/chat-template/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/llm/deepseek-v3/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "DeepSeek-V3 (2412)",
+      "snippet": "- DeepSeek-V3 Technical Report\n\n## DeepSeek-V3\n\n DeepSeek-V3 Transformer Block\n\nDeepSeek-V3는 …",
+      "ontology": {
+        "role": "entity",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "deepseek-v3",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/deepseek-v3/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/deepseek-v3/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/llm/deepserve/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "DeepServe (2501) - Serverless Large Language Model Serving at Scale",
+      "snippet": "- DeepServe: Serverless Large Language Model Serving at Scale\n\n## FlowServe Engine\n\n``mermaid\nsequenceDiagram\n participant T…",
+      "ontology": {
+        "role": "entity",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "deepserve",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/deepserve/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/deepserve/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/llm/kvcache/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -7091,11 +7061,11 @@
         "instance": "kvcache",
         "aspect": "overview"
       },
-      "url": "/docs/science/kvcache/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/kvcache/overview.mdx.json"
+      "url": "/docs/science/llm/kvcache/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/kvcache/overview.mdx.json"
     },
     {
-      "id": "doc:docs/science/metrics/overview.mdx",
+      "id": "doc:docs/science/llm/metrics/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -7108,11 +7078,11 @@
         "instance": "metrics",
         "aspect": "overview"
       },
-      "url": "/docs/science/metrics/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/metrics/overview.mdx.json"
+      "url": "/docs/science/llm/metrics/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/metrics/overview.mdx.json"
     },
     {
-      "id": "doc:docs/science/mooncake/overview.mdx",
+      "id": "doc:docs/science/llm/mooncake/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -7125,8 +7095,42 @@
         "instance": "mooncake",
         "aspect": "overview"
       },
-      "url": "/docs/science/mooncake/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/mooncake/overview.mdx.json"
+      "url": "/docs/science/llm/mooncake/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/mooncake/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/llm/pragmatic-disaggregation/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Beyond the Buzz (2506) - A Pragmatic Take on Inference Disaggregation",
+      "snippet": "…Inference Disaggregation\n\n## Introduction\n\nISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Decode Disaggregation을 사용하면 큰 성능 향상을 기대할 수 있습니다.\n\n## Background\n\n Figure 2: Visualization of (left) c…",
+      "ontology": {
+        "role": "entity",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "pragmatic-disaggregation",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/pragmatic-disaggregation/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/pragmatic-disaggregation/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/science/llm/transformer/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Transformer (1706) - Attention Is All You Need",
+      "snippet": "- Attention Is All You Need\n\n## Transformer\n\n Figure 1. The Transformer\n\n왼쪽의 동일한 Layer를 반복적으로 쌓은 구조가 Encoder이고, 오른쪽의 동일한 La…",
+      "ontology": {
+        "role": "entity",
+        "domain": "science",
+        "class": "model-family",
+        "instance": "transformer",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/transformer/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/transformer/overview.mdx.json"
     },
     {
       "id": "doc:docs/science/parallelism/overview.mdx",
@@ -7146,23 +7150,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/science/parallelism/overview.mdx.json"
     },
     {
-      "id": "doc:docs/science/pragmatic-disaggregation/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Beyond the Buzz (2506) - A Pragmatic Take on Inference Disaggregation",
-      "snippet": "…Inference Disaggregation\n\n## Introduction\n\nISL >> OSL인 상황에서 10 B 이상 모델을 사용하는 경우 Prefill/Decode Disaggregation을 사용하면 큰 성능 향상을 기대할 수 있습니다.\n\n## Background\n\n Figure 2: Visualization of (left) c…",
-      "ontology": {
-        "role": "entity",
-        "domain": "science",
-        "class": "model-family",
-        "instance": "pragmatic-disaggregation",
-        "aspect": "overview"
-      },
-      "url": "/docs/science/pragmatic-disaggregation/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/pragmatic-disaggregation/overview.mdx.json"
-    },
-    {
       "id": "doc:docs/science/rnn/overview.mdx",
       "type": "document",
       "score": 0,
@@ -7178,23 +7165,6 @@
       },
       "url": "/docs/science/rnn/overview",
       "node_url": "/api/wiki/nodes/doc:docs/science/rnn/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/science/transformer/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Transformer (1706) - Attention Is All You Need",
-      "snippet": "- Attention Is All You Need\n\n## Transformer\n\n Figure 1. The Transformer\n\n왼쪽의 동일한 Layer를 반복적으로 쌓은 구조가 Encoder이고, 오른쪽의 동일한 La…",
-      "ontology": {
-        "role": "entity",
-        "domain": "science",
-        "class": "model-family",
-        "instance": "transformer",
-        "aspect": "overview"
-      },
-      "url": "/docs/science/transformer/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/science/transformer/overview.mdx.json"
     },
     {
       "id": "doc:docs/system/alacritty/overview.mdx",
@@ -7603,6 +7573,23 @@
       },
       "url": "/docs/hardware/kicad/overview",
       "node_url": "/api/wiki/nodes/doc:docs/hardware/kicad/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/infrastructure/security/ssl-lets-encrypt/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Let's Encrypt",
+      "snippet": "…ll\nsudo certbot --nginx \\\n -d wiki.loliot.net \\\n -d loliot.net\n`\n\n자동으로 /etc/letsencrypt에 인증관련 파일을 생성하고, /etc/nginx/conf.d/default.conf 내용도 수정을 해줍니다.\n\n## Renew\n\n`shell\n…",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "auth-system",
+        "instance": "ssl-lets-encrypt",
+        "aspect": "overview"
+      },
+      "url": "/docs/infrastructure/security/ssl-lets-encrypt/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/ssl-lets-encrypt/overview.mdx.json"
     },
     {
       "id": "doc:docs/knowledge/concepts/knowledge-graph.mdx",
@@ -8183,6 +8170,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/concepts/semantic-elements.mdx.json"
     },
     {
+      "id": "doc:docs/language/concepts/semantic-versioning-2-0-0.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Semantic versioning 2.0.0",
+      "snippet": "유의적 버전 2.0.0-ko2\n\nRef: https://semver.org\n\n## 요약\n\n버전을 주.부.수 숫자로 하고:\n\n1. 기존 버전과 호환되지 않게 API가 바뀌면 \"주(主) 버전\"을 올리고,\n1. 기존…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "concept",
+        "instance": "semantic-versioning-2-0-0",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/concepts/semantic-versioning-2-0-0",
+      "node_url": "/api/wiki/nodes/doc:docs/language/concepts/semantic-versioning-2-0-0.mdx.json"
+    },
+    {
       "id": "doc:docs/language/concepts/solid.mdx",
       "type": "document",
       "score": 0,
@@ -8302,40 +8306,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/management/scrum/overview.mdx.json"
     },
     {
-      "id": "doc:docs/management/semantic-versioning-2-0-0/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Semantic versioning 2.0.0",
-      "snippet": "유의적 버전 2.0.0-ko2\n\nRef: https://semver.org\n\n## 요약\n\n버전을 주.부.수 숫자로 하고:\n\n1. 기존 버전과 호환되지 않게 API가 …",
-      "ontology": {
-        "role": "concept",
-        "domain": "management",
-        "class": "memo",
-        "instance": "semantic-versioning-2-0-0",
-        "aspect": "overview"
-      },
-      "url": "/docs/management/semantic-versioning-2-0-0/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/management/semantic-versioning-2-0-0/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/management/ssl-lets-encrypt/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Let's encrypt",
-      "snippet": "…ll\nsudo certbot --nginx \\\n -d wiki.loliot.net \\\n -d loliot.net\n`\n\n자동으로 /etc/letsencrypt에 인증관련 파일을 생성하고, /etc/nginx/conf.d/default.conf 내용도 수정을 해줍니다.\n\n## Renew\n\n`shell\n…",
-      "ontology": {
-        "role": "concept",
-        "domain": "management",
-        "class": "memo",
-        "instance": "ssl-lets-encrypt",
-        "aspect": "overview"
-      },
-      "url": "/docs/management/ssl-lets-encrypt/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/management/ssl-lets-encrypt/overview.mdx.json"
-    },
-    {
       "id": "doc:docs/management/team-management/overview.mdx",
       "type": "document",
       "score": 0,
@@ -8404,6 +8374,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/system/concepts/embedded-linux-boot-process.mdx.json"
     },
     {
+      "id": "doc:docs/language/grpc/protobuf/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Protobuf",
+      "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/grpc/protobuf/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/grpc/protobuf/overview.mdx.json"
+    },
+    {
       "id": "doc:docs/protocol/oidc/overview.mdx",
       "type": "document",
       "score": 0,
@@ -8436,23 +8423,6 @@
       },
       "url": "/docs/protocol/openapi/overview",
       "node_url": "/api/wiki/nodes/doc:docs/protocol/openapi/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/protocol/protobuf/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Protobuf",
-      "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
-      "ontology": {
-        "role": "specification",
-        "domain": "protocol",
-        "class": "application-protocol",
-        "instance": "protobuf",
-        "aspect": "overview"
-      },
-      "url": "/docs/protocol/protobuf/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/protocol/protobuf/overview.mdx.json"
     },
     {
       "id": "doc:docs/protocol/restful-api/overview.mdx",
@@ -8931,7 +8901,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/workflow/kubeflow-trainer/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/cmake/overview.mdx",
+      "id": "doc:docs/language/cpp/cmake/overview.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -8944,8 +8914,42 @@
         "instance": "cmake",
         "aspect": "overview"
       },
-      "url": "/docs/language/cmake/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cmake/overview.mdx.json"
+      "url": "/docs/language/cpp/cmake/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/cmake/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/vcpkg/overview.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "vcpkg",
+      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "environment",
+        "instance": "vcpkg",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/cpp/vcpkg/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/vcpkg/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/go/viper/viper.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "viper로 설정 관리하기",
+      "snippet": "## 설치\n\n``shell\ngo get -u github.com/spf13/viper\n`\n\n## viper 설정 우선순위\n\n1. Set으로 설정한 값\n1. flag\n1. 환경 변수\n1. 설정파일\n1. 키/값 저장소\n1. 기본값\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "viper",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/go/viper",
+      "node_url": "/api/wiki/nodes/doc:docs/language/go/viper/viper.mdx.json"
     },
     {
       "id": "doc:docs/language/python/conda/overview.mdx",
@@ -8997,40 +9001,6 @@
       },
       "url": "/docs/language/python/poetry/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/poetry/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/vcpkg/overview.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "vcpkg",
-      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/microsoft/vcpkg.git ~/.vcpkg\n`\n\n`shell\ncd ~/.vcpkg \\\n&& ./bootstrap-vcpkg.sh -disableMetrics \\\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "environment",
-        "instance": "vcpkg",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/vcpkg/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/viper/viper.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "viper로 설정 관리하기",
-      "snippet": "## 설치\n\n``shell\ngo get -u github.com/spf13/viper\n`\n\n## viper 설정 우선순위\n\n1. Set으로 설정한 값\n1. flag\n1. 환경 변수\n1. 설정파일\n1. 키/값 저장소\n1. 기본값\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "viper",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/viper",
-      "node_url": "/api/wiki/nodes/doc:docs/language/viper/viper.mdx.json"
     },
     {
       "id": "doc:docs/system/clone-os-image/overview.mdx",
@@ -10495,6 +10465,40 @@
       "node_url": "/api/wiki/nodes/doc:docs/science/ahrs/sensor-calibration.mdx.json"
     },
     {
+      "id": "doc:docs/language/grpc/protobuf/compatibility.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Protobuf 호환성(Compatibility) 유지하기",
+      "snippet": "## 호환성이 유지되는 경우\n\n- https://protobuf.dev/programming-guides/proto3/#updating\n\n- package는 타입의 이름 충돌을 방지하기 위한 namespac…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "compatibility"
+      },
+      "url": "/docs/language/grpc/protobuf/compatibility",
+      "node_url": "/api/wiki/nodes/doc:docs/language/grpc/protobuf/compatibility.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/grpc/protobuf/type.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Protobuf Type",
+      "snippet": "## Languages\n\n- Golang\n- Python\n\n## proto type mapping\n\n- https://protobuf.dev/programming-guides/proto3/#scalar\n- https://protobuf.dev/programming-guides…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "type"
+      },
+      "url": "/docs/language/grpc/protobuf/type",
+      "node_url": "/api/wiki/nodes/doc:docs/language/grpc/protobuf/type.mdx.json"
+    },
+    {
       "id": "doc:docs/protocol/email/authentication.mdx",
       "type": "document",
       "score": 0,
@@ -10578,40 +10582,6 @@
       },
       "url": "/docs/protocol/oauth/client-authentication",
       "node_url": "/api/wiki/nodes/doc:docs/protocol/oauth/client-authentication.mdx.json"
-    },
-    {
-      "id": "doc:docs/protocol/protobuf/compatibility.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Protobuf 호환성(Compatibility) 유지하기",
-      "snippet": "## 호환성이 유지되는 경우\n\n- https://protobuf.dev/programming-guides/proto3/#updating\n\n- package는 타입의 이름 충돌을 방지하기 위한 namespac…",
-      "ontology": {
-        "role": "specification",
-        "domain": "protocol",
-        "class": "application-protocol",
-        "instance": "protobuf",
-        "aspect": "compatibility"
-      },
-      "url": "/docs/protocol/protobuf/compatibility",
-      "node_url": "/api/wiki/nodes/doc:docs/protocol/protobuf/compatibility.mdx.json"
-    },
-    {
-      "id": "doc:docs/protocol/protobuf/type.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Protobuf Type",
-      "snippet": "## Languages\n\n- Golang\n- Python\n\n## proto type mapping\n\n- https://protobuf.dev/programming-guides/proto3/#scalar\n- https://protobuf.dev/programming-guides…",
-      "ontology": {
-        "role": "specification",
-        "domain": "protocol",
-        "class": "application-protocol",
-        "instance": "protobuf",
-        "aspect": "type"
-      },
-      "url": "/docs/protocol/protobuf/type",
-      "node_url": "/api/wiki/nodes/doc:docs/protocol/protobuf/type.mdx.json"
     },
     {
       "id": "doc:docs/hardware/arduino/how-to-use-library.mdx",
@@ -14558,7 +14528,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/workflow/mpi-operator/mpijob.mdx.json"
     },
     {
-      "id": "doc:docs/language/cmake/one-static-lib.mdx",
+      "id": "doc:docs/language/cpp/cmake/one-static-lib.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14571,11 +14541,11 @@
         "instance": "cmake",
         "aspect": "one-static-lib"
       },
-      "url": "/docs/language/cmake/one-static-lib",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cmake/one-static-lib.mdx.json"
+      "url": "/docs/language/cpp/cmake/one-static-lib",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/cmake/one-static-lib.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-eigen/eigen-basics.mdx",
+      "id": "doc:docs/language/cpp/eigen/eigen-basics.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14585,14 +14555,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-eigen",
+        "instance": "eigen",
         "aspect": "eigen-basics"
       },
-      "url": "/docs/language/cpp-eigen/eigen-basics",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-eigen/eigen-basics.mdx.json"
+      "url": "/docs/language/cpp/eigen/eigen-basics",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/eigen/eigen-basics.mdx.json"
     },
     {
-      "id": "doc:docs/language/cpp-exception-handling/exception-handling.mdx",
+      "id": "doc:docs/language/cpp/exception-handling/exception-handling.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14602,147 +14572,11 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-exception-handling",
+        "instance": "exception-handling",
         "aspect": "exception-handling"
       },
-      "url": "/docs/language/cpp-exception-handling/exception-handling",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-exception-handling/exception-handling.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-nccl/demystifying.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Demystifying NCCL(2507) - An In-depth Analysis of GPU Communication Protocols and Algorithms",
-      "snippet": "…e 2:Illustration of inter-node data transfer paths in NCCL.\n\n## NCCL Collective Algorithms\n\n### Qualitative Algorithm Analysis\n\n#### Non-pipelined Pattern\n\n Figure 4:Illu…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-nccl",
-        "aspect": "demystifying"
-      },
-      "url": "/docs/language/cpp-nccl/demystifying",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-nccl/demystifying.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-opencl/opencl-basics.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCL Basics",
-      "snippet": "…elopers/reference-cards/\n- http://developer.amd.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide2.pdf\n\n## Platform model\n\n## Execution model\n\n- kernel: A…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencl",
-        "aspect": "opencl-basics"
-      },
-      "url": "/docs/language/cpp-opencl/opencl-basics",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencl/opencl-basics.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-opencl/opencl-example.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCL Example",
-      "snippet": "…orms);\n\n return 0;\n}\n`\n\n`shell\ng++ -o saxpy_cpu_vs_mali saxpy_cpu_vs_mali.cpp -lOpenCL\n``",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencl",
-        "aspect": "opencl-example"
-      },
-      "url": "/docs/language/cpp-opencl/opencl-example",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencl/opencl-example.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-opencl/opencl-with-mali-gpu.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCL with Mali GPU",
-      "snippet": "…https://developer.arm.com/solutions/graphics-and-gaming/resources/presentations/opencl-tutorials\n\nDue to the difference in hardware structure, Desktop GPU and Mali GP…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencl",
-        "aspect": "opencl-with-mali-gpu"
-      },
-      "url": "/docs/language/cpp-opencl/opencl-with-mali-gpu",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencl/opencl-with-mali-gpu.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-opencv/opencv-installation.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV installation",
-      "snippet": "Ref: https://docs.opencv.org/master/\n\nLicense: 3-clause BSD License\n\n## Dependencies\n\nbuild-essential, c…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-opencv",
-        "aspect": "opencv-installation"
-      },
-      "url": "/docs/language/cpp-opencv/opencv-installation",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-opencv/opencv-installation.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-openmpi/openmpi.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenMPI",
-      "snippet": "## OpenMPI Architecture\n\n OpenMPI Architecture\n\n- Frameworks\n - OpenMPI / Internal framewo…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-openmpi",
-        "aspect": "openmpi"
-      },
-      "url": "/docs/language/cpp-openmpi/openmpi",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-openmpi/openmpi.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-stl/stl.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "C++ STL",
-      "snippet": "## Container\n\nRef: https://docs.microsoft.com/cpp/standard-library/stl-containers\n\n### Seque…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-stl",
-        "aspect": "stl"
-      },
-      "url": "/docs/language/cpp-stl/stl",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-stl/stl.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/cpp-ucx/ucx.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "UCX",
-      "snippet": "## Architecture\n\n UCX Architecture\n\n## 설치\n\n- OpenUCX / Running\n- UCX GitHub / Releases\n\n``shell\nwget …",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "cpp-ucx",
-        "aspect": "ucx"
-      },
-      "url": "/docs/language/cpp-ucx/ucx",
-      "node_url": "/api/wiki/nodes/doc:docs/language/cpp-ucx/ucx.mdx.json"
+      "url": "/docs/language/cpp/exception-handling",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/exception-handling/exception-handling.mdx.json"
     },
     {
       "id": "doc:docs/language/cpp/linting-formatting/overview.mdx",
@@ -14762,7 +14596,194 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/cpp/linting-formatting/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/flutter-bloc/event-state.mdx",
+      "id": "doc:docs/language/cpp/llvm/cross-compile.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "LLVM Cross-compile",
+      "snippet": "…T /path/to/sysroot)\nset(TRIPLE aarch64-linux-gnu)\n\nset(TOOLCHAIN /opt/toolchain/clang/11)\nset(CMAKE_C_COMPILER ${TOOLCHAIN}/bin/clang)\nset(CMAKE_CXX_COMPILER ${TOOLC…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "toolchain",
+        "instance": "llvm",
+        "aspect": "cross-compile"
+      },
+      "url": "/docs/language/cpp/llvm/cross-compile",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/llvm/cross-compile.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/nccl/demystifying.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Demystifying NCCL(2507) - An In-depth Analysis of GPU Communication Protocols and Algorithms",
+      "snippet": "…e 2:Illustration of inter-node data transfer paths in NCCL.\n\n## NCCL Collective Algorithms\n\n### Qualitative Algorithm Analysis\n\n#### Non-pipelined Pattern\n\n Figure 4:Illu…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "nccl",
+        "aspect": "demystifying"
+      },
+      "url": "/docs/language/cpp/nccl/demystifying",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/nccl/demystifying.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/opencl/opencl-basics.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCL Basics",
+      "snippet": "…elopers/reference-cards/\n- http://developer.amd.com/wordpress/media/2013/12/AMD_OpenCL_Programming_User_Guide2.pdf\n\n## Platform model\n\n## Execution model\n\n- kernel: A…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencl",
+        "aspect": "opencl-basics"
+      },
+      "url": "/docs/language/cpp/opencl/opencl-basics",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencl/opencl-basics.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/opencl/opencl-example.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCL Example",
+      "snippet": "…orms);\n\n return 0;\n}\n`\n\n`shell\ng++ -o saxpy_cpu_vs_mali saxpy_cpu_vs_mali.cpp -lOpenCL\n``",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencl",
+        "aspect": "opencl-example"
+      },
+      "url": "/docs/language/cpp/opencl/opencl-example",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencl/opencl-example.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/opencl/opencl-with-mali-gpu.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCL with Mali GPU",
+      "snippet": "…https://developer.arm.com/solutions/graphics-and-gaming/resources/presentations/opencl-tutorials\n\nDue to the difference in hardware structure, Desktop GPU and Mali GP…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencl",
+        "aspect": "opencl-with-mali-gpu"
+      },
+      "url": "/docs/language/cpp/opencl/opencl-with-mali-gpu",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencl/opencl-with-mali-gpu.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/opencv/opencv-installation.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV installation",
+      "snippet": "Ref: https://docs.opencv.org/master/\n\nLicense: 3-clause BSD License\n\n## Dependencies\n\nbuild-essential, c…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv",
+        "aspect": "opencv-installation"
+      },
+      "url": "/docs/language/cpp/opencv/opencv-installation",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/opencv/opencv-installation.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/openmpi/openmpi.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenMPI",
+      "snippet": "## OpenMPI Architecture\n\n OpenMPI Architecture\n\n- Frameworks\n - OpenMPI / Internal framewo…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "openmpi",
+        "aspect": "openmpi"
+      },
+      "url": "/docs/language/cpp/openmpi",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/openmpi/openmpi.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/stl/stl.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "C++ STL",
+      "snippet": "## Container\n\nRef: https://docs.microsoft.com/cpp/standard-library/stl-containers\n\n### Seque…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "stl",
+        "aspect": "stl"
+      },
+      "url": "/docs/language/cpp/stl",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/stl/stl.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/ucx/ucx.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "UCX",
+      "snippet": "## Architecture\n\n UCX Architecture\n\n## 설치\n\n- OpenUCX / Running\n- UCX GitHub / Releases\n\n``shell\nwget …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "ucx",
+        "aspect": "ucx"
+      },
+      "url": "/docs/language/cpp/ucx",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/ucx/ucx.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/vcpkg/library.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "vcpkg Library 만들기",
+      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "library"
+      },
+      "url": "/docs/language/cpp/vcpkg/library",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/vcpkg/library.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/cpp/vcpkg/registry.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "vcpkg Registry 만들기",
+      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "package",
+        "instance": "vcpkg",
+        "aspect": "registry"
+      },
+      "url": "/docs/language/cpp/vcpkg/registry",
+      "node_url": "/api/wiki/nodes/doc:docs/language/cpp/vcpkg/registry.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/flutter/bloc/event-state.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14775,11 +14796,11 @@
         "instance": "flutter-bloc",
         "aspect": "event-state"
       },
-      "url": "/docs/language/flutter-bloc/event-state",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-bloc/event-state.mdx.json"
+      "url": "/docs/language/flutter/bloc/event-state",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/bloc/event-state.mdx.json"
     },
     {
-      "id": "doc:docs/language/flutter-bloc/observer.mdx",
+      "id": "doc:docs/language/flutter/bloc/observer.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14792,11 +14813,11 @@
         "instance": "flutter-bloc",
         "aspect": "observer"
       },
-      "url": "/docs/language/flutter-bloc/observer",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-bloc/observer.mdx.json"
+      "url": "/docs/language/flutter/bloc/observer",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/bloc/observer.mdx.json"
     },
     {
-      "id": "doc:docs/language/flutter-bloc/widgets.mdx",
+      "id": "doc:docs/language/flutter/bloc/widgets.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -14809,25 +14830,8 @@
         "instance": "flutter-bloc",
         "aspect": "widgets"
       },
-      "url": "/docs/language/flutter-bloc/widgets",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-bloc/widgets.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/flutter-engine/build-for-linux-arm64.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Build Flutter engine for linux-arm/arm64",
-      "snippet": "…next command!!\n\n## Dependencies\n\n### Host(Linux x86_64)\n\n``shell\nmkdir -p $HOME/flutter-engine/sdk/toolchain \\\n&& mkdir -p $HOME/flutter-engine/sdk/sysroot \\\n&& mkdir -p $HOM…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "framework",
-        "instance": "flutter-engine",
-        "aspect": "build-for-linux-arm64"
-      },
-      "url": "/docs/language/flutter-engine/build-for-linux-arm64",
-      "node_url": "/api/wiki/nodes/doc:docs/language/flutter-engine/build-for-linux-arm64.mdx.json"
+      "url": "/docs/language/flutter/bloc/widgets",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/bloc/widgets.mdx.json"
     },
     {
       "id": "doc:docs/language/flutter/build-for-linux-arm64.mdx",
@@ -14845,6 +14849,23 @@
       },
       "url": "/docs/language/flutter/build-for-linux-arm64",
       "node_url": "/api/wiki/nodes/doc:docs/language/flutter/build-for-linux-arm64.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/flutter/engine/build-for-linux-arm64.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Build Flutter engine for linux-arm/arm64",
+      "snippet": "…next command!!\n\n## Dependencies\n\n### Host(Linux x86_64)\n\n``shell\nmkdir -p $HOME/flutter-engine/sdk/toolchain \\\n&& mkdir -p $HOME/flutter-engine/sdk/sysroot \\\n&& mkdir -p $HOM…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "flutter-engine",
+        "aspect": "build-for-linux-arm64"
+      },
+      "url": "/docs/language/flutter/engine/build-for-linux-arm64",
+      "node_url": "/api/wiki/nodes/doc:docs/language/flutter/engine/build-for-linux-arm64.mdx.json"
     },
     {
       "id": "doc:docs/language/flutter/linux-methodchannel.mdx",
@@ -15425,7 +15446,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/grpc/python/type.mdx.json"
     },
     {
-      "id": "doc:docs/language/javascript-firebase/authentication.mdx",
+      "id": "doc:docs/language/javascript/firebase/authentication.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15438,11 +15459,11 @@
         "instance": "javascript-firebase",
         "aspect": "authentication"
       },
-      "url": "/docs/language/javascript-firebase/authentication",
-      "node_url": "/api/wiki/nodes/doc:docs/language/javascript-firebase/authentication.mdx.json"
+      "url": "/docs/language/javascript/firebase/authentication",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/firebase/authentication.mdx.json"
     },
     {
-      "id": "doc:docs/language/javascript-firebase/custom-email-handler.mdx",
+      "id": "doc:docs/language/javascript/firebase/custom-email-handler.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15455,8 +15476,8 @@
         "instance": "javascript-firebase",
         "aspect": "custom-email-handler"
       },
-      "url": "/docs/language/javascript-firebase/custom-email-handler",
-      "node_url": "/api/wiki/nodes/doc:docs/language/javascript-firebase/custom-email-handler.mdx.json"
+      "url": "/docs/language/javascript/firebase/custom-email-handler",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/firebase/custom-email-handler.mdx.json"
     },
     {
       "id": "doc:docs/language/javascript/linting-formatting/overview.mdx",
@@ -15491,6 +15512,23 @@
       },
       "url": "/docs/language/javascript/nextjs/env",
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/nextjs/env.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/javascript/node-addon-api/class-binding.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Class binding with node-addon-api",
+      "snippet": "## Setup\n\n``shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-addon-api\n│ └── ...\n├── package.json\n├── package-lock.json\n├── test\n│ └── ...\n├── .clang-…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "node-addon-api",
+        "aspect": "class-binding"
+      },
+      "url": "/docs/language/javascript/node-addon-api/class-binding",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/node-addon-api/class-binding.mdx.json"
     },
     {
       "id": "doc:docs/language/javascript/prisma/migrate.mdx",
@@ -15578,6 +15616,23 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/redux-toolkit/toolkit.mdx.json"
     },
     {
+      "id": "doc:docs/language/javascript/sveltekit/routing.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "SvelteKit Routing",
+      "snippet": "## Routing\n\n- https://kit.svelte.dev/docs/routing\n\nSvelteKit은 디렉토리 구조를 기반으로 라우팅 합니다.\n\n``shell\nsrc/routes/\n├── +layout.ts # or +layout.server…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "sveltekit",
+        "aspect": "routing"
+      },
+      "url": "/docs/language/javascript/sveltekit/routing",
+      "node_url": "/api/wiki/nodes/doc:docs/language/javascript/sveltekit/routing.mdx.json"
+    },
+    {
       "id": "doc:docs/language/javascript/threejs/fundamentals.mdx",
       "type": "document",
       "score": 0,
@@ -15610,23 +15665,6 @@
       },
       "url": "/docs/language/javascript/version/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/javascript/version/overview.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/llvm/cross-compile.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "LLVM Cross-compile",
-      "snippet": "…T /path/to/sysroot)\nset(TRIPLE aarch64-linux-gnu)\n\nset(TOOLCHAIN /opt/toolchain/clang/11)\nset(CMAKE_C_COMPILER ${TOOLCHAIN}/bin/clang)\nset(CMAKE_CXX_COMPILER ${TOOLC…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "toolchain",
-        "instance": "llvm",
-        "aspect": "cross-compile"
-      },
-      "url": "/docs/language/llvm/cross-compile",
-      "node_url": "/api/wiki/nodes/doc:docs/language/llvm/cross-compile.mdx.json"
     },
     {
       "id": "doc:docs/language/makefile/avr-example.mdx",
@@ -15680,23 +15718,6 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/makefile/help.mdx.json"
     },
     {
-      "id": "doc:docs/language/node-addon-api/class-binding.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Class binding with node-addon-api",
-      "snippet": "## Setup\n\n``shell\n\n├── binding.gyp\n├── index.js\n├── node_modules\n│ └── node-addon-api\n│ └── ...\n├── package.json\n├── package-lock.json\n├── test\n│ └── ...\n├── .clang-…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "node-addon-api",
-        "aspect": "class-binding"
-      },
-      "url": "/docs/language/node-addon-api/class-binding",
-      "node_url": "/api/wiki/nodes/doc:docs/language/node-addon-api/class-binding.mdx.json"
-    },
-    {
       "id": "doc:docs/language/probot/github-probot.mdx",
       "type": "document",
       "score": 0,
@@ -15714,7 +15735,7 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/probot/github-probot.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-concurrent-futures/concurrent-futures.mdx",
+      "id": "doc:docs/language/python/concurrent-futures/concurrent-futures.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15724,14 +15745,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-concurrent-futures",
+        "instance": "concurrent-futures",
         "aspect": "concurrent-futures"
       },
-      "url": "/docs/language/python-concurrent-futures/concurrent-futures",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-concurrent-futures/concurrent-futures.mdx.json"
+      "url": "/docs/language/python/concurrent-futures",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/concurrent-futures/concurrent-futures.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-ctypes/ctypes-convert-bytes-structure.mdx",
+      "id": "doc:docs/language/python/ctypes/ctypes-convert-bytes-structure.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15741,14 +15762,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-ctypes",
+        "instance": "ctypes",
         "aspect": "ctypes-convert-bytes-structure"
       },
-      "url": "/docs/language/python-ctypes/ctypes-convert-bytes-structure",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-ctypes/ctypes-convert-bytes-structure.mdx.json"
+      "url": "/docs/language/python/ctypes/ctypes-convert-bytes-structure",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/ctypes/ctypes-convert-bytes-structure.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-fastapi/fastapi.mdx",
+      "id": "doc:docs/language/python/fastapi/fastapi.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15758,14 +15779,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-fastapi",
+        "instance": "fastapi",
         "aspect": "fastapi"
       },
-      "url": "/docs/language/python-fastapi/fastapi",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-fastapi/fastapi.mdx.json"
+      "url": "/docs/language/python/fastapi",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/fastapi/fastapi.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-fastapi/lifespan.mdx",
+      "id": "doc:docs/language/python/fastapi/lifespan.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15775,14 +15796,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-fastapi",
+        "instance": "fastapi",
         "aspect": "lifespan"
       },
-      "url": "/docs/language/python-fastapi/lifespan",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-fastapi/lifespan.mdx.json"
+      "url": "/docs/language/python/fastapi/lifespan",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/fastapi/lifespan.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-fastapi/middleware.mdx",
+      "id": "doc:docs/language/python/fastapi/middleware.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15792,14 +15813,14 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-fastapi",
+        "instance": "fastapi",
         "aspect": "middleware"
       },
-      "url": "/docs/language/python-fastapi/middleware",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-fastapi/middleware.mdx.json"
+      "url": "/docs/language/python/fastapi/middleware",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/fastapi/middleware.mdx.json"
     },
     {
-      "id": "doc:docs/language/python-gpiod/gpiod-about.mdx",
+      "id": "doc:docs/language/python/gpiod/gpiod-about.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
@@ -15809,453 +15830,11 @@
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-gpiod",
+        "instance": "gpiod",
         "aspect": "gpiod-about"
       },
-      "url": "/docs/language/python-gpiod/gpiod-about",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-gpiod/gpiod-about.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-mpi4py/basics.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "MPI Basics",
-      "snippet": "## 설치\n\n### OpenMPI\n\nOpenMPI\n\n### MPI4PY\n\n``shell\nenv SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pi…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-mpi4py",
-        "aspect": "basics"
-      },
-      "url": "/docs/language/python-mpi4py/basics",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-mpi4py/basics.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-opencv/opencv-color-spaces.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV Color spaces",
-      "snippet": "Ref: https://docs.opencv.org/master/\n\nBGR, RGB, YUV, HSV 등은 8 bits 3 채널로 픽셀마다 24 bits 값을 갖고, Grayscale은 …",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opencv",
-        "aspect": "opencv-color-spaces"
-      },
-      "url": "/docs/language/python-opencv/opencv-color-spaces",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opencv/opencv-color-spaces.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-opencv/opencv-draw-figure.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV Draw figure",
-      "snippet": "Ref: https://docs.opencv.org/master/\n\n## Common options\n\n- @param **img**: np.ndarray\n- @param **color**…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opencv",
-        "aspect": "opencv-draw-figure"
-      },
-      "url": "/docs/language/python-opencv/opencv-draw-figure",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opencv/opencv-draw-figure.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-opencv/opencv-histogram.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV Histogram",
-      "snippet": "…turn retval cv.THRESH_OTSU 또는 cv.THRESH_TRIANGLE을 사용했을 때, 적용된 역치 값\n\n`python bgr_histogram.py\n\nfrom matplotlib import pyplot as plt\n\ngray = cv.imread('image.png', cv.IMRE…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opencv",
-        "aspect": "opencv-histogram"
-      },
-      "url": "/docs/language/python-opencv/opencv-histogram",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opencv/opencv-histogram.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-opencv/opencv-read-image-video.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "OpenCV Read image or video",
-      "snippet": "Ref: https://docs.opencv.org/master/\n\n## Read image\n\n``python\nimage = cv.imread(fileName, flag=cv.IMREAD…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opencv",
-        "aspect": "opencv-read-image-video"
-      },
-      "url": "/docs/language/python-opencv/opencv-read-image-video",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opencv/opencv-read-image-video.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-opentelemetry/trace.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python OpenTelemetry Trace 설정 가이드",
-      "snippet": "## TracerProvider\n\n``shell\npip install opentelemetry-sdk\n`\n\n`python\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace imp…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-opentelemetry",
-        "aspect": "trace"
-      },
-      "url": "/docs/language/python-opentelemetry/trace",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-opentelemetry/trace.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pybluez/pybluez.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python pybluez",
-      "snippet": "…루투스 통신을 구축 할 수 있습니다.\n\n단 참고할 문서가 거의 없기 때문에 단순 통신 기능 외에는 프로그램 개발이 어려울 수 있습니다.\n\n## pybluez 설치\n\n``shell\nsudo apt install -y bluez bluetooth libbluetooth-dev python3-pip \\\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pybluez",
-        "aspect": "pybluez"
-      },
-      "url": "/docs/language/python-pybluez/pybluez",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pybluez/pybluez.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-convert-ui-to-python.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 Convert UI to Python",
-      "snippet": "…일을 **mainwindow.ui**로 저장한 경우 아래 명령어로 **ui_mainwindow.py**로 변경할 수 있습니다.\n\n``shell\npyside2-uic mainwindow.ui -o ui_mainwindow.py\n`\n\n변환된 파일은 아래와 같습니다.\n\n`python title=\"ui_m…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-convert-ui-to-python"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-convert-ui-to-python",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-convert-ui-to-python.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-custom-qdialog.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 Custom QDialog",
-      "snippet": "…ton and cancelPushButton\n\n## Example\n\n``python title=\"settings_dialog.py\"\n\nfrom PySide2.QtCore import Qt\nfrom PySide2.QtWidgets import QDialog\n\nfrom ui_settings_dialog…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-custom-qdialog"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-custom-qdialog",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-custom-qdialog.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-installation.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 Installation",
-      "snippet": "``shell\npython3 -m pip install pyside2\n``\n\n## QT Creator\n\nDownload: https://www.qt.io/download\n\n### Qt Designer\n\nNew f…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-installation"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-installation",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-installation.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-qrunnable-and-qthreadpool.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 QRunnable and QThreadPool",
-      "snippet": "…dow, QApplication\nfrom PySide2.QtCore import (\n QObject,\n QThread,\n QRunnable,\n QThreadPool,\n Slot,\n Signal,\n)\n\nfrom ui_mainwindow import Ui_MainWindow\n\nclass TaskSignal(Q…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-qrunnable-and-qthreadpool"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-qrunnable-and-qthreadpool",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-qrunnable-and-qthreadpool.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-qthread.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 QThread",
-      "snippet": "…해야합니다.\n\n## Examples\n\nQT에서 의도하지 않은 사용방법일 수 있습니다. 추후 검토해서 수정하겠습니다.\n\n`python\n\nfrom PySide2.QtWidgets import QMainWindow, QApplication\nfrom PySide2.QtCore import QThread, …",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-qthread"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-qthread",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-qthread.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-qtimer.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 QTimer",
-      "snippet": "## QTimer\n\nPySide2.QtCore.QTimer 클래스를 사용하면 반복적인 작업이나 일정 시간 후 실행되는 작업을 처리할 수 있습니다.\n\n## Single shot …",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-qtimer"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-qtimer",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-qtimer.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-pyside2/pyside2-signal-and-slot.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "PySide2 Signal and Slot",
-      "snippet": "…에 a 슬롯을 여러번 연결하면, 시그널이 발생했을 때 연결된 횟수 만큼 슬롯을 호출합니다.\n\n## Examples\n\n``python\n\nfrom PySide2.QtWidgets import QMainWindow, QApplication\nfrom PySide2.QtCore import Signal, S…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-pyside2",
-        "aspect": "pyside2-signal-and-slot"
-      },
-      "url": "/docs/language/python-pyside2/pyside2-signal-and-slot",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-pyside2/pyside2-signal-and-slot.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-socket/socket.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python socket",
-      "snippet": "…IP 모델에서 Application 계층과 Transport 계층 사이에서 네트워크 통신을 도와주는 인터페이스 입니다.\n\n## 함수 설명\n\n``python\nsocket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)\n`\n\n- @bri…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-socket",
-        "aspect": "socket"
-      },
-      "url": "/docs/language/python-socket/socket",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-socket/socket.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-sqlalchemy/atlas.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Atlas와 SQLAlchemy 연동하기",
-      "snippet": "## 스키마 마이그레이션 파일 생성\n\n- Automatic migration planning for SQLAlchemy\n\n``shell\npython3 -m pip install atlas-provider-sqlalchemy\n`\n\n`hcl\ndata \"externa…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-sqlalchemy",
-        "aspect": "atlas"
-      },
-      "url": "/docs/language/python-sqlalchemy/atlas",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-sqlalchemy/atlas.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-sqlalchemy/sqlalchemy.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "SQLAlchemy",
-      "snippet": "- SQLAlchemy 2.0 Docs\n\n## 설치\n\n``shell\npython3 -m pip install sqlalchemy\n`\n\n`shell\npython3 -m…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-sqlalchemy",
-        "aspect": "sqlalchemy"
-      },
-      "url": "/docs/language/python-sqlalchemy/sqlalchemy",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-sqlalchemy/sqlalchemy.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-tkinter/tkinter.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Python tkinter",
-      "snippet": "Ref: https://docs.python.org/3/library/tkinter.html\n\n## Widgets\n\n- tkinter.Button\n- tkinter.CheckButton\n- tkinter.RadioButton\n…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-tkinter",
-        "aspect": "tkinter"
-      },
-      "url": "/docs/language/python-tkinter/tkinter",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-tkinter/tkinter.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-about.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "TensorFlow 2 YOLOv4",
-      "snippet": "license\npypi\nlanguage\n\n## tensorflow-yolov4\n\n``shell\npython3 -m pip install yolov4\n`\n\nYOLOv4 Implemented in Tensorfl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-about"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-about",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-about.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-dataset.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Dataset for YOLOv4",
-      "snippet": "## Dataset files and formats\n\n- class_id is an integer greater than or equal to 0.\n- cente…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-dataset"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-dataset",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-dataset.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-edge-tpu.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "YOLOv4 on Edge TPU",
-      "snippet": "…_size before converting the model to tflite.\n\n### Training\n\nRef: /docs/language/python-yolov4/yolov4-training.mdx#full-script\n\nUse yolov4-tiny-relu.cfg\n\n``python {5,10}\nfrom…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-edge-tpu"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-edge-tpu",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-edge-tpu.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-map.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Calculate mAP",
-      "snippet": "…_sample: Number of images for mAP. If None, all images in dataset are used.\n\n## Calculate mAP\n\n`shell\ncd\n`\n\n`shell\npython3 -m pip install numpy matplotlib\n`\n\n`shell\npyth…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-map"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-map",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-map.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-model-backbone.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Backbone",
-      "snippet": "…ional]\nbatch_normalize=1\nfilters=64\nsize=1\nstride=1\npad=1\nactivation=mish\n`\n\n## CSPDarknet\n\n`ini\n[convolutional]\nbatch_normalize=1\nfilters=32\nsize=3\nstride=1\npad=1\nactiva…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-model-backbone"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-model-backbone",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-model-backbone.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-model-loss.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Loss",
-      "snippet": "…i(c) \\right) \\log \\left( 1 - \\hat{p}_i(c) \\right)\n \\right]\n\\end{aligned}\n$$\n\n## YOLOv4\nBag of Freebies (BoF) for backbone: CutMix and Mosaic data augmentation, DropBl…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-model-loss"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-model-loss",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-model-loss.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-model-neck.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "Neck",
-      "snippet": "…tps://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers\n- YOLOv4: Optimal Speed and Accuracy of Object Detection",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-model-neck"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-model-neck",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-model-neck.mdx.json"
-    },
-    {
-      "id": "doc:docs/language/python-yolov4/yolov4-training.mdx",
-      "type": "document",
-      "score": 0,
-      "score_kind": "neutral",
-      "title": "YOLOv4 Training on Colab",
-      "snippet": "## Training Step\n\n- 2020-10-15\n- Google Colab\n- TF: v2.3.0\n- yolov4: v1.2.1\n- coco 2017 dat…",
-      "ontology": {
-        "role": "operation",
-        "domain": "language",
-        "class": "library",
-        "instance": "python-yolov4",
-        "aspect": "yolov4-training"
-      },
-      "url": "/docs/language/python-yolov4/yolov4-training",
-      "node_url": "/api/wiki/nodes/doc:docs/language/python-yolov4/yolov4-training.mdx.json"
+      "url": "/docs/language/python/gpiod/gpiod-about",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/gpiod/gpiod-about.mdx.json"
     },
     {
       "id": "doc:docs/language/python/linting-formatting/overview.mdx",
@@ -16273,6 +15852,108 @@
       },
       "url": "/docs/language/python/linting-formatting/overview",
       "node_url": "/api/wiki/nodes/doc:docs/language/python/linting-formatting/overview.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/mpi4py/basics.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "MPI Basics",
+      "snippet": "## 설치\n\n### OpenMPI\n\nOpenMPI\n\n### MPI4PY\n\n``shell\nenv SETUPTOOLS_USE_DISTUTILS=stdlib python3 -m pip install mpi4py\n`\n\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "mpi4py",
+        "aspect": "basics"
+      },
+      "url": "/docs/language/python/mpi4py/basics",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/mpi4py/basics.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/opencv/opencv-color-spaces.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV Color spaces",
+      "snippet": "Ref: https://docs.opencv.org/master/\n\nBGR, RGB, YUV, HSV 등은 8 bits 3 채널로 픽셀마다 24 bits 값을 갖고, Grayscale은 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv",
+        "aspect": "opencv-color-spaces"
+      },
+      "url": "/docs/language/python/opencv/opencv-color-spaces",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opencv/opencv-color-spaces.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/opencv/opencv-draw-figure.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV Draw figure",
+      "snippet": "Ref: https://docs.opencv.org/master/\n\n## Common options\n\n- @param **img**: np.ndarray\n- @param **color**…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv",
+        "aspect": "opencv-draw-figure"
+      },
+      "url": "/docs/language/python/opencv/opencv-draw-figure",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opencv/opencv-draw-figure.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/opencv/opencv-histogram.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV Histogram",
+      "snippet": "…turn retval cv.THRESH_OTSU 또는 cv.THRESH_TRIANGLE을 사용했을 때, 적용된 역치 값\n\n`python bgr_histogram.py\n\nfrom matplotlib import pyplot as plt\n\ngray = cv.imread('image.png', cv.IMRE…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv",
+        "aspect": "opencv-histogram"
+      },
+      "url": "/docs/language/python/opencv/opencv-histogram",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opencv/opencv-histogram.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/opencv/opencv-read-image-video.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "OpenCV Read image or video",
+      "snippet": "Ref: https://docs.opencv.org/master/\n\n## Read image\n\n``python\nimage = cv.imread(fileName, flag=cv.IMREAD…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opencv",
+        "aspect": "opencv-read-image-video"
+      },
+      "url": "/docs/language/python/opencv/opencv-read-image-video",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opencv/opencv-read-image-video.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/opentelemetry/trace.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python OpenTelemetry Trace 설정 가이드",
+      "snippet": "## TracerProvider\n\n``shell\npip install opentelemetry-sdk\n`\n\n`python\nfrom opentelemetry import trace\nfrom opentelemetry.sdk.trace imp…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "opentelemetry",
+        "aspect": "trace"
+      },
+      "url": "/docs/language/python/opentelemetry/trace",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/opentelemetry/trace.mdx.json"
     },
     {
       "id": "doc:docs/language/python/package-sphinx.mdx",
@@ -16309,6 +15990,210 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/python/pybind11/type.mdx.json"
     },
     {
+      "id": "doc:docs/language/python/pybluez/pybluez.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python pybluez",
+      "snippet": "…루투스 통신을 구축 할 수 있습니다.\n\n단 참고할 문서가 거의 없기 때문에 단순 통신 기능 외에는 프로그램 개발이 어려울 수 있습니다.\n\n## pybluez 설치\n\n``shell\nsudo apt install -y bluez bluetooth libbluetooth-dev python3-pip \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pybluez",
+        "aspect": "pybluez"
+      },
+      "url": "/docs/language/python/pybluez",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pybluez/pybluez.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-convert-ui-to-python.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 Convert UI to Python",
+      "snippet": "…일을 **mainwindow.ui**로 저장한 경우 아래 명령어로 **ui_mainwindow.py**로 변경할 수 있습니다.\n\n``shell\npyside2-uic mainwindow.ui -o ui_mainwindow.py\n`\n\n변환된 파일은 아래와 같습니다.\n\n`python title=\"ui_m…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-convert-ui-to-python"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-convert-ui-to-python",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-convert-ui-to-python.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-custom-qdialog.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 Custom QDialog",
+      "snippet": "…ton and cancelPushButton\n\n## Example\n\n``python title=\"settings_dialog.py\"\n\nfrom PySide2.QtCore import Qt\nfrom PySide2.QtWidgets import QDialog\n\nfrom ui_settings_dialog…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-custom-qdialog"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-custom-qdialog",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-custom-qdialog.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-installation.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 Installation",
+      "snippet": "``shell\npython3 -m pip install pyside2\n``\n\n## QT Creator\n\nDownload: https://www.qt.io/download\n\n### Qt Designer\n\nNew f…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-installation"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-installation",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-installation.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-qrunnable-and-qthreadpool.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 QRunnable and QThreadPool",
+      "snippet": "…dow, QApplication\nfrom PySide2.QtCore import (\n QObject,\n QThread,\n QRunnable,\n QThreadPool,\n Slot,\n Signal,\n)\n\nfrom ui_mainwindow import Ui_MainWindow\n\nclass TaskSignal(Q…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-qrunnable-and-qthreadpool"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-qrunnable-and-qthreadpool",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-qrunnable-and-qthreadpool.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-qthread.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 QThread",
+      "snippet": "…해야합니다.\n\n## Examples\n\nQT에서 의도하지 않은 사용방법일 수 있습니다. 추후 검토해서 수정하겠습니다.\n\n`python\n\nfrom PySide2.QtWidgets import QMainWindow, QApplication\nfrom PySide2.QtCore import QThread, …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-qthread"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-qthread",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-qthread.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-qtimer.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 QTimer",
+      "snippet": "## QTimer\n\nPySide2.QtCore.QTimer 클래스를 사용하면 반복적인 작업이나 일정 시간 후 실행되는 작업을 처리할 수 있습니다.\n\n## Single shot …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-qtimer"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-qtimer",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-qtimer.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/pyside2/pyside2-signal-and-slot.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "PySide2 Signal and Slot",
+      "snippet": "…에 a 슬롯을 여러번 연결하면, 시그널이 발생했을 때 연결된 횟수 만큼 슬롯을 호출합니다.\n\n## Examples\n\n``python\n\nfrom PySide2.QtWidgets import QMainWindow, QApplication\nfrom PySide2.QtCore import Signal, S…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "pyside2",
+        "aspect": "pyside2-signal-and-slot"
+      },
+      "url": "/docs/language/python/pyside2/pyside2-signal-and-slot",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/pyside2/pyside2-signal-and-slot.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/socket/socket.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python socket",
+      "snippet": "…IP 모델에서 Application 계층과 Transport 계층 사이에서 네트워크 통신을 도와주는 인터페이스 입니다.\n\n## 함수 설명\n\n``python\nsocket.socket(family=AF_INET, type=SOCK_STREAM, proto=0, fileno=None)\n`\n\n- @bri…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "socket",
+        "aspect": "socket"
+      },
+      "url": "/docs/language/python/socket",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/socket/socket.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/sqlalchemy/atlas.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Atlas와 SQLAlchemy 연동하기",
+      "snippet": "## 스키마 마이그레이션 파일 생성\n\n- Automatic migration planning for SQLAlchemy\n\n``shell\npython3 -m pip install atlas-provider-sqlalchemy\n`\n\n`hcl\ndata \"externa…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "atlas"
+      },
+      "url": "/docs/language/python/sqlalchemy/atlas",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/sqlalchemy/atlas.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/sqlalchemy/sqlalchemy.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "SQLAlchemy",
+      "snippet": "- SQLAlchemy 2.0 Docs\n\n## 설치\n\n``shell\npython3 -m pip install sqlalchemy\n`\n\n`shell\npython3 -m…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "sqlalchemy",
+        "aspect": "sqlalchemy"
+      },
+      "url": "/docs/language/python/sqlalchemy",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/sqlalchemy/sqlalchemy.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/tkinter/tkinter.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Python tkinter",
+      "snippet": "Ref: https://docs.python.org/3/library/tkinter.html\n\n## Widgets\n\n- tkinter.Button\n- tkinter.CheckButton\n- tkinter.RadioButton\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "tkinter",
+        "aspect": "tkinter"
+      },
+      "url": "/docs/language/python/tkinter",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/tkinter/tkinter.mdx.json"
+    },
+    {
       "id": "doc:docs/language/python/version/overview.mdx",
       "type": "document",
       "score": 0,
@@ -16326,55 +16211,140 @@
       "node_url": "/api/wiki/nodes/doc:docs/language/python/version/overview.mdx.json"
     },
     {
-      "id": "doc:docs/language/sveltekit/routing.mdx",
+      "id": "doc:docs/language/python/yolov4/yolov4-about.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
-      "title": "SvelteKit Routing",
-      "snippet": "## Routing\n\n- https://kit.svelte.dev/docs/routing\n\nSvelteKit은 디렉토리 구조를 기반으로 라우팅 합니다.\n\n``shell\nsrc/routes/\n├── +layout.ts # or +layout.server…",
+      "title": "TensorFlow 2 YOLOv4",
+      "snippet": "license\npypi\nlanguage\n\n## tensorflow-yolov4\n\n``shell\npython3 -m pip install yolov4\n`\n\nYOLOv4 Implemented in Tensorfl…",
       "ontology": {
         "role": "operation",
         "domain": "language",
-        "class": "framework",
-        "instance": "sveltekit",
-        "aspect": "routing"
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-about"
       },
-      "url": "/docs/language/sveltekit/routing",
-      "node_url": "/api/wiki/nodes/doc:docs/language/sveltekit/routing.mdx.json"
+      "url": "/docs/language/python/yolov4/yolov4-about",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-about.mdx.json"
     },
     {
-      "id": "doc:docs/language/vcpkg/library.mdx",
+      "id": "doc:docs/language/python/yolov4/yolov4-dataset.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
-      "title": "vcpkg Library 만들기",
-      "snippet": "…include(CMakePackageConfigHelpers)\ninclude(GNUInstallDirs)\n\n#\n# 라이브러리 설정\n#\n\nadd_library(\n ${PROJECT_NAME_LOWER}\n # ...\n)\n\n# ...\n\n#\n# install 설정\n#\n\ninstall(\n TARGETS ${…",
+      "title": "Dataset for YOLOv4",
+      "snippet": "## Dataset files and formats\n\n- class_id is an integer greater than or equal to 0.\n- cente…",
       "ontology": {
         "role": "operation",
         "domain": "language",
-        "class": "package",
-        "instance": "vcpkg",
-        "aspect": "library"
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-dataset"
       },
-      "url": "/docs/language/vcpkg/library",
-      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/library.mdx.json"
+      "url": "/docs/language/python/yolov4/yolov4-dataset",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-dataset.mdx.json"
     },
     {
-      "id": "doc:docs/language/vcpkg/registry.mdx",
+      "id": "doc:docs/language/python/yolov4/yolov4-edge-tpu.mdx",
       "type": "document",
       "score": 0,
       "score_kind": "neutral",
-      "title": "vcpkg Registry 만들기",
-      "snippet": "…git을 추천합니다.\n\n### 설치 테스트\n\n`shell\nvcpkg install --overlay-ports=./tmp_ports\n`\n\n## Registry\n\n- 자습서: Git을 사용하여 프라이빗 vcpkg 레지스트리에 패키지 게시\n\n### Registry 만들기\n\n`shell\nvcpkg-regi…",
+      "title": "YOLOv4 on Edge TPU",
+      "snippet": "…tion: https://coral.ai/docs/edgetpu/models-intro/#supported-operations\n\n- **Use YOLOv4-Tiny** because YOLOv4 model size is too large.\n- **Use relu** for activation. Y…",
       "ontology": {
         "role": "operation",
         "domain": "language",
-        "class": "package",
-        "instance": "vcpkg",
-        "aspect": "registry"
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-edge-tpu"
       },
-      "url": "/docs/language/vcpkg/registry",
-      "node_url": "/api/wiki/nodes/doc:docs/language/vcpkg/registry.mdx.json"
+      "url": "/docs/language/python/yolov4/yolov4-edge-tpu",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-edge-tpu.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/yolov4-map.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Calculate mAP",
+      "snippet": "…_sample: Number of images for mAP. If None, all images in dataset are used.\n\n## Calculate mAP\n\n`shell\ncd\n`\n\n`shell\npython3 -m pip install numpy matplotlib\n`\n\n`shell\npyth…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-map"
+      },
+      "url": "/docs/language/python/yolov4/yolov4-map",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-map.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/yolov4-model-backbone.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Backbone",
+      "snippet": "…ional]\nbatch_normalize=1\nfilters=64\nsize=1\nstride=1\npad=1\nactivation=mish\n`\n\n## CSPDarknet\n\n`ini\n[convolutional]\nbatch_normalize=1\nfilters=32\nsize=3\nstride=1\npad=1\nactiva…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-model-backbone"
+      },
+      "url": "/docs/language/python/yolov4/yolov4-model-backbone",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-model-backbone.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/yolov4-model-loss.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Loss",
+      "snippet": "…i(c) \\right) \\log \\left( 1 - \\hat{p}_i(c) \\right)\n \\right]\n\\end{aligned}\n$$\n\n## YOLOv4\nBag of Freebies (BoF) for backbone: CutMix and Mosaic data augmentation, DropBl…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-model-loss"
+      },
+      "url": "/docs/language/python/yolov4/yolov4-model-loss",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-model-loss.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/yolov4-model-neck.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "Neck",
+      "snippet": "…tps://github.com/AlexeyAB/darknet/wiki/CFG-Parameters-in-the-different-layers\n- YOLOv4: Optimal Speed and Accuracy of Object Detection",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-model-neck"
+      },
+      "url": "/docs/language/python/yolov4/yolov4-model-neck",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-model-neck.mdx.json"
+    },
+    {
+      "id": "doc:docs/language/python/yolov4/yolov4-training.mdx",
+      "type": "document",
+      "score": 0,
+      "score_kind": "neutral",
+      "title": "YOLOv4 Training on Colab",
+      "snippet": "## Training Step\n\n- 2020-10-15\n- Google Colab\n- TF: v2.3.0\n- yolov4: v1.2.1\n- coco 2017 dat…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "yolov4",
+        "aspect": "yolov4-training"
+      },
+      "url": "/docs/language/python/yolov4/yolov4-training",
+      "node_url": "/api/wiki/nodes/doc:docs/language/python/yolov4/yolov4-training.mdx.json"
     },
     {
       "id": "doc:docs/science/nn/cpu-gpu-npu.mdx",

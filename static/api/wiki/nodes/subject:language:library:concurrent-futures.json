@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:concurrent-futures",
+  "title": "Python concurrent.futures",
+  "snippet": "Python concurrent.futures is a library subject in the PYTHON language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "concurrent-futures"
+  },
+  "url": "/docs/language/python/concurrent-futures/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:concurrent-futures.json",
+  "document_refs": [
+    "doc:docs/language/python/concurrent-futures/overview.mdx",
+    "doc:docs/language/python/concurrent-futures/concurrent-futures.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/python/concurrent-futures/overview.mdx",
+      "title": "Python concurrent.futures",
+      "url": "/docs/language/python/concurrent-futures/overview",
+      "snippet": "Python concurrent.futures is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "concurrent-futures",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/concurrent-futures/concurrent-futures.mdx",
+      "title": "Python concurrent.futures",
+      "url": "/docs/language/python/concurrent-futures",
+      "snippet": "## ProcessPoolExecutor\n\n``python\n\nfrom concurrent.futures import ProcessPoolExecutor, as_completed\n\ndef task(index: int) -> int:\n print(f…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "concurrent-futures",
+        "aspect": "concurrent-futures"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/python/concurrent-futures/overview.mdx:about_subject:subject:language:library:concurrent-futures",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/concurrent-futures/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/concurrent-futures/concurrent-futures.mdx:about_subject:subject:language:library:concurrent-futures",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/concurrent-futures/concurrent-futures.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:concurrent-futures:depends_on:subject:language:programming-language:python",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:python",
+      "direction": "outgoing"
+    }
+  ]
+}

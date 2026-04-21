@@ -1,0 +1,91 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:protobuf",
+  "title": "Protobuf",
+  "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "protobuf"
+  },
+  "url": "/docs/language/grpc/protobuf/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:protobuf.json",
+  "document_refs": [
+    "doc:docs/language/grpc/protobuf/overview.mdx",
+    "doc:docs/language/grpc/protobuf/compatibility.mdx",
+    "doc:docs/language/grpc/protobuf/type.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/grpc/protobuf/overview.mdx",
+      "title": "Protobuf",
+      "url": "/docs/language/grpc/protobuf/overview",
+      "snippet": "…C++\n\n## protoc\n\n- mise로 런타임 버전 관리하기\n- Version Support\n\n## Message 정의\n\n- https://protobuf.dev/programming-guides/proto3/\n\n### import\n\n``protobuf title=\"a/b.proto\"\nmessag…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/grpc/protobuf/compatibility.mdx",
+      "title": "Protobuf 호환성(Compatibility) 유지하기",
+      "url": "/docs/language/grpc/protobuf/compatibility",
+      "snippet": "## 호환성이 유지되는 경우\n\n- https://protobuf.dev/programming-guides/proto3/#updating\n\n- package는 타입의 이름 충돌을 방지하기 위한 namespac…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "compatibility"
+      }
+    },
+    {
+      "id": "doc:docs/language/grpc/protobuf/type.mdx",
+      "title": "Protobuf Type",
+      "url": "/docs/language/grpc/protobuf/type",
+      "snippet": "## Languages\n\n- Golang\n- Python\n\n## proto type mapping\n\n- https://protobuf.dev/programming-guides/proto3/#scalar\n- https://protobuf.dev/programming-guides…",
+      "ontology": {
+        "role": "specification",
+        "domain": "language",
+        "class": "library",
+        "instance": "protobuf",
+        "aspect": "type"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/grpc/protobuf/overview.mdx:about_subject:subject:language:library:protobuf",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/grpc/protobuf/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/grpc/protobuf/compatibility.mdx:about_subject:subject:language:library:protobuf",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/grpc/protobuf/compatibility.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/grpc/protobuf/type.mdx:about_subject:subject:language:library:protobuf",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/grpc/protobuf/type.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:grpc:related_to:subject:language:library:protobuf",
+      "predicate": "related_to",
+      "other_id": "subject:language:library:grpc",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:protobuf:related_to:subject:language:library:grpc",
+      "predicate": "related_to",
+      "other_id": "subject:language:library:grpc",
+      "direction": "outgoing"
+    }
+  ]
+}

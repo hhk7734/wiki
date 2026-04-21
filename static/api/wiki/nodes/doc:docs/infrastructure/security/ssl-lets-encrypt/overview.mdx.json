@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/security/ssl-lets-encrypt/overview.mdx",
+  "title": "Let's Encrypt",
+  "snippet": "…ll\nsudo certbot --nginx \\\n -d wiki.loliot.net \\\n -d loliot.net\n`\n\n자동으로 /etc/letsencrypt에 인증관련 파일을 생성하고, /etc/nginx/conf.d/default.conf 내용도 수정을 해줍니다.\n\n## Renew\n\n`shell\n…",
+  "ontology": {
+    "role": "concept",
+    "domain": "infrastructure",
+    "class": "auth-system",
+    "instance": "ssl-lets-encrypt",
+    "aspect": "overview"
+  },
+  "url": "/docs/infrastructure/security/ssl-lets-encrypt/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/security/ssl-lets-encrypt/overview.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:auth-system:ssl-lets-encrypt",
+    "title": "Let's Encrypt",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "auth-system",
+      "instance": "ssl-lets-encrypt"
+    },
+    "url": "/docs/infrastructure/security/ssl-lets-encrypt/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/security/ssl-lets-encrypt/overview.mdx:about_subject:subject:infrastructure:auth-system:ssl-lets-encrypt",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:auth-system:ssl-lets-encrypt",
+      "direction": "outgoing"
+    }
+  ]
+}

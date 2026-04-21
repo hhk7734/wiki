@@ -1,0 +1,74 @@
+---
+id: overview
+title: "Let's Encrypt"
+sidebar_label: "Let's Encrypt"
+description: "Let's Encrypt certificate issuance with certbot and Nginx"
+keywords:
+  - "Let's Encrypt"
+  - ssl
+  - certbot
+  - nginx
+ontology:
+  role: concept
+  domain: infrastructure
+  class: auth-system
+  instance: ssl-lets-encrypt
+  aspect: overview
+subject:
+  canonical_name: Let's Encrypt
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+```shell
+sudo apt-get update
+```
+
+```shell
+sudo apt-get install certbot
+```
+
+```shell
+sudo apt-get install python3-certbot-nginx
+```
+
+## Nginx
+
+```shell
+sudo vim /etc/nginx/conf.d/default.conf
+```
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    return 301 https://$host$request_uri;
+}
+```
+
+## certbot
+
+```shell
+sudo certbot --nginx \
+    -d wiki.loliot.net \
+    -d loliot.net
+```
+
+자동으로 `/etc/letsencrypt`에 인증관련 파일을 생성하고, `/etc/nginx/conf.d/default.conf` 내용도 수정을 해줍니다.
+
+## Renew
+
+```shell
+sudo certbot renew
+```

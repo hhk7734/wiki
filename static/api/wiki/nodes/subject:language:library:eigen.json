@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:eigen",
+  "title": "Eigen",
+  "snippet": "Eigen is a library subject in the CPP language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "eigen"
+  },
+  "url": "/docs/language/cpp/eigen/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:eigen.json",
+  "document_refs": [
+    "doc:docs/language/cpp/eigen/overview.mdx",
+    "doc:docs/language/cpp/eigen/eigen-basics.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/cpp/eigen/overview.mdx",
+      "title": "Eigen",
+      "url": "/docs/language/cpp/eigen/overview",
+      "snippet": "Eigen is a library subject in the CPP language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "eigen",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/cpp/eigen/eigen-basics.mdx",
+      "title": "Eigen Basics",
+      "url": "/docs/language/cpp/eigen/eigen-basics",
+      "snippet": "## Create Project\n\nDownload: https://eigen.tuxfamily.org\n\n``shell\nexample\n├── CMakeLists.txt\n├── eigen-3.3.9\n│ ├── bench\n│…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "eigen",
+        "aspect": "eigen-basics"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/cpp/eigen/overview.mdx:about_subject:subject:language:library:eigen",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/eigen/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/cpp/eigen/eigen-basics.mdx:about_subject:subject:language:library:eigen",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/cpp/eigen/eigen-basics.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:eigen:depends_on:subject:language:programming-language:cpp",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:cpp",
+      "direction": "outgoing"
+    }
+  ]
+}
