@@ -1,5 +1,65 @@
 import React, { useEffect, useRef, useState } from "react";
 
+const DRAWIO_VIEWER_SRC = "https://www.draw.io/js/viewer.min.js";
+
+type DrawIOGraphViewer = {
+	createViewerForElement: (element: HTMLElement) => void;
+};
+
+declare global {
+	interface Window {
+		GraphViewer?: DrawIOGraphViewer;
+	}
+}
+
+let drawIOViewerPromise: Promise<DrawIOGraphViewer> | undefined;
+
+function loadDrawIOViewer(): Promise<DrawIOGraphViewer> {
+	if (typeof window === "undefined") {
+		return Promise.reject(new Error("GraphViewer is only available in browser"));
+	}
+
+	if (window.GraphViewer) {
+		return Promise.resolve(window.GraphViewer);
+	}
+
+	if (drawIOViewerPromise) {
+		return drawIOViewerPromise;
+	}
+
+	drawIOViewerPromise = new Promise((resolve, reject) => {
+		const script = document.createElement("script");
+		script.src = DRAWIO_VIEWER_SRC;
+		script.async = true;
+
+		script.addEventListener(
+			"load",
+			() => {
+				if (window.GraphViewer) {
+					resolve(window.GraphViewer);
+				} else {
+					drawIOViewerPromise = undefined;
+					reject(new Error("GraphViewer is not loaded"));
+				}
+			},
+			{ once: true },
+		);
+
+		script.addEventListener(
+			"error",
+			() => {
+				drawIOViewerPromise = undefined;
+				reject(new Error("Failed to load GraphViewer"));
+			},
+			{ once: true },
+		);
+
+		document.head.appendChild(script);
+	});
+
+	return drawIOViewerPromise;
+}
+
 export default function DrawIOViewer({ src }: { src: string }) {
 	const [tip, setTip] = useState("loading...");
 	const el = useRef<HTMLDivElement>(null);
@@ -7,18 +67,26 @@ export default function DrawIOViewer({ src }: { src: string }) {
 	useEffect(() => {
 		if (typeof window === "undefined") return;
 
-		const GraphViewer = (window as any).GraphViewer;
-		if (!GraphViewer) {
-			setTip("GraphViewer is not loaded");
-			return;
-		}
+		let cancelled = false;
+		let frame = 0;
+		const element = el.current;
 
-		fetch(src)
-			.then((res) => {
+		if (!element) return;
+
+		setTip("loading...");
+		element.replaceChildren();
+		delete element.dataset.mxgraph;
+
+		Promise.all([
+			loadDrawIOViewer(),
+			fetch(src).then((res) => {
 				if (!res.ok) throw new Error("Failed to fetch drawio file");
 				return res.text();
-			})
-			.then((content) => {
+			}),
+		])
+			.then(([GraphViewer, content]) => {
+				if (cancelled) return;
+
 				if (!content) {
 					setTip("Drawio file is empty");
 					return;
@@ -33,16 +101,26 @@ export default function DrawIOViewer({ src }: { src: string }) {
 					xml: content,
 				};
 
-				el.current!.dataset.mxgraph = JSON.stringify(data);
+				element.dataset.mxgraph = JSON.stringify(data);
 				setTip("");
 
-				setTimeout(() => {
-					GraphViewer.createViewerForElement(el.current!);
-				}, 0);
+				frame = window.requestAnimationFrame(() => {
+					if (!cancelled && element.isConnected && element.childElementCount === 0) {
+						GraphViewer.createViewerForElement(element);
+					}
+				});
 			})
 			.catch((err) => {
+				if (cancelled) return;
 				setTip("Failed to load diagram: " + err.message);
 			});
+
+		return () => {
+			cancelled = true;
+			if (frame) window.cancelAnimationFrame(frame);
+			element.replaceChildren();
+			delete element.dataset.mxgraph;
+		};
 	}, [src]);
 
 	return (

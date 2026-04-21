@@ -17,7 +17,15 @@ function drawioAssetPlugin() {
 					rules: [
 						{
 							test: /\.drawio$/,
-							type: "asset/resource",
+							use: [
+								{
+									loader: require.resolve("file-loader"),
+									options: {
+										esModule: true,
+										name: "assets/files/[name].[contenthash:8].[ext]",
+									},
+								},
+							],
 						},
 					],
 				},
@@ -97,12 +105,6 @@ const config: Config = {
 		],
 		"docusaurus-plugin-image-zoom",
 		tailwindPlugin,
-	],
-	scripts: [
-		{
-			src: "https://www.draw.io/js/viewer.min.js",
-			async: true,
-		},
 	],
 	stylesheets: [
 		{
