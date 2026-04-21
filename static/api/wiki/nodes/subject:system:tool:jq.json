@@ -1,0 +1,39 @@
+{
+  "type": "subject",
+  "id": "subject:system:tool:jq",
+  "title": "jq 사용법",
+  "snippet": "## 설치\n\n``shell\nsudo pacman -S jq\n`\n\n`shell\nsudo apt install jq\n`\n\n## 실시간 json log 파싱\n\n`shell\nalias log2jq=\"jq -r…",
+  "ontology": {
+    "domain": "system",
+    "class": "tool",
+    "instance": "jq"
+  },
+  "url": "/docs/system/jq/overview",
+  "node_url": "/api/wiki/nodes/subject:system:tool:jq.json",
+  "document_refs": [
+    "doc:docs/system/jq/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/system/jq/overview.mdx",
+      "title": "jq 사용법",
+      "url": "/docs/system/jq/overview",
+      "snippet": "## 설치\n\n``shell\nsudo pacman -S jq\n`\n\n`shell\nsudo apt install jq\n`\n\n## 실시간 json log 파싱\n\n`shell\nalias log2jq=\"jq -r…",
+      "ontology": {
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
+        "instance": "jq",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/system/jq/overview.mdx:about_subject:subject:system:tool:jq",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/system/jq/overview.mdx",
+      "direction": "incoming"
+    }
+  ]
+}

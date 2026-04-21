@@ -12,7 +12,12 @@
   "node_url": "/api/wiki/nodes/subject:language:programming-language:python.json",
   "document_refs": [
     "doc:docs/language/python/overview.mdx",
+    "doc:docs/language/python/asyncio.mdx",
+    "doc:docs/language/python/contextvar.mdx",
+    "doc:docs/language/python/exception.mdx",
+    "doc:docs/language/python/logger.mdx",
     "doc:docs/language/python/package-repository.mdx",
+    "doc:docs/language/python/pytest.mdx",
     "doc:docs/language/python/linting-formatting/overview.mdx",
     "doc:docs/language/python/package-sphinx.mdx",
     "doc:docs/language/python/version/overview.mdx"
@@ -32,6 +37,58 @@
       }
     },
     {
+      "id": "doc:docs/language/python/asyncio.mdx",
+      "title": "asyncio",
+      "url": "/docs/language/python/asyncio",
+      "snippet": "## EventLoop in Thread\n\n``python\n\n# 메인 스레드에서 자식 스레드의 이벤트 루프를 제어\nnew_loop = asyncio.new_event_loop()\n\ndef run_loop(loop: asyncio.AbstractEventLoop) -> None:\n # 현재 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "asyncio"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/contextvar.mdx",
+      "title": "contextvar",
+      "url": "/docs/language/python/contextvar",
+      "snippet": "## contextvars.ContextVar\n\n파라미터를 통해 함수를 호출해가며 값을 전달할 때, 첫 번째 인자를 전달한 함수로부터\n\n- 콜 스택이 깊어질 수록\n- …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "contextvar"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/exception.mdx",
+      "title": "Exception",
+      "url": "/docs/language/python/exception",
+      "snippet": "## try-except\n\n``python\ntry:\n ...\nexcept Exception as e:\n ...\nelse:\n ...\nfinally:\n ...\n`\n\n| 정상 | | 비정상 |\n| :--: | :-----: | :----:…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "exception"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/logger.mdx",
+      "title": "Python Logger",
+      "url": "/docs/language/python/logger",
+      "snippet": "…| 프로세스 이름 |\n| %(thread)d | 쓰레드 ID |\n| %(threadName)s | 쓰레드 이름 |\n\n## 함수\n\n`python\nlogger = logging.getLogger(name=None)\n`\n\n- name: 특별한 경우가 아니면 __name__ 설정\n - __name__은 …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "logger"
+      }
+    },
+    {
       "id": "doc:docs/language/python/package-repository.mdx",
       "title": "Python Package Repository",
       "url": "/docs/language/python/package-repository",
@@ -42,6 +99,19 @@
         "class": "programming-language",
         "instance": "python",
         "aspect": "package-repository"
+      }
+    },
+    {
+      "id": "doc:docs/language/python/pytest.mdx",
+      "title": "pytest",
+      "url": "/docs/language/python/pytest",
+      "snippet": "## pytest\n\n``shell\npytest [options] [file_or_dir ...]\n`\n\n## 설정\n\n- pytest: Configuration\n\n…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "pytest"
       }
     },
     {
@@ -92,9 +162,39 @@
       "direction": "incoming"
     },
     {
+      "id": "relation:doc:docs/language/python/asyncio.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/asyncio.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/contextvar.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/contextvar.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/exception.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/exception.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/logger.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/logger.mdx",
+      "direction": "incoming"
+    },
+    {
       "id": "relation:doc:docs/language/python/package-repository.mdx:about_subject:subject:language:programming-language:python",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/python/package-repository.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/python/pytest.mdx:about_subject:subject:language:programming-language:python",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/python/pytest.mdx",
       "direction": "incoming"
     },
     {

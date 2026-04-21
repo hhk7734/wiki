@@ -1946,29 +1946,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:exception",
-      "title": "Exception",
-      "description": "## try-except\n\n``python\ntry:\n ...\nexcept Exception as e:\n ...\nelse:\n ...\nfinally:\n ...\n`\n\n| 정상 | | 비정상 |\n| :--: | :-----: | :----:…",
-      "snippet": "## try-except\n\n``python\ntry:\n ...\nexcept Exception as e:\n ...\nelse:\n ...\nfinally:\n ...\n`\n\n| 정상 | | 비정상 |\n| :--: | :-----: | :----:…",
-      "url": "/docs/language/concepts/exception",
-      "document_refs": [
-        "doc:docs/language/concepts/exception.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "exception"
-      },
-      "search_text": "exception try-except python try except exception as e else finally 정상 비정상 -- ----- ---- exception try-except exception hierarchy language concept exception",
-      "display": {
-        "label": "Exception",
-        "kind": "subject",
-        "subtitle": "Exception",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:library:fastapi",
       "title": "FastAPI for Python",
       "description": "FastAPI for Python is a library subject in the PYTHON language ecosystem covered by thi…",
@@ -2305,6 +2282,8 @@
       "url": "/docs/language/go/overview",
       "document_refs": [
         "doc:docs/language/go/overview.mdx",
+        "doc:docs/language/go/error.mdx",
+        "doc:docs/language/go/goroutine.mdx",
         "doc:docs/language/go/cgo.mdx",
         "doc:docs/language/go/linting-formatting/overview.mdx",
         "doc:docs/language/go/package.mdx"
@@ -2314,12 +2293,12 @@
         "class": "programming-language",
         "instance": "go"
       },
-      "search_text": "go o install 빌드된 바이너리가 gobin경로에 설치됩니다 project layout - https //github com/golang-standards/project-layout - https //github com/golang-standards/project-layout/b go go에서 c 코드 사용하기 linting formatting package 만들기 설치 setup build project layout naming conventions reference import c cgo 지시자 코드 분리 설정 파일 go mod version language programming-language go",
+      "search_text": "go o install 빌드된 바이너리가 gobin경로에 설치됩니다 project layout - https //github com/golang-standards/project-layout - https //github com/golang-standards/project-layout/b go error goroutine go에서 c 코드 사용하기 linting formatting package 만들기 설치 setup build project layout naming conventions reference error sentinel error error type error 합치기 join panic and recover goroutine channel for-range select import c cgo 지시자 코드 분리 설정 파일 go mod version language programming-language go",
       "display": {
         "label": "Go",
         "kind": "subject",
         "subtitle": "Go",
-        "document_count": 4
+        "document_count": 6
       }
     },
     {
@@ -2534,29 +2513,6 @@
         "kind": "subject",
         "subtitle": "Validator",
         "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:goroutine",
-      "title": "Goroutine",
-      "description": "## Goroutine\n\n## Channel\n\n- ch := make(chan string): 버퍼 없는 string 타입의 채널을 생성합니다\n- ch := make…",
-      "snippet": "## Goroutine\n\n## Channel\n\n- ch := make(chan string): 버퍼 없는 string 타입의 채널을 생성합니다\n- ch := make…",
-      "url": "/docs/language/concepts/goroutine",
-      "document_refs": [
-        "doc:docs/language/concepts/goroutine.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "goroutine"
-      },
-      "search_text": "goroutine goroutine channel - ch make chan string 버퍼 없는 string 타입의 채널을 생성합니다 - ch make goroutine goroutine channel for-range select language concept goroutine",
-      "display": {
-        "label": "Goroutine",
-        "kind": "subject",
-        "subtitle": "Goroutine",
-        "document_count": 1
       }
     },
     {
@@ -4990,7 +4946,12 @@
       "url": "/docs/language/python/overview",
       "document_refs": [
         "doc:docs/language/python/overview.mdx",
+        "doc:docs/language/python/asyncio.mdx",
+        "doc:docs/language/python/contextvar.mdx",
+        "doc:docs/language/python/exception.mdx",
+        "doc:docs/language/python/logger.mdx",
         "doc:docs/language/python/package-repository.mdx",
+        "doc:docs/language/python/pytest.mdx",
         "doc:docs/language/python/linting-formatting/overview.mdx",
         "doc:docs/language/python/package-sphinx.mdx",
         "doc:docs/language/python/version/overview.mdx"
@@ -5000,35 +4961,12 @@
         "class": "programming-language",
         "instance": "python"
       },
-      "search_text": "python python is a programming language used by multiple library subjects in this wiki python python package repository linting formatting documentation using sphinx python 런타임 버전 관리 repository wheel binary package 파일 이름 규칙 ruff inline 오류 무시 mypy module pattern e g module 옵션 inline 오류 무시 pylint black isort pylint inline 오류 무시 black isort 설치 설정 conf py configuration file for the sphinx documentation builder this file only contains a selection of the most common options for a full list see the documentation https //www sphinx-doc org/en/master/usage/configuration html -- path setup -------------------------------------------------------------- if extensions or modules to document with autodoc are in another directory add these directories to sys path here if the directory is relative to the documentation root use os path abspath to make it absolute like shown here -- project information ----------------------------------------------------- the full version including alpha/beta/rc tags -- general configuration --------------------------------------------------- add any sphinx extension module names here as strings they can be extensions coming with sphinx named sphinx ext or your custom ones https //myst-parser readthedocs io/ https //www sphinx-doc org/en/master/usage/extensions/autodoc html https //www sphinx-doc org/en/master/usage/extensions/napoleon html http //www mos6581 org/rinohtype/master/index html https //mermaid-js github io/mermaid/ https //github com/mgaitan/sphinxcontrib-mermaid add any paths that contain templates here relative to this directory list of patterns relative to source directory that match files and directories to ignore when looking for source files this pattern also affects html static path and html extra path -- options for html output ------------------------------------------------- the theme to use for html and html help pages see the documentation for a list of builtin themes add any paths that contain custom static files such as style sheets here relative to this directory they are copied after the builtin static files so a file named default css will overwrite the builtin default css index md package module etc build reference 빌드 의존성 mise pyenv 설치 버전 관리 업그레이드 language programming-language python",
+      "search_text": "python python is a programming language used by multiple library subjects in this wiki python asyncio contextvar exception python logger python package repository pytest linting formatting documentation using sphinx python 런타임 버전 관리 eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop contextvars contextvar contextlib contextmanager 와 함께 사용하기 try-except exception hierarchy 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 repository wheel binary package 파일 이름 규칙 pytest 설정 pytest 검색 규칙 fixture ruff inline 오류 무시 mypy module pattern e g module 옵션 inline 오류 무시 pylint black isort pylint inline 오류 무시 black isort 설치 설정 conf py configuration file for the sphinx documentation builder this file only contains a selection of the most common options for a full list see the documentation https //www sphinx-doc org/en/master/usage/configuration html -- path setup -------------------------------------------------------------- if extensions or modules to document with autodoc are in another directory add these directories to sys path here if the directory is relative to the documentation root use os path abspath to make it absolute like shown here -- project information ----------------------------------------------------- the full version including alpha/beta/rc tags -- general configuration --------------------------------------------------- add any sphinx extension module names here as strings they can be extensions coming with sphinx named sphinx ext or your custom ones https //myst-parser readthedocs io/ https //www sphinx-doc org/en/master/usage/extensions/autodoc html https //www sphinx-doc org/en/master/usage/extensions/napoleon html http //www mos6581 org/rinohtype/master/index html https //mermaid-js github io/mermaid/ https //github com/mgaitan/sphinxcontrib-mermaid add any paths that contain templates here relative to this directory list of patterns relative to source directory that match files and directories to ignore when looking for source files this pattern also affects html static path and html extra path -- options for html output ------------------------------------------------- the theme to use for html and html help pages see the documentation for a list of builtin themes add any paths that contain custom static files such as style sheets here relative to this directory they are copied after the builtin static files so a file named default css will overwrite the builtin default css index md package module etc build reference 빌드 의존성 mise pyenv 설치 버전 관리 업그레이드 language programming-language python",
       "display": {
         "label": "Python",
         "kind": "subject",
         "subtitle": "Python",
-        "document_count": 5
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:logger",
-      "title": "Python Logger",
-      "description": "…| 프로세스 이름 |\n| %(thread)d | 쓰레드 ID |\n| %(threadName)s | 쓰레드 이름 |\n\n## 함수\n\n`python\nlogger = logging.getLogger(name=None)\n`\n\n- name: 특별한 경우가 아니면 __name__ 설정\n - __name__은 …",
-      "snippet": "…| 프로세스 이름 |\n| %(thread)d | 쓰레드 ID |\n| %(threadName)s | 쓰레드 이름 |\n\n## 함수\n\n`python\nlogger = logging.getLogger(name=None)\n`\n\n- name: 특별한 경우가 아니면 __name__ 설정\n - __name__은 …",
-      "url": "/docs/language/concepts/logger",
-      "document_refs": [
-        "doc:docs/language/concepts/logger.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "logger"
-      },
-      "search_text": "python logger 프로세스 이름 thread d 쓰레드 id threadname s 쓰레드 이름 함수 python logger logging getlogger name none - name 특별한 경우가 아니면 name 설정 - name 은 python logger 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 language concept logger",
-      "display": {
-        "label": "Python Logger",
-        "kind": "subject",
-        "subtitle": "Logger",
-        "document_count": 1
+        "document_count": 10
       }
     },
     {
@@ -5511,42 +5449,20 @@
       "snippet": "## 설치\n\n``shell\ncurl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh\n`\n\n- mise로 런타임 버전 관리하기\n\n## Setup\n\n`shell\ncargo new\n`\n\n## Build\n\n`shel…",
       "url": "/docs/language/rust/overview",
       "document_refs": [
-        "doc:docs/language/rust/overview.mdx"
+        "doc:docs/language/rust/overview.mdx",
+        "doc:docs/language/rust/macro.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "programming-language",
         "instance": "rust"
       },
-      "search_text": "rust 설치 shell curl --proto https --tlsv1 2 -ssf https //sh rustup rs sh - mise로 런타임 버전 관리하기 setup shell cargo new build shel rust 설치 setup build naming conventions language programming-language rust",
+      "search_text": "rust 설치 shell curl --proto https --tlsv1 2 -ssf https //sh rustup rs sh - mise로 런타임 버전 관리하기 setup shell cargo new build shel rust rust 매크로 macro 활용하기 설치 setup build naming conventions 매크로 function-like 매크로 expansion matching metavariables repetition language programming-language rust",
       "display": {
         "label": "Rust",
         "kind": "subject",
         "subtitle": "Rust",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:macro",
-      "title": "Rust 매크로(Macro) 활용하기",
-      "description": "- Rust Docs / Advanced Features / Macros\n- The Little Book of Rust Macros\n\n## 매크로\n\n- attributes\n - # [ $arg ]: e.g. #[d…",
-      "snippet": "- Rust Docs / Advanced Features / Macros\n- The Little Book of Rust Macros\n\n## 매크로\n\n- attributes\n - # [ $arg ]: e.g. #[d…",
-      "url": "/docs/language/concepts/macro",
-      "document_refs": [
-        "doc:docs/language/concepts/macro.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "macro"
-      },
-      "search_text": "rust 매크로 macro 활용하기 - rust docs / advanced features / macros - the little book of rust macros 매크로 - attributes - arg e g d rust 매크로 macro 활용하기 매크로 function-like 매크로 expansion matching metavariables repetition language concept macro",
-      "display": {
-        "label": "Rust 매크로(Macro) 활용하기",
-        "kind": "subject",
-        "subtitle": "Macro",
-        "document_count": 1
+        "document_count": 2
       }
     },
     {
@@ -6489,43 +6405,20 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:asyncio",
-      "title": "asyncio",
-      "description": "## EventLoop in Thread\n\n``python\n\n# 메인 스레드에서 자식 스레드의 이벤트 루프를 제어\nnew_loop = asyncio.new_event_loop()\n\ndef run_loop(loop: asyncio.AbstractEventLoop) -> None:\n # 현재 …",
-      "snippet": "## EventLoop in Thread\n\n``python\n\n# 메인 스레드에서 자식 스레드의 이벤트 루프를 제어\nnew_loop = asyncio.new_event_loop()\n\ndef run_loop(loop: asyncio.AbstractEventLoop) -> None:\n # 현재 …",
-      "url": "/docs/language/concepts/asyncio",
-      "document_refs": [
-        "doc:docs/language/concepts/asyncio.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "asyncio"
-      },
-      "search_text": "asyncio eventloop in thread python 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop asyncio new event loop def run loop loop asyncio abstracteventloop - none 현재 asyncio eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop language concept asyncio",
-      "display": {
-        "label": "asyncio",
-        "kind": "subject",
-        "subtitle": "Asyncio",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:awk",
+      "id": "subject:system:tool:awk",
       "title": "awk 사용법",
       "description": "## awk\n\n- https://www.gnu.org/software/gawk/manual/gawk.html\n\nawk는 입력을 받아서 패턴을 찾아 원하는 …",
       "snippet": "## awk\n\n- https://www.gnu.org/software/gawk/manual/gawk.html\n\nawk는 입력을 받아서 패턴을 찾아 원하는 …",
-      "url": "/docs/language/concepts/awk",
+      "url": "/docs/system/awk/overview",
       "document_refs": [
-        "doc:docs/language/concepts/awk.mdx"
+        "doc:docs/system/awk/overview.mdx"
       ],
       "ontology": {
-        "domain": "language",
-        "class": "concept",
+        "domain": "system",
+        "class": "tool",
         "instance": "awk"
       },
-      "search_text": "awk 사용법 awk - https //www gnu org/software/gawk/manual/gawk html awk는 입력을 받아서 패턴을 찾아 원하는 awk 사용법 awk comment action 내장 변수 language concept awk",
+      "search_text": "awk 사용법 awk - https //www gnu org/software/gawk/manual/gawk html awk는 입력을 받아서 패턴을 찾아 원하는 awk 사용법 awk comment action 내장 변수 system tool awk",
       "display": {
         "label": "awk 사용법",
         "kind": "subject",
@@ -6768,29 +6661,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:contextvar",
-      "title": "contextvar",
-      "description": "## contextvars.ContextVar\n\n파라미터를 통해 함수를 호출해가며 값을 전달할 때, 첫 번째 인자를 전달한 함수로부터\n\n- 콜 스택이 깊어질 수록\n- …",
-      "snippet": "## contextvars.ContextVar\n\n파라미터를 통해 함수를 호출해가며 값을 전달할 때, 첫 번째 인자를 전달한 함수로부터\n\n- 콜 스택이 깊어질 수록\n- …",
-      "url": "/docs/language/concepts/contextvar",
-      "document_refs": [
-        "doc:docs/language/concepts/contextvar.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "contextvar"
-      },
-      "search_text": "contextvar contextvars contextvar 파라미터를 통해 함수를 호출해가며 값을 전달할 때 첫 번째 인자를 전달한 함수로부터 - 콜 스택이 깊어질 수록 - contextvar contextvars contextvar contextlib contextmanager 와 함께 사용하기 language concept contextvar",
-      "display": {
-        "label": "contextvar",
-        "kind": "subject",
-        "subtitle": "Contextvar",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:infrastructure:observability-system:dcgm-exporter",
       "title": "dcgm-exporter",
       "description": "## 설치\n\n``shell\nhelm repo add dcgm-exporter https://nvidia.github.io/gpu-monitoring-tools/helm-charts \\\n&& helm repo update…",
@@ -6809,29 +6679,6 @@
         "label": "dcgm-exporter",
         "kind": "subject",
         "subtitle": "Dcgm Exporter",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:concept:error",
-      "title": "error",
-      "description": "## Error\n\n- nil 또는 error interface를 구현한 struct를 반환합니다.\n- 마지막 인자로 반환합니다.\n- 고유명사, 함수명 등 대문…",
-      "snippet": "## Error\n\n- nil 또는 error interface를 구현한 struct를 반환합니다.\n- 마지막 인자로 반환합니다.\n- 고유명사, 함수명 등 대문…",
-      "url": "/docs/language/concepts/error",
-      "document_refs": [
-        "doc:docs/language/concepts/error.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "error"
-      },
-      "search_text": "error error - nil 또는 error interface를 구현한 struct를 반환합니다 - 마지막 인자로 반환합니다 - 고유명사 함수명 등 대문 error error sentinel error error type error 합치기 join panic and recover language concept error",
-      "display": {
-        "label": "error",
-        "kind": "subject",
-        "subtitle": "Error",
         "document_count": 1
       }
     },
@@ -7105,20 +6952,20 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:jq",
+      "id": "subject:system:tool:jq",
       "title": "jq 사용법",
       "description": "## 설치\n\n``shell\nsudo pacman -S jq\n`\n\n`shell\nsudo apt install jq\n`\n\n## 실시간 json log 파싱\n\n`shell\nalias log2jq=\"jq -r…",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S jq\n`\n\n`shell\nsudo apt install jq\n`\n\n## 실시간 json log 파싱\n\n`shell\nalias log2jq=\"jq -r…",
-      "url": "/docs/language/concepts/jq",
+      "url": "/docs/system/jq/overview",
       "document_refs": [
-        "doc:docs/language/concepts/jq.mdx"
+        "doc:docs/system/jq/overview.mdx"
       ],
       "ontology": {
-        "domain": "language",
-        "class": "concept",
+        "domain": "system",
+        "class": "tool",
         "instance": "jq"
       },
-      "search_text": "jq 사용법 설치 shell sudo pacman -s jq shell sudo apt install jq 실시간 json log 파싱 shell alias log2jq jq -r jq 사용법 설치 실시간 json log 파싱 language concept jq",
+      "search_text": "jq 사용법 설치 shell sudo pacman -s jq shell sudo apt install jq 실시간 json log 파싱 shell alias log2jq jq -r jq 사용법 설치 실시간 json log 파싱 system tool jq",
       "display": {
         "label": "jq 사용법",
         "kind": "subject",
@@ -7527,29 +7374,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:pytest",
-      "title": "pytest",
-      "description": "## pytest\n\n``shell\npytest [options] [file_or_dir ...]\n`\n\n## 설정\n\n- pytest: Configuration\n\n…",
-      "snippet": "## pytest\n\n``shell\npytest [options] [file_or_dir ...]\n`\n\n## 설정\n\n- pytest: Configuration\n\n…",
-      "url": "/docs/language/concepts/pytest",
-      "document_refs": [
-        "doc:docs/language/concepts/pytest.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "concept",
-        "instance": "pytest"
-      },
-      "search_text": "pytest pytest shell pytest options file or dir 설정 - pytest configuration pytest pytest 설정 pytest 검색 규칙 fixture language concept pytest",
-      "display": {
-        "label": "pytest",
-        "kind": "subject",
-        "subtitle": "Pytest",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:system:tool:ripgrep",
       "title": "ripgrep",
       "description": "## ripgrep(rg)\n\n- https://github.com/BurntSushi/ripgrep\n\n``shell\nsudo pacman -S ripgrep\n`\n…",
@@ -7807,20 +7631,20 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:concept:xargs",
+      "id": "subject:system:tool:xargs",
       "title": "xargs 사용법",
       "description": "## xargs\n\nxargs는 GNU Findutils 중 하나입니다.\n\nstdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행…",
       "snippet": "## xargs\n\nxargs는 GNU Findutils 중 하나입니다.\n\nstdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행…",
-      "url": "/docs/language/concepts/xargs",
+      "url": "/docs/system/xargs/overview",
       "document_refs": [
-        "doc:docs/language/concepts/xargs.mdx"
+        "doc:docs/system/xargs/overview.mdx"
       ],
       "ontology": {
-        "domain": "language",
-        "class": "concept",
+        "domain": "system",
+        "class": "tool",
         "instance": "xargs"
       },
-      "search_text": "xargs 사용법 xargs xargs는 gnu findutils 중 하나입니다 stdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행 xargs 사용법 xargs language concept xargs",
+      "search_text": "xargs 사용법 xargs xargs는 gnu findutils 중 하나입니다 stdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행 xargs 사용법 xargs system tool xargs",
       "display": {
         "label": "xargs 사용법",
         "kind": "subject",
@@ -13968,7 +13792,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/exception.mdx",
+      "id": "doc:docs/language/python/exception.mdx",
       "title": "Exception",
       "description": "Python Exception",
       "snippet": "## try-except\n\n``python\ntry:\n ...\nexcept Exception as e:\n ...\nelse:\n ...\nfinally:\n ...\n`\n\n| 정상 | | 비정상 |\n| :--: | :-----: | :----:…",
@@ -13980,21 +13804,21 @@
         "Python",
         "exception"
       ],
-      "url": "/docs/language/concepts/exception",
-      "subject_ref": "subject:language:concept:exception",
-      "subject_title": "Exception",
+      "url": "/docs/language/python/exception",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "exception",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "exception"
       },
-      "search_text": "exception python exception try-except python try except exception as e else finally 정상 비정상 -- ----- ---- try-except exception hierarchy python exception concept language concept exception overview",
+      "search_text": "exception python exception try-except python try except exception as e else finally 정상 비정상 -- ----- ---- try-except exception hierarchy python exception concept language programming-language python exception",
       "display": {
         "label": "Exception",
         "kind": "document",
-        "subtitle": "Exception"
+        "subtitle": "Python"
       }
     },
     {
@@ -15586,7 +15410,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/goroutine.mdx",
+      "id": "doc:docs/language/go/goroutine.mdx",
       "title": "Goroutine",
       "description": "Goroutine",
       "snippet": "## Goroutine\n\n## Channel\n\n- ch := make(chan string): 버퍼 없는 string 타입의 채널을 생성합니다\n- ch := make…",
@@ -15599,21 +15423,21 @@
       "keywords": [
         "goroutine"
       ],
-      "url": "/docs/language/concepts/goroutine",
-      "subject_ref": "subject:language:concept:goroutine",
-      "subject_title": "Goroutine",
+      "url": "/docs/language/go/goroutine",
+      "subject_ref": "subject:language:programming-language:go",
+      "subject_title": "Go",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "goroutine",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "goroutine"
       },
-      "search_text": "goroutine goroutine goroutine channel - ch make chan string 버퍼 없는 string 타입의 채널을 생성합니다 - ch make goroutine channel for-range select goroutine concept language concept goroutine overview",
+      "search_text": "goroutine goroutine goroutine channel - ch make chan string 버퍼 없는 string 타입의 채널을 생성합니다 - ch make goroutine channel for-range select goroutine concept language programming-language go goroutine",
       "display": {
         "label": "Goroutine",
         "kind": "document",
-        "subtitle": "Goroutine"
+        "subtitle": "Go"
       }
     },
     {
@@ -23702,7 +23526,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/logger.mdx",
+      "id": "doc:docs/language/python/logger.mdx",
       "title": "Python Logger",
       "description": "Python Logger",
       "snippet": "…| 프로세스 이름 |\n| %(thread)d | 쓰레드 ID |\n| %(threadName)s | 쓰레드 이름 |\n\n## 함수\n\n`python\nlogger = logging.getLogger(name=None)\n`\n\n- name: 특별한 경우가 아니면 __name__ 설정\n - __name__은 …",
@@ -23724,21 +23548,21 @@
         "Logger",
         "contextual logging"
       ],
-      "url": "/docs/language/concepts/logger",
-      "subject_ref": "subject:language:concept:logger",
-      "subject_title": "Logger",
+      "url": "/docs/language/python/logger",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "logger",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "logger"
       },
-      "search_text": "python logger python logger 프로세스 이름 thread d 쓰레드 id threadname s 쓰레드 이름 함수 python logger logging getlogger name none - name 특별한 경우가 아니면 name 설정 - name 은 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 python logger contextual logging concept language concept logger overview",
+      "search_text": "python logger python logger 프로세스 이름 thread d 쓰레드 id threadname s 쓰레드 이름 함수 python logger logging getlogger name none - name 특별한 경우가 아니면 name 설정 - name 은 로깅 수준 포맷 함수 logging logger logging formatter logging handler examples child py logger setlevel 을 사용하지 않으면 루트 로거의 level을 따름 main py 결과 python logger contextual logging concept language programming-language python logger",
       "display": {
         "label": "Python Logger",
         "kind": "document",
-        "subtitle": "Logger"
+        "subtitle": "Python"
       }
     },
     {
@@ -25201,7 +25025,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/macro.mdx",
+      "id": "doc:docs/language/rust/macro.mdx",
       "title": "Rust 매크로(Macro) 활용하기",
       "description": "Rust 매크로(Macro) 활용하기",
       "snippet": "- Rust Docs / Advanced Features / Macros\n- The Little Book of Rust Macros\n\n## 매크로\n\n- attributes\n - # [ $arg ]: e.g. #[d…",
@@ -25217,21 +25041,21 @@
         "rust",
         "macro"
       ],
-      "url": "/docs/language/concepts/macro",
-      "subject_ref": "subject:language:concept:macro",
-      "subject_title": "Macro",
+      "url": "/docs/language/rust/macro",
+      "subject_ref": "subject:language:programming-language:rust",
+      "subject_title": "Rust",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "macro",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "rust",
+        "aspect": "macro"
       },
-      "search_text": "rust 매크로 macro 활용하기 rust 매크로 macro 활용하기 - rust docs / advanced features / macros - the little book of rust macros 매크로 - attributes - arg e g d 매크로 function-like 매크로 expansion matching metavariables repetition rust macro concept language concept macro overview",
+      "search_text": "rust 매크로 macro 활용하기 rust 매크로 macro 활용하기 - rust docs / advanced features / macros - the little book of rust macros 매크로 - attributes - arg e g d 매크로 function-like 매크로 expansion matching metavariables repetition rust macro concept language programming-language rust macro",
       "display": {
         "label": "Rust 매크로(Macro) 활용하기",
         "kind": "document",
-        "subtitle": "Macro"
+        "subtitle": "Rust"
       }
     },
     {
@@ -28359,7 +28183,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/asyncio.mdx",
+      "id": "doc:docs/language/python/asyncio.mdx",
       "title": "asyncio",
       "description": "Python asyncio",
       "snippet": "## EventLoop in Thread\n\n``python\n\n# 메인 스레드에서 자식 스레드의 이벤트 루프를 제어\nnew_loop = asyncio.new_event_loop()\n\ndef run_loop(loop: asyncio.AbstractEventLoop) -> None:\n # 현재 …",
@@ -28375,26 +28199,26 @@
         "Python",
         "asyncio"
       ],
-      "url": "/docs/language/concepts/asyncio",
-      "subject_ref": "subject:language:concept:asyncio",
-      "subject_title": "Asyncio",
+      "url": "/docs/language/python/asyncio",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "asyncio",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "asyncio"
       },
-      "search_text": "asyncio python asyncio eventloop in thread python 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop asyncio new event loop def run loop loop asyncio abstracteventloop - none 현재 eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop python asyncio concept language concept asyncio overview",
+      "search_text": "asyncio python asyncio eventloop in thread python 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop asyncio new event loop def run loop loop asyncio abstracteventloop - none 현재 eventloop in thread 메인 스레드에서 자식 스레드의 이벤트 루프를 제어 new loop에 작업 요청 loop run forever 를 종료해달라는 요청 eventloop python asyncio concept language programming-language python asyncio",
       "display": {
         "label": "asyncio",
         "kind": "document",
-        "subtitle": "Asyncio"
+        "subtitle": "Python"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/awk.mdx",
+      "id": "doc:docs/system/awk/overview.mdx",
       "title": "awk 사용법",
       "description": "awk 사용법",
       "snippet": "## awk\n\n- https://www.gnu.org/software/gawk/manual/gawk.html\n\nawk는 입력을 받아서 패턴을 찾아 원하는 …",
@@ -28408,17 +28232,17 @@
         "shell script",
         "awk"
       ],
-      "url": "/docs/language/concepts/awk",
-      "subject_ref": "subject:language:concept:awk",
+      "url": "/docs/system/awk/overview",
+      "subject_ref": "subject:system:tool:awk",
       "subject_title": "Awk",
       "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
         "instance": "awk",
         "aspect": "overview"
       },
-      "search_text": "awk 사용법 awk 사용법 awk - https //www gnu org/software/gawk/manual/gawk html awk는 입력을 받아서 패턴을 찾아 원하는 awk comment action 내장 변수 shell script awk concept language concept awk overview",
+      "search_text": "awk 사용법 awk 사용법 awk - https //www gnu org/software/gawk/manual/gawk html awk는 입력을 받아서 패턴을 찾아 원하는 awk comment action 내장 변수 shell script awk entity system tool awk overview",
       "display": {
         "label": "awk 사용법",
         "kind": "document",
@@ -28902,7 +28726,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/contextvar.mdx",
+      "id": "doc:docs/language/python/contextvar.mdx",
       "title": "contextvar",
       "description": "contextvar",
       "snippet": "## contextvars.ContextVar\n\n파라미터를 통해 함수를 호출해가며 값을 전달할 때, 첫 번째 인자를 전달한 함수로부터\n\n- 콜 스택이 깊어질 수록\n- …",
@@ -28913,21 +28737,21 @@
       "keywords": [
         "contextvar"
       ],
-      "url": "/docs/language/concepts/contextvar",
-      "subject_ref": "subject:language:concept:contextvar",
-      "subject_title": "Contextvar",
+      "url": "/docs/language/python/contextvar",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "contextvar",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "contextvar"
       },
-      "search_text": "contextvar contextvar contextvars contextvar 파라미터를 통해 함수를 호출해가며 값을 전달할 때 첫 번째 인자를 전달한 함수로부터 - 콜 스택이 깊어질 수록 - contextvars contextvar contextlib contextmanager 와 함께 사용하기 contextvar concept language concept contextvar overview",
+      "search_text": "contextvar contextvar contextvars contextvar 파라미터를 통해 함수를 호출해가며 값을 전달할 때 첫 번째 인자를 전달한 함수로부터 - 콜 스택이 깊어질 수록 - contextvars contextvar contextlib contextmanager 와 함께 사용하기 contextvar concept language programming-language python contextvar",
       "display": {
         "label": "contextvar",
         "kind": "document",
-        "subtitle": "Contextvar"
+        "subtitle": "Python"
       }
     },
     {
@@ -29056,7 +28880,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/error.mdx",
+      "id": "doc:docs/language/go/error.mdx",
       "title": "error",
       "description": "error",
       "snippet": "## Error\n\n- nil 또는 error interface를 구현한 struct를 반환합니다.\n- 마지막 인자로 반환합니다.\n- 고유명사, 함수명 등 대문…",
@@ -29070,21 +28894,21 @@
       "keywords": [
         "error"
       ],
-      "url": "/docs/language/concepts/error",
-      "subject_ref": "subject:language:concept:error",
-      "subject_title": "Error",
+      "url": "/docs/language/go/error",
+      "subject_ref": "subject:language:programming-language:go",
+      "subject_title": "Go",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "error",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "go",
+        "aspect": "error"
       },
-      "search_text": "error error error - nil 또는 error interface를 구현한 struct를 반환합니다 - 마지막 인자로 반환합니다 - 고유명사 함수명 등 대문 error sentinel error error type error 합치기 join panic and recover error concept language concept error overview",
+      "search_text": "error error error - nil 또는 error interface를 구현한 struct를 반환합니다 - 마지막 인자로 반환합니다 - 고유명사 함수명 등 대문 error sentinel error error type error 합치기 join panic and recover error concept language programming-language go error",
       "display": {
         "label": "error",
         "kind": "document",
-        "subtitle": "Error"
+        "subtitle": "Go"
       }
     },
     {
@@ -29736,7 +29560,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/jq.mdx",
+      "id": "doc:docs/system/jq/overview.mdx",
       "title": "jq 사용법",
       "description": "jq 사용법",
       "snippet": "## 설치\n\n``shell\nsudo pacman -S jq\n`\n\n`shell\nsudo apt install jq\n`\n\n## 실시간 json log 파싱\n\n`shell\nalias log2jq=\"jq -r…",
@@ -29748,17 +29572,17 @@
         "shell script",
         "jq"
       ],
-      "url": "/docs/language/concepts/jq",
-      "subject_ref": "subject:language:concept:jq",
+      "url": "/docs/system/jq/overview",
+      "subject_ref": "subject:system:tool:jq",
       "subject_title": "Jq",
       "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
         "instance": "jq",
         "aspect": "overview"
       },
-      "search_text": "jq 사용법 jq 사용법 설치 shell sudo pacman -s jq shell sudo apt install jq 실시간 json log 파싱 shell alias log2jq jq -r 설치 실시간 json log 파싱 shell script jq concept language concept jq overview",
+      "search_text": "jq 사용법 jq 사용법 설치 shell sudo pacman -s jq shell sudo apt install jq 실시간 json log 파싱 shell alias log2jq jq -r 설치 실시간 json log 파싱 shell script jq entity system tool jq overview",
       "display": {
         "label": "jq 사용법",
         "kind": "document",
@@ -30718,7 +30542,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/pytest.mdx",
+      "id": "doc:docs/language/python/pytest.mdx",
       "title": "pytest",
       "description": "pytest",
       "snippet": "## pytest\n\n``shell\npytest [options] [file_or_dir ...]\n`\n\n## 설정\n\n- pytest: Configuration\n\n…",
@@ -30731,21 +30555,21 @@
       "keywords": [
         "pytest"
       ],
-      "url": "/docs/language/concepts/pytest",
-      "subject_ref": "subject:language:concept:pytest",
-      "subject_title": "Pytest",
+      "url": "/docs/language/python/pytest",
+      "subject_ref": "subject:language:programming-language:python",
+      "subject_title": "Python",
       "ontology": {
         "role": "concept",
         "domain": "language",
-        "class": "concept",
-        "instance": "pytest",
-        "aspect": "overview"
+        "class": "programming-language",
+        "instance": "python",
+        "aspect": "pytest"
       },
-      "search_text": "pytest pytest pytest shell pytest options file or dir 설정 - pytest configuration pytest 설정 pytest 검색 규칙 fixture pytest concept language concept pytest overview",
+      "search_text": "pytest pytest pytest shell pytest options file or dir 설정 - pytest configuration pytest 설정 pytest 검색 규칙 fixture pytest concept language programming-language python pytest",
       "display": {
         "label": "pytest",
         "kind": "document",
-        "subtitle": "Pytest"
+        "subtitle": "Python"
       }
     },
     {
@@ -31452,7 +31276,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/concepts/xargs.mdx",
+      "id": "doc:docs/system/xargs/overview.mdx",
       "title": "xargs 사용법",
       "description": "xargs 사용법",
       "snippet": "## xargs\n\nxargs는 GNU Findutils 중 하나입니다.\n\nstdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행…",
@@ -31465,17 +31289,17 @@
         "findutils",
         "stdin"
       ],
-      "url": "/docs/language/concepts/xargs",
-      "subject_ref": "subject:language:concept:xargs",
+      "url": "/docs/system/xargs/overview",
+      "subject_ref": "subject:system:tool:xargs",
       "subject_title": "Xargs",
       "ontology": {
-        "role": "concept",
-        "domain": "language",
-        "class": "concept",
+        "role": "entity",
+        "domain": "system",
+        "class": "tool",
         "instance": "xargs",
         "aspect": "overview"
       },
-      "search_text": "xargs 사용법 xargs 사용법 xargs xargs는 gnu findutils 중 하나입니다 stdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행 xargs shell script xargs findutils stdin concept language concept xargs overview",
+      "search_text": "xargs 사용법 xargs 사용법 xargs xargs는 gnu findutils 중 하나입니다 stdin으로 들어오는 문자열을 띄어쓰기 또는 개행으로 구분하여 주어진 명령어의 인자로 전달하여 명령어를 완성 시킨 후 실행 xargs shell script xargs findutils stdin entity system tool xargs overview",
       "display": {
         "label": "xargs 사용법",
         "kind": "document",
