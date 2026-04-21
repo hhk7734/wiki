@@ -1,0 +1,129 @@
+---
+id: gorm
+title: gorm
+sidebar_label: gorm
+description: gorm
+keywords:
+  - gorm
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: gorm
+  aspect: gorm
+subject:
+  canonical_name: GORM
+  aliases:
+    - gorm
+relations:
+  related_to: []
+  depends_on:
+    - go
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 설치
+
+- https://github.com/go-gorm
+
+```shell
+go get -u gorm.io/gorm
+```
+
+```shell
+go get -u gorm.io/driver/mysql
+```
+
+```shell
+go get -u gorm.io/driver/postgres
+```
+
+## Database
+
+- https://gorm.io/docs/connecting_to_the_database.html
+
+## Schema
+
+### Tag
+
+- https://gorm.io/docs/models.html#Fields-Tags
+
+<br />
+
+- `;`: 구분자
+- `column:<name>`
+- `type:<columnDefinition>`: Tag로 선언할 수 없는 것은 `<type>`을 사용하여 선언할 수 있습니다
+- `serializer:<serializer>`
+- `size:<size>`
+- `primaryKey` : PRIMARY KEY
+- `unique`: UNIQUE KEY
+- `default:<value>`: DEFAULT `<value>`
+- `precision:<precision>`
+- `scale:<scale>`
+- `not null`: NOT NULL
+- `autoIncrement`: AUTO_INCREMENT
+- `autoIncrementIncrement:<step>`
+- `embedded`
+- `embeddedPrefix:<prefix>`
+- `autoCreateTime:milli|nano`: CreatedAt을 unix 시간으로 저장할 때 사용합니다
+- `autoUpdateTime:milli|nano`: UpdatedAt을 unix 시간으로 저장할 때 사용합니다
+- `index[:<config>[,<config>]]`
+  - https://gorm.io/docs/indexes.html
+- `uniqueIndex`
+- `check:<condition>`
+  - https://gorm.io/docs/constraints.html
+- `<-[:create|update|false]`: 쓰기 권한
+- `->[:false]`: 읽기 권한
+- `-[:migration|all]`
+- `comment:<comment>`
+
+<br />
+
+- https://gorm.io/docs/associations.html#Association-Tags
+
+<br />
+
+- `foreignKey:<key>`
+- `references:<key>`
+- `polymorphic:<key>`
+- `polymorphicValue:<value>`
+- `many2many:<joinTable>`
+- `joinForeignKey:<key>`
+- `joinReferences:<key>`
+- `constraint:<constraint>[,<constraint>]`
+  - `OnUpdate:<action>`
+  - `OnDelete:<action>`
+
+### Example
+
+```sql
+CREATE TABLE accounts (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    email VARCHAR(255) NOT NULL,
+    phone_number VARCHAR(20) NOT NULL DEFAULT '',
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY ('account_id'),
+    UNIQUE KEY 'email' ('email')
+);
+```
+
+```go
+type Account struct {
+	ID          uint64    `gorm:"not null;autoIncrement;primaryKey"`
+	Email       string    `gorm:"size:255;not null;unique"`
+	PhoneNumber string    `gorm:"size:20;not null;default:''"`
+	CreatedAt   time.Time `gorm:"type:TIMESTAMP;not null;default:CURRENT_TIMESTAMP"`
+	UpdatedAt   time.Time `gorm:"type:TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;not null;default:CURRENT_TIMESTAMP"`
+}
+```
+
+## Transaction
+
+- https://gorm.io/docs/transactions.html

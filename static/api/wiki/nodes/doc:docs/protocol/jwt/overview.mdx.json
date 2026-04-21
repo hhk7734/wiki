@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/protocol/jwt/overview.mdx",
+  "title": "JWT",
+  "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
+  "ontology": {
+    "role": "entity",
+    "domain": "protocol",
+    "class": "application-protocol",
+    "instance": "jwt",
+    "aspect": "overview"
+  },
+  "url": "/docs/protocol/jwt/overview",
+  "node_url": "/api/wiki/nodes/doc:docs/protocol/jwt/overview.mdx.json",
+  "subject": {
+    "id": "subject:protocol:application-protocol:jwt",
+    "title": "JWT",
+    "ontology": {
+      "domain": "protocol",
+      "class": "application-protocol",
+      "instance": "jwt"
+    },
+    "url": "/docs/protocol/jwt/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/protocol/jwt/overview.mdx:about_subject:subject:protocol:application-protocol:jwt",
+      "predicate": "about_subject",
+      "other_id": "subject:protocol:application-protocol:jwt",
+      "direction": "outgoing"
+    }
+  ]
+}

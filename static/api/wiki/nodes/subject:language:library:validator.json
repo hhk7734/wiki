@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:validator",
+  "title": "Go validator",
+  "snippet": "Go validator is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "validator"
+  },
+  "url": "/docs/language/go/validator/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:validator.json",
+  "document_refs": [
+    "doc:docs/language/go/validator/overview.mdx",
+    "doc:docs/language/go/validator/validator.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/validator/overview.mdx",
+      "title": "Go validator",
+      "url": "/docs/language/go/validator/overview",
+      "snippet": "Go validator is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "validator",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/validator/validator.mdx",
+      "title": "validator",
+      "url": "/docs/language/go/validator",
+      "snippet": "## 설치\n\n- https://github.com/go-playground/validator\n\n``shell\ngo get github.com/go-playground/validator/v10\n`\n\n## Tag\n\n- https://git…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "validator",
+        "aspect": "validator"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/validator/overview.mdx:about_subject:subject:language:library:validator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/validator/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/validator/validator.mdx:about_subject:subject:language:library:validator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/validator/validator.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:validator:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

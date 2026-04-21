@@ -1,0 +1,145 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:gin",
+  "title": "Gin for Go",
+  "snippet": "Gin for Go is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "gin"
+  },
+  "url": "/docs/language/go/gin/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:gin.json",
+  "document_refs": [
+    "doc:docs/language/go/gin/overview.mdx",
+    "doc:docs/language/go/gin/crud.mdx",
+    "doc:docs/language/go/gin/deploy.mdx",
+    "doc:docs/language/go/gin/gin.mdx",
+    "doc:docs/language/go/gin/shutdown.mdx",
+    "doc:docs/language/go/gin/validator.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/gin/overview.mdx",
+      "title": "Gin for Go",
+      "url": "/docs/language/go/gin/overview",
+      "snippet": "Gin for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/gin/crud.mdx",
+      "title": "CRUD",
+      "url": "/docs/language/go/gin/crud",
+      "snippet": "## Entity\n\n``go\ntype ToDo struct {\n ID uuid.UUID\n UserID uuid.UUID\n Title string\n Category *string\n Description string\n CreatedAt time.Time\n UpdatedAt time.Time",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "crud"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/gin/deploy.mdx",
+      "title": "Deploy",
+      "url": "/docs/language/go/gin/deploy",
+      "snippet": "…\n`\n\n- scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.\n- https://github.com/gin-gonic/gin/blob/master/docs/doc.md#build-tags\n - msgpack을 사용하지 않는 다면 -tags nomsg…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "deploy"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/gin/gin.mdx",
+      "title": "Gin",
+      "url": "/docs/language/go/gin",
+      "snippet": "## 설치\n\n- https://github.com/gin-gonic/gin\n\n``shell\ngo get -u github.com/gin-gonic/gin\n``\n\n## Config\n\n- viper",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "gin"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/gin/shutdown.mdx",
+      "title": "Graceful Shutdown",
+      "url": "/docs/language/go/gin/shutdown",
+      "snippet": "## Graceful Shutdown\n\n``go\nfunc main() {\n //\n // Startup\n //\n\n // ...\n\n server := &http.Ser…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "shutdown"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/gin/validator.mdx",
+      "title": "Validator",
+      "url": "/docs/language/go/gin/validator",
+      "snippet": "## Deafult Validator\n\n- https://github.com/go-playground/validator\n- https://pkg.go.dev/github.com/g…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "gin",
+        "aspect": "validator"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/gin/overview.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/gin/crud.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/crud.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/gin/deploy.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/deploy.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/gin/gin.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/gin.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/gin/shutdown.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/shutdown.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/gin/validator.mdx:about_subject:subject:language:library:gin",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/gin/validator.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:gin:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

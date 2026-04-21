@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/language/go/session/session.mdx",
+  "title": "Session",
+  "snippet": "…작성\n\n## 클라이언트에서 세션&쿠키 갱신 요청\n\n- 쿠키 만료 시간 == 세션 만료 시간\n- 만료 시간 짧음\n- 로그인\n - 쿠키 생성\n - session.Manager.NewSessionID -> session.Manager.SetCookie\n - 세션 생성\n- 기타 API\n - 쿠키에서 세션 …",
+  "ontology": {
+    "role": "operation",
+    "domain": "language",
+    "class": "library",
+    "instance": "session",
+    "aspect": "session"
+  },
+  "url": "/docs/language/go/session",
+  "node_url": "/api/wiki/nodes/doc:docs/language/go/session/session.mdx.json",
+  "subject": {
+    "id": "subject:language:library:session",
+    "title": "Go Session",
+    "ontology": {
+      "domain": "language",
+      "class": "library",
+      "instance": "session"
+    },
+    "url": "/docs/language/go/session/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/session/session.mdx:about_subject:subject:language:library:session",
+      "predicate": "about_subject",
+      "other_id": "subject:language:library:session",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:websocket",
+  "title": "Go WebSocket",
+  "snippet": "Go WebSocket is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "websocket"
+  },
+  "url": "/docs/language/go/websocket/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:websocket.json",
+  "document_refs": [
+    "doc:docs/language/go/websocket/overview.mdx",
+    "doc:docs/language/go/websocket/websocket.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/websocket/overview.mdx",
+      "title": "Go WebSocket",
+      "url": "/docs/language/go/websocket/overview",
+      "snippet": "Go WebSocket is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "websocket",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/websocket/websocket.mdx",
+      "title": "WebSocket",
+      "url": "/docs/language/go/websocket",
+      "snippet": "- WebSocket\n\n## Server\n\n## Client\n\n## Proxy\n\n``go\n\n \"errors\"\n \"fmt\"\n \"io\"\n \"net/http\"\n \"net…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "websocket",
+        "aspect": "websocket"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/websocket/overview.mdx:about_subject:subject:language:library:websocket",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/websocket/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/websocket/websocket.mdx:about_subject:subject:language:library:websocket",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/websocket/websocket.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:websocket:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

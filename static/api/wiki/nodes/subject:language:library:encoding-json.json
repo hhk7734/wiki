@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:encoding-json",
+  "title": "Go encoding/json",
+  "snippet": "Go encoding/json is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "encoding-json"
+  },
+  "url": "/docs/language/go/encoding-json/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:encoding-json.json",
+  "document_refs": [
+    "doc:docs/language/go/encoding-json/overview.mdx",
+    "doc:docs/language/go/encoding-json/encoding-json.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/encoding-json/overview.mdx",
+      "title": "Go encoding/json",
+      "url": "/docs/language/go/encoding-json/overview",
+      "snippet": "Go encoding/json is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "encoding-json",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/encoding-json/encoding-json.mdx",
+      "title": "encoding/json",
+      "url": "/docs/language/go/encoding-json",
+      "snippet": "## Field tags\n\n``go\nField json:\"[,]\"\n`\n\n태그에 따라 인코딩/디코딩 시에 적용되는 내용입니다.\n\n- : \"Field\" 대신 사용될 이름입니다.\n - -를 사용할 경우 인코딩/디코딩에서 제외됩니다.\n - -,를 사용하면 -이 이름으로 사용됩니다.\n - ,을",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "encoding-json",
+        "aspect": "encoding-json"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/encoding-json/overview.mdx:about_subject:subject:language:library:encoding-json",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/encoding-json/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/encoding-json/encoding-json.mdx:about_subject:subject:language:library:encoding-json",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/encoding-json/encoding-json.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:encoding-json:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

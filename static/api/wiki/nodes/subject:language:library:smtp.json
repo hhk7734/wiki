@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:smtp",
+  "title": "Go SMTP",
+  "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "smtp"
+  },
+  "url": "/docs/language/go/smtp/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:smtp.json",
+  "document_refs": [
+    "doc:docs/language/go/smtp/overview.mdx",
+    "doc:docs/language/go/smtp/smtp.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/smtp/overview.mdx",
+      "title": "Go SMTP",
+      "url": "/docs/language/go/smtp/overview",
+      "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "smtp",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/smtp/smtp.mdx",
+      "title": "SMTP",
+      "url": "/docs/language/go/smtp",
+      "snippet": "## SMTP\n\n### HTML\n\n``html\n\n Title\n\n {{.Something}}\n\n {{.Something}}\n\n {{.Something}}\n\n`…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "smtp",
+        "aspect": "smtp"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/smtp/overview.mdx:about_subject:subject:language:library:smtp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/smtp/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/smtp/smtp.mdx:about_subject:subject:language:library:smtp",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/smtp/smtp.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:smtp:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

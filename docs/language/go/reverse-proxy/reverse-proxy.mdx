@@ -1,0 +1,114 @@
+---
+id: reverse-proxy
+title: "HTTP Reverse Proxy 설정 가이드"
+sidebar_label: "Reverse Proxy 설정 가이드"
+description: "HTTP Reverse Proxy 설정 가이드"
+keywords:
+  - http
+  - "reverse proxy"
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: reverse-proxy
+  aspect: reverse-proxy
+subject:
+  canonical_name: "Go Reverse Proxy"
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - go
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## httputil.ReverseProxy
+
+```go
+import (
+	"net/http"
+	"net/http/httputil"
+)
+```
+
+### Director or Rewrite 설정
+
+:::warning
+
+Director와 Rewrite 중 하나만 설정해야 합니다.
+
+:::
+
+```go
+&httputil.ReverseProxy{
+	Director: func(r *http.Request) {
+		// target으로 갈 수 있도록 요청 수정
+	},
+}
+```
+
+```go
+&httputil.ReverseProxy{
+	Rewrite: func(pr *httputil.ProxyRequest) {
+		// target으로 갈 수 있도록 요청 수정
+	},
+}
+```
+
+- `pr.SetURL(targetURL)`을 사용하면 `pr.Out`이 `targetURL.Scheme://targetURL.Host/targetURL.Path/pr.In.Path?target.RawQuery&pr.In.RawQuery`로 설정됩니다.
+- `pr.SetXForwarded()`
+
+### httputil.NewSingleHostReverseProxy
+
+```go
+// rp := &httputil.ReverseProxy{
+// 	Rewrite: func(pr *httputil.ProxyRequest) {
+// 		pr.SetURL(targetURL)
+// 		pr.Out.Host = pr.In.Host
+// 	},
+// }
+rp := httputil.NewSingleHostReverseProxy(targetURL)
+```
+
+### OpenTelemetry Transport
+
+```go
+import (
+	"net/http"
+
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
+)
+
+&httputil.ReverseProxy{
+	Transport: otelhttp.NewTransport(
+		http.DefaultTransport,
+		otelhttp.WithFilter(func(r *http.Request) bool {
+			spanContext := trace.SpanContextFromContext(r.Context())
+			return spanContext.IsValid() && spanContext.IsSampled()
+		}),
+	),
+}
+```
+
+### ErrorHandler
+
+```go
+&httputil.ReverseProxy{
+	ErrorHandler: func(w http.ResponseWriter, r *http.Request, err error) {
+		switch {
+		case errors.Is(err, syscall.ECONNREFUSED):
+			// ...
+		default:
+			// ...
+		}
+
+		http.Error(w, "service is unavailable", http.StatusServiceUnavailable)
+	},
+}
+```

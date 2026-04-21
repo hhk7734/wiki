@@ -58,9 +58,9 @@ spec:
     - 설정하지 않으면 가장 낮은 우선순위로 설정됩니다.
   - `namespaces: []`
   - `namespaceSelectors: []`
-    - [LabelSelector](/docs/infrastructure/kubernetes/kubernetes/labels.mdx#label-selector)
+    - [LabelSelector](/docs/infrastructure/kubernetes/labels.mdx#label-selector)
   - `serviceSelectors: []`
-    - [LabelSelector](/docs/infrastructure/kubernetes/kubernetes/labels.mdx#label-selector)
+    - [LabelSelector](/docs/infrastructure/kubernetes/labels.mdx#label-selector)
 
 ## Advertisement
 
@@ -98,5 +98,5 @@ spec:
         - e.g., 각각 `tcp/53`, `udp/53`를 사용하면서 같은 Pod을 선택하는 Service의 경우 같은 IP를 할당받을 수 있습니다.
 - `spec`
   - `externalTrafficPolicy: Cluster`
-    - [Service # externalTrafficPolicy](/docs/infrastructure/kubernetes/kubernetes/service.mdx#externaltrafficpolicy)
-    - BGP + `Local` + [affinity](/docs/infrastructure/kubernetes/kubernetes/scheduling/affinity.mdx) 설정으로 최적의 트래픽 흐름을 만들 수 있습니다.
+    - [Service # externalTrafficPolicy](/docs/infrastructure/kubernetes/service.mdx#externaltrafficpolicy)
+    - BGP + `Local` + [affinity](/docs/infrastructure/kubernetes/affinity.mdx) 설정으로 최적의 트래픽 흐름을 만들 수 있습니다.

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/language/grpc/cpp/grpc.mdx",
+  "title": "gRPC",
+  "snippet": "…tobuf 컴파일\n- C++ Quick start\n\n``shell\nprotoc \\\n --proto_path= \\\n --cpp_out= \\\n --grpc_out= \\\n --plugin=protoc-gen-grpc=\"$(which grpc_cpp_plugin)\" \\\n\n``",
+  "ontology": {
+    "role": "operation",
+    "domain": "language",
+    "class": "library",
+    "instance": "grpc",
+    "aspect": "cpp-grpc"
+  },
+  "url": "/docs/language/grpc/cpp/grpc",
+  "node_url": "/api/wiki/nodes/doc:docs/language/grpc/cpp/grpc.mdx.json",
+  "subject": {
+    "id": "subject:language:library:grpc",
+    "title": "gRPC",
+    "ontology": {
+      "domain": "language",
+      "class": "library",
+      "instance": "grpc"
+    },
+    "url": "/docs/language/grpc/overview"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/grpc/cpp/grpc.mdx:about_subject:subject:language:library:grpc",
+      "predicate": "about_subject",
+      "other_id": "subject:language:library:grpc",
+      "direction": "outgoing"
+    }
+  ]
+}

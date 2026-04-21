@@ -1,0 +1,40 @@
+---
+id: grpc
+title: gRPC
+sidebar_label: gRPC
+description: gRPC
+keywords:
+  - grpc
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: grpc
+  aspect: cpp-grpc
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## 컴파일
+
+- [Protobuf 컴파일](/docs/language/grpc/cpp/protobuf.mdx#컴파일)
+- [C++ Quick start](https://grpc.io/docs/languages/cpp/quickstart/)
+
+```shell
+protoc \
+  --proto_path=<protoRoot> \
+  --cpp_out=<cppRoot> \
+  --grpc_out=<cppRoot> \
+  --plugin=protoc-gen-grpc="$(which grpc_cpp_plugin)" \
+  <protoFile>
+```

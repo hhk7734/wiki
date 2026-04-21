@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx",
+  "title": "NVIDIA Kubernetes Device Plugin",
+  "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "nvidia-device-plugin",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/device/nvidia-device-plugin/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
+    "title": "NVIDIA Kubernetes Device Plugin",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-addon",
+      "instance": "nvidia-device-plugin"
+    },
+    "url": "/docs/infrastructure/device/nvidia-device-plugin/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-device-plugin",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
+      "direction": "outgoing"
+    }
+  ]
+}

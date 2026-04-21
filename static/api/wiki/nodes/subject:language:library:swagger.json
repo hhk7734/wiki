@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:swagger",
+  "title": "go-swagger",
+  "snippet": "go-swagger is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "swagger"
+  },
+  "url": "/docs/language/go/swagger/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:swagger.json",
+  "document_refs": [
+    "doc:docs/language/go/swagger/overview.mdx",
+    "doc:docs/language/go/swagger/swagger.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/swagger/overview.mdx",
+      "title": "go-swagger",
+      "url": "/docs/language/go/swagger/overview",
+      "snippet": "go-swagger is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "swagger",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/swagger/swagger.mdx",
+      "title": "Swagger",
+      "url": "/docs/language/go/swagger",
+      "snippet": "…sage\n\n`shell\ncd\n`\n\n`shell\nswag init && swag fmt\n`\n\n`shell\ndocs/\n├── docs.go\n├── swagger.json\n└── swagger.yaml\n`\n\n## Comments 형식\n\n### General API Info\n\n- https://github…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "swagger",
+        "aspect": "swagger"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/swagger/overview.mdx:about_subject:subject:language:library:swagger",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/swagger/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/swagger/swagger.mdx:about_subject:subject:language:library:swagger",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/swagger/swagger.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:swagger:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

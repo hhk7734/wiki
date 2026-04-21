@@ -82,10 +82,10 @@
       "title": "AMD GPU Operator",
       "description": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
       "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
-      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
+      "url": "/docs/infrastructure/device/amd-gpu-operator/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx",
-        "doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx"
+        "doc:docs/infrastructure/device/amd-gpu-operator/crd.mdx",
+        "doc:docs/infrastructure/device/amd-gpu-operator/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -106,9 +106,9 @@
       "title": "AMD Kubernetes Device Plugin",
       "description": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
       "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
-      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
+      "url": "/docs/infrastructure/device/amd-device-plugin/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx"
+        "doc:docs/infrastructure/device/amd-device-plugin/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -129,9 +129,9 @@
       "title": "AMD ROCm",
       "description": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
       "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
-      "url": "/docs/infrastructure/accelerator/rocm/overview",
+      "url": "/docs/infrastructure/device/rocm/overview",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/rocm/overview.mdx"
+        "doc:docs/infrastructure/device/rocm/overview.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -205,11 +205,11 @@
       "title": "AWS ParallelCluster",
       "description": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
       "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
-      "url": "/docs/infrastructure/kubernetes/parallel-cluster/cluster",
+      "url": "/docs/infrastructure/cloud/parallel-cluster/cluster",
       "document_refs": [
-        "doc:docs/infrastructure/kubernetes/parallel-cluster/cluster.mdx",
-        "doc:docs/infrastructure/kubernetes/parallel-cluster/custom-action.mdx",
-        "doc:docs/infrastructure/kubernetes/parallel-cluster/etc.mdx"
+        "doc:docs/infrastructure/cloud/parallel-cluster/cluster.mdx",
+        "doc:docs/infrastructure/cloud/parallel-cluster/custom-action.mdx",
+        "doc:docs/infrastructure/cloud/parallel-cluster/etc.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -277,22 +277,22 @@
       "title": "Admission Controller",
       "description": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
       "snippet": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
-      "url": "/docs/infrastructure/kubernetes/kubernetes/admission-controller",
+      "url": "/docs/infrastructure/kubernetes/admission-controller",
       "document_refs": [
-        "doc:docs/infrastructure/kubernetes/kubernetes/admission-controller.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/controller.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/labels.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/node-operations/drain-node.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/affinity.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/taints-and-tolerations.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/topology-spread-constraints.mdx"
+        "doc:docs/infrastructure/kubernetes/admission-controller.mdx",
+        "doc:docs/infrastructure/kubernetes/affinity.mdx",
+        "doc:docs/infrastructure/kubernetes/controller.mdx",
+        "doc:docs/infrastructure/kubernetes/drain-node.mdx",
+        "doc:docs/infrastructure/kubernetes/labels.mdx",
+        "doc:docs/infrastructure/kubernetes/taints-and-tolerations.mdx",
+        "doc:docs/infrastructure/kubernetes/topology-spread-constraints.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
         "class": "orchestrator",
         "instance": "kubernetes"
       },
-      "search_text": "admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller kubernetes controller label node를 비우고 제거하기 affinity taints and tolerations topology spread constraints admission controller mutatingwebhookconfiguration validatingwebhookconfiguration controller deployment example labels 권장 labels label selector node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 nodeaffinity podaffinity podantiaffinity taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 infrastructure orchestrator kubernetes",
+      "search_text": "admission controller admission controller https //kubernetes io/blog/2019/03/21/a-guide-to-kubernetes-admission-control admission controller affinity kubernetes controller node를 비우고 제거하기 label taints and tolerations topology spread constraints admission controller mutatingwebhookconfiguration validatingwebhookconfiguration nodeaffinity podaffinity podantiaffinity controller deployment example node 목록 확인 스케줄 불가로 설정 schedulingdisabled node에 있는 pod 비우기 node 제거 labels 권장 labels label selector taints taints 설정 tolerations tolerations 설정 모든 taint와 매칭 일시적 장애 대응 infrastructure orchestrator kubernetes",
       "display": {
         "label": "Admission Controller",
         "kind": "subject",
@@ -1195,10 +1195,10 @@
       "title": "Container Device Interface(CDI)",
       "description": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
-      "url": "/docs/infrastructure/kubernetes/cdi/overview",
+      "url": "/docs/infrastructure/device/cdi/overview",
       "document_refs": [
-        "doc:docs/infrastructure/kubernetes/cdi/overview.mdx",
-        "doc:docs/infrastructure/kubernetes/cdi/allocation.mdx"
+        "doc:docs/infrastructure/device/cdi/overview.mdx",
+        "doc:docs/infrastructure/device/cdi/allocation.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -1995,25 +1995,25 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-firebase",
+      "id": "subject:language:library:firebase",
       "title": "Firebase for Go",
       "description": "Firebase for Go is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Firebase for Go is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-firebase/overview",
+      "url": "/docs/language/go/firebase/overview",
       "document_refs": [
-        "doc:docs/language/go-firebase/overview.mdx",
-        "doc:docs/language/go-firebase/custom-email.mdx"
+        "doc:docs/language/go/firebase/overview.mdx",
+        "doc:docs/language/go/firebase/custom-email.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-firebase"
+        "instance": "firebase"
       },
-      "search_text": "firebase for go firebase for go is a library subject in the go language ecosystem covered by this wiki firebase for go firebase custom email 보내기 custom email 보내기 이메일 처리 페이지 만들기 language library go-firebase",
+      "search_text": "firebase for go firebase for go is a library subject in the go language ecosystem covered by this wiki firebase for go firebase custom email 보내기 custom email 보내기 이메일 처리 페이지 만들기 language library firebase",
       "display": {
         "label": "Firebase for Go",
         "kind": "subject",
-        "subtitle": "Go Firebase",
+        "subtitle": "Firebase",
         "document_count": 2
       }
     },
@@ -2163,25 +2163,25 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-gorm",
+      "id": "subject:language:library:gorm",
       "title": "GORM",
       "description": "GORM is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "GORM is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-gorm/overview",
+      "url": "/docs/language/go/gorm/overview",
       "document_refs": [
-        "doc:docs/language/go-gorm/overview.mdx",
-        "doc:docs/language/go-gorm/gorm.mdx"
+        "doc:docs/language/go/gorm/overview.mdx",
+        "doc:docs/language/go/gorm/gorm.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-gorm"
+        "instance": "gorm"
       },
-      "search_text": "gorm gorm is a library subject in the go language ecosystem covered by this wiki gorm gorm gorm 설치 database schema tag example transaction language library go-gorm",
+      "search_text": "gorm gorm is a library subject in the go language ecosystem covered by this wiki gorm gorm gorm 설치 database schema tag example transaction language library gorm",
       "display": {
         "label": "GORM",
         "kind": "subject",
-        "subtitle": "Go Gorm",
+        "subtitle": "Gorm",
         "document_count": 2
       }
     },
@@ -2239,29 +2239,29 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-gin",
+      "id": "subject:language:library:gin",
       "title": "Gin for Go",
       "description": "Gin for Go is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Gin for Go is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-gin/overview",
+      "url": "/docs/language/go/gin/overview",
       "document_refs": [
-        "doc:docs/language/go-gin/overview.mdx",
-        "doc:docs/language/go-gin/crud.mdx",
-        "doc:docs/language/go-gin/deploy.mdx",
-        "doc:docs/language/go-gin/gin.mdx",
-        "doc:docs/language/go-gin/shutdown.mdx",
-        "doc:docs/language/go-gin/validator.mdx"
+        "doc:docs/language/go/gin/overview.mdx",
+        "doc:docs/language/go/gin/crud.mdx",
+        "doc:docs/language/go/gin/deploy.mdx",
+        "doc:docs/language/go/gin/gin.mdx",
+        "doc:docs/language/go/gin/shutdown.mdx",
+        "doc:docs/language/go/gin/validator.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-gin"
+        "instance": "gin"
       },
-      "search_text": "gin for go gin for go is a library subject in the go language ecosystem covered by this wiki gin gin for go crud deploy gin graceful shutdown validator entity create post read get update patch delete delete dockerfile private 리포지토리를 사용해야 하능 경우 arg github token env goprivate github com/hhk7734 run apk add --no-cache git run git config --global url https // github token github com/ insteadof https //github com/ 설치 config graceful shutdown deafult validator custom validator language library go-gin",
+      "search_text": "gin for go gin for go is a library subject in the go language ecosystem covered by this wiki gin gin for go crud deploy gin graceful shutdown validator entity create post read get update patch delete delete dockerfile private 리포지토리를 사용해야 하능 경우 arg github token env goprivate github com/hhk7734 run apk add --no-cache git run git config --global url https // github token github com/ insteadof https //github com/ 설치 config graceful shutdown deafult validator custom validator language library gin",
       "display": {
         "label": "Gin for Go",
         "kind": "subject",
-        "subtitle": "Go Gin",
+        "subtitle": "Gin",
         "document_count": 6
       }
     },
@@ -2347,73 +2347,73 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-reverse-proxy",
+      "id": "subject:language:library:reverse-proxy",
       "title": "Go Reverse Proxy",
       "description": "Go Reverse Proxy is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go Reverse Proxy is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-reverse-proxy/overview",
+      "url": "/docs/language/go/reverse-proxy/overview",
       "document_refs": [
-        "doc:docs/language/go-reverse-proxy/overview.mdx",
-        "doc:docs/language/go-reverse-proxy/reverse-proxy.mdx"
+        "doc:docs/language/go/reverse-proxy/overview.mdx",
+        "doc:docs/language/go/reverse-proxy/reverse-proxy.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-reverse-proxy"
+        "instance": "reverse-proxy"
       },
-      "search_text": "go reverse proxy go reverse proxy is a library subject in the go language ecosystem covered by this wiki go reverse proxy http reverse proxy 설정 가이드 httputil reverseproxy director or rewrite 설정 httputil newsinglehostreverseproxy opentelemetry transport errorhandler language library go-reverse-proxy",
+      "search_text": "go reverse proxy go reverse proxy is a library subject in the go language ecosystem covered by this wiki go reverse proxy http reverse proxy 설정 가이드 httputil reverseproxy director or rewrite 설정 httputil newsinglehostreverseproxy opentelemetry transport errorhandler language library reverse-proxy",
       "display": {
         "label": "Go Reverse Proxy",
         "kind": "subject",
-        "subtitle": "Go Reverse Proxy",
+        "subtitle": "Reverse Proxy",
         "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-smtp",
+      "id": "subject:language:library:smtp",
       "title": "Go SMTP",
       "description": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-smtp/overview",
+      "url": "/docs/language/go/smtp/overview",
       "document_refs": [
-        "doc:docs/language/go-smtp/overview.mdx",
-        "doc:docs/language/go-smtp/smtp.mdx"
+        "doc:docs/language/go/smtp/overview.mdx",
+        "doc:docs/language/go/smtp/smtp.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-smtp"
+        "instance": "smtp"
       },
-      "search_text": "go smtp go smtp is a library subject in the go language ecosystem covered by this wiki go smtp smtp smtp html net/smtp gmail email authentication language library go-smtp",
+      "search_text": "go smtp go smtp is a library subject in the go language ecosystem covered by this wiki go smtp smtp smtp html net/smtp gmail email authentication language library smtp",
       "display": {
         "label": "Go SMTP",
         "kind": "subject",
-        "subtitle": "Go Smtp",
+        "subtitle": "Smtp",
         "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-session",
+      "id": "subject:language:library:session",
       "title": "Go Session",
       "description": "Go Session is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go Session is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-session/overview",
+      "url": "/docs/language/go/session/overview",
       "document_refs": [
-        "doc:docs/language/go-session/overview.mdx",
-        "doc:docs/language/go-session/session.mdx"
+        "doc:docs/language/go/session/overview.mdx",
+        "doc:docs/language/go/session/session.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-session"
+        "instance": "session"
       },
-      "search_text": "go session go session is a library subject in the go language ecosystem covered by this wiki go session session 클라이언트에서 세션 쿠키 갱신 요청 서버에서 세션 자동 갱신 데이터베이스 쿠키 language library go-session",
+      "search_text": "go session go session is a library subject in the go language ecosystem covered by this wiki go session session 클라이언트에서 세션 쿠키 갱신 요청 서버에서 세션 자동 갱신 데이터베이스 쿠키 language library session",
       "display": {
         "label": "Go Session",
         "kind": "subject",
-        "subtitle": "Go Session",
+        "subtitle": "Session",
         "document_count": 2
       }
     },
@@ -2442,97 +2442,97 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-websocket",
+      "id": "subject:language:library:websocket",
       "title": "Go WebSocket",
       "description": "Go WebSocket is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go WebSocket is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-websocket/overview",
+      "url": "/docs/language/go/websocket/overview",
       "document_refs": [
-        "doc:docs/language/go-websocket/overview.mdx",
-        "doc:docs/language/go-websocket/websocket.mdx"
+        "doc:docs/language/go/websocket/overview.mdx",
+        "doc:docs/language/go/websocket/websocket.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-websocket"
+        "instance": "websocket"
       },
-      "search_text": "go websocket go websocket is a library subject in the go language ecosystem covered by this wiki go websocket websocket server client proxy language library go-websocket",
+      "search_text": "go websocket go websocket is a library subject in the go language ecosystem covered by this wiki go websocket websocket server client proxy language library websocket",
       "display": {
         "label": "Go WebSocket",
         "kind": "subject",
-        "subtitle": "Go Websocket",
+        "subtitle": "Websocket",
         "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-encoding-json",
+      "id": "subject:language:library:encoding-json",
       "title": "Go encoding/json",
       "description": "Go encoding/json is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go encoding/json is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-encoding-json/overview",
+      "url": "/docs/language/go/encoding-json/overview",
       "document_refs": [
-        "doc:docs/language/go-encoding-json/overview.mdx",
-        "doc:docs/language/go-encoding-json/encoding-json.mdx"
+        "doc:docs/language/go/encoding-json/overview.mdx",
+        "doc:docs/language/go/encoding-json/encoding-json.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-encoding-json"
+        "instance": "encoding-json"
       },
-      "search_text": "go encoding/json go encoding/json is a library subject in the go language ecosystem covered by this wiki go encoding/json encoding/json field tags type - json 변환 language library go-encoding-json",
+      "search_text": "go encoding/json go encoding/json is a library subject in the go language ecosystem covered by this wiki go encoding/json encoding/json field tags type - json 변환 language library encoding-json",
       "display": {
         "label": "Go encoding/json",
         "kind": "subject",
-        "subtitle": "Go Encoding Json",
+        "subtitle": "Encoding Json",
         "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-time",
+      "id": "subject:language:library:time",
       "title": "Go time",
       "description": "Go time is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go time is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-time/overview",
+      "url": "/docs/language/go/time/overview",
       "document_refs": [
-        "doc:docs/language/go-time/overview.mdx",
-        "doc:docs/language/go-time/time.mdx"
+        "doc:docs/language/go/time/overview.mdx",
+        "doc:docs/language/go/time/time.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-time"
+        "instance": "time"
       },
-      "search_text": "go time go time is a library subject in the go language ecosystem covered by this wiki go time time time/tzdata language library go-time",
+      "search_text": "go time go time is a library subject in the go language ecosystem covered by this wiki go time time time/tzdata language library time",
       "display": {
         "label": "Go time",
         "kind": "subject",
-        "subtitle": "Go Time",
+        "subtitle": "Time",
         "document_count": 2
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-validator",
+      "id": "subject:language:library:validator",
       "title": "Go validator",
       "description": "Go validator is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Go validator is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-validator/overview",
+      "url": "/docs/language/go/validator/overview",
       "document_refs": [
-        "doc:docs/language/go-validator/overview.mdx",
-        "doc:docs/language/go-validator/validator.mdx"
+        "doc:docs/language/go/validator/overview.mdx",
+        "doc:docs/language/go/validator/validator.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-validator"
+        "instance": "validator"
       },
-      "search_text": "go validator go validator is a library subject in the go language ecosystem covered by this wiki go validator validator 설치 tag string 전화번호 custom field type custom validator language library go-validator",
+      "search_text": "go validator go validator is a library subject in the go language ecosystem covered by this wiki go validator validator 설치 tag string 전화번호 custom field type custom validator language library validator",
       "display": {
         "label": "Go validator",
         "kind": "subject",
-        "subtitle": "Go Validator",
+        "subtitle": "Validator",
         "document_count": 2
       }
     },
@@ -2771,6 +2771,7 @@
         "doc:docs/infrastructure/networking/istio/authorization.mdx",
         "doc:docs/infrastructure/networking/istio/ext-authz.mdx",
         "doc:docs/infrastructure/networking/istio/install.mdx",
+        "doc:docs/infrastructure/networking/istio/istio-csr.mdx",
         "doc:docs/infrastructure/networking/istio/opentelemetry.mdx"
       ],
       "ontology": {
@@ -2778,53 +2779,30 @@
         "class": "service-mesh",
         "instance": "istio"
       },
-      "search_text": "istio 설치 가이드 문서는 별도로 분리되어 있습니다 proxy service mesh before utilizing istio after utilizing istio txt client service a service b service istio envoyfilter로 http 압축 관리하기 envoyfilter로 외부 프로세서와 통신하기 envoyfilter multi-cluster upgrade virtualservice istio access log 설정 가이드 istio authorization envoyfilter로 외부 인증서버와 통신하기 istio 설치 가이드 istio opentelemetry 설정 가이드 proxy service mesh envoy injection rule examples compressor compressor library gzip brotli zstd externalprocessor terminology envoyfilter debug configure trust root ca intermediate ca multi-primary on different networks istiod cross gateway endpoint discovery test 운영 시 주의사항 canary 업그레이드 사전 체크 crd 업그레이드 istiod 새 버전 추가 re-injection envoy sidecar 기존 istiod 삭제 istio-base 업그레이드 http redirect tcp route corspolicy access log provider 설정 envoy에 provider 적용하기 istio authorization authorizationpolicy allow-nothing extauthz 설치 istio csr multi cluster base istiod removal opentelemetry tracingprovider 설정 envoy에 provider 적용하기 infrastructure service-mesh istio",
+      "search_text": "istio 설치 가이드 문서는 별도로 분리되어 있습니다 proxy service mesh before utilizing istio after utilizing istio txt client service a service b service istio envoyfilter로 http 압축 관리하기 envoyfilter로 외부 프로세서와 통신하기 envoyfilter multi-cluster upgrade virtualservice istio access log 설정 가이드 istio authorization envoyfilter로 외부 인증서버와 통신하기 istio 설치 가이드 istio csr istio opentelemetry 설정 가이드 proxy service mesh envoy injection rule examples compressor compressor library gzip brotli zstd externalprocessor terminology envoyfilter debug configure trust root ca intermediate ca multi-primary on different networks istiod cross gateway endpoint discovery test 운영 시 주의사항 canary 업그레이드 사전 체크 crd 업그레이드 istiod 새 버전 추가 re-injection envoy sidecar 기존 istiod 삭제 istio-base 업그레이드 http redirect tcp route corspolicy access log provider 설정 envoy에 provider 적용하기 istio authorization authorizationpolicy allow-nothing extauthz 설치 istio csr multi cluster base istiod removal root ca 발급 istio-csr intermediate ca istiod opentelemetry tracingprovider 설정 envoy에 provider 적용하기 infrastructure service-mesh istio",
       "display": {
         "label": "Istio",
         "kind": "subject",
         "subtitle": "Istio",
-        "document_count": 12
+        "document_count": 13
       }
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:service-mesh:istio-csr",
-      "title": "Istio CSR",
-      "description": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
-      "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
-      "url": "/docs/infrastructure/security/istio-csr/csr",
-      "document_refs": [
-        "doc:docs/infrastructure/security/istio-csr/csr.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "service-mesh",
-        "instance": "istio-csr"
-      },
-      "search_text": "istio csr name istio-ca namespace istio-system spec ca secretname istio-ca istio-csr intermediate ca shell kubectl create secret generic -n auth istio-root-ca istio csr root ca 발급 istio-csr intermediate ca istiod infrastructure service-mesh istio-csr",
-      "display": {
-        "label": "Istio CSR",
-        "kind": "subject",
-        "subtitle": "Istio Csr",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:infrastructure:service-mesh:jwt",
+      "id": "subject:protocol:application-protocol:jwt",
       "title": "JWT",
       "description": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
       "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
-      "url": "/docs/infrastructure/security/jwt/overview",
+      "url": "/docs/protocol/jwt/overview",
       "document_refs": [
-        "doc:docs/infrastructure/security/jwt/overview.mdx"
+        "doc:docs/protocol/jwt/overview.mdx"
       ],
       "ontology": {
-        "domain": "infrastructure",
-        "class": "service-mesh",
+        "domain": "protocol",
+        "class": "application-protocol",
         "instance": "jwt"
       },
-      "search_text": "jwt algorithm rs256 shell ssh-keygen -t rsa -b 2048 -m pem -f jwt key -n shell openssl rsa -in jwt key -pubout -outform pem -out jwt pub jwt algorithm rs256 token payload requestauthentication authorizationpolicy reference infrastructure service-mesh jwt",
+      "search_text": "jwt algorithm rs256 shell ssh-keygen -t rsa -b 2048 -m pem -f jwt key -n shell openssl rsa -in jwt key -pubout -outform pem -out jwt pub jwt algorithm rs256 token payload requestauthentication authorizationpolicy reference protocol application-protocol jwt",
       "display": {
         "label": "JWT",
         "kind": "subject",
@@ -2886,9 +2864,9 @@
       "title": "Jotai",
       "description": "## primitive Atom 사용하기\n\n``ts\n\nconst countAtom = atom(0);\n\nfunction Counter() {\n const [count, setCount] = useAtom(countAtom);\n return (\n\n count: {count}\n\n setCo",
       "snippet": "## primitive Atom 사용하기\n\n``ts\n\nconst countAtom = atom(0);\n\nfunction Counter() {\n const [count, setCount] = useAtom(countAtom);\n return (\n\n count: {count}\n\n setCo",
-      "url": "/docs/language/jotai/overview",
+      "url": "/docs/language/javascript/jotai/overview",
       "document_refs": [
-        "doc:docs/language/jotai/overview.mdx"
+        "doc:docs/language/javascript/jotai/overview.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -3133,10 +3111,10 @@
       "title": "Konnectivity를 통해 Node에 접근하기",
       "description": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
       "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
-      "url": "/docs/infrastructure/kubernetes/kubernetes/konnectivity",
+      "url": "/docs/infrastructure/kubernetes/konnectivity",
       "document_refs": [
-        "doc:docs/infrastructure/kubernetes/kubernetes/konnectivity.mdx",
-        "doc:docs/infrastructure/kubernetes/kubernetes/service.mdx"
+        "doc:docs/infrastructure/kubernetes/konnectivity.mdx",
+        "doc:docs/infrastructure/kubernetes/service.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -3203,29 +3181,29 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-kubebuilder",
+      "id": "subject:language:library:kubebuilder",
       "title": "Kubebuilder",
       "description": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-kubebuilder/overview",
+      "url": "/docs/language/go/kubebuilder/overview",
       "document_refs": [
-        "doc:docs/language/go-kubebuilder/overview.mdx",
-        "doc:docs/language/go-kubebuilder/controller-gen.mdx",
-        "doc:docs/language/go-kubebuilder/kubebuilder.mdx",
-        "doc:docs/language/go-kubebuilder/namespace.mdx",
-        "doc:docs/language/go-kubebuilder/status.mdx",
-        "doc:docs/language/go-kubebuilder/trigger.mdx"
+        "doc:docs/language/go/kubebuilder/overview.mdx",
+        "doc:docs/language/go/kubebuilder/controller-gen.mdx",
+        "doc:docs/language/go/kubebuilder/kubebuilder.mdx",
+        "doc:docs/language/go/kubebuilder/namespace.mdx",
+        "doc:docs/language/go/kubebuilder/status.mdx",
+        "doc:docs/language/go/kubebuilder/trigger.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder"
+        "instance": "kubebuilder"
       },
-      "search_text": "kubebuilder kubebuilder is a library subject in the go language ecosystem covered by this wiki kubebuilder kubebuilder controller-gen cli kubebuilder를 사용한 kubernetes operator 개발 가이드 namespaceselector를 사용한 관리 범위 설정 reconciler에서 custom resource의 status 관리하기 reconciler trigger 설정하기 controller-gen crd 생성 rbac 생성 object/deepcopy 코드 생성 webhook 생성 설치 project 생성 api 생성 webhook 생성 기본 동작 특정 namespace만 감시하기 명시적 namespace 지정 label selector로 namespace 선택 predicate 필터링 webhook namespaceselector matchlabels matchexpressions status setupwithmanager for resource 설정 owns resource 설정 watches resource 설정 watchesrawsource 로 외부 이벤트 트리거 구조 사용법 주의사항 predicate로 이벤트 필터링 language library go-kubebuilder",
+      "search_text": "kubebuilder kubebuilder is a library subject in the go language ecosystem covered by this wiki kubebuilder kubebuilder controller-gen cli kubebuilder를 사용한 kubernetes operator 개발 가이드 namespaceselector를 사용한 관리 범위 설정 reconciler에서 custom resource의 status 관리하기 reconciler trigger 설정하기 controller-gen crd 생성 rbac 생성 object/deepcopy 코드 생성 webhook 생성 설치 project 생성 api 생성 webhook 생성 기본 동작 특정 namespace만 감시하기 명시적 namespace 지정 label selector로 namespace 선택 predicate 필터링 webhook namespaceselector matchlabels matchexpressions status setupwithmanager for resource 설정 owns resource 설정 watches resource 설정 watchesrawsource 로 외부 이벤트 트리거 구조 사용법 주의사항 predicate로 이벤트 필터링 language library kubebuilder",
       "display": {
         "label": "Kubebuilder",
         "kind": "subject",
-        "subtitle": "Go Kubebuilder",
+        "subtitle": "Kubebuilder",
         "document_count": 6
       }
     },
@@ -3419,9 +3397,9 @@
       "title": "Kubernetes 인가(Authz); RBAC",
       "description": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
       "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
-      "url": "/docs/infrastructure/security/rbac/overview",
+      "url": "/docs/infrastructure/kubernetes/rbac/overview",
       "document_refs": [
-        "doc:docs/infrastructure/security/rbac/overview.mdx"
+        "doc:docs/infrastructure/kubernetes/rbac/overview.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4029,10 +4007,10 @@
       "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "description": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
       "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
-      "url": "/docs/infrastructure/accelerator/node-feature-discovery/node-feature-rule",
+      "url": "/docs/infrastructure/device/node-feature-discovery/node-feature-rule",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/node-feature-discovery/node-feature-rule.mdx",
-        "doc:docs/infrastructure/accelerator/node-feature-discovery/install.mdx"
+        "doc:docs/infrastructure/device/node-feature-discovery/node-feature-rule.mdx",
+        "doc:docs/infrastructure/device/node-feature-discovery/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4053,9 +4031,9 @@
       "title": "NVIDIA Container Toolkit",
       "description": "…om/datacenter/cloud-native/container-toolkit/install-guide.html\n\n``shell\nyay -S nvidia-container-toolkit\n`\n\n`shell\nnvidia-ctk --version\n`\n\n`shell\nsudo nvidia-ctk cdi generate --output=…",
       "snippet": "…om/datacenter/cloud-native/container-toolkit/install-guide.html\n\n``shell\nyay -S nvidia-container-toolkit\n`\n\n`shell\nnvidia-ctk --version\n`\n\n`shell\nsudo nvidia-ctk cdi generate --output=…",
-      "url": "/docs/infrastructure/accelerator/nvidia-container-toolkit/install",
+      "url": "/docs/infrastructure/device/nvidia-container-toolkit/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/nvidia-container-toolkit/install.mdx"
+        "doc:docs/infrastructure/device/nvidia-container-toolkit/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4076,9 +4054,9 @@
       "title": "NVIDIA GPU Operator",
       "description": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
-      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "url": "/docs/infrastructure/device/nvidia-gpu-operator/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx"
+        "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4099,9 +4077,9 @@
       "title": "NVIDIA Kubernetes Device Plugin",
       "description": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
       "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
-      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "url": "/docs/infrastructure/device/nvidia-device-plugin/install",
       "document_refs": [
-        "doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx"
+        "doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4221,10 +4199,10 @@
       "title": "Next.js",
       "description": "…xtjs.org/docs/advanced-features/output-file-tracing\n- https://github.com/vercel/next.js/tree/canary/examples/with-docker\n\n이미지 최적화를 사용하는 경우 sharp를 종속성으로 추가해야 합니다.\n\n`she…",
       "snippet": "…xtjs.org/docs/advanced-features/output-file-tracing\n- https://github.com/vercel/next.js/tree/canary/examples/with-docker\n\n이미지 최적화를 사용하는 경우 sharp를 종속성으로 추가해야 합니다.\n\n`she…",
-      "url": "/docs/language/nextjs/overview",
+      "url": "/docs/language/javascript/nextjs/overview",
       "document_refs": [
-        "doc:docs/language/nextjs/overview.mdx",
-        "doc:docs/language/nextjs/env.mdx"
+        "doc:docs/language/javascript/nextjs/overview.mdx",
+        "doc:docs/language/javascript/nextjs/env.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -4481,26 +4459,26 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-opentelemetry",
+      "id": "subject:language:library:opentelemetry",
       "title": "OpenTelemetry for Go",
       "description": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-opentelemetry/overview",
+      "url": "/docs/language/go/opentelemetry/overview",
       "document_refs": [
-        "doc:docs/language/go-opentelemetry/overview.mdx",
-        "doc:docs/language/go-opentelemetry/propagation.mdx",
-        "doc:docs/language/go-opentelemetry/trace.mdx"
+        "doc:docs/language/go/opentelemetry/overview.mdx",
+        "doc:docs/language/go/opentelemetry/propagation.mdx",
+        "doc:docs/language/go/opentelemetry/trace.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-opentelemetry"
+        "instance": "opentelemetry"
       },
-      "search_text": "opentelemetry for go opentelemetry for go is a library subject in the go language ecosystem covered by this wiki opentelemetry for go go opentelemetry propagation 설정 가이드 go opentelemetry trace 설정 가이드 textmappropagator tracecontext baggage compositetextmappropagator tracerprovider exporter console http grpc sampler language library go-opentelemetry",
+      "search_text": "opentelemetry for go opentelemetry for go is a library subject in the go language ecosystem covered by this wiki opentelemetry for go go opentelemetry propagation 설정 가이드 go opentelemetry trace 설정 가이드 textmappropagator tracecontext baggage compositetextmappropagator tracerprovider exporter console http grpc sampler language library opentelemetry",
       "display": {
         "label": "OpenTelemetry for Go",
         "kind": "subject",
-        "subtitle": "Go Opentelemetry",
+        "subtitle": "Opentelemetry",
         "document_count": 3
       }
     },
@@ -4718,9 +4696,9 @@
       "title": "PodSecurityContext와 SecurityContext",
       "description": "## PodSecurityContext\n\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecu…",
       "snippet": "## PodSecurityContext\n\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecu…",
-      "url": "/docs/infrastructure/security/security-context/overview",
+      "url": "/docs/infrastructure/kubernetes/security-context/overview",
       "document_refs": [
-        "doc:docs/infrastructure/security/security-context/overview.mdx"
+        "doc:docs/infrastructure/kubernetes/security-context/overview.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -4814,26 +4792,26 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:javascript-prisma",
+      "id": "subject:language:library:prisma",
       "title": "Prisma for JavaScript",
-      "description": "Prisma for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
-      "snippet": "Prisma for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
-      "url": "/docs/language/javascript-prisma/overview",
+      "description": "Prisma is an ORM and schema migration toolkit commonly used in the JavaScript and TypeScript ecosystem.",
+      "snippet": "Prisma is an ORM and schema migration toolkit commonly used in the JavaScript and TypeScript ecosystem.",
+      "url": "/docs/language/javascript/prisma/overview",
       "document_refs": [
-        "doc:docs/language/javascript-prisma/overview.mdx",
-        "doc:docs/language/javascript-prisma/migrate.mdx",
-        "doc:docs/language/javascript-prisma/prisma.mdx"
+        "doc:docs/language/javascript/prisma/overview.mdx",
+        "doc:docs/language/javascript/prisma/migrate.mdx",
+        "doc:docs/language/javascript/prisma/prisma.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "javascript-prisma"
+        "instance": "prisma"
       },
-      "search_text": "prisma for javascript prisma for javascript is a library subject in the javascript language ecosystem covered by this wiki prisma prisma for javascript prisma로 스키마 마이그레이션 하기 prisma orm 스키마 마이그레이션 관리 devops 개발 부터 배포까지 롤백 롤백 파일 생성 롤백 cli reference 설치 설정 language library javascript-prisma",
+      "search_text": "prisma for javascript prisma is an orm and schema migration toolkit commonly used in the javascript and typescript ecosystem prisma prisma for javascript prisma로 스키마 마이그레이션 하기 prisma orm 스키마 마이그레이션 관리 devops 개발 부터 배포까지 롤백 롤백 파일 생성 롤백 cli reference 설치 설정 language library prisma",
       "display": {
         "label": "Prisma for JavaScript",
         "kind": "subject",
-        "subtitle": "Javascript Prisma",
+        "subtitle": "Prisma",
         "document_count": 3
       }
     },
@@ -4863,35 +4841,13 @@
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:observability-system:promql",
+      "id": "subject:infrastructure:observability-system:prometheus-operator",
       "title": "PromQL",
       "description": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
       "snippet": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
-      "url": "/docs/infrastructure/observability/promql/overview",
+      "url": "/docs/infrastructure/observability/prometheus-operator/promql",
       "document_refs": [
-        "doc:docs/infrastructure/observability/promql/overview.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "observability-system",
-        "instance": "promql"
-      },
-      "search_text": "promql data model - prometheus / concepts / data model promql 주석 - a-za-z a-za-z0-9 정규식을 만족해야합니다 - a-za-z a promql data model 주석 metric types histogram promql instant vector range vector duration에 사용되는 는 옵션의 의미가 아닙니다 e g http requests total 5m operators aggregation operators functions infrastructure observability-system promql",
-      "display": {
-        "label": "PromQL",
-        "kind": "subject",
-        "subtitle": "Promql",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:infrastructure:observability-system:prometheus-operator",
-      "title": "Prometheus",
-      "description": "Prometheus Operator Architecture\n\n## ServiceAccount\n\n- Prometheus Operator / Getting Start…",
-      "snippet": "Prometheus Operator Architecture\n\n## ServiceAccount\n\n- Prometheus Operator / Getting Start…",
-      "url": "/docs/infrastructure/observability/prometheus-operator/prometheus",
-      "document_refs": [
+        "doc:docs/infrastructure/observability/prometheus-operator/promql.mdx",
         "doc:docs/infrastructure/observability/prometheus-operator/alertmanager.mdx",
         "doc:docs/infrastructure/observability/prometheus-operator/install.mdx",
         "doc:docs/infrastructure/observability/prometheus-operator/monitor.mdx",
@@ -4902,12 +4858,12 @@
         "class": "observability-system",
         "instance": "prometheus-operator"
       },
-      "search_text": "prometheus prometheus operator architecture serviceaccount - prometheus operator / getting start prometheus operator alertmanager cr 생성하기 prometheus-operator servicemonitor/podmonitor prometheus alertmanager alertmanagerconfig 수집하기 alertmanagerconfig kubernetes 호환성 설치 업그레이드 삭제 servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 infrastructure observability-system prometheus-operator",
+      "search_text": "promql data model - prometheus / concepts / data model promql 주석 - a-za-z a-za-z0-9 정규식을 만족해야합니다 - a-za-z a promql prometheus operator alertmanager cr 생성하기 prometheus-operator servicemonitor/podmonitor prometheus data model 주석 metric types histogram promql instant vector range vector duration에 사용되는 는 옵션의 의미가 아닙니다 e g http requests total 5m operators aggregation operators functions alertmanager alertmanagerconfig 수집하기 alertmanagerconfig kubernetes 호환성 설치 업그레이드 삭제 servicemonitor podmonitor scrapeconfig 설정 kubernetes sd configs relabel configs metric relabel configs serviceaccount prometheus servicemonitor 수집하기 podmonitor 수집하기 scrapeconfig 수집하기 alertmanager 연결하기 infrastructure observability-system prometheus-operator",
       "display": {
-        "label": "Prometheus",
+        "label": "PromQL",
         "kind": "subject",
         "subtitle": "Prometheus Operator",
-        "document_count": 4
+        "document_count": 5
       }
     },
     {
@@ -5288,11 +5244,12 @@
     {
       "type": "subject",
       "id": "subject:infrastructure:eventing-system:rabbitmq",
-      "title": "RabbitMQ",
-      "description": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
-      "snippet": "…mi.com/bitnami \\\n&& helm repo update bitnami\n`\n\n`shell\nhelm search repo bitnami/rabbitmq-cluster-operator -l | head -n 10\n`\n\n`shell\nhelm show values bitnami/rabbitmq-cl…",
-      "url": "/docs/infrastructure/messaging/rabbitmq/install",
+      "title": "RabbitMQ Flow",
+      "description": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
+      "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
+      "url": "/docs/infrastructure/messaging/rabbitmq/flow",
       "document_refs": [
+        "doc:docs/infrastructure/messaging/rabbitmq/flow.mdx",
         "doc:docs/infrastructure/messaging/rabbitmq/install.mdx"
       ],
       "ontology": {
@@ -5300,35 +5257,12 @@
         "class": "eventing-system",
         "instance": "rabbitmq"
       },
-      "search_text": "rabbitmq mi com/bitnami helm repo update bitnami shell helm search repo bitnami/rabbitmq-cluster-operator -l head -n 10 shell helm show values bitnami/rabbitmq-cl rabbitmq 설치 crds rabbitmqcluster user permission queue exchange binding policy infrastructure eventing-system rabbitmq",
-      "display": {
-        "label": "RabbitMQ",
-        "kind": "subject",
-        "subtitle": "Rabbitmq",
-        "document_count": 1
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:infrastructure:eventing-system:rabbitmq-flow",
-      "title": "RabbitMQ Flow",
-      "description": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
-      "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
-      "url": "/docs/infrastructure/messaging/rabbitmq-flow/overview",
-      "document_refs": [
-        "doc:docs/infrastructure/messaging/rabbitmq-flow/overview.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "eventing-system",
-        "instance": "rabbitmq-flow"
-      },
-      "search_text": "rabbitmq flow exchange queue mermaid flowchart lr subgraph rabbitmq direction lr z amq topictopic exchange -- a -- a adirect exchange z -- rabbitmq flow exchange queue direct topic header fanout infrastructure eventing-system rabbitmq-flow",
+      "search_text": "rabbitmq flow exchange queue mermaid flowchart lr subgraph rabbitmq direction lr z amq topictopic exchange -- a -- a adirect exchange z -- rabbitmq flow rabbitmq exchange queue direct topic header fanout 설치 crds rabbitmqcluster user permission queue exchange binding policy infrastructure eventing-system rabbitmq",
       "display": {
         "label": "RabbitMQ Flow",
         "kind": "subject",
-        "subtitle": "Rabbitmq Flow",
-        "document_count": 1
+        "subtitle": "Rabbitmq",
+        "document_count": 2
       }
     },
     {
@@ -5337,10 +5271,10 @@
       "title": "React",
       "description": "React is a UI framework for building component-based web applications.\n\nIt owns the component rendering…",
       "snippet": "React is a UI framework for building component-based web applications.\n\nIt owns the component rendering…",
-      "url": "/docs/language/react/overview",
+      "url": "/docs/language/javascript/react/overview",
       "document_refs": [
-        "doc:docs/language/react/overview.mdx",
-        "doc:docs/language/react/lifecycle.mdx"
+        "doc:docs/language/javascript/react/overview.mdx",
+        "doc:docs/language/javascript/react/lifecycle.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -5361,11 +5295,11 @@
       "title": "React Query",
       "description": "React Query is the React-facing adapter of TanStack Query for client-side server-state management.\n\n- TanStack Query React",
       "snippet": "React Query is the React-facing adapter of TanStack Query for client-side server-state management.\n\n- TanStack Query React",
-      "url": "/docs/language/react-query/overview",
+      "url": "/docs/language/javascript/react-query/overview",
       "document_refs": [
-        "doc:docs/language/react-query/overview.mdx",
-        "doc:docs/language/react-query/use-mutation.mdx",
-        "doc:docs/language/react-query/use-query.mdx"
+        "doc:docs/language/javascript/react-query/overview.mdx",
+        "doc:docs/language/javascript/react-query/use-mutation.mdx",
+        "doc:docs/language/javascript/react-query/use-query.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -5478,10 +5412,10 @@
       "title": "Redux Toolkit",
       "description": "Redux Toolkit is the recommended library layer for configuring Redux stores, slices, and asyn…",
       "snippet": "Redux Toolkit is the recommended library layer for configuring Redux stores, slices, and asyn…",
-      "url": "/docs/language/redux-toolkit/overview",
+      "url": "/docs/language/javascript/redux-toolkit/overview",
       "document_refs": [
-        "doc:docs/language/redux-toolkit/overview.mdx",
-        "doc:docs/language/redux-toolkit/toolkit.mdx"
+        "doc:docs/language/javascript/redux-toolkit/overview.mdx",
+        "doc:docs/language/javascript/redux-toolkit/toolkit.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -5856,9 +5790,9 @@
       "title": "Secret",
       "description": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
       "snippet": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
-      "url": "/docs/infrastructure/security/secret/overview",
+      "url": "/docs/infrastructure/kubernetes/secret/overview",
       "document_refs": [
-        "doc:docs/infrastructure/security/secret/overview.mdx"
+        "doc:docs/infrastructure/kubernetes/secret/overview.mdx"
       ],
       "ontology": {
         "domain": "infrastructure",
@@ -6236,10 +6170,10 @@
       "title": "Three.js",
       "description": "Three.js is a JavaScript 3D graphics library built on top of WebGL concepts and browser rendering APIs.",
       "snippet": "Three.js is a JavaScript 3D graphics library built on top of WebGL concepts and browser rendering APIs.",
-      "url": "/docs/language/threejs/overview",
+      "url": "/docs/language/javascript/threejs/overview",
       "document_refs": [
-        "doc:docs/language/threejs/overview.mdx",
-        "doc:docs/language/threejs/fundamentals.mdx"
+        "doc:docs/language/javascript/threejs/overview.mdx",
+        "doc:docs/language/javascript/threejs/fundamentals.mdx"
       ],
       "ontology": {
         "domain": "language",
@@ -7088,102 +7022,59 @@
     },
     {
       "type": "subject",
-      "id": "subject:language:library:cpp-grpc",
-      "title": "gRPC for C++",
-      "description": "gRPC for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
-      "snippet": "gRPC for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
-      "url": "/docs/language/cpp-grpc/overview",
+      "id": "subject:language:library:grpc",
+      "title": "gRPC",
+      "description": "## Language Bindings\n\n- C++\n- Go\n- Python\n\n## Protobuf\n\n- C++ Protobuf\n- Go Protobuf\n- Python Protobuf",
+      "snippet": "## Language Bindings\n\n- C++\n- Go\n- Python\n\n## Protobuf\n\n- C++ Protobuf\n- Go Protobuf\n- Python Protobuf",
+      "url": "/docs/language/grpc/overview",
       "document_refs": [
-        "doc:docs/language/cpp-grpc/overview.mdx",
-        "doc:docs/language/cpp-grpc/grpc.mdx",
-        "doc:docs/language/cpp-grpc/protobuf.mdx"
+        "doc:docs/language/grpc/overview.mdx",
+        "doc:docs/language/grpc/cpp/overview.mdx",
+        "doc:docs/language/grpc/go/overview.mdx",
+        "doc:docs/language/grpc/python/overview.mdx",
+        "doc:docs/language/grpc/cpp/grpc.mdx",
+        "doc:docs/language/grpc/cpp/protobuf.mdx",
+        "doc:docs/language/grpc/go/grpc.mdx",
+        "doc:docs/language/grpc/go/protobuf.mdx",
+        "doc:docs/language/grpc/go/type.mdx",
+        "doc:docs/language/grpc/python/grpc.mdx",
+        "doc:docs/language/grpc/python/protobuf.mdx",
+        "doc:docs/language/grpc/python/type.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "cpp-grpc"
+        "instance": "grpc"
       },
-      "search_text": "grpc for c grpc for c is a library subject in the cpp language ecosystem covered by this wiki grpc-cpp grpc for c grpc protobuf 컴파일 protobuf 컴파일 language library cpp-grpc",
+      "search_text": "grpc language bindings - c - go - python protobuf - c protobuf - go protobuf - python protobuf grpc-cpp grpc-go grpc-python grpc grpc for c grpc for go grpc for python grpc protobuf grpc protobuf protobuf type grpc protobuf protobuf type language bindings protobuf 컴파일 protobuf 컴파일 컴파일 protobuf 컴파일 변환 message - binary message - json protobuf type timestamp 컴파일 protobuf 컴파일 규칙 변환 message - binary message - json message - dict protobuf type timestamp language library grpc",
       "display": {
-        "label": "gRPC for C++",
+        "label": "gRPC",
         "kind": "subject",
-        "subtitle": "Cpp Grpc",
-        "document_count": 3
+        "subtitle": "Grpc",
+        "document_count": 12
       }
     },
     {
       "type": "subject",
-      "id": "subject:language:library:go-grpc",
-      "title": "gRPC for Go",
-      "description": "gRPC for Go is a library subject in the GO language ecosystem covered by this wiki.",
-      "snippet": "gRPC for Go is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-grpc/overview",
-      "document_refs": [
-        "doc:docs/language/go-grpc/overview.mdx",
-        "doc:docs/language/go-grpc/grpc.mdx",
-        "doc:docs/language/go-grpc/protobuf.mdx",
-        "doc:docs/language/go-grpc/type.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "go-grpc"
-      },
-      "search_text": "grpc for go grpc for go is a library subject in the go language ecosystem covered by this wiki grpc-go grpc for go grpc protobuf protobuf type 컴파일 protobuf 컴파일 변환 message - binary message - json protobuf type timestamp language library go-grpc",
-      "display": {
-        "label": "gRPC for Go",
-        "kind": "subject",
-        "subtitle": "Go Grpc",
-        "document_count": 4
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:library:python-grpc",
-      "title": "gRPC for Python",
-      "description": "gRPC for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "snippet": "gRPC for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
-      "url": "/docs/language/python-grpc/overview",
-      "document_refs": [
-        "doc:docs/language/python-grpc/overview.mdx",
-        "doc:docs/language/python-grpc/grpc.mdx",
-        "doc:docs/language/python-grpc/protobuf.mdx",
-        "doc:docs/language/python-grpc/type.mdx"
-      ],
-      "ontology": {
-        "domain": "language",
-        "class": "library",
-        "instance": "python-grpc"
-      },
-      "search_text": "grpc for python grpc for python is a library subject in the python language ecosystem covered by this wiki grpc-python grpc for python grpc protobuf protobuf type 컴파일 protobuf 컴파일 규칙 변환 message - binary message - json message - dict protobuf type timestamp language library python-grpc",
-      "display": {
-        "label": "gRPC for Python",
-        "kind": "subject",
-        "subtitle": "Python Grpc",
-        "document_count": 4
-      }
-    },
-    {
-      "type": "subject",
-      "id": "subject:language:library:go-swagger",
+      "id": "subject:language:library:swagger",
       "title": "go-swagger",
       "description": "go-swagger is a library subject in the GO language ecosystem covered by this wiki.",
       "snippet": "go-swagger is a library subject in the GO language ecosystem covered by this wiki.",
-      "url": "/docs/language/go-swagger/overview",
+      "url": "/docs/language/go/swagger/overview",
       "document_refs": [
-        "doc:docs/language/go-swagger/overview.mdx",
-        "doc:docs/language/go-swagger/swagger.mdx"
+        "doc:docs/language/go/swagger/overview.mdx",
+        "doc:docs/language/go/swagger/swagger.mdx"
       ],
       "ontology": {
         "domain": "language",
         "class": "library",
-        "instance": "go-swagger"
+        "instance": "swagger"
       },
-      "search_text": "go-swagger go-swagger is a library subject in the go language ecosystem covered by this wiki go-swagger swagger 설치 usage comments 형식 general api info api operation accept produce param router success failure response header language library go-swagger",
+      "search_text": "go-swagger go-swagger is a library subject in the go language ecosystem covered by this wiki go-swagger swagger 설치 usage comments 형식 general api info api operation accept produce param router success failure response header language library swagger",
       "display": {
         "label": "go-swagger",
         "kind": "subject",
-        "subtitle": "Go Swagger",
+        "subtitle": "Swagger",
         "document_count": 2
       }
     },
@@ -8351,7 +8242,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/install.mdx",
+      "id": "doc:docs/infrastructure/device/amd-gpu-operator/install.mdx",
       "title": "AMD GPU Operator",
       "description": "AMD GPU Operator install guide",
       "snippet": "…\n\ncert-manager가 설치되어있어야 합니다.\n\n``shell\nhelm repo add rocm https://rocm.github.io/gpu-operator\n`\n\n`shell\nhelm repo update rocm \\\n&& helm search repo rocm/gpu-operator-charts …",
@@ -8364,7 +8255,7 @@
         "amd-gpu-operator",
         "helm"
       ],
-      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/install",
+      "url": "/docs/infrastructure/device/amd-gpu-operator/install",
       "subject_ref": "subject:infrastructure:cluster-addon:amd-gpu-operator",
       "subject_title": "Amd Gpu Operator",
       "ontology": {
@@ -8383,7 +8274,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/amd-gpu-operator/crd.mdx",
+      "id": "doc:docs/infrastructure/device/amd-gpu-operator/crd.mdx",
       "title": "AMD GPU Operator CRD",
       "description": "AMD GPU Operator CRD",
       "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
@@ -8399,7 +8290,7 @@
         "amd-gpu-operator",
         "crd"
       ],
-      "url": "/docs/infrastructure/accelerator/amd-gpu-operator/crd",
+      "url": "/docs/infrastructure/device/amd-gpu-operator/crd",
       "subject_ref": "subject:infrastructure:cluster-addon:amd-gpu-operator",
       "subject_title": "Amd Gpu Operator",
       "ontology": {
@@ -8418,7 +8309,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/amd-device-plugin/install.mdx",
+      "id": "doc:docs/infrastructure/device/amd-device-plugin/install.mdx",
       "title": "AMD Kubernetes Device Plugin",
       "description": "AMD Device Plugin install guide",
       "snippet": "…- Node에 AMD GPU 드라이버가 설치되어 있어야 합니다.\n- Node의 capacity에 amd.com/gpu 자원이 표시되기 위해서는 amd-device-plugin을 설치해야합니다.\n- Pod에 amd.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - amd-smi 명령어를 통해 …",
@@ -8435,7 +8326,7 @@
         "device plugin",
         "amd-device-plugin"
       ],
-      "url": "/docs/infrastructure/accelerator/amd-device-plugin/install",
+      "url": "/docs/infrastructure/device/amd-device-plugin/install",
       "subject_ref": "subject:infrastructure:cluster-addon:amd-device-plugin",
       "subject_title": "Amd Device Plugin",
       "ontology": {
@@ -8454,7 +8345,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/rocm/overview.mdx",
+      "id": "doc:docs/infrastructure/device/rocm/overview.mdx",
       "title": "AMD ROCm",
       "description": "AMD ROCm",
       "snippet": "## ROCm 컨테이너\n\n- ROCm-docker GitHub / dev / ubuntu-2404.Dockerfile\n\n- ROCm Docs / ROCm I…",
@@ -8468,7 +8359,7 @@
         "kubernetes",
         "ROCm"
       ],
-      "url": "/docs/infrastructure/accelerator/rocm/overview",
+      "url": "/docs/infrastructure/device/rocm/overview",
       "subject_ref": "subject:infrastructure:cluster-addon:rocm",
       "subject_title": "Rocm",
       "ontology": {
@@ -8810,7 +8701,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/parallel-cluster/cluster.mdx",
+      "id": "doc:docs/infrastructure/cloud/parallel-cluster/cluster.mdx",
       "title": "AWS ParallelCluster",
       "description": "AWS ParallelCluster",
       "snippet": "## 클러스터 생성\n\n### 네트워크 구성\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/network-configuration-v3.html\n\n### cluster-config.yaml\n\n- 인스턴스 유형: ht…",
@@ -8826,7 +8717,7 @@
         "ParallelCluster",
         "pcluster"
       ],
-      "url": "/docs/infrastructure/kubernetes/parallel-cluster/cluster",
+      "url": "/docs/infrastructure/cloud/parallel-cluster/cluster",
       "subject_ref": "subject:infrastructure:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {
@@ -8845,7 +8736,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/parallel-cluster/custom-action.mdx",
+      "id": "doc:docs/infrastructure/cloud/parallel-cluster/custom-action.mdx",
       "title": "AWS ParallelCluster CustomActions",
       "description": "AWS ParallelCluster CustomActions",
       "snippet": "## HeadNode.CustomActions\n\n- https://docs.aws.amazon.com/ko_kr/parallelcluster/latest/ug/HeadNode-v3.html#HeadNode-v3-CustomActions\n\n``yaml title=\"cluster-con…",
@@ -8859,7 +8750,7 @@
         "custom actions",
         "start scripts"
       ],
-      "url": "/docs/infrastructure/kubernetes/parallel-cluster/custom-action",
+      "url": "/docs/infrastructure/cloud/parallel-cluster/custom-action",
       "subject_ref": "subject:infrastructure:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {
@@ -8971,7 +8862,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/admission-controller.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/admission-controller.mdx",
       "title": "Admission Controller",
       "description": "Admission Controller",
       "snippet": "## Admission Controller\n\n https://kubernetes.io/blog/2019/03/21/a-guide-to-kubernetes-admission-control…",
@@ -8984,7 +8875,7 @@
         "kubernetes",
         "admission controller"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/admission-controller",
+      "url": "/docs/infrastructure/kubernetes/admission-controller",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -9003,7 +8894,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/affinity.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/affinity.mdx",
       "title": "Affinity",
       "description": "node/pod affinity/anti-affinity",
       "snippet": "## nodeAffinity\n\n- Kubernetes / Concepts / Scheduling, Preemption and Eviction / Assigning Pods to Nodes\n\nnod…",
@@ -9016,7 +8907,7 @@
         "affinity",
         "anti-affinity"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/scheduling/affinity",
+      "url": "/docs/infrastructure/kubernetes/affinity",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -10975,7 +10866,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/crud.mdx",
+      "id": "doc:docs/language/go/gin/crud.mdx",
       "title": "CRUD",
       "description": "CRUD",
       "snippet": "## Entity\n\n``go\ntype ToDo struct {\n ID uuid.UUID\n UserID uuid.UUID\n Title string\n Category *string\n Description string\n CreatedAt time.Time\n UpdatedAt time.Time",
@@ -10989,21 +10880,21 @@
       "keywords": [
         "CRUD"
       ],
-      "url": "/docs/language/go-gin/crud",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin/crud",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "crud"
       },
-      "search_text": "crud crud entity go type todo struct id uuid uuid userid uuid uuid title string category string description string createdat time time updatedat time time entity create post read get update patch delete delete crud operation language library go-gin crud",
+      "search_text": "crud crud entity go type todo struct id uuid uuid userid uuid uuid title string category string description string createdat time time updatedat time time entity create post read get update patch delete delete crud operation language library gin crud",
       "display": {
         "label": "CRUD",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
@@ -12024,7 +11915,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/cdi/allocation.mdx",
+      "id": "doc:docs/infrastructure/device/cdi/allocation.mdx",
       "title": "Container Device Interface (CDI)",
       "description": "Container Device Interface (CDI)",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
@@ -12038,7 +11929,7 @@
         "Container Device Interface",
         "cdi"
       ],
-      "url": "/docs/infrastructure/kubernetes/cdi/allocation",
+      "url": "/docs/infrastructure/device/cdi/allocation",
       "subject_ref": "subject:infrastructure:cluster-addon:cdi",
       "subject_title": "Cdi",
       "ontology": {
@@ -12057,7 +11948,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/cdi/overview.mdx",
+      "id": "doc:docs/infrastructure/device/cdi/overview.mdx",
       "title": "Container Device Interface(CDI)",
       "description": "Container Device Interface(CDI)",
       "snippet": "…로는 /var/lib/kubelet/device-plugins/입니다.\n\n## CDI\n\n- https://github.com/cncf-tags/container-device-interface/blob/main/SPEC.md\n\nKubernetes 1.28에서 Alpha, 1.29에서 Beta로 추가되는 …",
@@ -12071,7 +11962,7 @@
         "Container Device Interface",
         "cdi"
       ],
-      "url": "/docs/infrastructure/kubernetes/cdi/overview",
+      "url": "/docs/infrastructure/device/cdi/overview",
       "subject_ref": "subject:infrastructure:cluster-addon:cdi",
       "subject_title": "Cdi",
       "ontology": {
@@ -12972,7 +12863,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/deploy.mdx",
+      "id": "doc:docs/language/go/gin/deploy.mdx",
       "title": "Deploy",
       "description": "Deploy Gin",
       "snippet": "…\n`\n\n- scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만, 디버깅이 어려울 수 있습니다.\n- https://github.com/gin-gonic/gin/blob/master/docs/doc.md#build-tags\n - msgpack을 사용하지 않는 다면 -tags nomsg…",
@@ -12989,21 +12880,21 @@
         "gin",
         "deploy"
       ],
-      "url": "/docs/language/go-gin/deploy",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin/deploy",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "deploy"
       },
-      "search_text": "deploy deploy gin - scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만 디버깅이 어려울 수 있습니다 - https //github com/gin-gonic/gin/blob/master/docs/doc md build-tags - msgpack을 사용하지 않는 다면 -tags nomsg dockerfile private 리포지토리를 사용해야 하능 경우 arg github token env goprivate github com/hhk7734 run apk add --no-cache git run git config --global url https // github token github com/ insteadof https //github com/ gin deploy operation language library go-gin deploy",
+      "search_text": "deploy deploy gin - scratch 이미지를 사용하면 작은 이미지를 만들 수 있지만 디버깅이 어려울 수 있습니다 - https //github com/gin-gonic/gin/blob/master/docs/doc md build-tags - msgpack을 사용하지 않는 다면 -tags nomsg dockerfile private 리포지토리를 사용해야 하능 경우 arg github token env goprivate github com/hhk7734 run apk add --no-cache git run git config --global url https // github token github com/ insteadof https //github com/ gin deploy operation language library gin deploy",
       "display": {
         "label": "Deploy",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
@@ -13925,7 +13816,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/nextjs/env.mdx",
+      "id": "doc:docs/language/javascript/nextjs/env.mdx",
       "title": "Environment Variables",
       "description": "Next.js Environment Variables",
       "snippet": "## 환경변수\n\n- https://nextjs.org/docs/basic-features/environment-variables\n\n- 환경변수는 process.env.를 통해 접근할 수 있습니다.\n- 기본적으로 환경변수는 Node.js 환경에서만 사용 …",
@@ -13940,7 +13831,7 @@
         "Next.js",
         "env"
       ],
-      "url": "/docs/language/nextjs/env",
+      "url": "/docs/language/javascript/nextjs/env",
       "subject_ref": "subject:language:framework:nextjs",
       "subject_title": "Nextjs",
       "ontology": {
@@ -14270,7 +14161,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-firebase/custom-email.mdx",
+      "id": "doc:docs/language/go/firebase/custom-email.mdx",
       "title": "Firebase Custom Email 보내기",
       "description": "Firebase Custom Email 보내기",
       "snippet": "## Custom Email 보내기\n\n- https://firebase.google.com/docs/auth/admin/email-action-links\n- https:/…",
@@ -14282,26 +14173,26 @@
         "firebase",
         "custom email"
       ],
-      "url": "/docs/language/go-firebase/custom-email",
-      "subject_ref": "subject:language:library:go-firebase",
-      "subject_title": "Go Firebase",
+      "url": "/docs/language/go/firebase/custom-email",
+      "subject_ref": "subject:language:library:firebase",
+      "subject_title": "Firebase",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-firebase",
+        "instance": "firebase",
         "aspect": "custom-email"
       },
-      "search_text": "firebase custom email 보내기 firebase custom email 보내기 custom email 보내기 - https //firebase google com/docs/auth/admin/email-action-links - https / custom email 보내기 이메일 처리 페이지 만들기 firebase custom email operation language library go-firebase custom-email",
+      "search_text": "firebase custom email 보내기 firebase custom email 보내기 custom email 보내기 - https //firebase google com/docs/auth/admin/email-action-links - https / custom email 보내기 이메일 처리 페이지 만들기 firebase custom email operation language library firebase custom-email",
       "display": {
         "label": "Firebase Custom Email 보내기",
         "kind": "document",
-        "subtitle": "Go Firebase"
+        "subtitle": "Firebase"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-firebase/overview.mdx",
+      "id": "doc:docs/language/go/firebase/overview.mdx",
       "title": "Firebase for Go",
       "description": "Firebase for Go library overview",
       "snippet": "Firebase for Go is a library subject in the GO language ecosystem covered by this wiki.",
@@ -14310,21 +14201,21 @@
         "go firebase",
         "go"
       ],
-      "url": "/docs/language/go-firebase/overview",
-      "subject_ref": "subject:language:library:go-firebase",
-      "subject_title": "Go Firebase",
+      "url": "/docs/language/go/firebase/overview",
+      "subject_ref": "subject:language:library:firebase",
+      "subject_title": "Firebase",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-firebase",
+        "instance": "firebase",
         "aspect": "overview"
       },
-      "search_text": "firebase for go firebase for go library overview firebase for go is a library subject in the go language ecosystem covered by this wiki go firebase go entity language library go-firebase overview",
+      "search_text": "firebase for go firebase for go library overview firebase for go is a library subject in the go language ecosystem covered by this wiki go firebase go entity language library firebase overview",
       "display": {
         "label": "Firebase for Go",
         "kind": "document",
-        "subtitle": "Go Firebase"
+        "subtitle": "Firebase"
       }
     },
     {
@@ -14616,7 +14507,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gorm/overview.mdx",
+      "id": "doc:docs/language/go/gorm/overview.mdx",
       "title": "GORM",
       "description": "GORM library overview",
       "snippet": "GORM is a library subject in the GO language ecosystem covered by this wiki.",
@@ -14625,21 +14516,21 @@
         "go gorm",
         "go"
       ],
-      "url": "/docs/language/go-gorm/overview",
-      "subject_ref": "subject:language:library:go-gorm",
-      "subject_title": "Go Gorm",
+      "url": "/docs/language/go/gorm/overview",
+      "subject_ref": "subject:language:library:gorm",
+      "subject_title": "Gorm",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-gorm",
+        "instance": "gorm",
         "aspect": "overview"
       },
-      "search_text": "gorm gorm library overview gorm is a library subject in the go language ecosystem covered by this wiki go gorm go entity language library go-gorm overview",
+      "search_text": "gorm gorm library overview gorm is a library subject in the go language ecosystem covered by this wiki go gorm go entity language library gorm overview",
       "display": {
         "label": "GORM",
         "kind": "document",
-        "subtitle": "Go Gorm"
+        "subtitle": "Gorm"
       }
     },
     {
@@ -14905,7 +14796,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/gin.mdx",
+      "id": "doc:docs/language/go/gin/gin.mdx",
       "title": "Gin",
       "description": "Gin",
       "snippet": "## 설치\n\n- https://github.com/gin-gonic/gin\n\n``shell\ngo get -u github.com/gin-gonic/gin\n``\n\n## Config\n\n- viper",
@@ -14916,26 +14807,26 @@
       "keywords": [
         "gin"
       ],
-      "url": "/docs/language/go-gin/gin",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "gin"
       },
-      "search_text": "gin gin 설치 - https //github com/gin-gonic/gin shell go get -u github com/gin-gonic/gin config - viper 설치 config gin operation language library go-gin gin",
+      "search_text": "gin gin 설치 - https //github com/gin-gonic/gin shell go get -u github com/gin-gonic/gin config - viper 설치 config gin operation language library gin gin",
       "display": {
         "label": "Gin",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/overview.mdx",
+      "id": "doc:docs/language/go/gin/overview.mdx",
       "title": "Gin for Go",
       "description": "Gin for Go library overview",
       "snippet": "Gin for Go is a library subject in the GO language ecosystem covered by this wiki.",
@@ -14944,21 +14835,21 @@
         "go gin",
         "go"
       ],
-      "url": "/docs/language/go-gin/overview",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin/overview",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "overview"
       },
-      "search_text": "gin for go gin for go library overview gin for go is a library subject in the go language ecosystem covered by this wiki go gin go entity language library go-gin overview",
+      "search_text": "gin for go gin for go library overview gin for go is a library subject in the go language ecosystem covered by this wiki go gin go entity language library gin overview",
       "display": {
         "label": "Gin for Go",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
@@ -15440,7 +15331,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-opentelemetry/propagation.mdx",
+      "id": "doc:docs/language/go/opentelemetry/propagation.mdx",
       "title": "Go OpenTelemetry Propagation 설정 가이드",
       "description": "Go OpenTelemetry Propagation 설정 가이드",
       "snippet": "…CompositeTextMapPropagator\n\n여러 propagator를 조합하여 사용하는 propagator입니다.\n\n``go\n\n \"go.opentelemetry.io/otel\"\n \"go.opentelemetry.io/otel/propagation\"\n)\n\notel.SetTextMapPropagator(p…",
@@ -15455,26 +15346,26 @@
         "OpenTelemetry",
         "Propagation"
       ],
-      "url": "/docs/language/go-opentelemetry/propagation",
-      "subject_ref": "subject:language:library:go-opentelemetry",
-      "subject_title": "Go Opentelemetry",
+      "url": "/docs/language/go/opentelemetry/propagation",
+      "subject_ref": "subject:language:library:opentelemetry",
+      "subject_title": "Opentelemetry",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-opentelemetry",
+        "instance": "opentelemetry",
         "aspect": "propagation"
       },
-      "search_text": "go opentelemetry propagation 설정 가이드 go opentelemetry propagation 설정 가이드 compositetextmappropagator 여러 propagator를 조합하여 사용하는 propagator입니다 go go opentelemetry io/otel go opentelemetry io/otel/propagation otel settextmappropagator p textmappropagator tracecontext baggage compositetextmappropagator go opentelemetry propagation operation language library go-opentelemetry propagation",
+      "search_text": "go opentelemetry propagation 설정 가이드 go opentelemetry propagation 설정 가이드 compositetextmappropagator 여러 propagator를 조합하여 사용하는 propagator입니다 go go opentelemetry io/otel go opentelemetry io/otel/propagation otel settextmappropagator p textmappropagator tracecontext baggage compositetextmappropagator go opentelemetry propagation operation language library opentelemetry propagation",
       "display": {
         "label": "Go OpenTelemetry Propagation 설정 가이드",
         "kind": "document",
-        "subtitle": "Go Opentelemetry"
+        "subtitle": "Opentelemetry"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-opentelemetry/trace.mdx",
+      "id": "doc:docs/language/go/opentelemetry/trace.mdx",
       "title": "Go OpenTelemetry Trace 설정 가이드",
       "description": "Go OpenTelemetry Trace 설정 가이드",
       "snippet": "## TracerProvider\n\n``go\n\n \"go.opentelemetry.io/otel\"\n \"go.opentelemetry.io/otel/sdk/trace\"\n)\n\nshutdowns := []func(context.C…",
@@ -15491,26 +15382,26 @@
         "OpenTelemetry",
         "Trace"
       ],
-      "url": "/docs/language/go-opentelemetry/trace",
-      "subject_ref": "subject:language:library:go-opentelemetry",
-      "subject_title": "Go Opentelemetry",
+      "url": "/docs/language/go/opentelemetry/trace",
+      "subject_ref": "subject:language:library:opentelemetry",
+      "subject_title": "Opentelemetry",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-opentelemetry",
+        "instance": "opentelemetry",
         "aspect": "trace"
       },
-      "search_text": "go opentelemetry trace 설정 가이드 go opentelemetry trace 설정 가이드 tracerprovider go go opentelemetry io/otel go opentelemetry io/otel/sdk/trace shutdowns func context c tracerprovider exporter console http grpc sampler go opentelemetry trace operation language library go-opentelemetry trace",
+      "search_text": "go opentelemetry trace 설정 가이드 go opentelemetry trace 설정 가이드 tracerprovider go go opentelemetry io/otel go opentelemetry io/otel/sdk/trace shutdowns func context c tracerprovider exporter console http grpc sampler go opentelemetry trace operation language library opentelemetry trace",
       "display": {
         "label": "Go OpenTelemetry Trace 설정 가이드",
         "kind": "document",
-        "subtitle": "Go Opentelemetry"
+        "subtitle": "Opentelemetry"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-reverse-proxy/overview.mdx",
+      "id": "doc:docs/language/go/reverse-proxy/overview.mdx",
       "title": "Go Reverse Proxy",
       "description": "Go Reverse Proxy library overview",
       "snippet": "Go Reverse Proxy is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15519,26 +15410,26 @@
         "go reverse proxy",
         "go"
       ],
-      "url": "/docs/language/go-reverse-proxy/overview",
-      "subject_ref": "subject:language:library:go-reverse-proxy",
-      "subject_title": "Go Reverse Proxy",
+      "url": "/docs/language/go/reverse-proxy/overview",
+      "subject_ref": "subject:language:library:reverse-proxy",
+      "subject_title": "Reverse Proxy",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-reverse-proxy",
+        "instance": "reverse-proxy",
         "aspect": "overview"
       },
-      "search_text": "go reverse proxy go reverse proxy library overview go reverse proxy is a library subject in the go language ecosystem covered by this wiki go reverse proxy go entity language library go-reverse-proxy overview",
+      "search_text": "go reverse proxy go reverse proxy library overview go reverse proxy is a library subject in the go language ecosystem covered by this wiki go reverse proxy go entity language library reverse-proxy overview",
       "display": {
         "label": "Go Reverse Proxy",
         "kind": "document",
-        "subtitle": "Go Reverse Proxy"
+        "subtitle": "Reverse Proxy"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-smtp/overview.mdx",
+      "id": "doc:docs/language/go/smtp/overview.mdx",
       "title": "Go SMTP",
       "description": "Go SMTP library overview",
       "snippet": "Go SMTP is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15547,26 +15438,26 @@
         "go smtp",
         "go"
       ],
-      "url": "/docs/language/go-smtp/overview",
-      "subject_ref": "subject:language:library:go-smtp",
-      "subject_title": "Go Smtp",
+      "url": "/docs/language/go/smtp/overview",
+      "subject_ref": "subject:language:library:smtp",
+      "subject_title": "Smtp",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-smtp",
+        "instance": "smtp",
         "aspect": "overview"
       },
-      "search_text": "go smtp go smtp library overview go smtp is a library subject in the go language ecosystem covered by this wiki go smtp go entity language library go-smtp overview",
+      "search_text": "go smtp go smtp library overview go smtp is a library subject in the go language ecosystem covered by this wiki go smtp go entity language library smtp overview",
       "display": {
         "label": "Go SMTP",
         "kind": "document",
-        "subtitle": "Go Smtp"
+        "subtitle": "Smtp"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-session/overview.mdx",
+      "id": "doc:docs/language/go/session/overview.mdx",
       "title": "Go Session",
       "description": "Go Session library overview",
       "snippet": "Go Session is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15575,21 +15466,21 @@
         "go session",
         "go"
       ],
-      "url": "/docs/language/go-session/overview",
-      "subject_ref": "subject:language:library:go-session",
-      "subject_title": "Go Session",
+      "url": "/docs/language/go/session/overview",
+      "subject_ref": "subject:language:library:session",
+      "subject_title": "Session",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-session",
+        "instance": "session",
         "aspect": "overview"
       },
-      "search_text": "go session go session library overview go session is a library subject in the go language ecosystem covered by this wiki go session go entity language library go-session overview",
+      "search_text": "go session go session library overview go session is a library subject in the go language ecosystem covered by this wiki go session go entity language library session overview",
       "display": {
         "label": "Go Session",
         "kind": "document",
-        "subtitle": "Go Session"
+        "subtitle": "Session"
       }
     },
     {
@@ -15627,7 +15518,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-websocket/overview.mdx",
+      "id": "doc:docs/language/go/websocket/overview.mdx",
       "title": "Go WebSocket",
       "description": "Go WebSocket library overview",
       "snippet": "Go WebSocket is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15636,26 +15527,26 @@
         "go websocket",
         "go"
       ],
-      "url": "/docs/language/go-websocket/overview",
-      "subject_ref": "subject:language:library:go-websocket",
-      "subject_title": "Go Websocket",
+      "url": "/docs/language/go/websocket/overview",
+      "subject_ref": "subject:language:library:websocket",
+      "subject_title": "Websocket",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-websocket",
+        "instance": "websocket",
         "aspect": "overview"
       },
-      "search_text": "go websocket go websocket library overview go websocket is a library subject in the go language ecosystem covered by this wiki go websocket go entity language library go-websocket overview",
+      "search_text": "go websocket go websocket library overview go websocket is a library subject in the go language ecosystem covered by this wiki go websocket go entity language library websocket overview",
       "display": {
         "label": "Go WebSocket",
         "kind": "document",
-        "subtitle": "Go Websocket"
+        "subtitle": "Websocket"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-encoding-json/overview.mdx",
+      "id": "doc:docs/language/go/encoding-json/overview.mdx",
       "title": "Go encoding/json",
       "description": "Go encoding/json library overview",
       "snippet": "Go encoding/json is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15664,26 +15555,26 @@
         "go encoding json",
         "go"
       ],
-      "url": "/docs/language/go-encoding-json/overview",
-      "subject_ref": "subject:language:library:go-encoding-json",
-      "subject_title": "Go Encoding Json",
+      "url": "/docs/language/go/encoding-json/overview",
+      "subject_ref": "subject:language:library:encoding-json",
+      "subject_title": "Encoding Json",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-encoding-json",
+        "instance": "encoding-json",
         "aspect": "overview"
       },
-      "search_text": "go encoding/json go encoding/json library overview go encoding/json is a library subject in the go language ecosystem covered by this wiki go encoding json go entity language library go-encoding-json overview",
+      "search_text": "go encoding/json go encoding/json library overview go encoding/json is a library subject in the go language ecosystem covered by this wiki go encoding json go entity language library encoding-json overview",
       "display": {
         "label": "Go encoding/json",
         "kind": "document",
-        "subtitle": "Go Encoding Json"
+        "subtitle": "Encoding Json"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-time/overview.mdx",
+      "id": "doc:docs/language/go/time/overview.mdx",
       "title": "Go time",
       "description": "Go time library overview",
       "snippet": "Go time is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15692,26 +15583,26 @@
         "go time",
         "go"
       ],
-      "url": "/docs/language/go-time/overview",
-      "subject_ref": "subject:language:library:go-time",
-      "subject_title": "Go Time",
+      "url": "/docs/language/go/time/overview",
+      "subject_ref": "subject:language:library:time",
+      "subject_title": "Time",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-time",
+        "instance": "time",
         "aspect": "overview"
       },
-      "search_text": "go time go time library overview go time is a library subject in the go language ecosystem covered by this wiki go time go entity language library go-time overview",
+      "search_text": "go time go time library overview go time is a library subject in the go language ecosystem covered by this wiki go time go entity language library time overview",
       "display": {
         "label": "Go time",
         "kind": "document",
-        "subtitle": "Go Time"
+        "subtitle": "Time"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-validator/overview.mdx",
+      "id": "doc:docs/language/go/validator/overview.mdx",
       "title": "Go validator",
       "description": "Go validator library overview",
       "snippet": "Go validator is a library subject in the GO language ecosystem covered by this wiki.",
@@ -15720,21 +15611,21 @@
         "go validator",
         "go"
       ],
-      "url": "/docs/language/go-validator/overview",
-      "subject_ref": "subject:language:library:go-validator",
-      "subject_title": "Go Validator",
+      "url": "/docs/language/go/validator/overview",
+      "subject_ref": "subject:language:library:validator",
+      "subject_title": "Validator",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-validator",
+        "instance": "validator",
         "aspect": "overview"
       },
-      "search_text": "go validator go validator library overview go validator is a library subject in the go language ecosystem covered by this wiki go validator go entity language library go-validator overview",
+      "search_text": "go validator go validator library overview go validator is a library subject in the go language ecosystem covered by this wiki go validator go entity language library validator overview",
       "display": {
         "label": "Go validator",
         "kind": "document",
-        "subtitle": "Go Validator"
+        "subtitle": "Validator"
       }
     },
     {
@@ -15802,7 +15693,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/shutdown.mdx",
+      "id": "doc:docs/language/go/gin/shutdown.mdx",
       "title": "Graceful Shutdown",
       "description": "Graceful Shutdown",
       "snippet": "## Graceful Shutdown\n\n``go\nfunc main() {\n //\n // Startup\n //\n\n // ...\n\n server := &http.Ser…",
@@ -15815,21 +15706,21 @@
         "graceful",
         "shutdown"
       ],
-      "url": "/docs/language/go-gin/shutdown",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin/shutdown",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "shutdown"
       },
-      "search_text": "graceful shutdown graceful shutdown graceful shutdown go func main // // startup // // server http ser graceful shutdown gin go graceful shutdown operation language library go-gin shutdown",
+      "search_text": "graceful shutdown graceful shutdown graceful shutdown go func main // // startup // // server http ser graceful shutdown gin go graceful shutdown operation language library gin shutdown",
       "display": {
         "label": "Graceful Shutdown",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
@@ -16057,7 +15948,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-reverse-proxy/reverse-proxy.mdx",
+      "id": "doc:docs/language/go/reverse-proxy/reverse-proxy.mdx",
       "title": "HTTP Reverse Proxy 설정 가이드",
       "description": "HTTP Reverse Proxy 설정 가이드",
       "snippet": "## httputil.ReverseProxy\n\n``go\n\n \"net/http\"\n \"net/http/httputil\"\n)\n`\n\n### Director or Rewrite 설정\n\nD…",
@@ -16072,21 +15963,21 @@
         "http",
         "reverse proxy"
       ],
-      "url": "/docs/language/go-reverse-proxy/reverse-proxy",
-      "subject_ref": "subject:language:library:go-reverse-proxy",
-      "subject_title": "Go Reverse Proxy",
+      "url": "/docs/language/go/reverse-proxy",
+      "subject_ref": "subject:language:library:reverse-proxy",
+      "subject_title": "Reverse Proxy",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-reverse-proxy",
+        "instance": "reverse-proxy",
         "aspect": "reverse-proxy"
       },
-      "search_text": "http reverse proxy 설정 가이드 http reverse proxy 설정 가이드 httputil reverseproxy go net/http net/http/httputil director or rewrite 설정 d httputil reverseproxy director or rewrite 설정 httputil newsinglehostreverseproxy opentelemetry transport errorhandler http reverse proxy operation language library go-reverse-proxy reverse-proxy",
+      "search_text": "http reverse proxy 설정 가이드 http reverse proxy 설정 가이드 httputil reverseproxy go net/http net/http/httputil director or rewrite 설정 d httputil reverseproxy director or rewrite 설정 httputil newsinglehostreverseproxy opentelemetry transport errorhandler http reverse proxy operation language library reverse-proxy reverse-proxy",
       "display": {
         "label": "HTTP Reverse Proxy 설정 가이드",
         "kind": "document",
-        "subtitle": "Go Reverse Proxy"
+        "subtitle": "Reverse Proxy"
       }
     },
     {
@@ -16459,7 +16350,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/security/istio-csr/csr.mdx",
+      "id": "doc:docs/infrastructure/networking/istio/istio-csr.mdx",
       "title": "Istio CSR",
       "description": "Istio CSR",
       "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
@@ -16472,21 +16363,21 @@
         "Istio",
         "CSR"
       ],
-      "url": "/docs/infrastructure/security/istio-csr/csr",
-      "subject_ref": "subject:infrastructure:service-mesh:istio-csr",
-      "subject_title": "Istio Csr",
+      "url": "/docs/infrastructure/networking/istio/istio-csr",
+      "subject_ref": "subject:infrastructure:service-mesh:istio",
+      "subject_title": "Istio",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
         "class": "service-mesh",
-        "instance": "istio-csr",
-        "aspect": "csr"
+        "instance": "istio",
+        "aspect": "istio-csr"
       },
-      "search_text": "istio csr istio csr name istio-ca namespace istio-system spec ca secretname istio-ca istio-csr intermediate ca shell kubectl create secret generic -n auth istio-root-ca root ca 발급 istio-csr intermediate ca istiod istio csr operation infrastructure service-mesh istio-csr csr",
+      "search_text": "istio csr istio csr name istio-ca namespace istio-system spec ca secretname istio-ca istio-csr intermediate ca shell kubectl create secret generic -n auth istio-root-ca root ca 발급 istio-csr intermediate ca istiod istio csr operation infrastructure service-mesh istio istio-csr",
       "display": {
         "label": "Istio CSR",
         "kind": "document",
-        "subtitle": "Istio Csr"
+        "subtitle": "Istio"
       }
     },
     {
@@ -16587,7 +16478,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/security/jwt/overview.mdx",
+      "id": "doc:docs/protocol/jwt/overview.mdx",
       "title": "JWT",
       "description": "JWT",
       "snippet": "## Algorithm\n\n### RS256\n\n``shell\nssh-keygen -t rsa -b 2048 -m PEM -f jwt.key -N \"\"\n`\n\n`shell\nopenssl rsa -in jwt.key -pubout -outform PEM -out jwt.pub\n`…",
@@ -16603,17 +16494,17 @@
       "keywords": [
         "jwt"
       ],
-      "url": "/docs/infrastructure/security/jwt/overview",
-      "subject_ref": "subject:infrastructure:service-mesh:jwt",
+      "url": "/docs/protocol/jwt/overview",
+      "subject_ref": "subject:protocol:application-protocol:jwt",
       "subject_title": "Jwt",
       "ontology": {
         "role": "entity",
-        "domain": "infrastructure",
-        "class": "service-mesh",
+        "domain": "protocol",
+        "class": "application-protocol",
         "instance": "jwt",
         "aspect": "overview"
       },
-      "search_text": "jwt jwt algorithm rs256 shell ssh-keygen -t rsa -b 2048 -m pem -f jwt key -n shell openssl rsa -in jwt key -pubout -outform pem -out jwt pub algorithm rs256 token payload requestauthentication authorizationpolicy reference jwt entity infrastructure service-mesh jwt overview",
+      "search_text": "jwt jwt algorithm rs256 shell ssh-keygen -t rsa -b 2048 -m pem -f jwt key -n shell openssl rsa -in jwt key -pubout -outform pem -out jwt pub algorithm rs256 token payload requestauthentication authorizationpolicy reference jwt entity protocol application-protocol jwt overview",
       "display": {
         "label": "JWT",
         "kind": "document",
@@ -16681,7 +16572,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/jotai/overview.mdx",
+      "id": "doc:docs/language/javascript/jotai/overview.mdx",
       "title": "Jotai",
       "description": "React 상태 관리를 위한 Jotai 라이브러리",
       "snippet": "## primitive Atom 사용하기\n\n``ts\n\nconst countAtom = atom(0);\n\nfunction Counter() {\n const [count, setCount] = useAtom(countAtom);\n return (\n\n count: {count}\n\n setCo",
@@ -16695,7 +16586,7 @@
         "react",
         "state"
       ],
-      "url": "/docs/language/jotai/overview",
+      "url": "/docs/language/javascript/jotai/overview",
       "subject_ref": "subject:language:library:jotai",
       "subject_title": "Jotai",
       "ontology": {
@@ -17438,7 +17329,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/konnectivity.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/konnectivity.mdx",
       "title": "Konnectivity를 통해 Node에 접근하기",
       "description": "Konnectivity를 통해 Node에 접근하기",
       "snippet": "…\n\nNode에서 Control Plane은 접근할 수 있지만, Control Plane에서 Node는 접근할 수 없는 경우가 있습니다. 이때, Konnectivity를 사용하여 각 Node의 agent가 미리 server와 tunnel을 만들어두면 kube-apiserver가 Node의 kubelet에 접근할…",
@@ -17453,7 +17344,7 @@
         "service",
         "konnectivity"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/konnectivity",
+      "url": "/docs/infrastructure/kubernetes/konnectivity",
       "subject_ref": "subject:infrastructure:networking:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -17708,7 +17599,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/overview.mdx",
+      "id": "doc:docs/language/go/kubebuilder/overview.mdx",
       "title": "Kubebuilder",
       "description": "Kubebuilder library overview",
       "snippet": "Kubebuilder is a library subject in the GO language ecosystem covered by this wiki.",
@@ -17717,26 +17608,26 @@
         "go kubebuilder",
         "go"
       ],
-      "url": "/docs/language/go-kubebuilder/overview",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder/overview",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "overview"
       },
-      "search_text": "kubebuilder kubebuilder library overview kubebuilder is a library subject in the go language ecosystem covered by this wiki go kubebuilder go entity language library go-kubebuilder overview",
+      "search_text": "kubebuilder kubebuilder library overview kubebuilder is a library subject in the go language ecosystem covered by this wiki go kubebuilder go entity language library kubebuilder overview",
       "display": {
         "label": "Kubebuilder",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/controller-gen.mdx",
+      "id": "doc:docs/language/go/kubebuilder/controller-gen.mdx",
       "title": "Kubebuilder controller-gen CLI",
       "description": "Kubebuilder controller-gen CLI",
       "snippet": "## controller-gen\n\n- controller-gen\n\n``shell\ncontroller-gen []\n`\n\n-\n - [:[,]]\n - webhook\n - schem…",
@@ -17751,26 +17642,26 @@
         "kubebuilder",
         "controller-gen"
       ],
-      "url": "/docs/language/go-kubebuilder/controller-gen",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder/controller-gen",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "controller-gen"
       },
-      "search_text": "kubebuilder controller-gen cli kubebuilder controller-gen cli controller-gen - controller-gen shell controller-gen - - - webhook - schem controller-gen crd 생성 rbac 생성 object/deepcopy 코드 생성 webhook 생성 kubebuilder controller-gen operation language library go-kubebuilder controller-gen",
+      "search_text": "kubebuilder controller-gen cli kubebuilder controller-gen cli controller-gen - controller-gen shell controller-gen - - - webhook - schem controller-gen crd 생성 rbac 생성 object/deepcopy 코드 생성 webhook 생성 kubebuilder controller-gen operation language library kubebuilder controller-gen",
       "display": {
         "label": "Kubebuilder controller-gen CLI",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/kubebuilder.mdx",
+      "id": "doc:docs/language/go/kubebuilder/kubebuilder.mdx",
       "title": "Kubebuilder를 사용한 Kubernetes operator 개발 가이드",
       "description": "Kubebuilder를 사용한 Kubernetes operator 개발 가이드",
       "snippet": "## 설치\n\n- mise로 런타임 버전 관리하기\n\n## Project 생성\n\n- Kubebuilder / Getting Started\n- Kubebuilder / Projects\n\nGo # Setup을 참고하여 Go 모듈을 초기화합니다.\n\n``…",
@@ -17784,21 +17675,21 @@
         "kubebuilder",
         "operator"
       ],
-      "url": "/docs/language/go-kubebuilder/kubebuilder",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "kubebuilder"
       },
-      "search_text": "kubebuilder를 사용한 kubernetes operator 개발 가이드 kubebuilder를 사용한 kubernetes operator 개발 가이드 설치 - mise로 런타임 버전 관리하기 project 생성 - kubebuilder / getting started - kubebuilder / projects go setup을 참고하여 go 모듈을 초기화합니다 설치 project 생성 api 생성 webhook 생성 kubebuilder operator operation language library go-kubebuilder kubebuilder",
+      "search_text": "kubebuilder를 사용한 kubernetes operator 개발 가이드 kubebuilder를 사용한 kubernetes operator 개발 가이드 설치 - mise로 런타임 버전 관리하기 project 생성 - kubebuilder / getting started - kubebuilder / projects go setup을 참고하여 go 모듈을 초기화합니다 설치 project 생성 api 생성 webhook 생성 kubebuilder operator operation language library kubebuilder kubebuilder",
       "display": {
         "label": "Kubebuilder를 사용한 Kubernetes operator 개발 가이드",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
@@ -17963,7 +17854,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/controller.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/controller.mdx",
       "title": "Kubernetes Controller",
       "description": "Kubernetes Controller",
       "snippet": "## Controller\n\n- Controllers\n\n로봇 공학이나 자동화 분야에서 컨트롤 루프는 시스템의 상태를 제어하는 무한 루프를 의미합니다. 컨트롤 루프는 현재…",
@@ -17975,7 +17866,7 @@
         "Makefile",
         "help"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/controller",
+      "url": "/docs/infrastructure/kubernetes/controller",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -18190,7 +18081,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/security/rbac/overview.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/rbac/overview.mdx",
       "title": "Kubernetes 인가(Authz); RBAC",
       "description": "kubernetes 인가(Authz); RBAC",
       "snippet": "- https://kubernetes.io/docs/reference/access-authn-authz/rbac/\n\n## API server\n\nKubernetes API는 아래와 …",
@@ -18207,7 +18098,7 @@
         "authz",
         "rbac"
       ],
-      "url": "/docs/infrastructure/security/rbac/overview",
+      "url": "/docs/infrastructure/kubernetes/rbac/overview",
       "subject_ref": "subject:infrastructure:auth-system:rbac",
       "subject_title": "Rbac",
       "ontology": {
@@ -18831,7 +18722,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/labels.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/labels.mdx",
       "title": "Label",
       "description": "kubernetes label",
       "snippet": "## Labels\n\n- Kubernetes Docs / Concepts / Overview / Labels and Selectors\n\n- : 형태로 구성됩니다.\n -\n - [/]으로 설…",
@@ -18844,7 +18735,7 @@
         "kubernetes",
         "label"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/labels",
+      "url": "/docs/infrastructure/kubernetes/labels",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -20535,7 +20426,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/node-feature-discovery/node-feature-rule.mdx",
+      "id": "doc:docs/infrastructure/device/node-feature-discovery/node-feature-rule.mdx",
       "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "description": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
       "snippet": "…ker로부터 받은 feature를 feature.node.kubernetes.io/-[.]: 형식의 label로 Node에 추가합니다.\n\n## NodeFeatureRule\n\n- NFD / Customization guide # NodeFeatureRule\n\n``yaml\napiVersion: nfd.k8s-sigs…",
@@ -20548,7 +20439,7 @@
         "NFD",
         "NodeFeatureRule"
       ],
-      "url": "/docs/infrastructure/accelerator/node-feature-discovery/node-feature-rule",
+      "url": "/docs/infrastructure/device/node-feature-discovery/node-feature-rule",
       "subject_ref": "subject:infrastructure:cluster-addon:node-feature-discovery",
       "subject_title": "Node Feature Discovery",
       "ontology": {
@@ -20567,7 +20458,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/nvidia-container-toolkit/install.mdx",
+      "id": "doc:docs/infrastructure/device/nvidia-container-toolkit/install.mdx",
       "title": "NVIDIA Container Toolkit",
       "description": "NVIDIA Container Toolkit",
       "snippet": "…om/datacenter/cloud-native/container-toolkit/install-guide.html\n\n``shell\nyay -S nvidia-container-toolkit\n`\n\n`shell\nnvidia-ctk --version\n`\n\n`shell\nsudo nvidia-ctk cdi generate --output=…",
@@ -20579,7 +20470,7 @@
         "Container Toolkit",
         "nvidia-container-toolkit"
       ],
-      "url": "/docs/infrastructure/accelerator/nvidia-container-toolkit/install",
+      "url": "/docs/infrastructure/device/nvidia-container-toolkit/install",
       "subject_ref": "subject:infrastructure:container-platform:nvidia-container-toolkit",
       "subject_title": "Nvidia Container Toolkit",
       "ontology": {
@@ -20598,7 +20489,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/nvidia-gpu-operator/install.mdx",
+      "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
       "title": "NVIDIA GPU Operator",
       "description": "NVIDIA GPU Operator",
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
@@ -20613,7 +20504,7 @@
         "nvidia",
         "nvidia-gpu-operator"
       ],
-      "url": "/docs/infrastructure/accelerator/nvidia-gpu-operator/install",
+      "url": "/docs/infrastructure/device/nvidia-gpu-operator/install",
       "subject_ref": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
       "subject_title": "Nvidia Gpu Operator",
       "ontology": {
@@ -20632,7 +20523,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/nvidia-device-plugin/install.mdx",
+      "id": "doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx",
       "title": "NVIDIA Kubernetes Device Plugin",
       "description": "NVIDIA Device Plugin install guide",
       "snippet": "## nvidia.com/gpu 자원\n\n- Node의 capacity에 nvidia.com/gpu 자원이 표시되기 위해서는 nvidia-device-plugin을 설치해야합니다.\n- Pod에 nvidia.com/gpu 자원을 설정하면 GPU 지원 컨테이너로 스케줄링됩니다.\n - nvidia-smi 명령…",
@@ -20646,7 +20537,7 @@
         "device plugin",
         "nvidia-device-plugin"
       ],
-      "url": "/docs/infrastructure/accelerator/nvidia-device-plugin/install",
+      "url": "/docs/infrastructure/device/nvidia-device-plugin/install",
       "subject_ref": "subject:infrastructure:cluster-addon:nvidia-device-plugin",
       "subject_title": "Nvidia Device Plugin",
       "ontology": {
@@ -20982,7 +20873,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/nextjs/overview.mdx",
+      "id": "doc:docs/language/javascript/nextjs/overview.mdx",
       "title": "Next.js",
       "description": "Next.js",
       "snippet": "…xtjs.org/docs/advanced-features/output-file-tracing\n- https://github.com/vercel/next.js/tree/canary/examples/with-docker\n\n이미지 최적화를 사용하는 경우 sharp를 종속성으로 추가해야 합니다.\n\n`she…",
@@ -20999,7 +20890,7 @@
       "keywords": [
         "Next.js"
       ],
-      "url": "/docs/language/nextjs/overview",
+      "url": "/docs/language/javascript/nextjs/overview",
       "subject_ref": "subject:language:framework:nextjs",
       "subject_title": "Nextjs",
       "ontology": {
@@ -21018,7 +20909,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/accelerator/node-feature-discovery/install.mdx",
+      "id": "doc:docs/infrastructure/device/node-feature-discovery/install.mdx",
       "title": "Node Feature Discovery(NFD) 설치 가이드",
       "description": "Node Feature Discovery(NFD) 설치 가이드",
       "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
@@ -21029,7 +20920,7 @@
         "node feature discovery",
         "nfd"
       ],
-      "url": "/docs/infrastructure/accelerator/node-feature-discovery/install",
+      "url": "/docs/infrastructure/device/node-feature-discovery/install",
       "subject_ref": "subject:infrastructure:cluster-addon:node-feature-discovery",
       "subject_title": "Node Feature Discovery",
       "ontology": {
@@ -21080,7 +20971,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/node-operations/drain-node.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/drain-node.mdx",
       "title": "Node를 비우고 제거하기",
       "description": "Node를 비우고 제거하기",
       "snippet": "…Pod 비우기\n\n`shell\nkubectl drain --ignore-daemonsets\n`\n\n## Node 제거\n\n`shell\nkubectl delete node\n``",
@@ -21096,7 +20987,7 @@
         "delete",
         "node"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/node-operations/drain-node",
+      "url": "/docs/infrastructure/kubernetes/drain-node",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -21844,7 +21735,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-opentelemetry/overview.mdx",
+      "id": "doc:docs/language/go/opentelemetry/overview.mdx",
       "title": "OpenTelemetry for Go",
       "description": "OpenTelemetry for Go library overview",
       "snippet": "OpenTelemetry for Go is a library subject in the GO language ecosystem covered by this wiki.",
@@ -21853,21 +21744,21 @@
         "go opentelemetry",
         "go"
       ],
-      "url": "/docs/language/go-opentelemetry/overview",
-      "subject_ref": "subject:language:library:go-opentelemetry",
-      "subject_title": "Go Opentelemetry",
+      "url": "/docs/language/go/opentelemetry/overview",
+      "subject_ref": "subject:language:library:opentelemetry",
+      "subject_title": "Opentelemetry",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-opentelemetry",
+        "instance": "opentelemetry",
         "aspect": "overview"
       },
-      "search_text": "opentelemetry for go opentelemetry for go library overview opentelemetry for go is a library subject in the go language ecosystem covered by this wiki go opentelemetry go entity language library go-opentelemetry overview",
+      "search_text": "opentelemetry for go opentelemetry for go library overview opentelemetry for go is a library subject in the go language ecosystem covered by this wiki go opentelemetry go entity language library opentelemetry overview",
       "display": {
         "label": "OpenTelemetry for Go",
         "kind": "document",
-        "subtitle": "Go Opentelemetry"
+        "subtitle": "Opentelemetry"
       }
     },
     {
@@ -22207,7 +22098,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/security/security-context/overview.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/security-context/overview.mdx",
       "title": "PodSecurityContext와 SecurityContext",
       "description": "PodSecurityContext와 SecurityContext",
       "snippet": "## PodSecurityContext\n\n- https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#podsecu…",
@@ -22220,7 +22111,7 @@
         "SecurityContext",
         "PodSecurityContext"
       ],
-      "url": "/docs/infrastructure/security/security-context/overview",
+      "url": "/docs/infrastructure/kubernetes/security-context/overview",
       "subject_ref": "subject:infrastructure:security:security-context",
       "subject_title": "Security Context",
       "ontology": {
@@ -22654,7 +22545,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/javascript-prisma/prisma.mdx",
+      "id": "doc:docs/language/javascript/prisma/prisma.mdx",
       "title": "Prisma ORM",
       "description": "Prisma ORM",
       "snippet": "## 설치\n\n``shell\nyarn add -D prisma\n`\n\n`shell\nyarn add @prisma/client\n`\n\n`shell\nnpm install -D prisma\n`\n\n`shell\nnpm…",
@@ -22666,54 +22557,54 @@
         "prisma",
         "orm"
       ],
-      "url": "/docs/language/javascript-prisma/prisma",
-      "subject_ref": "subject:language:library:javascript-prisma",
-      "subject_title": "Javascript Prisma",
+      "url": "/docs/language/javascript/prisma",
+      "subject_ref": "subject:language:library:prisma",
+      "subject_title": "Prisma",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "javascript-prisma",
+        "instance": "prisma",
         "aspect": "prisma"
       },
-      "search_text": "prisma orm prisma orm 설치 shell yarn add -d prisma shell yarn add prisma/client shell npm install -d prisma shell npm 설치 설정 prisma orm operation language library javascript-prisma prisma",
+      "search_text": "prisma orm prisma orm 설치 shell yarn add -d prisma shell yarn add prisma/client shell npm install -d prisma shell npm 설치 설정 prisma orm operation language library prisma prisma",
       "display": {
         "label": "Prisma ORM",
         "kind": "document",
-        "subtitle": "Javascript Prisma"
+        "subtitle": "Prisma"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/javascript-prisma/overview.mdx",
+      "id": "doc:docs/language/javascript/prisma/overview.mdx",
       "title": "Prisma for JavaScript",
       "description": "Prisma for JavaScript library overview",
-      "snippet": "Prisma for JavaScript is a library subject in the JAVASCRIPT language ecosystem covered by this wiki.",
+      "snippet": "Prisma is an ORM and schema migration toolkit commonly used in the JavaScript and TypeScript ecosystem.",
       "headings": [],
       "keywords": [
         "javascript prisma",
         "javascript"
       ],
-      "url": "/docs/language/javascript-prisma/overview",
-      "subject_ref": "subject:language:library:javascript-prisma",
-      "subject_title": "Javascript Prisma",
+      "url": "/docs/language/javascript/prisma/overview",
+      "subject_ref": "subject:language:library:prisma",
+      "subject_title": "Prisma",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "javascript-prisma",
+        "instance": "prisma",
         "aspect": "overview"
       },
-      "search_text": "prisma for javascript prisma for javascript library overview prisma for javascript is a library subject in the javascript language ecosystem covered by this wiki javascript prisma javascript entity language library javascript-prisma overview",
+      "search_text": "prisma for javascript prisma for javascript library overview prisma is an orm and schema migration toolkit commonly used in the javascript and typescript ecosystem javascript prisma javascript entity language library prisma overview",
       "display": {
         "label": "Prisma for JavaScript",
         "kind": "document",
-        "subtitle": "Javascript Prisma"
+        "subtitle": "Prisma"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/javascript-prisma/migrate.mdx",
+      "id": "doc:docs/language/javascript/prisma/migrate.mdx",
       "title": "Prisma로 스키마 마이그레이션 하기",
       "description": "Prisma로 스키마 마이그레이션 하기",
       "snippet": "… 이 문서가 적용되지 않습니다.\n- standalone인 경우 트랜잭션을 지원하지 않으므로 정상 작동하지 않을 수 있습니다.\n\n- prisma/migrations 디렉토리의 /migration.sql 파일을 통해 스키마 변경 이력을 관리합니다.\n - =_\n- 데이터베이스의 _prisma_migratio…",
@@ -22731,21 +22622,21 @@
         "migrate",
         "migration"
       ],
-      "url": "/docs/language/javascript-prisma/migrate",
-      "subject_ref": "subject:language:library:javascript-prisma",
-      "subject_title": "Javascript Prisma",
+      "url": "/docs/language/javascript/prisma/migrate",
+      "subject_ref": "subject:language:library:prisma",
+      "subject_title": "Prisma",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "javascript-prisma",
+        "instance": "prisma",
         "aspect": "migrate"
       },
-      "search_text": "prisma로 스키마 마이그레이션 하기 prisma로 스키마 마이그레이션 하기 이 문서가 적용되지 않습니다 - standalone인 경우 트랜잭션을 지원하지 않으므로 정상 작동하지 않을 수 있습니다 - prisma/migrations 디렉토리의 /migration sql 파일을 통해 스키마 변경 이력을 관리합니다 - - 데이터베이스의 prisma migratio 스키마 마이그레이션 관리 devops 개발 부터 배포까지 롤백 롤백 파일 생성 롤백 cli reference prisma schema migrate migration operation language library javascript-prisma migrate",
+      "search_text": "prisma로 스키마 마이그레이션 하기 prisma로 스키마 마이그레이션 하기 이 문서가 적용되지 않습니다 - standalone인 경우 트랜잭션을 지원하지 않으므로 정상 작동하지 않을 수 있습니다 - prisma/migrations 디렉토리의 /migration sql 파일을 통해 스키마 변경 이력을 관리합니다 - - 데이터베이스의 prisma migratio 스키마 마이그레이션 관리 devops 개발 부터 배포까지 롤백 롤백 파일 생성 롤백 cli reference prisma schema migrate migration operation language library prisma migrate",
       "display": {
         "label": "Prisma로 스키마 마이그레이션 하기",
         "kind": "document",
-        "subtitle": "Javascript Prisma"
+        "subtitle": "Prisma"
       }
     },
     {
@@ -22779,7 +22670,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/observability/promql/overview.mdx",
+      "id": "doc:docs/infrastructure/observability/prometheus-operator/promql.mdx",
       "title": "PromQL",
       "description": "PromQL",
       "snippet": "## Data model\n\n- Prometheus / Concepts / Data model\n\n``promql\n# 주석\n[{=\"\"[,=\"\"]}]\n`\n\n- : [a-zA-Z_:][a-zA-Z0-9_:]* 정규식을 만족해야합니다\n- : [a-zA-Z_][a…",
@@ -22800,21 +22691,21 @@
       "keywords": [
         "promql"
       ],
-      "url": "/docs/infrastructure/observability/promql/overview",
-      "subject_ref": "subject:infrastructure:observability-system:promql",
-      "subject_title": "Promql",
+      "url": "/docs/infrastructure/observability/prometheus-operator/promql",
+      "subject_ref": "subject:infrastructure:observability-system:prometheus-operator",
+      "subject_title": "Prometheus Operator",
       "ontology": {
         "role": "entity",
         "domain": "infrastructure",
         "class": "observability-system",
-        "instance": "promql",
-        "aspect": "overview"
+        "instance": "prometheus-operator",
+        "aspect": "promql"
       },
-      "search_text": "promql promql data model - prometheus / concepts / data model promql 주석 - a-za-z a-za-z0-9 정규식을 만족해야합니다 - a-za-z a data model 주석 metric types histogram promql instant vector range vector duration에 사용되는 는 옵션의 의미가 아닙니다 e g http requests total 5m operators aggregation operators functions promql entity infrastructure observability-system promql overview",
+      "search_text": "promql promql data model - prometheus / concepts / data model promql 주석 - a-za-z a-za-z0-9 정규식을 만족해야합니다 - a-za-z a data model 주석 metric types histogram promql instant vector range vector duration에 사용되는 는 옵션의 의미가 아닙니다 e g http requests total 5m operators aggregation operators functions promql entity infrastructure observability-system prometheus-operator promql",
       "display": {
         "label": "PromQL",
         "kind": "document",
-        "subtitle": "Promql"
+        "subtitle": "Prometheus Operator"
       }
     },
     {
@@ -22927,7 +22818,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/cpp-grpc/protobuf.mdx",
+      "id": "doc:docs/language/grpc/cpp/protobuf.mdx",
       "title": "Protobuf",
       "description": "Protocol Buffers",
       "snippet": "## Protobuf\n\n- Protobuf\n- Version Support\n\n## 컴파일\n\n- C++ Generated Code Guide\n\n- package ;는…",
@@ -22938,26 +22829,26 @@
       "keywords": [
         "Protobuf"
       ],
-      "url": "/docs/language/cpp-grpc/protobuf",
-      "subject_ref": "subject:language:library:cpp-grpc",
-      "subject_title": "Cpp Grpc",
+      "url": "/docs/language/grpc/cpp/protobuf",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-grpc",
-        "aspect": "protobuf"
+        "instance": "grpc",
+        "aspect": "cpp-protobuf"
       },
-      "search_text": "protobuf protocol buffers protobuf - protobuf - version support 컴파일 - c generated code guide - package 는 protobuf 컴파일 protobuf operation language library cpp-grpc protobuf",
+      "search_text": "protobuf protocol buffers protobuf - protobuf - version support 컴파일 - c generated code guide - package 는 protobuf 컴파일 protobuf operation language library grpc cpp-protobuf",
       "display": {
         "label": "Protobuf",
         "kind": "document",
-        "subtitle": "Cpp Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-grpc/protobuf.mdx",
+      "id": "doc:docs/language/grpc/go/protobuf.mdx",
       "title": "Protobuf",
       "description": "Protocol Buffers",
       "snippet": "## Protobuf\n\n- Protobuf\n\n## 컴파일\n\n``shell\ngo install google.golang.org/protobuf/cmd/protoc-g…",
@@ -22971,26 +22862,26 @@
       "keywords": [
         "Protobuf"
       ],
-      "url": "/docs/language/go-grpc/protobuf",
-      "subject_ref": "subject:language:library:go-grpc",
-      "subject_title": "Go Grpc",
+      "url": "/docs/language/grpc/go/protobuf",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-grpc",
-        "aspect": "protobuf"
+        "instance": "grpc",
+        "aspect": "go-protobuf"
       },
-      "search_text": "protobuf protocol buffers protobuf - protobuf 컴파일 shell go install google golang org/protobuf/cmd/protoc-g protobuf 컴파일 변환 message - binary message - json protobuf operation language library go-grpc protobuf",
+      "search_text": "protobuf protocol buffers protobuf - protobuf 컴파일 shell go install google golang org/protobuf/cmd/protoc-g protobuf 컴파일 변환 message - binary message - json protobuf operation language library grpc go-protobuf",
       "display": {
         "label": "Protobuf",
         "kind": "document",
-        "subtitle": "Go Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/python-grpc/protobuf.mdx",
+      "id": "doc:docs/language/grpc/python/protobuf.mdx",
       "title": "Protobuf",
       "description": "Protocol Buffers",
       "snippet": "## Protobuf\n\n- Protobuf\n- Version Support\n\n## 컴파일\n\n``shell\npython3 -m pip install protobuf\n…",
@@ -23009,21 +22900,21 @@
       "keywords": [
         "Protobuf"
       ],
-      "url": "/docs/language/python-grpc/protobuf",
-      "subject_ref": "subject:language:library:python-grpc",
-      "subject_title": "Python Grpc",
+      "url": "/docs/language/grpc/python/protobuf",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-grpc",
-        "aspect": "protobuf"
+        "instance": "grpc",
+        "aspect": "python-protobuf"
       },
-      "search_text": "protobuf protocol buffers protobuf - protobuf - version support 컴파일 shell python3 -m pip install protobuf protobuf 컴파일 규칙 변환 message - binary message - json message - dict protobuf operation language library python-grpc protobuf",
+      "search_text": "protobuf protocol buffers protobuf - protobuf - version support 컴파일 shell python3 -m pip install protobuf protobuf 컴파일 규칙 변환 message - binary message - json message - dict protobuf operation language library grpc python-protobuf",
       "display": {
         "label": "Protobuf",
         "kind": "document",
-        "subtitle": "Python Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
@@ -23062,7 +22953,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-grpc/type.mdx",
+      "id": "doc:docs/language/grpc/go/type.mdx",
       "title": "Protobuf Type",
       "description": "Protocol Buffers type",
       "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\n\ntimestamp := timestamppb.Now()\n\nt :=…",
@@ -23075,26 +22966,26 @@
         "type",
         "golang"
       ],
-      "url": "/docs/language/go-grpc/type",
-      "subject_ref": "subject:language:library:go-grpc",
-      "subject_title": "Go Grpc",
+      "url": "/docs/language/grpc/go/type",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-grpc",
-        "aspect": "type"
+        "instance": "grpc",
+        "aspect": "go-type"
       },
-      "search_text": "protobuf type protocol buffers type protobuf type - protobuf type timestamp go timestamp timestamppb now t protobuf type timestamp protobuf type golang operation language library go-grpc type",
+      "search_text": "protobuf type protocol buffers type protobuf type - protobuf type timestamp go timestamp timestamppb now t protobuf type timestamp protobuf type golang operation language library grpc go-type",
       "display": {
         "label": "Protobuf Type",
         "kind": "document",
-        "subtitle": "Go Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/python-grpc/type.mdx",
+      "id": "doc:docs/language/grpc/python/type.mdx",
       "title": "Protobuf Type",
       "description": "Protocol Buffers type",
       "snippet": "## Protobuf Type\n\n- Protobuf Type\n\n## Timestamp\n\n``go\nfrom google.protobuf.timestamp_pb2 im…",
@@ -23107,21 +22998,21 @@
         "type",
         "python"
       ],
-      "url": "/docs/language/python-grpc/type",
-      "subject_ref": "subject:language:library:python-grpc",
-      "subject_title": "Python Grpc",
+      "url": "/docs/language/grpc/python/type",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-grpc",
-        "aspect": "type"
+        "instance": "grpc",
+        "aspect": "python-type"
       },
-      "search_text": "protobuf type protocol buffers type protobuf type - protobuf type timestamp go from google protobuf timestamp pb2 im protobuf type timestamp protobuf type python operation language library python-grpc type",
+      "search_text": "protobuf type protocol buffers type protobuf type - protobuf type timestamp go from google protobuf timestamp pb2 im protobuf type timestamp protobuf type python operation language library grpc python-type",
       "display": {
         "label": "Protobuf Type",
         "kind": "document",
-        "subtitle": "Python Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
@@ -24522,7 +24413,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/messaging/rabbitmq-flow/overview.mdx",
+      "id": "doc:docs/infrastructure/messaging/rabbitmq/flow.mdx",
       "title": "RabbitMQ Flow",
       "description": "RabbitMQ Flow",
       "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
@@ -24537,26 +24428,26 @@
         "rabbitmq",
         "flow"
       ],
-      "url": "/docs/infrastructure/messaging/rabbitmq-flow/overview",
-      "subject_ref": "subject:infrastructure:eventing-system:rabbitmq-flow",
-      "subject_title": "Rabbitmq Flow",
+      "url": "/docs/infrastructure/messaging/rabbitmq/flow",
+      "subject_ref": "subject:infrastructure:eventing-system:rabbitmq",
+      "subject_title": "Rabbitmq",
       "ontology": {
         "role": "entity",
         "domain": "infrastructure",
         "class": "eventing-system",
-        "instance": "rabbitmq-flow",
-        "aspect": "overview"
+        "instance": "rabbitmq",
+        "aspect": "flow"
       },
-      "search_text": "rabbitmq flow rabbitmq flow exchange queue mermaid flowchart lr subgraph rabbitmq direction lr z amq topictopic exchange -- a -- a adirect exchange z -- exchange queue direct topic header fanout rabbitmq flow entity infrastructure eventing-system rabbitmq-flow overview",
+      "search_text": "rabbitmq flow rabbitmq flow exchange queue mermaid flowchart lr subgraph rabbitmq direction lr z amq topictopic exchange -- a -- a adirect exchange z -- exchange queue direct topic header fanout rabbitmq flow entity infrastructure eventing-system rabbitmq flow",
       "display": {
         "label": "RabbitMQ Flow",
         "kind": "document",
-        "subtitle": "Rabbitmq Flow"
+        "subtitle": "Rabbitmq"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/react/overview.mdx",
+      "id": "doc:docs/language/javascript/react/overview.mdx",
       "title": "React",
       "description": "React framework overview",
       "snippet": "React is a UI framework for building component-based web applications.\n\nIt owns the component rendering…",
@@ -24566,7 +24457,7 @@
         "javascript",
         "framework"
       ],
-      "url": "/docs/language/react/overview",
+      "url": "/docs/language/javascript/react/overview",
       "subject_ref": "subject:language:framework:react",
       "subject_title": "React",
       "ontology": {
@@ -24585,7 +24476,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/react/lifecycle.mdx",
+      "id": "doc:docs/language/javascript/react/lifecycle.mdx",
       "title": "React Lifecycle",
       "description": "React Lifecycle",
       "snippet": "## React.Component Lifecycle\n\nhttps://twitter.com/dan_abramov/status/981712092611989509\n\n## React Hooks Life…",
@@ -24598,7 +24489,7 @@
         "react",
         "lifecycle"
       ],
-      "url": "/docs/language/react/lifecycle",
+      "url": "/docs/language/javascript/react/lifecycle",
       "subject_ref": "subject:language:framework:react",
       "subject_title": "React",
       "ontology": {
@@ -24617,7 +24508,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/react-query/overview.mdx",
+      "id": "doc:docs/language/javascript/react-query/overview.mdx",
       "title": "React Query",
       "description": "React Query library overview",
       "snippet": "React Query is the React-facing adapter of TanStack Query for client-side server-state management.\n\n- TanStack Query React",
@@ -24627,7 +24518,7 @@
         "tanstack query",
         "react"
       ],
-      "url": "/docs/language/react-query/overview",
+      "url": "/docs/language/javascript/react-query/overview",
       "subject_ref": "subject:language:library:react-query",
       "subject_title": "React Query",
       "ontology": {
@@ -24646,7 +24537,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/react-query/use-mutation.mdx",
+      "id": "doc:docs/language/javascript/react-query/use-mutation.mdx",
       "title": "React Query useMutation",
       "description": "React Query useMutation",
       "snippet": "…n\n\nuseMutation은 Create/Update/Delete 처럼 서버 상태를 변경하는 작업을 수행하는데 사용됩니다.\n\n- https://react-query-v3.tanstack.com/reference/useMutation\n\n``ts\n\nconst mutation = useMutation({\n mu…",
@@ -24657,7 +24548,7 @@
         "react query",
         "useMutation"
       ],
-      "url": "/docs/language/react-query/use-mutation",
+      "url": "/docs/language/javascript/react-query/use-mutation",
       "subject_ref": "subject:language:library:react-query",
       "subject_title": "React Query",
       "ontology": {
@@ -24676,7 +24567,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/react-query/use-query.mdx",
+      "id": "doc:docs/language/javascript/react-query/use-query.mdx",
       "title": "React Query useQuery",
       "description": "React Query useQuery",
       "snippet": "## useQuery\n\n- https://tanstack.com/query/latest/docs/react/reference/useQuery\n\n``ts\n\nconst…",
@@ -24689,7 +24580,7 @@
         "react query",
         "useQuery"
       ],
-      "url": "/docs/language/react-query/use-query",
+      "url": "/docs/language/javascript/react-query/use-query",
       "subject_ref": "subject:language:library:react-query",
       "subject_title": "React Query",
       "ontology": {
@@ -24783,7 +24674,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/trigger.mdx",
+      "id": "doc:docs/language/go/kubebuilder/trigger.mdx",
       "title": "Reconciler Trigger 설정하기",
       "description": "Kubernetes Reconciler Trigger 설정하기",
       "snippet": "…\n``go\n// SetupWithManager sets up the controller with the Manager.\nfunc (r *TestReconciler) SetupWithManager(mgr ctrl.Manager) error {\n b := ctrl.NewControllerManagedBy(m…",
@@ -24803,26 +24694,26 @@
         "operator",
         "trigger"
       ],
-      "url": "/docs/language/go-kubebuilder/trigger",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder/trigger",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "trigger"
       },
-      "search_text": "reconciler trigger 설정하기 kubernetes reconciler trigger 설정하기 go // setupwithmanager sets up the controller with the manager func r testreconciler setupwithmanager mgr ctrl manager error b ctrl newcontrollermanagedby m setupwithmanager for resource 설정 owns resource 설정 watches resource 설정 watchesrawsource 로 외부 이벤트 트리거 구조 사용법 주의사항 predicate로 이벤트 필터링 kubebuilder operator trigger operation language library go-kubebuilder trigger",
+      "search_text": "reconciler trigger 설정하기 kubernetes reconciler trigger 설정하기 go // setupwithmanager sets up the controller with the manager func r testreconciler setupwithmanager mgr ctrl manager error b ctrl newcontrollermanagedby m setupwithmanager for resource 설정 owns resource 설정 watches resource 설정 watchesrawsource 로 외부 이벤트 트리거 구조 사용법 주의사항 predicate로 이벤트 필터링 kubebuilder operator trigger operation language library kubebuilder trigger",
       "display": {
         "label": "Reconciler Trigger 설정하기",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/status.mdx",
+      "id": "doc:docs/language/go/kubebuilder/status.mdx",
       "title": "Reconciler에서 Custom Resource의 Status 관리하기",
       "description": "Kubernetes Reconciler에서 Custom Resource의 Status 관리하기",
       "snippet": "## Status\n\nstatus는 spec에서 정의한 원하는 상태(desired state)에 대한 현재 상태(observed state)를 표현합니다. 이를 …",
@@ -24834,21 +24725,21 @@
         "operator",
         "status"
       ],
-      "url": "/docs/language/go-kubebuilder/status",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder/status",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "status"
       },
-      "search_text": "reconciler에서 custom resource의 status 관리하기 kubernetes reconciler에서 custom resource의 status 관리하기 status status는 spec에서 정의한 원하는 상태 desired state 에 대한 현재 상태 observed state 를 표현합니다 이를 status kubebuilder operator status operation language library go-kubebuilder status",
+      "search_text": "reconciler에서 custom resource의 status 관리하기 kubernetes reconciler에서 custom resource의 status 관리하기 status status는 spec에서 정의한 원하는 상태 desired state 에 대한 현재 상태 observed state 를 표현합니다 이를 status kubebuilder operator status operation language library kubebuilder status",
       "display": {
         "label": "Reconciler에서 Custom Resource의 Status 관리하기",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
@@ -24950,7 +24841,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/redux-toolkit/overview.mdx",
+      "id": "doc:docs/language/javascript/redux-toolkit/overview.mdx",
       "title": "Redux Toolkit",
       "description": "Redux Toolkit library overview",
       "snippet": "Redux Toolkit is the recommended library layer for configuring Redux stores, slices, and asyn…",
@@ -24960,7 +24851,7 @@
         "redux",
         "state"
       ],
-      "url": "/docs/language/redux-toolkit/overview",
+      "url": "/docs/language/javascript/redux-toolkit/overview",
       "subject_ref": "subject:language:library:redux-toolkit",
       "subject_title": "Redux Toolkit",
       "ontology": {
@@ -24979,7 +24870,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/redux-toolkit/toolkit.mdx",
+      "id": "doc:docs/language/javascript/redux-toolkit/toolkit.mdx",
       "title": "Redux Toolkit",
       "description": "Redux Toolkit",
       "snippet": "…ux.js.org/tutorials/essentials/part-5-async-logic/\n\n## createSlice()\n\n- https://redux-toolkit.js.org/api/createSlice\n\n``ts\n\n State = any,\n CR extends SliceCaseReducers = Sli…",
@@ -24995,7 +24886,7 @@
         "state",
         "toolkit"
       ],
-      "url": "/docs/language/redux-toolkit/toolkit",
+      "url": "/docs/language/javascript/redux-toolkit/toolkit",
       "subject_ref": "subject:language:library:redux-toolkit",
       "subject_title": "Redux Toolkit",
       "ontology": {
@@ -25674,7 +25565,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-smtp/smtp.mdx",
+      "id": "doc:docs/language/go/smtp/smtp.mdx",
       "title": "SMTP",
       "description": "smtp",
       "snippet": "## SMTP\n\n### HTML\n\n``html\n\n Title\n\n {{.Something}}\n\n {{.Something}}\n\n {{.Something}}\n\n`…",
@@ -25688,21 +25579,21 @@
       "keywords": [
         "smtp"
       ],
-      "url": "/docs/language/go-smtp/smtp",
-      "subject_ref": "subject:language:library:go-smtp",
-      "subject_title": "Go Smtp",
+      "url": "/docs/language/go/smtp",
+      "subject_ref": "subject:language:library:smtp",
+      "subject_title": "Smtp",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-smtp",
+        "instance": "smtp",
         "aspect": "smtp"
       },
-      "search_text": "smtp smtp smtp html html title something something something smtp html net/smtp gmail email authentication smtp operation language library go-smtp smtp",
+      "search_text": "smtp smtp smtp html html title something something something smtp html net/smtp gmail email authentication smtp operation language library smtp smtp",
       "display": {
         "label": "SMTP",
         "kind": "document",
-        "subtitle": "Go Smtp"
+        "subtitle": "Smtp"
       }
     },
     {
@@ -26062,7 +25953,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/security/secret/overview.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/secret/overview.mdx",
       "title": "Secret",
       "description": "Kubernetes Secret",
       "snippet": "…amespace:\nspec:\n containers:\n - envFrom:\n # export =\n - secretRef:\n name:\n`\n\n## imagePullSecrets\n\n`yaml\napiVersion: v1\nkind: Pod\nmetadata:\n name:\n namespace:\nspec:\n imagePullSe…",
@@ -26084,7 +25975,7 @@
         "secret",
         "imagePullSecrets"
       ],
-      "url": "/docs/infrastructure/security/secret/overview",
+      "url": "/docs/infrastructure/kubernetes/secret/overview",
       "subject_ref": "subject:infrastructure:configuration:secret",
       "subject_title": "Secret",
       "ontology": {
@@ -26176,7 +26067,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/service.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/service.mdx",
       "title": "Service",
       "description": "kubernetes service",
       "snippet": "…cPolicy: Cluster|Local\n - externalTrafficPolicy\n\n### FQDN\n\n..svc.cluster.local이 Kubernetes DNS에 등록됩니다.\n\n컨테이너 내부에서 Service를 찾을 때, , . 등을 사용하여 찾을 수 있습니다. 앞의 일부만 적었을 때, /etc…",
@@ -26193,7 +26084,7 @@
         "kubernetes",
         "service"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/service",
+      "url": "/docs/infrastructure/kubernetes/service",
       "subject_ref": "subject:infrastructure:networking:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -26251,7 +26142,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-session/session.mdx",
+      "id": "doc:docs/language/go/session/session.mdx",
       "title": "Session",
       "description": "session",
       "snippet": "…작성\n\n## 클라이언트에서 세션&쿠키 갱신 요청\n\n- 쿠키 만료 시간 == 세션 만료 시간\n- 만료 시간 짧음\n- 로그인\n - 쿠키 생성\n - session.Manager.NewSessionID -> session.Manager.SetCookie\n - 세션 생성\n- 기타 API\n - 쿠키에서 세션 …",
@@ -26264,21 +26155,21 @@
       "keywords": [
         "session"
       ],
-      "url": "/docs/language/go-session/session",
-      "subject_ref": "subject:language:library:go-session",
-      "subject_title": "Go Session",
+      "url": "/docs/language/go/session",
+      "subject_ref": "subject:language:library:session",
+      "subject_title": "Session",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-session",
+        "instance": "session",
         "aspect": "session"
       },
-      "search_text": "session session 작성 클라이언트에서 세션 쿠키 갱신 요청 - 쿠키 만료 시간 세션 만료 시간 - 만료 시간 짧음 - 로그인 - 쿠키 생성 - session manager newsessionid - session manager setcookie - 세션 생성 - 기타 api - 쿠키에서 세션 클라이언트에서 세션 쿠키 갱신 요청 서버에서 세션 자동 갱신 데이터베이스 쿠키 session operation language library go-session session",
+      "search_text": "session session 작성 클라이언트에서 세션 쿠키 갱신 요청 - 쿠키 만료 시간 세션 만료 시간 - 만료 시간 짧음 - 로그인 - 쿠키 생성 - session manager newsessionid - session manager setcookie - 세션 생성 - 기타 api - 쿠키에서 세션 클라이언트에서 세션 쿠키 갱신 요청 서버에서 세션 자동 갱신 데이터베이스 쿠키 session operation language library session session",
       "display": {
         "label": "Session",
         "kind": "document",
-        "subtitle": "Go Session"
+        "subtitle": "Session"
       }
     },
     {
@@ -26672,7 +26563,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-swagger/swagger.mdx",
+      "id": "doc:docs/language/go/swagger/swagger.mdx",
       "title": "Swagger",
       "description": "Swagger",
       "snippet": "…sage\n\n`shell\ncd\n`\n\n`shell\nswag init && swag fmt\n`\n\n`shell\ndocs/\n├── docs.go\n├── swagger.json\n└── swagger.yaml\n`\n\n## Comments 형식\n\n### General API Info\n\n- https://github…",
@@ -26691,21 +26582,21 @@
       "keywords": [
         "swagger"
       ],
-      "url": "/docs/language/go-swagger/swagger",
-      "subject_ref": "subject:language:library:go-swagger",
-      "subject_title": "Go Swagger",
+      "url": "/docs/language/go/swagger",
+      "subject_ref": "subject:language:library:swagger",
+      "subject_title": "Swagger",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-swagger",
+        "instance": "swagger",
         "aspect": "swagger"
       },
-      "search_text": "swagger swagger sage shell cd shell swag init swag fmt shell docs/ docs go swagger json swagger yaml comments 형식 general api info - https //github 설치 usage comments 형식 general api info api operation accept produce param router success failure response header swagger operation language library go-swagger swagger",
+      "search_text": "swagger swagger sage shell cd shell swag init swag fmt shell docs/ docs go swagger json swagger yaml comments 형식 general api info - https //github 설치 usage comments 형식 general api info api operation accept produce param router success failure response header swagger operation language library swagger swagger",
       "display": {
         "label": "Swagger",
         "kind": "document",
-        "subtitle": "Go Swagger"
+        "subtitle": "Swagger"
       }
     },
     {
@@ -26794,7 +26685,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/taints-and-tolerations.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/taints-and-tolerations.mdx",
       "title": "Taints and Tolerations",
       "description": "kubernetes label",
       "snippet": "…docs/concepts/scheduling-eviction/taint-and-toleration/\n\ntaints가 있는 Node에는 매칭되는 tolerations가 없는 Pod가 스케줄링되지 않습니다.\n\n## taints\n\n### taints 설정\n\n``yaml\napiVersion: v1\nkind: No…",
@@ -26811,7 +26702,7 @@
         "taints",
         "tolerations"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/scheduling/taints-and-tolerations",
+      "url": "/docs/infrastructure/kubernetes/taints-and-tolerations",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -27274,7 +27165,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/threejs/overview.mdx",
+      "id": "doc:docs/language/javascript/threejs/overview.mdx",
       "title": "Three.js",
       "description": "Three.js library overview",
       "snippet": "Three.js is a JavaScript 3D graphics library built on top of WebGL concepts and browser rendering APIs.",
@@ -27284,7 +27175,7 @@
         "javascript",
         "3d"
       ],
-      "url": "/docs/language/threejs/overview",
+      "url": "/docs/language/javascript/threejs/overview",
       "subject_ref": "subject:language:library:threejs",
       "subject_title": "Threejs",
       "ontology": {
@@ -27303,7 +27194,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/threejs/fundamentals.mdx",
+      "id": "doc:docs/language/javascript/threejs/fundamentals.mdx",
       "title": "Three.js 기본 구조 이해하기",
       "description": "Three.js의 기본 구조 이해하기",
       "snippet": "https://threejs.org/manual/#en/fundamentals\n\n## Renderer\n\n## Scene\n\nScene은 Scene Graph의 루트 노드로 background, fog 등을 설정할 수 있습니…",
@@ -27320,7 +27211,7 @@
         "scene",
         "camera"
       ],
-      "url": "/docs/language/threejs/fundamentals",
+      "url": "/docs/language/javascript/threejs/fundamentals",
       "subject_ref": "subject:language:library:threejs",
       "subject_title": "Threejs",
       "ontology": {
@@ -27339,7 +27230,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/kubernetes/scheduling/topology-spread-constraints.mdx",
+      "id": "doc:docs/infrastructure/kubernetes/topology-spread-constraints.mdx",
       "title": "Topology Spread Constraints",
       "description": "Topology Spread Constraints",
       "snippet": "- https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/",
@@ -27351,7 +27242,7 @@
         "constraints",
         "topologySpreadConstraints"
       ],
-      "url": "/docs/infrastructure/kubernetes/kubernetes/scheduling/topology-spread-constraints",
+      "url": "/docs/infrastructure/kubernetes/topology-spread-constraints",
       "subject_ref": "subject:infrastructure:orchestrator:kubernetes",
       "subject_title": "Kubernetes",
       "ontology": {
@@ -27913,7 +27804,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gin/validator.mdx",
+      "id": "doc:docs/language/go/gin/validator.mdx",
       "title": "Validator",
       "description": "Validator",
       "snippet": "## Deafult Validator\n\n- https://github.com/go-playground/validator\n- https://pkg.go.dev/github.com/g…",
@@ -27924,21 +27815,21 @@
       "keywords": [
         "validator"
       ],
-      "url": "/docs/language/go-gin/validator",
-      "subject_ref": "subject:language:library:go-gin",
-      "subject_title": "Go Gin",
+      "url": "/docs/language/go/gin/validator",
+      "subject_ref": "subject:language:library:gin",
+      "subject_title": "Gin",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gin",
+        "instance": "gin",
         "aspect": "validator"
       },
-      "search_text": "validator validator deafult validator - https //github com/go-playground/validator - https //pkg go dev/github com/g deafult validator custom validator validator operation language library go-gin validator",
+      "search_text": "validator validator deafult validator - https //github com/go-playground/validator - https //pkg go dev/github com/g deafult validator custom validator validator operation language library gin validator",
       "display": {
         "label": "Validator",
         "kind": "document",
-        "subtitle": "Go Gin"
+        "subtitle": "Gin"
       }
     },
     {
@@ -28205,7 +28096,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-websocket/websocket.mdx",
+      "id": "doc:docs/language/go/websocket/websocket.mdx",
       "title": "WebSocket",
       "description": "WebSocket",
       "snippet": "- WebSocket\n\n## Server\n\n## Client\n\n## Proxy\n\n``go\n\n \"errors\"\n \"fmt\"\n \"io\"\n \"net/http\"\n \"net…",
@@ -28217,21 +28108,21 @@
       "keywords": [
         "websocket"
       ],
-      "url": "/docs/language/go-websocket/websocket",
-      "subject_ref": "subject:language:library:go-websocket",
-      "subject_title": "Go Websocket",
+      "url": "/docs/language/go/websocket",
+      "subject_ref": "subject:language:library:websocket",
+      "subject_title": "Websocket",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-websocket",
+        "instance": "websocket",
         "aspect": "websocket"
       },
-      "search_text": "websocket websocket - websocket server client proxy go errors fmt io net/http net server client proxy websocket operation language library go-websocket websocket",
+      "search_text": "websocket websocket - websocket server client proxy go errors fmt io net/http net server client proxy websocket operation language library websocket websocket",
       "display": {
         "label": "WebSocket",
         "kind": "document",
-        "subtitle": "Go Websocket"
+        "subtitle": "Websocket"
       }
     },
     {
@@ -29175,7 +29066,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-encoding-json/encoding-json.mdx",
+      "id": "doc:docs/language/go/encoding-json/encoding-json.mdx",
       "title": "encoding/json",
       "description": "encoding/json",
       "snippet": "## Field tags\n\n``go\nField json:\"[,]\"\n`\n\n태그에 따라 인코딩/디코딩 시에 적용되는 내용입니다.\n\n- : \"Field\" 대신 사용될 이름입니다.\n - -를 사용할 경우 인코딩/디코딩에서 제외됩니다.\n - -,를 사용하면 -이 이름으로 사용됩니다.\n - ,을",
@@ -29187,21 +29078,21 @@
       "keywords": [
         "encoding/json"
       ],
-      "url": "/docs/language/go-encoding-json/encoding-json",
-      "subject_ref": "subject:language:library:go-encoding-json",
-      "subject_title": "Go Encoding Json",
+      "url": "/docs/language/go/encoding-json",
+      "subject_ref": "subject:language:library:encoding-json",
+      "subject_title": "Encoding Json",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-encoding-json",
+        "instance": "encoding-json",
         "aspect": "encoding-json"
       },
-      "search_text": "encoding/json encoding/json field tags go field json 태그에 따라 인코딩/디코딩 시에 적용되는 내용입니다 - field 대신 사용될 이름입니다 - -를 사용할 경우 인코딩/디코딩에서 제외됩니다 - - 를 사용하면 -이 이름으로 사용됩니다 - 을 field tags type - json 변환 encoding/json operation language library go-encoding-json encoding-json",
+      "search_text": "encoding/json encoding/json field tags go field json 태그에 따라 인코딩/디코딩 시에 적용되는 내용입니다 - field 대신 사용될 이름입니다 - -를 사용할 경우 인코딩/디코딩에서 제외됩니다 - - 를 사용하면 -이 이름으로 사용됩니다 - 을 field tags type - json 변환 encoding/json operation language library encoding-json encoding-json",
       "display": {
         "label": "encoding/json",
         "kind": "document",
-        "subtitle": "Go Encoding Json"
+        "subtitle": "Encoding Json"
       }
     },
     {
@@ -29239,7 +29130,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/infrastructure/kubernetes/parallel-cluster/etc.mdx",
+      "id": "doc:docs/infrastructure/cloud/parallel-cluster/etc.mdx",
       "title": "etc",
       "description": "etc",
       "snippet": "## Instance 설정\n\n### Environment\n\n- /opt/slurm\n- /opt/slurm/etc/slurm.conf\n- /opt/slurm/etc/slurm.sh\n- /etc/profile.d/slurm.sh -> /opt/slurm/et…",
@@ -29253,7 +29144,7 @@
       "keywords": [
         "ParallelCluster"
       ],
-      "url": "/docs/infrastructure/kubernetes/parallel-cluster/etc",
+      "url": "/docs/infrastructure/cloud/parallel-cluster/etc",
       "subject_ref": "subject:infrastructure:cloud-service:parallel-cluster",
       "subject_title": "Parallel Cluster",
       "ontology": {
@@ -29516,7 +29407,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/cpp-grpc/grpc.mdx",
+      "id": "doc:docs/language/grpc/cpp/grpc.mdx",
       "title": "gRPC",
       "description": "gRPC",
       "snippet": "…tobuf 컴파일\n- C++ Quick start\n\n``shell\nprotoc \\\n --proto_path= \\\n --cpp_out= \\\n --grpc_out= \\\n --plugin=protoc-gen-grpc=\"$(which grpc_cpp_plugin)\" \\\n\n``",
@@ -29526,26 +29417,26 @@
       "keywords": [
         "grpc"
       ],
-      "url": "/docs/language/cpp-grpc/grpc",
-      "subject_ref": "subject:language:library:cpp-grpc",
-      "subject_title": "Cpp Grpc",
+      "url": "/docs/language/grpc/cpp/grpc",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-grpc",
-        "aspect": "grpc"
+        "instance": "grpc",
+        "aspect": "cpp-grpc"
       },
-      "search_text": "grpc grpc tobuf 컴파일 - c quick start shell protoc --proto path --cpp out --grpc out --plugin protoc-gen-grpc which grpc cpp plugin 컴파일 grpc operation language library cpp-grpc grpc",
+      "search_text": "grpc grpc tobuf 컴파일 - c quick start shell protoc --proto path --cpp out --grpc out --plugin protoc-gen-grpc which grpc cpp plugin 컴파일 grpc operation language library grpc cpp-grpc",
       "display": {
         "label": "gRPC",
         "kind": "document",
-        "subtitle": "Cpp Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-grpc/grpc.mdx",
+      "id": "doc:docs/language/grpc/go/grpc.mdx",
       "title": "gRPC",
       "description": "gRPC",
       "snippet": "…protoc-gen-go@latest\n`\n\n`shell\ngo install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest\n`\n\n`shell\nprotoc \\\n --go_out=. \\\n --go_opt=paths=source_relative \\\n --go…",
@@ -29555,26 +29446,58 @@
       "keywords": [
         "grpc"
       ],
-      "url": "/docs/language/go-grpc/grpc",
-      "subject_ref": "subject:language:library:go-grpc",
-      "subject_title": "Go Grpc",
+      "url": "/docs/language/grpc/go/grpc",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-grpc",
-        "aspect": "grpc"
+        "instance": "grpc",
+        "aspect": "go-grpc"
       },
-      "search_text": "grpc grpc protoc-gen-go latest shell go install google golang org/grpc/cmd/protoc-gen-go-grpc latest shell protoc --go out --go opt paths source relative --go 컴파일 grpc operation language library go-grpc grpc",
+      "search_text": "grpc grpc protoc-gen-go latest shell go install google golang org/grpc/cmd/protoc-gen-go-grpc latest shell protoc --go out --go opt paths source relative --go 컴파일 grpc operation language library grpc go-grpc",
       "display": {
         "label": "gRPC",
         "kind": "document",
-        "subtitle": "Go Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/python-grpc/grpc.mdx",
+      "id": "doc:docs/language/grpc/overview.mdx",
+      "title": "gRPC",
+      "description": "gRPC language bindings and tooling",
+      "snippet": "## Language Bindings\n\n- C++\n- Go\n- Python\n\n## Protobuf\n\n- C++ Protobuf\n- Go Protobuf\n- Python Protobuf",
+      "headings": [
+        "Language Bindings",
+        "Protobuf"
+      ],
+      "keywords": [
+        "grpc",
+        "rpc",
+        "protobuf"
+      ],
+      "url": "/docs/language/grpc/overview",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "grpc",
+        "aspect": "overview"
+      },
+      "search_text": "grpc grpc language bindings and tooling language bindings - c - go - python protobuf - c protobuf - go protobuf - python protobuf language bindings protobuf grpc rpc protobuf entity language library grpc overview",
+      "display": {
+        "label": "gRPC",
+        "kind": "document",
+        "subtitle": "Grpc"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/grpc/python/grpc.mdx",
       "title": "gRPC",
       "description": "gRPC",
       "snippet": "…otobuf 컴파일\n\n``shell\nprotoc \\\n --proto_path= \\\n --python_out= \\\n --pyi_out= \\\n --grpc_out= \\\n --plugin=protoc-gen-grpc=\"$(which grpc_python_plugin)\" \\\n\n`\n\nPython Qui…",
@@ -29584,110 +29507,110 @@
       "keywords": [
         "grpc"
       ],
-      "url": "/docs/language/python-grpc/grpc",
-      "subject_ref": "subject:language:library:python-grpc",
-      "subject_title": "Python Grpc",
+      "url": "/docs/language/grpc/python/grpc",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "python-grpc",
-        "aspect": "grpc"
+        "instance": "grpc",
+        "aspect": "python-grpc"
       },
-      "search_text": "grpc grpc otobuf 컴파일 shell protoc --proto path --python out --pyi out --grpc out --plugin protoc-gen-grpc which grpc python plugin python qui 컴파일 grpc operation language library python-grpc grpc",
+      "search_text": "grpc grpc otobuf 컴파일 shell protoc --proto path --python out --pyi out --grpc out --plugin protoc-gen-grpc which grpc python plugin python qui 컴파일 grpc operation language library grpc python-grpc",
       "display": {
         "label": "gRPC",
         "kind": "document",
-        "subtitle": "Python Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/cpp-grpc/overview.mdx",
+      "id": "doc:docs/language/grpc/cpp/overview.mdx",
       "title": "gRPC for C++",
       "description": "gRPC for C++ library overview",
-      "snippet": "gRPC for C++ is a library subject in the CPP language ecosystem covered by this wiki…",
+      "snippet": "gRPC for C++ is the C++ language binding and tooling workflow for gRPC.",
       "headings": [],
       "keywords": [
         "cpp grpc",
         "cpp"
       ],
-      "url": "/docs/language/cpp-grpc/overview",
-      "subject_ref": "subject:language:library:cpp-grpc",
-      "subject_title": "Cpp Grpc",
+      "url": "/docs/language/grpc/cpp/overview",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "cpp-grpc",
-        "aspect": "overview"
+        "instance": "grpc",
+        "aspect": "cpp"
       },
-      "search_text": "grpc for c grpc for c library overview grpc for c is a library subject in the cpp language ecosystem covered by this wiki cpp grpc cpp entity language library cpp-grpc overview",
+      "search_text": "grpc for c grpc for c library overview grpc for c is the c language binding and tooling workflow for grpc cpp grpc cpp entity language library grpc cpp",
       "display": {
         "label": "gRPC for C++",
         "kind": "document",
-        "subtitle": "Cpp Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-grpc/overview.mdx",
+      "id": "doc:docs/language/grpc/go/overview.mdx",
       "title": "gRPC for Go",
       "description": "gRPC for Go library overview",
-      "snippet": "gRPC for Go is a library subject in the GO language ecosystem covered by this wiki.",
+      "snippet": "gRPC for Go is the Go language binding and tooling workflow for gRPC.",
       "headings": [],
       "keywords": [
         "go grpc",
         "go"
       ],
-      "url": "/docs/language/go-grpc/overview",
-      "subject_ref": "subject:language:library:go-grpc",
-      "subject_title": "Go Grpc",
+      "url": "/docs/language/grpc/go/overview",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-grpc",
-        "aspect": "overview"
+        "instance": "grpc",
+        "aspect": "go"
       },
-      "search_text": "grpc for go grpc for go library overview grpc for go is a library subject in the go language ecosystem covered by this wiki go grpc go entity language library go-grpc overview",
+      "search_text": "grpc for go grpc for go library overview grpc for go is the go language binding and tooling workflow for grpc go grpc go entity language library grpc go",
       "display": {
         "label": "gRPC for Go",
         "kind": "document",
-        "subtitle": "Go Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/python-grpc/overview.mdx",
+      "id": "doc:docs/language/grpc/python/overview.mdx",
       "title": "gRPC for Python",
       "description": "gRPC for Python library overview",
-      "snippet": "gRPC for Python is a library subject in the PYTHON language ecosystem covered by this wiki.",
+      "snippet": "gRPC for Python is the Python language binding and tooling workflow for gRPC.",
       "headings": [],
       "keywords": [
         "python grpc",
         "python"
       ],
-      "url": "/docs/language/python-grpc/overview",
-      "subject_ref": "subject:language:library:python-grpc",
-      "subject_title": "Python Grpc",
+      "url": "/docs/language/grpc/python/overview",
+      "subject_ref": "subject:language:library:grpc",
+      "subject_title": "Grpc",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "python-grpc",
-        "aspect": "overview"
+        "instance": "grpc",
+        "aspect": "python"
       },
-      "search_text": "grpc for python grpc for python library overview grpc for python is a library subject in the python language ecosystem covered by this wiki python grpc python entity language library python-grpc overview",
+      "search_text": "grpc for python grpc for python library overview grpc for python is the python language binding and tooling workflow for grpc python grpc python entity language library grpc python",
       "display": {
         "label": "gRPC for Python",
         "kind": "document",
-        "subtitle": "Python Grpc"
+        "subtitle": "Grpc"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-swagger/overview.mdx",
+      "id": "doc:docs/language/go/swagger/overview.mdx",
       "title": "go-swagger",
       "description": "go-swagger library overview",
       "snippet": "go-swagger is a library subject in the GO language ecosystem covered by this wiki.",
@@ -29696,26 +29619,26 @@
         "go swagger",
         "go"
       ],
-      "url": "/docs/language/go-swagger/overview",
-      "subject_ref": "subject:language:library:go-swagger",
-      "subject_title": "Go Swagger",
+      "url": "/docs/language/go/swagger/overview",
+      "subject_ref": "subject:language:library:swagger",
+      "subject_title": "Swagger",
       "ontology": {
         "role": "entity",
         "domain": "language",
         "class": "library",
-        "instance": "go-swagger",
+        "instance": "swagger",
         "aspect": "overview"
       },
-      "search_text": "go-swagger go-swagger library overview go-swagger is a library subject in the go language ecosystem covered by this wiki go swagger go entity language library go-swagger overview",
+      "search_text": "go-swagger go-swagger library overview go-swagger is a library subject in the go language ecosystem covered by this wiki go swagger go entity language library swagger overview",
       "display": {
         "label": "go-swagger",
         "kind": "document",
-        "subtitle": "Go Swagger"
+        "subtitle": "Swagger"
       }
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-gorm/gorm.mdx",
+      "id": "doc:docs/language/go/gorm/gorm.mdx",
       "title": "gorm",
       "description": "gorm",
       "snippet": "## 설치\n\n- https://github.com/go-gorm\n\n``shell\ngo get -u gorm.io/gorm\n`\n\n`shell\ngo get -u gorm.io/driver/mysql\n`\n\n`sh…",
@@ -29730,21 +29653,21 @@
       "keywords": [
         "gorm"
       ],
-      "url": "/docs/language/go-gorm/gorm",
-      "subject_ref": "subject:language:library:go-gorm",
-      "subject_title": "Go Gorm",
+      "url": "/docs/language/go/gorm",
+      "subject_ref": "subject:language:library:gorm",
+      "subject_title": "Gorm",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-gorm",
+        "instance": "gorm",
         "aspect": "gorm"
       },
-      "search_text": "gorm gorm 설치 - https //github com/go-gorm shell go get -u gorm io/gorm shell go get -u gorm io/driver/mysql sh 설치 database schema tag example transaction gorm operation language library go-gorm gorm",
+      "search_text": "gorm gorm 설치 - https //github com/go-gorm shell go get -u gorm io/gorm shell go get -u gorm io/driver/mysql sh 설치 database schema tag example transaction gorm operation language library gorm gorm",
       "display": {
         "label": "gorm",
         "kind": "document",
-        "subtitle": "Go Gorm"
+        "subtitle": "Gorm"
       }
     },
     {
@@ -30552,7 +30475,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-kubebuilder/namespace.mdx",
+      "id": "doc:docs/language/go/kubebuilder/namespace.mdx",
       "title": "namespaceSelector를 사용한 관리 범위 설정",
       "description": "namespaceSelector를 사용한 Kubernetes operator 관리 범위 설정 가이드",
       "snippet": "…ok namespaceSelector\n\nWebhook은 cache와 별도로, API server가 요청을 webhook에 전달할지 결정합니다. namespaceSelector를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다.\n\n### matchLabels\n\nnamespace에 설정된 l…",
@@ -30570,21 +30493,21 @@
         "operator",
         "namespaceSelector"
       ],
-      "url": "/docs/language/go-kubebuilder/namespace",
-      "subject_ref": "subject:language:library:go-kubebuilder",
-      "subject_title": "Go Kubebuilder",
+      "url": "/docs/language/go/kubebuilder/namespace",
+      "subject_ref": "subject:language:library:kubebuilder",
+      "subject_title": "Kubebuilder",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-kubebuilder",
+        "instance": "kubebuilder",
         "aspect": "namespace"
       },
-      "search_text": "namespaceselector를 사용한 관리 범위 설정 namespaceselector를 사용한 kubernetes operator 관리 범위 설정 가이드 ok namespaceselector webhook은 cache와 별도로 api server가 요청을 webhook에 전달할지 결정합니다 namespaceselector를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다 matchlabels namespace에 설정된 l 기본 동작 특정 namespace만 감시하기 명시적 namespace 지정 label selector로 namespace 선택 predicate 필터링 webhook namespaceselector matchlabels matchexpressions kubebuilder operator namespaceselector operation language library go-kubebuilder namespace",
+      "search_text": "namespaceselector를 사용한 관리 범위 설정 namespaceselector를 사용한 kubernetes operator 관리 범위 설정 가이드 ok namespaceselector webhook은 cache와 별도로 api server가 요청을 webhook에 전달할지 결정합니다 namespaceselector를 설정하면 특정 namespace의 리소스에 대해서만 webhook이 동작합니다 matchlabels namespace에 설정된 l 기본 동작 특정 namespace만 감시하기 명시적 namespace 지정 label selector로 namespace 선택 predicate 필터링 webhook namespaceselector matchlabels matchexpressions kubebuilder operator namespaceselector operation language library kubebuilder namespace",
       "display": {
         "label": "namespaceSelector를 사용한 관리 범위 설정",
         "kind": "document",
-        "subtitle": "Go Kubebuilder"
+        "subtitle": "Kubebuilder"
       }
     },
     {
@@ -31085,7 +31008,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-time/time.mdx",
+      "id": "doc:docs/language/go/time/time.mdx",
       "title": "time",
       "description": "time",
       "snippet": "## time/tzdata\n\n``go\npackage main\n\n \"fmt\"\n \"time\"\n _ \"time/tzdata\"\n)\n\nfunc main() {\n lo…",
@@ -31095,21 +31018,21 @@
       "keywords": [
         "time"
       ],
-      "url": "/docs/language/go-time/time",
-      "subject_ref": "subject:language:library:go-time",
-      "subject_title": "Go Time",
+      "url": "/docs/language/go/time",
+      "subject_ref": "subject:language:library:time",
+      "subject_title": "Time",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-time",
+        "instance": "time",
         "aspect": "time"
       },
-      "search_text": "time time time/tzdata go package main fmt time time/tzdata func main lo time/tzdata time operation language library go-time time",
+      "search_text": "time time time/tzdata go package main fmt time time/tzdata func main lo time/tzdata time operation language library time time",
       "display": {
         "label": "time",
         "kind": "document",
-        "subtitle": "Go Time"
+        "subtitle": "Time"
       }
     },
     {
@@ -31321,7 +31244,7 @@
     },
     {
       "type": "document",
-      "id": "doc:docs/language/go-validator/validator.mdx",
+      "id": "doc:docs/language/go/validator/validator.mdx",
       "title": "validator",
       "description": "validator",
       "snippet": "## 설치\n\n- https://github.com/go-playground/validator\n\n``shell\ngo get github.com/go-playground/validator/v10\n`\n\n## Tag\n\n- https://git…",
@@ -31337,21 +31260,21 @@
         "validator",
         "golang"
       ],
-      "url": "/docs/language/go-validator/validator",
-      "subject_ref": "subject:language:library:go-validator",
-      "subject_title": "Go Validator",
+      "url": "/docs/language/go/validator",
+      "subject_ref": "subject:language:library:validator",
+      "subject_title": "Validator",
       "ontology": {
         "role": "operation",
         "domain": "language",
         "class": "library",
-        "instance": "go-validator",
+        "instance": "validator",
         "aspect": "validator"
       },
-      "search_text": "validator validator 설치 - https //github com/go-playground/validator shell go get github com/go-playground/validator/v10 tag - https //git 설치 tag string 전화번호 custom field type custom validator validator golang operation language library go-validator validator",
+      "search_text": "validator validator 설치 - https //github com/go-playground/validator shell go get github com/go-playground/validator/v10 tag - https //git 설치 tag string 전화번호 custom field type custom validator validator golang operation language library validator validator",
       "display": {
         "label": "validator",
         "kind": "document",
-        "subtitle": "Go Validator"
+        "subtitle": "Validator"
       }
     },
     {

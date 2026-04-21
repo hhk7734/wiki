@@ -22,6 +22,7 @@
     "doc:docs/infrastructure/networking/istio/authorization.mdx",
     "doc:docs/infrastructure/networking/istio/ext-authz.mdx",
     "doc:docs/infrastructure/networking/istio/install.mdx",
+    "doc:docs/infrastructure/networking/istio/istio-csr.mdx",
     "doc:docs/infrastructure/networking/istio/opentelemetry.mdx"
   ],
   "documents": [
@@ -169,6 +170,19 @@
       }
     },
     {
+      "id": "doc:docs/infrastructure/networking/istio/istio-csr.mdx",
+      "title": "Istio CSR",
+      "url": "/docs/infrastructure/networking/istio/istio-csr",
+      "snippet": "… name: istio-ca\n namespace: istio-system\nspec:\n ca:\n secretName: istio-ca\n`\n\n## Istio-CSR(Intermediate CA)\n\n`shell\nkubectl create secret generic -n auth istio-root-ca \\\n…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "service-mesh",
+        "instance": "istio",
+        "aspect": "istio-csr"
+      }
+    },
+    {
       "id": "doc:docs/infrastructure/networking/istio/opentelemetry.mdx",
       "title": "Istio OpenTelemetry 설정 가이드",
       "url": "/docs/infrastructure/networking/istio/opentelemetry",
@@ -247,6 +261,12 @@
       "id": "relation:doc:docs/infrastructure/networking/istio/install.mdx:about_subject:subject:infrastructure:service-mesh:istio",
       "predicate": "about_subject",
       "other_id": "doc:docs/infrastructure/networking/istio/install.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/networking/istio/istio-csr.mdx:about_subject:subject:infrastructure:service-mesh:istio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/networking/istio/istio-csr.mdx",
       "direction": "incoming"
     },
     {

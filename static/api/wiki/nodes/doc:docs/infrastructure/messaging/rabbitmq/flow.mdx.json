@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/messaging/rabbitmq/flow.mdx",
+  "title": "RabbitMQ Flow",
+  "snippet": "## Exchange & Queue\n\n``mermaid\nflowchart LR\n subgraph RabbitMQ\n direction LR\n Z(amq.topicTopic Exchange) -- A.* --> A(ADirect Exchange)\n Z -- …",
+  "ontology": {
+    "role": "entity",
+    "domain": "infrastructure",
+    "class": "eventing-system",
+    "instance": "rabbitmq",
+    "aspect": "flow"
+  },
+  "url": "/docs/infrastructure/messaging/rabbitmq/flow",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/messaging/rabbitmq/flow.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:eventing-system:rabbitmq",
+    "title": "RabbitMQ Flow",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "eventing-system",
+      "instance": "rabbitmq"
+    },
+    "url": "/docs/infrastructure/messaging/rabbitmq/flow"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/messaging/rabbitmq/flow.mdx:about_subject:subject:infrastructure:eventing-system:rabbitmq",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:eventing-system:rabbitmq",
+      "direction": "outgoing"
+    }
+  ]
+}

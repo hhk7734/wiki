@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/kubernetes/drain-node.mdx",
+  "title": "Node를 비우고 제거하기",
+  "snippet": "…Pod 비우기\n\n`shell\nkubectl drain --ignore-daemonsets\n`\n\n## Node 제거\n\n`shell\nkubectl delete node\n``",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "orchestrator",
+    "instance": "kubernetes",
+    "aspect": "drain-node"
+  },
+  "url": "/docs/infrastructure/kubernetes/drain-node",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/kubernetes/drain-node.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:orchestrator:kubernetes",
+    "title": "Admission Controller",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "orchestrator",
+      "instance": "kubernetes"
+    },
+    "url": "/docs/infrastructure/kubernetes/admission-controller"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/kubernetes/drain-node.mdx:about_subject:subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:orchestrator:kubernetes",
+      "direction": "outgoing"
+    }
+  ]
+}

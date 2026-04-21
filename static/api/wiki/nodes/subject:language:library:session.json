@@ -1,0 +1,65 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:session",
+  "title": "Go Session",
+  "snippet": "Go Session is a library subject in the GO language ecosystem covered by this wiki.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "session"
+  },
+  "url": "/docs/language/go/session/overview",
+  "node_url": "/api/wiki/nodes/subject:language:library:session.json",
+  "document_refs": [
+    "doc:docs/language/go/session/overview.mdx",
+    "doc:docs/language/go/session/session.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/go/session/overview.mdx",
+      "title": "Go Session",
+      "url": "/docs/language/go/session/overview",
+      "snippet": "Go Session is a library subject in the GO language ecosystem covered by this wiki.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "session",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/go/session/session.mdx",
+      "title": "Session",
+      "url": "/docs/language/go/session",
+      "snippet": "…작성\n\n## 클라이언트에서 세션&쿠키 갱신 요청\n\n- 쿠키 만료 시간 == 세션 만료 시간\n- 만료 시간 짧음\n- 로그인\n - 쿠키 생성\n - session.Manager.NewSessionID -> session.Manager.SetCookie\n - 세션 생성\n- 기타 API\n - 쿠키에서 세션 …",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "library",
+        "instance": "session",
+        "aspect": "session"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/go/session/overview.mdx:about_subject:subject:language:library:session",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/session/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/go/session/session.mdx:about_subject:subject:language:library:session",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/go/session/session.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:session:depends_on:subject:language:programming-language:go",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:go",
+      "direction": "outgoing"
+    }
+  ]
+}

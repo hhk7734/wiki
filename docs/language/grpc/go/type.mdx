@@ -1,0 +1,42 @@
+---
+id: type
+title: "Protobuf Type"
+sidebar_label: Type
+description: "Protocol Buffers type"
+keywords:
+  - protobuf
+  - type
+  - golang
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: grpc
+  aspect: go-type
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Protobuf Type
+
+- [Protobuf Type](/docs/protocol/protobuf/type.mdx)
+
+## Timestamp
+
+```go
+import "google.golang.org/protobuf/types/known/timestamppb"
+
+timestamp := timestamppb.Now()
+
+t := timestamp.AsTime() // time.Time
+```

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/device/amd-gpu-operator/crd.mdx",
+  "title": "AMD GPU Operator CRD",
+  "snippet": "…erator가 가지고 있는 Dockerfile로 이미지를 빌드하여 설정한 경로로 업로드한 후 사용합니다.\n이미지를 만들어두기 위해 ROCm / gpu-operator GitHub / driver / precompiled-driver 문서를 참고하세요.\n\n### devicePlugin\n\n`yaml\nspec:\n…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "amd-gpu-operator",
+    "aspect": "crd"
+  },
+  "url": "/docs/infrastructure/device/amd-gpu-operator/crd",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/amd-gpu-operator/crd.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+    "title": "AMD GPU Operator",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-addon",
+      "instance": "amd-gpu-operator"
+    },
+    "url": "/docs/infrastructure/device/amd-gpu-operator/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/device/amd-gpu-operator/crd.mdx:about_subject:subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-addon:amd-gpu-operator",
+      "direction": "outgoing"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/device/node-feature-discovery/install.mdx",
+  "title": "Node Feature Discovery(NFD) 설치 가이드",
+  "snippet": "…scovery / Deployment / Helm\n\n``shell\nhelm pull oci://registry.k8s.io/nfd/charts/node-feature-discovery --version 0.18.3\n`\n\n`shell\nhelm show values oci://registry.k8s.io/nfd/charts/no…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "node-feature-discovery",
+    "aspect": "install"
+  },
+  "url": "/docs/infrastructure/device/node-feature-discovery/install",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/node-feature-discovery/install.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-addon:node-feature-discovery",
+    "title": "NFD NodeFeatureRule을 활용한 Node 식별 가이드",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-addon",
+      "instance": "node-feature-discovery"
+    },
+    "url": "/docs/infrastructure/device/node-feature-discovery/node-feature-rule"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/device/node-feature-discovery/install.mdx:about_subject:subject:infrastructure:cluster-addon:node-feature-discovery",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-addon:node-feature-discovery",
+      "direction": "outgoing"
+    }
+  ]
+}

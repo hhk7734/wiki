@@ -1,0 +1,108 @@
+---
+id: protobuf
+title: Protobuf
+sidebar_label: Protobuf
+description: "Protocol Buffers"
+keywords:
+  - Protobuf
+ontology:
+  role: operation
+  domain: language
+  class: library
+  instance: grpc
+  aspect: python-protobuf
+subject:
+  canonical_name: gRPC
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Protobuf
+
+- [Protobuf](/docs/protocol/protobuf/overview.mdx)
+- [Version Support](https://protobuf.dev/support/version-support/#python)
+
+## 컴파일
+
+```shell
+python3 -m pip install protobuf
+```
+
+```shell
+protoc \
+  --proto_path=<protoRoot> \
+  --python_out=<pythonRoot> \
+  --pyi_out=<pythonRoot> \
+  <protoFile>
+```
+
+- `<flogs>`
+  - `--proto_path=<path>`: import할 다른 protobuf 파일들의 기본 경로
+  - `--python_out=<path>`: `*_pb2.py` 파일들이 생성될 루트 경로
+  - `--pyi_out=<path>`: `*_pb2.pyi` 파일들이 생성될 루트 경로
+
+### 규칙
+
+- `import a/b.proto` -\> `from a import b`
+  - 따라서 import를 해야하는 경우 파이썬에서 생성된 파일들의 경로를 protobuf 파일들의 경로와 맞춰야할 수 있습니다.
+
+## 변환
+
+### Message \<-\> Binary
+
+```python
+msg = pb.SomeProtoMessage()
+
+# ...
+
+binary_msg = msg.SerializeToString()
+```
+
+```python
+msg = pb.SomeProtoMessage()
+msg.ParseFromString(binary_msg)
+```
+
+### Message \<-\> JSON
+
+```python
+from google.protobuf.json_format import MessageToJson
+
+msg = pb.SomeProtoMessage()
+
+# ...
+
+json_msg = MessageToJson(msg)
+```
+
+```python
+from google.protobuf.json_format import Parse
+
+msg = Parse(json_msg, pb.SomeProtoMessage())
+```
+
+### Message \<-\> Dict
+
+```python
+from google.protobuf.json_format import MessageToDict
+
+msg = pb.SomeProtoMessage()
+
+# ...
+
+dict_msg = MessageToDict(msg)
+```
+
+```python
+from google.protobuf.json_format import ParseDict
+
+msg = ParseDict(dict_msg, pb.SomeProtoMessage())
+```
