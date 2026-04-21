@@ -11,7 +11,23 @@ function createNode(node) {
 }
 
 function toTopicLabel(topic) {
+	if (topic === "iac") {
+		return "IaC";
+	}
+
 	return topic.replace(/[-_]+/g, " ").replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function getClassName(record, topic) {
+	if (topic === "infrastructure") {
+		const section = record.url?.match(/^\/docs\/infrastructure\/([^/#?]+)/)?.[1];
+
+		if (section) {
+			return section;
+		}
+	}
+
+	return record.ontology?.class ?? "uncategorized";
 }
 
 export function buildOntologyGraph({
@@ -24,6 +40,7 @@ export function buildOntologyGraph({
 	const links = [];
 	const nodeById = new Map(nodes.map((node) => [node.id, node]));
 	const topicNodeIds = new Map();
+	const classNodeIds = new Map();
 
 	for (const record of subjectRecords) {
 		const topic = record.ontology?.domain ?? "unknown";
@@ -44,12 +61,37 @@ export function buildOntologyGraph({
 			links.push({ source: "root", target: topicNodeId, kind: "hierarchy" });
 		}
 
+		const className = getClassName(record, topic);
+		const classKey = `${topic}:${className}`;
+		const classNodeId = `class:${classKey}`;
+
+		if (!classNodeIds.has(classKey)) {
+			const classNode = createNode({
+				id: classNodeId,
+				label: toTopicLabel(className),
+				type: "class",
+				depth: 2,
+				topic,
+				mapClass: className,
+				ontology: {
+					domain: topic,
+					class: className,
+				},
+			});
+
+			nodes.push(classNode);
+			nodeById.set(classNodeId, classNode);
+			classNodeIds.set(classKey, classNodeId);
+			links.push({ source: topicNodeIds.get(topic), target: classNodeId, kind: "hierarchy" });
+		}
+
 		const subjectNode = createNode({
 			id: record.id,
 			label: record.title,
 			type: "subject",
-			depth: 2,
+			depth: 3,
 			topic,
+			mapClass: className,
 			href: record.url,
 			nodeUrl: record.node_url,
 			description: record.snippet,
@@ -58,7 +100,7 @@ export function buildOntologyGraph({
 
 		nodes.push(subjectNode);
 		nodeById.set(subjectNode.id, subjectNode);
-		links.push({ source: topicNodeIds.get(topic), target: subjectNode.id, kind: "hierarchy" });
+		links.push({ source: classNodeIds.get(classKey), target: subjectNode.id, kind: "hierarchy" });
 	}
 
 	for (const edge of wikiGraph?.edges ?? []) {

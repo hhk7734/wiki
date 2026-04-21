@@ -46,7 +46,9 @@ function polarOffset(seed: string, radius: number) {
 
 function withLayout(graph: OntologyGraphData): OntologyGraphData {
 	const topicNodes = graph.nodes.filter((node) => node.type === "topic");
+	const classNodes = graph.nodes.filter((node) => node.type === "class");
 	const topicCenters = new Map<string, { x: number; y: number; z: number }>();
+	const classCenters = new Map<string, { x: number; y: number; z: number }>();
 
 	topicNodes.forEach((node, index) => {
 		const angle = (index / Math.max(topicNodes.length, 1)) * Math.PI * 2;
@@ -57,6 +59,29 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 		};
 
 		topicCenters.set(node.topic ?? node.id, position);
+	});
+
+	const classNodesByTopic = new Map<string, OntologyGraphNode[]>();
+
+	classNodes.forEach((node) => {
+		const topic = node.topic ?? "unknown";
+		classNodesByTopic.set(topic, [...(classNodesByTopic.get(topic) ?? []), node]);
+	});
+
+	classNodesByTopic.forEach((nodes, topic) => {
+		const topicCenter = topicCenters.get(topic) ?? { x: 0, y: 0, z: 0 };
+
+		nodes.forEach((node, index) => {
+			const angle = (index / Math.max(nodes.length, 1)) * Math.PI * 2;
+			const radius = 92 + (index % 2) * 18;
+			const position = {
+				x: topicCenter.x + Math.cos(angle) * radius,
+				y: topicCenter.y + ((index % 3) - 1) * 24,
+				z: topicCenter.z + Math.sin(angle) * radius,
+			};
+
+			classCenters.set(node.id, position);
+		});
 	});
 
 	return {
@@ -70,7 +95,14 @@ function withLayout(graph: OntologyGraphData): OntologyGraphData {
 				return { ...node, ...center, fx: center.x, fy: center.y, fz: center.z, layoutTarget: center };
 			}
 
-			const center = topicCenters.get(node.topic ?? "") ?? { x: 0, y: 0, z: 0 };
+			if (node.type === "class") {
+				const center = classCenters.get(node.id) ?? topicCenters.get(node.topic ?? "") ?? { x: 0, y: 0, z: 0 };
+				return { ...node, ...center, layoutTarget: center };
+			}
+
+			const classNodeId = `class:${node.topic}:${node.mapClass ?? node.ontology?.class ?? "uncategorized"}`;
+			const center =
+				classCenters.get(classNodeId) ?? topicCenters.get(node.topic ?? "") ?? { x: 0, y: 0, z: 0 };
 			const offset = polarOffset(node.id, 55 + node.depth * 26);
 
 			return {
@@ -118,6 +150,8 @@ function getNodeValue(node: OntologyGraphNode): number {
 			return 9;
 		case "topic":
 			return 7;
+		case "class":
+			return 4.8;
 		case "subject":
 			return 3.4;
 		default:
@@ -229,7 +263,11 @@ export default function OntologyGraph3D() {
 				return 135;
 			}
 
-			return link.source?.type === "root" ? 180 : 82;
+			if (link.source?.type === "root") {
+				return 180;
+			}
+
+			return link.target?.type === "class" ? 108 : 74;
 		});
 		linkForce?.strength?.((link: { kind?: string }) => (link.kind === "relation" ? 0.08 : 0.66));
 		chargeForce?.strength?.((node: OntologyGraphNode) => {
@@ -237,29 +275,28 @@ export default function OntologyGraph3D() {
 				return -260;
 			}
 
-			return node.type === "subject" ? -145 : -90;
+			return node.type === "class" ? -170 : node.type === "subject" ? -145 : -90;
 		});
 		graphRef.current.d3Force("center", null);
 		graphRef.current.d3Force(
 			"topicX",
 			forceX((node: OntologyGraphNode) => node.layoutTarget?.x ?? 0).strength((node: OntologyGraphNode) =>
-				node.type === "subject" ? 0.045 : 0,
+				node.type === "class" ? 0.07 : node.type === "subject" ? 0.045 : 0,
 			),
 		);
 		graphRef.current.d3Force(
 			"topicY",
 			forceY((node: OntologyGraphNode) => node.layoutTarget?.y ?? 0).strength((node: OntologyGraphNode) =>
-				node.type === "subject" ? 0.032 : 0,
+				node.type === "class" ? 0.05 : node.type === "subject" ? 0.032 : 0,
 			),
 		);
 		graphRef.current.d3Force(
 			"topicZ",
 			forceZ((node: OntologyGraphNode) => node.layoutTarget?.z ?? 0).strength((node: OntologyGraphNode) =>
-				node.type === "subject" ? 0.045 : 0,
+				node.type === "class" ? 0.07 : node.type === "subject" ? 0.045 : 0,
 			),
 		);
-		graphRef.current.d3ReheatSimulation();
-		graphRef.current.cameraPosition({ z: 620 }, { x: 0, y: 0, z: 0 }, 0);
+		graphRef.current.cameraPosition({ z: 820 }, { x: 0, y: 0, z: 0 }, 0);
 	}, [graphData.nodes.length]);
 
 	useEffect(() => {
@@ -357,13 +394,7 @@ export default function OntologyGraph3D() {
 								topicColors,
 							}).color;
 						}}
-						linkOpacity={(link) =>
-							getLinkVisuals({
-								link,
-								activeNodeId,
-								topicColors,
-							}).opacity
-						}
+						linkOpacity={0.58}
 						linkWidth={(link) => {
 							return getLinkVisuals({
 								link,
@@ -399,7 +430,7 @@ export default function OntologyGraph3D() {
 						onBackgroundClick={() => {
 							setHoveredNode(null);
 							setSelectedNode(null);
-							graphRef.current?.cameraPosition({ x: 0, y: 0, z: 620 }, { x: 0, y: 0, z: 0 }, 900);
+							graphRef.current?.cameraPosition({ x: 0, y: 0, z: 820 }, { x: 0, y: 0, z: 0 }, 900);
 						}}
 					/>
 				) : null}

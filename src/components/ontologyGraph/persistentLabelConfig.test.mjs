@@ -12,12 +12,18 @@ test("getPersistentLabelConfig gives the root the largest label treatment", () =
 	});
 });
 
-test("getPersistentLabelConfig distinguishes topic and subject labels", () => {
+test("getPersistentLabelConfig distinguishes topic, class, and subject labels", () => {
 	assert.deepEqual(getPersistentLabelConfig({ type: "topic" }), {
 		fontSize: 28,
 		color: "#f8fafc",
 		scale: 38,
 		yOffset: 12,
+	});
+	assert.deepEqual(getPersistentLabelConfig({ type: "class" }), {
+		fontSize: 22,
+		color: "#e0f2fe",
+		scale: 28,
+		yOffset: 9,
 	});
 	assert.deepEqual(getPersistentLabelConfig({ type: "subject" }), {
 		fontSize: 18,

@@ -16,6 +16,26 @@ const wikiGraph = {
 			document_refs: ["doc:docs/infrastructure/storage/ceph/overview.mdx"],
 		},
 		{
+			id: "subject:infrastructure:iac-tool:terraform",
+			type: "subject",
+			title: "Terraform",
+			snippet: "Infrastructure as code.",
+			ontology: { domain: "infrastructure", class: "iac-tool", instance: "terraform" },
+			url: "/docs/infrastructure/iac/terraform/overview",
+			node_url: "/api/wiki/nodes/subject:infrastructure:iac-tool:terraform.json",
+			document_refs: ["doc:docs/infrastructure/iac/terraform/overview.mdx"],
+		},
+		{
+			id: "subject:infrastructure:networking-stack:cilium",
+			type: "subject",
+			title: "Cilium",
+			snippet: "Kubernetes networking.",
+			ontology: { domain: "infrastructure", class: "networking-stack", instance: "cilium" },
+			url: "/docs/infrastructure/networking/cilium/overview",
+			node_url: "/api/wiki/nodes/subject:infrastructure:networking-stack:cilium.json",
+			document_refs: ["doc:docs/infrastructure/networking/cilium/overview.mdx"],
+		},
+		{
 			id: "subject:language:framework:nextjs",
 			type: "subject",
 			title: "Next.js",
@@ -102,7 +122,47 @@ test("buildOntologyGraph adds hierarchy links and semantic relation links betwee
 	const languageTopic = graph.nodes.find((node) => node.id === "topic:language");
 
 	assert.ok(linkPairs.has("root->topic:language:hierarchy"));
-	assert.ok(linkPairs.has("topic:language->subject:language:framework:nextjs:hierarchy"));
+	assert.ok(linkPairs.has("topic:language->class:language:framework:hierarchy"));
+	assert.ok(linkPairs.has("class:language:framework->subject:language:framework:nextjs:hierarchy"));
 	assert.ok(linkPairs.has("subject:language:framework:nextjs->subject:language:framework:react:relation"));
-	assert.equal(languageTopic.childCount, 2);
+	assert.equal(languageTopic.childCount, 1);
+});
+
+test("buildOntologyGraph inserts ontology class nodes between topics and subjects", () => {
+	const graph = buildOntologyGraph({
+		wikiGraph,
+		rootLabel: "lol-IoT",
+	});
+
+	const linkPairs = new Set(graph.links.map((link) => `${link.source}->${link.target}:${link.kind}`));
+	const classNode = graph.nodes.find((node) => node.id === "class:language:framework");
+	const reactNode = graph.nodes.find((node) => node.id === "subject:language:framework:react");
+
+	assert.equal(classNode?.type, "class");
+	assert.equal(classNode?.label, "Framework");
+	assert.equal(classNode?.topic, "language");
+	assert.equal(classNode?.ontology.class, "framework");
+	assert.equal(classNode?.depth, 2);
+	assert.equal(reactNode?.depth, 3);
+	assert.ok(linkPairs.has("topic:language->class:language:framework:hierarchy"));
+	assert.ok(linkPairs.has("class:language:framework->subject:language:framework:react:hierarchy"));
+	assert.equal(classNode?.childCount, 2);
+});
+
+test("buildOntologyGraph uses infrastructure path sections as class-level map nodes", () => {
+	const graph = buildOntologyGraph({
+		wikiGraph,
+		rootLabel: "lol-IoT",
+	});
+
+	const nodeIds = new Set(graph.nodes.map((node) => node.id));
+	const linkPairs = new Set(graph.links.map((link) => `${link.source}->${link.target}:${link.kind}`));
+
+	assert.ok(nodeIds.has("class:infrastructure:storage"));
+	assert.ok(nodeIds.has("class:infrastructure:iac"));
+	assert.ok(nodeIds.has("class:infrastructure:networking"));
+	assert.equal(graph.nodes.find((node) => node.id === "class:infrastructure:iac")?.label, "IaC");
+	assert.ok(linkPairs.has("topic:infrastructure->class:infrastructure:iac:hierarchy"));
+	assert.ok(linkPairs.has("class:infrastructure:iac->subject:infrastructure:iac-tool:terraform:hierarchy"));
+	assert.ok(linkPairs.has("class:infrastructure:networking->subject:infrastructure:networking-stack:cilium:hierarchy"));
 });

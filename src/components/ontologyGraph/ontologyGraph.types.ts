@@ -1,4 +1,4 @@
-export type OntologyGraphNodeType = "root" | "topic" | "subject";
+export type OntologyGraphNodeType = "root" | "topic" | "class" | "subject";
 
 export type OntologyGraphNode = {
 	id: string;
@@ -6,6 +6,7 @@ export type OntologyGraphNode = {
 	type: OntologyGraphNodeType;
 	depth: number;
 	topic?: string;
+	mapClass?: string;
 	href?: string;
 	description?: string;
 	nodeUrl?: string;
