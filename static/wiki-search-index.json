@@ -3990,6 +3990,7 @@
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
       "url": "/docs/infrastructure/device/nvidia-gpu-operator/install",
       "document_refs": [
+        "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
         "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx"
       ],
       "ontology": {
@@ -3997,12 +3998,12 @@
         "class": "cluster-addon",
         "instance": "nvidia-gpu-operator"
       },
-      "search_text": "nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 nvidia gpu operator 설치 node feature discovery gpu feature discovery 삭제 infrastructure cluster-addon nvidia-gpu-operator",
+      "search_text": "nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 nvidia gpu operator driver crd nvidia gpu operator driver crd node groups b300 l40s upgrade impact verification install gpu feature discovery driver crd upgrade impact uninstall infrastructure cluster-addon nvidia-gpu-operator",
       "display": {
         "label": "NVIDIA GPU Operator",
         "kind": "subject",
         "subtitle": "Nvidia Gpu Operator",
-        "document_count": 1
+        "document_count": 2
       }
     },
     {
@@ -20163,13 +20164,14 @@
       "type": "document",
       "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
       "title": "NVIDIA GPU Operator",
-      "description": "NVIDIA GPU Operator",
+      "description": "NVIDIA GPU Operator install guide",
       "snippet": "…vidia.com/nvidia\n`\n\n`shell\nhelm repo update nvidia \\\n&& helm search repo nvidia/gpu-operator -l | head -n 10\n`\n\n`shell\nhelm pull nvidia/gpu-operator --version v25.10.1\n`\n\n`…",
       "headings": [
-        "설치",
-        "Node Feature Discovery",
+        "Install",
         "GPU Feature Discovery",
-        "삭제"
+        "Driver CRD",
+        "Upgrade Impact",
+        "Uninstall"
       ],
       "keywords": [
         "gpu-operator",
@@ -20186,9 +20188,47 @@
         "instance": "nvidia-gpu-operator",
         "aspect": "install"
       },
-      "search_text": "nvidia gpu operator nvidia gpu operator vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 설치 node feature discovery gpu feature discovery 삭제 gpu-operator nvidia nvidia-gpu-operator operation infrastructure cluster-addon nvidia-gpu-operator install",
+      "search_text": "nvidia gpu operator nvidia gpu operator install guide vidia com/nvidia shell helm repo update nvidia helm search repo nvidia/gpu-operator -l head -n 10 shell helm pull nvidia/gpu-operator --version v25 10 1 install gpu feature discovery driver crd upgrade impact uninstall gpu-operator nvidia nvidia-gpu-operator operation infrastructure cluster-addon nvidia-gpu-operator install",
       "display": {
         "label": "NVIDIA GPU Operator",
+        "kind": "document",
+        "subtitle": "Nvidia Gpu Operator"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+      "title": "NVIDIA GPU Operator Driver CRD",
+      "description": "NVIDIA GPU Operator NVIDIADriver CRD configuration guide",
+      "snippet": "…r is installed before explicit node-group resources are created.\n\n``yaml title=\"gpu-operator-values.yaml\"\ndriver:\n enabled: true\n nvidiaDriverCRD:\n enabled: true\n deployDef…",
+      "headings": [
+        "Driver CRD",
+        "Node Groups",
+        "B300",
+        "L40S",
+        "Upgrade Impact",
+        "Verification"
+      ],
+      "keywords": [
+        "gpu-operator",
+        "nvidia",
+        "nvidia-gpu-operator",
+        "nvidiadriver",
+        "driver-crd"
+      ],
+      "url": "/docs/infrastructure/device/nvidia-gpu-operator/driver-crd",
+      "subject_ref": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "subject_title": "Nvidia Gpu Operator",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator",
+        "aspect": "driver-crd"
+      },
+      "search_text": "nvidia gpu operator driver crd nvidia gpu operator nvidiadriver crd configuration guide r is installed before explicit node-group resources are created yaml title gpu-operator-values yaml driver enabled true nvidiadrivercrd enabled true deploydef driver crd node groups b300 l40s upgrade impact verification gpu-operator nvidia nvidia-gpu-operator nvidiadriver driver-crd operation infrastructure cluster-addon nvidia-gpu-operator driver-crd",
+      "display": {
+        "label": "NVIDIA GPU Operator Driver CRD",
         "kind": "document",
         "subtitle": "Nvidia Gpu Operator"
       }
@@ -30891,7 +30931,7 @@
       "id": "doc:docs/infrastructure/ai-platform/vllm/config.mdx",
       "title": "vLLM 설정 가이드",
       "description": "vLLM 설정 가이드",
-      "snippet": "## vLLM 옵션\n\n- vLLM / Configuration / Optimization and Tuning\n\n- ModelConfig\n - --max-model-len\n - prompt와 생…",
+      "snippet": "## vLLM 옵션\n\n- vLLM / Configuration / Optimization and Tuning\n- vLLM / API / vLLM / Config / Model\n\n- ModelC…",
       "headings": [
         "vLLM 옵션"
       ],
@@ -30908,7 +30948,7 @@
         "instance": "vllm",
         "aspect": "config"
       },
-      "search_text": "vllm 설정 가이드 vllm 설정 가이드 vllm 옵션 - vllm / configuration / optimization and tuning - modelconfig - --max-model-len - prompt와 생 vllm 옵션 vllm operation infrastructure serving-system vllm config",
+      "search_text": "vllm 설정 가이드 vllm 설정 가이드 vllm 옵션 - vllm / configuration / optimization and tuning - vllm / api / vllm / config / model - modelc vllm 옵션 vllm operation infrastructure serving-system vllm config",
       "display": {
         "label": "vLLM 설정 가이드",
         "kind": "document",

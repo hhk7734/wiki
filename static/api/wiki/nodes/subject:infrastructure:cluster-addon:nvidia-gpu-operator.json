@@ -11,9 +11,23 @@
   "url": "/docs/infrastructure/device/nvidia-gpu-operator/install",
   "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:nvidia-gpu-operator.json",
   "document_refs": [
+    "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
     "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx"
   ],
   "documents": [
+    {
+      "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+      "title": "NVIDIA GPU Operator Driver CRD",
+      "url": "/docs/infrastructure/device/nvidia-gpu-operator/driver-crd",
+      "snippet": "…r is installed before explicit node-group resources are created.\n\n``yaml title=\"gpu-operator-values.yaml\"\ndriver:\n enabled: true\n nvidiaDriverCRD:\n enabled: true\n deployDef…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator",
+        "aspect": "driver-crd"
+      }
+    },
     {
       "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
       "title": "NVIDIA GPU Operator",
@@ -30,10 +44,22 @@
   ],
   "relations": [
     {
+      "id": "relation:doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+      "direction": "incoming"
+    },
+    {
       "id": "relation:doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
       "predicate": "about_subject",
       "other_id": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
       "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:infrastructure:cluster-addon:nvidia-gpu-operator:uses:subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "uses",
+      "other_id": "subject:infrastructure:orchestrator:kubernetes",
+      "direction": "outgoing"
     }
   ]
 }

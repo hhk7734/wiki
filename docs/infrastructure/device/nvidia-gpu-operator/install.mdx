@@ -2,7 +2,7 @@
 id: install
 title: "NVIDIA GPU Operator"
 sidebar_label: Install
-description: "NVIDIA GPU Operator"
+description: "NVIDIA GPU Operator install guide"
 keywords:
   - gpu-operator
   - nvidia
@@ -28,11 +28,12 @@ source:
   confidence: exact
 ---
 
-## 설치
+## Install
 
 :::info[References]
 
 - [NVIDIA Docs / GPU Operator / About the NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html)
+- [NVIDIA Docs / GPU Operator / NVIDIA GPU Driver Custom Resource Definition](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-driver-configuration.html)
 
 :::
 
@@ -54,7 +55,6 @@ helm show values nvidia/gpu-operator --version v25.10.1 > gpu-operator-v25.10.1.
 ```
 
 ```yaml title="gpu-operator-values.yaml"
-# Node Feature Discovery
 nfd:
   enabled: false
 
@@ -66,6 +66,9 @@ daemonsets:
 
 driver:
   enabled: true
+  nvidiaDriverCRD:
+    enabled: true
+    deployDefaultCR: false
 
 toolkit:
   enabled: true
@@ -95,11 +98,16 @@ sandboxDevicePlugin:
 
 - `driver`
   - `enabled: true`
-    - NVIDIA GPU driver가 Node에 설치되어 실행되는 경우 `false`로 설정해야 합니다.
-  - `version: <version>`
+    - Enables GPU Operator driver management.
+    - If the NVIDIA GPU driver must remain pre-installed and host-managed, keep this value `false`.
+  - `nvidiaDriverCRD.enabled: true`
+    - Uses `NVIDIADriver` resources to define driver versions and node selection.
+  - `nvidiaDriverCRD.deployDefaultCR: false`
+    - Prevents Helm from creating a default `NVIDIADriver` that matches all GPU nodes.
+    - No operator-managed driver is installed until an explicit `NVIDIADriver` resource is applied.
 - `toolkit`
   - `enabled: true`
-    - NVIDIA Container Toolkit이 Node에 설치되어 실행되는 경우 `false`로 설정해야 합니다.
+    - If NVIDIA Container Toolkit is already installed and managed on the node, set this value `false`.
 
 ```shell
 helm template gpu-operator nvidia/gpu-operator \
@@ -118,13 +126,23 @@ helm upgrade -i gpu-operator nvidia/gpu-operator \
   -f gpu-operator-values.yaml
 ```
 
-:::info
-NFD(Node Feature Discovery)와 GFD(GPU Feature Discovery)에 의해 Node label에 시스템 정보가 추가되며, 이를 `nodeAffinity`에 설정하여 사용할 수 있습니다.
+## Driver CRD
 
-NFD의 PCI의 `deviceLabelFields`가 `[class, vendor]`로 설정되어 있는 경우, PCI에 NVIDIA 장치가 있다면 `feature.node.kubernetes.io/pci-0302_10de.present: "true"`같은 Node label로 추가될 수 있습니다.
+Create one or more `NVIDIADriver` resources after the Operator is installed. See [Driver CRD](/docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx) for node-group examples and upgrade policy guidance.
+
+## Upgrade Impact
+
+Driver updates can interrupt GPU workloads on the target node because the NVIDIA kernel modules and Fabric Manager may need to be restarted or reloaded. Use `maxParallelUpgrades: 1` and drain one node at a time for production clusters.
+
+For clusters with pre-installed host drivers, plan a node-by-node migration. Cordon and drain the node, remove or disable the host-managed NVIDIA driver and Fabric Manager stack, reboot if required, then let the `NVIDIADriver` resource install the operator-managed stack.
+
+:::info
+NFD(Node Feature Discovery) and GFD(GPU Feature Discovery) add system information to node labels. Use these labels in `nodeAffinity` or in `NVIDIADriver.spec.nodeSelector`.
+
+If the NFD PCI `deviceLabelFields` setting includes `[class, vendor]`, a node with an NVIDIA PCI device can receive a label such as `feature.node.kubernetes.io/pci-0302_10de.present: "true"`.
 :::
 
-## 삭제
+## Uninstall
 
 ```shell
 helm uninstall gpu-operator -n nvidia-gpu

@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+  "title": "NVIDIA GPU Operator Driver CRD",
+  "snippet": "…r is installed before explicit node-group resources are created.\n\n``yaml title=\"gpu-operator-values.yaml\"\ndriver:\n enabled: true\n nvidiaDriverCRD:\n enabled: true\n deployDef…",
+  "ontology": {
+    "role": "operation",
+    "domain": "infrastructure",
+    "class": "cluster-addon",
+    "instance": "nvidia-gpu-operator",
+    "aspect": "driver-crd"
+  },
+  "url": "/docs/infrastructure/device/nvidia-gpu-operator/driver-crd",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+    "title": "NVIDIA GPU Operator",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "cluster-addon",
+      "instance": "nvidia-gpu-operator"
+    },
+    "url": "/docs/infrastructure/device/nvidia-gpu-operator/install"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "direction": "outgoing"
+    }
+  ]
+}

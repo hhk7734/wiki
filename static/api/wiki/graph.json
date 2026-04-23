@@ -820,7 +820,7 @@
       "id": "doc:docs/infrastructure/ai-platform/vllm/config.mdx",
       "type": "document",
       "title": "vLLM 설정 가이드",
-      "snippet": "## vLLM 옵션\n\n- vLLM / Configuration / Optimization and Tuning\n\n- ModelConfig\n - --max-model-len\n - prompt와 생…",
+      "snippet": "## vLLM 옵션\n\n- vLLM / Configuration / Optimization and Tuning\n- vLLM / API / vLLM / Config / Model\n\n- ModelC…",
       "ontology": {
         "role": "operation",
         "domain": "infrastructure",
@@ -1711,6 +1711,22 @@
       "url": "/docs/infrastructure/device/nvidia-device-plugin/install",
       "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/nvidia-device-plugin/install.mdx.json",
       "subject_ref": "subject:infrastructure:cluster-addon:nvidia-device-plugin"
+    },
+    {
+      "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+      "type": "document",
+      "title": "NVIDIA GPU Operator Driver CRD",
+      "snippet": "…r is installed before explicit node-group resources are created.\n\n``yaml title=\"gpu-operator-values.yaml\"\ndriver:\n enabled: true\n nvidiaDriverCRD:\n enabled: true\n deployDef…",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "cluster-addon",
+        "instance": "nvidia-gpu-operator",
+        "aspect": "driver-crd"
+      },
+      "url": "/docs/infrastructure/device/nvidia-gpu-operator/driver-crd",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx.json",
+      "subject_ref": "subject:infrastructure:cluster-addon:nvidia-gpu-operator"
     },
     {
       "id": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
@@ -11861,6 +11877,7 @@
       "url": "/docs/infrastructure/device/nvidia-gpu-operator/install",
       "node_url": "/api/wiki/nodes/subject:infrastructure:cluster-addon:nvidia-gpu-operator.json",
       "document_refs": [
+        "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
         "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx"
       ]
     },
@@ -17338,6 +17355,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "from": "doc:docs/infrastructure/device/nvidia-gpu-operator/driver-crd.mdx",
+      "to": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx:about_subject:subject:infrastructure:cluster-addon:nvidia-gpu-operator",
       "from": "doc:docs/infrastructure/device/nvidia-gpu-operator/install.mdx",
       "to": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
@@ -20930,6 +20953,12 @@
       "from": "subject:hardware:mcu-family:tc27d",
       "to": "subject:hardware:mcu-family:tricore",
       "predicate": "part_of"
+    },
+    {
+      "id": "relation:subject:infrastructure:cluster-addon:nvidia-gpu-operator:uses:subject:infrastructure:orchestrator:kubernetes",
+      "from": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
+      "to": "subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "uses"
     },
     {
       "id": "relation:subject:infrastructure:networking-stack:ipoib:depends_on:subject:infrastructure:networking-stack:multus",

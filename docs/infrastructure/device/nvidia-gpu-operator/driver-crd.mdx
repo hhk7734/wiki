@@ -1,0 +1,180 @@
+---
+id: driver-crd
+title: "NVIDIA GPU Operator Driver CRD"
+sidebar_label: Driver CRD
+description: "NVIDIA GPU Operator NVIDIADriver CRD configuration guide"
+keywords:
+  - gpu-operator
+  - nvidia
+  - nvidia-gpu-operator
+  - nvidiadriver
+  - driver-crd
+ontology:
+  role: operation
+  domain: infrastructure
+  class: cluster-addon
+  instance: nvidia-gpu-operator
+  aspect: driver-crd
+subject:
+  canonical_name: "NVIDIA GPU Operator"
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - kubernetes
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Driver CRD
+
+:::info[References]
+
+- [NVIDIA Docs / GPU Operator / NVIDIA GPU Driver Custom Resource Definition](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/gpu-driver-configuration.html)
+- [NVIDIA Docs / GPU Operator / About the NVIDIA GPU Operator](https://docs.nvidia.com/datacenter/cloud-native/gpu-operator/latest/index.html)
+
+:::
+
+Use the `NVIDIADriver` CRD when driver versions must be managed per node group. Enable the CRD mode in the GPU Operator Helm values and disable the default driver custom resource so that no catch-all driver is installed before explicit node-group resources are created.
+
+```yaml title="gpu-operator-values.yaml"
+driver:
+  enabled: true
+  nvidiaDriverCRD:
+    enabled: true
+    deployDefaultCR: false
+```
+
+:::info
+With `deployDefaultCR: false`, the GPU Operator does not create a default `NVIDIADriver` resource. Operator-managed driver installation starts only after a matching `NVIDIADriver` resource is applied.
+:::
+
+## Node Groups
+
+Select target nodes with stable labels. Keep node selectors disjoint so that a node matches only one `NVIDIADriver` resource.
+
+```shell
+kubectl label node <node> node.type=b300
+kubectl label node <node> node.type=l40s
+```
+
+## B300
+
+```yaml title="nvidia-driver-b300.yaml"
+apiVersion: nvidia.com/v1alpha1
+kind: NVIDIADriver
+metadata:
+  name: b300-580-126-20
+spec:
+  driverType: gpu
+  nodeSelector:
+    node.type: b300
+  repository: nvcr.io/nvidia
+  image: driver
+  version: "580.126.20"
+  imagePullPolicy: IfNotPresent
+  usePrecompiled: false
+  kernelModuleType: auto
+  manager:
+    repository: nvcr.io/nvidia/cloud-native
+    image: k8s-driver-manager
+    version: v0.9.1
+    imagePullPolicy: IfNotPresent
+  upgradePolicy:
+    autoUpgrade: true
+    maxParallelUpgrades: 1
+    maxUnavailable: 1
+    waitForCompletion:
+      timeoutSeconds: 0
+      podSelector: ""
+    gpuPodDeletion:
+      force: false
+      deleteEmptyDir: false
+      timeoutSeconds: 300
+    drain:
+      enable: true
+      force: false
+      deleteEmptyDir: false
+      timeoutSeconds: 300
+```
+
+```shell
+kubectl apply -f nvidia-driver-b300.yaml
+```
+
+## L40S
+
+Use a separate resource for L40S nodes if they require a different rollout window, upgrade policy, or driver version.
+
+```yaml title="nvidia-driver-l40s.yaml"
+apiVersion: nvidia.com/v1alpha1
+kind: NVIDIADriver
+metadata:
+  name: l40s-580-126-20
+spec:
+  driverType: gpu
+  nodeSelector:
+    node.type: l40s
+  repository: nvcr.io/nvidia
+  image: driver
+  version: "580.126.20"
+  imagePullPolicy: IfNotPresent
+  usePrecompiled: false
+  kernelModuleType: auto
+  manager:
+    repository: nvcr.io/nvidia/cloud-native
+    image: k8s-driver-manager
+    version: v0.9.1
+    imagePullPolicy: IfNotPresent
+  upgradePolicy:
+    autoUpgrade: true
+    maxParallelUpgrades: 1
+    maxUnavailable: 1
+    waitForCompletion:
+      timeoutSeconds: 0
+      podSelector: ""
+    gpuPodDeletion:
+      force: false
+      deleteEmptyDir: false
+      timeoutSeconds: 300
+    drain:
+      enable: true
+      force: false
+      deleteEmptyDir: false
+      timeoutSeconds: 300
+```
+
+```shell
+kubectl apply -f nvidia-driver-l40s.yaml
+```
+
+## Upgrade Impact
+
+Driver upgrades can interrupt GPU workloads on the target node because the NVIDIA kernel modules and Fabric Manager may need to be restarted or reloaded. Set `maxParallelUpgrades: 1` and drain one node at a time for production clusters.
+
+For clusters with pre-installed host drivers, plan a node-by-node migration. Cordon and drain the node, remove or disable the host-managed NVIDIA driver and Fabric Manager stack, reboot if required, then let the matching `NVIDIADriver` resource install the operator-managed stack.
+
+## Verification
+
+```shell
+kubectl get nvidiadrivers
+```
+
+```shell
+kubectl get pods -n nvidia-gpu -o wide | grep nvidia-driver
+```
+
+```shell
+kubectl get nodes -l nvidia.com/gpu.present=true \
+  -o jsonpath='{range .items[*]}{.metadata.name}{"\t"}{.metadata.labels.nvidia\.com/cuda\.driver-version\.full}{"\t"}{.metadata.labels.nvidia\.com/gpu-driver-upgrade-state}{"\n"}{end}' \
+  | sort
+```
+
+:::warning
+Do not create overlapping `NVIDIADriver` resources. A node must match only one driver custom resource. Keep `deployDefaultCR: false` when custom node-group resources are used.
+:::
