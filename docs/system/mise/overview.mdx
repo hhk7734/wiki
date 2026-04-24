@@ -106,6 +106,24 @@ eval "$($HOME/.local/bin/mise activate bash --shims)"
 - [mise Docs / Tasks](https://mise.jdx.dev/tasks/)
 - [mise Docs / Configuration / Settings](https://mise.jdx.dev/configuration/settings.html)
 
+### Trusted config paths
+
+:::info[References]
+
+- [mise Docs / Configuration / Settings / trusted_config_paths](https://mise.jdx.dev/configuration/settings.html#trusted_config_paths)
+- [mise Docs / Getting Started / Trusting config files](https://mise.jdx.dev/getting-started.html#trusting-config-files)
+
+:::
+
+```toml title="$HOME/.config/mise/config.toml"
+[settings]
+trusted_config_paths = ["/home/hhk7734"]
+```
+
+- `trusted_config_paths` defines configuration roots that `mise` should trust.
+- With `trusted_config_paths = ["/home/hhk7734"]`, `mise.toml` files under `/home/hhk7734` and its subdirectories are trusted automatically.
+- This trusts descendants of the configured path, not only the exact directory itself.
+
 ## 버전 관리
 
 ### 버전 설정
