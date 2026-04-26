@@ -1,0 +1,251 @@
+---
+id: trait
+title: Rust Traits
+sidebar_label: Traits
+description: Understand Rust traits, trait bounds, impl Trait, and trait objects.
+keywords:
+  - rust
+  - trait
+  - trait bound
+  - impl trait
+  - dyn trait
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: rust
+  aspect: trait
+subject:
+  canonical_name: Rust
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [The Rust Programming Language / Traits: Defining Shared Behavior](https://doc.rust-lang.org/book/ch10-02-traits.html)
+- [Rust By Example / Traits](https://doc.rust-lang.org/rust-by-example/trait.html)
+- [The Rust Programming Language / Trait Objects](https://doc.rust-lang.org/book/ch18-02-trait-objects.html)
+- [The Rust Reference / Traits](https://doc.rust-lang.org/reference/items/traits.html)
+
+:::
+
+## Overview
+
+A trait defines shared behavior for multiple types.
+
+If a type implements a trait, that type promises to provide the methods required by the trait. This makes traits the core mechanism for abstraction and polymorphism in Rust.
+
+```rust
+trait Speak {
+    fn speak(&self);
+}
+```
+
+In practice, traits are used for:
+
+- shared APIs across unrelated types
+- generic constraints
+- static dispatch with `impl Trait` or trait bounds
+- dynamic dispatch with trait objects such as `dyn Trait`
+
+## Define a Trait
+
+Traits define method signatures and may also provide default implementations.
+
+```rust
+trait Summary {
+    fn summarize(&self) -> String;
+
+    fn short_summary(&self) -> String {
+        String::from("(summary omitted)")
+    }
+}
+```
+
+- Required methods must be implemented by every type that implements the trait.
+- Default methods can be reused as-is or overridden.
+
+## Implement a Trait for a Type
+
+Use an `impl <Trait> for <Type>` block to implement the trait.
+
+```rust
+struct Article {
+    title: String,
+}
+
+impl Summary for Article {
+    fn summarize(&self) -> String {
+        format!("Article: {}", self.title)
+    }
+}
+```
+
+You can then call the trait methods on the value:
+
+```rust
+let article = Article {
+    title: String::from("Traits in Rust"),
+};
+
+println!("{}", article.summarize());
+println!("{}", article.short_summary());
+```
+
+## Use a Trait in Function Parameters
+
+When a function should accept any type that implements a trait, constrain the parameter with that trait.
+
+```rust
+trait Speak {
+    fn speak(&self);
+}
+
+fn talk(item: &impl Speak) {
+    item.speak();
+}
+```
+
+This means `talk` can receive any borrowed value whose type implements `Speak`.
+
+The equivalent generic form is:
+
+```rust
+fn talk<T: Speak>(item: &T) {
+    item.speak();
+}
+```
+
+Use `impl Trait` when you want concise syntax. Use an explicit type parameter such as `T: Speak` when the type relationship matters elsewhere in the signature.
+
+## Trait Bounds
+
+Trait bounds restrict generic types.
+
+```rust
+fn notify<T: Summary>(item: &T) {
+    println!("{}", item.summarize());
+}
+```
+
+You can require multiple traits:
+
+```rust
+fn notify<T: Summary + Clone>(item: &T) {
+    let cloned = item.clone();
+    println!("{}", cloned.summarize());
+}
+```
+
+For more complex signatures, a `where` clause is often easier to read:
+
+```rust
+fn compare_and_print<T, U>(left: &T, right: &U)
+where
+    T: Summary,
+    U: Summary,
+{
+    println!("{}", left.summarize());
+    println!("{}", right.summarize());
+}
+```
+
+## `impl Trait`
+
+`impl Trait` is commonly used for parameters and return values.
+
+Parameter position:
+
+```rust
+fn render(item: &impl Summary) {
+    println!("{}", item.summarize());
+}
+```
+
+Return position:
+
+```rust
+fn make_article() -> impl Summary {
+    Article {
+        title: String::from("Rust Trait Guide"),
+    }
+}
+```
+
+For return types, `impl Trait` means the function returns one concrete type that implements the trait. It does not mean the function can return different concrete types from different branches unless they resolve to the same concrete type.
+
+## Trait Objects with `dyn Trait`
+
+Trait objects enable dynamic dispatch.
+
+```rust
+fn render_all(items: Vec<Box<dyn Summary>>) {
+    for item in items {
+        println!("{}", item.summarize());
+    }
+}
+```
+
+Use this when you need to store or pass multiple different concrete types behind a shared trait interface at runtime.
+
+Common forms:
+
+- `&dyn Trait`
+- `Box<dyn Trait>`
+- `Arc<dyn Trait>`
+
+Trait objects are useful when the exact concrete type is not known until runtime, but they introduce dynamic dispatch and object-safety constraints.
+
+## Static Dispatch vs Dynamic Dispatch
+
+Use static dispatch when possible:
+
+- `T: Trait`
+- `impl Trait`
+
+This is usually the default choice because it is simpler for performance and preserves concrete type information at compile time.
+
+Use dynamic dispatch when runtime flexibility matters more:
+
+- `&dyn Trait`
+- `Box<dyn Trait>`
+
+This is useful when a collection must hold multiple concrete types that all implement the same trait.
+
+## Common Standard Traits
+
+Rust code frequently uses standard traits such as:
+
+- `Debug`
+- `Display`
+- `Clone`
+- `Copy`
+- `Default`
+- `PartialEq`
+- `Eq`
+- `Ord`
+- `Iterator`
+
+These traits define common behavior that many library APIs depend on.
+
+## When to Split This Page
+
+Keep this page as the main overview for Rust traits. If the topic grows significantly, split it into focused pages such as:
+
+- trait bounds
+- `impl Trait`
+- trait objects
+- object safety
+- associated types
+
+That keeps [`/docs/language/rust/trait.mdx`](/docs/language/rust/trait.mdx) as the entry point while moving deeper material into dedicated pages.
