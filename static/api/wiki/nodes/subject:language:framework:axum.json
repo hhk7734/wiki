@@ -1,0 +1,77 @@
+{
+  "type": "subject",
+  "id": "subject:language:framework:axum",
+  "title": "Axum",
+  "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+  "ontology": {
+    "domain": "language",
+    "class": "framework",
+    "instance": "axum"
+  },
+  "url": "/docs/language/rust/axum/overview",
+  "node_url": "/api/wiki/nodes/subject:language:framework:axum.json",
+  "document_refs": [
+    "doc:docs/language/rust/axum/overview.mdx",
+    "doc:docs/language/rust/axum/request-response.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/rust/axum/overview.mdx",
+      "title": "Axum",
+      "url": "/docs/language/rust/axum/overview",
+      "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "overview"
+      }
+    },
+    {
+      "id": "doc:docs/language/rust/axum/request-response.mdx",
+      "title": "Axum Request and Response Parsing",
+      "url": "/docs/language/rust/axum/request-response",
+      "snippet": "… response\n- axum / Json\n- axum / FromRequest\n- axum / FromRequestParts\n- axum / IntoResponse\n- validator\n- Axum overview\n\n## Mental Model\n\nAxum does not usually call reques…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "request-response"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/rust/axum/overview.mdx:about_subject:subject:language:framework:axum",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/rust/axum/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/axum/request-response.mdx:about_subject:subject:language:framework:axum",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/rust/axum/request-response.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:depends_on:subject:language:programming-language:rust",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:related_to:subject:language:programming-language:rust",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:uses:subject:language:library:validator",
+      "predicate": "uses",
+      "other_id": "subject:language:library:validator",
+      "direction": "outgoing"
+    }
+  ]
+}

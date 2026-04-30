@@ -9633,6 +9633,38 @@
       "subject_ref": "subject:language:library:actix-web"
     },
     {
+      "id": "doc:docs/language/rust/axum/overview.mdx",
+      "type": "document",
+      "title": "Axum",
+      "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/rust/axum/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/axum/overview.mdx.json",
+      "subject_ref": "subject:language:framework:axum"
+    },
+    {
+      "id": "doc:docs/language/rust/axum/request-response.mdx",
+      "type": "document",
+      "title": "Axum Request and Response Parsing",
+      "snippet": "… response\n- axum / Json\n- axum / FromRequest\n- axum / FromRequestParts\n- axum / IntoResponse\n- validator\n- Axum overview\n\n## Mental Model\n\nAxum does not usually call reques…",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "request-response"
+      },
+      "url": "/docs/language/rust/axum/request-response",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/axum/request-response.mdx.json",
+      "subject_ref": "subject:language:framework:axum"
+    },
+    {
       "id": "doc:docs/language/rust/clap/overview.mdx",
       "type": "document",
       "title": "clap로 설정 관리하기",
@@ -10207,6 +10239,22 @@
       "url": "/docs/science/llm/mooncake/overview",
       "node_url": "/api/wiki/nodes/doc:docs/science/llm/mooncake/overview.mdx.json",
       "subject_ref": "subject:science:model-family:mooncake"
+    },
+    {
+      "id": "doc:docs/science/llm/mtp/overview.mdx",
+      "type": "document",
+      "title": "Multi-Token Prediction",
+      "snippet": "## Multi-Token Prediction\n\n- Better & Faster Large Language Models via Multi-token Prediction\n- DeepSeek-…",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "multi-token-prediction",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/mtp/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/mtp/overview.mdx.json",
+      "subject_ref": "subject:science:llm-technique:multi-token-prediction"
     },
     {
       "id": "doc:docs/science/llm/pragmatic-disaggregation/overview.mdx",
@@ -14487,6 +14535,23 @@
       ]
     },
     {
+      "id": "subject:language:framework:axum",
+      "type": "subject",
+      "title": "Axum",
+      "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "ontology": {
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum"
+      },
+      "url": "/docs/language/rust/axum/overview",
+      "node_url": "/api/wiki/nodes/subject:language:framework:axum.json",
+      "document_refs": [
+        "doc:docs/language/rust/axum/overview.mdx",
+        "doc:docs/language/rust/axum/request-response.mdx"
+      ]
+    },
+    {
       "id": "subject:language:framework:flutter",
       "type": "subject",
       "title": "Flutter",
@@ -15894,6 +15959,22 @@
       "node_url": "/api/wiki/nodes/subject:science:concept:receptor-ligand.json",
       "document_refs": [
         "doc:docs/science/concepts/receptor-ligand/index.mdx"
+      ]
+    },
+    {
+      "id": "subject:science:llm-technique:multi-token-prediction",
+      "type": "subject",
+      "title": "Multi-Token Prediction",
+      "snippet": "## Multi-Token Prediction\n\n- Better & Faster Large Language Models via Multi-token Prediction\n- DeepSeek-…",
+      "ontology": {
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "multi-token-prediction"
+      },
+      "url": "/docs/science/llm/mtp/overview",
+      "node_url": "/api/wiki/nodes/subject:science:llm-technique:multi-token-prediction.json",
+      "document_refs": [
+        "doc:docs/science/llm/mtp/overview.mdx"
       ]
     },
     {
@@ -20357,6 +20438,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/rust/axum/overview.mdx:about_subject:subject:language:framework:axum",
+      "from": "doc:docs/language/rust/axum/overview.mdx",
+      "to": "subject:language:framework:axum",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/axum/request-response.mdx:about_subject:subject:language:framework:axum",
+      "from": "doc:docs/language/rust/axum/request-response.mdx",
+      "to": "subject:language:framework:axum",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/rust/clap/overview.mdx:about_subject:subject:language:library:clap",
       "from": "doc:docs/language/rust/clap/overview.mdx",
       "to": "subject:language:library:clap",
@@ -20570,6 +20663,12 @@
       "id": "relation:doc:docs/science/llm/mooncake/overview.mdx:about_subject:subject:science:model-family:mooncake",
       "from": "doc:docs/science/llm/mooncake/overview.mdx",
       "to": "subject:science:model-family:mooncake",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/science/llm/mtp/overview.mdx:about_subject:subject:science:llm-technique:multi-token-prediction",
+      "from": "doc:docs/science/llm/mtp/overview.mdx",
+      "to": "subject:science:llm-technique:multi-token-prediction",
       "predicate": "about_subject"
     },
     {
@@ -21185,6 +21284,24 @@
       "predicate": "related_to"
     },
     {
+      "id": "relation:subject:language:framework:axum:depends_on:subject:language:programming-language:rust",
+      "from": "subject:language:framework:axum",
+      "to": "subject:language:programming-language:rust",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:related_to:subject:language:programming-language:rust",
+      "from": "subject:language:framework:axum",
+      "to": "subject:language:programming-language:rust",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:uses:subject:language:library:validator",
+      "from": "subject:language:framework:axum",
+      "to": "subject:language:library:validator",
+      "predicate": "uses"
+    },
+    {
       "id": "relation:subject:language:framework:flutter-engine:part_of:subject:language:framework:flutter",
       "from": "subject:language:framework:flutter-engine",
       "to": "subject:language:framework:flutter",
@@ -21578,6 +21695,24 @@
       "id": "relation:subject:language:programming-language:dart:related_to:subject:language:framework:flutter",
       "from": "subject:language:programming-language:dart",
       "to": "subject:language:framework:flutter",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:science:llm-technique:multi-token-prediction:related_to:subject:science:model-family:deepseek-v3",
+      "from": "subject:science:llm-technique:multi-token-prediction",
+      "to": "subject:science:model-family:deepseek-v3",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:science:llm-technique:multi-token-prediction:related_to:subject:science:model-family:kvcache",
+      "from": "subject:science:llm-technique:multi-token-prediction",
+      "to": "subject:science:model-family:kvcache",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:science:llm-technique:multi-token-prediction:related_to:subject:science:model-family:transformer",
+      "from": "subject:science:llm-technique:multi-token-prediction",
+      "to": "subject:science:model-family:transformer",
       "predicate": "related_to"
     }
   ]

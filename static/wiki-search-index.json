@@ -557,6 +557,30 @@
     },
     {
       "type": "subject",
+      "id": "subject:language:framework:axum",
+      "title": "Axum",
+      "description": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "url": "/docs/language/rust/axum/overview",
+      "document_refs": [
+        "doc:docs/language/rust/axum/overview.mdx",
+        "doc:docs/language/rust/axum/request-response.mdx"
+      ],
+      "ontology": {
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum"
+      },
+      "search_text": "axum - axum - tokio-rs / axum - axum / examples axum axum is a rust web framework built on the tokio ecosystem it uses tower services and hyper http types so a axum axum axum request and response parsing axum common topics runtime shape mental model request extractors extractor order json request parsing handling parse errors custom request extractor validatedjson t response builders custom error response practical rules language framework axum",
+      "display": {
+        "label": "Axum",
+        "kind": "subject",
+        "subtitle": "Axum",
+        "document_count": 2
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:language:concept:labview",
       "title": "Basic Terms",
       "description": "Project와 VI를 만들면 아래와 같은 창을 볼 수 있습니다.\n\n## 프런트패널\n\n프런트패널은 사용자가 값을 입력하거나 데이터를 확인할 수 있는 창으로, 각종 그래프, 3D 장면 등을 쉽게 구현하여 볼 수 있는 공간입니다.\n\n## 블록다이어그램\n\n블록다이어그램은 GUI 방식의 코딩을",
@@ -3851,6 +3875,29 @@
         "label": "Mooncake (2407) - A KVCache-centric Disaggregated Architecture for LLM Serving",
         "kind": "subject",
         "subtitle": "Mooncake",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
+      "id": "subject:science:llm-technique:multi-token-prediction",
+      "title": "Multi-Token Prediction",
+      "description": "## Multi-Token Prediction\n\n- Better & Faster Large Language Models via Multi-token Prediction\n- DeepSeek-…",
+      "snippet": "## Multi-Token Prediction\n\n- Better & Faster Large Language Models via Multi-token Prediction\n- DeepSeek-…",
+      "url": "/docs/science/llm/mtp/overview",
+      "document_refs": [
+        "doc:docs/science/llm/mtp/overview.mdx"
+      ],
+      "ontology": {
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "multi-token-prediction"
+      },
+      "search_text": "multi-token prediction multi-token prediction - better faster large language models via multi-token prediction - deepseek- mtp multi-token prediction multi-token prediction basic idea deepseek-v3 mtp inference path relation to speculative decoding serving support practical limits research direction science llm-technique multi-token-prediction",
+      "display": {
+        "label": "Multi-Token Prediction",
+        "kind": "subject",
+        "subtitle": "Multi Token Prediction",
         "document_count": 1
       }
     },
@@ -9753,6 +9800,86 @@
         "label": "Authentik 설치 가이드",
         "kind": "document",
         "subtitle": "Authentik"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/rust/axum/overview.mdx",
+      "title": "Axum",
+      "description": "Axum is a Rust web framework built on Tokio, Tower, and Hyper.",
+      "snippet": "- axum\n- tokio-rs / axum\n- axum / examples\n\n## Axum\n\nAxum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so A…",
+      "headings": [
+        "Axum",
+        "Common Topics",
+        "Runtime Shape"
+      ],
+      "keywords": [
+        "rust",
+        "axum",
+        "web framework",
+        "tokio",
+        "tower",
+        "hyper"
+      ],
+      "url": "/docs/language/rust/axum/overview",
+      "subject_ref": "subject:language:framework:axum",
+      "subject_title": "Axum",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "overview"
+      },
+      "search_text": "axum axum is a rust web framework built on tokio tower and hyper - axum - tokio-rs / axum - axum / examples axum axum is a rust web framework built on the tokio ecosystem it uses tower services and hyper http types so a axum common topics runtime shape rust axum web framework tokio tower hyper entity language framework axum overview",
+      "display": {
+        "label": "Axum",
+        "kind": "document",
+        "subtitle": "Axum"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/language/rust/axum/request-response.mdx",
+      "title": "Axum Request and Response Parsing",
+      "description": "Parse requests with Axum extractors and build responses with IntoResponse.",
+      "snippet": "… response\n- axum / Json\n- axum / FromRequest\n- axum / FromRequestParts\n- axum / IntoResponse\n- validator\n- Axum overview\n\n## Mental Model\n\nAxum does not usually call reques…",
+      "headings": [
+        "Mental Model",
+        "Request Extractors",
+        "Extractor Order",
+        "JSON Request Parsing",
+        "Handling Parse Errors",
+        "Custom Request Extractor",
+        "`ValidatedJson<T>`",
+        "Response Builders",
+        "Custom Error Response",
+        "Practical Rules"
+      ],
+      "keywords": [
+        "rust",
+        "axum",
+        "extractor",
+        "request parser",
+        "response",
+        "intoresponse",
+        "validator"
+      ],
+      "url": "/docs/language/rust/axum/request-response",
+      "subject_ref": "subject:language:framework:axum",
+      "subject_title": "Axum",
+      "ontology": {
+        "role": "operation",
+        "domain": "language",
+        "class": "framework",
+        "instance": "axum",
+        "aspect": "request-response"
+      },
+      "search_text": "axum request and response parsing parse requests with axum extractors and build responses with intoresponse response - axum / json - axum / fromrequest - axum / fromrequestparts - axum / intoresponse - validator - axum overview mental model axum does not usually call reques mental model request extractors extractor order json request parsing handling parse errors custom request extractor validatedjson t response builders custom error response practical rules rust axum extractor request parser response intoresponse validator operation language framework axum request-response",
+      "display": {
+        "label": "Axum Request and Response Parsing",
+        "kind": "document",
+        "subtitle": "Axum"
       }
     },
     {
@@ -19792,6 +19919,46 @@
         "label": "Multi-Homed Pod을 위한 Multus CNI",
         "kind": "document",
         "subtitle": "Multus"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/science/llm/mtp/overview.mdx",
+      "title": "Multi-Token Prediction",
+      "description": "Multi-token prediction for LLM training and speculative decoding",
+      "snippet": "## Multi-Token Prediction\n\n- Better & Faster Large Language Models via Multi-token Prediction\n- DeepSeek-…",
+      "headings": [
+        "Multi-Token Prediction",
+        "Basic Idea",
+        "DeepSeek-V3 MTP",
+        "Inference Path",
+        "Relation to Speculative Decoding",
+        "Serving Support",
+        "Practical Limits",
+        "Research Direction"
+      ],
+      "keywords": [
+        "Neural Network",
+        "Large Language Model",
+        "Multi-Token Prediction",
+        "MTP",
+        "Speculative Decoding"
+      ],
+      "url": "/docs/science/llm/mtp/overview",
+      "subject_ref": "subject:science:llm-technique:multi-token-prediction",
+      "subject_title": "Multi Token Prediction",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "multi-token-prediction",
+        "aspect": "overview"
+      },
+      "search_text": "multi-token prediction multi-token prediction for llm training and speculative decoding multi-token prediction - better faster large language models via multi-token prediction - deepseek- multi-token prediction basic idea deepseek-v3 mtp inference path relation to speculative decoding serving support practical limits research direction neural network large language model multi-token prediction mtp speculative decoding concept science llm-technique multi-token-prediction overview",
+      "display": {
+        "label": "Multi-Token Prediction",
+        "kind": "document",
+        "subtitle": "Multi Token Prediction"
       }
     },
     {

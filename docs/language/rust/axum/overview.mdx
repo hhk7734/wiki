@@ -1,0 +1,86 @@
+---
+id: overview
+title: Axum
+sidebar_label: Axum
+description: Axum is a Rust web framework built on Tokio, Tower, and Hyper.
+keywords:
+  - rust
+  - axum
+  - web framework
+  - tokio
+  - tower
+  - hyper
+ontology:
+  role: entity
+  domain: language
+  class: framework
+  instance: axum
+  aspect: overview
+subject:
+  canonical_name: Axum
+  aliases:
+    - axum
+relations:
+  related_to:
+    - rust
+  depends_on:
+    - rust
+    - tokio
+    - tower
+    - hyper
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [axum](https://docs.rs/axum/latest/axum/)
+- [tokio-rs / axum](https://github.com/tokio-rs/axum)
+- [axum / examples](https://github.com/tokio-rs/axum/tree/main/examples)
+
+:::
+
+## Axum
+
+Axum is a Rust web framework built on the Tokio ecosystem. It uses Tower services and Hyper HTTP types, so Axum applications compose naturally with middleware, routers, extractors, and response types from the broader async Rust stack.
+
+The core application shape is:
+
+```rust
+use axum::{
+    routing::get,
+    Router,
+};
+
+async fn hello() -> &'static str {
+    "hello"
+}
+
+fn app() -> Router {
+    Router::new().route("/", get(hello))
+}
+```
+
+Axum handlers are plain async functions. Request data is parsed through extractors, and handler return values are converted into HTTP responses through `IntoResponse`.
+
+## Common Topics
+
+- [Request and response parsing](/docs/language/rust/axum/request-response.mdx)
+
+## Runtime Shape
+
+```mermaid
+flowchart LR
+  A[Client] --> B[Hyper server]
+  B --> C[Tower service stack]
+  C --> D[Axum router]
+  D --> E[Handler]
+  E --> F[IntoResponse]
+```
+
+Axum itself focuses on routing, extraction, response conversion, and middleware composition. Tokio provides the async runtime, Hyper handles HTTP, and Tower provides the service and middleware abstraction.
