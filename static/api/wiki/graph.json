@@ -6865,22 +6865,6 @@
       "subject_ref": "subject:language:programming-language:dart"
     },
     {
-      "id": "doc:docs/language/emscripten/overview.mdx",
-      "type": "document",
-      "title": "Emscripten",
-      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/emscripten-core/emsdk.git \\\n&& cd emsdk\n`\n\n`shell\n./emsdk install 3.0.0\n`\n\n`shell\n./emsdk …",
-      "ontology": {
-        "role": "entity",
-        "domain": "language",
-        "class": "toolchain",
-        "instance": "emscripten",
-        "aspect": "overview"
-      },
-      "url": "/docs/language/emscripten/overview",
-      "node_url": "/api/wiki/nodes/doc:docs/language/emscripten/overview.mdx.json",
-      "subject_ref": "subject:language:toolchain:emscripten"
-    },
-    {
       "id": "doc:docs/language/flutter/bloc/event-state.mdx",
       "type": "document",
       "title": "Bloc Event to State",
@@ -9791,6 +9775,54 @@
       "url": "/docs/language/shellscript/text-color",
       "node_url": "/api/wiki/nodes/doc:docs/language/shellscript/text-color.mdx.json",
       "subject_ref": "subject:language:programming-language:shellscript"
+    },
+    {
+      "id": "doc:docs/language/webassembly/emscripten/overview.mdx",
+      "type": "document",
+      "title": "Emscripten",
+      "snippet": "- Emscripten / Download and install\n- Emscripten / Embind\n\n## Install\n\n``shell\ngit clone htt…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "toolchain",
+        "instance": "emscripten",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/webassembly/emscripten/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/webassembly/emscripten/overview.mdx.json",
+      "subject_ref": "subject:language:toolchain:emscripten"
+    },
+    {
+      "id": "doc:docs/language/webassembly/extism/plugin-system.mdx",
+      "type": "document",
+      "title": "Extism Plugin System",
+      "snippet": "…ry\n- Extism / Write a Plug-in\n- Extism / Run a Plug-in\n\nExtism is a WebAssembly plugin system for embedding user-provided extensions into a host application without loading …",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "framework",
+        "instance": "extism",
+        "aspect": "plugin-system"
+      },
+      "url": "/docs/language/webassembly/extism/plugin-system",
+      "node_url": "/api/wiki/nodes/doc:docs/language/webassembly/extism/plugin-system.mdx.json",
+      "subject_ref": "subject:language:framework:extism"
+    },
+    {
+      "id": "doc:docs/language/webassembly/overview.mdx",
+      "type": "document",
+      "title": "WebAssembly",
+      "snippet": "- WebAssembly\n- MDN / WebAssembly\n\nWebAssembly is a portable compilation target for code that…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "environment",
+        "instance": "webassembly",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/webassembly/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/webassembly/overview.mdx.json",
+      "subject_ref": "subject:language:environment:webassembly"
     },
     {
       "id": "doc:docs/management/role-and-responsibility/overview.mdx",
@@ -14535,6 +14567,22 @@
       ]
     },
     {
+      "id": "subject:language:environment:webassembly",
+      "type": "subject",
+      "title": "WebAssembly",
+      "snippet": "- WebAssembly\n- MDN / WebAssembly\n\nWebAssembly is a portable compilation target for code that…",
+      "ontology": {
+        "domain": "language",
+        "class": "environment",
+        "instance": "webassembly"
+      },
+      "url": "/docs/language/webassembly/overview",
+      "node_url": "/api/wiki/nodes/subject:language:environment:webassembly.json",
+      "document_refs": [
+        "doc:docs/language/webassembly/overview.mdx"
+      ]
+    },
+    {
       "id": "subject:language:framework:axum",
       "type": "subject",
       "title": "Axum",
@@ -14549,6 +14597,22 @@
       "document_refs": [
         "doc:docs/language/rust/axum/overview.mdx",
         "doc:docs/language/rust/axum/request-response.mdx"
+      ]
+    },
+    {
+      "id": "subject:language:framework:extism",
+      "type": "subject",
+      "title": "Extism Plugin System",
+      "snippet": "…ry\n- Extism / Write a Plug-in\n- Extism / Run a Plug-in\n\nExtism is a WebAssembly plugin system for embedding user-provided extensions into a host application without loading …",
+      "ontology": {
+        "domain": "language",
+        "class": "framework",
+        "instance": "extism"
+      },
+      "url": "/docs/language/webassembly/extism/plugin-system",
+      "node_url": "/api/wiki/nodes/subject:language:framework:extism.json",
+      "document_refs": [
+        "doc:docs/language/webassembly/extism/plugin-system.mdx"
       ]
     },
     {
@@ -15722,16 +15786,16 @@
       "id": "subject:language:toolchain:emscripten",
       "type": "subject",
       "title": "Emscripten",
-      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/emscripten-core/emsdk.git \\\n&& cd emsdk\n`\n\n`shell\n./emsdk install 3.0.0\n`\n\n`shell\n./emsdk …",
+      "snippet": "- Emscripten / Download and install\n- Emscripten / Embind\n\n## Install\n\n``shell\ngit clone htt…",
       "ontology": {
         "domain": "language",
         "class": "toolchain",
         "instance": "emscripten"
       },
-      "url": "/docs/language/emscripten/overview",
+      "url": "/docs/language/webassembly/emscripten/overview",
       "node_url": "/api/wiki/nodes/subject:language:toolchain:emscripten.json",
       "document_refs": [
-        "doc:docs/language/emscripten/overview.mdx"
+        "doc:docs/language/webassembly/emscripten/overview.mdx"
       ]
     },
     {
@@ -19400,12 +19464,6 @@
       "predicate": "about_subject"
     },
     {
-      "id": "relation:doc:docs/language/emscripten/overview.mdx:about_subject:subject:language:toolchain:emscripten",
-      "from": "doc:docs/language/emscripten/overview.mdx",
-      "to": "subject:language:toolchain:emscripten",
-      "predicate": "about_subject"
-    },
-    {
       "id": "relation:doc:docs/language/flutter/bloc/event-state.mdx:about_subject:subject:language:library:flutter-bloc",
       "from": "doc:docs/language/flutter/bloc/event-state.mdx",
       "to": "subject:language:library:flutter-bloc",
@@ -20498,6 +20556,24 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/webassembly/emscripten/overview.mdx:about_subject:subject:language:toolchain:emscripten",
+      "from": "doc:docs/language/webassembly/emscripten/overview.mdx",
+      "to": "subject:language:toolchain:emscripten",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/webassembly/extism/plugin-system.mdx:about_subject:subject:language:framework:extism",
+      "from": "doc:docs/language/webassembly/extism/plugin-system.mdx",
+      "to": "subject:language:framework:extism",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/webassembly/overview.mdx:about_subject:subject:language:environment:webassembly",
+      "from": "doc:docs/language/webassembly/overview.mdx",
+      "to": "subject:language:environment:webassembly",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/management/role-and-responsibility/overview.mdx:about_subject:subject:management:memo:role-and-responsibility",
       "from": "doc:docs/management/role-and-responsibility/overview.mdx",
       "to": "subject:management:memo:role-and-responsibility",
@@ -21284,6 +21360,30 @@
       "predicate": "related_to"
     },
     {
+      "id": "relation:subject:language:environment:webassembly:prerequisite_for:subject:language:framework:extism",
+      "from": "subject:language:environment:webassembly",
+      "to": "subject:language:framework:extism",
+      "predicate": "prerequisite_for"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:prerequisite_for:subject:language:toolchain:emscripten",
+      "from": "subject:language:environment:webassembly",
+      "to": "subject:language:toolchain:emscripten",
+      "predicate": "prerequisite_for"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:related_to:subject:language:programming-language:cpp",
+      "from": "subject:language:environment:webassembly",
+      "to": "subject:language:programming-language:cpp",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:related_to:subject:language:programming-language:javascript",
+      "from": "subject:language:environment:webassembly",
+      "to": "subject:language:programming-language:javascript",
+      "predicate": "related_to"
+    },
+    {
       "id": "relation:subject:language:framework:axum:depends_on:subject:language:programming-language:rust",
       "from": "subject:language:framework:axum",
       "to": "subject:language:programming-language:rust",
@@ -21300,6 +21400,30 @@
       "from": "subject:language:framework:axum",
       "to": "subject:language:library:validator",
       "predicate": "uses"
+    },
+    {
+      "id": "relation:subject:language:framework:extism:depends_on:subject:language:environment:webassembly",
+      "from": "subject:language:framework:extism",
+      "to": "subject:language:environment:webassembly",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:language:framework:extism:related_to:subject:language:programming-language:go",
+      "from": "subject:language:framework:extism",
+      "to": "subject:language:programming-language:go",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:framework:extism:related_to:subject:language:programming-language:javascript",
+      "from": "subject:language:framework:extism",
+      "to": "subject:language:programming-language:javascript",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:framework:extism:related_to:subject:language:programming-language:rust",
+      "from": "subject:language:framework:extism",
+      "to": "subject:language:programming-language:rust",
+      "predicate": "related_to"
     },
     {
       "id": "relation:subject:language:framework:flutter-engine:part_of:subject:language:framework:flutter",
@@ -21696,6 +21820,30 @@
       "from": "subject:language:programming-language:dart",
       "to": "subject:language:framework:flutter",
       "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:depends_on:subject:language:environment:webassembly",
+      "from": "subject:language:toolchain:emscripten",
+      "to": "subject:language:environment:webassembly",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:related_to:subject:language:programming-language:cpp",
+      "from": "subject:language:toolchain:emscripten",
+      "to": "subject:language:programming-language:cpp",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:related_to:subject:language:programming-language:javascript",
+      "from": "subject:language:toolchain:emscripten",
+      "to": "subject:language:programming-language:javascript",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:uses:subject:language:toolchain:llvm",
+      "from": "subject:language:toolchain:emscripten",
+      "to": "subject:language:toolchain:llvm",
+      "predicate": "uses"
     },
     {
       "id": "relation:subject:science:llm-technique:multi-token-prediction:related_to:subject:science:model-family:deepseek-v3",

@@ -1,0 +1,75 @@
+{
+  "type": "subject",
+  "id": "subject:language:environment:webassembly",
+  "title": "WebAssembly",
+  "snippet": "- WebAssembly\n- MDN / WebAssembly\n\nWebAssembly is a portable compilation target for code that…",
+  "ontology": {
+    "domain": "language",
+    "class": "environment",
+    "instance": "webassembly"
+  },
+  "url": "/docs/language/webassembly/overview",
+  "node_url": "/api/wiki/nodes/subject:language:environment:webassembly.json",
+  "document_refs": [
+    "doc:docs/language/webassembly/overview.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/webassembly/overview.mdx",
+      "title": "WebAssembly",
+      "url": "/docs/language/webassembly/overview",
+      "snippet": "- WebAssembly\n- MDN / WebAssembly\n\nWebAssembly is a portable compilation target for code that…",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "environment",
+        "instance": "webassembly",
+        "aspect": "overview"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/webassembly/overview.mdx:about_subject:subject:language:environment:webassembly",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/webassembly/overview.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:prerequisite_for:subject:language:framework:extism",
+      "predicate": "prerequisite_for",
+      "other_id": "subject:language:framework:extism",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:prerequisite_for:subject:language:toolchain:emscripten",
+      "predicate": "prerequisite_for",
+      "other_id": "subject:language:toolchain:emscripten",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:related_to:subject:language:programming-language:cpp",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:cpp",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:related_to:subject:language:programming-language:javascript",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:javascript",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:framework:extism:depends_on:subject:language:environment:webassembly",
+      "predicate": "depends_on",
+      "other_id": "subject:language:framework:extism",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:depends_on:subject:language:environment:webassembly",
+      "predicate": "depends_on",
+      "other_id": "subject:language:toolchain:emscripten",
+      "direction": "incoming"
+    }
+  ]
+}

@@ -2,23 +2,23 @@
   "type": "subject",
   "id": "subject:language:toolchain:emscripten",
   "title": "Emscripten",
-  "snippet": "## 설치\n\n``shell\ngit clone https://github.com/emscripten-core/emsdk.git \\\n&& cd emsdk\n`\n\n`shell\n./emsdk install 3.0.0\n`\n\n`shell\n./emsdk …",
+  "snippet": "- Emscripten / Download and install\n- Emscripten / Embind\n\n## Install\n\n``shell\ngit clone htt…",
   "ontology": {
     "domain": "language",
     "class": "toolchain",
     "instance": "emscripten"
   },
-  "url": "/docs/language/emscripten/overview",
+  "url": "/docs/language/webassembly/emscripten/overview",
   "node_url": "/api/wiki/nodes/subject:language:toolchain:emscripten.json",
   "document_refs": [
-    "doc:docs/language/emscripten/overview.mdx"
+    "doc:docs/language/webassembly/emscripten/overview.mdx"
   ],
   "documents": [
     {
-      "id": "doc:docs/language/emscripten/overview.mdx",
+      "id": "doc:docs/language/webassembly/emscripten/overview.mdx",
       "title": "Emscripten",
-      "url": "/docs/language/emscripten/overview",
-      "snippet": "## 설치\n\n``shell\ngit clone https://github.com/emscripten-core/emsdk.git \\\n&& cd emsdk\n`\n\n`shell\n./emsdk install 3.0.0\n`\n\n`shell\n./emsdk …",
+      "url": "/docs/language/webassembly/emscripten/overview",
+      "snippet": "- Emscripten / Download and install\n- Emscripten / Embind\n\n## Install\n\n``shell\ngit clone htt…",
       "ontology": {
         "role": "entity",
         "domain": "language",
@@ -30,10 +30,40 @@
   ],
   "relations": [
     {
-      "id": "relation:doc:docs/language/emscripten/overview.mdx:about_subject:subject:language:toolchain:emscripten",
+      "id": "relation:doc:docs/language/webassembly/emscripten/overview.mdx:about_subject:subject:language:toolchain:emscripten",
       "predicate": "about_subject",
-      "other_id": "doc:docs/language/emscripten/overview.mdx",
+      "other_id": "doc:docs/language/webassembly/emscripten/overview.mdx",
       "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:environment:webassembly:prerequisite_for:subject:language:toolchain:emscripten",
+      "predicate": "prerequisite_for",
+      "other_id": "subject:language:environment:webassembly",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:depends_on:subject:language:environment:webassembly",
+      "predicate": "depends_on",
+      "other_id": "subject:language:environment:webassembly",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:related_to:subject:language:programming-language:cpp",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:cpp",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:related_to:subject:language:programming-language:javascript",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:javascript",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:toolchain:emscripten:uses:subject:language:toolchain:llvm",
+      "predicate": "uses",
+      "other_id": "subject:language:toolchain:llvm",
+      "direction": "outgoing"
     }
   ]
 }

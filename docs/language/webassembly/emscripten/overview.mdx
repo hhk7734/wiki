@@ -4,7 +4,9 @@ title: Emscripten
 sidebar_label: Emscripten
 description: "Emscripten overview"
 keywords:
-  - basics
+  - emscripten
+  - webassembly
+  - wasm
 ontology:
   role: entity
   domain: language
@@ -15,12 +17,16 @@ subject:
   canonical_name: Emscripten
   aliases: []
 relations:
-  related_to: []
-  depends_on: []
+  related_to:
+    - cpp
+    - javascript
+  depends_on:
+    - webassembly
   prerequisite_for: []
   part_of: []
   implements: []
-  uses: []
+  uses:
+    - llvm
 source:
   status: canonical
   confidence: exact
@@ -29,7 +35,14 @@ source:
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-## 설치
+:::info[References]
+
+- [Emscripten / Download and install](https://emscripten.org/docs/getting_started/downloads.html#sdk-download-and-install)
+- [Emscripten / Embind](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html)
+
+:::
+
+## Install
 
 ```shell
 git clone https://github.com/emscripten-core/emsdk.git \
@@ -173,8 +186,3 @@ cmake --build build -j$(expr $(expr $(nproc) \* 6) \/ 5)
 	<body></body>
 </html>
 ```
-
-## Reference
-
-- [https://emscripten.org/docs/getting_started/downloads.html#sdk-download-and-install](https://emscripten.org/docs/getting_started/downloads.html#sdk-download-and-install)
-- [https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html](https://emscripten.org/docs/porting/connecting_cpp_and_javascript/embind.html)
