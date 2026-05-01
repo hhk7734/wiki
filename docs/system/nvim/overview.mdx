@@ -32,36 +32,44 @@ import TabItem from "@theme/TabItem";
 
 ## 설치
 
+:::info[References]
+
+- [Neovim / Install](https://neovim.io/doc/install/)
+
+:::
+
 <Tabs
     groupId="os"
-    defaultValue="arch"
+    defaultValue="linux"
     values={[
-        {label: 'Arch Linux', value: 'arch',},
-        {label: 'Debian', value: 'debian',},
+        {label: 'Linux', value: 'linux',},
         {label: 'macOS', value: 'mac',}
     ]}
 >
 
-<TabItem value="arch">
+<TabItem value="linux">
 
 ```shell
-sudo pacman -S neovim
+curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage
+chmod u+x nvim-linux-x86_64.appimage
+sudo mkdir -p /opt/nvim
+sudo mv nvim-linux-x86_64.appimage /opt/nvim/nvim
 ```
 
+Add `/opt/nvim` to `PATH`.
+
 ```shell
-sudo ln -s `which nvim` /usr/local/bin/vim
+export PATH="$PATH:/opt/nvim"
 ```
 
-</TabItem>
+For ARM Linux, replace `x86_64` with `arm64`.
 
-<TabItem value="debian">
-
-```shell
-sudo snap install --beta nvim --classic
-```
+If AppImage execution fails, extract the image and expose `nvim` from the extracted runtime.
 
 ```shell
-sudo snap alias nvim vim
+./nvim-linux-x86_64.appimage --appimage-extract
+sudo mv squashfs-root /opt/nvim-appimage
+sudo ln -sf /opt/nvim-appimage/AppRun /usr/local/bin/nvim
 ```
 
 </TabItem>
