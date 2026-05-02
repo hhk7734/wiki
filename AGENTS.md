@@ -8,6 +8,10 @@
 - `docs/`: Taxonomy-first documentation tree.
 - `docs/AGENTS.md`: Canonical authoring and classification rules for `docs/`.
 
+## Git conventions
+
+- Use Conventional Commits for commit messages.
+
 ## Documentation guidelines
 
 For files under `docs/`, follow `docs/AGENTS.md` as the canonical source for:
