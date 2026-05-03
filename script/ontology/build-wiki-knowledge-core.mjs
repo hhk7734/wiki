@@ -23,7 +23,7 @@ function buildDocumentRecord(sourcePath, entry) {
 
 	return {
 		...buildDocumentSnapshot(sourcePath, entry.ontology, {
-		taxonomy: buildTaxonomyInfo(sourcePath),
+			taxonomy: buildTaxonomyInfo(sourcePath),
 		}),
 		semantic_relations: frontmatter?.relations ?? {},
 	};
@@ -36,7 +36,6 @@ function buildRelationRecord(document) {
 		from: document.id,
 		predicate: "about_subject",
 		to: document.subject_ref,
-		snippet: document.snippet,
 	};
 }
 
@@ -117,7 +116,6 @@ function buildSubjectSemanticRelations(documents, subjects) {
 					from,
 					predicate,
 					to,
-					snippet: document.snippet,
 				});
 			}
 		}

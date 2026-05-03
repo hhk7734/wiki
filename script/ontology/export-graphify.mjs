@@ -41,7 +41,6 @@ function buildRelationRecord(document) {
 		from: document.id,
 		predicate: "about_subject",
 		to: document.subject_ref,
-		snippet: document.snippet,
 	};
 }
 

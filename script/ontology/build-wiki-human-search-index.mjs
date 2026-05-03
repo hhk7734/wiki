@@ -56,7 +56,6 @@ function buildDocumentSearchText(document) {
 		[
 			document.title,
 			document.description,
-			document.snippet,
 			...(document.headings ?? []),
 			...(document.keywords ?? []),
 			document.ontology?.role,
@@ -74,7 +73,7 @@ function buildSubjectSearchText(subject, documents) {
 	return normalizeText(
 		[
 			subject.canonical_name,
-			subject.snippet,
+			subject.description,
 			...(subject.aliases ?? []),
 			...(documents.map((document) => document.title)),
 			...(documents.flatMap((document) => document.headings ?? [])),
@@ -94,8 +93,7 @@ function buildSubjectRecord(subject, documents, canonicalDocumentBySubjectId) {
 		type: "subject",
 		id: subject.id,
 		title: subject.canonical_name,
-		description: subject.snippet ?? "",
-		snippet: subject.snippet ?? "",
+		description: subject.description ?? "",
 		url: buildSubjectUrl(subject, canonicalDocumentBySubjectId),
 		document_refs: [...(subject.document_refs ?? [])],
 		ontology: subject.ontology,
@@ -117,7 +115,6 @@ function buildDocumentRecord(document, subject) {
 		id: document.id,
 		title: document.title,
 		description: document.description ?? "",
-		snippet: document.snippet ?? "",
 		headings: [...(document.headings ?? [])],
 		keywords: [...(document.keywords ?? [])],
 		url: buildDocumentUrl(document),

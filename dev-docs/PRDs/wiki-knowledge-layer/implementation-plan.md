@@ -21,7 +21,7 @@ Planned files and responsibilities:
 - Create: `script/ontology/build-wiki-human-search-index.mjs`
   Derives human-facing grouped search records from the canonical core.
 - Create: `script/ontology/__tests__/wiki-knowledge-core.test.mjs`
-  Contract tests for canonical core generation and snippet extraction.
+  Contract tests for canonical core generation and description extraction.
 - Create: `script/ontology/__tests__/wiki-agent-artifacts.test.mjs`
   Contract tests for the agent-facing bundle shape.
 - Create: `script/ontology/__tests__/wiki-human-search-index.test.mjs`
@@ -33,7 +33,7 @@ Planned files and responsibilities:
 - Modify: `src/theme/SearchBar/index.tsx`
   Loads the new human-facing search index and renders grouped subject/document results.
 - Modify: `src/theme/SearchBar/styles.module.css`
-  Styles the grouped result sections and snippet presentation.
+  Styles the grouped result sections and description presentation.
 - Modify: `package.json`
   Adds scripts to build the canonical core and both static bundles during `prestart` and `prebuild`.
 - Create or modify via script output: `static/api/wiki/query-index.json`
@@ -76,7 +76,7 @@ test("wiki knowledge core emits document, subject, and relation records with sni
 
 	assert.equal(document.type, "document");
 	assert.equal(document.subject_ref, "subject:data:storage-system:ceph");
-	assert.match(document.snippet, /osd/i);
+	assert.match(document.description, /osd/i);
 	assert.equal(subject.id, "subject:data:storage-system:ceph");
 	assert.equal(relation.predicate, "about_subject");
 });
@@ -104,7 +104,7 @@ Then expand it by reusing `frontmatter`, `inventory`, and validated classificati
 - build `document` records with stable ids and URLs
 - build one `subject` per unique `domain/class/instance`
 - build `about_subject` relations
-- extract one short snippet per document from normalized text
+- extract one short description per document from normalized text
 
 - [ ] **Step 4: Run test to verify it passes**
 
@@ -143,7 +143,7 @@ test("agent artifacts expose compact query and node payloads", () => {
 				type: "document",
 				title: "Ceph OSD",
 				url: "/docs/operation/data/storage-system/ceph/osd",
-				snippet: "Ceph OSD management guide",
+				description: "Ceph OSD management guide",
 				ontology: { role: "operation", domain: "data", class: "storage-system", instance: "ceph", aspect: "osd" },
 				subject_ref: "subject:data:storage-system:ceph",
 			},
@@ -161,7 +161,7 @@ test("agent artifacts expose compact query and node payloads", () => {
 	});
 
 	assert.equal(artifacts.queryIndex.subjects[0].id, "subject:data:storage-system:ceph");
-	assert.equal(artifacts.queryIndex.documents[0].snippet, "Ceph OSD management guide");
+	assert.equal(artifacts.queryIndex.documents[0].description, "Ceph OSD management guide");
 	assert.equal(artifacts.nodes["subject:data:storage-system:ceph"].documents[0].id, "doc:ceph-osd");
 });
 ```
@@ -185,7 +185,7 @@ export function buildWikiAgentArtifacts(core) {
 
 Then expand it to:
 
-- emit query records with stable ids, type, score-neutral metadata, snippet, ontology, and URL
+- emit query records with stable ids, type, score-neutral metadata, description, ontology, and URL
 - emit graph nodes and edges from the canonical core
 - emit per-node lookup payloads under `static/api/wiki/nodes/`
 - keep payloads compact and free of full normalized document text
@@ -234,7 +234,7 @@ test("human search index groups subjects and documents separately", () => {
 				title: "Ceph OSD",
 				description: "OSD management guide",
 				url: "/docs/operation/data/storage-system/ceph/osd",
-				snippet: "Ceph OSD management guide",
+				description: "Ceph OSD management guide",
 				headings: ["OSD 관리"],
 				keywords: ["ceph", "osd"],
 				ontology: { role: "operation", domain: "data", class: "storage-system", instance: "ceph", aspect: "osd" },
@@ -443,7 +443,7 @@ git commit -m "feat: wire wiki knowledge layer build"
 ## Notes For Implementation
 
 - Prefer reusing code from `script/ontology/export-graphify.mjs` instead of forking logic blindly.
-- Keep snippet extraction deterministic and cheap.
+- Keep description extraction deterministic and cheap.
 - Do not expose full normalized body text in agent payloads by default.
 - Ensure `subject` and `document` ids stay stable across rebuilds.
 - If `path` support becomes tempting during implementation, stop and create a follow-up plan instead of expanding scope here.

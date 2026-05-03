@@ -13,7 +13,7 @@ test("agent artifacts expose compact query and node payloads", () => {
 				type: "document",
 				title: "Ceph OSD",
 				url: "/docs/infrastructure/storage/ceph/osd",
-				snippet: "Ceph OSD management guide",
+				description: "Ceph OSD management guide",
 				ontology: { role: "operation", domain: "infrastructure", class: "storage-system", instance: "ceph", aspect: "osd" },
 				subject_ref: "subject:infrastructure:storage-system:ceph",
 			},
@@ -22,7 +22,7 @@ test("agent artifacts expose compact query and node payloads", () => {
 				type: "document",
 				title: "Ceph Monitoring",
 				source_path: "docs/infrastructure/storage/ceph/monitoring.mdx",
-				snippet: "Ceph monitoring guide",
+				description: "Ceph monitoring guide",
 				text: "FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED",
 				ontology: { role: "operation", domain: "infrastructure", class: "storage-system", instance: "ceph", aspect: "monitoring" },
 				subject_ref: "subject:infrastructure:storage-system:ceph",
@@ -43,13 +43,13 @@ test("agent artifacts expose compact query and node payloads", () => {
 				from: "doc:ceph-osd",
 				predicate: "about_subject",
 				to: "subject:infrastructure:storage-system:ceph",
-				snippet: "Ceph OSD management guide",
+				description: "Ceph OSD management guide",
 			},
 		],
 	});
 
 	assert.equal(artifacts.queryIndex.subjects[0].id, "subject:infrastructure:storage-system:ceph");
-	assert.equal(artifacts.queryIndex.documents[0].snippet, "Ceph OSD management guide");
+	assert.equal(artifacts.queryIndex.documents[0].description, "Ceph OSD management guide");
 	assert.equal(artifacts.nodes["subject:infrastructure:storage-system:ceph"].documents[0].id, "doc:ceph-osd");
 	assert.equal(artifacts.nodes["subject:infrastructure:storage-system:ceph"].documents[1].url, "/docs/infrastructure/storage/ceph/monitoring");
 	assert.equal(artifacts.nodes["doc:ceph-monitoring"].subject.url, "/docs/infrastructure/storage/ceph/monitoring");
@@ -93,7 +93,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 					type: "document",
 					title: "Ceph OSD",
 					url: "/docs/infrastructure/storage/ceph/osd",
-					snippet: "Ceph OSD management guide",
+					description: "Ceph OSD management guide",
 					text: "FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED",
 					ontology: { role: "operation", domain: "infrastructure", class: "storage-system", instance: "ceph", aspect: "osd" },
 					subject_ref: "subject:infrastructure:storage-system:ceph",
@@ -103,7 +103,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 					type: "document",
 					title: "Ceph Monitoring",
 					source_path: "docs/infrastructure/storage/ceph/monitoring.mdx",
-					snippet: "Ceph monitoring guide",
+					description: "Ceph monitoring guide",
 					text: "FULL NORMALIZED DOCUMENT TEXT SHOULD NOT BE EXPORTED",
 					ontology: { role: "operation", domain: "infrastructure", class: "storage-system", instance: "ceph", aspect: "monitoring" },
 					subject_ref: "subject:infrastructure:storage-system:ceph",
@@ -114,7 +114,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 					id: "subject:infrastructure:storage-system:ceph",
 					type: "subject",
 					canonical_name: "Ceph",
-					snippet: "Ceph overview",
+					description: "Ceph overview",
 					ontology: { domain: "infrastructure", class: "storage-system", instance: "ceph" },
 					document_refs: ["doc:ceph-osd"],
 				},
@@ -125,7 +125,7 @@ test("write wiki agent artifacts emits compact files without normalized text", (
 					from: "doc:ceph-osd",
 					predicate: "about_subject",
 					to: "subject:infrastructure:storage-system:ceph",
-					snippet: "Ceph OSD management guide",
+					description: "Ceph OSD management guide",
 				},
 			],
 		});
@@ -182,7 +182,7 @@ test("agent artifacts keep subtitles and graph labels tied to ontology identity"
 				type: "document",
 				title: "gRPC Go Client",
 				source_path: "docs/language/library/grpc/go/client.mdx",
-				snippet: "gRPC client guide",
+				description: "gRPC client guide",
 				ontology: { role: "entity", domain: "language", class: "library", instance: "grpc", aspect: "client" },
 				subject_ref: "subject:language:library:grpc",
 			},
@@ -213,7 +213,7 @@ test("agent artifacts preserve semantic subject-to-subject edges", () => {
 				type: "document",
 				title: "Next.js",
 				url: "/docs/language/nextjs/overview",
-				snippet: "Next.js overview",
+				description: "Next.js overview",
 				ontology: { role: "entity", domain: "language", class: "framework", instance: "nextjs", aspect: "overview" },
 				subject_ref: "subject:language:framework:nextjs",
 			},
@@ -222,7 +222,7 @@ test("agent artifacts preserve semantic subject-to-subject edges", () => {
 				type: "document",
 				title: "React",
 				url: "/docs/language/react/overview",
-				snippet: "React overview",
+				description: "React overview",
 				ontology: { role: "entity", domain: "language", class: "framework", instance: "react", aspect: "overview" },
 				subject_ref: "subject:language:framework:react",
 			},
@@ -249,14 +249,14 @@ test("agent artifacts preserve semantic subject-to-subject edges", () => {
 				from: "doc:nextjs",
 				predicate: "about_subject",
 				to: "subject:language:framework:nextjs",
-				snippet: "Next.js overview",
+				description: "Next.js overview",
 			},
 			{
 				id: "relation:subject:language:framework:nextjs:depends_on:subject:language:framework:react",
 				from: "subject:language:framework:nextjs",
 				predicate: "depends_on",
 				to: "subject:language:framework:react",
-				snippet: "Next.js depends on React",
+				description: "Next.js depends on React",
 			},
 		],
 	});

@@ -94,7 +94,7 @@ export function buildOntologyGraph({
 			mapClass: className,
 			href: record.url,
 			nodeUrl: record.node_url,
-			description: record.snippet,
+			description: record.description,
 			ontology: record.ontology,
 		});
 

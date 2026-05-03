@@ -11,7 +11,6 @@ type SearchRecord = {
 	url: string;
 	title: string;
 	description: string;
-	snippet: string;
 	keywords: string[];
 	headings: string[];
 	ontology: {
@@ -91,8 +90,6 @@ export default function SearchBar(): React.ReactNode {
 			result.ontology.class,
 			kind === "document" && result.ontology.aspect ? result.ontology.aspect : null,
 		].filter(Boolean);
-		const snippet = result.snippet || result.description;
-
 		return (
 			<Link key={result.id} to={result.url} className={styles.resultItem} onClick={() => setOpen(false)}>
 				<div className={styles.resultHeader}>
@@ -104,7 +101,7 @@ export default function SearchBar(): React.ReactNode {
 						{kind === "subject" ? `${result.display.document_count ?? 0} docs` : result.ontology.role ?? "document"}
 					</span>
 				</div>
-				{snippet ? <div className={styles.resultDescription}>{snippet}</div> : null}
+				{result.description ? <div className={styles.resultDescription}>{result.description}</div> : null}
 				<div className={styles.resultMeta}>{metadata.join(" · ")}</div>
 			</Link>
 		);

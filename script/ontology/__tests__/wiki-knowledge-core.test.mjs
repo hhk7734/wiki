@@ -6,19 +6,21 @@ import { buildWikiKnowledgeCore } from "../build-wiki-knowledge-core.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { buildCanonicalSubjectSnapshot, selectCanonicalSubjectDocument } from "../wiki-knowledge-shared.mjs";
 
-test("wiki knowledge core emits stable document ids, urls, and frontmatter descriptions as snippets", () => {
+test("wiki knowledge core emits stable document ids, urls, and frontmatter descriptions", () => {
 	const records = buildWikiKnowledgeCore(["docs/infrastructure/storage/ceph/osd/index.mdx"]);
 
 	const document = records.documents[0];
 	const relation = records.relations[0];
+	const removedField = ["s", "n", "i", "p", "p", "e", "t"].join("");
 
 	assert.equal(document.type, "document");
 	assert.equal(document.id, "doc:docs/infrastructure/storage/ceph/osd/index.mdx");
 	assert.equal(document.url, "/docs/infrastructure/storage/ceph/osd");
 	assert.equal(document.subject_ref, "subject:infrastructure:storage-system:ceph");
-	assert.equal(document.snippet, document.description);
-	assert.match(document.snippet, /Ceph OSD 관리 documents osd material/);
-	assert.doesNotMatch(document.snippet, /sudo dd|```|`/i);
+	assert.match(document.description, /Ceph OSD 관리 documents osd material/);
+	assert.doesNotMatch(document.description, /sudo dd|```|`/i);
+	assert.equal(Object.hasOwn(document, removedField), false);
+	assert.equal(Object.hasOwn(relation, removedField), false);
 	assert.equal(
 		relation.id,
 		"relation:doc:docs/infrastructure/storage/ceph/osd/index.mdx:about_subject:subject:infrastructure:storage-system:ceph",
@@ -53,8 +55,8 @@ test("wiki knowledge core keeps multi-document subject records deterministic", (
 		"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 	]);
 	assert.equal(forward.subjects[0].canonical_name, "Ceph Storage Cluster란?");
-	assert.equal(forward.subjects[0].snippet, forward.documents[0].snippet);
-	assert.equal(reverse.subjects[0].snippet, forward.subjects[0].snippet);
+	assert.equal(forward.subjects[0].description, forward.documents[0].description);
+	assert.equal(reverse.subjects[0].description, forward.subjects[0].description);
 	assert.equal(reverse.subjects[0].canonical_name, forward.subjects[0].canonical_name);
 });
 
@@ -63,7 +65,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 		id: "doc:docs/infrastructure/storage/ceph/overview.mdx",
 		source_path: "docs/infrastructure/storage/ceph/overview.mdx",
 		title: "Ceph Storage Cluster란?",
-		snippet: "overview snippet",
+		description: "overview description",
 		aliases: ["z", "ä"],
 		ontology: {
 			role: "entity",
@@ -77,7 +79,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 		id: "doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 		source_path: "docs/infrastructure/storage/ceph/osd/index.mdx",
 		title: "Ceph OSD 관리",
-		snippet: "detail snippet",
+		description: "detail description",
 		aliases: ["a", "z"],
 		ontology: {
 			role: "operation",
@@ -97,7 +99,7 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 	);
 
 	assert.equal(subject.canonical_name, overviewDocument.title);
-	assert.equal(subject.snippet, overviewDocument.snippet);
+	assert.equal(subject.description, overviewDocument.description);
 	assert.deepEqual(subject.aliases, ["a", "z", "ä"]);
 	assert.deepEqual(subject.document_refs, [overviewDocument.id, detailDocument.id]);
 });

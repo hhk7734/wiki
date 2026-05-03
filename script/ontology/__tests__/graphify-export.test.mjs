@@ -59,7 +59,7 @@ test("graphify export keeps multi-document subject ordering deterministic", () =
 		"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 	]);
 	assert.equal(subject.canonical_name, "Ceph Storage Cluster란?");
-	assert.equal(subject.snippet, forward.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/overview.mdx").snippet);
+	assert.equal(subject.description, forward.find((record) => record.id === "doc:docs/infrastructure/storage/ceph/overview.mdx").description);
 });
 
 test("graphify export keeps source paths and subject identity separate for maintained taxonomy docs", () => {

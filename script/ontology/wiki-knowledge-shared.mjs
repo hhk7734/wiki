@@ -153,7 +153,6 @@ export function buildDocumentSnapshot(sourcePath, ontology, options = {}) {
 		headings: extractHeadings(body),
 		aliases,
 		text,
-		snippet: data.description ?? "",
 	};
 }
 
@@ -177,6 +176,6 @@ export function buildCanonicalSubjectSnapshot(
 		},
 		aliases: uniqueSorted(sortedDocuments.flatMap((document) => document.aliases ?? [])),
 		document_refs: sortedDocuments.map((document) => document.id),
-		snippet: primaryDocument.snippet,
+		description: primaryDocument.description ?? "",
 	};
 }

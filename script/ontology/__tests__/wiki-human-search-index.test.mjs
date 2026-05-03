@@ -12,7 +12,6 @@ test("wiki human search index groups multi-document subjects with stable labels"
 				title: "Ceph Storage Cluster란?",
 				description: "Ceph overview",
 				url: "/docs/infrastructure/storage/ceph/overview",
-				snippet: "Ceph overview",
 				headings: ["Overview"],
 				keywords: ["ceph"],
 				subject_ref: "subject:infrastructure:storage-system:ceph",
@@ -28,9 +27,8 @@ test("wiki human search index groups multi-document subjects with stable labels"
 				id: "doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 				type: "document",
 				title: "Ceph OSD",
-				description: "OSD management guide",
+				description: "Ceph OSD management guide",
 				url: "/docs/infrastructure/storage/ceph/osd",
-				snippet: "Ceph OSD management guide",
 				headings: ["OSD 관리"],
 				keywords: ["ceph", "osd"],
 				subject_ref: "subject:infrastructure:storage-system:ceph",
@@ -52,7 +50,7 @@ test("wiki human search index groups multi-document subjects with stable labels"
 					"doc:docs/infrastructure/storage/ceph/overview.mdx",
 					"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
 				],
-				snippet: "Ceph overview",
+				description: "Ceph overview",
 				ontology: { domain: "infrastructure", class: "storage-system", instance: "ceph" },
 			},
 		],
@@ -69,19 +67,18 @@ test("wiki human search index groups multi-document subjects with stable labels"
 	assert.equal(index.subjects[0].id, "subject:infrastructure:storage-system:ceph");
 	assert.equal(subject.title, "Ceph Storage Cluster란?");
 	assert.equal(subject.url, "/docs/infrastructure/storage/ceph/overview");
-	assert.equal(subject.snippet, "Ceph overview");
+	assert.equal(subject.description, "Ceph overview");
 	assert.equal(overviewDocument.title, "Ceph Storage Cluster란?");
 	assert.equal(overviewDocument.subject_title, "Ceph");
 	assert.equal(overviewDocument.display.subtitle, "Ceph");
 	assert.equal(overviewDocument.url, "/docs/infrastructure/storage/ceph/overview");
 	assert.equal(operationalDocument.title, "Ceph OSD");
-	assert.equal(operationalDocument.description, "OSD management guide");
+	assert.equal(operationalDocument.description, "Ceph OSD management guide");
 	assert.equal(operationalDocument.subject_title, "Ceph");
 	assert.equal(operationalDocument.display.subtitle, "Ceph");
 	assert.equal(operationalDocument.url, "/docs/infrastructure/storage/ceph/osd");
 	assert.deepEqual(operationalDocument.headings, ["OSD 관리"]);
 	assert.deepEqual(operationalDocument.keywords, ["ceph", "osd"]);
-	assert.equal(operationalDocument.snippet, "Ceph OSD management guide");
 });
 
 test("wiki human search lifecycle is wired into the build hooks", () => {

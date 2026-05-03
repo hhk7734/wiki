@@ -139,7 +139,7 @@ Each result should include:
 - node type
 - score
 - match reason
-- short snippet
+- short description
 - ontology keys
 - public URL
 
@@ -148,7 +148,7 @@ Each result should include:
 Lookup by stable id and return:
 
 - node metadata
-- short snippet or subject summary
+- short description or subject summary
 - related documents for a subject
 - canonical subject for a document
 - directly connected validated relations
@@ -218,7 +218,7 @@ Signals can include:
 - keyword matches
 - ontology field matches
 - subject affinity
-- text snippet matches
+- text description matches
 
 Human and agent consumers may share the same base scores, but each delivery layer can apply light presentation-specific ordering or grouping without changing the canonical ids.
 
@@ -253,7 +253,7 @@ Required verification for implementation:
 
 Suggested test layers:
 
-- unit tests for normalization and snippet extraction
+- unit tests for normalization and description extraction
 - unit tests for search ranking and result grouping
 - contract tests for agent JSON shapes
 - integration tests for generated artifact existence and referential consistency

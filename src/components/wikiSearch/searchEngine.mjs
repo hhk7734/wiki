@@ -94,7 +94,6 @@ function scoreSubject(query, subject) {
 	const expandedTokens = expandTokens(tokens);
 	const title = normalizeText(subject.title);
 	const description = normalizeText(subject.description);
-	const snippet = normalizeText(subject.snippet);
 	const searchText = normalizeText(subject.search_text);
 	const domain = normalizeText(subject.ontology?.domain);
 	const className = normalizeText(subject.ontology?.class);
@@ -112,7 +111,6 @@ function scoreSubject(query, subject) {
 
 	score += scoreField(title, expandedTokens, { exactWeight: 30, tokenWeight: 18 });
 	score += scoreField(description, expandedTokens, { exactWeight: 12, tokenWeight: 6 });
-	score += scoreField(snippet, expandedTokens, { exactWeight: 10, tokenWeight: 5 });
 	score += scoreField(searchText, expandedTokens, { exactWeight: 6, tokenWeight: 3 });
 	score += scoreField(domain, expandedTokens, { exactWeight: 22, tokenWeight: 12 });
 	score += scoreField(className, expandedTokens, { exactWeight: 18, tokenWeight: 10 });
@@ -130,7 +128,6 @@ function scoreDocument(query, document) {
 	const expandedTokens = expandTokens(tokens);
 	const title = normalizeText(document.title);
 	const description = normalizeText(document.description);
-	const snippet = normalizeText(document.snippet);
 	const headings = normalizeText((document.headings ?? []).join(" "));
 	const keywords = normalizeText((document.keywords ?? []).join(" "));
 	const searchText = normalizeText(document.search_text);
@@ -158,7 +155,6 @@ function scoreDocument(query, document) {
 	score += scoreField(headings, expandedTokens, { exactWeight: 20, tokenWeight: 12 });
 	score += scoreField(keywords, expandedTokens, { exactWeight: 18, tokenWeight: 10 });
 	score += scoreField(description, expandedTokens, { exactWeight: 10, tokenWeight: 6 });
-	score += scoreField(snippet, expandedTokens, { exactWeight: 10, tokenWeight: 5 });
 	score += scoreField(searchText, expandedTokens, { exactWeight: 6, tokenWeight: 3 });
 	score += scoreField(role, expandedTokens, { exactWeight: 24, tokenWeight: 14 });
 	score += scoreField(domain, expandedTokens, { exactWeight: 16, tokenWeight: 8 });
