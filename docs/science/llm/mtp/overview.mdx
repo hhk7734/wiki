@@ -2,7 +2,7 @@
 id: overview
 title: "Multi-Token Prediction"
 sidebar_label: "Multi-Token Prediction"
-description: "Multi-Token Prediction documents overview material for Multi-Token Prediction in the science domain. It is classified as a concept page for the llm-technique class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights Multi-Token Prediction, Basic Idea, DeepSeek-V3 MTP, Inference Path, and Relation to Speculative Decoding, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include neural network, large language model, mtp, speculative decoding, and multi-token-prediction, helping both humans and generated indexes connect this page with adjacent concepts. The route is science / llm / mtp / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
+description: "Multi-Token Prediction documents overview material for Multi-Token Prediction in the science domain. It explains how MTP adds future-token objectives to standard next-token training, how native MTP modules act as speculative proposers, and how target-model verification accepts or rejects drafted tokens. The page highlights Basic Idea, DeepSeek-V3 MTP, Inference Path, Verification Mechanism, Why It Can Be Faster, and Relation to Speculative Decoding. Important search terms include neural network, large language model, mtp, speculative decoding, logits, causal mask, and multi-token-prediction, helping readers connect training objectives, serving behavior, and practical limits."
 keywords:
   - "neural network"
   - "large language model"
@@ -102,11 +102,189 @@ sequenceDiagram
   T->>M: Current hidden state
   M->>M: Propose future tokens
   M->>V: Candidate token block
-  V->>T: Verify candidates in parallel
+  V->>T: Run target verification pass
   T-->>U: Accept prefix and emit tokens
 ```
 
 The speedup depends on the acceptance rate. If the proposed future tokens match what the target model would have generated, multiple tokens can be accepted from one verification pass. If predictions are rejected often, the extra proposer work can reduce or erase the benefit.
+
+:::tip[Decode work becomes prefill-like verification]
+
+**MTP and speculative decoding can be understood as moving some expensive target-model decoding work into a prefill-like verification pass.** Normal decoding asks the target model to emit one token, append it, and run again. Speculative decoding first lets a cheap proposer guess a block of future tokens, then asks the target model to process the prompt plus that drafted block in one pass. The causal mask still preserves autoregressive correctness, but the target gets logits for several draft positions at once. This is why accepted draft tokens can reduce the number of sequential target decode steps.
+
+:::
+
+## Verification Mechanism
+
+MTP does not make the draft tokens authoritative. The target model remains the verifier. For a prompt such as:
+
+```text
+The capital of France is
+```
+
+an MTP module or draft model may propose:
+
+```text
+Paris. The city
+```
+
+The target model receives the prompt plus the drafted tokens and returns logits for each position:
+
+```text
+input ids -> embeddings -> transformer -> hidden states -> LM head -> logits
+```
+
+The raw target output is a tensor similar to:
+
+```text
+[batch_size, sequence_length, vocabulary_size]
+```
+
+Each position has a vocabulary-sized logit vector. The serving code compares the draft token ids with the target model's distributions at the matching positions.
+
+The key tensor flow for a normal next-token step is:
+
+```text
+token_ids:       [1, 5]
+embeddings:      [1, 5, 4096]
+hidden states:   [1, 5, 4096]
+last hidden:     [4096]
+logits:          [50257]
+next token id:   scalar
+```
+
+For speculative verification with a draft:
+
+```text
+draft = " Paris. The city"
+```
+
+the target input becomes:
+
+```text
+"The capital of France is Paris. The city"
+```
+
+Assume the combined input has nine tokens:
+
+```text
+input_ids.shape
+# [1, 9]
+```
+
+After the transformer:
+
+```text
+hidden.shape
+# [1, 9, 4096]
+```
+
+After the LM head:
+
+```text
+all_logits.shape
+# [1, 9, 50257]
+```
+
+The verifier checks several positions:
+
+```text
+all_logits[0, 4]  # predicts token after "is"
+all_logits[0, 5]  # predicts token after "Paris"
+all_logits[0, 6]  # predicts token after "."
+all_logits[0, 7]  # predicts token after "The"
+```
+
+A simplified greedy result might be:
+
+| Position/context                 | Target top token |
+| -------------------------------- | ---------------- |
+| after `The capital of France is` | ` Paris`         |
+| after `... is Paris`             | `.`              |
+| after `... is Paris.`            | ` It`            |
+| after `... is Paris. The`        | ` capital`       |
+
+Compared with the draft:
+
+| Source      | Token 1  | Token 2 | Token 3 | Token 4    |
+| ----------- | -------- | ------- | ------- | ---------- |
+| draft token | ` Paris` | `.`     | ` The`  | ` city`    |
+| target top  | ` Paris` | `.`     | ` It`   | ` capital` |
+| accept      | yes      | yes     | no      | no         |
+
+That is how one target forward pass returns enough tensors to verify multiple draft tokens.
+
+| Target context                        | Draft token | Target signal                     | Greedy decision |
+| ------------------------------------- | ----------- | --------------------------------- | --------------- |
+| `The capital of France is`            | `Paris`     | top token is `Paris`              | accept          |
+| `The capital of France is Paris`      | `.`         | top token is `.`                  | accept          |
+| `The capital of France is Paris.`     | `The`       | top token might be `It`           | reject          |
+| `The capital of France is Paris. The` | `city`      | ignored after the previous reject | reject suffix   |
+
+After the first rejection, the remaining drafted suffix is discarded because it was conditioned on tokens that are no longer part of the accepted sequence. Generation then continues from the accepted prefix.
+
+## Causal Mask During Verification
+
+The target can verify several drafted tokens in one forward pass because causal attention prevents future-token leakage. In a sequence such as:
+
+```text
+The capital of France is Paris. The city
+```
+
+the logit vector after `is` can see only the prompt up through `is`, not `Paris. The city`. The logit vector after `Paris` can see the prompt plus `Paris`, but not later tokens. This lower-triangular attention rule lets a single target pass produce valid next-token distributions for many positions:
+
+```text
+after "is"       -> logits for the token after "is"
+after "Paris"    -> logits for the token after "Paris"
+after "."        -> logits for the token after "."
+after "The"      -> logits for the token after "The"
+```
+
+The verifier is therefore not asking whether the whole draft is factually reasonable. It is checking whether the draft prefix is compatible with what the target model would have produced under the current decoding algorithm.
+
+## Why It Can Be Faster
+
+Normal autoregressive decoding requires one target-model step per emitted token:
+
+```text
+target run -> token 1
+target run -> token 2
+target run -> token 3
+target run -> token 4
+```
+
+Speculative decoding with MTP changes the expensive part:
+
+```text
+cheap proposer -> draft tokens 1..k
+target run     -> verify tokens 1..k in one pass
+```
+
+If the target accepts four drafted tokens, the system has emitted four tokens with one expensive verification pass instead of four sequential target decode passes. The verification pass is not free because it processes the draft block, but it can be cheaper than repeated target calls when enough drafted tokens are accepted. The realized speedup is approximately controlled by:
+
+```text
+accepted tokens per target verification
+- proposer cost
+- verification overhead
+```
+
+Low acceptance rate removes the benefit because the system pays for draft generation but still emits only a small prefix.
+
+## Greedy And Sampling Acceptance
+
+For greedy decoding, acceptance can be understood as top-1 matching:
+
+```text
+accept draft token if draft_token == argmax(target_logits)
+```
+
+For sampling, top-1 matching would be wrong because target sampling can legitimately choose non-top-1 tokens. Sampling-based speculative decoding compares the draft distribution `q` with the target distribution `p`. A drafted token `x` is accepted with probability:
+
+```text
+min(1, p(x) / q(x))
+```
+
+If the target model assigns at least as much probability to `x` as the draft did, the token is accepted. If the draft overestimated `x`, the token is accepted only sometimes. On rejection, the serving algorithm samples from a corrected residual distribution so the final output distribution matches the target model's intended sampling behavior.
 
 ## Relation to Speculative Decoding
 
