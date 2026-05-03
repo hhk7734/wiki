@@ -67,10 +67,10 @@ flowchart LR
   A --> C[MTP head or module 1]
   A --> D[MTP head or module 2]
   A --> E[MTP head or module k]
-  B --> F[x[t + 1]]
-  C --> G[x[t + 2]]
-  D --> H[x[t + 3]]
-  E --> I[x[t + k + 1]]
+  B --> F["x[t + 1]"]
+  C --> G["x[t + 2]"]
+  D --> H["x[t + 3]"]
+  E --> I["x[t + k + 1]"]
 ```
 
 The Gloeckle et al. ICML 2024 design uses `n` independent output heads on top of a shared model trunk. At every corpus position, the model predicts the next `n` tokens. The authors report improved sample efficiency and downstream quality, especially for larger models and code generation, plus up to `3x` faster inference for 4-token prediction under their inference setup.
