@@ -143,6 +143,10 @@ const config: Config = {
 							to: "/docs/knowledge/concepts/ontology",
 						},
 						{
+							label: "Agent",
+							to: "/docs/agent/mcp/atlassian-rovo-mcp/setup",
+						},
+						{
 							label: "Language",
 							to: "/docs/language/go/overview",
 						},

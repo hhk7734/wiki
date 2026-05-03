@@ -1,0 +1,170 @@
+---
+id: setup
+title: "Atlassian Rovo MCP Server Setup"
+sidebar_label: "Setup"
+description: "Atlassian Rovo MCP Server setup documents client setup material for the Atlassian Rovo MCP Server in the agent domain. It is classified as an operation page for the mcp-server class, so readers can configure Codex, Gemini CLI, and Claude Code with the streamable HTTP MCP endpoint, choose the correct token authentication mode, test Confluence access, and troubleshoot startup errors. Important search terms include atlassian, rovo, mcp, codex, gemini, claude code, confluence, jira, api token, and agent, helping both humans and generated indexes connect this page with adjacent setup material. The route is agent / mcp / atlassian-rovo-mcp / setup, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
+keywords:
+  - atlassian
+  - rovo
+  - mcp
+  - codex
+  - gemini
+  - claude-code
+  - confluence
+  - jira
+  - api token
+  - agent
+  - cloud
+ontology:
+  role: operation
+  domain: agent
+  class: mcp-server
+  instance: atlassian-rovo-mcp
+  aspect: setup
+subject:
+  canonical_name: "Atlassian Rovo MCP Server"
+  aliases:
+    - atlassian-mcp
+    - rovo-mcp
+relations:
+  related_to:
+    - codex
+    - gemini-cli
+    - claude-code
+    - confluence
+    - jira
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements:
+    - model-context-protocol
+  uses:
+    - api-token
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [Atlassian Rovo MCP Server / Getting started with the Atlassian Remote MCP Server](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/)
+- [Atlassian Rovo MCP Server / Configuring authentication via API token](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/configuring-authentication-via-api-token/)
+- [Atlassian Rovo MCP Server / Supported tools](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/supported-tools/)
+- [Atlassian Account / API tokens](https://id.atlassian.com/manage-profile/security/api-tokens)
+- [OpenAI Codex / Configuration Reference](https://developers.openai.com/codex/config-reference)
+- [Gemini CLI / MCP servers with the Gemini CLI](https://google-gemini.github.io/gemini-cli/docs/tools/mcp-server.html)
+- [Claude Code / Connect Claude Code to tools via MCP](https://code.claude.com/docs/en/mcp)
+
+:::
+
+## Endpoint
+
+Use the streamable HTTP endpoint:
+
+```text
+https://mcp.atlassian.com/v1/mcp
+```
+
+Do not use the older SSE endpoint for new client configuration.
+
+## Shared token authentication
+
+Atlassian API-token authentication must be enabled by the Atlassian organization admin. If it is disabled, token-based MCP startup fails and the client must use OAuth instead.
+
+For a personal Atlassian API token, open [Atlassian Account / API tokens](https://id.atlassian.com/manage-profile/security/api-tokens) and prefer **Create API token with scopes**. Grant only the scopes needed by the MCP tools that the client should use. Page reads from Confluence need Confluence read access and page permission for the Atlassian user represented by the token.
+
+Personal API tokens use a full Basic authorization header. Build the final header once and reference it from each MCP client:
+
+```shell
+export ATLASSIAN_EMAIL="your.email@example.com"
+export ATLASSIAN_API_TOKEN="your_api_token"
+export ATLASSIAN_MCP_AUTH="Basic $(printf '%s' "$ATLASSIAN_EMAIL:$ATLASSIAN_API_TOKEN" | base64 -w0)"
+```
+
+Keep `ATLASSIAN_MCP_AUTH` out of committed files. Base64 is an encoding, not encryption.
+
+## Codex
+
+Configure Codex with an environment-backed HTTP header:
+
+```toml title="~/.codex/config.toml"
+[mcp_servers.atlassian]
+url = "https://mcp.atlassian.com/v1/mcp"
+env_http_headers = { Authorization = "ATLASSIAN_MCP_AUTH" }
+```
+
+`env_http_headers` maps the HTTP header name to the environment variable that contains the final header value. The variable must include the authorization scheme prefix, such as `Basic ` or `Bearer `.
+
+## Start Codex
+
+Start Codex from a shell where the MCP environment variable is already exported:
+
+```shell
+env | rg '^ATLASSIAN_MCP_AUTH='
+codex mcp get atlassian
+codex
+```
+
+`codex mcp get atlassian` should show:
+
+```text
+env_http_headers: Authorization=ATLASSIAN_MCP_AUTH
+```
+
+Restart Codex after changing `~/.codex/config.toml` or environment variables. New MCP tools are loaded when Codex starts.
+
+## Gemini CLI
+
+Gemini CLI uses `httpUrl` for streamable HTTP MCP servers. Configure the Atlassian server in `~/.gemini/settings.json` or the project-level `.gemini/settings.json`:
+
+```json title="~/.gemini/settings.json"
+{
+	"mcpServers": {
+		"atlassian": {
+			"httpUrl": "https://mcp.atlassian.com/v1/mcp",
+			"headers": {
+				"Authorization": "${ATLASSIAN_MCP_AUTH}"
+			},
+			"timeout": 30000,
+			"trust": false
+		}
+	}
+}
+```
+
+Alternatively, add it with the CLI:
+
+```shell
+gemini mcp add --transport http \
+    -H "Authorization: $ATLASSIAN_MCP_AUTH" \
+    atlassian https://mcp.atlassian.com/v1/mcp
+```
+
+If the CLI stores the expanded header literally, prefer editing `settings.json` with the environment reference so the token is not written to disk.
+
+## Claude Code
+
+Claude Code supports remote HTTP MCP servers and header expansion in `.mcp.json`. For a project-scoped config, add:
+
+```json title=".mcp.json"
+{
+	"mcpServers": {
+		"atlassian": {
+			"type": "http",
+			"url": "https://mcp.atlassian.com/v1/mcp",
+			"headers": {
+				"Authorization": "${ATLASSIAN_MCP_AUTH}"
+			}
+		}
+	}
+}
+```
+
+For a user-scoped setup, add the server with JSON:
+
+```shell
+claude mcp add-json atlassian \
+    '{"type":"http","url":"https://mcp.atlassian.com/v1/mcp","headers":{"Authorization":"${ATLASSIAN_MCP_AUTH}"}}'
+```
+
+Claude Code may ask for trust approval when it sees a project `.mcp.json`. Use `/mcp` inside Claude Code to inspect server status or complete OAuth only when intentionally using OAuth instead of token auth.

@@ -1,4 +1,5 @@
 const APPROVED_TOPICS = new Set([
+	"agent",
 	"language",
 	"system",
 	"infrastructure",
@@ -10,7 +11,7 @@ const APPROVED_TOPICS = new Set([
 ]);
 
 const RESERVED_TOPIC_BUCKETS = new Set(["concepts", "comparisons", "reference"]);
-const AREA_TOPICS = new Set(["infrastructure"]);
+const AREA_TOPICS = new Set(["agent", "infrastructure"]);
 const NESTED_AREA_TOPICS = new Set(["hardware"]);
 
 function normalizeTaxonomyPath(sourcePath) {

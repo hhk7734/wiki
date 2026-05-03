@@ -67,6 +67,7 @@ Path rules:
 Approved top-level topics for maintained docs:
 
 - `language`
+- `agent`
 - `system`
 - `infrastructure`
 - `hardware`
@@ -144,6 +145,7 @@ Fixed `role` vocabulary:
 Preferred `domain` vocabulary for this corpus:
 
 - `language`
+- `agent`
 - `system`
 - `infrastructure`
 - `hardware`
@@ -155,6 +157,7 @@ Preferred `domain` vocabulary for this corpus:
 Representative `class` vocabulary:
 
 - `language`: `programming-language`, `library`, `framework`, `toolchain`, `build-tooling`, `environment`, `package`, `api`, `concept`
+- `agent`: `mcp-server`, `agentic-tool`, `ai-assistant`, `configuration`
 - `system`: `tool`, `kernel`, `bootloader`, `package-manager`
 - `infrastructure`: `auth-system`, `cloud-service`, `cluster-addon`, `cluster-orchestrator`, `configuration`, `container-platform`, `database`, `eventing-system`, `gateway-api`, `iac-tool`, `ml-platform`, `networking`, `networking-stack`, `object-storage`, `observability-system`, `orchestrator`, `provisioning-tool`, `scheduler`, `security`, `service-mesh`, `serving-system`, `storage`, `storage-interface`, `storage-system`, `tool`, `upgrade-plan`, `workflow-system`, `workload`
 - `hardware`: `mcu-family`, `electronics`

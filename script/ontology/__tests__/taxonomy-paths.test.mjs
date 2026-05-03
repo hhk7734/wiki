@@ -97,6 +97,17 @@ test("parseTaxonomyPath parses infrastructure area shapes", () => {
 	});
 });
 
+test("parseTaxonomyPath parses agent area shapes", () => {
+	assert.deepEqual(parseTaxonomyPath("docs/agent/mcp/atlassian-rovo-mcp/setup.mdx"), {
+		topic: "agent",
+		subject: "atlassian-rovo-mcp",
+		facet: null,
+		page: "setup",
+		kind: "area-subject-page",
+		area: "mcp",
+	});
+});
+
 test("parseTaxonomyPath parses hardware product paths under a family area", () => {
 	assert.deepEqual(parseTaxonomyPath("docs/hardware/tricore/tc27d/asc.mdx"), {
 		topic: "hardware",
