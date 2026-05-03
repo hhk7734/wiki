@@ -3,7 +3,12 @@ import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { parseFrontmatter, readFrontmatter, requireSemanticFrontmatter } from "../frontmatter.mjs";
+import {
+	parseFrontmatter,
+	readFrontmatter,
+	requireSemanticFrontmatter,
+	stringifyFrontmatter,
+} from "../frontmatter.mjs";
 import { normalizeOntologyBlock } from "../ontology-frontmatter.mjs";
 
 test("normalizeOntologyBlock preserves explicit supporting source status", () => {
@@ -161,6 +166,34 @@ keywords:
 	assert.deepEqual(frontmatter, {
 		keywords: ["go", "golang"],
 	});
+});
+
+test("parseFrontmatter parses inline empty lists", () => {
+	const frontmatter = parseFrontmatter(`---
+related_to: []
+depends_on: "[]"
+---
+`);
+
+	assert.deepEqual(frontmatter, {
+		related_to: [],
+		depends_on: [],
+	});
+});
+
+test("stringifyFrontmatter writes empty lists inline", () => {
+	assert.equal(
+		stringifyFrontmatter({
+			relations: {
+				related_to: [],
+			},
+		}),
+		`---
+relations:
+  related_to: []
+---
+`,
+	);
 });
 
 test("parseFrontmatter preserves quoted strings", () => {

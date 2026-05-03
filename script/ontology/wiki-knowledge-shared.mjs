@@ -24,7 +24,11 @@ export function toDocRoute(pathname) {
 }
 
 export function normalizeWhitespace(value) {
-	return value.replace(/\r/g, "").replace(/[ \t]+/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+	return value
+		.replace(/\r/g, "")
+		.replace(/[ \t]+/g, " ")
+		.replace(/\n{3,}/g, "\n\n")
+		.trim();
 }
 
 export function normalizeMdxText(body) {
@@ -38,8 +42,8 @@ export function normalizeMdxText(body) {
 			.replace(/<\/?[A-Z][A-Za-z0-9._-]*[^>]*>/g, "")
 			.replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
 			.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-			.replace(/`([^`]+)`/g, "$1")
 			.replace(/^\s*```[^\n]*$/gm, "")
+			.replace(/`([^`]+)`/g, "$1")
 			.replace(/^\s*---\s*$/gm, "")
 			.replace(/^\s*>\s?/gm, "")
 			.replace(/<[^>]+>/g, "")
@@ -117,44 +121,14 @@ export function selectCanonicalSubjectDocument(documents) {
 		throw new Error("cannot select canonical subject document from an empty set");
 	}
 
-	return [...documents].sort((left, right) =>
-		STABLE_ORDER_RANKS.aspect(left.ontology?.aspect) - STABLE_ORDER_RANKS.aspect(right.ontology?.aspect) ||
-		STABLE_ORDER_RANKS.role(left.ontology?.role) - STABLE_ORDER_RANKS.role(right.ontology?.role) ||
-		compareStrings(left.title ?? "", right.title ?? "") ||
-		compareStrings(left.source_path ?? left.id, right.source_path ?? right.id) ||
-		compareStrings(left.id, right.id),
+	return [...documents].sort(
+		(left, right) =>
+			STABLE_ORDER_RANKS.aspect(left.ontology?.aspect) - STABLE_ORDER_RANKS.aspect(right.ontology?.aspect) ||
+			STABLE_ORDER_RANKS.role(left.ontology?.role) - STABLE_ORDER_RANKS.role(right.ontology?.role) ||
+			compareStrings(left.title ?? "", right.title ?? "") ||
+			compareStrings(left.source_path ?? left.id, right.source_path ?? right.id) ||
+			compareStrings(left.id, right.id),
 	)[0];
-}
-
-export function summarizeText(text, { title = "", keywords = [], ontology = {} } = {}) {
-	const lowerText = text.toLowerCase();
-	const terms = [
-		ontology.aspect,
-		ontology.instance,
-		...keywords,
-		...title.split(/\s+/),
-	]
-		.map((term) => term?.toString().trim())
-		.filter(Boolean)
-		.sort((left, right) => right.length - left.length || compareStrings(left, right));
-
-	for (const term of terms) {
-		const index = lowerText.indexOf(term.toLowerCase());
-
-		if (index === -1) {
-			continue;
-		}
-
-		const radius = 80;
-		const start = Math.max(0, index - radius);
-		const end = Math.min(text.length, index + term.length + radius);
-		const prefix = start > 0 ? "…" : "";
-		const suffix = end < text.length ? "…" : "";
-
-		return normalizeWhitespace(`${prefix}${text.slice(start, end)}${suffix}`);
-	}
-
-	return normalizeWhitespace(text.slice(0, 160));
 }
 
 export function buildDocumentSnapshot(sourcePath, ontology, options = {}) {
@@ -179,15 +153,15 @@ export function buildDocumentSnapshot(sourcePath, ontology, options = {}) {
 		headings: extractHeadings(body),
 		aliases,
 		text,
-		snippet: summarizeText(text, {
-			title: data.title ?? "",
-			keywords,
-			ontology,
-		}),
+		snippet: data.description ?? "",
 	};
 }
 
-export function buildCanonicalSubjectSnapshot(subjectId, documents, canonicalDocument = selectCanonicalSubjectDocument(documents)) {
+export function buildCanonicalSubjectSnapshot(
+	subjectId,
+	documents,
+	canonicalDocument = selectCanonicalSubjectDocument(documents),
+) {
 	const sortedDocuments = sortDocumentsByStableOrder(documents);
 	const primaryDocument = canonicalDocument;
 	const ontology = primaryDocument.ontology ?? {};

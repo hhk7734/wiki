@@ -6,10 +6,8 @@ import { buildWikiKnowledgeCore } from "../build-wiki-knowledge-core.mjs";
 import { ROOT_DIR } from "../constants.mjs";
 import { buildCanonicalSubjectSnapshot, selectCanonicalSubjectDocument } from "../wiki-knowledge-shared.mjs";
 
-test("wiki knowledge core emits stable document ids, urls, and normalized snippets", () => {
-	const records = buildWikiKnowledgeCore([
-		"docs/infrastructure/storage/ceph/osd/index.mdx",
-	]);
+test("wiki knowledge core emits stable document ids, urls, and frontmatter descriptions as snippets", () => {
+	const records = buildWikiKnowledgeCore(["docs/infrastructure/storage/ceph/osd/index.mdx"]);
 
 	const document = records.documents[0];
 	const relation = records.relations[0];
@@ -18,10 +16,13 @@ test("wiki knowledge core emits stable document ids, urls, and normalized snippe
 	assert.equal(document.id, "doc:docs/infrastructure/storage/ceph/osd/index.mdx");
 	assert.equal(document.url, "/docs/infrastructure/storage/ceph/osd");
 	assert.equal(document.subject_ref, "subject:infrastructure:storage-system:ceph");
-	assert.ok(document.snippet.length > 0);
-	assert.ok(document.snippet.length < document.text.length);
-	assert.doesNotMatch(document.snippet, /import useBaseUrl|:::|`/i);
-	assert.equal(relation.id, "relation:doc:docs/infrastructure/storage/ceph/osd/index.mdx:about_subject:subject:infrastructure:storage-system:ceph");
+	assert.equal(document.snippet, document.description);
+	assert.match(document.snippet, /Ceph OSD 관리 documents osd material/);
+	assert.doesNotMatch(document.snippet, /sudo dd|```|`/i);
+	assert.equal(
+		relation.id,
+		"relation:doc:docs/infrastructure/storage/ceph/osd/index.mdx:about_subject:subject:infrastructure:storage-system:ceph",
+	);
 	assert.equal(relation.predicate, "about_subject");
 });
 
@@ -35,9 +36,18 @@ test("wiki knowledge core keeps multi-document subject records deterministic", (
 		"docs/infrastructure/storage/ceph/overview.mdx",
 	]);
 
-	assert.deepEqual(forward.documents.map((document) => document.id), reverse.documents.map((document) => document.id));
-	assert.deepEqual(forward.relations.map((relation) => relation.id), reverse.relations.map((relation) => relation.id));
-	assert.deepEqual(forward.subjects.map((subject) => subject.id), reverse.subjects.map((subject) => subject.id));
+	assert.deepEqual(
+		forward.documents.map((document) => document.id),
+		reverse.documents.map((document) => document.id),
+	);
+	assert.deepEqual(
+		forward.relations.map((relation) => relation.id),
+		reverse.relations.map((relation) => relation.id),
+	);
+	assert.deepEqual(
+		forward.subjects.map((subject) => subject.id),
+		reverse.subjects.map((subject) => subject.id),
+	);
 	assert.deepEqual(forward.subjects[0].document_refs, [
 		"doc:docs/infrastructure/storage/ceph/overview.mdx",
 		"doc:docs/infrastructure/storage/ceph/osd/index.mdx",
@@ -80,7 +90,11 @@ test("wiki knowledge core selects the canonical subject representative explicitl
 
 	assert.equal(selectCanonicalSubjectDocument([detailDocument, overviewDocument]).id, overviewDocument.id);
 
-	const subject = buildCanonicalSubjectSnapshot("subject:infrastructure:storage-system:ceph", [detailDocument, overviewDocument], overviewDocument);
+	const subject = buildCanonicalSubjectSnapshot(
+		"subject:infrastructure:storage-system:ceph",
+		[detailDocument, overviewDocument],
+		overviewDocument,
+	);
 
 	assert.equal(subject.canonical_name, overviewDocument.title);
 	assert.equal(subject.snippet, overviewDocument.snippet);
@@ -242,10 +256,11 @@ content
 		});
 
 		assert.ok(
-			records.relations.some((relation) =>
-				relation.from === "subject:language:framework:nextjs" &&
-				relation.to === "subject:language:framework:react" &&
-				relation.predicate === "depends_on",
+			records.relations.some(
+				(relation) =>
+					relation.from === "subject:language:framework:nextjs" &&
+					relation.to === "subject:language:framework:react" &&
+					relation.predicate === "depends_on",
 			),
 		);
 	} finally {

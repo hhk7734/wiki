@@ -1,6 +1,10 @@
 import { readFileSync } from "node:fs";
 
 function parseScalar(value) {
+	if (value === "[]") {
+		return [];
+	}
+
 	if (value === "true") {
 		return true;
 	}
@@ -10,7 +14,13 @@ function parseScalar(value) {
 	}
 
 	if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
-		return value.slice(1, -1);
+		const unquoted = value.slice(1, -1);
+
+		if (unquoted === "[]") {
+			return [];
+		}
+
+		return unquoted;
 	}
 
 	return value;
@@ -182,6 +192,11 @@ function appendKeyValue(lines, key, value, indent = 0) {
 	const prefix = " ".repeat(indent);
 
 	if (Array.isArray(value)) {
+		if (value.length === 0) {
+			lines.push(`${prefix}${key}: []`);
+			return;
+		}
+
 		lines.push(`${prefix}${key}:`);
 
 		for (const item of value) {
