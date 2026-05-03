@@ -29,11 +29,11 @@
 		"test:ontology": "node --test script/ontology/__tests__/*.test.mjs"
 	},
 	"dependencies": {
-		"@docusaurus/core": "^3.10.0",
-		"@docusaurus/plugin-google-gtag": "^3.10.0",
-		"@docusaurus/plugin-ideal-image": "^3.10.0",
-		"@docusaurus/preset-classic": "^3.10.0",
-		"@docusaurus/theme-mermaid": "^3.10.0",
+		"@docusaurus/core": "^3.10.1",
+		"@docusaurus/plugin-google-gtag": "^3.10.1",
+		"@docusaurus/plugin-ideal-image": "^3.10.1",
+		"@docusaurus/preset-classic": "^3.10.1",
+		"@docusaurus/theme-mermaid": "^3.10.1",
 		"@mdx-js/react": "^3.1.0",
 		"@mermaid-js/layout-elk": "^0.1.9",
 		"@react-three/drei": "^9.117.3",
@@ -68,18 +68,44 @@
 		]
 	},
 	"devDependencies": {
-		"@docusaurus/module-type-aliases": "^3.10.0",
-		"@docusaurus/tsconfig": "^3.10.0",
-		"@docusaurus/types": "^3.10.0",
+		"@docusaurus/module-type-aliases": "^3.10.1",
+		"@docusaurus/tsconfig": "^3.10.1",
+		"@docusaurus/types": "^3.10.1",
 		"@types/d3": "^7.4.3",
 		"@types/react": "^18.3.3",
 		"@types/three": "^0.170.0",
-		"@typescript-eslint/eslint-plugin": "^6.21.0",
-		"@typescript-eslint/parser": "^6.21.0",
+		"@typescript-eslint/eslint-plugin": "^8.59.1",
+		"@typescript-eslint/parser": "^8.59.1",
 		"eslint": "^8.57.0",
 		"eslint-config-prettier": "^9.1.0",
 		"prettier": "^3.3.1",
 		"prettier-plugin-tailwindcss": "^0.6.9",
 		"typescript": "^5.7.3"
+	},
+	"overrides": {
+		"anymatch": {
+			"picomatch": "2.3.2"
+		},
+		"copy-webpack-plugin": {
+			"serialize-javascript": "7.0.5"
+		},
+		"css-minimizer-webpack-plugin": {
+			"serialize-javascript": "7.0.5"
+		},
+		"jest-util": {
+			"picomatch": "2.3.2"
+		},
+		"mermaid": {
+			"uuid": "14.0.0"
+		},
+		"micromatch": {
+			"picomatch": "2.3.2"
+		},
+		"readdirp": {
+			"picomatch": "2.3.2"
+		},
+		"sockjs": {
+			"uuid": "14.0.0"
+		}
 	}
 }
