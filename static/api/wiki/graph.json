@@ -9697,6 +9697,22 @@
       "subject_ref": "subject:language:programming-language:rust"
     },
     {
+      "id": "doc:docs/language/rust/smart-pointer.mdx",
+      "type": "document",
+      "title": "Rust Smart Pointers",
+      "snippet": "- The Rust Programming Language / Smart Pointers\n- The Rust Programming Language / Using Box to Point to Data on the Heap\n- Rus…",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "concept",
+        "instance": "rust",
+        "aspect": "smart-pointer"
+      },
+      "url": "/docs/language/rust/smart-pointer",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/smart-pointer.mdx.json",
+      "subject_ref": "subject:language:concept:rust"
+    },
+    {
       "id": "doc:docs/language/rust/trait.mdx",
       "type": "document",
       "title": "Rust Traits",
@@ -14425,16 +14441,17 @@
     {
       "id": "subject:language:concept:rust",
       "type": "subject",
-      "title": "Rust Traits",
-      "snippet": "…ross unrelated types\n- generic constraints\n- static dispatch with impl Trait or trait bounds\n- dynamic dispatch with trait objects such as dyn Trait\n\n## Define a Trait\n\nTr…",
+      "title": "Rust Smart Pointers",
+      "snippet": "- The Rust Programming Language / Smart Pointers\n- The Rust Programming Language / Using Box to Point to Data on the Heap\n- Rus…",
       "ontology": {
         "domain": "language",
         "class": "concept",
         "instance": "rust"
       },
-      "url": "/docs/language/rust/trait",
+      "url": "/docs/language/rust/smart-pointer",
       "node_url": "/api/wiki/nodes/subject:language:concept:rust.json",
       "document_refs": [
+        "doc:docs/language/rust/smart-pointer.mdx",
         "doc:docs/language/rust/trait.mdx"
       ]
     },
@@ -20523,6 +20540,12 @@
       "id": "relation:doc:docs/language/rust/overview.mdx:about_subject:subject:language:programming-language:rust",
       "from": "doc:docs/language/rust/overview.mdx",
       "to": "subject:language:programming-language:rust",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/smart-pointer.mdx:about_subject:subject:language:concept:rust",
+      "from": "doc:docs/language/rust/smart-pointer.mdx",
+      "to": "subject:language:concept:rust",
       "predicate": "about_subject"
     },
     {

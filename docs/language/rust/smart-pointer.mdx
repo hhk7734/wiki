@@ -1,0 +1,343 @@
+---
+id: smart-pointer
+title: Rust Smart Pointers
+sidebar_label: Smart Pointers
+description: Understand Box, Rc, Arc, RefCell, Mutex, RwLock, Cow, and Pin in Rust.
+keywords:
+  - rust
+  - smart pointer
+  - box
+  - rc
+  - arc
+  - refcell
+  - mutex
+  - rwlock
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: rust
+  aspect: smart-pointer
+subject:
+  canonical_name: Rust
+  aliases: []
+relations:
+  related_to:
+    - rust-trait
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [The Rust Programming Language / Smart Pointers](https://doc.rust-lang.org/book/ch15-00-smart-pointers.html)
+- [The Rust Programming Language / Using Box to Point to Data on the Heap](https://doc.rust-lang.org/book/ch15-01-box.html)
+- [Rust Standard Library / Box](https://doc.rust-lang.org/std/boxed/struct.Box.html)
+- [Rust Standard Library / Rc](https://doc.rust-lang.org/std/rc/struct.Rc.html)
+- [Rust Standard Library / Arc](https://doc.rust-lang.org/std/sync/struct.Arc.html)
+- [Rust Standard Library / RefCell](https://doc.rust-lang.org/std/cell/struct.RefCell.html)
+- [Rust Standard Library / Mutex](https://doc.rust-lang.org/std/sync/struct.Mutex.html)
+- [Rust Standard Library / RwLock](https://doc.rust-lang.org/std/sync/struct.RwLock.html)
+- [Rust Standard Library / Cow](https://doc.rust-lang.org/std/borrow/enum.Cow.html)
+- [Rust Standard Library / Pin](https://doc.rust-lang.org/std/pin/struct.Pin.html)
+
+:::
+
+## Overview
+
+A smart pointer is a type that behaves like a pointer but also carries ownership, lifetime, borrowing, synchronization, or allocation behavior.
+
+Rust references such as `&T` and `&mut T` borrow data. Smart pointer types such as `Box<T>`, `Rc<T>`, and `Arc<T>` usually own or share data and release resources when their owner is dropped.
+
+Use smart pointers when the default ownership model needs one of these extra capabilities:
+
+- put a value on the heap
+- share ownership between multiple values
+- mutate through a shared owner
+- synchronize access between threads
+- defer cloning until mutation
+- guarantee that a value will not be moved
+
+## Quick Selection
+
+| Type         | Ownership           | Thread-safe    | Mutability model           | Use case                                   |
+| ------------ | ------------------- | -------------- | -------------------------- | ------------------------------------------ |
+| `Box<T>`     | single owner        | depends on `T` | normal `mut` binding       | heap allocation and indirection            |
+| `Rc<T>`      | shared owners       | no             | immutable by default       | shared ownership inside one thread         |
+| `Arc<T>`     | shared owners       | yes            | immutable by default       | shared ownership across threads            |
+| `RefCell<T>` | single owner        | no             | runtime borrow checks      | interior mutability inside one thread      |
+| `Mutex<T>`   | single owner        | yes            | one locked mutable guard   | shared mutable state across threads        |
+| `RwLock<T>`  | single owner        | yes            | many readers or one writer | read-heavy shared state                    |
+| `Cow<'a, T>` | borrowed or owned   | depends on `T` | clone on mutation          | avoid allocations until mutation is needed |
+| `Pin<P>`     | follows pointer `P` | depends on `P` | prevents moves through `P` | async and self-referential patterns        |
+
+## Box
+
+`Box<T>` owns a value stored on the heap.
+
+The `Box<T>` value itself is small and lives wherever it is bound, while the contained `T` is heap allocated. When the box is dropped, the heap allocation is dropped too.
+
+```rust
+let value = Box::new(42);
+println!("{}", value);
+```
+
+Use `Box<T>` when:
+
+- a value is large and moving only a pointer is preferable
+- a type needs indirection, such as recursive data structures
+- a trait object needs ownership, such as `Box<dyn Trait>`
+
+```rust
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
+}
+
+let list = List::Cons(1, Box::new(List::Cons(2, Box::new(List::Nil))));
+```
+
+`Box<T>` does not mean shared ownership. There is still exactly one owner.
+
+## Rc
+
+`Rc<T>` is a reference-counted pointer for shared ownership inside one thread.
+
+Cloning an `Rc<T>` does not clone `T`. It creates another owner and increments the reference count. The value is dropped when the last `Rc<T>` owner is dropped.
+
+```rust
+use std::rc::Rc;
+
+let name = Rc::new(String::from("rust"));
+let first = Rc::clone(&name);
+let second = Rc::clone(&name);
+
+println!("{first} {second}");
+```
+
+Use `Rc<T>` when multiple single-threaded values need to own the same data, such as graph-like data, shared UI state, or parent-child structures.
+
+Do not use `Rc<T>` for cross-thread sharing. Use `Arc<T>` instead.
+
+## Arc
+
+`Arc<T>` is an atomically reference-counted pointer for shared ownership across threads.
+
+`Arc<T>` has the same ownership idea as `Rc<T>`, but the reference count is updated atomically, so it can be cloned and moved between threads.
+
+```rust
+use std::sync::Arc;
+use std::thread;
+
+let value = Arc::new(String::from("shared"));
+let worker_value = Arc::clone(&value);
+
+let handle = thread::spawn(move || {
+    println!("{worker_value}");
+});
+
+handle.join().unwrap();
+```
+
+`Arc<T>` only makes ownership thread-safe. It does not automatically make mutation safe. For shared mutable state, combine it with a synchronization primitive.
+
+```rust
+use std::sync::{Arc, Mutex};
+use std::thread;
+
+let counter = Arc::new(Mutex::new(0));
+let mut handles = Vec::new();
+
+for _ in 0..4 {
+    let counter = Arc::clone(&counter);
+
+    handles.push(thread::spawn(move || {
+        let mut value = counter.lock().unwrap();
+        *value += 1;
+    }));
+}
+
+for handle in handles {
+    handle.join().unwrap();
+}
+
+println!("{}", *counter.lock().unwrap());
+```
+
+## RefCell
+
+`RefCell<T>` provides interior mutability with borrow rules checked at runtime.
+
+Normal Rust borrowing checks happen at compile time. `RefCell<T>` moves those checks to runtime and panics if the rules are violated.
+
+```rust
+use std::cell::RefCell;
+
+let value = RefCell::new(vec![1, 2, 3]);
+
+value.borrow_mut().push(4);
+
+println!("{:?}", value.borrow());
+```
+
+Use `RefCell<T>` when single-threaded code needs mutation through a shared owner.
+
+The common pattern is `Rc<RefCell<T>>`:
+
+```rust
+use std::cell::RefCell;
+use std::rc::Rc;
+
+let shared = Rc::new(RefCell::new(String::from("draft")));
+
+let a = Rc::clone(&shared);
+let b = Rc::clone(&shared);
+
+a.borrow_mut().push_str(" note");
+println!("{}", b.borrow());
+```
+
+`RefCell<T>` is not thread-safe.
+
+## Mutex
+
+`Mutex<T>` protects a value so only one thread can access it at a time.
+
+Calling `lock` returns a guard. The guard dereferences to the inner value and unlocks the mutex when dropped.
+
+```rust
+use std::sync::Mutex;
+
+let value = Mutex::new(0);
+
+{
+    let mut guard = value.lock().unwrap();
+    *guard += 1;
+}
+
+println!("{}", *value.lock().unwrap());
+```
+
+Use `Mutex<T>` for shared mutable state where every access should be exclusive.
+
+## RwLock
+
+`RwLock<T>` is a read-write lock.
+
+It allows either:
+
+- many readers at the same time
+- one writer at a time
+
+```rust
+use std::sync::RwLock;
+
+let value = RwLock::new(String::from("rust"));
+
+{
+    let read = value.read().unwrap();
+    println!("{}", read.len());
+}
+
+{
+    let mut write = value.write().unwrap();
+    write.push_str(" language");
+}
+```
+
+Use `RwLock<T>` when reads are frequent and writes are less common. If writes are frequent, `Mutex<T>` is often simpler.
+
+## Cow
+
+`Cow<'a, T>` means clone on write.
+
+It can hold either borrowed data or owned data. If mutation is needed while the value is borrowed, `Cow` clones the data into owned storage.
+
+```rust
+use std::borrow::Cow;
+
+fn normalize(input: &str) -> Cow<'_, str> {
+    if input.contains(' ') {
+        Cow::Owned(input.replace(' ', "-"))
+    } else {
+        Cow::Borrowed(input)
+    }
+}
+
+let unchanged = normalize("rust");
+let changed = normalize("rust language");
+
+println!("{unchanged}");
+println!("{changed}");
+```
+
+Use `Cow` when most values can be borrowed but some values need an owned transformation.
+
+## Pin
+
+`Pin<P>` prevents moving the value behind pointer `P` after it has been pinned.
+
+Most Rust values can be moved freely. Some advanced types, especially self-referential types and async futures, may rely on a stable memory location. `Pin` encodes that guarantee.
+
+```rust
+use std::pin::Pin;
+
+let pinned = Box::pin(String::from("stable location"));
+let pinned_ref: Pin<&String> = pinned.as_ref();
+
+println!("{}", pinned_ref);
+```
+
+Use `Pin` when an API requires it. For everyday ownership and sharing, prefer `Box<T>`, `Rc<T>`, or `Arc<T>`.
+
+## Weak References
+
+`Rc<T>` and `Arc<T>` also have weak counterparts: `Weak<T>`.
+
+A weak reference does not keep the value alive. It can be upgraded to a strong reference only if the value still exists.
+
+Use `Weak<T>` to avoid reference cycles in shared ownership graphs.
+
+```rust
+use std::rc::{Rc, Weak};
+
+let owner = Rc::new(String::from("owner"));
+let weak: Weak<String> = Rc::downgrade(&owner);
+
+if let Some(owner) = weak.upgrade() {
+    println!("{owner}");
+}
+```
+
+## Common Patterns
+
+| Pattern          | Meaning                                          |
+| ---------------- | ------------------------------------------------ |
+| `Box<T>`         | one owner, heap allocated                        |
+| `Box<dyn Trait>` | owned trait object with dynamic dispatch         |
+| `Rc<T>`          | shared ownership in one thread                   |
+| `Rc<RefCell<T>>` | shared mutable state in one thread               |
+| `Arc<T>`         | shared ownership across threads                  |
+| `Arc<Mutex<T>>`  | shared mutable state across threads              |
+| `Arc<RwLock<T>>` | shared read-heavy state across threads           |
+| `Cow<'a, str>`   | borrowed string unless an owned change is needed |
+| `Pin<Box<T>>`    | heap allocation that should not move             |
+
+## Decision Rules
+
+Choose the simplest type that expresses the ownership requirement.
+
+1. Use a plain value or reference when ownership and borrowing are simple.
+2. Use `Box<T>` when only heap allocation or indirection is needed.
+3. Use `Rc<T>` when one thread needs shared ownership.
+4. Use `Arc<T>` when multiple threads need shared ownership.
+5. Add `RefCell<T>`, `Mutex<T>`, or `RwLock<T>` only when shared mutation is required.
+6. Use `Weak<T>` when shared ownership can form cycles.
+7. Use `Cow<'a, T>` when mutation is rare and borrowing is common.
+8. Use `Pin<P>` only when stable placement is part of the API contract.
