@@ -12,7 +12,8 @@
   "node_url": "/api/wiki/nodes/subject:language:programming-language:rust.json",
   "document_refs": [
     "doc:docs/language/rust/overview.mdx",
-    "doc:docs/language/rust/macro.mdx"
+    "doc:docs/language/rust/macro.mdx",
+    "doc:docs/language/rust/stream.mdx"
   ],
   "documents": [
     {
@@ -40,6 +41,19 @@
         "instance": "rust",
         "aspect": "macro"
       }
+    },
+    {
+      "id": "doc:docs/language/rust/stream.mdx",
+      "title": "Rust Stream",
+      "url": "/docs/language/rust/stream",
+      "description": "Rust Stream documents async stream material for Rust in the language domain. It is classified as a concept page for the programming-language class, so readers can understand Stream as the async counterpart to Iterator, consume streams with StreamExt, create streams with async-stream, bridge Tokio channels with tokio-stream, and return streams from Axum SSE handlers. Important search terms include rust, stream, async-stream, futures, tokio-stream, axum, sse, and language, helping both humans and generated indexes connect this page with adjacent async Rust material. The route is language / rust / stream, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "programming-language",
+        "instance": "rust",
+        "aspect": "stream"
+      }
     }
   ],
   "relations": [
@@ -53,6 +67,12 @@
       "id": "relation:doc:docs/language/rust/macro.mdx:about_subject:subject:language:programming-language:rust",
       "predicate": "about_subject",
       "other_id": "doc:docs/language/rust/macro.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/stream.mdx:about_subject:subject:language:programming-language:rust",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/rust/stream.mdx",
       "direction": "incoming"
     },
     {
@@ -84,6 +104,18 @@
       "predicate": "depends_on",
       "other_id": "subject:language:library:clap",
       "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:programming-language:rust:depends_on:subject:language:programming-language:rust",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:programming-language:rust:related_to:subject:language:framework:axum",
+      "predicate": "related_to",
+      "other_id": "subject:language:framework:axum",
+      "direction": "outgoing"
     }
   ]
 }

@@ -180,14 +180,13 @@ source "$ZSH/oh-my-zsh.sh"
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
+export PATH=$PATH:$HOME/.local/bin
+
 ######################
 # User configuration #
 ######################
 
-export PATH=$PATH:$HOME/.local/bin
-
-is_installed fzf && eval "$(fzf --zsh)"
-
+# git
 git_remove_local_branch () {
     git remote update --prune \
     && git switch --detach origin/HEAD \

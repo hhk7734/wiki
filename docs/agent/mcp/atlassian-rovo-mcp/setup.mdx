@@ -2,12 +2,13 @@
 id: setup
 title: "Atlassian Rovo MCP Server Setup"
 sidebar_label: "Setup"
-description: "Atlassian Rovo MCP Server setup documents client setup material for the Atlassian Rovo MCP Server in the agent domain. It is classified as an operation page for the mcp-server class, so readers can configure Codex, Gemini CLI, and Claude Code with the streamable HTTP MCP endpoint, choose the correct token authentication mode, test Confluence access, and troubleshoot startup errors. Important search terms include atlassian, rovo, mcp, codex, gemini, claude code, confluence, jira, api token, and agent, helping both humans and generated indexes connect this page with adjacent setup material. The route is agent / mcp / atlassian-rovo-mcp / setup, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
+description: "Atlassian Rovo MCP Server setup documents client setup material for the Atlassian Rovo MCP Server in the agent domain. It is classified as an operation page for the mcp-server class, so readers can configure Codex, OpenClaw, Gemini CLI, and Claude Code with the streamable HTTP MCP endpoint, choose the correct token authentication mode, test Confluence access, and troubleshoot startup errors. Important search terms include atlassian, rovo, mcp, codex, openclaw, gemini, claude code, confluence, jira, api token, and agent, helping both humans and generated indexes connect this page with adjacent setup material. The route is agent / mcp / atlassian-rovo-mcp / setup, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
 keywords:
   - atlassian
   - rovo
   - mcp
   - codex
+  - openclaw
   - gemini
   - claude-code
   - confluence
@@ -29,6 +30,7 @@ subject:
 relations:
   related_to:
     - codex
+    - openclaw
     - gemini-cli
     - claude-code
     - confluence
@@ -95,7 +97,7 @@ env_http_headers = { Authorization = "ATLASSIAN_MCP_AUTH" }
 
 `env_http_headers` maps the HTTP header name to the environment variable that contains the final header value. The variable must include the authorization scheme prefix, such as `Basic ` or `Bearer `.
 
-## Start Codex
+### Start Codex
 
 Start Codex from a shell where the MCP environment variable is already exported:
 
@@ -112,6 +114,28 @@ env_http_headers: Authorization=ATLASSIAN_MCP_AUTH
 ```
 
 Restart Codex after changing `~/.codex/config.toml` or environment variables. New MCP tools are loaded when Codex starts.
+
+## OpenClaw
+
+OpenClaw can run the remote Atlassian MCP endpoint through `mcp-remote`. Configure the server in `~/openclaw/openclaw.json`:
+
+```json title="~/openclaw/openclaw.json"
+{
+	"mcp": {
+		"servers": {
+			"atlassian": {
+				"command": "zsh",
+				"args": [
+					"-lc",
+					"exec npx mcp-remote https://mcp.atlassian.com/v1/mcp --header \"Authorization: $ATLASSIAN_MCP_AUTH\""
+				]
+			}
+		}
+	}
+}
+```
+
+Start OpenClaw from an environment where `ATLASSIAN_MCP_AUTH` is already exported. The `zsh -lc` wrapper lets the command expand the authorization header at process startup without writing the token value into `openclaw.json`.
 
 ## Gemini CLI
 

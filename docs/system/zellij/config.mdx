@@ -1,0 +1,213 @@
+---
+id: config
+title: "Zellij config"
+sidebar_label: Config
+description: "Zellij config documents configuration material for zellij in the system domain. It is classified as an operation page for the tool class, so readers can create config.kdl, set themes, customize root options, define keybindings, and understand runtime reload behavior. Important search terms include zellij, config, config.kdl, theme, keybindings, and system, helping both humans and generated indexes connect this page with adjacent setup material. The route is system / zellij / config, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
+keywords:
+  - zellij
+  - config
+  - config.kdl
+  - theme
+  - keybindings
+  - system
+ontology:
+  role: operation
+  domain: system
+  class: tool
+  instance: zellij
+  aspect: config
+subject:
+  canonical_name: zellij
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - kdl
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [Zellij / Configuration](https://zellij.dev/documentation/configuration)
+- [Zellij / Options](https://zellij.dev/documentation/options)
+- [Zellij / Themes](https://zellij.dev/documentation/themes)
+- [Zellij / List of Themes](https://zellij.dev/documentation/theme-list)
+- [Zellij / Keybindings](https://zellij.dev/documentation/keybindings)
+- [Zellij / Command Line Configuration Options](https://zellij.dev/documentation/command-line-options.html)
+
+:::
+
+## Config file
+
+Zellij uses KDL for configuration. On Linux, the usual config file is:
+
+```text
+~/.config/zellij/config.kdl
+```
+
+Create it from the default config:
+
+```shell
+mkdir -p ~/.config/zellij
+test -f ~/.config/zellij/config.kdl || zellij setup --dump-config > ~/.config/zellij/config.kdl
+```
+
+Zellij searches for configuration in this order:
+
+- `--config-dir`
+- `ZELLIJ_CONFIG_DIR`
+- `$HOME/.config/zellij`
+- platform default config directory
+- `/etc/zellij`
+
+Use a specific file when testing a config change:
+
+```shell
+zellij --config ~/.config/zellij/config.kdl
+```
+
+Start without loading user configuration:
+
+```shell
+zellij options --clean
+```
+
+Zellij watches the active config file. Most config changes are applied to running sessions without restarting Zellij.
+
+## Root options
+
+Set common options at the root of `config.kdl`:
+
+```kdl title="~/.config/zellij/config.kdl"
+theme "tokyo-night"
+default_shell "zsh"
+default_layout "default"
+default_mode "normal"
+pane_frames true
+mouse_mode true
+scroll_buffer_size 10000
+copy_on_select true
+show_startup_tips false
+```
+
+Useful root options include:
+
+- `theme`: color theme name.
+- `default_shell`: shell used for new panes.
+- `default_layout`: layout loaded on startup.
+- `default_mode`: mode used when Zellij starts.
+- `pane_frames`: show or hide pane borders.
+- `mouse_mode`: enable mouse selection and pane interaction.
+- `scroll_buffer_size`: scrollback lines kept for each pane.
+- `copy_on_select`: copy selected text automatically.
+
+## Theme
+
+Use a built-in theme by setting `theme`:
+
+```kdl title="~/.config/zellij/config.kdl"
+theme "nord"
+```
+
+Common built-in themes include:
+
+- `dracula`
+- `gruvbox-dark`
+- `kanagawa`
+- `nord`
+- `tokyo-night`
+- `tokyo-night-storm`
+- `catppuccin-frappe`
+- `catppuccin-macchiato`
+- `catppuccin-latte`
+
+Override the theme only for one startup:
+
+```shell
+zellij options --theme nord
+```
+
+## Custom theme
+
+Put custom theme files under the active config directory:
+
+```text
+~/.config/zellij/themes/<theme-name>.kdl
+```
+
+Then load the theme by name:
+
+```kdl title="~/.config/zellij/config.kdl"
+theme "my-theme"
+```
+
+Set a custom theme directory if themes live elsewhere:
+
+```kdl title="~/.config/zellij/config.kdl"
+theme_dir "~/.config/zellij/themes"
+theme "my-theme"
+```
+
+For quick palette-style themes, Zellij still supports the legacy theme format:
+
+```kdl title="~/.config/zellij/themes/my-theme.kdl"
+themes {
+    my-theme {
+        fg "#D8DEE9"
+        bg "#2E3440"
+        black "#3B4252"
+        red "#BF616A"
+        green "#A3BE8C"
+        yellow "#EBCB8B"
+        blue "#81A1C1"
+        magenta "#B48EAD"
+        cyan "#88C0D0"
+        white "#E5E9F0"
+        orange "#D08770"
+    }
+}
+```
+
+For new full themes, prefer the current UI-component theme specification from the Zellij theme documentation.
+
+## Keybindings
+
+Configure keybindings in the `keybinds` block:
+
+```kdl title="~/.config/zellij/config.kdl"
+keybinds {
+    normal {
+        bind "Alt h" { MoveFocus "Left"; }
+        bind "Alt j" { MoveFocus "Down"; }
+        bind "Alt k" { MoveFocus "Up"; }
+        bind "Alt l" { MoveFocus "Right"; }
+        bind "Alt n" { NewPane; }
+        bind "Alt t" { NewTab; }
+    }
+    locked {
+        bind "Ctrl g" { SwitchToMode "Normal"; }
+    }
+}
+```
+
+Keep the default keybindings nearby when editing custom bindings:
+
+```shell
+zellij setup --dump-config | less
+```
+
+## Command-line overrides
+
+`zellij options` can override config values when starting Zellij:
+
+```shell
+zellij options --theme kanagawa --pane-frames true --mouse-mode true
+```
+
+Use command-line overrides for temporary experiments. Put stable preferences in `config.kdl`.
