@@ -1,0 +1,361 @@
+---
+id: conversion
+title: "Rust Conversion Traits"
+sidebar_label: Conversion
+description: "Rust conversion traits documents From, Into, TryFrom, TryInto, AsRef, AsMut, Borrow, BorrowMut, Display, ToString, FromStr, and parse for Rust in the language domain. It is classified as a concept page, so readers can choose the correct conversion trait and place conversion implementations consistently."
+keywords:
+  - rust
+  - conversion
+  - from
+  - into
+  - tryfrom
+  - tryinto
+  - asref
+  - borrow
+  - fromstr
+  - tostring
+  - language
+ontology:
+  role: concept
+  domain: language
+  class: concept
+  instance: rust
+  aspect: conversion
+subject:
+  canonical_name: Rust
+  aliases: []
+relations:
+  related_to:
+    - rust-trait
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [Rust Standard Library / std::convert::From](https://doc.rust-lang.org/std/convert/trait.From.html)
+- [Rust Standard Library / std::convert::Into](https://doc.rust-lang.org/std/convert/trait.Into.html)
+- [Rust Standard Library / std::convert::TryFrom](https://doc.rust-lang.org/std/convert/trait.TryFrom.html)
+- [Rust Standard Library / std::convert::TryInto](https://doc.rust-lang.org/std/convert/trait.TryInto.html)
+- [Rust Standard Library / std::convert::AsRef](https://doc.rust-lang.org/std/convert/trait.AsRef.html)
+- [Rust Standard Library / std::convert::AsMut](https://doc.rust-lang.org/std/convert/trait.AsMut.html)
+- [Rust Standard Library / std::borrow::Borrow](https://doc.rust-lang.org/std/borrow/trait.Borrow.html)
+- [Rust Standard Library / std::string::ToString](https://doc.rust-lang.org/std/string/trait.ToString.html)
+- [Rust Standard Library / std::fmt::Display](https://doc.rust-lang.org/std/fmt/trait.Display.html)
+- [Rust Standard Library / std::str::FromStr](https://doc.rust-lang.org/std/str/trait.FromStr.html)
+- [The Rust Reference / Trait implementation coherence](https://doc.rust-lang.org/reference/items/implementations.html#trait-implementation-coherence)
+
+:::
+
+## Overview
+
+Rust uses several standard traits for conversion. The right trait depends on ownership, cost, and whether the conversion can fail.
+
+Common groups:
+
+- owned infallible conversion: `From` and `Into`
+- owned fallible conversion: `TryFrom` and `TryInto`
+- borrowed view conversion: `AsRef` and `AsMut`
+- borrowed key-compatible view conversion: `Borrow` and `BorrowMut`
+- string formatting and parsing: `Display`, `ToString`, `FromStr`, and `parse`
+
+## `From` and `Into`
+
+`From<T> for U` defines how to create a `U` from a `T`.
+
+```rust
+let value = String::from("hello");
+```
+
+Implement `From` when the conversion is:
+
+- infallible
+- lossless in the semantic sense
+- value-preserving
+- obvious
+
+Example:
+
+```rust
+struct UserId(u64);
+
+impl From<u64> for UserId {
+    fn from(value: u64) -> Self {
+        UserId(value)
+    }
+}
+
+let user_id = UserId::from(42);
+```
+
+When `From<T> for U` exists, Rust provides `Into<U> for T` automatically.
+
+```rust
+let user_id: UserId = 42.into();
+```
+
+Prefer implementing `From` instead of implementing `Into` directly. Use `Into` mostly in call sites or generic bounds.
+
+```rust
+fn create_user_id<T>(value: T) -> UserId
+where
+    T: Into<UserId>,
+{
+    value.into()
+}
+```
+
+Use a named constructor instead of `From` when the conversion has multiple reasonable meanings.
+
+```rust
+struct U32Bytes([u8; 4]);
+
+impl U32Bytes {
+    fn from_be_bytes(value: u32) -> Self {
+        Self(value.to_be_bytes())
+    }
+
+    fn from_le_bytes(value: u32) -> Self {
+        Self(value.to_le_bytes())
+    }
+}
+```
+
+## `TryFrom` and `TryInto`
+
+`TryFrom<T> for U` defines a conversion that can fail.
+
+```rust
+use std::convert::TryFrom;
+
+let value = u8::try_from(255_u16);
+assert_eq!(value, Ok(255));
+
+let overflow = u8::try_from(256_u16);
+assert!(overflow.is_err());
+```
+
+For custom types, use an explicit error type.
+
+```rust
+use std::convert::TryFrom;
+
+#[derive(Debug, PartialEq, Eq)]
+struct Percent(u8);
+
+#[derive(Debug, PartialEq, Eq)]
+struct PercentError;
+
+impl TryFrom<u8> for Percent {
+    type Error = PercentError;
+
+    fn try_from(value: u8) -> Result<Self, Self::Error> {
+        if value <= 100 {
+            Ok(Self(value))
+        } else {
+            Err(PercentError)
+        }
+    }
+}
+```
+
+As with `From`, prefer implementing `TryFrom`. Rust then provides the matching `TryInto` implementation.
+
+```rust
+use std::convert::TryInto;
+
+let percent: Percent = 80_u8.try_into()?;
+```
+
+Use `TryInto` in generic bounds when callers may have a type that only exposes `TryInto`.
+
+```rust
+fn normalize<T>(value: T) -> Result<Percent, T::Error>
+where
+    T: TryInto<Percent>,
+{
+    value.try_into()
+}
+```
+
+## `AsRef` and `AsMut`
+
+`AsRef<T>` is for cheap shared reference conversion.
+
+```rust
+use std::path::Path;
+
+fn print_path<P>(path: P)
+where
+    P: AsRef<Path>,
+{
+    println!("{}", path.as_ref().display());
+}
+
+print_path("Cargo.toml");
+print_path(Path::new("src/main.rs"));
+```
+
+Use `AsRef` when the function only needs a borrowed view and should accept multiple caller-owned forms.
+
+`AsMut<T>` is the mutable counterpart.
+
+```rust
+fn clear_bytes<B>(mut buffer: B)
+where
+    B: AsMut<[u8]>,
+{
+    for byte in buffer.as_mut() {
+        *byte = 0;
+    }
+}
+```
+
+Do not use `AsRef` or `AsMut` for expensive conversion. Use `From`, `TryFrom`, or a named method instead.
+
+## `Borrow` and `BorrowMut`
+
+`Borrow<T>` also returns a borrowed view, but it has stronger semantic expectations than `AsRef<T>`.
+
+Use `Borrow` when generic code relies on the borrowed and owned forms behaving the same for equality, ordering, or hashing.
+
+This is why collection lookup can use a borrowed key.
+
+```rust
+use std::collections::HashMap;
+
+let mut users = HashMap::<String, u64>::new();
+users.insert(String::from("alice"), 1);
+
+assert_eq!(users.get("alice"), Some(&1));
+```
+
+Here the map stores `String`, but lookup can use `&str` because `String` borrows as `str` with compatible equality and hashing behavior.
+
+Use `AsRef` instead when the code only needs access to a related reference and does not depend on identical `Eq`, `Ord`, or `Hash` behavior.
+
+`BorrowMut<T>` is the mutable counterpart to `Borrow<T>`.
+
+## `Display`, `ToString`, `FromStr`, and `parse`
+
+For text output, implement `Display`, not `ToString`.
+
+```rust
+use std::fmt;
+
+struct UserId(u64);
+
+impl fmt::Display for UserId {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(f, "user-{}", self.0)
+    }
+}
+
+let text = UserId(42).to_string();
+assert_eq!(text, "user-42");
+```
+
+Rust provides `ToString` for every type that implements `Display`.
+
+For text input, implement `FromStr`.
+
+```rust
+use std::str::FromStr;
+
+#[derive(Debug, PartialEq, Eq)]
+struct UserId(u64);
+
+#[derive(Debug, PartialEq, Eq)]
+struct ParseUserIdError;
+
+impl FromStr for UserId {
+    type Err = ParseUserIdError;
+
+    fn from_str(value: &str) -> Result<Self, Self::Err> {
+        let number = value
+            .strip_prefix("user-")
+            .ok_or(ParseUserIdError)?
+            .parse::<u64>()
+            .map_err(|_| ParseUserIdError)?;
+
+        Ok(UserId(number))
+    }
+}
+
+let user_id: UserId = "user-42".parse()?;
+assert_eq!(user_id, UserId(42));
+```
+
+Document whether the `Display` output is accepted by `FromStr`. If `Display` is intended for humans and `FromStr` expects a strict machine format, make that difference explicit.
+
+## Choosing a Conversion Trait
+
+| Need                                         | Prefer                                      |
+| -------------------------------------------- | ------------------------------------------- |
+| Infallible owned conversion                  | `From<T> for U`                             |
+| Call-site owned conversion                   | `value.into()`                              |
+| Fallible owned conversion                    | `TryFrom<T> for U`                          |
+| Call-site fallible conversion                | `value.try_into()`                          |
+| Generic owned conversion bound               | `T: Into<U>` or `T: TryInto<U>`             |
+| Cheap shared reference view                  | `AsRef<T>`                                  |
+| Cheap mutable reference view                 | `AsMut<T>`                                  |
+| Collection key lookup or equivalent behavior | `Borrow<T>`                                 |
+| User-facing string output                    | `Display`                                   |
+| Convert a displayed value to `String`        | `value.to_string()`                         |
+| Parse a value from text                      | `FromStr` and `str::parse`                  |
+| Multiple possible conversion meanings        | named constructor or named method           |
+| Conversion can fail with domain constraints  | `TryFrom`, `FromStr`, or a custom validator |
+
+## Implementation Placement
+
+For conversions such as `A -> Z`, `B -> Z`, and `C -> Z`, prefer placing the implementations with the type that owns the meaning and invariants of `Z`.
+
+```rust
+struct A {
+    name: String,
+}
+
+struct B {
+    display_name: String,
+}
+
+struct Z {
+    label: String,
+}
+
+impl From<A> for Z {
+    fn from(value: A) -> Self {
+        Self { label: value.name }
+    }
+}
+
+impl From<B> for Z {
+    fn from(value: B) -> Self {
+        Self {
+            label: value.display_name,
+        }
+    }
+}
+```
+
+This keeps the conversion near the code that defines what a valid `Z` is.
+
+Dependency direction can override that default:
+
+- if `Z` is local and `A`, `B`, and `C` are available dependencies, place the implementations with `Z`
+- if each source crate owns `A`, `B`, or `C` and depends on the crate that defines `Z`, place each implementation in the source crate
+- if both the trait and the involved types are foreign to the current crate, Rust's orphan rules prevent the implementation; use a local wrapper type or add the implementation in one of the owning crates
+
+The practical rule is:
+
+```text
+Prefer the crate that owns the target type.
+If that creates the wrong dependency direction, use the crate that owns the source type.
+If neither type is local, introduce a local type or move the implementation upstream.
+```
