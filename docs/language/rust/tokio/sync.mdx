@@ -1,0 +1,239 @@
+---
+id: sync
+title: Tokio Sync Primitives
+sidebar_label: Sync Primitives
+description: "Tokio Sync Primitives documents state synchronization primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between Mutex, RwLock, Semaphore, Notify, and Barrier when coordinating async tasks. The page explains async locking, concurrency limits, notification without data, rendezvous points, and when message passing is clearer than shared mutable state."
+keywords:
+  - rust
+  - tokio
+  - sync
+  - mutex
+  - rwlock
+  - semaphore
+  - notify
+  - barrier
+  - async
+  - language
+ontology:
+  role: concept
+  domain: language
+  class: library
+  instance: tokio
+  aspect: sync
+subject:
+  canonical_name: Tokio
+  aliases:
+    - tokio
+relations:
+  related_to:
+    - rust
+    - async-rust
+  depends_on:
+    - rust
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [Tokio / sync](https://docs.rs/tokio/latest/tokio/sync/index.html)
+- [Tokio / Mutex](https://docs.rs/tokio/latest/tokio/sync/struct.Mutex.html)
+- [Tokio / RwLock](https://docs.rs/tokio/latest/tokio/sync/struct.RwLock.html)
+- [Tokio / Semaphore](https://docs.rs/tokio/latest/tokio/sync/struct.Semaphore.html)
+- [Tokio / Notify](https://docs.rs/tokio/latest/tokio/sync/struct.Notify.html)
+- [Tokio / Barrier](https://docs.rs/tokio/latest/tokio/sync/struct.Barrier.html)
+
+:::
+
+## Mental Model
+
+Tokio state synchronization primitives coordinate access, capacity, or task progress in async code.
+
+| Primitive   | Use when                                                                   |
+| ----------- | -------------------------------------------------------------------------- |
+| `Mutex<T>`  | one task at a time may access `T` and the guard may need to cross `.await` |
+| `RwLock<T>` | many readers or one writer may access `T`                                  |
+| `Semaphore` | only N operations may run at once                                          |
+| `Notify`    | tasks need to be woken without sending data                                |
+| `Barrier`   | N tasks must wait until all reach the same point                           |
+
+Prefer message passing when one task can own the state or resource and other tasks can send commands to it. Prefer locks when shared access is simpler than introducing an owner task and command protocol.
+
+## `Mutex`
+
+`tokio::sync::Mutex` is an async mutex. Its `lock().await` waits without blocking the thread, and the guard can be held across `.await`.
+
+```rust
+use std::sync::Arc;
+use tokio::sync::Mutex;
+
+#[tokio::main]
+async fn main() {
+    let counter = Arc::new(Mutex::new(0_u64));
+    let worker_counter = Arc::clone(&counter);
+
+    tokio::spawn(async move {
+        let mut value = worker_counter.lock().await;
+        *value += 1;
+    })
+    .await
+    .unwrap();
+
+    assert_eq!(*counter.lock().await, 1);
+}
+```
+
+Use Tokio `Mutex` when the protected value is tied to async operations, especially IO resources that must be accessed serially.
+
+For plain in-memory data, prefer `std::sync::Mutex` or `parking_lot::Mutex` when the lock is not held across `.await`. The async mutex is more expensive because it supports async waiting and guards that cross await points.
+
+Keep lock scopes short:
+
+```rust
+use tokio::sync::Mutex;
+
+async fn increment(counter: &Mutex<u64>) {
+    let mut value = counter.lock().await;
+    *value += 1;
+}
+```
+
+Avoid calling unrelated async work while holding a lock unless the invariant truly requires it.
+
+## `RwLock`
+
+`RwLock<T>` allows many readers or one writer. Use it when reads are frequent, writes are less frequent, and read operations do not need exclusive access.
+
+```rust
+use tokio::sync::RwLock;
+
+#[tokio::main]
+async fn main() {
+    let config = RwLock::new(String::from("v1"));
+
+    {
+        let read = config.read().await;
+        assert_eq!(read.as_str(), "v1");
+    }
+
+    {
+        let mut write = config.write().await;
+        *write = String::from("v2");
+    }
+}
+```
+
+Use `RwLock` when concurrent reads materially help. If reads are short and writes are common, `Mutex` is often simpler and just as effective.
+
+For state snapshots where readers only need the newest value, consider [`watch`](/docs/language/rust/tokio/channel.mdx#watch) instead of `RwLock`.
+
+## `Semaphore`
+
+`Semaphore` limits concurrency by handing out permits. Tasks acquire a permit before entering a limited section and release it when the permit is dropped.
+
+```rust
+use std::sync::Arc;
+use tokio::sync::Semaphore;
+
+#[tokio::main]
+async fn main() {
+    let limit = Arc::new(Semaphore::new(2));
+
+    let permit = Arc::clone(&limit).acquire_owned().await.unwrap();
+
+    // Run one limited operation here.
+
+    drop(permit);
+}
+```
+
+Use `Semaphore` for:
+
+- limiting concurrent HTTP requests;
+- limiting database or filesystem operations;
+- bounding worker concurrency;
+- implementing explicit resource pools.
+
+Prefer acquiring the permit close to the work it protects. Holding a permit while waiting on unrelated work reduces available capacity without protecting anything useful.
+
+## `Notify`
+
+`Notify` wakes tasks without carrying data. A task waits with `notified().await`; another task wakes one waiter with `notify_one()` or all current waiters with `notify_waiters()`.
+
+```rust
+use std::sync::{
+    atomic::{AtomicBool, Ordering},
+    Arc,
+};
+use tokio::sync::Notify;
+
+#[tokio::main]
+async fn main() {
+    let ready = Arc::new(AtomicBool::new(false));
+    let notify = Arc::new(Notify::new());
+
+    let worker_ready = Arc::clone(&ready);
+    let worker_notify = Arc::clone(&notify);
+
+    let worker = tokio::spawn(async move {
+        worker_notify.notified().await;
+        assert!(worker_ready.load(Ordering::SeqCst));
+    });
+
+    ready.store(true, Ordering::SeqCst);
+    notify.notify_one();
+
+    worker.await.unwrap();
+}
+```
+
+Use `Notify` when the data lives somewhere else and the missing piece is only a wake-up signal.
+
+Do not use `Notify` as a general event channel. It does not queue arbitrary messages. If the event data matters, use [`mpsc`](/docs/language/rust/tokio/channel.mdx#mpsc), [`broadcast`](/docs/language/rust/tokio/channel.mdx#broadcast), or [`watch`](/docs/language/rust/tokio/channel.mdx#watch).
+
+## `Barrier`
+
+`Barrier` lets a fixed number of tasks rendezvous. Each task calls `wait().await`; all waiting tasks continue once the configured count has arrived.
+
+```rust
+use std::sync::Arc;
+use tokio::sync::Barrier;
+
+#[tokio::main]
+async fn main() {
+    let barrier = Arc::new(Barrier::new(2));
+
+    let other = Arc::clone(&barrier);
+    let task = tokio::spawn(async move {
+        other.wait().await;
+    });
+
+    barrier.wait().await;
+    task.await.unwrap();
+}
+```
+
+Use `Barrier` for tests, staged startup, and algorithms where a fixed task group must begin the next phase together. It is a poor fit when the number of participants is dynamic or when tasks may permanently disappear before reaching the barrier.
+
+## Choosing A Primitive
+
+| Need                                                 | Prefer                                                 |
+| ---------------------------------------------------- | ------------------------------------------------------ |
+| One owner task should serialize access to a resource | [`mpsc`](/docs/language/rust/tokio/channel.mdx#mpsc)   |
+| Shared mutable data with short critical sections     | `std::sync::Mutex` or `parking_lot::Mutex`             |
+| Shared async resource with a guard across `.await`   | `tokio::sync::Mutex`                                   |
+| Many readers and infrequent writes                   | `tokio::sync::RwLock`                                  |
+| Latest shared state snapshot                         | [`watch`](/docs/language/rust/tokio/channel.mdx#watch) |
+| Limit concurrent work                                | `tokio::sync::Semaphore`                               |
+| Wake a task without sending data                     | `tokio::sync::Notify`                                  |
+| Wait for a fixed task group to rendezvous            | `tokio::sync::Barrier`                                 |
+
+The main design question is whether the program wants ownership or sharing:
+
+- Ownership: one task owns the state, and other tasks send messages. This keeps invariants local to the owner task.
+- Sharing: multiple tasks access the same state through a synchronization primitive. This can be smaller, but lock scope and await points must stay deliberate.

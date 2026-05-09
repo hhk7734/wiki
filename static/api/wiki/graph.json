@@ -9761,6 +9761,38 @@
       "subject_ref": "subject:language:programming-language:rust"
     },
     {
+      "id": "doc:docs/language/rust/tokio/channel.mdx",
+      "type": "document",
+      "title": "Tokio Channels",
+      "description": "Tokio Channels documents message passing primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between mpsc, oneshot, broadcast, and watch channels when coordinating async tasks. The page explains queue, request-response, fan-out event, and latest-state patterns, with examples and decision rules for practical Rust services.",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "library",
+        "instance": "tokio",
+        "aspect": "channel"
+      },
+      "url": "/docs/language/rust/tokio/channel",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/tokio/channel.mdx.json",
+      "subject_ref": "subject:language:library:tokio"
+    },
+    {
+      "id": "doc:docs/language/rust/tokio/sync.mdx",
+      "type": "document",
+      "title": "Tokio Sync Primitives",
+      "description": "Tokio Sync Primitives documents state synchronization primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between Mutex, RwLock, Semaphore, Notify, and Barrier when coordinating async tasks. The page explains async locking, concurrency limits, notification without data, rendezvous points, and when message passing is clearer than shared mutable state.",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "library",
+        "instance": "tokio",
+        "aspect": "sync"
+      },
+      "url": "/docs/language/rust/tokio/sync",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/tokio/sync.mdx.json",
+      "subject_ref": "subject:language:library:tokio"
+    },
+    {
       "id": "doc:docs/language/rust/trait.mdx",
       "type": "document",
       "title": "Rust Traits",
@@ -15569,6 +15601,23 @@
       ]
     },
     {
+      "id": "subject:language:library:tokio",
+      "type": "subject",
+      "title": "Tokio Channels",
+      "description": "Tokio Channels documents message passing primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between mpsc, oneshot, broadcast, and watch channels when coordinating async tasks. The page explains queue, request-response, fan-out event, and latest-state patterns, with examples and decision rules for practical Rust services.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "tokio"
+      },
+      "url": "/docs/language/rust/tokio/channel",
+      "node_url": "/api/wiki/nodes/subject:language:library:tokio.json",
+      "document_refs": [
+        "doc:docs/language/rust/tokio/channel.mdx",
+        "doc:docs/language/rust/tokio/sync.mdx"
+      ]
+    },
+    {
       "id": "subject:language:library:ucx",
       "type": "subject",
       "title": "UCX",
@@ -20650,6 +20699,18 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/rust/tokio/channel.mdx:about_subject:subject:language:library:tokio",
+      "from": "doc:docs/language/rust/tokio/channel.mdx",
+      "to": "subject:language:library:tokio",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/tokio/sync.mdx:about_subject:subject:language:library:tokio",
+      "from": "doc:docs/language/rust/tokio/sync.mdx",
+      "to": "subject:language:library:tokio",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/rust/trait.mdx:about_subject:subject:language:concept:rust",
       "from": "doc:docs/language/rust/trait.mdx",
       "to": "subject:language:concept:rust",
@@ -21514,6 +21575,12 @@
       "predicate": "related_to"
     },
     {
+      "id": "relation:subject:language:framework:axum:depends_on:subject:language:library:tokio",
+      "from": "subject:language:framework:axum",
+      "to": "subject:language:library:tokio",
+      "predicate": "depends_on"
+    },
+    {
       "id": "relation:subject:language:framework:axum:depends_on:subject:language:programming-language:rust",
       "from": "subject:language:framework:axum",
       "to": "subject:language:programming-language:rust",
@@ -21910,6 +21977,18 @@
       "predicate": "depends_on"
     },
     {
+      "id": "relation:subject:language:library:tokio:depends_on:subject:language:programming-language:rust",
+      "from": "subject:language:library:tokio",
+      "to": "subject:language:programming-language:rust",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:language:library:tokio:related_to:subject:language:programming-language:rust",
+      "from": "subject:language:library:tokio",
+      "to": "subject:language:programming-language:rust",
+      "predicate": "related_to"
+    },
+    {
       "id": "relation:subject:language:library:ucx:depends_on:subject:language:programming-language:cpp",
       "from": "subject:language:library:ucx",
       "to": "subject:language:programming-language:cpp",
@@ -21962,6 +22041,12 @@
       "from": "subject:language:programming-language:rust",
       "to": "subject:language:framework:axum",
       "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:language:programming-language:rust:uses:subject:language:library:tokio",
+      "from": "subject:language:programming-language:rust",
+      "to": "subject:language:library:tokio",
+      "predicate": "uses"
     },
     {
       "id": "relation:subject:language:toolchain:emscripten:depends_on:subject:language:environment:webassembly",

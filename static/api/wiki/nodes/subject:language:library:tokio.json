@@ -1,0 +1,83 @@
+{
+  "type": "subject",
+  "id": "subject:language:library:tokio",
+  "title": "Tokio Channels",
+  "description": "Tokio Channels documents message passing primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between mpsc, oneshot, broadcast, and watch channels when coordinating async tasks. The page explains queue, request-response, fan-out event, and latest-state patterns, with examples and decision rules for practical Rust services.",
+  "ontology": {
+    "domain": "language",
+    "class": "library",
+    "instance": "tokio"
+  },
+  "url": "/docs/language/rust/tokio/channel",
+  "node_url": "/api/wiki/nodes/subject:language:library:tokio.json",
+  "document_refs": [
+    "doc:docs/language/rust/tokio/channel.mdx",
+    "doc:docs/language/rust/tokio/sync.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/language/rust/tokio/channel.mdx",
+      "title": "Tokio Channels",
+      "url": "/docs/language/rust/tokio/channel",
+      "description": "Tokio Channels documents message passing primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between mpsc, oneshot, broadcast, and watch channels when coordinating async tasks. The page explains queue, request-response, fan-out event, and latest-state patterns, with examples and decision rules for practical Rust services.",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "library",
+        "instance": "tokio",
+        "aspect": "channel"
+      }
+    },
+    {
+      "id": "doc:docs/language/rust/tokio/sync.mdx",
+      "title": "Tokio Sync Primitives",
+      "url": "/docs/language/rust/tokio/sync",
+      "description": "Tokio Sync Primitives documents state synchronization primitives in Tokio for Rust. It is classified as a concept page for the library class, so readers can choose between Mutex, RwLock, Semaphore, Notify, and Barrier when coordinating async tasks. The page explains async locking, concurrency limits, notification without data, rendezvous points, and when message passing is clearer than shared mutable state.",
+      "ontology": {
+        "role": "concept",
+        "domain": "language",
+        "class": "library",
+        "instance": "tokio",
+        "aspect": "sync"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/language/rust/tokio/channel.mdx:about_subject:subject:language:library:tokio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/rust/tokio/channel.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:doc:docs/language/rust/tokio/sync.mdx:about_subject:subject:language:library:tokio",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/language/rust/tokio/sync.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:framework:axum:depends_on:subject:language:library:tokio",
+      "predicate": "depends_on",
+      "other_id": "subject:language:framework:axum",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:language:library:tokio:depends_on:subject:language:programming-language:rust",
+      "predicate": "depends_on",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:library:tokio:related_to:subject:language:programming-language:rust",
+      "predicate": "related_to",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:language:programming-language:rust:uses:subject:language:library:tokio",
+      "predicate": "uses",
+      "other_id": "subject:language:programming-language:rust",
+      "direction": "incoming"
+    }
+  ]
+}
