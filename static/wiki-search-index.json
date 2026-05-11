@@ -5590,6 +5590,28 @@
     },
     {
       "type": "subject",
+      "id": "subject:science:llm-technique:kvcache",
+      "title": "Sliding Window Attention KVCache Size",
+      "description": "Sliding Window Attention KVCache Size documents how sliding-window attention changes KVCache token-slot requirements for large language model inference. It explains the relationship between full attention, sliding-window attention, layer count, block alignment, and hybrid attention layouts, with vLLM implementation notes as a concrete reference.",
+      "url": "/docs/science/llm/kvcache/sliding-window-attention",
+      "document_refs": [
+        "doc:docs/science/llm/kvcache/sliding-window-attention.mdx"
+      ],
+      "ontology": {
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "kvcache"
+      },
+      "search_text": "sliding window attention kvcache size sliding window attention kvcache size documents how sliding-window attention changes kvcache token-slot requirements for large language model inference it explains the relationship between full attention sliding-window attention layer count block alignment and hybrid attention layouts with vllm implementation notes as a concrete reference swa kvcache sliding window attention kvcache sliding window attention kvcache size sliding window attention kvcache size what is sliding window attention kvcache size vllm implementation notes science llm-technique kvcache",
+      "display": {
+        "label": "Sliding Window Attention KVCache Size",
+        "kind": "subject",
+        "subtitle": "Kvcache",
+        "document_count": 1
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:infrastructure:provisioning-tool:spegel",
       "title": "Spegel, 클러스터 노드를 캐시로 사용하는 P2P 컨테이너 레지스트리",
       "description": "Spegel, 클러스터 노드를 캐시로 사용하는 P2P 컨테이너 레지스트리 documents overview material for Spegel in the infrastructure domain. It is classified as an entity page for the provisioning-tool class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights Spegel, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include p2p, registry, container, spegel, 클러스터 노드를 캐시로 사용하는 p2p 컨테이너 레지스트리, and infrastructure, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / container / spegel / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
@@ -7282,8 +7304,8 @@
     {
       "type": "subject",
       "id": "subject:infrastructure:serving-system:vllm",
-      "title": "vLLM KVCache 분석",
-      "description": "vLLM KVCache 분석 documents kvcache material for vLLM in the infrastructure domain. It is classified as a concept page for the serving-system class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights vLLM 설정, KVConnectorBaseV1, Worker, and Prefill, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include kvcache, vllm kvcache 분석, infrastructure, and ai-platform, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / ai-platform / vllm / kvcache, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
+      "title": "vLLM KVCache Analysis",
+      "description": "vLLM KVCache Analysis documents KVCache behavior for vLLM in the infrastructure domain. It is classified as a concept page for the serving-system class, covering vLLM settings, KVConnectorBaseV1 worker flow, and prefill flow. It links to the science-domain Sliding Window Attention KVCache note for general cache-size analysis. Use it for quick orientation, implementation reminders, and deeper research.",
       "url": "/docs/infrastructure/ai-platform/vllm/kvcache",
       "document_refs": [
         "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
@@ -7294,9 +7316,9 @@
         "class": "serving-system",
         "instance": "vllm"
       },
-      "search_text": "vllm kvcache 분석 vllm kvcache 분석 documents kvcache material for vllm in the infrastructure domain it is classified as a concept page for the serving-system class so readers can understand its topic scope and place in the wiki taxonomy the page highlights vllm 설정 kvconnectorbasev1 worker and prefill with examples commands diagrams or references kept close to the relevant explanation important search terms include kvcache vllm kvcache 분석 infrastructure and ai-platform helping both humans and generated indexes connect this page with adjacent concepts the route is infrastructure / ai-platform / vllm / kvcache and the frontmatter keeps the canonical subject ontology role and navigation context aligned with repository validation use it for quick orientation implementation reminders and deeper research vllm kvcache 분석 vllm 설정 가이드 vllm 설정 kvconnectorbase v1 worker prefill vllm 옵션 infrastructure serving-system vllm",
+      "search_text": "vllm kvcache analysis vllm kvcache analysis documents kvcache behavior for vllm in the infrastructure domain it is classified as a concept page for the serving-system class covering vllm settings kvconnectorbasev1 worker flow and prefill flow it links to the science-domain sliding window attention kvcache note for general cache-size analysis use it for quick orientation implementation reminders and deeper research vllm kvcache analysis vllm 설정 가이드 vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm 옵션 infrastructure serving-system vllm",
       "display": {
-        "label": "vLLM KVCache 분석",
+        "label": "vLLM KVCache Analysis",
         "kind": "subject",
         "subtitle": "Vllm",
         "document_count": 2
@@ -27488,6 +27510,44 @@
     },
     {
       "type": "document",
+      "id": "doc:docs/science/llm/kvcache/sliding-window-attention.mdx",
+      "title": "Sliding Window Attention KVCache Size",
+      "description": "Sliding Window Attention KVCache Size documents how sliding-window attention changes KVCache token-slot requirements for large language model inference. It explains the relationship between full attention, sliding-window attention, layer count, block alignment, and hybrid attention layouts, with vLLM implementation notes as a concrete reference.",
+      "headings": [
+        "Sliding Window Attention KVCache Size",
+        "What Is Sliding Window Attention?",
+        "KVCache Size",
+        "vLLM Implementation Notes"
+      ],
+      "keywords": [
+        "neural network",
+        "large language model",
+        "kvcache",
+        "kv cache",
+        "sliding window attention",
+        "swa",
+        "science",
+        "llm"
+      ],
+      "url": "/docs/science/llm/kvcache/sliding-window-attention",
+      "subject_ref": "subject:science:llm-technique:kvcache",
+      "subject_title": "Kvcache",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "kvcache",
+        "aspect": "sliding-window-attention"
+      },
+      "search_text": "sliding window attention kvcache size sliding window attention kvcache size documents how sliding-window attention changes kvcache token-slot requirements for large language model inference it explains the relationship between full attention sliding-window attention layer count block alignment and hybrid attention layouts with vllm implementation notes as a concrete reference sliding window attention kvcache size what is sliding window attention kvcache size vllm implementation notes neural network large language model kvcache kv cache sliding window attention swa science llm concept science llm-technique kvcache sliding-window-attention",
+      "display": {
+        "label": "Sliding Window Attention KVCache Size",
+        "kind": "document",
+        "subtitle": "Kvcache"
+      }
+    },
+    {
+      "type": "document",
       "id": "doc:docs/infrastructure/container/spegel/install.mdx",
       "title": "Spegel 설치 가이드",
       "description": "Spegel 설치 가이드 documents installation material for Spegel in the infrastructure domain. It is classified as an operation page for the provisioning-tool class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights containerd 설정, and 설치, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include p2p, registry, container, spegel 설치 가이드, and install, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / container / spegel / install, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
@@ -32773,18 +32833,22 @@
     {
       "type": "document",
       "id": "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
-      "title": "vLLM KVCache 분석",
-      "description": "vLLM KVCache 분석 documents kvcache material for vLLM in the infrastructure domain. It is classified as a concept page for the serving-system class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights vLLM 설정, KVConnectorBaseV1, Worker, and Prefill, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include kvcache, vllm kvcache 분석, infrastructure, and ai-platform, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / ai-platform / vllm / kvcache, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
+      "title": "vLLM KVCache Analysis",
+      "description": "vLLM KVCache Analysis documents KVCache behavior for vLLM in the infrastructure domain. It is classified as a concept page for the serving-system class, covering vLLM settings, KVConnectorBaseV1 worker flow, and prefill flow. It links to the science-domain Sliding Window Attention KVCache note for general cache-size analysis. Use it for quick orientation, implementation reminders, and deeper research.",
       "headings": [
-        "vLLM 설정",
+        "vLLM Settings",
+        "Sliding Window Attention",
         "KVConnectorBase_V1",
-        "Worker",
+        "Runtime Flow",
+        "Worker-Side Hooks",
+        "Scheduler-Side Hooks",
         "Prefill"
       ],
       "keywords": [
         "vllm",
         "kvcache",
-        "vllm kvcache 분석",
+        "vllm kvcache analysis",
+        "sliding-window-attention",
         "infrastructure",
         "ai-platform"
       ],
@@ -32798,9 +32862,9 @@
         "instance": "vllm",
         "aspect": "kvcache"
       },
-      "search_text": "vllm kvcache 분석 vllm kvcache 분석 documents kvcache material for vllm in the infrastructure domain it is classified as a concept page for the serving-system class so readers can understand its topic scope and place in the wiki taxonomy the page highlights vllm 설정 kvconnectorbasev1 worker and prefill with examples commands diagrams or references kept close to the relevant explanation important search terms include kvcache vllm kvcache 분석 infrastructure and ai-platform helping both humans and generated indexes connect this page with adjacent concepts the route is infrastructure / ai-platform / vllm / kvcache and the frontmatter keeps the canonical subject ontology role and navigation context aligned with repository validation use it for quick orientation implementation reminders and deeper research vllm 설정 kvconnectorbase v1 worker prefill vllm kvcache vllm kvcache 분석 infrastructure ai-platform concept infrastructure serving-system vllm kvcache",
+      "search_text": "vllm kvcache analysis vllm kvcache analysis documents kvcache behavior for vllm in the infrastructure domain it is classified as a concept page for the serving-system class covering vllm settings kvconnectorbasev1 worker flow and prefill flow it links to the science-domain sliding window attention kvcache note for general cache-size analysis use it for quick orientation implementation reminders and deeper research vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm kvcache vllm kvcache analysis sliding-window-attention infrastructure ai-platform concept infrastructure serving-system vllm kvcache",
       "display": {
-        "label": "vLLM KVCache 분석",
+        "label": "vLLM KVCache Analysis",
         "kind": "document",
         "subtitle": "Vllm"
       }

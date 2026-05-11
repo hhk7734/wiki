@@ -1,0 +1,175 @@
+---
+id: sliding-window-attention
+title: "Sliding Window Attention KVCache Size"
+sidebar_label: "Sliding Window Attention"
+description: "Sliding Window Attention KVCache Size documents how sliding-window attention changes KVCache token-slot requirements for large language model inference. It explains the relationship between full attention, sliding-window attention, layer count, block alignment, and hybrid attention layouts, with vLLM implementation notes as a concrete reference."
+keywords:
+  - "neural network"
+  - "large language model"
+  - kvcache
+  - "kv cache"
+  - "sliding window attention"
+  - swa
+  - science
+  - llm
+ontology:
+  role: concept
+  domain: science
+  class: llm-technique
+  instance: kvcache
+  aspect: sliding-window-attention
+subject:
+  canonical_name: "KV Cache"
+  aliases:
+    - "Sliding Window Attention KVCache"
+    - "SWA KVCache"
+relations:
+  related_to:
+    - transformer
+    - vllm
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - sliding-window-attention
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Sliding Window Attention KVCache Size
+
+:::info[References]
+
+- [vLLM KVCache Analysis](/docs/infrastructure/ai-platform/vllm/kvcache.mdx)
+
+:::
+
+## What Is Sliding Window Attention?
+
+Sliding Window Attention (SWA) is a local-attention pattern where each token
+attends only to a bounded window of nearby previous tokens instead of the full
+prefix. In autoregressive LLM decoding, a token at position `t` with
+`sliding_window = 128` can attend to roughly tokens `t - 127` through `t`, not
+every token from the beginning of the prompt.
+
+```text
+Full Attention:
+token t attends to [0, 1, 2, ..., t]
+
+Sliding Window Attention:
+token t attends to [max(0, t - window + 1), ..., t]
+```
+
+This changes the attention cost from growing with the full sequence length to
+growing with the window size. The tradeoff is that an SWA layer cannot directly
+read information outside its local window. Models that use SWA often mix local
+SWA layers with occasional Full Attention layers, or rely on deep layer stacking,
+to keep longer-range information flowing through the network.
+
+For KVCache, SWA matters because keys and values outside the active window are
+not needed by that SWA layer during decode. If the inference engine supports
+sliding-window KV eviction or bounded block allocation, SWA layers can use fewer
+cached token slots than Full Attention layers.
+
+## KVCache Size
+
+KVCache size scales with both the number of attention layers and the number of
+cached token slots. For a typical attention layer, the KVCache size can be
+approximated as:
+
+```text
+2(K,V) * cached_token_slots * num_kv_heads * head_dim * dtype_size
+```
+
+If an implementation allows `head_size_v` to differ from `head_size`, use
+`head_size + head_size_v` instead of a single `head_dim`. For the whole model,
+sum this value over every layer that owns KVCache.
+
+```text
+total_kv_cache_bytes
+  ~= sum(layer_cached_token_slots * per_token_kv_bytes_per_layer)
+```
+
+Full Attention layers can attend to all previous tokens during decode, so the
+number of cached token slots scales with sequence length.
+
+Sliding Window Attention (SWA) layers only need the last window of tokens for
+attention computation. In an SWA-only model, every attention layer uses the same
+bounded context window, so the reduction ratio is roughly:
+
+```text
+sliding_window / sequence_length
+```
+
+The ratio is independent of layer count, but the absolute cache size still
+scales linearly with the number of layers.
+
+```text
+input_length = 1000
+sliding_window = 128
+num_layers = 32
+
+Full Attention units ~= 32 * 1000 = 32000 layer-token units
+SWA units            ~= 32 * 128  = 4096 layer-token units
+```
+
+For a hybrid model that mixes Full Attention and SWA layers, calculate the cache
+by attention type:
+
+```text
+total_layer_token_units
+  ~= full_attention_layers * sequence_length
+     + sliding_window_layers * sliding_window
+```
+
+For example, if 16 of 32 layers use Full Attention and 16 use SWA, with
+`input_length=1000` and `sliding_window=128`:
+
+```text
+16 * 1000 + 16 * 128 = 18048 layer-token units
+```
+
+## vLLM Implementation Notes
+
+:::info[Local source paths]
+
+The source paths below are relative to the local vLLM checkout used for this
+note.
+
+- `vllm/model_executor/layers/attention/attention.py`
+- `vllm/v1/kv_cache_interface.py`
+- `vllm/v1/core/kv_cache_utils.py`
+- `vllm/config/vllm.py`
+
+:::
+
+In vLLM, `Attention.get_kv_cache_spec()` returns `SlidingWindowSpec` when
+`self.sliding_window` is set; otherwise it returns `FullAttentionSpec`.
+`FullAttentionSpec` computes maximum memory usage from the number of blocks
+needed for `max_model_len`, multiplied by `page_size_bytes`.
+
+`SlidingWindowSpec` accounts for chunked prefill and block alignment. Its
+admission bound is approximately:
+
+```text
+max_blocks_per_request
+  = ceil(min(sliding_window - 1 + max_num_batched_tokens, max_model_len) / block_size)
+    + 1
+```
+
+Therefore, if decode processes one new token at a time with
+`sliding_window=128` and `block_size=16`, vLLM may reserve up to 9 blocks, or
+roughly 144 token slots, because of block alignment. This is still smaller than
+a Full Attention cache for a 1000-token prompt.
+
+In vLLM, the hybrid KV cache manager must be enabled for SWA layers to drop
+KVCache outside the window. When `--disable-hybrid-kv-cache-manager` is active,
+`unify_hybrid_kv_cache_specs()` converts `SlidingWindowSpec` to
+`FullAttentionSpec` for hybrid models. In that mode, computation still uses
+sliding window attention, but the KVCache memory reduction is not applied.
+
+When `--kv-transfer-config` is set, vLLM disables the hybrid KV cache manager by
+default, so verify whether the actual allocation behaves like Full Attention
+when using a KVConnector.

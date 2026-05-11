@@ -1,0 +1,51 @@
+{
+  "type": "subject",
+  "id": "subject:science:llm-technique:kvcache",
+  "title": "Sliding Window Attention KVCache Size",
+  "description": "Sliding Window Attention KVCache Size documents how sliding-window attention changes KVCache token-slot requirements for large language model inference. It explains the relationship between full attention, sliding-window attention, layer count, block alignment, and hybrid attention layouts, with vLLM implementation notes as a concrete reference.",
+  "ontology": {
+    "domain": "science",
+    "class": "llm-technique",
+    "instance": "kvcache"
+  },
+  "url": "/docs/science/llm/kvcache/sliding-window-attention",
+  "node_url": "/api/wiki/nodes/subject:science:llm-technique:kvcache.json",
+  "document_refs": [
+    "doc:docs/science/llm/kvcache/sliding-window-attention.mdx"
+  ],
+  "documents": [
+    {
+      "id": "doc:docs/science/llm/kvcache/sliding-window-attention.mdx",
+      "title": "Sliding Window Attention KVCache Size",
+      "url": "/docs/science/llm/kvcache/sliding-window-attention",
+      "description": "Sliding Window Attention KVCache Size documents how sliding-window attention changes KVCache token-slot requirements for large language model inference. It explains the relationship between full attention, sliding-window attention, layer count, block alignment, and hybrid attention layouts, with vLLM implementation notes as a concrete reference.",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "llm-technique",
+        "instance": "kvcache",
+        "aspect": "sliding-window-attention"
+      }
+    }
+  ],
+  "relations": [
+    {
+      "id": "relation:doc:docs/science/llm/kvcache/sliding-window-attention.mdx:about_subject:subject:science:llm-technique:kvcache",
+      "predicate": "about_subject",
+      "other_id": "doc:docs/science/llm/kvcache/sliding-window-attention.mdx",
+      "direction": "incoming"
+    },
+    {
+      "id": "relation:subject:science:llm-technique:kvcache:related_to:subject:infrastructure:serving-system:vllm",
+      "predicate": "related_to",
+      "other_id": "subject:infrastructure:serving-system:vllm",
+      "direction": "outgoing"
+    },
+    {
+      "id": "relation:subject:science:llm-technique:kvcache:related_to:subject:science:model-family:transformer",
+      "predicate": "related_to",
+      "other_id": "subject:science:model-family:transformer",
+      "direction": "outgoing"
+    }
+  ]
+}
