@@ -1,0 +1,239 @@
+---
+id: prek
+title: "Manage Git hooks with prek"
+sidebar_label: prek
+description: "Manage Git hooks with prek, a Rust-based Git hook manager designed as a drop-in alternative to pre-commit. This page covers installation, migration from pre-commit, common commands, Git shim installation, hook manifests, and project configuration with prek.toml or .pre-commit-config.yaml."
+keywords:
+  - git
+  - prek
+  - pre-commit
+  - git hooks
+  - system
+ontology:
+  role: operation
+  domain: system
+  class: tool
+  instance: git
+  aspect: prek
+subject:
+  canonical_name: Git
+  aliases: []
+relations:
+  related_to: []
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [j178/prek](https://github.com/j178/prek)
+- [prek Installation](https://prek.j178.dev/installation/)
+- [prek Quickstart](https://prek.j178.dev/quickstart/)
+- [prek CLI Reference](https://prek.j178.dev/cli/)
+- [prek Configuration](https://prek.j178.dev/configuration/)
+
+:::
+
+`prek` is a Git hook manager written in Rust. It can run existing pre-commit hooks and can read existing `.pre-commit-config.yaml` files, while also supporting the native `prek.toml` format.
+
+## Installation
+
+Install `prek` with `mise`.
+
+```shell
+mise use prek
+```
+
+## Global pre-commit hook
+
+Configure Git to run `prek` for the `pre-commit` event.
+
+```shell
+git config --global hook.prek-pre-commit.event pre-commit
+git config --global hook.prek-pre-commit.command 'prek hook-impl --hook-type pre-commit --skip-on-missing-config --'
+```
+
+## Migration from pre-commit
+
+Existing `.pre-commit-config.yaml` files can be used without changing the config file.
+
+Replace `pre-commit` commands with `prek`:
+
+```shell
+prek run
+```
+
+If the repository already has Git shims installed by `pre-commit`, overwrite them once with `prek`:
+
+```shell
+prek install --overwrite
+```
+
+The short form is:
+
+```shell
+prek install -f
+```
+
+## Commands
+
+### `prek install`
+
+```shell
+prek install
+```
+
+Installs `prek` Git shims into the repository's effective hooks directory. By default this is `.git/hooks/`, but repo-local or worktree-local `core.hooksPath` is honored when configured.
+
+Install multiple Git hook shims:
+
+```shell
+prek install --hook-type pre-commit --hook-type pre-push
+```
+
+Install shims and prepare hook environments in one command:
+
+```shell
+prek install --prepare-hooks
+```
+
+### `prek run`
+
+```shell
+prek run <flags> [<hookID>|<projectPath>|<projectPath>:<hookID>]
+```
+
+- `--all-files`, `-a`: run hooks on all files in the repository.
+- `--files <files>`: run hooks on specific files.
+- `--directory <dir>`, `-d <dir>`: run hooks on files under one or more directories.
+- `--last-commit`: run hooks against the last commit.
+- `--stage <stage>`: run hooks for a specific Git hook stage such as `pre-commit`, `pre-push`, or `commit-msg`.
+- `--skip <hookID>`: skip one or more hooks.
+
+### `prek list`
+
+```shell
+prek list
+```
+
+Lists hooks configured in the current workspace.
+
+### `prek validate-config`
+
+```shell
+prek validate-config
+```
+
+Validates `prek.toml`, `.pre-commit-config.yaml`, or `.pre-commit-config.yml`.
+
+### `prek validate-manifest`
+
+```shell
+prek validate-manifest .pre-commit-hooks.yaml
+```
+
+Validates hook manifests.
+
+### `prek auto-update`
+
+```shell
+prek auto-update
+```
+
+Updates repository `rev` values in the project configuration.
+
+## Hook manifests
+
+Custom hook repositories define hooks in `.pre-commit-hooks.yaml`.
+
+```yaml title=".pre-commit-hooks.yaml"
+- id: <id>
+  name: <name>
+  entry: <command|scriptPath>
+  language: <language>
+  files: "" # <filesRegex>
+  stages: [] # [<stage>]
+```
+
+- `<id>`: unique hook identifier used by project configuration.
+- `<name>`: display name shown when the hook runs.
+- `<entry>`: command or repository-root-relative script path.
+- `<language>`: runtime or execution backend for the hook.
+- `<filesRegex>`: regular expression used to select files for the hook.
+- `<stage>`: Git hook stage where the hook can run.
+
+### Shell script hooks
+
+```yaml title=".pre-commit-hooks.yaml"
+- id: <id>
+  name: <name>
+  entry: <relativePath>
+  language: script
+```
+
+:::info
+For `language: script`, successful executions with `exit 0` do not print stdout.
+:::
+
+## Project configuration
+
+`prek` supports two project configuration formats:
+
+- `prek.toml`: native `prek` configuration, recommended for new projects.
+- `.pre-commit-config.yaml`: compatible with existing pre-commit configurations. Avoid `prek`-only keys when the same YAML file must also be read by upstream `pre-commit`.
+
+### `prek.toml`
+
+```toml title="prek.toml"
+default_install_hook_types = ["pre-commit"]
+fail_fast = false
+minimum_prek_version = "0.3.0"
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+hooks = [
+  { id = "check-yaml" },
+  { id = "end-of-file-fixer" },
+]
+```
+
+### `.pre-commit-config.yaml`
+
+```yaml title=".pre-commit-config.yaml"
+default_install_hook_types:
+  - pre-commit
+fail_fast: false
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: end-of-file-fixer
+```
+
+### Local commands and scripts
+
+```toml title="prek.toml"
+[[repos]]
+repo = "local"
+hooks = [
+  { id = "lint", name = "Lint", entry = "npm run lint", language = "system" },
+]
+```
+
+```yaml title=".pre-commit-config.yaml"
+repos:
+  - repo: local
+    hooks:
+      - id: lint
+        name: Lint
+        entry: npm run lint
+        language: system
+```

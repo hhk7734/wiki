@@ -2230,7 +2230,7 @@
         "doc:docs/system/git/fork-pull-request.mdx",
         "doc:docs/system/git/lfs.mdx",
         "doc:docs/system/git/patch.mdx",
-        "doc:docs/system/git/pre-commit.mdx",
+        "doc:docs/system/git/prek.mdx",
         "doc:docs/system/git/submodule.mdx",
         "doc:docs/system/git/tag.mdx"
       ],
@@ -2239,7 +2239,7 @@
         "class": "tool",
         "instance": "git"
       },
-      "search_text": "git 기본 안내 git 기본 안내 documents overview material for git in the system domain it is classified as an entity page for the tool class so readers can understand its topic scope and place in the wiki taxonomy the page highlights 설치 clone add rm mv commit add and rm with examples commands diagrams or references kept close to the relevant explanation important search terms include git 기본 안내 and system helping both humans and generated indexes connect this page with adjacent concepts the route is system / git / overview and the frontmatter keeps the canonical subject ontology role and navigation context aligned with repository validation use it for quick orientation implementation reminders and deeper research git 기본 안내 git commit message git config git fork 하고 pull request 만들기 git lfs git patch 파일 만들기 pre-commit으로 git hook 관리하기 git submodule 사용하기 git tag 설치 clone add rm mv commit add rm mv commit log log with commit message log with commit message diff log with commit message statistic log with oneline commit message reflog commit hash head reset remote message subject example close issue github git config url 설정 insteadof로 url 값 변환 signing 설정 ssh signing hhk7734 gmail com ssh-ed25519 aaaa 기타 원하는 저장소 fork fork된 저장소 clone branch 관리 branch 확인 branch 생성 branch 변경 code 수정 원 저장소에 업데이트된 내용을 local에 병합하기 conflict 파일이 있는 경우 pull request 설치 lfs에 파일 추가 lfs 파일 다운로드 lfs에서 파일 삭제 patch files 생성 patch file 적용 patch 중 에러 수정 설치 commands pre-commit install pre-commit init-templatedir path pre-commit run hooks 정의하기 shellscript 정의된 hooks 사용 https //pre-commit com/ pre-commit-configyaml---top-level default stages 로컬 명령어/스크립트 실행 submodule 추가하기 submodule commit 변경하기 submodule이 있는 리포지토리 clone submodule 삭제하기 tag 추가 tag 삭제 tag 확인 system tool git",
+      "search_text": "git 기본 안내 git 기본 안내 documents overview material for git in the system domain it is classified as an entity page for the tool class so readers can understand its topic scope and place in the wiki taxonomy the page highlights 설치 clone add rm mv commit add and rm with examples commands diagrams or references kept close to the relevant explanation important search terms include git 기본 안내 and system helping both humans and generated indexes connect this page with adjacent concepts the route is system / git / overview and the frontmatter keeps the canonical subject ontology role and navigation context aligned with repository validation use it for quick orientation implementation reminders and deeper research git 기본 안내 git commit message git config git fork 하고 pull request 만들기 git lfs git patch 파일 만들기 manage git hooks with prek git submodule 사용하기 git tag 설치 clone add rm mv commit add rm mv commit log log with commit message log with commit message diff log with commit message statistic log with oneline commit message reflog commit hash head reset remote message subject example close issue github git config url 설정 insteadof로 url 값 변환 signing 설정 ssh signing hhk7734 gmail com ssh-ed25519 aaaa 기타 원하는 저장소 fork fork된 저장소 clone branch 관리 branch 확인 branch 생성 branch 변경 code 수정 원 저장소에 업데이트된 내용을 local에 병합하기 conflict 파일이 있는 경우 pull request 설치 lfs에 파일 추가 lfs 파일 다운로드 lfs에서 파일 삭제 patch files 생성 patch file 적용 patch 중 에러 수정 installation global pre-commit hook migration from pre-commit commands prek install prek run prek list prek validate-config prek validate-manifest prek auto-update hook manifests shell script hooks project configuration prek toml pre-commit-config yaml local commands and scripts submodule 추가하기 submodule commit 변경하기 submodule이 있는 리포지토리 clone submodule 삭제하기 tag 추가 tag 삭제 tag 확인 system tool git",
       "display": {
         "label": "Git 기본 안내",
         "kind": "subject",
@@ -20179,6 +20179,53 @@
     },
     {
       "type": "document",
+      "id": "doc:docs/system/git/prek.mdx",
+      "title": "Manage Git hooks with prek",
+      "description": "Manage Git hooks with prek, a Rust-based Git hook manager designed as a drop-in alternative to pre-commit. This page covers installation, migration from pre-commit, common commands, Git shim installation, hook manifests, and project configuration with prek.toml or .pre-commit-config.yaml.",
+      "headings": [
+        "Installation",
+        "Global pre-commit hook",
+        "Migration from pre-commit",
+        "Commands",
+        "`prek install`",
+        "`prek run`",
+        "`prek list`",
+        "`prek validate-config`",
+        "`prek validate-manifest`",
+        "`prek auto-update`",
+        "Hook manifests",
+        "Shell script hooks",
+        "Project configuration",
+        "`prek.toml`",
+        "`.pre-commit-config.yaml`",
+        "Local commands and scripts"
+      ],
+      "keywords": [
+        "git",
+        "prek",
+        "pre-commit",
+        "git hooks",
+        "system"
+      ],
+      "url": "/docs/system/git/prek",
+      "subject_ref": "subject:system:tool:git",
+      "subject_title": "Git",
+      "ontology": {
+        "role": "operation",
+        "domain": "system",
+        "class": "tool",
+        "instance": "git",
+        "aspect": "prek"
+      },
+      "search_text": "manage git hooks with prek manage git hooks with prek a rust-based git hook manager designed as a drop-in alternative to pre-commit this page covers installation migration from pre-commit common commands git shim installation hook manifests and project configuration with prek toml or pre-commit-config yaml installation global pre-commit hook migration from pre-commit commands prek install prek run prek list prek validate-config prek validate-manifest prek auto-update hook manifests shell script hooks project configuration prek toml pre-commit-config yaml local commands and scripts git prek pre-commit git hooks system operation system tool git prek",
+      "display": {
+        "label": "Manage Git hooks with prek",
+        "kind": "document",
+        "subtitle": "Git"
+      }
+    },
+    {
+      "type": "document",
       "id": "doc:docs/knowledge/concepts/metadata.mdx",
       "title": "Metadata",
       "description": "Metadata documents overview material for Metadata in the knowledge domain. It is classified as a concept page, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights What Metadata Is, Common Types of Metadata, What Metadata Is Good At, Metadata Versus Schema And Ontology, and Practical Example, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include data about data, ontology, schema, taxonomy, and knowledge, helping both humans and generated indexes connect this page with adjacent concepts. The route is knowledge / concepts / metadata, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
@@ -32313,47 +32360,6 @@
         "label": "oauth2-proxy로 간단한 인증 절차 추가하기",
         "kind": "document",
         "subtitle": "Oauth2 Proxy"
-      }
-    },
-    {
-      "type": "document",
-      "id": "doc:docs/system/git/pre-commit.mdx",
-      "title": "pre-commit으로 git hook 관리하기",
-      "description": "pre-commit으로 git hook 관리하기 documents pre commit material for Git in the system domain. It is classified as an operation page for the tool class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights 설치, commands, pre-commit install, pre-commit init-templatedir <path>, and pre-commit run, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include pre-commit, pre-commit으로 git hook 관리하기, and system, helping both humans and generated indexes connect this page with adjacent concepts. The route is system / git / pre-commit, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
-      "headings": [
-        "설치",
-        "commands",
-        "`pre-commit install`",
-        "`pre-commit init-templatedir <path>`",
-        "`pre-commit run`",
-        "Hooks 정의하기",
-        "ShellScript",
-        "정의된 Hooks 사용",
-        "https://pre-commit.com/#pre-commit-configyaml---top-level",
-        "default_stages: []",
-        "로컬 명령어/스크립트 실행"
-      ],
-      "keywords": [
-        "git",
-        "pre-commit",
-        "pre-commit으로 git hook 관리하기",
-        "system"
-      ],
-      "url": "/docs/system/git/pre-commit",
-      "subject_ref": "subject:system:tool:git",
-      "subject_title": "Git",
-      "ontology": {
-        "role": "operation",
-        "domain": "system",
-        "class": "tool",
-        "instance": "git",
-        "aspect": "pre-commit"
-      },
-      "search_text": "pre-commit으로 git hook 관리하기 pre-commit으로 git hook 관리하기 documents pre commit material for git in the system domain it is classified as an operation page for the tool class so readers can understand its topic scope and place in the wiki taxonomy the page highlights 설치 commands pre-commit install pre-commit init-templatedir path and pre-commit run with examples commands diagrams or references kept close to the relevant explanation important search terms include pre-commit pre-commit으로 git hook 관리하기 and system helping both humans and generated indexes connect this page with adjacent concepts the route is system / git / pre-commit and the frontmatter keeps the canonical subject ontology role and navigation context aligned with repository validation use it for quick orientation implementation reminders and deeper research 설치 commands pre-commit install pre-commit init-templatedir path pre-commit run hooks 정의하기 shellscript 정의된 hooks 사용 https //pre-commit com/ pre-commit-configyaml---top-level default stages 로컬 명령어/스크립트 실행 git pre-commit pre-commit으로 git hook 관리하기 system operation system tool git pre-commit",
-      "display": {
-        "label": "pre-commit으로 git hook 관리하기",
-        "kind": "document",
-        "subtitle": "Git"
       }
     },
     {
