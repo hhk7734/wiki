@@ -114,7 +114,28 @@ async fn main() {
 }
 ```
 
-`StreamExt` also provides adapters such as `map`, `filter`, `filter_map`, `take`, `collect`, and `for_each`.
+`StreamExt` also provides adapters such as `map`, `filter`, `filter_map`, `inspect`, `take`, `collect`, and `for_each`.
+
+## Inspect stream items
+
+Use `StreamExt::inspect` to run synchronous side effects for each item without changing the stream item. The closure receives `&Self::Item`, so it is useful for logging, metrics, and debugging values as they pass through a stream pipeline.
+
+```rust
+use futures_util::{stream, StreamExt};
+
+#[tokio::main]
+async fn main() {
+    let values = stream::iter([1, 2, 3])
+        .inspect(|value| println!("saw {value}"))
+        .map(|value| value * 2)
+        .collect::<Vec<_>>()
+        .await;
+
+    assert_eq!(values, vec![2, 4, 6]);
+}
+```
+
+`inspect` does not await inside the closure. Use `then`, `for_each`, or `for_each_concurrent` when the side effect itself is asynchronous.
 
 ## Create a stream with async-stream
 
