@@ -9729,6 +9729,22 @@
       "subject_ref": "subject:language:programming-language:rust"
     },
     {
+      "id": "doc:docs/language/rust/serde/overview.mdx",
+      "type": "document",
+      "title": "Serde",
+      "description": "Serde documents overview material for Serde in the Rust language ecosystem. It is classified as an entity page for the library class, so readers can understand how Serde represents Rust data structures in serialized formats. The page highlights enum tagging, internally tagged enums, adjacently tagged enums, untagged enums, and lower-case variant names. Important search terms include rust, serde, serialization, deserialization, tag, and rename_all. The route is language / rust / serde / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
+      "ontology": {
+        "role": "entity",
+        "domain": "language",
+        "class": "library",
+        "instance": "serde",
+        "aspect": "overview"
+      },
+      "url": "/docs/language/rust/serde/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/language/rust/serde/overview.mdx.json",
+      "subject_ref": "subject:language:library:serde"
+    },
+    {
       "id": "doc:docs/language/rust/smart-pointer.mdx",
       "type": "document",
       "title": "Rust Smart Pointers",
@@ -15447,6 +15463,22 @@
       ]
     },
     {
+      "id": "subject:language:library:serde",
+      "type": "subject",
+      "title": "Serde",
+      "description": "Serde documents overview material for Serde in the Rust language ecosystem. It is classified as an entity page for the library class, so readers can understand how Serde represents Rust data structures in serialized formats. The page highlights enum tagging, internally tagged enums, adjacently tagged enums, untagged enums, and lower-case variant names. Important search terms include rust, serde, serialization, deserialization, tag, and rename_all. The route is language / rust / serde / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
+      "ontology": {
+        "domain": "language",
+        "class": "library",
+        "instance": "serde"
+      },
+      "url": "/docs/language/rust/serde/overview",
+      "node_url": "/api/wiki/nodes/subject:language:library:serde.json",
+      "document_refs": [
+        "doc:docs/language/rust/serde/overview.mdx"
+      ]
+    },
+    {
       "id": "subject:language:library:session",
       "type": "subject",
       "title": "Go Session",
@@ -20719,6 +20751,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/language/rust/serde/overview.mdx:about_subject:subject:language:library:serde",
+      "from": "doc:docs/language/rust/serde/overview.mdx",
+      "to": "subject:language:library:serde",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/language/rust/smart-pointer.mdx:about_subject:subject:language:concept:rust",
       "from": "doc:docs/language/rust/smart-pointer.mdx",
       "to": "subject:language:concept:rust",
@@ -21631,6 +21669,12 @@
       "predicate": "related_to"
     },
     {
+      "id": "relation:subject:language:framework:axum:uses:subject:language:library:serde",
+      "from": "subject:language:framework:axum",
+      "to": "subject:language:library:serde",
+      "predicate": "uses"
+    },
+    {
       "id": "relation:subject:language:framework:axum:uses:subject:language:library:validator",
       "from": "subject:language:framework:axum",
       "to": "subject:language:library:validator",
@@ -21952,6 +21996,12 @@
       "id": "relation:subject:language:library:reverse-proxy:depends_on:subject:language:programming-language:go",
       "from": "subject:language:library:reverse-proxy",
       "to": "subject:language:programming-language:go",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:language:library:serde:depends_on:subject:language:programming-language:rust",
+      "from": "subject:language:library:serde",
+      "to": "subject:language:programming-language:rust",
       "predicate": "depends_on"
     },
     {

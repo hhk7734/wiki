@@ -1,0 +1,187 @@
+---
+id: overview
+title: Serde
+sidebar_label: Serde
+description: "Serde documents overview material for Serde in the Rust language ecosystem. It is classified as an entity page for the library class, so readers can understand how Serde represents Rust data structures in serialized formats. The page highlights enum tagging, internally tagged enums, adjacently tagged enums, untagged enums, and lower-case variant names. Important search terms include rust, serde, serialization, deserialization, tag, and rename_all. The route is language / rust / serde / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation."
+keywords:
+  - rust
+  - serde
+  - serialization
+  - deserialization
+  - tag
+  - rename_all
+ontology:
+  role: entity
+  domain: language
+  class: library
+  instance: serde
+  aspect: overview
+subject:
+  canonical_name: Serde
+  aliases: []
+relations:
+  related_to: []
+  depends_on:
+    - rust
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+## Enum Tags
+
+:::info[References]
+
+- [Serde / Enum representations](https://serde.rs/enum-representations.html)
+- [Serde / Container attributes](https://serde.rs/container-attrs)
+
+:::
+
+In Serde, a tag is discriminator data that identifies which enum variant a
+serialized value represents.
+
+The default enum representation is externally tagged:
+
+```rust
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+enum Event {
+    Login { user: String },
+    Logout { user: String },
+}
+```
+
+```json
+{ "Login": { "user": "alice" } }
+```
+
+Use `#[serde(tag = "...")]` when the serialized format should carry the
+variant name in a field:
+
+```rust
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
+enum Event {
+    Login { user: String },
+    Logout { user: String },
+}
+```
+
+```json
+{ "type": "Login", "user": "alice" }
+```
+
+Here, `type` is the tag field and `Login` is the variant value.
+
+## Lower-Case Tags
+
+Use `rename_all = "lowercase"` on the enum to serialize and deserialize enum
+variant names as lower-case strings:
+
+```rust
+use serde::{Deserialize, Serialize};
+
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "lowercase")]
+enum Event {
+    Login { user: String },
+    Logout { user: String },
+}
+```
+
+```json
+{ "type": "login", "user": "alice" }
+```
+
+For multi-word variant names, `lowercase` removes word boundaries:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "lowercase")]
+enum Event {
+    UserLogin { user: String },
+}
+```
+
+```json
+{ "type": "userlogin", "user": "alice" }
+```
+
+Prefer `snake_case` when the serialized variant name should preserve word
+boundaries:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "snake_case")]
+enum Event {
+    UserLogin { user: String },
+}
+```
+
+```json
+{ "type": "user_login", "user": "alice" }
+```
+
+Use `rename` for a one-off variant name:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type")]
+enum Event {
+    #[serde(rename = "login")]
+    Login { user: String },
+
+    #[serde(rename = "logout")]
+    Logout { user: String },
+}
+```
+
+## Common Representations
+
+Internally tagged enums place the tag beside the variant fields:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type", rename_all = "lowercase")]
+enum Event {
+    Login { user: String },
+}
+```
+
+```json
+{ "type": "login", "user": "alice" }
+```
+
+Adjacently tagged enums separate the tag from the variant payload:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(tag = "type", content = "data", rename_all = "lowercase")]
+enum Event {
+    Login { user: String },
+}
+```
+
+```json
+{ "type": "login", "data": { "user": "alice" } }
+```
+
+Untagged enums omit the tag. Serde chooses a variant by matching the input
+shape, so this is best reserved for compatibility with formats that do not
+carry a discriminator:
+
+```rust
+#[derive(Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+enum Event {
+    Login { user: String },
+    Count(u64),
+}
+```
