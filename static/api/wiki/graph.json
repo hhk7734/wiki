@@ -1473,6 +1473,22 @@
       "subject_ref": "subject:infrastructure:database:postgresql"
     },
     {
+      "id": "doc:docs/infrastructure/database/postgresql/cloudnative-pg/install.mdx",
+      "type": "document",
+      "title": "CloudNativePG Helm Installation",
+      "description": "CloudNativePG Helm Installation documents installation material for CloudNativePG in the PostgreSQL database area. It is classified as an operation page for the database class, so readers can install the CloudNativePG PostgreSQL operator with the official Helm chart. The page highlights repository setup, values inspection, cluster-wide installation, single-namespace installation, verification, upgrades, and uninstall commands. Important search terms include cloudnativepg, cnpg, postgresql, helm, kubernetes, operator, and database. The route is infrastructure / database / postgresql / cloudnative-pg / install, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
+      "ontology": {
+        "role": "operation",
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "cloudnative-pg",
+        "aspect": "install"
+      },
+      "url": "/docs/infrastructure/database/postgresql/cloudnative-pg/install",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/database/postgresql/cloudnative-pg/install.mdx.json",
+      "subject_ref": "subject:infrastructure:database:cloudnative-pg"
+    },
+    {
       "id": "doc:docs/infrastructure/database/postgresql/config.mdx",
       "type": "document",
       "title": "PostgreSQL 설정 변경",
@@ -12483,6 +12499,22 @@
       ]
     },
     {
+      "id": "subject:infrastructure:database:cloudnative-pg",
+      "type": "subject",
+      "title": "CloudNativePG Helm Installation",
+      "description": "CloudNativePG Helm Installation documents installation material for CloudNativePG in the PostgreSQL database area. It is classified as an operation page for the database class, so readers can install the CloudNativePG PostgreSQL operator with the official Helm chart. The page highlights repository setup, values inspection, cluster-wide installation, single-namespace installation, verification, upgrades, and uninstall commands. Important search terms include cloudnativepg, cnpg, postgresql, helm, kubernetes, operator, and database. The route is infrastructure / database / postgresql / cloudnative-pg / install, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation.",
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "database",
+        "instance": "cloudnative-pg"
+      },
+      "url": "/docs/infrastructure/database/postgresql/cloudnative-pg/install",
+      "node_url": "/api/wiki/nodes/subject:infrastructure:database:cloudnative-pg.json",
+      "document_refs": [
+        "doc:docs/infrastructure/database/postgresql/cloudnative-pg/install.mdx"
+      ]
+    },
+    {
       "id": "subject:infrastructure:database:database",
       "type": "subject",
       "title": "Database Type Comparison",
@@ -17655,6 +17687,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/infrastructure/database/postgresql/cloudnative-pg/install.mdx:about_subject:subject:infrastructure:database:cloudnative-pg",
+      "from": "doc:docs/infrastructure/database/postgresql/cloudnative-pg/install.mdx",
+      "to": "subject:infrastructure:database:cloudnative-pg",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/infrastructure/database/postgresql/config.mdx:about_subject:subject:infrastructure:database:postgresql",
       "from": "doc:docs/infrastructure/database/postgresql/config.mdx",
       "to": "subject:infrastructure:database:postgresql",
@@ -21438,6 +21476,42 @@
       "id": "relation:subject:infrastructure:cluster-addon:nvidia-gpu-operator:uses:subject:infrastructure:orchestrator:kubernetes",
       "from": "subject:infrastructure:cluster-addon:nvidia-gpu-operator",
       "to": "subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "uses"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:depends_on:subject:infrastructure:orchestrator:kubernetes",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:depends_on:subject:infrastructure:tool:helm",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:tool:helm",
+      "predicate": "depends_on"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:related_to:subject:infrastructure:database:postgresql",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:database:postgresql",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:related_to:subject:infrastructure:orchestrator:kubernetes",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:orchestrator:kubernetes",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:related_to:subject:infrastructure:tool:helm",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:tool:helm",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:infrastructure:database:cloudnative-pg:uses:subject:infrastructure:database:postgresql",
+      "from": "subject:infrastructure:database:cloudnative-pg",
+      "to": "subject:infrastructure:database:postgresql",
       "predicate": "uses"
     },
     {
