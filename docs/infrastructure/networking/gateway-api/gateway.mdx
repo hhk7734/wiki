@@ -1,13 +1,15 @@
 ---
 id: gateway
-title: "Gateway API로 라우팅 관리하기"
-sidebar_label: "라우팅 관리하기"
-description: "Gateway API로 라우팅 관리하기 documents gateway material for Gateway API in the infrastructure domain. It is classified as an entity page for the gateway-api class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights Gateway, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include gateway, istio, gateway api로 라우팅 관리하기, gateway-api, and infrastructure, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / networking / gateway-api / gateway, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research."
+title: "Manage Routing with Gateway API"
+sidebar_label: "Manage Routing"
+description: "Manage Routing with Gateway API documents gateway material for Gateway API in the infrastructure domain. It is classified as an entity page for the gateway-api class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights Istio Gateway, Cilium Gateway with L2 Announcements, and fixed LoadBalancer IP assignment, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include gateway, istio, cilium, l2-announcements, gateway-api, and infrastructure, helping both humans and generated indexes connect this page with adjacent concepts. The route is infrastructure / networking / gateway-api / gateway, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research."
 keywords:
   - gateway
   - istio
+  - cilium
+  - l2-announcements
   - "gateway api"
-  - "gateway api로 라우팅 관리하기"
+  - "manage routing with gateway api"
   - gateway-api
   - infrastructure
   - networking
@@ -32,11 +34,11 @@ source:
   confidence: exact
 ---
 
-## Gateway
+## Istio Gateway
 
 :::info[References]
 
-- [Gateway API로 라우팅 관리하기 # Gateway](/docs/infrastructure/networking/gateway-api/route.mdx#gateway)
+- [Manage routing with Gateway API # Gateway](/docs/infrastructure/networking/gateway-api/route.mdx#gateway)
 - [Istio / Kubernetes Gateway API # Automated deployment](https://istio.io/latest/docs/tasks/traffic-management/ingress/gateway-api/#automated-deployment)
 
 :::
@@ -113,4 +115,75 @@ spec:
       group: ""
       kind: ConfigMap
       name: ingress-infrastructure
+```
+
+## Cilium Gateway with L2 Announcements
+
+:::info[References]
+
+- [Use Gateway API with Cilium](/docs/infrastructure/networking/gateway-api/overview.mdx)
+- [Use Cilium Load Balancer](/docs/infrastructure/networking/cilium/load-balancer.mdx)
+- [Use ARP/NDP with Cilium](/docs/infrastructure/networking/cilium/arp.mdx)
+
+:::
+
+Use a single-address `CiliumLoadBalancerIPPool` when the Gateway must use one fixed address.
+The `CiliumL2AnnouncementPolicy` selects the Gateway Service by namespace and announces the
+assigned LoadBalancer IP on the selected interface.
+
+```yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: gateway
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumLoadBalancerIPPool
+metadata:
+  name: gateway-pool
+spec:
+  blocks:
+    - start: 192.0.2.10
+      stop: 192.0.2.10
+  serviceSelector:
+    matchLabels:
+      io.kubernetes.service.namespace: gateway
+---
+apiVersion: cilium.io/v2alpha1
+kind: CiliumL2AnnouncementPolicy
+metadata:
+  name: gateway-l2
+spec:
+  serviceSelector:
+    matchLabels:
+      io.kubernetes.service.namespace: gateway
+  loadBalancerIPs: true
+  interfaces:
+    - eth0
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+  namespace: gateway
+spec:
+  gatewayClassName: cilium
+  addresses:
+    - type: IPAddress
+      value: 192.0.2.10
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: All
+```
+
+Verify the generated Cilium Gateway Service and L2 leader lease:
+
+```shell
+kubectl --context <context> -n gateway get gateway gateway
+kubectl --context <context> -n gateway get service
+kubectl --context <context> -n kube-system get lease | grep cilium-l2announce
 ```
