@@ -1,0 +1,260 @@
+---
+id: bot-token
+title: "Telegram Bot Token"
+sidebar_label: "Bot Token"
+description: "Telegram bot token guide for creating a bot with BotFather, safely handling the API token, verifying the token with curl, finding bot and user IDs through the Telegram Bot API, and troubleshooting getMe and getUpdates responses. It is classified as an operation page for the application-protocol class in the protocol domain. Important search terms include telegram, botfather, bot token, telegram bot api, getMe, getUpdates, curl, jq, chat id, and user id."
+keywords:
+  - telegram
+  - botfather
+  - bot token
+  - telegram bot api
+  - getMe
+  - getUpdates
+  - curl
+  - jq
+  - chat id
+  - user id
+ontology:
+  role: operation
+  domain: protocol
+  class: application-protocol
+  instance: telegram
+  aspect: bot-token
+subject:
+  canonical_name: "Telegram"
+  aliases:
+    - telegram-bot-api
+    - telegram-bot
+relations:
+  related_to:
+    - botfather
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - http
+    - json
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+- [Telegram Bot API / Making requests](https://core.telegram.org/bots/api#making-requests)
+- [Telegram Bot API / getMe](https://core.telegram.org/bots/api#getme)
+- [Telegram Bot API / getUpdates](https://core.telegram.org/bots/api#getupdates)
+- [BotFather](https://t.me/BotFather)
+
+:::
+
+## Goal
+
+Create a Telegram bot, obtain its bot token, verify the token with `curl`, and find the numeric IDs commonly needed when integrating the bot with another service.
+
+The main values are:
+
+- bot token: secret credential used to call the Telegram Bot API
+- bot ID: numeric ID of the bot account
+- user ID: numeric ID of a Telegram user who sends a message to the bot
+- chat ID: numeric ID of a private chat, group, supergroup, or channel
+
+A Telegram username such as `@example` is not the same as a numeric user ID.
+
+## Create a bot with BotFather
+
+1. Open Telegram.
+2. Message [@BotFather](https://t.me/BotFather).
+3. Send:
+
+```text
+/newbot
+```
+
+4. Choose a display name, such as `Example Bot`.
+5. Choose a username that ends with `bot`, such as `example_helper_bot`.
+6. Copy the token returned by BotFather.
+
+A token looks like this:
+
+```text
+123456789:ABCdefGHIjklMNOpqrSTUvwxYZ
+```
+
+Treat the token like a password. Anyone with the token can control the bot through the Telegram Bot API.
+
+If the token leaks, message BotFather and use `/revoke` to rotate it.
+
+## Verify the bot token
+
+Call the `getMe` endpoint:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe" | jq
+```
+
+A successful response has `ok: true`:
+
+```json
+{
+  "ok": true,
+  "result": {
+    "id": 123456789,
+    "is_bot": true,
+    "first_name": "Example Bot",
+    "username": "example_helper_bot"
+  }
+}
+```
+
+The bot ID is `result.id`.
+
+To print only the bot ID:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe" \
+  | jq '.result.id'
+```
+
+To print the bot ID and username together:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe" \
+  | jq '{id: .result.id, username: .result.username}'
+```
+
+## Find a user ID
+
+To find the numeric user ID for a Telegram account, send any message to the bot from that account. Then call `getUpdates`:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" | jq
+```
+
+Look for `message.from.id`:
+
+```json
+{
+  "ok": true,
+  "result": [
+    {
+      "update_id": 100000000,
+      "message": {
+        "from": {
+          "id": 987654321,
+          "is_bot": false,
+          "first_name": "Example",
+          "username": "example_user"
+        },
+        "chat": {
+          "id": 987654321,
+          "type": "private"
+        },
+        "text": "hello"
+      }
+    }
+  ]
+}
+```
+
+Use `message.from.id` as the user ID.
+
+To print only user IDs from received messages:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" \
+  | jq '.result[].message.from.id'
+```
+
+To inspect user ID, chat ID, username, and chat type together:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" \
+  | jq '.result[] | {user_id: .message.from.id, chat_id: .message.chat.id, username: .message.from.username, chat_type: .message.chat.type}'
+```
+
+## Find a chat ID
+
+For a private chat, `message.chat.id` is usually the same as `message.from.id`.
+
+For a group, supergroup, or channel, `message.chat.id` is different from the user ID. Group and supergroup IDs are often negative numbers.
+
+To print chat IDs:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" \
+  | jq '.result[].message.chat.id'
+```
+
+For group messages, inspect the chat title and type:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates" \
+  | jq '.result[] | {chat_id: .message.chat.id, title: .message.chat.title, type: .message.chat.type}'
+```
+
+## Reset or clear pending updates
+
+`getUpdates` returns pending updates that have not been acknowledged by the bot API client. After reading an update, pass an offset greater than the latest `update_id` to mark older updates as handled.
+
+Example:
+
+```shell
+curl -s "https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates?offset=<LAST_UPDATE_ID_PLUS_ONE>" | jq
+```
+
+If another bot client is already polling with the same token, it may consume updates before your `curl` command sees them.
+
+## Group privacy mode
+
+Telegram bots have privacy mode enabled by default. In groups, a bot with privacy mode enabled can usually see only:
+
+- commands that start with `/`
+- replies to the bot
+- service messages
+
+If the bot must receive ordinary group messages, change privacy mode in BotFather:
+
+1. Message [@BotFather](https://t.me/BotFather).
+2. Send `/mybots`.
+3. Select the bot.
+4. Open **Bot Settings → Group Privacy**.
+5. Choose **Turn off**.
+6. Remove and re-add the bot to the group.
+
+Telegram caches the privacy setting when the bot joins a group, so removing and re-adding the bot is required after changing the setting.
+
+## Troubleshooting
+
+### getMe returns 401 Unauthorized
+
+The token is invalid or malformed. Check that the URL has this exact shape:
+
+```text
+https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getMe
+```
+
+The literal `bot` prefix must be in the URL path, immediately before the token.
+
+### getUpdates returns an empty result
+
+Check these items:
+
+- Send a new message to the bot first.
+- Make sure the message was sent after the bot was created.
+- Confirm that no other process is already polling updates with the same token.
+- Confirm the token with `getMe`.
+
+### The bot does not receive normal group messages
+
+Check BotFather privacy mode or promote the bot to group admin. After changing privacy mode, remove and re-add the bot to the group.
+
+### The user ID is confused with the bot ID
+
+Use these fields:
+
+- bot ID: `getMe` response `result.id`
+- user ID: `getUpdates` response `message.from.id`
+- chat ID: `getUpdates` response `message.chat.id`

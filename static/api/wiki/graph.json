@@ -10145,6 +10145,22 @@
       "subject_ref": "subject:protocol:api-spec:restful-api"
     },
     {
+      "id": "doc:docs/protocol/telegram/bot-token.mdx",
+      "type": "document",
+      "title": "Telegram Bot Token",
+      "description": "Telegram bot token guide for creating a bot with BotFather, safely handling the API token, verifying the token with curl, finding bot and user IDs through the Telegram Bot API, and troubleshooting getMe and getUpdates responses. It is classified as an operation page for the application-protocol class in the protocol domain. Important search terms include telegram, botfather, bot token, telegram bot api, getMe, getUpdates, curl, jq, chat id, and user id.",
+      "ontology": {
+        "role": "operation",
+        "domain": "protocol",
+        "class": "application-protocol",
+        "instance": "telegram",
+        "aspect": "bot-token"
+      },
+      "url": "/docs/protocol/telegram/bot-token",
+      "node_url": "/api/wiki/nodes/doc:docs/protocol/telegram/bot-token.mdx.json",
+      "subject_ref": "subject:protocol:application-protocol:telegram"
+    },
+    {
       "id": "doc:docs/protocol/webrtc/overview.mdx",
       "type": "document",
       "title": "WebRTC",
@@ -16206,6 +16222,22 @@
       ]
     },
     {
+      "id": "subject:protocol:application-protocol:telegram",
+      "type": "subject",
+      "title": "Telegram Bot Token",
+      "description": "Telegram bot token guide for creating a bot with BotFather, safely handling the API token, verifying the token with curl, finding bot and user IDs through the Telegram Bot API, and troubleshooting getMe and getUpdates responses. It is classified as an operation page for the application-protocol class in the protocol domain. Important search terms include telegram, botfather, bot token, telegram bot api, getMe, getUpdates, curl, jq, chat id, and user id.",
+      "ontology": {
+        "domain": "protocol",
+        "class": "application-protocol",
+        "instance": "telegram"
+      },
+      "url": "/docs/protocol/telegram/bot-token",
+      "node_url": "/api/wiki/nodes/subject:protocol:application-protocol:telegram.json",
+      "document_refs": [
+        "doc:docs/protocol/telegram/bot-token.mdx"
+      ]
+    },
+    {
       "id": "subject:protocol:application-protocol:webrtc",
       "type": "subject",
       "title": "WebRTC",
@@ -20939,6 +20971,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/protocol/telegram/bot-token.mdx:about_subject:subject:protocol:application-protocol:telegram",
+      "from": "doc:docs/protocol/telegram/bot-token.mdx",
+      "to": "subject:protocol:application-protocol:telegram",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/protocol/webrtc/overview.mdx:about_subject:subject:protocol:application-protocol:webrtc",
       "from": "doc:docs/protocol/webrtc/overview.mdx",
       "to": "subject:protocol:application-protocol:webrtc",
@@ -22232,6 +22270,12 @@
       "id": "relation:subject:language:toolchain:emscripten:uses:subject:language:toolchain:llvm",
       "from": "subject:language:toolchain:emscripten",
       "to": "subject:language:toolchain:llvm",
+      "predicate": "uses"
+    },
+    {
+      "id": "relation:subject:protocol:application-protocol:telegram:uses:subject:protocol:application-protocol:http",
+      "from": "subject:protocol:application-protocol:telegram",
+      "to": "subject:protocol:application-protocol:http",
       "predicate": "uses"
     },
     {
