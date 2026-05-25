@@ -849,6 +849,7 @@
       "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference",
       "document_refs": [
         "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+        "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
         "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
         "doc:docs/infrastructure/ai-platform/vllm/config.mdx"
       ],
@@ -857,12 +858,12 @@
         "class": "serving-system",
         "instance": "vllm"
       },
-      "search_text": "cpu-gpu co-design for agentic llm inference synthesis of andy luo s mi300x vllm and lmcache benchmark showing that cpu overhead is negligible for single long-context requests but becomes a 10-15 latency tax at high-concurrency agentic inference mostly from scheduling and queue wait rather than tokenization vllm cpu-gpu co-design for agentic llm inference vllm kvcache analysis vllm 설정 가이드 core thesis main finding key numbers lmcache interpretation why scheduling dominates agentic inference implication optimization direction practical takeaway vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm 옵션 infrastructure serving-system vllm",
+      "search_text": "cpu-gpu co-design for agentic llm inference synthesis of andy luo s mi300x vllm and lmcache benchmark showing that cpu overhead is negligible for single long-context requests but becomes a 10-15 latency tax at high-concurrency agentic inference mostly from scheduling and queue wait rather than tokenization vllm cpu-gpu co-design for agentic llm inference vllm hybrid kv cache manager vllm kvcache analysis vllm 설정 가이드 core thesis main finding key numbers lmcache interpretation why scheduling dominates agentic inference implication optimization direction practical takeaway scope core requirements terms architecture allocation model same hidden size with regular ratios same hidden size without regular ratios different hidden sizes kv sharing memory layout prefix caching full-attention groups sliding-window or local-attention groups hybrid intersection eviction and free blocks scheduler configuration practical reading notes vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm 옵션 infrastructure serving-system vllm",
       "display": {
         "label": "CPU-GPU Co-Design for Agentic LLM Inference",
         "kind": "subject",
         "subtitle": "Vllm",
-        "document_count": 3
+        "document_count": 4
       }
     },
     {
@@ -33077,6 +33078,59 @@
         "label": "user/group 관리",
         "kind": "document",
         "subtitle": "User Management"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
+      "title": "vLLM Hybrid KV Cache Manager",
+      "description": "vLLM Hybrid KV Cache Manager explains how vLLM allocates and prefix-caches KV blocks for hybrid LLMs that mix full attention, sliding-window attention, local attention, Mamba-style state, or KV-sharing layers. It summarizes the grouping rules, memory layout, coordinator stack, prefix-cache intersection logic, and operational flags such as disable_hybrid_kv_cache_manager.",
+      "headings": [
+        "Scope",
+        "Core Requirements",
+        "Terms",
+        "Architecture",
+        "Allocation Model",
+        "Same Hidden Size With Regular Ratios",
+        "Same Hidden Size Without Regular Ratios",
+        "Different Hidden Sizes",
+        "KV Sharing",
+        "Memory Layout",
+        "Prefix Caching",
+        "Full-Attention Groups",
+        "Sliding-Window or Local-Attention Groups",
+        "Hybrid Intersection",
+        "Eviction and Free Blocks",
+        "Scheduler Configuration",
+        "Practical Reading Notes"
+      ],
+      "keywords": [
+        "vllm",
+        "kv cache",
+        "kvcache",
+        "hybrid kv cache manager",
+        "hybrid attention",
+        "sliding window attention",
+        "mamba",
+        "prefix caching",
+        "llm inference",
+        "ai-platform"
+      ],
+      "url": "/docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager",
+      "subject_ref": "subject:infrastructure:serving-system:vllm",
+      "subject_title": "Vllm",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "vllm",
+        "aspect": "hybrid-kv-cache-manager"
+      },
+      "search_text": "vllm hybrid kv cache manager vllm hybrid kv cache manager explains how vllm allocates and prefix-caches kv blocks for hybrid llms that mix full attention sliding-window attention local attention mamba-style state or kv-sharing layers it summarizes the grouping rules memory layout coordinator stack prefix-cache intersection logic and operational flags such as disable hybrid kv cache manager scope core requirements terms architecture allocation model same hidden size with regular ratios same hidden size without regular ratios different hidden sizes kv sharing memory layout prefix caching full-attention groups sliding-window or local-attention groups hybrid intersection eviction and free blocks scheduler configuration practical reading notes vllm kv cache kvcache hybrid kv cache manager hybrid attention sliding window attention mamba prefix caching llm inference ai-platform concept infrastructure serving-system vllm hybrid-kv-cache-manager",
+      "display": {
+        "label": "vLLM Hybrid KV Cache Manager",
+        "kind": "document",
+        "subtitle": "Vllm"
       }
     },
     {

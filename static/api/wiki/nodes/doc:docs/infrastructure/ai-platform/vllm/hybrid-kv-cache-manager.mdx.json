@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
+  "title": "vLLM Hybrid KV Cache Manager",
+  "description": "vLLM Hybrid KV Cache Manager explains how vLLM allocates and prefix-caches KV blocks for hybrid LLMs that mix full attention, sliding-window attention, local attention, Mamba-style state, or KV-sharing layers. It summarizes the grouping rules, memory layout, coordinator stack, prefix-cache intersection logic, and operational flags such as disable_hybrid_kv_cache_manager.",
+  "ontology": {
+    "role": "concept",
+    "domain": "infrastructure",
+    "class": "serving-system",
+    "instance": "vllm",
+    "aspect": "hybrid-kv-cache-manager"
+  },
+  "url": "/docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:serving-system:vllm",
+    "title": "CPU-GPU Co-Design for Agentic LLM Inference",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "serving-system",
+      "instance": "vllm"
+    },
+    "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx:about_subject:subject:infrastructure:serving-system:vllm",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:serving-system:vllm",
+      "direction": "outgoing"
+    }
+  ]
+}

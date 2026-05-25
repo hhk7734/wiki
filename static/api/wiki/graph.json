@@ -865,6 +865,22 @@
       "subject_ref": "subject:infrastructure:serving-system:vllm"
     },
     {
+      "id": "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
+      "type": "document",
+      "title": "vLLM Hybrid KV Cache Manager",
+      "description": "vLLM Hybrid KV Cache Manager explains how vLLM allocates and prefix-caches KV blocks for hybrid LLMs that mix full attention, sliding-window attention, local attention, Mamba-style state, or KV-sharing layers. It summarizes the grouping rules, memory layout, coordinator stack, prefix-cache intersection logic, and operational flags such as disable_hybrid_kv_cache_manager.",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "vllm",
+        "aspect": "hybrid-kv-cache-manager"
+      },
+      "url": "/docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager",
+      "node_url": "/api/wiki/nodes/doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx.json",
+      "subject_ref": "subject:infrastructure:serving-system:vllm"
+    },
+    {
       "id": "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
       "type": "document",
       "title": "vLLM KVCache Analysis",
@@ -13783,6 +13799,7 @@
       "node_url": "/api/wiki/nodes/subject:infrastructure:serving-system:vllm.json",
       "document_refs": [
         "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+        "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
         "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
         "doc:docs/infrastructure/ai-platform/vllm/config.mdx"
       ]
@@ -17504,6 +17521,12 @@
     {
       "id": "relation:doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx:about_subject:subject:infrastructure:serving-system:vllm",
       "from": "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+      "to": "subject:infrastructure:serving-system:vllm",
+      "predicate": "about_subject"
+    },
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx:about_subject:subject:infrastructure:serving-system:vllm",
+      "from": "doc:docs/infrastructure/ai-platform/vllm/hybrid-kv-cache-manager.mdx",
       "to": "subject:infrastructure:serving-system:vllm",
       "predicate": "about_subject"
     },
@@ -21604,6 +21627,12 @@
       "from": "subject:infrastructure:observability-system:thanos",
       "to": "subject:infrastructure:observability-system:prometheus-operator",
       "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:infrastructure:serving-system:vllm:part_of:subject:infrastructure:serving-system:vllm",
+      "from": "subject:infrastructure:serving-system:vllm",
+      "to": "subject:infrastructure:serving-system:vllm",
+      "predicate": "part_of"
     },
     {
       "id": "relation:subject:infrastructure:storage-interface:aws-ebs-csi-driver:depends_on:subject:infrastructure:storage-interface:csi",
