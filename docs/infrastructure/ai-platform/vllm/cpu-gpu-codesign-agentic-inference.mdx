@@ -1,0 +1,145 @@
+---
+id: cpu-gpu-codesign-agentic-inference
+title: "CPU-GPU Co-Design for Agentic LLM Inference"
+sidebar_label: "CPU-GPU Co-Design"
+description: "Synthesis of Andy Luo's MI300X, vLLM, and LMCache benchmark showing that CPU overhead is negligible for single long-context requests but becomes a 10-15% latency tax at high-concurrency agentic inference, mostly from scheduling and queue wait rather than tokenization."
+keywords:
+  - vllm
+  - lmcache
+  - mi300x
+  - agentic inference
+  - llm inference
+  - cpu gpu co-design
+  - kv cache
+ontology:
+  role: concept
+  domain: infrastructure
+  class: serving-system
+  instance: vllm
+  aspect: cpu-gpu-codesign
+subject:
+  canonical_name: vLLM
+  aliases:
+    - vllm
+relations:
+  related_to:
+    - lmcache
+    - mi300x
+    - llm-inference
+    - agentic-inference
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - kv-cache
+source:
+  status: notes
+  confidence: high
+---
+
+## Core Thesis
+
+:::info[References]
+
+- [Andy Luo / CPU-GPU Co-Design for Agentic LLM Inference](https://andyluo7.github.io/llm/amd/mi300x/vllm/lmcache/performance/2026/05/14/cpu-gpu-codesign-agentic-inference-mi300x/)
+- [vLLM KVCache Analysis](/docs/infrastructure/ai-platform/vllm/kvcache.mdx)
+
+:::
+
+Agentic LLM inference should not be treated as a pure GPU problem. For a single request, the GPU dominates end-to-end latency almost completely. At production-like concurrency, especially when many agent and sub-agent sessions arrive in bursts, the CPU-side control plane becomes a real latency and throughput tax.
+
+The benchmark uses MiniMax-M2.5 FP8 on 2x AMD MI300X with vLLM 0.19.0 and compares HBM prefix caching against LMCache CPU DRAM caching. The workload is based on 739 anonymized Claude Code-style agentic conversations.
+
+The article decomposes every request into:
+
+- Client request serialization.
+- Server HTTP parsing, tokenization, scheduling, queue wait, and KV cache lookup.
+- GPU prefill.
+- GPU decode.
+- Client response parsing.
+
+## Main Finding
+
+CPU overhead is mostly a concurrency problem, not a context-length problem.
+
+At concurrency 1, CPU overhead is roughly 0.4-0.6% of end-to-end latency, even for 100k-token contexts. At concurrency 32, CPU overhead rises to roughly 11-15% of end-to-end latency.
+
+The important nuance is that the bottleneck is not tokenization, JSON parsing, hashing, detokenization, or SSE parsing. Those costs are tiny. The dominant CPU-side cost is scheduling plus queue wait inside vLLM.
+
+## Key Numbers
+
+| Measurement                                                   |                           Result |
+| ------------------------------------------------------------- | -------------------------------: |
+| 100k-token tokenization                                       |                     about 220 ms |
+| JSON serialization                                            |                   less than 1 ms |
+| SHA256 or cache-key hashing                                   |                   less than 1 ms |
+| SSE parsing                                                   | about 1.9 microseconds per chunk |
+| Scheduling plus queue wait at concurrency 32 and 100k context |                about 3.6 seconds |
+| HBM prefix cache CPU share at concurrency 32 and 32k context  |                            11.6% |
+| HBM prefix cache CPU share at concurrency 32 and 100k context |                            14.9% |
+| LMCache CPU share at concurrency 32 and 32k context           |                            11.0% |
+| LMCache CPU share at concurrency 32 and 100k context          |                             9.8% |
+
+The article proposes a practical rule of thumb: at 16-32 concurrent users, CPU overhead can consume roughly 10-15% of end-to-end latency on MI300X-class serving systems. This creates a latency floor that GPU improvements alone cannot remove.
+
+## LMCache Interpretation
+
+LMCache does not appear to add meaningful CPU overhead in this benchmark. Its hash lookup and transfer scheduling costs are effectively lost in the noise. In some high-concurrency cases, the measured CPU percentage is lower with LMCache because CPU DRAM caching reduces HBM pressure and KV eviction churn.
+
+This matters for agentic workloads because agents frequently pause between LLM turns while tools, databases, vector search, or code execution run. During those gaps, keeping all KV state pinned in HBM is expensive. A CPU DRAM KV-cache tier can preserve state across tool gaps while freeing scarce HBM for active requests.
+
+## Why Scheduling Dominates
+
+At high concurrency, vLLM must repeatedly decide which requests to batch, inspect prefix-cache state, allocate KV blocks, handle preemption, and coordinate work across tensor-parallel workers. Even if each operation is individually small, the control path becomes expensive when many requests arrive together.
+
+The article highlights several likely contributors:
+
+- Python GIL contention in request handling and scheduling paths.
+- Prefix-cache tree walks across many diverse prompts.
+- KV block allocation and free-list contention.
+- Queue wait when GPU execution slots are saturated.
+- Coordination across tensor-parallel workers.
+
+This is why a single 100k-token request can remain almost entirely GPU-bound while 32 shorter concurrent requests can expose a large CPU-side scheduling tax.
+
+## Agentic Inference Implication
+
+Sub-agent fan-out makes the problem worse. Human user count can substantially understate actual inference concurrency.
+
+For example, 4 users with 3 sub-agents each produce 16 effective sessions. Four users with 12 sub-agents each produce 52 effective sessions. The article extrapolates that this regime may push CPU overhead toward 20-25% or higher if the scheduler is not designed for bursty parent-child workloads.
+
+Agentic systems also create hybrid CPU, IO, and GPU workloads:
+
+1. The LLM generates a tool call.
+2. A tool, database query, vector search, or code execution step runs.
+3. The next LLM prompt is assembled.
+4. The updated context is tokenized and scheduled again.
+
+This inter-turn gap can strand KV cache in HBM while the GPU is idle for that session. LMCache-style CPU DRAM caching becomes useful because it can preserve reusable KV state across those gaps without forcing every inactive session to occupy HBM.
+
+## Optimization Direction
+
+The highest-value optimization target is the CPU-GPU control plane, not the tokenizer.
+
+High-impact directions include:
+
+- Pipeline CPU scheduling with current GPU execution.
+- Move tokenization off the main event loop.
+- Batch scheduling decisions.
+- Reduce KV block allocation contention.
+- Make scheduling aware of parent-child sub-agent relationships.
+- Route sibling sub-agents together when they share large prefixes.
+- Use NUMA-aware scheduler placement near the GPU-local CPU node.
+- Reserve dedicated CPU cores for scheduler work.
+- Consider Rust or C++ for scheduler hot paths, mainly to reduce GIL pressure rather than to micro-optimize raw compute.
+
+Low-value targets include JSON serialization, SSE parsing, detokenization, and LMCache hash lookup. The benchmark shows those are already too small to matter materially.
+
+## Practical Takeaway
+
+For low-concurrency LLM serving, optimize GPU execution.
+
+For high-concurrency agentic serving, optimize the CPU-GPU control plane: scheduling, queueing, KV-cache management, request routing, and overlap between CPU orchestration and GPU execution.
+
+For agentic workloads specifically, LMCache is attractive because it does not add meaningful CPU overhead while helping with the memory-pressure and tool-gap problems that make long-running agents inefficient.

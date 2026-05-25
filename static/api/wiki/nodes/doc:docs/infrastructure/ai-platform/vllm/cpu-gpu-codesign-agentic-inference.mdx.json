@@ -1,0 +1,33 @@
+{
+  "type": "document",
+  "id": "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+  "title": "CPU-GPU Co-Design for Agentic LLM Inference",
+  "description": "Synthesis of Andy Luo's MI300X, vLLM, and LMCache benchmark showing that CPU overhead is negligible for single long-context requests but becomes a 10-15% latency tax at high-concurrency agentic inference, mostly from scheduling and queue wait rather than tokenization.",
+  "ontology": {
+    "role": "concept",
+    "domain": "infrastructure",
+    "class": "serving-system",
+    "instance": "vllm",
+    "aspect": "cpu-gpu-codesign"
+  },
+  "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference",
+  "node_url": "/api/wiki/nodes/doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx.json",
+  "subject": {
+    "id": "subject:infrastructure:serving-system:vllm",
+    "title": "CPU-GPU Co-Design for Agentic LLM Inference",
+    "ontology": {
+      "domain": "infrastructure",
+      "class": "serving-system",
+      "instance": "vllm"
+    },
+    "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference"
+  },
+  "relations": [
+    {
+      "id": "relation:doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx:about_subject:subject:infrastructure:serving-system:vllm",
+      "predicate": "about_subject",
+      "other_id": "subject:infrastructure:serving-system:vllm",
+      "direction": "outgoing"
+    }
+  ]
+}

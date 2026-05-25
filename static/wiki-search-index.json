@@ -843,6 +843,30 @@
     },
     {
       "type": "subject",
+      "id": "subject:infrastructure:serving-system:vllm",
+      "title": "CPU-GPU Co-Design for Agentic LLM Inference",
+      "description": "Synthesis of Andy Luo's MI300X, vLLM, and LMCache benchmark showing that CPU overhead is negligible for single long-context requests but becomes a 10-15% latency tax at high-concurrency agentic inference, mostly from scheduling and queue wait rather than tokenization.",
+      "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference",
+      "document_refs": [
+        "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+        "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
+        "doc:docs/infrastructure/ai-platform/vllm/config.mdx"
+      ],
+      "ontology": {
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "vllm"
+      },
+      "search_text": "cpu-gpu co-design for agentic llm inference synthesis of andy luo s mi300x vllm and lmcache benchmark showing that cpu overhead is negligible for single long-context requests but becomes a 10-15 latency tax at high-concurrency agentic inference mostly from scheduling and queue wait rather than tokenization vllm cpu-gpu co-design for agentic llm inference vllm kvcache analysis vllm 설정 가이드 core thesis main finding key numbers lmcache interpretation why scheduling dominates agentic inference implication optimization direction practical takeaway vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm 옵션 infrastructure serving-system vllm",
+      "display": {
+        "label": "CPU-GPU Co-Design for Agentic LLM Inference",
+        "kind": "subject",
+        "subtitle": "Vllm",
+        "document_count": 3
+      }
+    },
+    {
+      "type": "subject",
       "id": "subject:language:concept:cqrs",
       "title": "CQRSCommand Query Responsibility Segregation",
       "description": "CQRSCommand Query Responsibility Segregation documents overview material for CQRSCommand Query Responsibility Segregation in the language domain. It is classified as a concept page, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights Domain Entity Read의 한계, CQSCommand Query Separation, and CQRSCommand Query Responsibility Segregation, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include ddd, cqrs, language, and concepts, helping both humans and generated indexes connect this page with adjacent concepts. The route is language / concepts / cqrs, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
@@ -7369,29 +7393,6 @@
     },
     {
       "type": "subject",
-      "id": "subject:infrastructure:serving-system:vllm",
-      "title": "vLLM KVCache Analysis",
-      "description": "vLLM KVCache Analysis documents KVCache behavior for vLLM in the infrastructure domain. It is classified as a concept page for the serving-system class, covering vLLM settings, KVConnectorBaseV1 worker flow, and prefill flow. It links to the science-domain Sliding Window Attention KVCache note for general cache-size analysis. Use it for quick orientation, implementation reminders, and deeper research.",
-      "url": "/docs/infrastructure/ai-platform/vllm/kvcache",
-      "document_refs": [
-        "doc:docs/infrastructure/ai-platform/vllm/kvcache.mdx",
-        "doc:docs/infrastructure/ai-platform/vllm/config.mdx"
-      ],
-      "ontology": {
-        "domain": "infrastructure",
-        "class": "serving-system",
-        "instance": "vllm"
-      },
-      "search_text": "vllm kvcache analysis vllm kvcache analysis documents kvcache behavior for vllm in the infrastructure domain it is classified as a concept page for the serving-system class covering vllm settings kvconnectorbasev1 worker flow and prefill flow it links to the science-domain sliding window attention kvcache note for general cache-size analysis use it for quick orientation implementation reminders and deeper research vllm kvcache analysis vllm 설정 가이드 vllm settings sliding window attention kvconnectorbase v1 runtime flow worker-side hooks scheduler-side hooks prefill vllm 옵션 infrastructure serving-system vllm",
-      "display": {
-        "label": "vLLM KVCache Analysis",
-        "kind": "subject",
-        "subtitle": "Vllm",
-        "document_count": 2
-      }
-    },
-    {
-      "type": "subject",
       "id": "subject:language:environment:vcpkg",
       "title": "vcpkg",
       "description": "vcpkg documents overview material for vcpkg in the language domain. It is classified as an operation page for the environment class, so readers can understand its topic, scope, and place in the wiki taxonomy. The page highlights 설치, 초기화, 패키지 관리, 추가, and 버전 관리, with examples, commands, diagrams, or references kept close to the relevant explanation. Important search terms include language, and cpp, helping both humans and generated indexes connect this page with adjacent concepts. The route is language / cpp / vcpkg / overview, and the frontmatter keeps the canonical subject, ontology role, and navigation context aligned with repository validation. Use it for quick orientation, implementation reminders, and deeper research.",
@@ -10779,6 +10780,47 @@
         "label": "CORS",
         "kind": "document",
         "subtitle": "Http"
+      }
+    },
+    {
+      "type": "document",
+      "id": "doc:docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference.mdx",
+      "title": "CPU-GPU Co-Design for Agentic LLM Inference",
+      "description": "Synthesis of Andy Luo's MI300X, vLLM, and LMCache benchmark showing that CPU overhead is negligible for single long-context requests but becomes a 10-15% latency tax at high-concurrency agentic inference, mostly from scheduling and queue wait rather than tokenization.",
+      "headings": [
+        "Core Thesis",
+        "Main Finding",
+        "Key Numbers",
+        "LMCache Interpretation",
+        "Why Scheduling Dominates",
+        "Agentic Inference Implication",
+        "Optimization Direction",
+        "Practical Takeaway"
+      ],
+      "keywords": [
+        "vllm",
+        "lmcache",
+        "mi300x",
+        "agentic inference",
+        "llm inference",
+        "cpu gpu co-design",
+        "kv cache"
+      ],
+      "url": "/docs/infrastructure/ai-platform/vllm/cpu-gpu-codesign-agentic-inference",
+      "subject_ref": "subject:infrastructure:serving-system:vllm",
+      "subject_title": "Vllm",
+      "ontology": {
+        "role": "concept",
+        "domain": "infrastructure",
+        "class": "serving-system",
+        "instance": "vllm",
+        "aspect": "cpu-gpu-codesign"
+      },
+      "search_text": "cpu-gpu co-design for agentic llm inference synthesis of andy luo s mi300x vllm and lmcache benchmark showing that cpu overhead is negligible for single long-context requests but becomes a 10-15 latency tax at high-concurrency agentic inference mostly from scheduling and queue wait rather than tokenization core thesis main finding key numbers lmcache interpretation why scheduling dominates agentic inference implication optimization direction practical takeaway vllm lmcache mi300x agentic inference llm inference cpu gpu co-design kv cache concept infrastructure serving-system vllm cpu-gpu-codesign",
+      "display": {
+        "label": "CPU-GPU Co-Design for Agentic LLM Inference",
+        "kind": "document",
+        "subtitle": "Vllm"
       }
     },
     {
