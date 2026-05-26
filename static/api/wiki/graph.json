@@ -10353,6 +10353,22 @@
       "subject_ref": "subject:science:model-family:gnn"
     },
     {
+      "id": "doc:docs/science/llm/bpe-tokenizer/overview.mdx",
+      "type": "document",
+      "title": "BPE Tokenizer",
+      "description": "BPE Tokenizer explains Byte Pair Encoding tokenization for large language models. It describes why subword tokenization is used, how BPE learns merges, how byte-level BPE differs from classical character-level BPE, and what tokenizer behavior means for context length, rare words, code, IDs, and serving systems.",
+      "ontology": {
+        "role": "concept",
+        "domain": "science",
+        "class": "concept",
+        "instance": "bpe-tokenizer",
+        "aspect": "overview"
+      },
+      "url": "/docs/science/llm/bpe-tokenizer/overview",
+      "node_url": "/api/wiki/nodes/doc:docs/science/llm/bpe-tokenizer/overview.mdx.json",
+      "subject_ref": "subject:science:concept:bpe-tokenizer"
+    },
+    {
       "id": "doc:docs/science/llm/chat-template/overview.mdx",
       "type": "document",
       "title": "Chat Template",
@@ -16304,6 +16320,22 @@
       ]
     },
     {
+      "id": "subject:science:concept:bpe-tokenizer",
+      "type": "subject",
+      "title": "BPE Tokenizer",
+      "description": "BPE Tokenizer explains Byte Pair Encoding tokenization for large language models. It describes why subword tokenization is used, how BPE learns merges, how byte-level BPE differs from classical character-level BPE, and what tokenizer behavior means for context length, rare words, code, IDs, and serving systems.",
+      "ontology": {
+        "domain": "science",
+        "class": "concept",
+        "instance": "bpe-tokenizer"
+      },
+      "url": "/docs/science/llm/bpe-tokenizer/overview",
+      "node_url": "/api/wiki/nodes/subject:science:concept:bpe-tokenizer.json",
+      "document_refs": [
+        "doc:docs/science/llm/bpe-tokenizer/overview.mdx"
+      ]
+    },
+    {
       "id": "subject:science:concept:receptor-ligand",
       "type": "subject",
       "title": "Receptor-Ligand Interactions",
@@ -21083,6 +21115,12 @@
       "predicate": "about_subject"
     },
     {
+      "id": "relation:doc:docs/science/llm/bpe-tokenizer/overview.mdx:about_subject:subject:science:concept:bpe-tokenizer",
+      "from": "doc:docs/science/llm/bpe-tokenizer/overview.mdx",
+      "to": "subject:science:concept:bpe-tokenizer",
+      "predicate": "about_subject"
+    },
+    {
       "id": "relation:doc:docs/science/llm/chat-template/overview.mdx:about_subject:subject:science:model-family:chat-template",
       "from": "doc:docs/science/llm/chat-template/overview.mdx",
       "to": "subject:science:model-family:chat-template",
@@ -22329,6 +22367,18 @@
       "from": "subject:protocol:application-protocol:telegram",
       "to": "subject:protocol:application-protocol:http",
       "predicate": "uses"
+    },
+    {
+      "id": "relation:subject:science:concept:bpe-tokenizer:related_to:subject:science:model-family:chat-template",
+      "from": "subject:science:concept:bpe-tokenizer",
+      "to": "subject:science:model-family:chat-template",
+      "predicate": "related_to"
+    },
+    {
+      "id": "relation:subject:science:concept:bpe-tokenizer:related_to:subject:science:model-family:transformer",
+      "from": "subject:science:concept:bpe-tokenizer",
+      "to": "subject:science:model-family:transformer",
+      "predicate": "related_to"
     },
     {
       "id": "relation:subject:science:llm-technique:kvcache:related_to:subject:infrastructure:serving-system:vllm",

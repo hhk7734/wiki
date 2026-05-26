@@ -1,0 +1,294 @@
+---
+id: overview
+title: "BPE Tokenizer"
+sidebar_label: "BPE Tokenizer"
+description: "BPE Tokenizer explains Byte Pair Encoding tokenization for large language models. It describes why subword tokenization is used, how BPE learns merges, how byte-level BPE differs from classical character-level BPE, and what tokenizer behavior means for context length, rare words, code, IDs, and serving systems."
+keywords:
+  - "bpe tokenizer"
+  - "byte pair encoding"
+  - tokenizer
+  - tokenization
+  - subword
+  - "large language model"
+  - llm
+  - "hugging face tokenizers"
+  - fastokens
+  - tiktoken
+  - science
+ontology:
+  role: concept
+  domain: science
+  class: concept
+  instance: bpe-tokenizer
+  aspect: overview
+subject:
+  canonical_name: "BPE Tokenizer"
+  aliases:
+    - "Byte Pair Encoding Tokenizer"
+    - "BPE"
+    - "subword tokenizer"
+relations:
+  related_to:
+    - transformer
+    - chat-template
+  depends_on: []
+  prerequisite_for: []
+  part_of:
+    - large-language-model
+  implements: []
+  uses: []
+source:
+  status: canonical
+  confidence: exact
+---
+
+:::info[References]
+
+- [/docs/science/llm/transformer/overview.mdx](/docs/science/llm/transformer/overview.mdx)
+- [Neural Machine Translation of Rare Words with Subword Units](https://arxiv.org/abs/1508.07909)
+- [Hugging Face Tokenizers: BPE](https://huggingface.co/docs/tokenizers/en/components#models)
+- [Hugging Face tokenizers repository](https://github.com/huggingface/tokenizers)
+- [Crusoe Cloud fastokens repository](https://github.com/crusoecloud/fastokens)
+- [tiktoken-rs repository](https://github.com/zurawiki/tiktoken-rs)
+- [OpenAI tiktoken](https://github.com/openai/tiktoken)
+
+:::
+
+## What a BPE Tokenizer Is
+
+A BPE tokenizer is a tokenizer based on **Byte Pair Encoding**. It converts text into a sequence of token IDs by splitting text into reusable pieces, usually called **subword tokens**.
+
+It is a middle ground between word-level and character-level tokenization:
+
+- Word-level tokenization is compact for known words, but fails or becomes huge for rare words, names, URLs, code, and IDs.
+- Character-level tokenization can represent anything, but produces long sequences.
+- BPE learns common chunks such as `ing`, `tion`, `token`, or `ization`, so it can represent both common and rare text with a manageable vocabulary.
+
+For example, depending on the trained tokenizer, a word such as `tokenization` may be represented as pieces like:
+
+```text
+"token", "ization"
+```
+
+instead of requiring `tokenization` to exist as a full vocabulary entry or splitting it into individual characters.
+
+## Why LLMs Use BPE-Style Tokenizers
+
+Large language models operate on token IDs, not raw strings. A tokenizer is the boundary between human text and model input.
+
+BPE-style tokenizers are useful for LLMs because they:
+
+- keep the vocabulary size finite;
+- represent rare or newly created words without an explicit unknown-word token;
+- handle names, log lines, URLs, code, and Kubernetes object names better than pure word tokenizers;
+- reduce sequence length compared with pure character tokenization;
+- preserve enough structure for the model to learn useful patterns.
+
+A string such as this can still be represented even if it never appeared in the tokenizer training corpus:
+
+```text
+zhipu-poc-2d-pc90-mtp-5779854489-v8szf
+```
+
+The tokenizer can split it into smaller pieces that are already in the vocabulary.
+
+## How BPE Learns Tokens
+
+Classical BPE training is iterative:
+
+1. Start with small units, usually characters or bytes.
+2. Count adjacent pairs in the training corpus.
+3. Merge the most frequent adjacent pair into a new token.
+4. Repeat until the vocabulary reaches the target size.
+
+A tiny example:
+
+```text
+low lower lowest
+```
+
+Start with character-like pieces:
+
+```text
+l o w
+l o w e r
+l o w e s t
+```
+
+If `l` + `o` is frequent, merge it:
+
+```text
+lo w
+lo w e r
+lo w e s t
+```
+
+If `lo` + `w` is frequent, merge it:
+
+```text
+low
+low e r
+low e s t
+```
+
+After many merges, the tokenizer may learn useful pieces such as:
+
+```text
+low
+er
+est
+```
+
+At inference time, the tokenizer applies the learned merge rules to convert new text into known token IDs.
+
+## Byte-Level BPE
+
+Many modern LLM tokenizers use **byte-level BPE** or BPE-like variants.
+
+Byte-level BPE starts from bytes rather than Unicode characters. This has an important practical property: any valid text can be represented because every string can be encoded as bytes.
+
+That reduces the need for an `unknown` token and makes the tokenizer robust for:
+
+- multilingual text;
+- emojis;
+- malformed or unusual Unicode;
+- source code;
+- binary-looking identifiers;
+- logs and machine-generated strings.
+
+The trade-off is that some text, especially non-English text or unusual symbols, may require more tokens than expected.
+
+## Spaces Are Often Part of Tokens
+
+A common surprise is that spaces may be encoded as part of a token.
+
+For example, a tokenizer may distinguish between:
+
+```text
+"world"
+" world"
+```
+
+Those can be different tokens because the second one includes a leading space.
+
+This matters when comparing token counts. Adding or removing whitespace can change the tokenization even if the visible words are almost the same.
+
+## BPE Versus Related Tokenizers
+
+BPE is one member of a broader family of subword tokenizers.
+
+Common tokenizer families include:
+
+- **BPE**: learns frequent pair merges.
+- **Unigram**: starts with many candidate pieces and learns a probabilistic subset.
+- **WordPiece**: similar goal to BPE, historically used by BERT-style models.
+- **SentencePiece**: a tokenizer framework often used to train BPE or Unigram tokenizers directly from raw text.
+
+In day-to-day LLM work, people often say "BPE tokenizer" loosely to mean "subword tokenizer," but the exact algorithm and vocabulary matter.
+
+## Implementation References
+
+Several production libraries are useful reference points when thinking about BPE tokenizers in LLM systems.
+
+### Hugging Face `tokenizers`
+
+[`huggingface/tokenizers`](https://github.com/huggingface/tokenizers) is a general-purpose Rust tokenizer library with Python, Node.js, and other bindings. It supports commonly used tokenizer models such as BPE, WordPiece, and Unigram.
+
+It is useful as a reference for the full tokenizer pipeline:
+
+```text
+normalizer -> pre-tokenizer -> model -> post-processor -> decoder
+```
+
+This matters because "the tokenizer" is usually more than the BPE merge table. Production tokenization often includes normalization, pre-tokenization, special tokens, truncation, padding, and alignment information that maps tokens back to original text spans.
+
+### `fastokens`
+
+[`crusoecloud/fastokens`](https://github.com/crusoecloud/fastokens) is a high-performance Rust-backed BPE tokenizer focused on inference workloads for popular open-weight LLMs.
+
+Its design point is different from Hugging Face `tokenizers`:
+
+- Hugging Face `tokenizers` is broad and feature-rich.
+- `fastokens` focuses on making common BPE inference paths faster.
+- It can patch `transformers` as a drop-in tokenizer replacement for supported models.
+- It intentionally does not support every tokenizer feature, normalizer, pre-tokenizer, or extra encoding output.
+
+This is a useful serving-system reference because tokenization can become visible in latency-sensitive workloads, especially long-prompt or high-concurrency inference.
+
+### `tiktoken-rs`
+
+[`zurawiki/tiktoken-rs`](https://github.com/zurawiki/tiktoken-rs) is a Rust library for OpenAI `tiktoken`-style tokenizers.
+
+It is useful when the target model family uses OpenAI tokenization, such as GPT-style `cl100k_base` or `o200k_base` encodings. Its common use cases are:
+
+- counting tokens before API calls;
+- enforcing context-window limits;
+- estimating `max_tokens` budgets;
+- integrating OpenAI-compatible token counting into Rust systems.
+
+The scope is narrower than Hugging Face `tokenizers`: it is focused on OpenAI/tiktoken-compatible encodings rather than arbitrary Llama, Mistral, Qwen, or Gemini tokenizers.
+
+### Choosing a tokenizer implementation
+
+Use the tokenizer implementation that matches the model and deployment need:
+
+- Use the model's official or packaged tokenizer for correctness.
+- Use Hugging Face `tokenizers` when you need broad model support and full tokenizer pipeline features.
+- Consider `fastokens` when inference-tokenization throughput is a bottleneck and the model is supported.
+- Use `tiktoken` or `tiktoken-rs` for OpenAI-compatible token counting and GPT-family encodings.
+
+Correctness comes first. A faster tokenizer is only useful if it produces the same token IDs and special-token behavior that the model expects.
+
+## Practical Effects in Serving Systems
+
+Tokenization affects serving behavior in several ways.
+
+### Context length is counted in tokens
+
+Model context limits are token limits, not character or word limits.
+
+A short-looking string with many unusual symbols can use many tokens. A long-looking English phrase with common chunks may use fewer tokens than expected.
+
+### Token count affects latency and memory
+
+More prompt tokens usually mean:
+
+- more prefill computation;
+- more KV cache memory;
+- longer scheduling and queueing pressure;
+- higher cost for long-context workloads.
+
+This is why serving systems often validate or reject requests based on tokenized prompt length rather than raw string length.
+
+### Tokenizer mismatch is dangerous
+
+The tokenizer must match the model. If a model is served with the wrong tokenizer, token IDs can represent the wrong text pieces, causing bad output or broken special-token handling.
+
+For chat models, tokenizer behavior also interacts with the chat template. The chat template produces the final text format, and the tokenizer converts that final string into token IDs.
+
+See also [/docs/science/llm/transformer/overview.mdx](/docs/science/llm/transformer/overview.mdx) for where tokenization sits in the model input pipeline.
+
+## Mental Model
+
+A BPE tokenizer learns a vocabulary of common text chunks and uses those chunks to encode new text.
+
+The useful mental model is:
+
+```text
+text
+  -> normalized or preprocessed text
+  -> subword pieces
+  -> token IDs
+  -> model input
+```
+
+It does not understand language by itself. It only defines the discrete symbols that the model sees.
+
+## Common Pitfalls
+
+- Do not assume one word equals one token.
+- Do not assume one character equals one token.
+- Do not compare context length by counting characters.
+- Do not change a model tokenizer independently from the model weights.
+- Do not ignore whitespace; leading spaces and newlines can change tokenization.
+- Do not assume all languages have similar token efficiency. English is often more token-efficient than many other languages for tokenizers trained mostly on English-heavy corpora.
