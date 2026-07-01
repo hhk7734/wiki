@@ -1,0 +1,219 @@
+---
+id: cuckoo-filter
+title: Cuckoo Filter
+sidebar_label: Cuckoo Filter
+description: "Cuckoo Filter documents a probabilistic membership data structure in the knowledge domain. It explains when to use a compact approximate set, how lookup and deletion semantics differ from an exact map, why sparse checkpoints can reduce the need for approximate indexing, and how to decide between a Cuckoo filter and a map. Important search terms include probabilistic data structure, approximate membership, false positive, Bloom filter, hash table, checkpoint interval, and map."
+keywords:
+  - cuckoo-filter
+  - probabilistic-data-structure
+  - approximate-membership
+  - false-positive
+  - bloom-filter
+  - hash-table
+  - checkpoint-interval
+  - map
+ontology:
+  role: concept
+  domain: knowledge
+  class: concept
+  instance: cuckoo-filter
+  aspect: overview
+subject:
+  canonical_name: Cuckoo Filter
+  aliases:
+    - approximate membership filter
+    - probabilistic membership filter
+relations:
+  related_to:
+    - bloom-filter
+    - hash-table
+    - metadata
+  depends_on: []
+  prerequisite_for: []
+  part_of: []
+  implements: []
+  uses:
+    - hashing
+source:
+  status: canonical
+  confidence: high
+---
+
+:::info[References]
+
+- [Cuckoo Filter: Practically Better Than Bloom](https://www.cs.cmu.edu/~dga/papers/cuckoo-conext2014.pdf)
+- [Cuckoo filter - Wikipedia](https://en.wikipedia.org/wiki/Cuckoo_filter)
+- [/docs/knowledge/concepts/metadata.mdx](/docs/knowledge/concepts/metadata.mdx)
+
+:::
+
+## What A Cuckoo Filter Is
+
+A Cuckoo filter is a compact probabilistic data structure for approximate membership queries.
+
+It answers one narrow question:
+
+```text
+Have we probably seen this key before?
+```
+
+The lookup result has asymmetric meaning:
+
+| Result | Meaning |
+| --- | --- |
+| `false` | Definitely absent, assuming the structure is healthy and the key was generated consistently. |
+| `true` | Probably present; a false positive is possible. |
+
+A Cuckoo filter is useful when the system needs a small in-memory set and can tolerate occasional false positives. It is not a replacement for an exact index when the system needs attached metadata, exact lifecycle state, or auditability.
+
+## Basic Operations
+
+A Cuckoo filter usually supports three operations:
+
+```text
+Insert(key)
+Contains(key) -> probably yes / definitely no
+Delete(key)
+```
+
+The `Delete` operation is one of the main reasons to choose it over a classic Bloom filter. A Bloom filter is simpler, but deletion is difficult without variants such as counting Bloom filters.
+
+Internally, the filter stores short fingerprints rather than full keys. A key maps to candidate buckets. If both candidate buckets are occupied, insertion may move existing fingerprints through a bounded relocation process. This is where the name comes from: like cuckoo hashing, a new entry can evict another entry to its alternate location.
+
+## When To Use It
+
+Use a Cuckoo filter when all of these are true:
+
+- The workload needs membership checks, not exact records.
+- The number of entries can become large enough that exact maps are costly.
+- False positives are acceptable and can be verified or recovered from later.
+- Deletion matters.
+- The lookup should stay local and fast.
+
+Do not use it when:
+
+- False positives would cause correctness bugs.
+- The system needs to store values or metadata with each key.
+- Operators need exact introspection and easy debugging.
+- The expected cardinality is already small enough for an exact map.
+- The data changes so quickly that approximate membership becomes stale before it is useful.
+
+## Cuckoo Filter Versus Map
+
+A map is exact. A Cuckoo filter is compact and approximate.
+
+| Dimension | Map | Cuckoo filter |
+| --- | --- | --- |
+| Lookup | Exact present/absent | Definitely absent or probably present |
+| Memory | Higher per entry | Lower per entry |
+| Metadata | Can store values | Membership only |
+| Deletion | Straightforward | Supported, but depends on implementation health |
+| Debugging | Easy to inspect | Harder to explain positives |
+| Failure mode | Memory and GC pressure | False positives and insertion failures near high load |
+
+For a first implementation, prefer a map unless memory pressure is already proven. It is easier to validate, easier to observe, and easier to evolve while the key format and lifecycle rules are still changing.
+
+## Why Sparse Checkpoints Weaken The Case For Cuckoo Filters
+
+If the system already records only sparse checkpoints, the entry count may be small enough that a map is acceptable.
+
+For example:
+
+```text
+items = 65,536
+checkpoint interval = 4,096
+recorded checkpoints = 16
+```
+
+That is a large reduction before choosing any data structure. In this case, the memory saved by a Cuckoo filter may not justify the loss of exactness and metadata.
+
+A useful decision rule is:
+
+```text
+large checkpoint interval + manageable entry count -> use a map first
+huge entry count + membership-only lookup + recoverable false positives -> consider a Cuckoo filter
+```
+
+## Practical Map-First Shape
+
+A simple exact index keeps the design understandable:
+
+```text
+Map[MembershipKey]MembershipMetadata
+```
+
+The key should include every dimension needed to avoid accidental collisions between independent namespaces:
+
+```text
+MembershipKey {
+  namespace
+  data_set
+  location_or_partition
+  format_version
+  checkpoint_position
+  fingerprint_or_hash
+}
+```
+
+The metadata can carry lifecycle information that a Cuckoo filter cannot store:
+
+```text
+MembershipMetadata {
+  first_seen_time
+  last_seen_time
+  epoch
+  source
+  last_verification_result
+}
+```
+
+This is often the better starting point because it lets the team answer operational questions directly:
+
+- How many entries exist?
+- Which namespace owns them?
+- When were they last observed?
+- Which entries are stale?
+- Which positives failed verification?
+
+## Hybrid Pattern
+
+If an exact map later becomes too large, use a hybrid design:
+
+```text
+Cuckoo filter:
+  compact approximate membership
+
+Small exact map:
+  recent positives, negative feedback, tombstones, epochs, and debugging metadata
+```
+
+This keeps the common lookup path small while preserving enough exact state to debug false positives and lifecycle problems.
+
+## Operational Metrics
+
+Track whether the filter is helping or misleading the system:
+
+```text
+membership_filter_inserts_total
+membership_filter_deletes_total
+membership_filter_lookup_total
+membership_filter_positive_total
+membership_filter_verification_success_total
+membership_filter_verification_failure_total
+membership_filter_insert_failure_total
+membership_filter_capacity_ratio
+```
+
+The most important metric is:
+
+```text
+positive lookup -> verification success rate
+```
+
+If many positive lookups fail verification, the filter is no longer a reliable hint. The likely causes are stale entries, missing deletion events, inconsistent key generation, or an undersized filter.
+
+## Summary
+
+A Cuckoo filter is best understood as a compact, deletable, approximate set.
+
+Use it when the system only needs membership hints and memory is the dominant constraint. Prefer a map when the entry count is already controlled by sparse checkpoints, when exactness matters, or when metadata and debuggability are more valuable than compactness.
