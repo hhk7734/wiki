@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { loadOntologyVocabulary } from "../constants.mjs";
 import { parseTaxonomyPath, validateTaxonomyPath } from "../taxonomy-paths.mjs";
 
 test("parseTaxonomyPath parses the subject-page shape", () => {
@@ -135,12 +136,26 @@ test("validateTaxonomyPath rejects unsupported topic buckets", () => {
 	assert.throws(() => validateTaxonomyPath("docs/unknown/grpc/overview.mdx"), /unsupported topic bucket/);
 });
 
+test("validateTaxonomyPath accepts every vocabulary domain as a topic", () => {
+	const { domains } = loadOntologyVocabulary();
+
+	for (const domain of domains) {
+		assert.doesNotThrow(
+			() => validateTaxonomyPath(`docs/${domain}/subject/overview.mdx`),
+			`expected ${domain} to be an approved taxonomy topic`,
+		);
+	}
+});
+
 test("validateTaxonomyPath rejects unsupported shapes", () => {
 	assert.throws(() => validateTaxonomyPath("docs/language/grpc/go/client/extra.mdx"), /unsupported taxonomy shape/);
 });
 
 test("validateTaxonomyPath rejects reserved bucket names in deeper subject paths", () => {
-	assert.throws(() => validateTaxonomyPath("docs/knowledge/reference/schema/details.mdx"), /unsupported taxonomy shape/);
+	assert.throws(
+		() => validateTaxonomyPath("docs/knowledge/reference/schema/details.mdx"),
+		/unsupported taxonomy shape/,
+	);
 	assert.throws(() => validateTaxonomyPath("docs/language/concepts/go/client.mdx"), /unsupported taxonomy shape/);
 });
 

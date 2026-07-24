@@ -47,6 +47,48 @@ test("requireSemanticFrontmatter accepts semantic blocks", () => {
 	);
 });
 
+test("requireSemanticFrontmatter rejects unsupported ontology roles", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "tutorial",
+						domain: "language",
+						class: "programming-language",
+						instance: "go",
+						aspect: "overview",
+					},
+					subject: { canonical_name: "Go" },
+					relations: {},
+				},
+				"docs/language/go/overview.mdx",
+			),
+		/unsupported ontology.role: tutorial in docs\/language\/go\/overview.mdx/,
+	);
+});
+
+test("requireSemanticFrontmatter rejects unsupported ontology domains", () => {
+	assert.throws(
+		() =>
+			requireSemanticFrontmatter(
+				{
+					ontology: {
+						role: "entity",
+						domain: "platform",
+						class: "programming-language",
+						instance: "go",
+						aspect: "overview",
+					},
+					subject: { canonical_name: "Go" },
+					relations: {},
+				},
+				"docs/language/go/overview.mdx",
+			),
+		/unsupported ontology.domain: platform in docs\/language\/go\/overview.mdx/,
+	);
+});
+
 test("requireSemanticFrontmatter rejects incomplete semantic blocks", () => {
 	assert.throws(
 		() =>

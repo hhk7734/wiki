@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { isOntologyDomain, isOntologyRole } from "./constants.mjs";
 
 function parseScalar(value) {
 	if (value === "[]") {
@@ -155,6 +156,14 @@ export function requireSemanticFrontmatter(frontmatter, sourcePath) {
 		if (!hasMeaningfulString(ontology[field])) {
 			throw new Error(`missing ontology.${field} in ${sourcePath}`);
 		}
+	}
+
+	if (!isOntologyRole(ontology.role)) {
+		throw new Error(`unsupported ontology.role: ${ontology.role} in ${sourcePath}`);
+	}
+
+	if (!isOntologyDomain(ontology.domain)) {
+		throw new Error(`unsupported ontology.domain: ${ontology.domain} in ${sourcePath}`);
 	}
 
 	if (!isPlainObject(subject) || !hasMeaningfulString(subject.canonical_name)) {

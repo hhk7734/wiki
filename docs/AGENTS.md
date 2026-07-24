@@ -64,17 +64,7 @@ Path rules:
 
 ## Topics
 
-Approved top-level topics for maintained docs:
-
-- `language`
-- `agent`
-- `system`
-- `infrastructure`
-- `hardware`
-- `protocol`
-- `knowledge`
-- `science`
-- `management`
+The `domains` array in `ontology/vocabulary.json` is the authoritative list of approved top-level topics for maintained docs.
 
 ## Semantic Frontmatter
 
@@ -133,26 +123,7 @@ Rules:
 
 ## Controlled Vocabulary
 
-Fixed `role` vocabulary:
-
-- `entity`
-- `concept`
-- `operation`
-- `specification`
-- `troubleshooting`
-- `comparison`
-
-Preferred `domain` vocabulary for this corpus:
-
-- `language`
-- `agent`
-- `system`
-- `infrastructure`
-- `hardware`
-- `protocol`
-- `knowledge`
-- `science`
-- `management`
+The fixed `role` and `domain` vocabularies are defined only in `ontology/vocabulary.json`. Update that file when adding a supported value; ontology validation rejects values outside it.
 
 Representative `class` vocabulary:
 

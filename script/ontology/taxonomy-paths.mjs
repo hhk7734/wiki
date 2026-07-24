@@ -1,14 +1,4 @@
-const APPROVED_TOPICS = new Set([
-	"agent",
-	"language",
-	"system",
-	"infrastructure",
-	"hardware",
-	"protocol",
-	"knowledge",
-	"science",
-	"management",
-]);
+import { isOntologyDomain } from "./constants.mjs";
 
 const RESERVED_TOPIC_BUCKETS = new Set(["concepts", "comparisons", "reference"]);
 const AREA_TOPICS = new Set(["agent", "infrastructure"]);
@@ -41,11 +31,11 @@ function parseParts(sourcePath) {
 
 export function hasApprovedTaxonomyTopicPrefix(sourcePath) {
 	const parts = splitTaxonomyPath(sourcePath);
-	return parts[0] === "docs" && APPROVED_TOPICS.has(parts[1] ?? "");
+	return parts[0] === "docs" && isOntologyDomain(parts[1]);
 }
 
 function assertApprovedTopic(topic, sourcePath) {
-	if (!APPROVED_TOPICS.has(topic)) {
+	if (!isOntologyDomain(topic)) {
 		throw new Error(`unsupported topic bucket: ${topic} (${sourcePath})`);
 	}
 }
